@@ -1,5 +1,99 @@
 # D5 Mod Kit — Disgaea 5 Complete modding studio
 
+**175 outfits for 26 characters, a new playable character (Thunderlady) and an all-in-one mod editor for
+Disgaea 5 Complete on PC.**
+
+## 🚀 Quick start: get the mods into your game
+
+Never modded a game before? Follow these steps in order. It takes about 10 minutes, and there's nothing else to
+install.
+
+**You need:** Windows 10 or 11 (64-bit), **Disgaea 5 Complete for PC** (Steam), and about **4 GB** of free disk
+space.
+
+### Step 1 · Back up your saves
+
+The mods never change your saves, but a backup is always a good idea.
+
+1. Press <kbd>Win</kbd> + <kbd>R</kbd>, paste `%APPDATA%\Nippon Ichi Software, Inc\Disgaea 5 Complete` and press
+   <kbd>Enter</kbd>.
+2. Copy everything in the folder that opens (your saves are inside) to somewhere safe, like your Desktop.
+
+### Step 2 · Download the kit
+
+Download **[D5ModKit.zip](https://github.com/eraser4521/D5ModKit/releases/latest/download/D5ModKit.zip)** (550 MB)
+from the [latest release](https://github.com/eraser4521/D5ModKit/releases/latest).
+
+> ⚠️ Don't use the green **Code › Download ZIP** button on this page: that's only the source code, without the
+> mods.
+
+### Step 3 · Put it in your game folder
+
+1. **Close Disgaea 5** if it's running.
+2. Find your game folder: in Steam, right-click **Disgaea 5 Complete** › **Manage** › **Browse local files**. It's
+   the folder with `disgaea5.exe` in it.
+3. Right-click the downloaded `D5ModKit.zip` › **Properties** › tick **Unblock** at the bottom (if it's there) ›
+   **OK**. This stops Windows from blocking the kit's files.
+4. Right-click the zip › **Extract All…** › choose your game folder › **Extract**. You now have a `D5ModKit` folder
+   next to `disgaea5.exe`.
+
+### Step 4 · Start the kit
+
+Open the `D5ModKit` folder and double-click **`Start D5 Mod Kit.bat`**. If Windows says *"Windows protected your
+PC"*, click **More info** › **Run anyway**. The kit isn't signed by a company, so Windows asks the first time.
+
+The kit opens on its **Home** page. These are the only parts you need:
+
+![The kit's Home page with the parts used in this guide numbered 1 to 5](docs/guide/quickstart_home.png)
+
+| # | What it is | What to do |
+|---|---|---|
+| **1** | **Game folder** | It should show your Disgaea 5 folder. If it's empty or wrong, click **Change game folder…** and pick the folder from Step 3. |
+| **2** | **Mods list** | Every mod is already ticked (on). Click one to see what it adds on the right. Untick anything you don't want. |
+| **3** | **⚡ Install & Play** | Puts the ticked mods into the game and starts it. Both buttons do the same thing. |
+| **4** | **Restore original game…** | Takes every mod out and puts the game back exactly as it was. |
+| **5** | **Guide & Tutorials** | The full illustrated guide. It's also `START HERE - Guide.html` in the kit's folder. |
+
+### Step 5 · Install & Play
+
+Press **⚡ Install & Play** (3). The first time takes 1 to 3 minutes: the kit backs up the original game files,
+writes the mods in, then starts the game. Afterwards the box at the bottom left says 🟢 **Ready to play**.
+
+That's it. From now on, start the game from Steam as usual. You only need the kit again to change which mods are
+on.
+
+### Step 6 · Find the mods in the game
+
+* **Outfits:** open the main menu › **Characters** › pick a character › **Outfit** › pick a look (or **Default**).
+  It changes right away. Long lists continue under **More outfits…**.
+* **Thunderlady:** at the **Quest Shop**, take the quest **The Thunderlady**, complete it and report back. She
+  joins your team.
+
+### Changing things later
+
+* **Turn a mod off:** untick it in the mods list (2) and press **⚡ Install & Play** again. Before you turn off an
+  outfit mod, switch your characters back to **Default**: a save with a character wearing that outfit needs the
+  mod.
+* **Remove all mods:** press **Restore original game…** (4). After that you can delete the `D5ModKit` folder.
+* **Steam updated or verified the game and the mods are gone:** open the kit and press **⚡ Install & Play**
+  again.
+
+### If something goes wrong
+
+* **Your antivirus removed files:** the mods add two small files the game loads (`d5auto.dll` and `d5core.dll`)
+  and change `disgaea5.exe`. If your antivirus quarantines them, allow your game folder and the `D5ModKit`
+  folder, then press **⚡ Install & Play** again.
+* **The install failed:** close the game and try again. If your game is under `C:\Program Files`, right-click
+  `Start D5 Mod Kit.bat` › **Run as administrator**.
+* **Anything else:** see *Troubleshooting & FAQ* in **Guide & Tutorials** (5), or
+  [open an issue](https://github.com/eraser4521/D5ModKit/issues).
+
+**Want to make your own mods?** Every page in the kit's left sidebar is an editor: characters and classes,
+outfits, skills and their animations, dialogue, stages, sprites, music and more. **Guide & Tutorials** (5) has a
+step-by-step tutorial for each one, and the rest of this page describes them all.
+
+---
+
 > **About this repository.** It holds the kit's code and documentation (version 1.1). The mods (outfits,
 > Thunderlady, classes …), the Disgaea RPG reference art the outfit builder matches against
 > (`d5lib/data/drpg_ref_humanoid.pickle`) and the bundled Python come with the release zip, not with this repository:
