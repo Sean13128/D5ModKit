@@ -123,3 +123,8 @@ The editors always show the game as your enabled mods make it (every mod's chang
   backups), the rest of `cache/`, `_research/`, `_extracted/`, the underscore test tools, `settings.json`.  Tested
   2026-10-10: a staged copy, on its own Python, installs byte-identical game files to this kit's install and its
   restore returns the original files exactly.
+
+## License
+The kit's code and documentation are released under the [MIT License](LICENSE). Disgaea 5 and Disgaea RPG are
+© Nippon Ichi Software / NIS America; this is an unofficial fan project and contains none of their game files or
+art. You need your own copy of Disgaea 5 Complete (PC) to use it.
