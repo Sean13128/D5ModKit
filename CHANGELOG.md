@@ -1,5 +1,29 @@
 # D5 Mod Kit — changes
 
+## 1.3 (2026-10-13)
+
+**Disgaea RPG sprites in the editor, no command line**
+* Outfits › **✨ New outfit** › *Disgaea RPG sprites*, and Characters & Classes › **✨ New character / class…** ›
+  Look: *Disgaea RPG sprites*: pick a unit and the kit builds the outfit, the new character (with its recruit quest)
+  or the new class (its own mod, 6 ranks) by itself, in the background.
+* The unit browser: choose your Disgaea RPG folder once (*What goes in this folder?* shows the layout), search units
+  by name or number with their faces, and see at a glance what each one has: ✅ for each of the four sprite sheets it
+  needs (battle and idle, front and back), the optional face and cut-in, and whether it can be used.
+* *Use my own sheet files…*: four sheets in Disgaea RPG's layout from anywhere, each checked as you pick it.
+* *Moves like*: a new character or class takes the animations of a game character or class you choose.
+* Afterwards the kit says what to adjust by hand if something looks off (weapon grips, colours, another *Moves like*).
+* Characters & Classes explains that *Sprite file (anm number)* picks an existing sprite, and where new looks are made.
+
+**Sprite sheets, clearly**
+* The sprite-sheet dialog (New outfit › *Convert a sprite sheet*) now lists every animation the game uses, what it is
+  for (standing, idle, walking, getting hit, each weapon's attacks, spells and items …) and whether your sheet has it
+  from the front and the back. It marks the four every character needs and explains what happens to the rest.
+* New characters can take a sprite sheet too: ✨ New character / class… › Look: *A sprite sheet* (unique characters).
+
+**Fixes**
+* A new character or class made with "its own copy of the sprite" could get a sprite number another of your mods
+  already used, so one sprite replaced the other at install. New sprite numbers now skip every mod's.
+
 ## 1.2 (2026-10-13)
 
 **A faster, smoother kit**

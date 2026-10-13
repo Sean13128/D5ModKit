@@ -101,7 +101,8 @@ def save(mod, pairs, own_sprites=None, names=None):
         data["hide"] = hide
     # own sprites alone (a new character before its outfits) keep the file: the exe's layer hook reads them
     mod.save_patch("outfits", "outfits.json", data if pairs or own_sprites or hide else None)
-    # outfit content needs the Outfit System mod
+    # outfit content needs the Outfit System mod (a lone own sprite -- a new character's -- doesn't: _finalize
+    # patches those without it)
     req = list(mod.meta.get("requires") or [])
     if pairs and not is_system_mod(mod) and SYSTEM_MOD_ID not in req:
         mod.meta["requires"] = req + [SYSTEM_MOD_ID]

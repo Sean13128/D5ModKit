@@ -14,13 +14,39 @@ from ..dbservice import get_service, char_names
 from .stages import SearchCombo, set_choice_tips
 
 
+# the animations a sheet's rows can be, what the game uses each one for (frameconvert.DEFAULT_MAP), in a useful order
+ANIM_USES = [
+    ("stand", "standing still on the map and in battle"),
+    ("wait", "the idle loop: base panel, hub, menus"),
+    ("walk", "walking on the map"),
+    ("damage", "getting hit"),
+    ("attack_sword", "sword attacks and sword skills"),
+    ("attack_fist", "fist attacks and fist skills"),
+    ("attack_lance", "spear attacks and spear skills"),
+    ("attack_arrow", "bow attacks and bow skills"),
+    ("attack_gun", "gun attacks and gun skills"),
+    ("attack_ax", "axe attacks and axe skills"),
+    ("one_arm_up", "casting spells, using items"),
+    ("take_out", "taking out an item or weapon"),
+    ("two_arm_up_jump", "jumping, lifting someone overhead"),
+    ("squat", "crouching (lifting, landing)"),
+    ("launch", "being thrown"),
+    ("landing", "landing after a jump or a throw"),
+    ("rolling", "rolls and somersaults (some specials)"),
+    ("kabutowari", "overhead swings (some specials)"),
+    ("dash", "running in the hub"),
+]
+ESSENTIAL = {"stand", "wait", "walk", "damage"}
+
+
 class SheetRowsDialog(QDialog):
-    """Assign every row of a frame-dump sheet to an animation (pre-filled from recognised labels)."""
+    """Assign every row of a frame-dump sheet to an animation (pre-filled from recognised labels), with a live list of
+    the game's animations the sheet covers."""
 
     def __init__(self, path, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Sprite sheet rows")
-        self.resize(900, 700)
+        self.resize(1180, 720)
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         try:
             self.im, self.rows = framesheet.parse_sheet(path)
@@ -29,9 +55,13 @@ class SheetRowsDialog(QDialog):
             QApplication.restoreOverrideCursor()
         lay = QVBoxLayout(self)
         known = sum(1 for g in guesses if g[2])
-        lay.addWidget(QLabel(f"{len(self.rows)} animation rows found, {known} labels recognised automatically. "
-                             "Check each row's animation and view (front/back). Rows set to '(ignore)' are "
-                             "not used (e.g. '_hand' overlay rows)."))
+        head = QLabel(f"<b>{len(self.rows)} animation rows found, {known} named automatically from their labels.</b> "
+                      "Check each row's animation and view (front / back) on the left; the list on the right shows "
+                      "what your sheet covers. Rows set to '(ignore)' aren't used; '_hand' rows are the small "
+                      "hand pieces drawn over the weapon.")
+        head.setWordWrap(True)
+        lay.addWidget(head)
+        split = QSplitter()
         self.table = QTableWidget(len(self.rows), 4)
         self.table.setHorizontalHeaderLabels(["Label", "First frame", "Animation", "View"])
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
@@ -56,15 +86,66 @@ class SheetRowsDialog(QDialog):
             self.table.setCellWidget(k, 2, nc)
             self.table.setCellWidget(k, 3, vc)
             self.combos.append((nc, vc))
+            nc.currentTextChanged.connect(self._coverage)
+            vc.currentTextChanged.connect(self._coverage)
         from PyQt6.QtCore import QSize
         self.table.setIconSize(QSize(160, 80))
         self.table.setColumnWidth(1, 170)
         self.table.setColumnWidth(2, 170)
-        lay.addWidget(self.table, 1)
+        split.addWidget(self.table)
+        from PyQt6.QtWidgets import QScrollArea
+        self.cover = QLabel()
+        self.cover.setTextFormat(Qt.TextFormat.RichText)
+        self.cover.setWordWrap(True)
+        self.cover.setAlignment(Qt.AlignmentFlag.AlignTop)
+        self.cover.setContentsMargins(8, 4, 8, 4)
+        sc = QScrollArea()
+        sc.setWidgetResizable(True)
+        sc.setWidget(self.cover)
+        split.addWidget(sc)
+        split.setSizes([700, 460])
+        lay.addWidget(split, 1)
         bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
         bb.accepted.connect(self.accept)
         bb.rejected.connect(self.reject)
         lay.addWidget(bb)
+        self._coverage()
+
+    def _coverage(self, *_):
+        """the game's animations and which views of them the rows give"""
+        have = {}
+        for nc, vc in self.combos:
+            name = nc.currentText()
+            if name != "(ignore)" and not name.endswith("_hand"):
+                have.setdefault(name, set()).add(vc.currentText())
+        rows = []
+        missing_core = []
+        n = 0
+        for name, use in ANIM_USES:
+            views = have.get(name, set())
+            core = name in ESSENTIAL
+            if views:
+                n += 1
+            if not views and core:
+                missing_core.append(name)
+            front = "✅" if "front" in views else ("❌" if core else "➖")
+            back = "✅" if "back" in views else ("↪" if "front" in views else ("❌" if core else "➖"))
+            color = "#d9534f" if (core and not views) else ("gray" if not views else None)
+            style = f" style='color:{color}'" if color else ""
+            rows.append(f"<tr><td>{front}</td><td>{back}</td><td{style}><b>{name}</b>"
+                        + (" <span style='color:#f0b35a'>needed</span>" if core else "")
+                        + f"<br><span style='color:gray'>{use}</span></td></tr>")
+        summary = (f"<b>Your sheet covers {n} of {len(ANIM_USES)} animations.</b><br>"
+                   + (f"<span style='color:#d9534f'>Missing what every character needs: {', '.join(missing_core)}."
+                      "</span><br>" if missing_core else
+                      "<span style='color:#3ecf8e'>Everything every character needs is there.</span><br>")
+                   + "<span style='color:gray'>Every pose of the game is matched to the most similar frame of your "
+                     "sheet; the rows' names guide the match. An animation the sheet lacks borrows the closest frames "
+                     "of other rows, which can look off in those moves. Only the attack rows of the weapons the unit "
+                     "uses matter. ↪ = no back view: the front frames are used. After the conversion, odd poses can "
+                     "be fixed on the Weapon Grips and Sprites &amp; Colors pages.</span>")
+        self.cover.setText(summary + "<table cellspacing='4'><tr><td><b>Front</b></td><td><b>Back</b></td>"
+                                     "<td><b>Animation</b></td></tr>" + "".join(rows) + "</table>")
 
     def sequences(self):
         seqs = {}
@@ -132,10 +213,13 @@ BUTTON_TIPS = {
 class NewOutfitDialog(QDialog):
     """Everything an outfit needs in one go: character, name, sprite (sheet or copy), face, cut-in."""
 
-    def __init__(self, uniques, parent=None):
+    def __init__(self, uniques, parent=None, ws=None):
         super().__init__(parent)
+        self.ws = ws
+        self.drpg_unit = None
+        self._names = dict(uniques)
         self.setWindowTitle("New outfit")
-        self.resize(640, 420)
+        self.resize(680, 480)
         f = QFormLayout(self)
         intro = QLabel("The character gets an 'Outfit' entry in the unit menu (Characters → select → Outfit) "
                        "listing 'Default' and every outfit by name; the look changes at once. Level, stats and "
@@ -151,14 +235,33 @@ class NewOutfitDialog(QDialog):
         self.name = QLineEdit("Outfit")
         self.name.setToolTip("Shown in the in-game Outfit list next to 'Default'. Can be renamed later.")
         f.addRow(_tip_label("Outfit name (in game)", self.name.toolTip()), self.name)
+        from d5lib import drpgsource
+        self.drpg_ok = set(drpgsource.character_sprites())
+        self.drpg = QRadioButton("Disgaea RPG sprites (a unit's four sheets: the easiest way)")
+        self.drpg.setToolTip("Pick a unit from your Disgaea RPG folder (or four sheet files of your own): its "
+                             "battle and idle sheets become the outfit's complete sprite, and its face and cut-in "
+                             "are used too.")
         self.copy = QRadioButton("Start from a copy of the character's sprite (repaint it in Sprites && Colors)")
         self.sheet = QRadioButton("Convert a sprite sheet (frame dump: labelled rows of whole-pose frames)")
-        self.sheet.setChecked(True)
+        self.drpg.setChecked(True)
         self.sheet.setToolTip("A sprite sheet PNG with one labelled row per animation (stand, walk, attack …), "
                               "front and back views. Every frame is matched to the game's own poses, so the "
                               "outfit animates exactly like the character. Colour presets are made automatically.")
         self.copy.setToolTip("The outfit starts as an exact copy of the character's sprite; recolour or repaint it "
                              "afterwards in Sprites & Colors.")
+        f.addRow(self.drpg)
+        drow = QHBoxLayout()
+        self.drpg_btn = QPushButton("Choose the unit…")
+        self.drpg_btn.clicked.connect(self._choose_drpg)
+        drow.addWidget(self.drpg_btn)
+        self.drpg_label = QLabel("no unit chosen yet")
+        self.drpg_label.setObjectName("muted")
+        drow.addWidget(self.drpg_label, 1)
+        f.addRow("", drow)
+        self.drpg_note = QLabel()
+        self.drpg_note.setWordWrap(True)
+        self.drpg_note.setObjectName("muted")
+        f.addRow("", self.drpg_note)
         f.addRow(self.sheet)
         f.addRow(self.copy)
         self.sheet_file = _FileRow("Sprite sheet", "Images (*.png)")
@@ -189,11 +292,51 @@ class NewOutfitDialog(QDialog):
         bb.accepted.connect(self._ok)
         bb.rejected.connect(self.reject)
         f.addRow(bb)
+        for w in (self.drpg, self.sheet, self.copy):
+            w.toggled.connect(self._mode)
+        self.char.currentIndexChanged.connect(self._mode)
+        self.char.editTextChanged.connect(self._mode)
+        self._mode()
+
+    def _mode(self, *_):
+        d = self.drpg.isChecked()
+        self.drpg_btn.setEnabled(d)
+        self.drpg_label.setEnabled(d)
+        self.sheet_file.setEnabled(self.sheet.isChecked())
+        base = self.char.value()
+        if not d:
+            self.drpg_note.setText("")
+        elif base and base not in self.drpg_ok:
+            self.drpg_note.setText("⚠ This character can't take Disgaea RPG sprites yet (the kit hasn't learned its "
+                                   "poses). Characters that can: " + self._drpg_names() + ".")
+        else:
+            self.drpg_note.setText("The unit's face and cut-in are used when the folder has them; pictures chosen "
+                                   "below replace them.")
+
+    def _drpg_names(self):
+        return ", ".join(sorted(self._names.get(c, str(c)) for c in self.drpg_ok))
+
+    def _choose_drpg(self):
+        from ..drpgpicker import DrpgPicker
+        dlg = DrpgPicker(self.ws, "outfit", self)
+        if dlg.exec() and dlg.unit:
+            self.drpg_unit = dlg.unit
+            self.drpg_label.setText(f"{dlg.unit.label()}")
+            if self.name.text().strip() in ("", "Outfit") and dlg.unit.name:
+                self.name.setText(dlg.unit.name)
 
     def _ok(self):
         if not self.char.value():
             QMessageBox.warning(self, "New outfit", "Choose a character.")
             return
+        if self.drpg.isChecked():
+            if self.char.value() not in self.drpg_ok:
+                QMessageBox.warning(self, "New outfit", "This character can't take Disgaea RPG sprites yet. "
+                                    "Characters that can: " + self._drpg_names() + ".")
+                return
+            if not self.drpg_unit:
+                QMessageBox.warning(self, "New outfit", "Choose the Disgaea RPG unit first.")
+                return
         if self.sheet.isChecked():
             path = self.sheet_file.value()
             if not path:
@@ -207,6 +350,13 @@ class NewOutfitDialog(QDialog):
                 QMessageBox.warning(self, "New outfit", "No rows were assigned to an animation.")
                 return
         self.accept()
+
+
+NEXT_STEPS = ("If something looks off, adjust it by hand:\n"
+              "• The weapon isn't in the hand → Weapon Grips page (drag the weapon onto the hand).\n"
+              "• A colour or extra colour looks wrong → Paint parts… / Re-derive color presets (this page), or "
+              "Sprites & Colors.\n"
+              "• Face or cut-in → Face… / Cut-in… (this page).")
 
 
 class OutfitsPage(QWidget):
@@ -384,11 +534,22 @@ class OutfitsPage(QWidget):
                           f"{mod.name}):  " + ", ".join(feats))
         self._preview(lambda: outfits.preview_image(self.ws.fs, mod, slot), "preview")
 
-    def _run(self, fn, done_msg):
+    def _run(self, fn, done_msg, busy=None):
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         self.worker = Worker(fn)
+        prog = None
+        if busy:
+            from PyQt6.QtWidgets import QProgressDialog
+            prog = QProgressDialog(busy + "\n(this can take a minute; the log at the bottom shows the steps)", None,
+                                   0, 0, self)
+            prog.setWindowTitle("Outfits")
+            prog.setMinimumDuration(0)
+            prog.setWindowModality(Qt.WindowModality.WindowModal)
+            prog.show()
 
         def done(res):
+            if prog:
+                prog.close()
             QApplication.restoreOverrideCursor()
             self.refresh()
             self.ws.file_changed.emit("Database/Database_0.dat/char.dat")
@@ -396,6 +557,8 @@ class OutfitsPage(QWidget):
             info_box(self, "Outfits", done_msg(res) if callable(done_msg) else done_msg)
 
         def failed(msg):
+            if prog:
+                prog.close()
             QApplication.restoreOverrideCursor()
             QMessageBox.critical(self, "Outfits", msg[:3000])
 
@@ -417,26 +580,35 @@ class OutfitsPage(QWidget):
         uniques += sorted((k, f"{rows[k]['name_EN']} (generic class)") for k in rows
                           if k >= 1000 and k % 10 == 0 and k not in fam_taken and rows[k]["name_EN"])
         set_choice_tips(uniques, self.svc.ref_tooltips("char.dat"))
-        dlg = NewOutfitDialog(uniques, self)
+        dlg = NewOutfitDialog(uniques, self, ws=self.ws)
         if not dlg.exec():
             return
         base = dlg.char.value()
         seqs = dlg.seqs
+        unit = dlg.drpg_unit if dlg.drpg.isChecked() else None
         oname = dlg.name.text().strip() or "Outfit"
         face, mirror, cut = dlg.face_file.value(), dlg.mirror.isChecked(), dlg.cut_file.value()
-        self.ws.log("Creating outfit… (the first time this reads the resident sprite pack, ~15 s)")
+        self.ws.log("Creating outfit… (the first time this reads the resident sprite pack, ~15 s)"
+                    + (f" from Disgaea RPG unit {unit.uid}: about a minute" if unit else ""))
 
         def work():
-            r = outfits.create_outfit(self.ws.fs, mod, base, seqs, log=self.ws.log, name=oname)
+            if unit is not None:
+                from d5lib import drpgsource
+                with drpgsource.using(self.ws.settings.get(drpgsource.SETTING)):
+                    r = outfits.create_drpg_outfit(self.ws.fs, mod, base, unit.uid, oname, log=self.ws.log)
+            else:
+                r = outfits.create_outfit(self.ws.fs, mod, base, seqs, log=self.ws.log, name=oname)
             if face:
                 outfits.set_face(mod, r["slot"], face, mirror)
             if cut:
                 outfits.set_cutin(self.ws.fs, mod, r["slot"], cut)
             return r
 
-        self._run(work, lambda r: f"Outfit “{oname}” created (slot {r['slot']}, sprite anm{r['sprite']:05d}).\n\n"
-                                  "Check the preview, then press Install & Play (bottom left). In game: Characters → "
-                                  "select the character → Outfit.")
+        self._run(work, lambda r: f"Outfit “{oname}” created (slot {r['slot']}, sprite anm{r['sprite']:05d})"
+                                  + (f" from Disgaea RPG unit {unit.uid}" if unit else "") + ".\n\n"
+                                  "Next: check the preview here, then press Install & Play (bottom left). In game: "
+                                  "Characters → select the character → Outfit.\n\n" + NEXT_STEPS,
+                  busy=f"Making the outfit “{oname}”…")
 
     def replace(self):
         d = self._cur()

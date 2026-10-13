@@ -98,9 +98,13 @@ on.
 outfits, skills and their animations, dialogue, stages, sprites, music and more. **Guide & Tutorials** (5) has a
 step-by-step tutorial for each one, and the rest of this page describes them all.
 
+**Have Disgaea RPG sprites?** Outfits › **✨ New outfit** › *Disgaea RPG sprites* (or a new character / class on the
+Characters & Classes page) turns a unit into a complete Disgaea 5 sprite: pick your DRPG folder, pick the unit,
+done. Tutorial 5 in the guide shows the folder layout.
+
 ---
 
-> **About this repository.** It holds the kit's code and documentation (version 1.2). The mods (outfits,
+> **About this repository.** It holds the kit's code and documentation (version 1.3). The mods (outfits,
 > Thunderlady, classes …), the Disgaea RPG reference art the outfit builder matches against
 > (`d5lib/data/drpg_ref_humanoid.pickle`) and the bundled Python come with the release zip, not with this repository:
 > they are drawn from Disgaea 5 / Disgaea RPG art. To run from a clone: `pip install -r requirements.txt`, then
@@ -190,6 +194,10 @@ The editors always show the game as your enabled mods make it (every mod's chang
   Adell, Rozalin, Axel, Pram, Petta), one mod per character (`DRPG_Outfits_<Name>`), made from `DRPG Assets` by
   `python tools/drpg_outfits.py learn` / `build` (catalog `d5lib/data/drpg_outfit_catalog.json`; add units there).
   See docs/OUTFITS.md "DRPG outfits for every character".
+* **Disgaea RPG sprites in the editor** (`d5lib/drpgsource.py`, `d5gui/drpgpicker.py`): Outfits › New outfit and
+  Characters & Classes › New character / class › Look: *Disgaea RPG sprites* open a unit browser (your DRPG folder,
+  names from `Units IDs.txt`, a checklist of the four sheets each unit has, *Use my own sheet files…* for sheets from
+  anywhere) and build the outfit, character or class in the background. Guide: Tutorial 5.
 * **Character studio** (Characters & Classes, [docs/CHARACTER_STUDIO.md](docs/CHARACTER_STUDIO.md)): a new
   character can wear any outfit's look (a Disgaea RPG outfit is drawn again as a complete character; the outfit can
   be hidden from the Outfit menu by the new mod without editing the outfit's mod), start from stat presets or copy

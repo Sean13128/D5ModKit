@@ -1,4 +1,5 @@
 """Characters & Classes: friendly editor for char.dat + wizard for brand-new recruitable units."""
+import os
 import struct
 
 from PyQt6.QtCore import Qt
@@ -346,8 +347,18 @@ class CharactersPage(QWidget):
 
         g = QGroupBox("Sprite")
         f = QFormLayout(g)
-        f.addRow("Sprite file (anm number)", self._spin("sprite_id", 0, 32767, "Battle sprite = anmNNNNN; portrait = +10000"))
+        f.addRow("Sprite file (anm number)", self._spin("sprite_id", 0, 32767,
+                                                        "Which of the game's sprites this unit uses: anmNNNNN (battle "
+                                                        "sprite); its portrait is NNNNN + 10000. To give a unit a new "
+                                                        "look, see below."))
         f.addRow("Color variant / tier", self._spin("tier", 0, 255, "Palette used from the sprite (generic class tiers)"))
+        new_look = QLabel("This number picks one of the sprites the game (or a mod) already has. A new character or "
+                          "class with Disgaea RPG sprites: <b>✨ New character / class…</b> › Look: <i>Disgaea RPG "
+                          "sprites</i>. A new look for an existing character (Disgaea RPG sprites or a sprite sheet): "
+                          "<b>Outfits › New outfit</b>.")
+        new_look.setWordWrap(True)
+        new_look.setObjectName("muted")
+        f.addRow(new_look)
         self.form_lay.addWidget(g)
 
         from ..voiceui import VoiceBox
@@ -774,6 +785,10 @@ class CharactersPage(QWidget):
         if not dlg.exec():
             return
         v = dlg.values()
+        if v.get("drpg") is not None:
+            return self._unit_from_drpg(v)
+        if v.get("sheet"):
+            v["clone_sprite"] = True             # the sheet is drawn onto the character's own copy of the sprite
         if v.get("own_mod"):
             if self.svc.dirty_members() and not self.svc.commit_all(self):
                 return
@@ -801,7 +816,43 @@ class CharactersPage(QWidget):
         QApplication.restoreOverrideCursor()
         self._populate()
         self.kind.setCurrentText("Added by mod")
+        if v.get("sheet") and getattr(self, "_last_clone", None):
+            return self._sheet_onto_clone(mod, v, msg)
         info_box(self, "Unit created", msg)
+
+    def _sheet_onto_clone(self, mod, v, msg):
+        """the new character's own sprite copy redrawn from the sprite sheet (outfits.write_sheet_sprite), in the
+        background"""
+        from d5lib import outfits
+        from ..common import Worker
+        base_sprite, n = self._last_clone
+        self._last_clone = None
+        prog = QProgressDialog(f"Drawing '{v['name']}' from the sprite sheet…\n(a minute at most; the log at the "
+                               "bottom shows the steps)", None, 0, 0, self)
+        prog.setWindowTitle("New character")
+        prog.setMinimumDuration(0)
+        prog.setWindowModality(Qt.WindowModality.WindowModal)
+        prog.show()
+        self._sheet_worker = w = Worker(lambda: outfits.write_sheet_sprite(self.ws.fs, mod, base_sprite, n,
+                                                                           v["sheet"], self.ws.log))
+
+        def done(rep):
+            prog.close()
+            self.ws.file_changed.emit("Anime/")
+            info_box(self, "Character created",
+                     msg + f"\n\nIts sprite anm{n:05d} is drawn from your sprite sheet: {rep.get('matched')} of "
+                           f"{rep.get('cells')} of the game's poses matched to {rep.get('frames')} sheet frames.\n\n"
+                           "If something looks off, adjust it by hand: the weapon on the Weapon Grips page, colours "
+                           "in Sprites & Colors; or make it again with a sheet that has more rows.")
+
+        def failed(err):
+            prog.close()
+            QMessageBox.critical(self, "Sprite sheet", "The character was created with a copy of the template's "
+                                 "sprite, but the sheet could not be drawn onto it:\n\n" + err[:2500])
+
+        w.done.connect(done)
+        w.failed.connect(failed)
+        w.start()
 
     def _unit_from_outfit(self, mod, v):
         """a new character with an outfit's look (charstudio.outfit_to_character; a Disgaea RPG outfit is drawn
@@ -840,6 +891,101 @@ class CharactersPage(QWidget):
                + "Stats, skills and evilities come from the outfit's character: change them on this page.\n\n"
                + "Everything is saved in your mod. Press Install to try it in game.")
         info_box(self, "Character created", msg)
+
+    def _unit_from_drpg(self, v):
+        """a new character or class drawn from a Disgaea RPG unit (outfits.create_drpg_character /
+        newclasses.create_class), built in the background"""
+        from d5lib import drpgsource, newclasses, outfits
+        from ..common import Worker
+        unit, anim = v["drpg"], v["anim"]
+        if self.svc.dirty_members() and not self.svc.commit_all(self):
+            return
+        chosen = self.ws.settings.get(drpgsource.SETTING)
+        source_id = self._row()["id"]
+        if v["generic"]:
+            mm = self.ws.mods
+
+            def work():
+                with drpgsource.using(chosen):
+                    mod = newclasses.create_class(self.ws.fs, mm, unit.uid, anim, v["name"],
+                                                  titles=[v["title"]] * 6 if v["title"] else None,
+                                                  hire_desc=(v["desc"] or [""])[0], log=self.ws.log)
+                fam = max(s["family"] for s in newclasses.load_specs(mod))
+                return mod, fam
+        else:
+            if v.get("own_mod"):
+                mod = self.ws.mods.create(v["name"], self.ws.settings.get("author", ""),
+                                          f"New character {v['name']} (Disgaea RPG unit {unit.uid})")
+                mod.meta["category"] = "characters"
+                mod.save_meta()
+                self.ws.set_active_mod(mod)
+                self.ws.mods_changed.emit()
+            else:
+                mod = self.ws.require_mod(self)
+                if not mod:
+                    return
+            quest = dict(title=v["quest_title"], client=v["quest_client"], text=v["quest_text"]) if v["quest"] else None
+
+            def work():
+                with drpgsource.using(chosen):
+                    res = outfits.create_drpg_character(self.ws.fs, mod, source_id, anim, unit.uid, v["name"],
+                                                        title=v["title"] or None, desc=[d for d in v["desc"] if d],
+                                                        quest=quest, log=self.ws.log)
+                return mod, res
+        what = "class" if v["generic"] else "character"
+        prog = QProgressDialog(f"Drawing the new {what} '{v['name']}' from Disgaea RPG unit {unit.uid}…\n"
+                               "(about a minute; the log at the bottom shows the steps)", None, 0, 0, self)
+        prog.setWindowTitle(f"New {what}")
+        prog.setMinimumDuration(0)
+        prog.setWindowModality(Qt.WindowModality.WindowModal)
+        prog.show()
+        self._drpg_worker = w = Worker(work)
+
+        def done(r):
+            prog.close()
+            mod, res = r
+            self.svc.reload()
+            self.ws.file_changed.emit("Anime/")
+            self.ws.mods_changed.emit()
+            self._names = None
+            self._populate()
+            if v["generic"]:
+                self.ws.set_active_mod(mod)
+                self.select_character(res)
+                msg = (f"The class '{v['name']}' (class ids {res}-{res + 5}) is drawn from Disgaea RPG unit {unit.uid} "
+                       f"and moves like {self._label_of(anim)}. It has its own mod, '{mod.name}', switched on.\n\n"
+                       "Next: give it its stats, skills and evilities on this page, then press Install & Play. In "
+                       "game it is hired at the Netherworld registrar.")
+            else:
+                if v.get("preset"):
+                    self.select_character(res["id"])
+                    self.apply_preset_key(v["preset"])
+                    self.svc.commit(CHAR, self)
+                self.select_character(res["id"])
+                msg = (f"'{v['name']}' (id {res['id']}, sprite anm{res['sprite']:05d}) is drawn from Disgaea RPG unit "
+                       f"{unit.uid} and moves like {self._label_of(anim)}"
+                       + (f"; recruit quest #{res['quest']} is at the Quest shop" if res.get("quest") else "")
+                       + ".\n\nNext: check the stats, skills and evilities on this page, then press Install & Play.")
+            msg += ("\n\nIf something looks off, adjust it by hand:\n"
+                    "• The weapon isn't in the hand → Weapon Grips page (drag the weapon onto the hand).\n"
+                    "• Colours → Sprites & Colors.\n"
+                    "• It moves oddly in some attacks → make it again with another 'Moves like' choice.")
+            info_box(self, f"New {what}", msg)
+
+        def failed(msg):
+            prog.close()
+            QMessageBox.critical(self, f"New {what}", msg[:3000])
+
+        w.done.connect(done)
+        w.failed.connect(failed)
+        w.start()
+
+    def _label_of(self, cid):
+        try:
+            rows = {r["id"]: r for r in self.table().rows}
+            return rows[cid]["name_EN"] or str(cid)
+        except Exception:
+            return str(cid)
 
     def apply_preset_key(self, key):
         i = self.preset.findData(key) if hasattr(self, "preset") else -1
@@ -882,6 +1028,15 @@ class NewUnitDialog(QDialog):
             r["id"]: r["name_EN"] for r in page.table().rows})
         self.look = QComboBox()
         self.look.addItem("The template's look", None)
+        self.look.addItem("Disgaea RPG sprites (choose a unit…)", "drpg")
+        self.look.setItemData(1, "A unit from your Disgaea RPG folder (or four sheet files of your own) becomes the "
+                                 "new character's or class's complete sprite, face and cut-in.",
+                              Qt.ItemDataRole.ToolTipRole)
+        self.look.addItem("A sprite sheet (frame dump: one labelled row per animation)…", "sheet")
+        self.look.setItemData(2, "A sprite sheet PNG with one row per animation (stand, wait, walk, attacks …), front "
+                                 "and back: every pose of the template's sprite is redrawn with the sheet's frames. "
+                                 "Unique characters only.", Qt.ItemDataRole.ToolTipRole)
+        self.sheet_seqs = None
         for o in sorted(self.outfits, key=lambda o: (o["who"].lower(), o["name"].lower())):
             label = f"{o['who']} — {o['name']}" + ("   (Disgaea RPG)" if o["drpg_uid"] is not None else "")
             self.look.addItem(label, o)
@@ -891,6 +1046,33 @@ class NewUnitDialog(QDialog):
                              "again from its unit as a complete character; another outfit's sprite is copied. "
                              "Stats, skills and evilities come from the outfit's character.")
         f.addRow("Look", self.look)
+        # Disgaea RPG sprites: the unit, and whose animations it moves with
+        from d5lib import drpgsource
+        self.page = page
+        self.drpg_unit = None
+        self._row_names = {r["id"]: r["name_EN"] for r in page.table().rows}
+        self._char_anims = drpgsource.character_sprites()
+        self._class_anims = drpgsource.class_templates()
+        self._tid = t["id"]
+        drow = QHBoxLayout()
+        self.drpg_btn = QPushButton("Choose the unit…")
+        self.drpg_btn.clicked.connect(self._choose_drpg)
+        drow.addWidget(self.drpg_btn)
+        self.drpg_label = QLabel("no unit chosen yet")
+        self.drpg_label.setObjectName("muted")
+        drow.addWidget(self.drpg_label, 1)
+        self.drpg_row = QWidget()
+        self.drpg_row.setLayout(drow)
+        drow.setContentsMargins(0, 0, 0, 0)
+        f.addRow("Disgaea RPG unit", self.drpg_row)
+        self.anim = QComboBox()
+        self.anim.setToolTip("The game character (or class) whose animations, weapon handling and special poses the "
+                             "new one uses: pick one with a similar build and fighting style.")
+        f.addRow("Moves like", self.anim)
+        self.anim_note = QLabel()
+        self.anim_note.setWordWrap(True)
+        self.anim_note.setObjectName("muted")
+        f.addRow("", self.anim_note)
         self.hide_outfit = QCheckBox("Take that outfit out of the Outfit menu (your mod hides it; the outfit's mod "
                                      "is not changed)")
         self.hide_outfit.setToolTip("Units already wearing it keep it and can still switch back to Default. "
@@ -909,14 +1091,33 @@ class NewUnitDialog(QDialog):
 
         def look_changed(*_):
             o = self.look.currentData()
-            self.hide_outfit.setEnabled(o is not None)
+            drpg = o == "drpg"
+            sheet = o == "sheet"
+            if sheet and self.sheet_seqs is None and not self._choose_sheet():
+                self.look.setCurrentIndex(0)
+                return
+            self.hide_outfit.setEnabled(o is not None and not drpg and not sheet)
             self.clone_sprite.setEnabled(o is None)
-            self.klass.setEnabled(o is None and generic)
-            if o is not None:
+            self.klass.setEnabled((o is None and generic) or drpg)
+            if not self.klass.isEnabled():
+                self.klass.setToolTip("Pick a generic class (e.g. Warrior) as template to create a new class")
+            if o is not None and not drpg:
                 self.unique.setChecked(True)
-                if self.name.text().endswith(" II") or not self.name.text().strip():
+                if not sheet and (self.name.text().endswith(" II") or not self.name.text().strip()):
                     self.name.setText(o["name"])
+            for w in (self.drpg_row, self.anim, self.anim_note):
+                w.setVisible(drpg)
+                lab = f.labelForField(w)
+                if lab is not None:
+                    lab.setVisible(drpg)
+            for w in (self.clone_sprite, self.hide_outfit):      # nothing to do with a DRPG unit's / a sheet's look
+                w.setVisible(not drpg and not sheet)
+            if drpg:
+                self._fill_anims()
+                if self.drpg_unit is None:
+                    self._choose_drpg()
         self.look.currentIndexChanged.connect(look_changed)
+        self.unique.toggled.connect(lambda *_: self._fill_anims() if self.look.currentData() == "drpg" else None)
         look_changed()
         self.quest = QCheckBox("Make it recruitable with a new quest at the Quest shop")
         self.quest.setChecked(True)
@@ -939,18 +1140,88 @@ class NewUnitDialog(QDialog):
         note.setObjectName("muted")
         f.addRow(note)
         bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
-        bb.accepted.connect(self.accept)
+        bb.accepted.connect(self._ok)
         bb.rejected.connect(self.reject)
         f.addRow(bb)
 
+    # ---- Disgaea RPG sprites
+    def _choose_drpg(self):
+        from ..drpgpicker import DrpgPicker
+        dlg = DrpgPicker(self.page.ws, "class" if self.klass.isChecked() else "character", self)
+        if dlg.exec() and dlg.unit:
+            self.drpg_unit = dlg.unit
+            self.drpg_label.setText(dlg.unit.label())
+            if dlg.unit.name and (self.name.text().endswith(" II") or not self.name.text().strip()):
+                self.name.setText(dlg.unit.name)
+            if dlg.unit.group == "generic" and self.klass.isEnabled():
+                self.klass.setChecked(True)
+
+    def _choose_sheet(self):
+        """the sprite sheet PNG and its rows -> True when chosen"""
+        from PyQt6.QtWidgets import QFileDialog
+        from .outfits import SheetRowsDialog
+        p, _ = QFileDialog.getOpenFileName(self, "Sprite sheet (frame dump)", "", "Images (*.png)")
+        if not p:
+            return False
+        try:
+            dlg = SheetRowsDialog(p, self)
+        except Exception as e:
+            QMessageBox.warning(self, "Sprite sheet", f"The sheet could not be read: {e}")
+            return False
+        if not dlg.exec():
+            return False
+        seqs = dlg.sequences()
+        if not seqs:
+            QMessageBox.warning(self, "Sprite sheet", "No row was set to an animation.")
+            return False
+        self.sheet_seqs = seqs
+        self.look.setItemText(2, f"Sprite sheet: {os.path.basename(p)} ({len(seqs)} rows)")
+        return True
+
+    def _fill_anims(self):
+        """the characters / classes whose animations a DRPG unit can take (their poses are learned)"""
+        klass = self.klass.isChecked()
+        ids = self._class_anims if klass else self._char_anims
+        cur = self.anim.currentData()
+        self.anim.blockSignals(True)
+        self.anim.clear()
+        for c in ids:
+            self.anim.addItem(f"{self._row_names.get(c, c)}  ({c})", c)
+        want = cur if cur in ids else (self._tid if self._tid in ids else
+                                       (self._tid // 10 * 10 if self._tid // 10 * 10 in ids else None))
+        i = self.anim.findData(want) if want is not None else -1
+        self.anim.setCurrentIndex(max(0, i))
+        self.anim.blockSignals(False)
+        self.anim_note.setText(
+            ("A new generic class: its own mod with 6 ranks, created at the Netherworld registrar. Stats, skills and "
+             "evilities start as this class's; change them on this page afterwards." if klass else
+             "Stats, skills and evilities come from the template above; the look and the animations from the unit "
+             "and this character.") + " Only characters and classes whose poses the kit has learned are listed.")
+
+    def _ok(self):
+        if self.look.currentData() == "drpg":
+            if self.drpg_unit is None:
+                QMessageBox.warning(self, "New character / class", "Choose the Disgaea RPG unit first.")
+                return
+            if self.anim.currentData() is None:
+                QMessageBox.warning(self, "New character / class", "Choose whose animations it moves with.")
+                return
+        self.accept()
+
     def values(self):
+        drpg = self.look.currentData() == "drpg"
+        sheet = self.look.currentData() == "sheet"
         return {"generic": self.klass.isChecked(), "name": self.name.text().strip() or "New Unit",
                 "title": self.title.text().strip(), "desc": self.desc.toPlainText().strip().split("\n")[:3],
                 "clone_sprite": self.clone_sprite.isChecked(), "quest": self.quest.isChecked(),
                 "quest_title": self.quest_title.text().strip(), "quest_client": self.quest_client.text().strip(),
-                "quest_text": self.quest_text.text().strip(), "outfit": self.look.currentData(),
-                "hide_outfit": self.hide_outfit.isChecked() and self.look.currentData() is not None,
-                "preset": self.preset_box.currentData(), "own_mod": self.own_mod.isChecked()}
+                "quest_text": self.quest_text.text().strip(),
+                "outfit": None if drpg or sheet else self.look.currentData(),
+                "hide_outfit": self.hide_outfit.isChecked() and self.look.currentData() is not None and not drpg
+                and not sheet,
+                "preset": self.preset_box.currentData(), "own_mod": self.own_mod.isChecked(),
+                "drpg": self.drpg_unit if drpg else None, "anim": self.anim.currentData() if drpg else None,
+                "sheet": self.sheet_seqs if sheet else None}
 
 
 class CopyFromDialog(QDialog):
@@ -1095,17 +1366,15 @@ def _set_all_langs(row, prefix, text):
 
 
 def free_sprite_number(fs, mod):
+    """a sprite number group nobody uses: not the game, and not ANY mod of the kit (switched on or not -- a number
+    two mods share makes the later one's sprite replace the other's at install)"""
+    from d5lib import outfits
+    if mod is not None:
+        return outfits._free_sprite(fs, mod)
     used = sprites.used_sprite_numbers(fs)
-    if mod:
-        for f in mod.list_files():
-            n = f.split("/")[-1]
-            if n.startswith("anm") and n[3:8].isdigit():
-                used.add(int(n[3:8]))
-    n = 9000
-    while n + 10001 <= 32767:
+    for n in outfits.SPRITE_NUMBERS:
         if not {n, n + 1, n + 2, n + 10000, n + 10001} & used:
             return n
-        n += 10
     raise RuntimeError("no free sprite number")
 
 
@@ -1253,6 +1522,7 @@ def create_unit(page, v):
     if v["clone_sprite"]:
         n = free_sprite_number(page.ws.fs, page.ws.active_mod)
         done = clone_sprite_files(page, tmpl["sprite_id"], n)
+        page._last_clone = (tmpl["sprite_id"], n)
         for r in new_rows:
             r.set("sprite_id", n)
         lines.append(f"Copied the sprite to anm{n:05d} (+ portrait anm{n + 10000:05d}); files: {len(done)}. "

@@ -69,7 +69,7 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
   <a href="#t-char">2 · A new recruitable character</a>
   <a href="#t-outfit">3 · An outfit from a sprite sheet</a>
   <a href="#t-color">4 · Recolouring a sprite</a>
-  <a href="#t-drpg">5 · Disgaea RPG outfits</a>
+  <a href="#t-drpg">5 · Disgaea RPG sprites</a>
   <a href="#t-grips">6 · Weapon grips</a>
   <a href="#t-skill">7 · A skill's animation</a>
   <a href="#t-text">8 · Dialogue and text</a>
@@ -357,29 +357,59 @@ Color</i>, <i>Extra Color 1–4</i>) at the top.</li>
 <p>For a full repaint use the <b>🖼 Sprite sheets</b> tab: <i>Export all sheets…</i>, paint them in any image
 editor (keep the size and layout), then <i>Import all sheets…</i>.</p>
 
-<h2 id="t-drpg">Tutorial 5 · Disgaea RPG outfits <span class="tag">command line</span></h2>
-<p>The kit builds Disgaea RPG looks for the game's characters by itself. It uses the DRPG sprites in
-<code>D5ModKit\DRPG Assets (Updated)</code> and the list in <code>d5lib\data\drpg_outfit_catalog.json</code>.</p>
+<h2 id="t-drpg">Tutorial 5 · Disgaea RPG sprites: outfits, characters and classes</h2>
+<p>The kit turns a Disgaea RPG unit's sprite sheets into a complete Disgaea 5 sprite: every animation, from the front
+and the back, moving like the game's own characters, with the unit's face and cut-in. It all happens in the editor.</p>
 <p class="note">This package doesn't include the Disgaea RPG sprites. The outfits, characters and classes
-it comes with are already built and work without them. To build new ones, put your own copy of the Disgaea RPG
-character sprites in <code>D5ModKit\DRPG Assets (Updated)\Characters\Sprites</code>: the folders
-<code>front</code>, <code>back</code>, <code>wait_front</code> and <code>wait_back</code>
-(<code>front&lt;unit&gt;.png</code>, <code>back&lt;unit&gt;.png</code>). Faces and cut-ins are optional:
-<code>Characters\Icons</code> and <code>Characters\Cut-Ins</code> (<code>&lt;unit&gt;.png</code>).</p>
+it comes with are already built and work without them. To make new ones, get your own copy of the Disgaea RPG sprites
+and choose its folder in the kit (step 2 below); a folder called <code>DRPG Assets (Updated)</code> inside the
+<code>D5ModKit</code> folder is found by itself.</p>
+<h3>What a unit needs</h3>
+<p>Four <b>sprite sheets</b>, named by the unit's number (1234 here): the <b>battle sprites</b> (every battle pose:
+walk, attacks, damage …) and the <b>idle</b> sprites (the standing loop), each seen from the front and from the back.
+A face picture and a cut-in portrait are optional. Either of the two layouts DRPG rips come in works:</p>
+<pre><code>DRPG Assets (Updated)\                         DRPG Assets (Updated)  Characters\Spritesrontront1234.png          Sprites\Standard\BattleFrontront1234.png
+  Characters\Spritesackack1234.png            Sprites\Standard\BattleBackack1234.png
+  Characters\Sprites\wait_frontront1234.png     Sprites\Standard\WaitFrontront1234.png
+  Characters\Sprites\wait_backack1234.png       Sprites\Standard\WaitBackack1234.png
+  Characters\IconsS4.png      (optional)        Chara IconsS4.png    (optional)
+  Characters\Cut-InsS4.png    (optional)        CutinsS4.png         (optional)</code></pre>
+<h3>An outfit for a game character</h3>
 <ol class="steps">
-<li>Find the DRPG unit numbers in <code>DRPG Assets (Updated)\Units IDs.txt</code> (or in the file
-names of your copy of the sprites).</li>
-<li>Open <code>d5lib\data\drpg_outfit_catalog.json</code> in Notepad. Find the character (for example
-<code>"name": "Etna"</code>, <code>"class": 520</code>) and add <code>[unit number, "Outfit name"]</code> to its <code>"outfits"</code> list.</li>
-<li>Double-click <code>D5 Mod Kit Console.bat</code> and type
-<pre><code>python tools\drpg_outfits.py check
-python tools\drpg_outfits.py build 520</code></pre>
-(520 is Etna's <code>"class"</code> number in the catalog). Each outfit takes a few seconds.</li>
-<li>Back in the kit, the outfits are in <b>👗 Outfits</b>. Install and play.</li>
+<li><b>👗 Outfits</b> › <b>✨ New outfit</b>. Choose the <b>Character</b> and type the outfit's name.</li>
+<li>Keep <b>Disgaea RPG sprites</b> selected and press <b>Choose the unit…</b>. The first time, press <b>Choose
+folder…</b> and pick your Disgaea RPG folder (the one that contains <code>Characters</code> or <code>Sprites</code>);
+<b>What goes in this folder?</b> shows the layout.</li>
+<li>Search the unit by name or number. The checklist on the right shows ✅ for each sheet it has; <i>Ready</i> means it
+can be used. Press <b>Use this unit</b>, then <b>OK</b>. The outfit is made in a few seconds.</li>
+<li>Check the preview, then <b>⚡ Install &amp; Play</b>. In game: Characters › the character › <b>Outfit</b>.</li>
 </ol>
-<p>A character that's new to the catalog needs its <i>twin</i>: the DRPG unit drawn exactly like the game's own
-sprite. Then run <code>python tools\drpg_outfits.py learn CLASS</code> once. See <code>docs\OUTFITS.md</code> for
-details, including new playable characters (<code>"kind": "new_character"</code>).</p>
+<h3>A new character or class</h3>
+<ol class="steps">
+<li><b>👤 Characters &amp; Classes</b>: select the character (or generic class) whose stats, skills and evilities the
+new one should start with, then <b>✨ New character / class…</b>.</li>
+<li>Choose <b>Unique character</b> or <b>Generic class</b>, set <b>Look</b> to <b>Disgaea RPG sprites</b> and choose
+the unit as above.</li>
+<li><b>Moves like</b>: the game character (or class) whose animations, weapon handling and special poses it uses.
+Pick one with a similar build and fighting style.</li>
+<li>Press <b>OK</b>. A character gets a recruit quest at the Quest shop (if ticked); a class gets its own mod and is
+hired at the Netherworld registrar. Adjust stats and skills on the page, then install.</li>
+</ol>
+<p><b>Sheets from somewhere else:</b> in the unit list, <b>Use my own sheet files…</b> takes four sheets in Disgaea RPG's
+layout from anywhere (another download, sheets you repainted); each file is checked as you choose it.</p>
+<p><b>Sprite sheets of another kind</b> (frame dumps: one labelled row per animation, front and back) become an outfit
+through <b>New outfit › Convert a sprite sheet</b>, or a new character through <b>✨ New character / class…</b> ›
+Look: <b>A sprite sheet</b>. The dialog names each row's animation by its label (fix any it got wrong) and lists every
+animation the game uses with ✅ for the ones your sheet has: <i>stand</i>, <i>wait</i>, <i>walk</i> and <i>damage</i>
+are needed by every character, the attack rows only for the weapons the unit uses.</p>
+<p><b>Who can take Disgaea RPG sprites:</b> the characters and classes whose poses the kit has learned. The lists in the
+dialogs show exactly which; monsters can't become humanoid characters.</p>
+<p><b>Not quite right?</b> Fix it by hand afterwards: the weapon not in the hand on the <b>Weapon Grips</b> page, colours
+in <b>Sprites &amp; Colors</b> (or <i>Paint parts</i> on the Outfits page), and odd attack poses by making it again
+with another <b>Moves like</b> choice.</p>
+<p class="note">Many outfits at once (advanced): <code>python tools\drpg_outfits.py</code> in <code>D5 Mod Kit
+Console.bat</code> builds the list in <code>d5lib\data\drpg_outfit_catalog.json</code>; a character new to the
+catalog needs its <i>twin</i> learned once (<code>learn CLASS</code>). See <code>docs\OUTFITS.md</code>.</p>
 
 <h2 id="t-grips">Tutorial 6 · Weapon grips</h2>
 <ol class="steps">
