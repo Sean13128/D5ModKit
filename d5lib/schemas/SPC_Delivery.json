@@ -1,0 +1,136 @@
+{
+ "file": "SPC_Delivery.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 6116,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Special delivery (DLC content viewer) list, full 5-language version (56 rows). type-3 rows link a DLC to the char.dat unit it adds (used for the stats viewer).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "entry id (1..27 top level; 1001.. / 2001.. children of scenario packs)",
+   "confidence": "high"
+  },
+  {
+   "name": "dlc_id",
+   "offset": 4,
+   "type": "u32",
+   "desc": "DLC content id of top-level entries (1000xx char, 3000xx scenario, 6000xx items/money); 0 for child entries",
+   "confidence": "high"
+  },
+  {
+   "name": "type",
+   "offset": 8,
+   "type": "u32",
+   "desc": "entry type",
+   "confidence": "high",
+   "enum": {
+    "0": "item/money pack",
+    "1": "scenario pack (value = base id of its children)",
+    "2": "scenario summary (value = first DLC_Delivery_HelpDataBase line id)",
+    "3": "character (value = char.dat id)"
+   }
+  },
+  {
+   "name": "value",
+   "offset": 12,
+   "type": "u32",
+   "desc": "type 3: char.dat id (char offset 208; 550 Girl Laharl, 510 Laharl, 860.. Helper Prinnies); type 2: help text id; type 1: child id base (children = value+1..)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 16,
+   "type": "str",
+   "size": 196,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 212,
+   "type": "str",
+   "size": 196,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 408,
+   "type": "str",
+   "size": 196,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 604,
+   "type": "str",
+   "size": 196,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 800,
+   "type": "str",
+   "size": 196,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 996,
+   "type": "str",
+   "size": 1024,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 2020,
+   "type": "str",
+   "size": 1024,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 3044,
+   "type": "str",
+   "size": 1024,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 4068,
+   "type": "str",
+   "size": 1024,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 5092,
+   "type": "str",
+   "size": 1024,
+   "lang": "KOR",
+   "confidence": "high"
+  }
+ ]
+}

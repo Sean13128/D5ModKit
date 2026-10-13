@@ -1,0 +1,127 @@
+{
+ "file": "Ending.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1108,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Endings list (gallery / records).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "ending 1..6",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "ending name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 88,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "ending name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 172,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "ending name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 256,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "ending name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 340,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "ending name",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 424,
+   "type": "str",
+   "size": 136,
+   "lang": "JP",
+   "desc": "how to get it",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 560,
+   "type": "str",
+   "size": 136,
+   "lang": "EN",
+   "desc": "how to get it",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 696,
+   "type": "str",
+   "size": 136,
+   "lang": "FR",
+   "desc": "how to get it",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 832,
+   "type": "str",
+   "size": 136,
+   "lang": "CHN",
+   "desc": "how to get it",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 968,
+   "type": "str",
+   "size": 136,
+   "lang": "KOR",
+   "desc": "how to get it",
+   "confidence": "high"
+  },
+  {
+   "name": "flag",
+   "offset": 1104,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag set when the ending was seen: 2120-2124 FLAG_BAD_ENDING_1..5, 2110 FLAG_TRUE_ENDING",
+   "confidence": "high"
+  }
+ ]
+}

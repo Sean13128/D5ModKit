@@ -1,0 +1,99 @@
+{
+ "file": "ItemWorld_ProbabilityDataBase.d",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 44,
+ "key": "id",
+ "display": "id",
+ "desc": "Item World probability/parameter table: each id has 10 values (probably one per 10-floor band or rarity tier). Rows 0..11 are graded (row 2: 90,85,...,45; row 10: 1..10), rows 500+ are mostly all 1. The baseline mis-detected strings here; these are plain u32.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "entry id (0..11, 500..510, 600..611, 650..651)",
+   "confidence": "high"
+  },
+  {
+   "name": "value1",
+   "offset": 4,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 0..90, 5 distinct; top 1(x23), 5(x6), 0(x6), 90(x1), 10(x1)"
+  },
+  {
+   "name": "value2",
+   "offset": 8,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 1..85, 6 distinct; top 1(x27), 7(x5), 2(x2), 85(x1), 14(x1), 8(x1)"
+  },
+  {
+   "name": "value3",
+   "offset": 12,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 1..80, 6 distinct; top 1(x25), 10(x6), 3(x3), 80(x1), 17(x1), 2(x1)"
+  },
+  {
+   "name": "value4",
+   "offset": 16,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 1..75, 8 distinct; top 1(x25), 12(x5), 4(x2), 75(x1), 20(x1), 5(x1)"
+  },
+  {
+   "name": "value5",
+   "offset": 20,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 1..70, 8 distinct; top 1(x25), 15(x5), 5(x2), 70(x1), 22(x1), 8(x1)"
+  },
+  {
+   "name": "value6",
+   "offset": 24,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 1..65, 7 distinct; top 1(x25), 17(x5), 10(x2), 6(x2), 65(x1), 25(x1)"
+  },
+  {
+   "name": "value7",
+   "offset": 28,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 1..60, 8 distinct; top 1(x25), 20(x5), 7(x2), 60(x1), 26(x1), 14(x1)"
+  },
+  {
+   "name": "value8",
+   "offset": 32,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 1..55, 8 distinct; top 1(x25), 22(x5), 8(x2), 55(x1), 29(x1), 16(x1)"
+  },
+  {
+   "name": "value9",
+   "offset": 36,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 1..50, 8 distinct; top 1(x25), 25(x5), 9(x2), 50(x1), 32(x1), 18(x1)"
+  },
+  {
+   "name": "value10",
+   "offset": 40,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 1..45, 7 distinct; top 1(x25), 30(x5), 10(x3), 45(x1), 35(x1), 20(x1)"
+  }
+ ]
+}

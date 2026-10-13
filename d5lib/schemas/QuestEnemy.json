@@ -1,0 +1,1902 @@
+{
+ "file": "QuestEnemy.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1208,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Extra enemy units injected into an existing map by a quest (Quest.quest_enemy_group -> group). Bytes 616..1207 are one 592-byte map-unit record, the same structure used in Map/mapNNNNN/mapNNNNN.chr (u16 count @0 + 16-byte header, then N*592): char_id, level, direction, position, equipment, 20 evilities, 20 skills (+levels). Adding a custom boss to any stage without editing map files: new QuestEnemy rows (group G, map M) + Quest row with cond_type 4, cond_target1 M, quest_enemy_group G.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "row id 1..107",
+   "confidence": "high"
+  },
+  {
+   "name": "group",
+   "offset": 4,
+   "type": "u32",
+   "desc": "quest enemy group; Quest.quest_enemy_group selects all rows of a group (15 groups: 1,5..18)",
+   "confidence": "high"
+  },
+  {
+   "name": "map_id",
+   "offset": 8,
+   "type": "u32",
+   "ref": "map",
+   "desc": "map the units are added to (= dungeon.map_id; equals the Quest cond_target1 of the owning quest)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 12,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "desc": "unit display name (e.g. \"Gallatin\"); empty = use class name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 64,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 116,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 168,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 220,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "title_JP",
+   "offset": 272,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "desc": "unit title/epithet (e.g. \"Evil God Disciple\")",
+   "confidence": "high"
+  },
+  {
+   "name": "title_EN",
+   "offset": 340,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "title_FR",
+   "offset": 408,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "title_CHN",
+   "offset": 476,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "title_KOR",
+   "offset": 544,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_264",
+   "offset": 612,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "unit_index",
+   "offset": 616,
+   "type": "u32",
+   "desc": "placement index (== id here); first field of the 592-byte map-unit record also used in Map/mapNNNNN.chr (16-byte header + N*592)",
+   "confidence": "high"
+  },
+  {
+   "name": "char_id",
+   "offset": 620,
+   "type": "u32",
+   "ref": "char.dat",
+   "desc": "char.dat id (class+rank, e.g. 1155 Armor Knight rank 5, 1031 Magician, 5202, or unique ids)",
+   "confidence": "high"
+  },
+  {
+   "name": "level",
+   "offset": 624,
+   "type": "u16",
+   "desc": "unit level (3..3300 here)",
+   "confidence": "high"
+  },
+  {
+   "name": "direction",
+   "offset": 626,
+   "type": "u16",
+   "desc": "facing in degrees: 0/90/180/270",
+   "confidence": "high"
+  },
+  {
+   "name": "pos_x",
+   "offset": 628,
+   "type": "u16",
+   "desc": "map X coordinate",
+   "confidence": "high"
+  },
+  {
+   "name": "pos_y",
+   "offset": 630,
+   "type": "u16",
+   "desc": "map Y coordinate",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_u10",
+   "offset": 632,
+   "type": "u16",
+   "desc": "255 in 98% of .chr units, 1/2 otherwise",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u12",
+   "offset": 634,
+   "type": "u16",
+   "desc": "1 in 96% of .chr units (0..15 otherwise); team/group?",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u14",
+   "offset": 636,
+   "type": "i16",
+   "desc": "-1 in 96% of units, 0..9 otherwise (link/leader index?)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u16",
+   "offset": 638,
+   "type": "u16",
+   "desc": "0, 256, 1 or 2",
+   "confidence": "low"
+  },
+  {
+   "name": "weapon",
+   "offset": 640,
+   "type": "u32",
+   "ref": "item.dat",
+   "desc": "equipped weapon (item.dat id, e.g. 239 Yoshitsuna); 0 = none",
+   "confidence": "high"
+  },
+  {
+   "name": "weapon2",
+   "offset": 644,
+   "type": "u32",
+   "ref": "item.dat",
+   "desc": "second weapon slot (item.dat id; rarely used, weapons only)",
+   "confidence": "medium"
+  },
+  {
+   "name": "equip1",
+   "offset": 648,
+   "type": "u32",
+   "ref": "item.dat",
+   "desc": "armour/accessory slot 1 (item.dat id; 12xx armour, 13xx belts, 14xx shoes, 15xx orbs, 16xx glasses, 17xx muscle)",
+   "confidence": "high"
+  },
+  {
+   "name": "equip2",
+   "offset": 652,
+   "type": "u32",
+   "ref": "item.dat",
+   "desc": "armour/accessory slot 2 (item.dat id; 12xx armour, 13xx belts, 14xx shoes, 15xx orbs, 16xx glasses, 17xx muscle)",
+   "confidence": "high"
+  },
+  {
+   "name": "equip3",
+   "offset": 656,
+   "type": "u32",
+   "ref": "item.dat",
+   "desc": "armour/accessory slot 3 (item.dat id; 12xx armour, 13xx belts, 14xx shoes, 15xx orbs, 16xx glasses, 17xx muscle)",
+   "confidence": "high"
+  },
+  {
+   "name": "equip4",
+   "offset": 660,
+   "type": "u32",
+   "ref": "item.dat",
+   "desc": "armour/accessory slot 4 (item.dat id; 12xx armour, 13xx belts, 14xx shoes, 15xx orbs, 16xx glasses, 17xx muscle); always 0",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_u30",
+   "offset": 664,
+   "type": "u16",
+   "desc": "0/1 (1 on 40 .chr units, all three together)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u32",
+   "offset": 666,
+   "type": "u16",
+   "desc": "0/1 (1 on 40 .chr units, all three together)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u34",
+   "offset": 668,
+   "type": "u16",
+   "desc": "0/1 (1 on 40 .chr units, all three together)",
+   "confidence": "low"
+  },
+  {
+   "name": "pad_u36",
+   "offset": 670,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility1",
+   "offset": 672,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "evility2",
+   "offset": 676,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "evility3",
+   "offset": 680,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "evility4",
+   "offset": 684,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "evility5",
+   "offset": 688,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "evility6",
+   "offset": 692,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility7",
+   "offset": 696,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility8",
+   "offset": 700,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility9",
+   "offset": 704,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility10",
+   "offset": 708,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility11",
+   "offset": 712,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility12",
+   "offset": 716,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility13",
+   "offset": 720,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility14",
+   "offset": 724,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility15",
+   "offset": 728,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility16",
+   "offset": 732,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility17",
+   "offset": 736,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility18",
+   "offset": 740,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility19",
+   "offset": 744,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "evility20",
+   "offset": 748,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "evility (Skill.dat id, e.g. 4008 Fire Body, 5001 Theft Prevention); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill1",
+   "offset": 752,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "skill2",
+   "offset": 756,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "skill3",
+   "offset": 760,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "skill4",
+   "offset": 764,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "skill5",
+   "offset": 768,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "high"
+  },
+  {
+   "name": "skill6",
+   "offset": 772,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill7",
+   "offset": 776,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill8",
+   "offset": 780,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill9",
+   "offset": 784,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill10",
+   "offset": 788,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill11",
+   "offset": 792,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill12",
+   "offset": 796,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill13",
+   "offset": 800,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill14",
+   "offset": 804,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill15",
+   "offset": 808,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill16",
+   "offset": 812,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill17",
+   "offset": 816,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill18",
+   "offset": 820,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill19",
+   "offset": 824,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill20",
+   "offset": 828,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learned skill/spell (magic.dat id, e.g. 1001 Fire, 1004 Tera Fire); 0 = empty",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill1_level",
+   "offset": 832,
+   "type": "u16",
+   "desc": "level of skill1 (1..99)",
+   "confidence": "high"
+  },
+  {
+   "name": "skill2_level",
+   "offset": 834,
+   "type": "u16",
+   "desc": "level of skill2 (1..99)",
+   "confidence": "high"
+  },
+  {
+   "name": "skill3_level",
+   "offset": 836,
+   "type": "u16",
+   "desc": "level of skill3 (1..99)",
+   "confidence": "high"
+  },
+  {
+   "name": "skill4_level",
+   "offset": 838,
+   "type": "u16",
+   "desc": "level of skill4 (1..99)",
+   "confidence": "high"
+  },
+  {
+   "name": "skill5_level",
+   "offset": 840,
+   "type": "u16",
+   "desc": "level of skill5 (1..99)",
+   "confidence": "high"
+  },
+  {
+   "name": "skill6_level",
+   "offset": 842,
+   "type": "u16",
+   "desc": "level of skill6 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill7_level",
+   "offset": 844,
+   "type": "u16",
+   "desc": "level of skill7 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill8_level",
+   "offset": 846,
+   "type": "u16",
+   "desc": "level of skill8 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill9_level",
+   "offset": 848,
+   "type": "u16",
+   "desc": "level of skill9 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill10_level",
+   "offset": 850,
+   "type": "u16",
+   "desc": "level of skill10 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill11_level",
+   "offset": 852,
+   "type": "u16",
+   "desc": "level of skill11 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill12_level",
+   "offset": 854,
+   "type": "u16",
+   "desc": "level of skill12 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill13_level",
+   "offset": 856,
+   "type": "u16",
+   "desc": "level of skill13 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill14_level",
+   "offset": 858,
+   "type": "u16",
+   "desc": "level of skill14 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill15_level",
+   "offset": 860,
+   "type": "u16",
+   "desc": "level of skill15 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill16_level",
+   "offset": 862,
+   "type": "u16",
+   "desc": "level of skill16 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill17_level",
+   "offset": 864,
+   "type": "u16",
+   "desc": "level of skill17 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill18_level",
+   "offset": 866,
+   "type": "u16",
+   "desc": "level of skill18 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill19_level",
+   "offset": 868,
+   "type": "u16",
+   "desc": "level of skill19 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill20_level",
+   "offset": 870,
+   "type": "u16",
+   "desc": "level of skill20 (1..99)",
+   "confidence": "medium"
+  },
+  {
+   "name": "skill1_param",
+   "offset": 872,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill2_param",
+   "offset": 874,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill3_param",
+   "offset": 876,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill4_param",
+   "offset": 878,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill5_param",
+   "offset": 880,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill6_param",
+   "offset": 882,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill7_param",
+   "offset": 884,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill8_param",
+   "offset": 886,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill9_param",
+   "offset": 888,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill10_param",
+   "offset": 890,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill11_param",
+   "offset": 892,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill12_param",
+   "offset": 894,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill13_param",
+   "offset": 896,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill14_param",
+   "offset": 898,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill15_param",
+   "offset": 900,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill16_param",
+   "offset": 902,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill17_param",
+   "offset": 904,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill18_param",
+   "offset": 906,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill19_param",
+   "offset": 908,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill20_param",
+   "offset": 910,
+   "type": "u16",
+   "desc": "0..9 per skill (range/area upgrade?)",
+   "confidence": "low"
+  },
+  {
+   "name": "skill1_param2",
+   "offset": 912,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill2_param2",
+   "offset": 914,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill3_param2",
+   "offset": 916,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill4_param2",
+   "offset": 918,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill5_param2",
+   "offset": 920,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill6_param2",
+   "offset": 922,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill7_param2",
+   "offset": 924,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill8_param2",
+   "offset": 926,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill9_param2",
+   "offset": 928,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill10_param2",
+   "offset": 930,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill11_param2",
+   "offset": 932,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill12_param2",
+   "offset": 934,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill13_param2",
+   "offset": 936,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill14_param2",
+   "offset": 938,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill15_param2",
+   "offset": 940,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill16_param2",
+   "offset": 942,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill17_param2",
+   "offset": 944,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill18_param2",
+   "offset": 946,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill19_param2",
+   "offset": 948,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "skill20_param2",
+   "offset": 950,
+   "type": "u16",
+   "desc": "0..9 or 99 per skill",
+   "confidence": "low"
+  },
+  {
+   "name": "stat_mod_HP",
+   "offset": 952,
+   "type": "u16",
+   "desc": "per-stat value, usually 0 or 1 (1 on 26% of .chr units, same for all 8), sometimes 7..86",
+   "confidence": "low"
+  },
+  {
+   "name": "stat_mod_SP",
+   "offset": 954,
+   "type": "u16",
+   "desc": "per-stat value, usually 0 or 1 (1 on 26% of .chr units, same for all 8), sometimes 7..86",
+   "confidence": "low"
+  },
+  {
+   "name": "stat_mod_ATK",
+   "offset": 956,
+   "type": "u16",
+   "desc": "per-stat value, usually 0 or 1 (1 on 26% of .chr units, same for all 8), sometimes 7..86",
+   "confidence": "low"
+  },
+  {
+   "name": "stat_mod_DEF",
+   "offset": 958,
+   "type": "u16",
+   "desc": "per-stat value, usually 0 or 1 (1 on 26% of .chr units, same for all 8), sometimes 7..86",
+   "confidence": "low"
+  },
+  {
+   "name": "stat_mod_INT",
+   "offset": 960,
+   "type": "u16",
+   "desc": "per-stat value, usually 0 or 1 (1 on 26% of .chr units, same for all 8), sometimes 7..86",
+   "confidence": "low"
+  },
+  {
+   "name": "stat_mod_RES",
+   "offset": 962,
+   "type": "u16",
+   "desc": "per-stat value, usually 0 or 1 (1 on 26% of .chr units, same for all 8), sometimes 7..86",
+   "confidence": "low"
+  },
+  {
+   "name": "stat_mod_HIT",
+   "offset": 964,
+   "type": "u16",
+   "desc": "per-stat value, usually 0 or 1 (1 on 26% of .chr units, same for all 8), sometimes 7..86",
+   "confidence": "low"
+  },
+  {
+   "name": "stat_mod_SPD",
+   "offset": 966,
+   "type": "u16",
+   "desc": "per-stat value, usually 0 or 1 (1 on 26% of .chr units, same for all 8), sometimes 7..86",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u160",
+   "offset": 968,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u162",
+   "offset": 970,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u164",
+   "offset": 972,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u166",
+   "offset": 974,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u168",
+   "offset": 976,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u16A",
+   "offset": 978,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u16C",
+   "offset": 980,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u16E",
+   "offset": 982,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u170",
+   "offset": 984,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u172",
+   "offset": 986,
+   "type": "i16",
+   "desc": "signed small values (-50..3000); 10-entry block after stat_mod_*",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u174",
+   "offset": 988,
+   "type": "u8",
+   "desc": "0..8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u175",
+   "offset": 989,
+   "type": "u8",
+   "desc": "1..5",
+   "confidence": "low"
+  },
+  {
+   "name": "pad_u176",
+   "offset": 990,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "medium"
+  },
+  {
+   "name": "ai_id",
+   "offset": 992,
+   "type": "i32",
+   "desc": "-1 or 101..113 (104 most common); probably AI/behaviour pattern",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u17C",
+   "offset": 996,
+   "type": "u8",
+   "desc": "0/1",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u17D",
+   "offset": 997,
+   "type": "u8",
+   "desc": "0..28 or 255",
+   "confidence": "low"
+  },
+  {
+   "name": "target_x",
+   "offset": 998,
+   "type": "u16",
+   "desc": "0..23; second coordinate pair (AI move target?)",
+   "confidence": "low"
+  },
+  {
+   "name": "target_y",
+   "offset": 1000,
+   "type": "u16",
+   "desc": "0..22",
+   "confidence": "low"
+  },
+  {
+   "name": "pad_u182",
+   "offset": 1002,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_u186",
+   "offset": 1006,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u188",
+   "offset": 1008,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u18A",
+   "offset": 1010,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u18C",
+   "offset": 1012,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u18E",
+   "offset": 1014,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u190",
+   "offset": 1016,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u192",
+   "offset": 1018,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u194",
+   "offset": 1020,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u196",
+   "offset": 1022,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u198",
+   "offset": 1024,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u19A",
+   "offset": 1026,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u19C",
+   "offset": 1028,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u19E",
+   "offset": 1030,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1A0",
+   "offset": 1032,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1A2",
+   "offset": 1034,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1A4",
+   "offset": 1036,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1A6",
+   "offset": 1038,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1A8",
+   "offset": 1040,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1AA",
+   "offset": 1042,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1AC",
+   "offset": 1044,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1AE",
+   "offset": 1046,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1B0",
+   "offset": 1048,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1B2",
+   "offset": 1050,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1B4",
+   "offset": 1052,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1B6",
+   "offset": 1054,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1B8",
+   "offset": 1056,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1BA",
+   "offset": 1058,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1BC",
+   "offset": 1060,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1BE",
+   "offset": 1062,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1C0",
+   "offset": 1064,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1C2",
+   "offset": 1066,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1C4",
+   "offset": 1068,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1C6",
+   "offset": 1070,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1C8",
+   "offset": 1072,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1CA",
+   "offset": 1074,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1CC",
+   "offset": 1076,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1CE",
+   "offset": 1078,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1D0",
+   "offset": 1080,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1D2",
+   "offset": 1082,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1D4",
+   "offset": 1084,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1D6",
+   "offset": 1086,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1D8",
+   "offset": 1088,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1DA",
+   "offset": 1090,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1DC",
+   "offset": 1092,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1DE",
+   "offset": 1094,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1E0",
+   "offset": 1096,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1E2",
+   "offset": 1098,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1E4",
+   "offset": 1100,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1E6",
+   "offset": 1102,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1E8",
+   "offset": 1104,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1EA",
+   "offset": 1106,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1EC",
+   "offset": 1108,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1EE",
+   "offset": 1110,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1F0",
+   "offset": 1112,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1F2",
+   "offset": 1114,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1F4",
+   "offset": 1116,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1F6",
+   "offset": 1118,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1F8",
+   "offset": 1120,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1FA",
+   "offset": 1122,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1FC",
+   "offset": 1124,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u1FE",
+   "offset": 1126,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u200",
+   "offset": 1128,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u202",
+   "offset": 1130,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u204",
+   "offset": 1132,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u206",
+   "offset": 1134,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u208",
+   "offset": 1136,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u20A",
+   "offset": 1138,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u20C",
+   "offset": 1140,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u20E",
+   "offset": 1142,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u210",
+   "offset": 1144,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u212",
+   "offset": 1146,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u214",
+   "offset": 1148,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u216",
+   "offset": 1150,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u218",
+   "offset": 1152,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u21A",
+   "offset": 1154,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u21C",
+   "offset": 1156,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u21E",
+   "offset": 1158,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u220",
+   "offset": 1160,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u222",
+   "offset": 1162,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u224",
+   "offset": 1164,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u226",
+   "offset": 1166,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u228",
+   "offset": 1168,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u22A",
+   "offset": 1170,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u22C",
+   "offset": 1172,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u22E",
+   "offset": 1174,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u230",
+   "offset": 1176,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u232",
+   "offset": 1178,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u234",
+   "offset": 1180,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u236",
+   "offset": 1182,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u238",
+   "offset": 1184,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u23A",
+   "offset": 1186,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u23C",
+   "offset": 1188,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u23E",
+   "offset": 1190,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u240",
+   "offset": 1192,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u242",
+   "offset": 1194,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u244",
+   "offset": 1196,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u246",
+   "offset": 1198,
+   "type": "u16",
+   "desc": "repeating 40-byte pattern of 4 small records with 0xFF \"empty\" markers (bytes u186,u191,u19B,u1A5,...); mostly empty",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u248",
+   "offset": 1200,
+   "type": "u32",
+   "desc": "0/1",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_u24C",
+   "offset": 1204,
+   "type": "u32",
+   "desc": "0 or 31..52",
+   "confidence": "low"
+  }
+ ]
+}

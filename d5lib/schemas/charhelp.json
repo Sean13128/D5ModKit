@@ -1,0 +1,232 @@
+{
+ "file": "charhelp.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1428,
+ "key": "id",
+ "display": "line1_EN",
+ "desc": "Character descriptions (334 x 1428): 3 lines x 5 languages (92-byte slots) per help id, plus story-flag conditions selecting which variant is shown. Also holds object and Geo Effect (9001-9040) texts. Referenced by char.dat help_id (+0xDC), which is matched against char_id (+4), not id.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "row id (unique, the table is sorted by it). Usually = char id; extra variants id+1, id+2 ... are story-progress versions of the same description",
+   "confidence": "high"
+  },
+  {
+   "name": "char_id",
+   "offset": 4,
+   "type": "u32",
+   "ref": "char.dat",
+   "desc": "description key: char.dat help_id is matched against this field (0x14008eee0; help ids below 4000 are rounded down to a multiple of 10). All variants of one description share it; the first variant whose flags pass is shown. A help_id that matches no row makes UNIT INFO crash",
+   "confidence": "high"
+  },
+  {
+   "name": "line1_JP",
+   "offset": 8,
+   "type": "str",
+   "size": 92,
+   "lang": "JP",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "line1_EN",
+   "offset": 100,
+   "type": "str",
+   "size": 92,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "line1_FR",
+   "offset": 192,
+   "type": "str",
+   "size": 92,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "line1_CHN",
+   "offset": 284,
+   "type": "str",
+   "size": 92,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "line1_KOR",
+   "offset": 376,
+   "type": "str",
+   "size": 92,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_JP",
+   "offset": 468,
+   "type": "str",
+   "size": 92,
+   "lang": "JP",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_EN",
+   "offset": 560,
+   "type": "str",
+   "size": 92,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_FR",
+   "offset": 652,
+   "type": "str",
+   "size": 92,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_CHN",
+   "offset": 744,
+   "type": "str",
+   "size": 92,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_KOR",
+   "offset": 836,
+   "type": "str",
+   "size": 92,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_JP",
+   "offset": 928,
+   "type": "str",
+   "size": 92,
+   "lang": "JP",
+   "desc": "description line 3 (empty for most generic classes)",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_EN",
+   "offset": 1020,
+   "type": "str",
+   "size": 92,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_FR",
+   "offset": 1112,
+   "type": "str",
+   "size": 92,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_CHN",
+   "offset": 1204,
+   "type": "str",
+   "size": 92,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_KOR",
+   "offset": 1296,
+   "type": "str",
+   "size": 92,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "flag_off1",
+   "offset": 1388,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "story flag that must NOT be set for this variant to be shown (0 = unused). E.g. Killia help 10 hidden once flag 1310 set; Christo 60 requires flags 208 and 1199 unset",
+   "confidence": "medium"
+  },
+  {
+   "name": "flag_off2",
+   "offset": 1392,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "confidence": "medium"
+  },
+  {
+   "name": "flag_off3",
+   "offset": 1396,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "confidence": "medium"
+  },
+  {
+   "name": "flag_off4",
+   "offset": 1400,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "confidence": "medium"
+  },
+  {
+   "name": "flag_off5",
+   "offset": 1404,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "confidence": "medium"
+  },
+  {
+   "name": "flag_on1",
+   "offset": 1408,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "story flag that MUST be set for this variant (0 = unused). Christo 61 needs 208 set and 1199 unset; Logan 250 needs 199 & 13600. The game probably shows the first row of the char_id group whose conditions match, else the unconditional one",
+   "confidence": "medium"
+  },
+  {
+   "name": "flag_on2",
+   "offset": 1412,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "confidence": "medium"
+  },
+  {
+   "name": "flag_on3",
+   "offset": 1416,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "confidence": "medium"
+  },
+  {
+   "name": "flag_on4",
+   "offset": 1420,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "confidence": "medium"
+  },
+  {
+   "name": "flag_on5",
+   "offset": 1424,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "confidence": "medium"
+  }
+ ]
+}

@@ -1,0 +1,238 @@
+{
+ "file": "Skill.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 96,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Evilities (796 x 96, pool layout: 10 strptr fields into the string pool after the records). Record: id, names, slot cost, descriptions (%d = value1/value2), kind (unique/normal), effect group, values, source, display category, Mana cost, owner char/class, class learn order, version group. A class owns 6 evilities (owner = class id, class_order 1..6, 6 = unique); characters own theirs via owner too; the innate evility of a char.dat row is at char.dat +0xB8.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "evility id (key). 10-410 character evilities (grouped per character, e.g. 10-16 Killia), 1010-1242 generic human classes (6 per class: x0 = class unique), 2010-2215 monster classes, 3000-3306 innocent-granted evilities (HABIT.dat evility), 4000-4603 generic shop evilities, 5000-5026 system/enemy-only, 6001-6306 DLC characters. Referenced by char.dat (+0xB8 innate evility), HABIT.dat, ItemGetSkillDataBase.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "strptr",
+   "lang": "JP",
+   "desc": "evility name (string pool)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 8,
+   "type": "strptr",
+   "lang": "EN",
+   "desc": "evility name (string pool)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 12,
+   "type": "strptr",
+   "lang": "FR",
+   "desc": "evility name (string pool)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "CHN",
+   "desc": "evility name (string pool)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 20,
+   "type": "strptr",
+   "lang": "KOR",
+   "desc": "evility name (string pool)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_cost",
+   "offset": 24,
+   "type": "u32",
+   "desc": "Evility slot cost when equipped (0 = unique/innate, else 1..6)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 28,
+   "type": "strptr",
+   "lang": "JP",
+   "desc": "description; %d placeholders are filled with value1/value2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 32,
+   "type": "strptr",
+   "lang": "EN",
+   "desc": "description; %d placeholders are filled with value1/value2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 36,
+   "type": "strptr",
+   "lang": "FR",
+   "desc": "description; %d placeholders are filled with value1/value2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 40,
+   "type": "strptr",
+   "lang": "CHN",
+   "desc": "description; %d placeholders are filled with value1/value2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 44,
+   "type": "strptr",
+   "lang": "KOR",
+   "desc": "description; %d placeholders are filled with value1/value2",
+   "confidence": "high"
+  },
+  {
+   "name": "kind",
+   "offset": 48,
+   "type": "u32",
+   "enum": {
+    "0": "normal (can be learned/equipped)",
+    "1": "unique / innate (character, class x0 evility, item/innocent evility)",
+    "2": "rank-specific innate of class 1230 (Prinny-type class: Next Game's Main, Mini, Prinny...)"
+   },
+   "desc": "uniqueness",
+   "confidence": "high"
+  },
+  {
+   "name": "effect_group",
+   "offset": 52,
+   "type": "u32",
+   "desc": "internal effect family 0..44 (9 plain stat % boosts, 11 conditional stat boosts, 2 damage-dealt, 3 damage-taken, 15 EXP/mana/rewards, 17 ally auras, 18 enemy auras, 29 immunities, 24 Magichange/explosion, 44 = all innocent/item evilities 3000-3306 and 6125). Grouping only; the actual handler seems keyed by id",
+   "confidence": "medium"
+  },
+  {
+   "name": "value1",
+   "offset": 56,
+   "type": "u32",
+   "desc": "first %d of the description (Muscle Increase 10 = +10% ATK, Status Guard 90)",
+   "confidence": "high"
+  },
+  {
+   "name": "value2",
+   "offset": 60,
+   "type": "u32",
+   "desc": "second %d of the description (Violence 50% EXP, Magic Bundle 50% more SP)",
+   "confidence": "high"
+  },
+  {
+   "name": "source",
+   "offset": 64,
+   "type": "u32",
+   "enum": {
+    "0": "generic (Evility shop)",
+    "1": "generic special (team attack / Magichange / Chara World)",
+    "3": "generic class",
+    "4": "character (unique chars incl. DLC)",
+    "5": "innocent / item granted",
+    "6": "system / enemy only"
+   },
+   "desc": "where the evility comes from",
+   "confidence": "medium"
+  },
+  {
+   "name": "category",
+   "offset": 68,
+   "type": "u32",
+   "enum": {
+    "0": "special/system",
+    "1": "attack/ATK",
+    "2": "defense",
+    "3": "HIT",
+    "4": "SPD/evasion",
+    "5": "all stats",
+    "6": "HP",
+    "7": "SP",
+    "8": "critical",
+    "9": "healing/revive",
+    "10": "support magic",
+    "11": "movement",
+    "12": "ailments",
+    "13": "Revenge gauge",
+    "14": "items/steal",
+    "15": "EXP/Mana/rewards",
+    "16": "Magichange",
+    "17": "Chara World",
+    "18": "misc/field"
+   },
+   "desc": "display category (evility list filter/icon)",
+   "confidence": "medium"
+  },
+  {
+   "name": "subcategory",
+   "offset": 72,
+   "type": "u32",
+   "desc": "secondary grouping 0..18 (1 INT/ATK growth & counters, 2 two-stat, 3 HIT growth, 4 SPD, 5 single-stat %, 6 HP recovery, 7 SP/skill power, 8 critical, 11 panels moved, 12 ailments, 15 EXP/steal...). Sort/filter aid, meaning partly guessed",
+   "confidence": "low"
+  },
+  {
+   "name": "mana_cost",
+   "offset": 76,
+   "type": "u32",
+   "desc": "Mana cost to learn (100/250/1000/5000/30000 for character evilities, 10000 for a class unique, 0 = cannot be learned)",
+   "confidence": "high"
+  },
+  {
+   "name": "shop_rank",
+   "offset": 80,
+   "type": "u32",
+   "desc": "0..4 (one 9) on generic shop evilities 4000-4324; probably shop rank / unlock tier (elemental bodies 2, managements 3, blessings 4)",
+   "confidence": "low"
+  },
+  {
+   "name": "owner",
+   "offset": 84,
+   "type": "u32",
+   "ref": "char.dat",
+   "desc": "character/class that owns or teaches it (char.dat id at +0xD0; Killia 10, Warrior family 1010); 0 = generic",
+   "confidence": "high"
+  },
+  {
+   "name": "class_order",
+   "offset": 88,
+   "type": "u32",
+   "desc": "generic classes: learn order 1..5, 6 = the class unique (x0) evility; 0 otherwise",
+   "confidence": "medium"
+  },
+  {
+   "name": "version_group",
+   "offset": 92,
+   "type": "u32",
+   "desc": "100 base game; 110-150 DLC content groups (same codes as magic.dat version_group); 0 on 2 unused rows",
+   "confidence": "low"
+  }
+ ]
+}

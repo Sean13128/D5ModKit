@@ -1,0 +1,1021 @@
+{
+ "about": "Disgaea RPG units usable as outfits of the game's unique characters (DRPG Assets (Updated)/Units IDs.txt). class: the character's char.dat id (= its sprite); twin: the DRPG unit drawn exactly like the character's own sprite (its own idle / skill poses are learned from it, drpgmap.learn_unique); outfits: [DRPG unit, outfit name]. Forms the game already has (Pure Flonne, Tyrant Valvatorez, Sister Artina, Awakened Rozalin) and monster-type DRPG units are left out. Built by tools/drpg_outfits.py. kind 'new_character': a new recruitable humanoid character copied from character `class` (stats, aptitudes, evilities; `skills` replace the learnset), drawn from DRPG `unit` with `template`'s animation set, recruited by `quest`; `outfits` attach to it (Usalia: the game's Usalia rides her companion and is a monster-type unit, her humanoid DRPG variants are their own character; Liezerota: the game's is an NPC without skills or attack frames, `stats_from` gives the new character another character's base stats and aptitudes).",
+ "characters": [
+  {
+   "class": 10,
+   "name": "Killia",
+   "mod": "DRPG_Outfits_Killia",
+   "twin": 2,
+   "outfits": [
+    [
+     39,
+     "Awakened"
+    ],
+    [
+     40,
+     "Tyrant Overlord Killidia"
+    ],
+    [
+     96,
+     "Formal"
+    ],
+    [
+     181,
+     "Primeval Overlord"
+    ]
+   ]
+  },
+  {
+   "class": 40,
+   "name": "Seraphina",
+   "mod": "DRPG_Outfits_Seraphina",
+   "twin": 8,
+   "outfits": [
+    [
+     60,
+     "Bunny"
+    ],
+    [
+     98,
+     "Formal"
+    ],
+    [
+     154,
+     "Santa"
+    ],
+    [
+     164,
+     "XENO"
+    ],
+    [
+     179,
+     "Bride"
+    ],
+    [
+     234,
+     "Beach"
+    ],
+    [
+     271,
+     "School Outfit"
+    ],
+    [
+     301,
+     "Summer"
+    ],
+    [
+     306,
+     "Tennis Tyrant XENO"
+    ],
+    [
+     366,
+     "Zombie"
+    ],
+    [
+     395,
+     "Red Queen"
+    ]
+   ]
+  },
+  {
+   "class": 70,
+   "kind": "new_character",
+   "name": "Future Usalia",
+   "title": "Toto Bunny Overlord",
+   "mod": "DRPG_Human_Usalia",
+   "template": 550,
+   "unit": 150,
+   "skills": [
+    [
+     1501,
+     24
+    ],
+    [
+     1503,
+     24
+    ]
+   ],
+   "desc": [
+    "Usalia from another future, without her companion.",
+    "A humanoid Usalia: she fights with weapons.",
+    ""
+   ],
+   "quest": {
+    "title": "The Other Usalia",
+    "client": "Future Usalia",
+    "text": "A humanoid Usalia from another world wants to join your army."
+   },
+   "outfits": [
+    [
+     205,
+     "Santa Future"
+    ],
+    [
+     237,
+     "Beach"
+    ],
+    [
+     254,
+     "Formal"
+    ],
+    [
+     344,
+     "Rabbit Overlord"
+    ],
+    [
+     379,
+     "New Year White"
+    ],
+    [
+     385,
+     "New Year Black"
+    ],
+    [
+     394,
+     "March"
+    ]
+   ],
+   "monster_outfits_experimental": [
+    [
+     20020,
+     "Santa",
+     "70_20020.json"
+    ]
+   ]
+  },
+  {
+   "class": 130,
+   "name": "Majorita",
+   "mod": "DRPG_Outfits_Majorita",
+   "twin": 13,
+   "outfits": [
+    [
+     91,
+     "Halloween"
+    ],
+    [
+     122,
+     "Flamelord"
+    ],
+    [
+     160,
+     "Brainwashed"
+    ],
+    [
+     229,
+     "Fire Fist Flamelord"
+    ],
+    [
+     351,
+     "Swimsuit"
+    ],
+    [
+     392,
+     "Cheshire Cat"
+    ]
+   ]
+  },
+  {
+   "class": 180,
+   "kind": "new_character",
+   "name": "Liezerota",
+   "title": "Demon Fist's Daughter",
+   "mod": "DRPG_Playable_Liezerota",
+   "template": 550,
+   "unit": 163,
+   "stats_from": 10,
+   "skills": [
+    [
+     1501,
+     10
+    ],
+    [
+     1001,
+     1
+    ],
+    [
+     1002,
+     25
+    ],
+    [
+     1003,
+     70
+    ]
+   ],
+   "desc": [
+    "The Demon Fist's daughter, the master who taught Killia.",
+    "Playable in her Disgaea RPG looks.",
+    ""
+   ],
+   "quest": {
+    "title": "The Demon Fist's Daughter",
+    "client": "Liezerota",
+    "text": "Liezerota wants to fight alongside your army."
+   },
+   "outfits": [
+    [
+     203,
+     "Formal"
+    ],
+    [
+     244,
+     "Bunny"
+    ],
+    [
+     261,
+     "Santa Demon Fist"
+    ],
+    [
+     295,
+     "Beach"
+    ],
+    [
+     330,
+     "Uniform"
+    ],
+    [
+     370,
+     "Witch"
+    ]
+   ]
+  },
+  {
+   "class": 240,
+   "name": "Asagi",
+   "mod": "DRPG_Outfits_Asagi",
+   "twin": 43,
+   "outfits": [
+    [
+     172,
+     "Super Hero"
+    ],
+    [
+     173,
+     "Asagiri"
+    ],
+    [
+     174,
+     "Prinny Mascot"
+    ],
+    [
+     175,
+     "Koigiri"
+    ],
+    [
+     176,
+     "Fighter"
+    ],
+    [
+     287,
+     "Magical"
+    ],
+    [
+     352,
+     "Swimsuit"
+    ],
+    [
+     410,
+     "Swimsuit Creator"
+    ],
+    [
+     413,
+     "Swimsuit Overlord"
+    ]
+   ]
+  },
+  {
+   "class": 400,
+   "name": "Meaver",
+   "mod": "DRPG_Outfits_Meaver",
+   "twin": 71,
+   "outfits": [
+    [
+     243,
+     "Bunny"
+    ]
+   ]
+  },
+  {
+   "class": 510,
+   "name": "Laharl",
+   "mod": "DRPG_Outfits_Laharl",
+   "twin": 1,
+   "outfits": [
+    [
+     54,
+     "Dark Santa"
+    ],
+    [
+     93,
+     "Halloween"
+    ],
+    [
+     99,
+     "Thunderlord"
+    ],
+    [
+     105,
+     "Supreme"
+    ],
+    [
+     199,
+     "Brave"
+    ],
+    [
+     220,
+     "Holy Thunderlord"
+    ],
+    [
+     315,
+     "Formal"
+    ],
+    [
+     365,
+     "Halloween Kai"
+    ],
+    [
+     389,
+     "Uniform"
+    ]
+   ]
+  },
+  {
+   "class": 520,
+   "name": "Etna",
+   "mod": "DRPG_Outfits_Etna",
+   "twin": 6,
+   "outfits": [
+    [
+     42,
+     "Majin"
+    ],
+    [
+     69,
+     "Beach"
+    ],
+    [
+     84,
+     "Lioness Princess"
+    ],
+    [
+     130,
+     "Supreme"
+    ],
+    [
+     157,
+     "New Years"
+    ],
+    [
+     185,
+     "Beach Saint"
+    ],
+    [
+     198,
+     "Badass Overlord"
+    ],
+    [
+     201,
+     "First Lady"
+    ],
+    [
+     250,
+     "Witch"
+    ],
+    [
+     283,
+     "Magical Bishojo"
+    ],
+    [
+     326,
+     "Festive Saint"
+    ],
+    [
+     353,
+     "Swimsuit Majin"
+    ],
+    [
+     383,
+     "Dark Santa"
+    ],
+    [
+     399,
+     "Pristine Gleam"
+    ],
+    [
+     408,
+     "Sun-tanned"
+    ]
+   ]
+  },
+  {
+   "class": 530,
+   "name": "Flonne",
+   "mod": "DRPG_Outfits_Flonne",
+   "twin": 7,
+   "outfits": [
+    [
+     34,
+     "Archangel"
+    ],
+    [
+     70,
+     "Beach"
+    ],
+    [
+     87,
+     "Lovely"
+    ],
+    [
+     146,
+     "Tavern Idol"
+    ],
+    [
+     186,
+     "Super Pure"
+    ],
+    [
+     204,
+     "Brave"
+    ],
+    [
+     238,
+     "Beach Fallen Angel"
+    ],
+    [
+     274,
+     "Valentine"
+    ],
+    [
+     284,
+     "Pure Avatar"
+    ],
+    [
+     297,
+     "Yukata"
+    ],
+    [
+     313,
+     "Formal"
+    ],
+    [
+     342,
+     "Love Diva"
+    ],
+    [
+     367,
+     "Garbage"
+    ],
+    [
+     386,
+     "Uniform"
+    ]
+   ]
+  },
+  {
+   "class": 540,
+   "name": "Sicily",
+   "mod": "DRPG_Outfits_Sicily",
+   "twin": 21,
+   "outfits": [
+    [
+     57,
+     "Pure"
+    ],
+    [
+     100,
+     "XENO"
+    ],
+    [
+     104,
+     "Priestess"
+    ],
+    [
+     206,
+     "Dark Yule XENO"
+    ],
+    [
+     227,
+     "Starblade XENO"
+    ],
+    [
+     256,
+     "Fallen Angel"
+    ],
+    [
+     286,
+     "Pure XENO"
+    ],
+    [
+     309,
+     "Thousand Kills XENO"
+    ],
+    [
+     391,
+     "Hatter XENO"
+    ],
+    [
+     393,
+     "Alice"
+    ]
+   ]
+  },
+  {
+   "class": 550,
+   "name": "Girl Laharl",
+   "mod": "Girl_Laharl_Outfits",
+   "twin": 16,
+   "outfits": [
+    [
+     145,
+     "Magical Girl"
+    ],
+    [
+     156,
+     "Supreme"
+    ],
+    [
+     230,
+     "Demon Detective"
+    ],
+    [
+     403,
+     "Young Thunderlady"
+    ]
+   ],
+   "left_out": [
+    [
+     103,
+     "New Years: the same drawing as the Attired Girl outfit (480)"
+    ]
+   ]
+  },
+  {
+   "class": 560,
+   "name": "Pleinair",
+   "mod": "DRPG_Outfits_Pleinair",
+   "twin": 51,
+   "outfits": [
+    [
+     148,
+     "Future Warrior"
+    ],
+    [
+     200,
+     "Shadowshark Overlord"
+    ],
+    [
+     257,
+     "Archangel"
+    ],
+    [
+     316,
+     "Formal"
+    ],
+    [
+     384,
+     "Santa"
+    ]
+   ]
+  },
+  {
+   "class": 570,
+   "name": "Valvatorez",
+   "mod": "DRPG_Outfits_Valvatorez",
+   "twin": 3,
+   "outfits": [
+    [
+     75,
+     "Yukata"
+    ],
+    [
+     151,
+     "Formal"
+    ],
+    [
+     169,
+     "Crowned"
+    ],
+    [
+     228,
+     "Nightmare Tyrant"
+    ],
+    [
+     236,
+     "Beach"
+    ],
+    [
+     282,
+     "Odin"
+    ],
+    [
+     331,
+     "Delinquent Teacher"
+    ],
+    [
+     380,
+     "Festive"
+    ],
+    [
+     404,
+     "Nightmare Deity"
+    ]
+   ]
+  },
+  {
+   "class": 580,
+   "name": "Fenrich",
+   "mod": "DRPG_Outfits_Fenrich",
+   "twin": 12,
+   "outfits": [
+    [
+     187,
+     "Summer"
+    ],
+    [
+     247,
+     "Wild"
+    ],
+    [
+     343,
+     "XENO"
+    ]
+   ]
+  },
+  {
+   "class": 590,
+   "name": "Artina",
+   "mod": "DRPG_Outfits_Artina",
+   "twin": 36,
+   "outfits": [
+    [
+     58,
+     "Dark"
+    ],
+    [
+     92,
+     "Halloween"
+    ],
+    [
+     152,
+     "Formal"
+    ],
+    [
+     184,
+     "Beach"
+    ],
+    [
+     218,
+     "XENO"
+    ],
+    [
+     272,
+     "School Outfit"
+    ],
+    [
+     323,
+     "Santa"
+    ],
+    [
+     381,
+     "New Year"
+    ],
+    [
+     412,
+     "Swimsuit XENO"
+    ]
+   ]
+  },
+  {
+   "class": 600,
+   "name": "Fuka",
+   "mod": "DRPG_Outfits_Fuka",
+   "twin": 9,
+   "outfits": [
+    [
+     62,
+     "Gym"
+    ],
+    [
+     73,
+     "XENO"
+    ],
+    [
+     127,
+     "Beach"
+    ],
+    [
+     171,
+     "Survey Corps"
+    ],
+    [
+     264,
+     "Santa"
+    ],
+    [
+     291,
+     "Punk Rock"
+    ],
+    [
+     304,
+     "Volleyball Queen XENO"
+    ],
+    [
+     325,
+     "New Years"
+    ],
+    [
+     362,
+     "Space"
+    ],
+    [
+     390,
+     "Valentine"
+    ]
+   ]
+  },
+  {
+   "class": 620,
+   "name": "Emizel",
+   "mod": "DRPG_Outfits_Emizel",
+   "twin": 14,
+   "outfits": [
+    [
+     120,
+     "XENO"
+    ],
+    [
+     288,
+     "Classic"
+    ]
+   ]
+  },
+  {
+   "class": 630,
+   "name": "Nisa",
+   "mod": "DRPG_Outfits_Nisa",
+   "twin": 153,
+   "outfits": [
+    [
+     207,
+     "Santa"
+    ],
+    [
+     299,
+     "Swimsuit"
+    ],
+    [
+     373,
+     "Formal"
+    ]
+   ]
+  },
+  {
+   "class": 640,
+   "name": "Mao",
+   "mod": "DRPG_Outfits_Mao",
+   "twin": 5,
+   "outfits": [
+    [
+     61,
+     "Easter"
+    ],
+    [
+     90,
+     "XENO"
+    ],
+    [
+     119,
+     "Evil Reborn"
+    ],
+    [
+     190,
+     "Curator"
+    ],
+    [
+     376,
+     "Formal"
+    ]
+   ]
+  },
+  {
+   "class": 660,
+   "name": "Salvatore",
+   "mod": "DRPG_Outfits_Salvatore",
+   "twin": 24,
+   "outfits": [
+    [
+     168,
+     "Maid"
+    ],
+    [
+     217,
+     "Hell Prisoner"
+    ],
+    [
+     265,
+     "New Years"
+    ],
+    [
+     318,
+     "Santa"
+    ],
+    [
+     363,
+     "Guide"
+    ],
+    [
+     411,
+     "Maritime"
+    ]
+   ]
+  },
+  {
+   "class": 670,
+   "name": "Almaz",
+   "mod": "DRPG_Outfits_Almaz",
+   "twin": 22,
+   "outfits": [
+    [
+     177,
+     "Groom"
+    ],
+    [
+     361,
+     "Guide"
+    ]
+   ]
+  },
+  {
+   "class": 680,
+   "name": "Sapphire",
+   "mod": "DRPG_Outfits_Sapphire",
+   "twin": 25,
+   "outfits": [
+    [
+     165,
+     "XENO"
+    ],
+    [
+     178,
+     "Bride"
+    ],
+    [
+     328,
+     "Uniform"
+    ],
+    [
+     409,
+     "Swimsuit"
+    ]
+   ]
+  },
+  {
+   "class": 700,
+   "name": "Adell",
+   "mod": "DRPG_Outfits_Adell",
+   "twin": 4,
+   "outfits": [
+    [
+     101,
+     "Santa"
+    ],
+    [
+     126,
+     "Calamity"
+    ],
+    [
+     166,
+     "Summoner"
+    ],
+    [
+     233,
+     "Transcendent"
+    ]
+   ]
+  },
+  {
+   "class": 710,
+   "name": "Rozalin",
+   "mod": "DRPG_Outfits_Rozalin",
+   "twin": 10,
+   "outfits": [
+    [
+     56,
+     "New Year"
+    ],
+    [
+     102,
+     "Santa"
+    ],
+    [
+     121,
+     "Frostlord"
+    ],
+    [
+     149,
+     "Admiral"
+    ],
+    [
+     180,
+     "Bride"
+    ],
+    [
+     202,
+     "Young"
+    ],
+    [
+     212,
+     "New Year Frostlord"
+    ],
+    [
+     245,
+     "Harvest Moon Frostlord"
+    ],
+    [
+     255,
+     "Holy Angel"
+    ],
+    [
+     292,
+     "Diva"
+    ],
+    [
+     320,
+     "Santa Frostlord"
+    ],
+    [
+     345,
+     "Maid"
+    ],
+    [
+     375,
+     "Formal"
+    ],
+    [
+     388,
+     "Uniform Frostlord"
+    ],
+    [
+     407,
+     "Hero"
+    ]
+   ]
+  },
+  {
+   "class": 720,
+   "name": "Axel",
+   "mod": "DRPG_Outfits_Axel",
+   "twin": 11,
+   "outfits": [
+    [
+     219,
+     "Shinelord"
+    ],
+    [
+     405,
+     "Netherworld President"
+    ]
+   ]
+  },
+  {
+   "class": 740,
+   "name": "Pram",
+   "mod": "DRPG_Outfits_Pram",
+   "twin": 133,
+   "outfits": [
+    [
+     197,
+     "Overlord"
+    ],
+    [
+     213,
+     "Majin"
+    ],
+    [
+     267,
+     "New Years"
+    ],
+    [
+     418,
+     "Swimsuit"
+    ]
+   ]
+  },
+  {
+   "class": 750,
+   "name": "Petta",
+   "mod": "DRPG_Outfits_Petta",
+   "twin": 132,
+   "outfits": [
+    [
+     195,
+     "Atrocious Overlord"
+    ],
+    [
+     414,
+     "Swimsuit"
+    ]
+   ]
+  }
+ ]
+}

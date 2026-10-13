@@ -1,0 +1,65 @@
+{
+ "file": "FlagListDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 20,
+ "key": "id",
+ "display": "label",
+ "desc": "Named game flags (story/system/DLC/charamake...). Only names; flag state lives in the save. Not every used flag has a row (ranges such as FLAG_SKIT_READ_START 8000.. are addressed by offset). Referenced as \"flag:FlagListDataBase.dat\" from EventCg, Ending, viewers, SkitFlagList, Quest, ...",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "flag number (game flag bit index), 0..19701",
+   "confidence": "high"
+  },
+  {
+   "name": "label_len",
+   "offset": 4,
+   "type": "u32",
+   "role": "strlen",
+   "of": "label",
+   "desc": "character count of label (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "label",
+   "offset": 8,
+   "type": "strptr",
+   "desc": "identifier, e.g. FLAG_SCENARIO_01_CLEAR",
+   "confidence": "high"
+  },
+  {
+   "name": "comment_JP_len",
+   "offset": 12,
+   "type": "u32",
+   "role": "strlen",
+   "of": "comment_JP",
+   "desc": "character count of comment_JP (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "comment_JP",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "JP",
+   "desc": "developer comment (JP)",
+   "confidence": "high"
+  }
+ ]
+}

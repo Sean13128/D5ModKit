@@ -1,0 +1,89 @@
+{
+ "file": "Feature.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 448,
+ "key": null,
+ "display": "text_EN",
+ "desc": "Character \"feature\" profile lines (752 x 448): random trivia text shown for units, keyed by (group, variant). 5-language 88-byte text slots.",
+ "fields": [
+  {
+   "name": "group",
+   "offset": 0,
+   "type": "u32",
+   "desc": "profile-line group 0..408 (0-75 contiguous with up to 10 variants, then multiples of 8 with a single variant 2). Not unique alone; (group, variant) is. Which table selects the group is unknown",
+   "confidence": "medium"
+  },
+  {
+   "name": "variant",
+   "offset": 4,
+   "type": "u8",
+   "desc": "variant 0..10 within the group (2 is the common/default one: 416 rows). For groups 0-11 variants 0/1 carry JP text that differs from EN (EN duplicates variant 2)",
+   "confidence": "low"
+  },
+  {
+   "name": "text_JP",
+   "offset": 5,
+   "type": "str",
+   "size": 88,
+   "lang": "JP",
+   "desc": "character profile / trivia line (\"Loves meat.\")",
+   "confidence": "high"
+  },
+  {
+   "name": "text_EN",
+   "offset": 93,
+   "type": "str",
+   "size": 88,
+   "lang": "EN",
+   "desc": "character profile / trivia line (\"Loves meat.\")",
+   "confidence": "high"
+  },
+  {
+   "name": "text_FR",
+   "offset": 181,
+   "type": "str",
+   "size": 88,
+   "lang": "FR",
+   "desc": "character profile / trivia line (\"Loves meat.\")",
+   "confidence": "high"
+  },
+  {
+   "name": "text_CHN",
+   "offset": 269,
+   "type": "str",
+   "size": 88,
+   "lang": "CHN",
+   "desc": "character profile / trivia line (\"Loves meat.\")",
+   "confidence": "high"
+  },
+  {
+   "name": "text_KOR",
+   "offset": 357,
+   "type": "str",
+   "size": 88,
+   "lang": "KOR",
+   "desc": "character profile / trivia line (\"Loves meat.\")",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_1BD",
+   "offset": 445,
+   "type": "bytes",
+   "size": 3,
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

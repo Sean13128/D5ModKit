@@ -1,0 +1,159 @@
+{
+ "file": "TownEditMessageDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 76,
+ "key": "id",
+ "display": "line1_EN",
+ "desc": "Lines spoken by units you assign as facility NPCs in the pocket netherworld (Netherworld Edit), per facility role x personality (x variant). 3 text lines x 5 languages. Pool table.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "row id 0..5319",
+   "confidence": "high"
+  },
+  {
+   "name": "role",
+   "offset": 4,
+   "type": "u32",
+   "desc": "facility / NPC role whose line this is: 0 Dimension Guide, 10 Carnage, 20 Item World, 30 Chara World, 40 equipment, 50 items, 60 Assembly, 70 recruiter, 80 skills, 90 hospital, 100 innocents, 110 cheat, 120/121/122 quests, 130 squads, 140/141 research, 150 netherworld edit, 160/161 alchemy, 170 data, 180 memory, 190/191 interrogation, 200 map edit, 210 deliveries, 220 trophies",
+   "confidence": "medium"
+  },
+  {
+   "name": "personality",
+   "offset": 8,
+   "type": "u32",
+   "ref": "charPersonal.dat",
+   "desc": "speaker personality: 101..126 / 201..221 = charPersonal.dat personality id (u16 at charPersonal +4); 1..80 = other (unique-character) voice ids",
+   "confidence": "medium"
+  },
+  {
+   "name": "situation",
+   "offset": 12,
+   "type": "u32",
+   "desc": "0..2 = message situation/variant (3 variants for 101..221 personalities)",
+   "confidence": "low"
+  },
+  {
+   "name": "line1_JP",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "line1_EN",
+   "offset": 20,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "line1_FR",
+   "offset": 24,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "line1_CHN",
+   "offset": 28,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "line1_KOR",
+   "offset": 32,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_JP",
+   "offset": 36,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_EN",
+   "offset": 40,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_FR",
+   "offset": 44,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_CHN",
+   "offset": 48,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "line2_KOR",
+   "offset": 52,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_JP",
+   "offset": 56,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_EN",
+   "offset": 60,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_FR",
+   "offset": 64,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_CHN",
+   "offset": 68,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "line3_KOR",
+   "offset": 72,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  }
+ ]
+}

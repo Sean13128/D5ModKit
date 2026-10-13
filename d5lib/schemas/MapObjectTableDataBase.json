@@ -1,0 +1,46 @@
+{
+ "file": "MapObjectTableDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 12,
+ "key": "id",
+ "display": "obf_name",
+ "desc": "Map 3D object list (id -> .obf model). Pool layout without strlen field.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "map object id 1000..1059",
+   "confidence": "high"
+  },
+  {
+   "name": "obf_name",
+   "offset": 4,
+   "type": "strptr",
+   "desc": "3D object file stem: Data/Object/Object_*.dat member \"<name>.obf\" (mapobj_00101.., chw00001.. = Chara World)",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_008",
+   "offset": 8,
+   "type": "u32",
+   "desc": "per-object number 450-473 (mapobj_001xx), 500-529 (mapobj_002xx), 300-305 (chw); probably the object/model number referenced by map placement data",
+   "confidence": "low"
+  }
+ ]
+}

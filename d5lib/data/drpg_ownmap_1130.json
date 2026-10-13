@@ -1,0 +1,662 @@
+{
+"-34": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 47,
+"oy": 3,
+"rect": [
+104,
+176
+],
+"part": 1.014,
+"votes": 0.95,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-33": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 48,
+"oy": 5,
+"rect": [
+104,
+176
+],
+"part": 1.023,
+"votes": 0.9,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-32": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 40,
+"oy": 6,
+"rect": [
+112,
+176
+],
+"part": 1.045,
+"votes": 0.88,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-31": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 47,
+"oy": 6,
+"rect": [
+104,
+176
+],
+"part": 1.019,
+"votes": 0.93,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-30": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 47,
+"oy": 6,
+"rect": [
+104,
+176
+],
+"part": 1.024,
+"votes": 0.93,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-29": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 39,
+"oy": 6,
+"rect": [
+112,
+176
+],
+"part": 1.039,
+"votes": 0.89,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-28": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 47,
+"oy": -1,
+"rect": [
+104,
+184
+],
+"part": 1.05,
+"votes": 0.93,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-27": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 47,
+"oy": -1,
+"rect": [
+104,
+184
+],
+"part": 1.044,
+"votes": 0.93,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-26": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 47,
+"oy": -1,
+"rect": [
+104,
+184
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 7.4
+},
+"-25": {
+"region": [
+"back",
+"slot",
+35
+],
+"mirror": 1,
+"k": 0,
+"ox": 6,
+"oy": 20,
+"rect": [
+96,
+160
+],
+"part": 1.15,
+"votes": 0.72,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-24": {
+"region": [
+"back",
+"slot",
+20
+],
+"mirror": 1,
+"k": 0,
+"ox": 12,
+"oy": 20,
+"rect": [
+96,
+160
+],
+"part": 0.923,
+"votes": 0.72,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-23": {
+"region": [
+"back",
+"slot",
+20
+],
+"mirror": 1,
+"k": 0,
+"ox": 12,
+"oy": 21,
+"rect": [
+96,
+160
+],
+"part": 0.911,
+"votes": 0.73,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-22": {
+"region": [
+"front",
+"slot",
+32
+],
+"mirror": 0,
+"k": 0,
+"ox": 19,
+"oy": 19,
+"rect": [
+96,
+160
+],
+"part": 1.076,
+"votes": 0.74,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-21": {
+"region": [
+"back",
+"slot",
+35
+],
+"mirror": 1,
+"k": 0,
+"ox": 5,
+"oy": 23,
+"rect": [
+96,
+160
+],
+"part": 1.117,
+"votes": 0.75,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-20": {
+"region": [
+"back",
+"slot",
+35
+],
+"mirror": 1,
+"k": 0,
+"ox": 5,
+"oy": 24,
+"rect": [
+96,
+160
+],
+"part": 1.141,
+"votes": 0.74,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-19": {
+"region": [
+"front",
+"slot",
+24
+],
+"mirror": 0,
+"k": 0,
+"ox": -4,
+"oy": 19,
+"rect": [
+104,
+152
+],
+"part": 1.134,
+"votes": 0.74,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-18": {
+"region": [
+"front",
+"slot",
+24
+],
+"mirror": 0,
+"k": 0,
+"ox": -1,
+"oy": 18,
+"rect": [
+104,
+152
+],
+"part": 1.117,
+"votes": 0.77,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-17": {
+"region": [
+"front",
+"slot",
+24
+],
+"mirror": 0,
+"k": 0,
+"ox": -3,
+"oy": 20,
+"rect": [
+104,
+152
+],
+"part": 1.111,
+"votes": 0.78,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-16": {
+"region": [
+"front",
+"slot",
+24
+],
+"mirror": 0,
+"k": 0,
+"ox": -4,
+"oy": 21,
+"rect": [
+104,
+152
+],
+"part": 1.096,
+"votes": 0.76,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-15": {
+"region": [
+"front",
+"slot",
+24
+],
+"mirror": 0,
+"k": 0,
+"ox": -4,
+"oy": 19,
+"rect": [
+104,
+152
+],
+"part": 1.098,
+"votes": 0.76,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-14": {
+"region": [
+"front",
+"slot",
+24
+],
+"mirror": 0,
+"k": 0,
+"ox": -6,
+"oy": 19,
+"rect": [
+104,
+152
+],
+"part": 1.126,
+"votes": 0.76,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-12": {
+"region": [
+"wait_back",
+"slot",
+4
+],
+"mirror": 1,
+"k": 0,
+"ox": 23,
+"oy": 7,
+"rect": [
+112,
+176
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 2.8
+},
+"-11": {
+"region": [
+"wait_back",
+"slot",
+2
+],
+"mirror": 1,
+"k": 0,
+"ox": 28,
+"oy": 7,
+"rect": [
+112,
+176
+],
+"part": 0.992,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 2.7
+},
+"-10": {
+"region": [
+"wait_back",
+"slot",
+1
+],
+"mirror": 1,
+"k": 0,
+"ox": 23,
+"oy": 8,
+"rect": [
+112,
+176
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 2.7
+},
+"-9": {
+"region": [
+"wait_back",
+"slot",
+1
+],
+"mirror": 1,
+"k": 0,
+"ox": 27,
+"oy": 9,
+"rect": [
+112,
+176
+],
+"part": 1.006,
+"votes": 0.9,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-8": {
+"region": [
+"wait_back",
+"slot",
+3
+],
+"mirror": 1,
+"k": 0,
+"ox": 25,
+"oy": 8,
+"rect": [
+112,
+176
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 2.9
+},
+"-7": {
+"region": [
+"wait_back",
+"slot",
+0
+],
+"mirror": 1,
+"k": 0,
+"ox": 25,
+"oy": 9,
+"rect": [
+112,
+176
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 2.7
+},
+"-6": {
+"region": [
+"wait_front",
+"slot",
+4
+],
+"mirror": 0,
+"k": 0,
+"ox": 42,
+"oy": 0,
+"rect": [
+112,
+184
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.0
+},
+"-5": {
+"region": [
+"wait_front",
+"slot",
+2
+],
+"mirror": 0,
+"k": 0,
+"ox": 43,
+"oy": 0,
+"rect": [
+104,
+184
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.0
+},
+"-4": {
+"region": [
+"wait_front",
+"slot",
+1
+],
+"mirror": 0,
+"k": 0,
+"ox": 44,
+"oy": 1,
+"rect": [
+104,
+184
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.0
+},
+"-3": {
+"region": [
+"wait_front",
+"slot",
+1
+],
+"mirror": 0,
+"k": 0,
+"ox": 45,
+"oy": 1,
+"rect": [
+104,
+176
+],
+"part": 0.978,
+"votes": 0.89,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-2": {
+"region": [
+"wait_front",
+"slot",
+3
+],
+"mirror": 0,
+"k": 0,
+"ox": 45,
+"oy": 1,
+"rect": [
+104,
+184
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 2.9
+},
+"-1": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 40,
+"oy": 1,
+"rect": [
+112,
+184
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 2.8
+}
+}

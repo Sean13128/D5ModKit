@@ -1,0 +1,37 @@
+{
+ "file": "EffectTableDataBase.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 8,
+ "key": "effect_id",
+ "display": "effect_id",
+ "desc": "List of battle effect models (383 x 8): one row per Start/Effect/effectNNNN.obf file (exact 1:1 match, sorted), plus a percentage parameter.",
+ "fields": [
+  {
+   "name": "effect_id",
+   "offset": 0,
+   "type": "u32",
+   "ref": "effect",
+   "desc": "effect file number: Start_JP/Effect/effect%04d.obf (100..2563)",
+   "confidence": "high"
+  },
+  {
+   "name": "scale",
+   "offset": 4,
+   "type": "u32",
+   "desc": "100 for 354 rows, 110/120/130/140 for 29 (mostly large effects); probably a size/scale or memory-budget percentage",
+   "confidence": "low"
+  }
+ ]
+}

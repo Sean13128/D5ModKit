@@ -1,0 +1,149 @@
+{
+ "file": "BattleEvent.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 60,
+ "key": null,
+ "display": null,
+ "desc": "",
+ "fields": [
+  {
+   "name": "unk_000",
+   "offset": 0,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_004",
+   "offset": 4,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_005",
+   "offset": 5,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_006",
+   "offset": 6,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_008",
+   "offset": 8,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_009",
+   "offset": 9,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_00A",
+   "offset": 10,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_00C",
+   "offset": 12,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_010",
+   "offset": 16,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_014",
+   "offset": 20,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_018",
+   "offset": 24,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_01C",
+   "offset": 28,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_020",
+   "offset": 32,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_024",
+   "offset": 36,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_028",
+   "offset": 40,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_02C",
+   "offset": 44,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_030",
+   "offset": 48,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_034",
+   "offset": 52,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_038",
+   "offset": 56,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_03A",
+   "offset": 58,
+   "type": "u16",
+   "confidence": "low"
+  }
+ ]
+}

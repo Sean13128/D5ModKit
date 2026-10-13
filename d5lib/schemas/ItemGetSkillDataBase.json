@@ -1,0 +1,54 @@
+{
+ "file": "ItemGetSkillDataBase.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 16,
+ "key": "entry_id",
+ "display": "skill_id",
+ "desc": "Skill Shop list (245 x 16): spells and generic evilities that can be bought/learned. kind 2 = magic.dat spell (entries 2000-2046: Fire..Tera, Heal, buffs, debuffs, ailments, Geo), kind 1 = Skill.dat evility (entries 4001-4197, the generic 4000-4324 shop evilities).",
+ "fields": [
+  {
+   "name": "entry_id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "list entry id (2000+n for spells, 4001+n for evilities; equals the evility id up to 4033). Not an item.dat id",
+   "confidence": "medium"
+  },
+  {
+   "name": "kind",
+   "offset": 4,
+   "type": "u32",
+   "enum": {
+    "1": "evility (Skill.dat)",
+    "2": "spell (magic.dat)"
+   },
+   "desc": "what skill_id refers to",
+   "confidence": "high"
+  },
+  {
+   "name": "skill_id",
+   "offset": 8,
+   "type": "u32",
+   "desc": "magic.dat id (kind 2) or Skill.dat id (kind 1)",
+   "confidence": "high"
+  },
+  {
+   "name": "shop_rank",
+   "offset": 12,
+   "type": "u32",
+   "desc": "0..4; tier within a family (Fire 0, Mega 1.. Tera 4; evilities 0-4). Probably shop rank needed to unlock",
+   "confidence": "medium"
+  }
+ ]
+}

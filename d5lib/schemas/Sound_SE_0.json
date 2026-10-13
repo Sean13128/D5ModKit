@@ -1,0 +1,64 @@
+{
+ "file": "Sound_SE_0.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 16,
+ "key": "id",
+ "display": "id",
+ "desc": "Sound effect index (per .vag in Sound_SE_0.dat archive).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "sound effect number: member \"%04d.vag\" of Data/Sound_SE/Sound_SE_0.dat (DSARC FL); all 381 match the archive",
+   "confidence": "high"
+  },
+  {
+   "name": "flag_004",
+   "offset": 4,
+   "type": "u8",
+   "desc": "1 for ids 1-909 (battle/field SE), 0 for 1001-1061 (UI/system?), 0 for 1062+2000-2011",
+   "confidence": "low"
+  },
+  {
+   "name": "loop",
+   "offset": 5,
+   "type": "u8",
+   "desc": "1 for id 1062 and 2000-2011 (long ~10 s ambient sounds) -> probably looping",
+   "confidence": "low"
+  },
+  {
+   "name": "pad_006",
+   "offset": 6,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "high"
+  },
+  {
+   "name": "rate",
+   "offset": 8,
+   "type": "u32",
+   "desc": "sample rate, always 48000 (= .vag header rate)",
+   "confidence": "high"
+  },
+  {
+   "name": "volume",
+   "offset": 12,
+   "type": "u32",
+   "desc": "volume 13..50 (372 rows = 25)",
+   "confidence": "medium"
+  }
+ ]
+}

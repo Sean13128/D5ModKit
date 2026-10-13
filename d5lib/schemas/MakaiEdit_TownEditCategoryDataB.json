@@ -1,0 +1,159 @@
+{
+ "file": "MakaiEdit_TownEditCategoryDataB",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 60,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Pocket netherworld (base) edit: terrain block categories/shapes. Pool table with strlen fields.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "row id 1..92",
+   "confidence": "high"
+  },
+  {
+   "name": "shape_id",
+   "offset": 4,
+   "type": "u32",
+   "desc": "terrain shape id (1..56, 1001..1052, 2001..2013); = id for the NxM blocks",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_008",
+   "offset": 8,
+   "type": "u32",
+   "desc": "0/1 (1 for many 1000-series shapes)",
+   "confidence": "low"
+  },
+  {
+   "name": "name_JP_len",
+   "offset": 12,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_JP",
+   "desc": "character count of name_JP (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "JP",
+   "desc": "shape name (1x1..8x8, Square, Stairs, ...); preceded by its strlen field",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN_len",
+   "offset": 20,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_EN",
+   "desc": "character count of name_EN (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 24,
+   "type": "strptr",
+   "lang": "EN",
+   "desc": "shape name (1x1..8x8, Square, Stairs, ...); preceded by its strlen field",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR_len",
+   "offset": 28,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_FR",
+   "desc": "character count of name_FR (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 32,
+   "type": "strptr",
+   "lang": "FR",
+   "desc": "shape name (1x1..8x8, Square, Stairs, ...); preceded by its strlen field",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN_len",
+   "offset": 36,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_CHN",
+   "desc": "character count of name_CHN (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 40,
+   "type": "strptr",
+   "lang": "CHN",
+   "desc": "shape name (1x1..8x8, Square, Stairs, ...); preceded by its strlen field",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR_len",
+   "offset": 44,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_KOR",
+   "desc": "character count of name_KOR (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 48,
+   "type": "strptr",
+   "lang": "KOR",
+   "desc": "shape name (1x1..8x8, Square, Stairs, ...); preceded by its strlen field",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_034",
+   "offset": 52,
+   "type": "u32",
+   "desc": "6200..6292 (+53 once), unique per row; object/model id or unlock flag",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_038",
+   "offset": 56,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_03A",
+   "offset": 58,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_03B",
+   "offset": 59,
+   "type": "u8",
+   "desc": "1 for 78 rows, 0 for special shapes (EX, Oval, Hourglass, Bridge...); available by default?",
+   "confidence": "low"
+  }
+ ]
+}

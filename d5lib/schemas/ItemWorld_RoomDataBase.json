@@ -1,0 +1,101 @@
+{
+ "file": "ItemWorld_RoomDataBase.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 44,
+ "key": "id",
+ "display": "id",
+ "desc": "Item World secret/small rooms (小部屋): room id -> map file, two map positions and the room flag.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "room id (1..11, 51..62, 151, 152, 1000); referenced by ItemWorld_Room_CharDataDataBase.room_id",
+   "confidence": "high"
+  },
+  {
+   "name": "map",
+   "offset": 4,
+   "type": "i32",
+   "desc": "map file number (map40001 ... map40152 exist in Map_JP); -1 for id 1000",
+   "confidence": "high",
+   "ref": "map"
+  },
+  {
+   "name": "map2",
+   "offset": 8,
+   "type": "i32",
+   "desc": "always -1 (alternative map slot?)",
+   "confidence": "low"
+  },
+  {
+   "name": "map3",
+   "offset": 12,
+   "type": "i32",
+   "desc": "always -1 (alternative map slot?)",
+   "confidence": "low"
+  },
+  {
+   "name": "pos1_x",
+   "offset": 16,
+   "type": "i32",
+   "desc": "map position 1 x (entry?)",
+   "confidence": "low"
+  },
+  {
+   "name": "pos1_y",
+   "offset": 20,
+   "type": "i32",
+   "desc": "map position 1 y",
+   "confidence": "low"
+  },
+  {
+   "name": "pos1_dir",
+   "offset": 24,
+   "type": "i32",
+   "desc": "facing angle (0/180)",
+   "confidence": "low"
+  },
+  {
+   "name": "pos2_x",
+   "offset": 28,
+   "type": "i32",
+   "desc": "map position 2 x (exit?)",
+   "confidence": "low"
+  },
+  {
+   "name": "pos2_y",
+   "offset": 32,
+   "type": "i32",
+   "desc": "map position 2 y",
+   "confidence": "low"
+  },
+  {
+   "name": "pos2_dir",
+   "offset": 36,
+   "type": "i32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "flag",
+   "offset": 40,
+   "type": "u32",
+   "desc": "FlagListDataBase id '小部屋番号N' (small-room number flag, 15300+); 0 for id 1000",
+   "confidence": "high",
+   "ref": "flag:FlagListDataBase.dat"
+  }
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "file": "DemoCheckDataBase.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 12,
+ "key": "id",
+ "display": "id",
+ "desc": "Demo pairing / check table (160 rows).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "demo/event id (mostly = EventViewer ids 101..2903, plus 4001, 5001)",
+   "confidence": "medium"
+  },
+  {
+   "name": "has_link",
+   "offset": 4,
+   "type": "u32",
+   "desc": "1 = linked_event valid (106 rows), 0 = none",
+   "confidence": "medium"
+  },
+  {
+   "name": "linked_event",
+   "offset": 8,
+   "type": "u32",
+   "desc": "another event number (usually id+3 within a chapter, e.g. 101->104; DLC 2301->1811 = event no. of the next chapter); meaning unclear (demo that must have been seen / continues into)",
+   "confidence": "low"
+  }
+ ]
+}

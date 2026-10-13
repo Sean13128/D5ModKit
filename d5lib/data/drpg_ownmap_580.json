@@ -1,0 +1,2446 @@
+{
+"-30": {
+"region": [
+"wait_back",
+"slot",
+2
+],
+"mirror": 1,
+"k": 0,
+"ox": 18,
+"oy": 38,
+"rect": [
+120,
+144
+],
+"part": 0.998,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"-29": {
+"region": [
+"wait_back",
+"slot",
+4
+],
+"mirror": 1,
+"k": 0,
+"ox": 20,
+"oy": 35,
+"rect": [
+112,
+144
+],
+"part": 0.999,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.1
+},
+"-28": {
+"region": [
+"wait_back",
+"slot",
+1
+],
+"mirror": 1,
+"k": 0,
+"ox": 23,
+"oy": 30,
+"rect": [
+112,
+152
+],
+"part": 0.999,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.1
+},
+"-27": {
+"region": [
+"wait_back",
+"slot",
+4
+],
+"mirror": 1,
+"k": 0,
+"ox": 23,
+"oy": 35,
+"rect": [
+112,
+144
+],
+"part": 0.995,
+"votes": 0.93,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-26": {
+"region": [
+"wait_back",
+"slot",
+3
+],
+"mirror": 1,
+"k": 0,
+"ox": 24,
+"oy": 37,
+"rect": [
+112,
+144
+],
+"part": 0.999,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.1
+},
+"-25": {
+"region": [
+"wait_back",
+"slot",
+0
+],
+"mirror": 1,
+"k": 0,
+"ox": 20,
+"oy": 37,
+"rect": [
+120,
+144
+],
+"part": 0.999,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.9
+},
+"-24": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+24,
+48
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.243
+},
+"-23": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+24,
+48
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.248
+},
+"-22": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+24,
+48
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.233
+},
+"-21": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+24,
+48
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.259
+},
+"-20": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+24,
+40
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.263
+},
+"-19": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+24,
+40
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.259
+},
+"-18": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+24,
+32
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.226
+},
+"-17": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+24,
+32
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.215
+},
+"-16": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+32,
+32
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.214
+},
+"-15": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+32,
+32
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.225
+},
+"-14": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+24,
+32
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.221
+},
+"-13": {
+"region": [
+"keep",
+"keep",
+0
+],
+"keep": true,
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+32,
+32
+],
+"part": 1.0,
+"votes": 0.0,
+"exact": 0,
+"twins": 0,
+"err": null,
+"colours": 0.233
+},
+"-12": {
+"region": [
+"front",
+"loose",
+116119
+],
+"mirror": 0,
+"k": 2,
+"ox": 907,
+"oy": 924,
+"rect": [
+40,
+64
+],
+"part": 2.131,
+"votes": 0.47,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-11": {
+"region": [
+"front",
+"loose",
+116119
+],
+"mirror": 0,
+"k": 2,
+"ox": 907,
+"oy": 926,
+"rect": [
+40,
+64
+],
+"part": 2.186,
+"votes": 0.46,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-10": {
+"region": [
+"front",
+"loose",
+116119
+],
+"mirror": 0,
+"k": 2,
+"ox": 907,
+"oy": 924,
+"rect": [
+40,
+64
+],
+"part": 2.221,
+"votes": 0.45,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-9": {
+"region": [
+"front",
+"loose",
+116119
+],
+"mirror": 0,
+"k": 0,
+"ox": 922,
+"oy": 930,
+"rect": [
+40,
+64
+],
+"part": 2.481,
+"votes": 0.4,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-8": {
+"region": [
+"front",
+"loose",
+116119
+],
+"mirror": 0,
+"k": 2,
+"ox": 907,
+"oy": 929,
+"rect": [
+40,
+56
+],
+"part": 1.916,
+"votes": 0.52,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-7": {
+"region": [
+"front",
+"loose",
+116119
+],
+"mirror": 0,
+"k": 2,
+"ox": 907,
+"oy": 929,
+"rect": [
+40,
+56
+],
+"part": 1.954,
+"votes": 0.51,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-6": {
+"region": [
+"wait_front",
+"slot",
+4
+],
+"mirror": 0,
+"k": 0,
+"ox": 9,
+"oy": 39,
+"rect": [
+120,
+144
+],
+"part": 0.864,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.9
+},
+"-5": {
+"region": [
+"wait_front",
+"slot",
+2
+],
+"mirror": 0,
+"k": 0,
+"ox": 5,
+"oy": 35,
+"rect": [
+120,
+144
+],
+"part": 0.869,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.4
+},
+"-4": {
+"region": [
+"wait_front",
+"slot",
+1
+],
+"mirror": 0,
+"k": 0,
+"ox": 12,
+"oy": 38,
+"rect": [
+112,
+144
+],
+"part": 0.889,
+"votes": 0.77,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-3": {
+"region": [
+"wait_front",
+"slot",
+1
+],
+"mirror": 0,
+"k": 0,
+"ox": 7,
+"oy": 39,
+"rect": [
+120,
+144
+],
+"part": 0.876,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 6.0
+},
+"-2": {
+"region": [
+"wait_front",
+"slot",
+3
+],
+"mirror": 0,
+"k": 0,
+"ox": 7,
+"oy": 39,
+"rect": [
+120,
+144
+],
+"part": 0.869,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.4
+},
+"-1": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 7,
+"oy": 39,
+"rect": [
+120,
+144
+],
+"part": 0.87,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.9
+},
+"2": {
+"region": [
+"front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+192
+],
+"part": 0.926,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.9
+},
+"4": {
+"region": [
+"back",
+"slot",
+0
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+192
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"5": {
+"region": [
+"front",
+"slot",
+1
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 3,
+"rect": [
+112,
+192
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.1
+},
+"6": {
+"region": [
+"front",
+"slot",
+2
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 4,
+"rect": [
+120,
+192
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.1
+},
+"7": {
+"region": [
+"front",
+"slot",
+3
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 4,
+"rect": [
+120,
+192
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.0
+},
+"8": {
+"region": [
+"front",
+"slot",
+4
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 2,
+"rect": [
+112,
+192
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.0
+},
+"9": {
+"region": [
+"front",
+"slot",
+5
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 4,
+"rect": [
+120,
+192
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.2
+},
+"10": {
+"region": [
+"front",
+"slot",
+6
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 3,
+"rect": [
+120,
+192
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.2
+},
+"11": {
+"region": [
+"back",
+"slot",
+1
+],
+"mirror": 1,
+"k": 0,
+"ox": -2,
+"oy": -2,
+"rect": [
+96,
+184
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.3
+},
+"12": {
+"region": [
+"back",
+"slot",
+2
+],
+"mirror": 1,
+"k": 0,
+"ox": -2,
+"oy": 0,
+"rect": [
+112,
+184
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.1
+},
+"13": {
+"region": [
+"back",
+"slot",
+3
+],
+"mirror": 1,
+"k": 0,
+"ox": -1,
+"oy": 2,
+"rect": [
+120,
+192
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"14": {
+"region": [
+"back",
+"slot",
+4
+],
+"mirror": 1,
+"k": 0,
+"ox": -2,
+"oy": -2,
+"rect": [
+104,
+184
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"15": {
+"region": [
+"back",
+"slot",
+5
+],
+"mirror": 1,
+"k": 0,
+"ox": -1,
+"oy": 0,
+"rect": [
+104,
+184
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.9
+},
+"16": {
+"region": [
+"back",
+"slot",
+6
+],
+"mirror": 1,
+"k": 0,
+"ox": -1,
+"oy": 2,
+"rect": [
+104,
+184
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"18": {
+"region": [
+"front",
+"slot",
+44
+],
+"mirror": 0,
+"k": 0,
+"ox": 2,
+"oy": -1,
+"rect": [
+120,
+192
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.2
+},
+"19": {
+"region": [
+"front",
+"slot",
+27
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+144,
+168
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.7
+},
+"22": {
+"region": [
+"back",
+"slot",
+39
+],
+"mirror": 1,
+"k": 0,
+"ox": -1,
+"oy": -1,
+"rect": [
+120,
+192
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"23": {
+"region": [
+"back",
+"slot",
+26
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+144,
+160
+],
+"part": 0.99,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.7
+},
+"25": {
+"region": [
+"front",
+"slot",
+45
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+112,
+168
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.7
+},
+"26": {
+"region": [
+"back",
+"slot",
+40
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+112,
+168
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"27": {
+"region": [
+"front",
+"slot",
+47
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+112,
+176
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.1
+},
+"28": {
+"region": [
+"back",
+"slot",
+42
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 3,
+"rect": [
+104,
+192
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.1
+},
+"29": {
+"region": [
+"front",
+"slot",
+26
+],
+"mirror": 0,
+"k": 0,
+"ox": 5,
+"oy": 1,
+"rect": [
+112,
+72
+],
+"part": 1.005,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.5
+},
+"30": {
+"region": [
+"front",
+"slot",
+25
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+112,
+176
+],
+"part": 0.998,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.9
+},
+"31": {
+"region": [
+"back",
+"slot",
+25
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+112,
+176
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"32": {
+"region": [
+"front",
+"slot",
+38
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+200
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.8
+},
+"33": {
+"region": [
+"back",
+"slot",
+33
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+128,
+192
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.9
+},
+"34": {
+"region": [
+"front",
+"slot",
+32
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+176
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.2
+},
+"37": {
+"region": [
+"front",
+"slot",
+46
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+112,
+200
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.7
+},
+"38": {
+"region": [
+"back",
+"slot",
+29
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+112,
+168
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.3
+},
+"41": {
+"region": [
+"back",
+"slot",
+41
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+200
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.9
+},
+"44": {
+"region": [
+"front",
+"slot",
+13
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+184
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.9
+},
+"45": {
+"region": [
+"front",
+"slot",
+14
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+128,
+176
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.7
+},
+"46": {
+"region": [
+"front",
+"slot",
+15
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+128,
+176
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.7
+},
+"48": {
+"region": [
+"back",
+"slot",
+13
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+176
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.4
+},
+"49": {
+"region": [
+"back",
+"slot",
+14
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+128,
+176
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"50": {
+"region": [
+"back",
+"slot",
+15
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+128,
+176
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.9
+},
+"54": {
+"region": [
+"front",
+"slot",
+22
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+112,
+184
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.8
+},
+"55": {
+"region": [
+"front",
+"slot",
+23
+],
+"mirror": 0,
+"k": 0,
+"ox": -1,
+"oy": -2,
+"rect": [
+104,
+176
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.2
+},
+"56": {
+"region": [
+"front",
+"slot",
+24
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -3,
+"rect": [
+104,
+176
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.0
+},
+"60": {
+"region": [
+"back",
+"slot",
+22
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+128,
+176
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.9
+},
+"61": {
+"region": [
+"back",
+"slot",
+23
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 2,
+"rect": [
+112,
+176
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.1
+},
+"62": {
+"region": [
+"back",
+"slot",
+24
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 2,
+"rect": [
+112,
+176
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.1
+},
+"64": {
+"region": [
+"front",
+"slot",
+19
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+96,
+192
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.8
+},
+"65": {
+"region": [
+"front",
+"slot",
+20
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+104,
+176
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.1
+},
+"66": {
+"region": [
+"front",
+"slot",
+21
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+104,
+176
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.1
+},
+"68": {
+"region": [
+"back",
+"slot",
+19
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -2,
+"rect": [
+112,
+184
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"69": {
+"region": [
+"back",
+"slot",
+20
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+184
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.3
+},
+"70": {
+"region": [
+"back",
+"slot",
+21
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -2,
+"rect": [
+120,
+184
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.5
+},
+"72": {
+"region": [
+"front",
+"slot",
+7
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+96,
+184
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.2
+},
+"73": {
+"region": [
+"front",
+"slot",
+8
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+104,
+184
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.2
+},
+"74": {
+"region": [
+"front",
+"slot",
+9
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+104,
+184
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.0
+},
+"76": {
+"region": [
+"back",
+"slot",
+7
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 1,
+"rect": [
+112,
+200
+],
+"part": 0.992,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"77": {
+"region": [
+"back",
+"slot",
+8
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 1,
+"rect": [
+112,
+200
+],
+"part": 0.992,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"78": {
+"region": [
+"back",
+"slot",
+9
+],
+"mirror": 1,
+"k": 0,
+"ox": 1,
+"oy": 0,
+"rect": [
+112,
+200
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"80": {
+"region": [
+"front",
+"slot",
+16
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 1,
+"rect": [
+112,
+176
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.3
+},
+"81": {
+"region": [
+"front",
+"slot",
+17
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 1,
+"rect": [
+128,
+176
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.0
+},
+"82": {
+"region": [
+"front",
+"slot",
+18
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 1,
+"rect": [
+112,
+176
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.3
+},
+"84": {
+"region": [
+"back",
+"slot",
+16
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+184
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.8
+},
+"85": {
+"region": [
+"back",
+"slot",
+17
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -2,
+"rect": [
+120,
+184
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.3
+},
+"86": {
+"region": [
+"back",
+"slot",
+18
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+184
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.9
+},
+"90": {
+"region": [
+"front",
+"slot",
+10
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+176
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.6
+},
+"91": {
+"region": [
+"front",
+"slot",
+11
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+144,
+168
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.7
+},
+"92": {
+"region": [
+"front",
+"slot",
+12
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+144,
+168
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.8
+},
+"94": {
+"region": [
+"back",
+"slot",
+10
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+120,
+168
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.4
+},
+"95": {
+"region": [
+"back",
+"slot",
+11
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+136,
+168
+],
+"part": 0.998,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"96": {
+"region": [
+"back",
+"slot",
+12
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": -1,
+"rect": [
+136,
+168
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"98": {
+"region": [
+"front",
+"slot",
+33
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+112,
+184
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.6
+},
+"100": {
+"region": [
+"back",
+"slot",
+30
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+112,
+184
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.9
+},
+"101": {
+"region": [
+"front",
+"slot",
+36
+],
+"mirror": 0,
+"k": 0,
+"ox": -2,
+"oy": 0,
+"rect": [
+48,
+56
+],
+"part": 1.0,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"102": {
+"region": [
+"front",
+"slot",
+37
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+56,
+56
+],
+"part": 0.982,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"103": {
+"region": [
+"front",
+"slot",
+34
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+104,
+184
+],
+"part": 0.993,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.9
+},
+"104": {
+"region": [
+"front",
+"slot",
+35
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+104,
+184
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.8
+},
+"107": {
+"region": [
+"back",
+"loose",
+18124
+],
+"mirror": 1,
+"k": 0,
+"ox": 128,
+"oy": 972,
+"rect": [
+48,
+56
+],
+"part": 1.0,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.0
+},
+"108": {
+"region": [
+"back",
+"loose",
+25124
+],
+"mirror": 1,
+"k": 0,
+"ox": 178,
+"oy": 974,
+"rect": [
+48,
+56
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 5.4
+},
+"109": {
+"region": [
+"back",
+"slot",
+31
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+120,
+192
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.8
+},
+"110": {
+"region": [
+"back",
+"slot",
+32
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+120,
+192
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.5
+},
+"112": {
+"region": [
+"front",
+"slot",
+30
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+128,
+176
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.6
+},
+"113": {
+"region": [
+"back",
+"slot",
+28
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+128,
+176
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.1
+},
+"114": {
+"region": [
+"front",
+"slot",
+29
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+120,
+176
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.7
+},
+"115": {
+"region": [
+"back",
+"slot",
+27
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+128,
+176
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.8
+},
+"116": {
+"region": [
+"front",
+"slot",
+43
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+48,
+56
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.4
+},
+"117": {
+"region": [
+"front",
+"slot",
+40
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+120,
+160
+],
+"part": 0.999,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.3
+},
+"118": {
+"region": [
+"front",
+"slot",
+41
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+128,
+144
+],
+"part": 0.998,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 3.7
+},
+"119": {
+"region": [
+"front",
+"slot",
+42
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+128,
+120
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.8
+},
+"120": {
+"region": [
+"back",
+"slot",
+38
+],
+"mirror": 1,
+"k": 0,
+"ox": 2,
+"oy": 1,
+"rect": [
+48,
+56
+],
+"part": 0.957,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.1
+},
+"121": {
+"region": [
+"back",
+"slot",
+35
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+112,
+152
+],
+"part": 0.996,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.3
+},
+"122": {
+"region": [
+"back",
+"slot",
+36
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+128,
+120
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.7
+},
+"123": {
+"region": [
+"back",
+"slot",
+37
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+136,
+136
+],
+"part": 0.998,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.9
+},
+"126": {
+"region": [
+"front",
+"slot",
+39
+],
+"mirror": 0,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+128,
+144
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"128": {
+"region": [
+"back",
+"slot",
+34
+],
+"mirror": 1,
+"k": 0,
+"ox": 0,
+"oy": 0,
+"rect": [
+128,
+144
+],
+"part": 0.998,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.8
+}
+}

@@ -1,0 +1,549 @@
+{
+ "file": "CheatShopInformation.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 4304,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Cheat Shop entries (24 rows): name, 2 summary lines (desc1/desc2) and up to 10 explanation lines, all 5-language fixed UTF-8 slots. Contains no numeric cheat parameters (ranges/steps are hard-coded).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "cheat id 1..25 (11 unused)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 44,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 48,
+   "type": "str",
+   "size": 44,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 92,
+   "type": "str",
+   "size": 44,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 136,
+   "type": "str",
+   "size": 44,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 180,
+   "type": "str",
+   "size": 44,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_JP",
+   "offset": 224,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_EN",
+   "offset": 292,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_FR",
+   "offset": 360,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_CHN",
+   "offset": 428,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_KOR",
+   "offset": 496,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_JP",
+   "offset": 564,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_EN",
+   "offset": 632,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_FR",
+   "offset": 700,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_CHN",
+   "offset": 768,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_KOR",
+   "offset": 836,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl1_JP",
+   "offset": 904,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl1_EN",
+   "offset": 972,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl1_FR",
+   "offset": 1040,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl1_CHN",
+   "offset": 1108,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl1_KOR",
+   "offset": 1176,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl2_JP",
+   "offset": 1244,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl2_EN",
+   "offset": 1312,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl2_FR",
+   "offset": 1380,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl2_CHN",
+   "offset": 1448,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl2_KOR",
+   "offset": 1516,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl3_JP",
+   "offset": 1584,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl3_EN",
+   "offset": 1652,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl3_FR",
+   "offset": 1720,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl3_CHN",
+   "offset": 1788,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl3_KOR",
+   "offset": 1856,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl4_JP",
+   "offset": 1924,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl4_EN",
+   "offset": 1992,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl4_FR",
+   "offset": 2060,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl4_CHN",
+   "offset": 2128,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl4_KOR",
+   "offset": 2196,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl5_JP",
+   "offset": 2264,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl5_EN",
+   "offset": 2332,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl5_FR",
+   "offset": 2400,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl5_CHN",
+   "offset": 2468,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl5_KOR",
+   "offset": 2536,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl6_JP",
+   "offset": 2604,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl6_EN",
+   "offset": 2672,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl6_FR",
+   "offset": 2740,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl6_CHN",
+   "offset": 2808,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl6_KOR",
+   "offset": 2876,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl7_JP",
+   "offset": 2944,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl7_EN",
+   "offset": 3012,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl7_FR",
+   "offset": 3080,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl7_CHN",
+   "offset": 3148,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl7_KOR",
+   "offset": 3216,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl8_JP",
+   "offset": 3284,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl8_EN",
+   "offset": 3352,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl8_FR",
+   "offset": 3420,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl8_CHN",
+   "offset": 3488,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl8_KOR",
+   "offset": 3556,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl9_JP",
+   "offset": 3624,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl9_EN",
+   "offset": 3692,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl9_FR",
+   "offset": 3760,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl9_CHN",
+   "offset": 3828,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl9_KOR",
+   "offset": 3896,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl10_JP",
+   "offset": 3964,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "expl10_EN",
+   "offset": 4032,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl10_FR",
+   "offset": 4100,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "expl10_CHN",
+   "offset": 4168,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "expl10_KOR",
+   "offset": 4236,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  }
+ ]
+}

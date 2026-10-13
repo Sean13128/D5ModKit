@@ -1,0 +1,129 @@
+{
+ "file": "TownEtcCenter.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 52,
+ "key": "id",
+ "display": null,
+ "desc": "Misc interactive objects placed in the pocket netherworld base (13 rows): position, message id, flag window.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "object id 1..13",
+   "confidence": "high"
+  },
+  {
+   "name": "pos_x",
+   "offset": 4,
+   "type": "u32",
+   "desc": "x position on the base map",
+   "confidence": "medium"
+  },
+  {
+   "name": "pos_y",
+   "offset": 8,
+   "type": "u32",
+   "desc": "y position on the base map",
+   "confidence": "medium"
+  },
+  {
+   "name": "pos_z",
+   "offset": 12,
+   "type": "i32",
+   "desc": "-159..-42; height or angle",
+   "confidence": "low"
+  },
+  {
+   "name": "msg_id",
+   "offset": 16,
+   "type": "u32",
+   "desc": "7000000 + 50*n: talk/event message id",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_014",
+   "offset": 20,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "obj_type",
+   "offset": 24,
+   "type": "u32",
+   "desc": "7/10/12/14 object/model type",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_01C",
+   "offset": 28,
+   "type": "u32",
+   "desc": "1/10/1000/1111",
+   "confidence": "low"
+  },
+  {
+   "name": "show_flag",
+   "offset": 32,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "object shown when flag ON (used when show_enabled)",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_024",
+   "offset": 36,
+   "type": "u32",
+   "desc": "always 0 (second show flag?)",
+   "confidence": "low"
+  },
+  {
+   "name": "hide_flag",
+   "offset": 40,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "object hidden when flag ON (used when hide_enabled)",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_02C",
+   "offset": 44,
+   "type": "u32",
+   "desc": "always 0 (second hide flag?)",
+   "confidence": "low"
+  },
+  {
+   "name": "show_enabled",
+   "offset": 48,
+   "type": "u8",
+   "desc": "1 = show_flag is checked",
+   "confidence": "medium"
+  },
+  {
+   "name": "hide_enabled",
+   "offset": 49,
+   "type": "u8",
+   "desc": "1 = hide_flag is checked",
+   "confidence": "medium"
+  },
+  {
+   "name": "pad_032",
+   "offset": 50,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "low"
+  }
+ ]
+}

@@ -1,0 +1,324 @@
+{
+ "file": "dungeon.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 336,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Stages/maps (story stages, challenge/carnage stages, post-game/DLC scenario maps, Trials, hubs, Item World rooms). map_id selects Map/map%05d (.hex/.chr/.gop/.obf) - enemies/geo panels are in the map files, not here. Netherworld text (WorldMapHelpDataBase id 1000+N) corresponds to map_id//100-1 (40xx -> 1029). Quest.unlock_stage refers to stage_key; Quest cond_type 4 targets and QuestEnemy.map refer to map_id; talk.dat entry ids are map ids.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "row id = row index 0..222",
+   "confidence": "high"
+  },
+  {
+   "name": "map_id",
+   "offset": 4,
+   "type": "u32",
+   "ref": "map",
+   "desc": "map file number: _extracted/Map/Map_JP/map%05d (verified 214/223 exist; 80001 Reward Room, 90001 Unique Dungeon (random), demo/dummy maps missing). Stage number convention: episode*100+stage (101..1607), 17xx-29xx post-game/DLC, 21xx trials, 30xxx hub halls, 40xxx Item World rooms, 50001 Innocent Farm",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_008",
+   "offset": 8,
+   "type": "u32",
+   "desc": "0 for challenge/carnage/post-game/hub maps; story stages have values like 103,205,603,704,1204,1701..1705,1801..1810 (1801-1806 on each episode final stage, 1806-1810 on the five Trials), 1811 on all \"(Demo)\" maps, 3001 when unk_00C is set; looks like an event/scene id (not a BGM file, not a FlagList id, not a talk.dat id)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_00C",
+   "offset": 12,
+   "type": "u32",
+   "desc": "non-zero only when unk_008==3001: 14xxx (14000=FLAG_FACILITY_ITEMWORLD, 14001 GROUP, 14008 ASSEMBLY, 14009 QUEST_SHOP, 14010 SKILL, 14053/14063/14065/14067 *_READ flags) or 22015..22031; probably a flag/tutorial id triggered at this stage",
+   "confidence": "low"
+  },
+  {
+   "name": "weather_effect",
+   "offset": 16,
+   "type": "u32",
+   "ref": "EffectTableDataBase.dat",
+   "desc": "ambient map effect id = effect%04d.obf / EffectTableDataBase id (2000 poison (Poison Beach), 2001 spores (Demunshroom), 1003 snow (Icic-Hell), 1000/1002 heat, 1004 wind, 2002 ghosts ...); 0 = none",
+   "confidence": "high"
+  },
+  {
+   "name": "episode",
+   "offset": 20,
+   "type": "u16",
+   "desc": "0-based story episode (0 = Ep.1 ... 15 = finale), 16 = post-game/DLC, 17 = Trials, 65535 = not a battle map (hubs, Item World rooms)",
+   "confidence": "high"
+  },
+  {
+   "name": "stage_key",
+   "offset": 22,
+   "type": "u16",
+   "desc": "stage id used by Quest.unlock_stage (5000+episode*10+stage: 5011..5402, 4099 test map); 0 for demo/hub maps",
+   "confidence": "high"
+  },
+  {
+   "name": "stage_rank",
+   "offset": 24,
+   "type": "u16",
+   "desc": "1..37 difficulty tier, rises ~every 2 story stages (Ep1 1-2 ... Ep15 31-33, post-game 33-36, Baal 37); challenge stages 24-34. Possibly indexes Enemy_Parameters_TableDataBase group 1 (ids 1..40) / drop item rank",
+   "confidence": "medium"
+  },
+  {
+   "name": "camera_angle",
+   "offset": 26,
+   "type": "u16",
+   "desc": "initial camera yaw in degrees (315 default, 225 Trials, 45 \"Researching Love\", 0 hubs)",
+   "confidence": "high"
+  },
+  {
+   "name": "is_story_stage",
+   "offset": 28,
+   "type": "u8",
+   "desc": "1 = regular stage (story / post-game), 0 = challenge/carnage/demo/test/hub",
+   "confidence": "medium"
+  },
+  {
+   "name": "stage_type",
+   "offset": 29,
+   "type": "u8",
+   "enum": {
+    "0": "normal",
+    "1": "extra/challenge",
+    "2": "carnage"
+   },
+   "desc": "0 normal, 1 extra (challenge stages, overlord fights, post-game), 2 carnage (Carnage stages, Song of Calamity)",
+   "confidence": "medium"
+  },
+  {
+   "name": "point1_x",
+   "offset": 30,
+   "type": "u8",
+   "desc": "coordinate-like byte, 255 = unused (set on 9 stages only: 106,502,703,1003,1005,1303,1501,1506); pairs with point1_y",
+   "confidence": "low"
+  },
+  {
+   "name": "point2_x",
+   "offset": 31,
+   "type": "u8",
+   "desc": "coordinate-like byte, 255 = unused (set on 9 stages only: 106,502,703,1003,1005,1303,1501,1506); pairs with point2_y",
+   "confidence": "low"
+  },
+  {
+   "name": "point3_x",
+   "offset": 32,
+   "type": "u8",
+   "desc": "coordinate-like byte, 255 = unused (set on 9 stages only: 106,502,703,1003,1005,1303,1501,1506); pairs with point3_y",
+   "confidence": "low"
+  },
+  {
+   "name": "point4_x",
+   "offset": 33,
+   "type": "u8",
+   "desc": "coordinate-like byte, 255 = unused (set on 9 stages only: 106,502,703,1003,1005,1303,1501,1506); pairs with point4_y",
+   "confidence": "low"
+  },
+  {
+   "name": "point1_y",
+   "offset": 34,
+   "type": "u8",
+   "desc": "see point1_x",
+   "confidence": "low"
+  },
+  {
+   "name": "point2_y",
+   "offset": 35,
+   "type": "u8",
+   "desc": "see point2_x",
+   "confidence": "low"
+  },
+  {
+   "name": "point3_y",
+   "offset": 36,
+   "type": "u8",
+   "desc": "see point3_x",
+   "confidence": "low"
+  },
+  {
+   "name": "point4_y",
+   "offset": 37,
+   "type": "u8",
+   "desc": "see point4_x",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_026",
+   "offset": 38,
+   "type": "u16",
+   "desc": "byte pair usually identical (e.g. a0a0,0000,c8c8,0000,7878,0000 for Ep1); constant per netherworld -> probably lighting/colour parameters",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_028",
+   "offset": 40,
+   "type": "u16",
+   "desc": "byte pair usually identical (e.g. a0a0,0000,c8c8,0000,7878,0000 for Ep1); constant per netherworld -> probably lighting/colour parameters",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_02A",
+   "offset": 42,
+   "type": "u16",
+   "desc": "byte pair usually identical (e.g. a0a0,0000,c8c8,0000,7878,0000 for Ep1); constant per netherworld -> probably lighting/colour parameters",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_02C",
+   "offset": 44,
+   "type": "u16",
+   "desc": "byte pair usually identical (e.g. a0a0,0000,c8c8,0000,7878,0000 for Ep1); constant per netherworld -> probably lighting/colour parameters",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_02E",
+   "offset": 46,
+   "type": "u16",
+   "desc": "byte pair usually identical (e.g. a0a0,0000,c8c8,0000,7878,0000 for Ep1); constant per netherworld -> probably lighting/colour parameters",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_030",
+   "offset": 48,
+   "type": "u16",
+   "desc": "byte pair usually identical (e.g. a0a0,0000,c8c8,0000,7878,0000 for Ep1); constant per netherworld -> probably lighting/colour parameters",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_032",
+   "offset": 50,
+   "type": "u16",
+   "desc": "always 0xFFFF",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_034",
+   "offset": 52,
+   "type": "u16",
+   "desc": "always 0xFFFF",
+   "confidence": "low"
+  },
+  {
+   "name": "base_x",
+   "offset": 54,
+   "type": "u8",
+   "desc": "0..24; small coordinate, plausibly base panel X",
+   "confidence": "low"
+  },
+  {
+   "name": "base_y",
+   "offset": 55,
+   "type": "u8",
+   "desc": "0..27; plausibly base panel Y",
+   "confidence": "low"
+  },
+  {
+   "name": "special_mode",
+   "offset": 56,
+   "type": "u8",
+   "desc": "0 normally; 3 on 405/407 (Dreaming Mushroom/Carnage 4), 2 on 1605/1607 (final boss stages); goes with special_value1/2",
+   "confidence": "low"
+  },
+  {
+   "name": "pad_039",
+   "offset": 57,
+   "type": "bytes",
+   "size": 3,
+   "desc": "always 0",
+   "confidence": "medium"
+  },
+  {
+   "name": "special_value1",
+   "offset": 60,
+   "type": "u32",
+   "desc": "90 (405), 170 (1605), 380 (1607)",
+   "confidence": "low"
+  },
+  {
+   "name": "special_param",
+   "offset": 64,
+   "type": "u32",
+   "desc": "2 on 1605/1607",
+   "confidence": "low"
+  },
+  {
+   "name": "special_value2",
+   "offset": 68,
+   "type": "u32",
+   "desc": "170 (1605), 380 (1607)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_048",
+   "offset": 72,
+   "type": "u8",
+   "desc": "0; 2 on the Test Map",
+   "confidence": "low"
+  },
+  {
+   "name": "name_JP",
+   "offset": 73,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "desc": "stage name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 125,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 177,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 229,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 281,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_14D",
+   "offset": 333,
+   "type": "bytes",
+   "size": 3,
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

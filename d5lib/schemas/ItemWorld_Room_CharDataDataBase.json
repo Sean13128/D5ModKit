@@ -1,0 +1,177 @@
+{
+ "file": "ItemWorld_Room_CharDataDataBase",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 80,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "NPCs placed in Item World rooms (279 rows, pool strings). Links room -> char.dat class and position.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "NPC entry id (0 Guide, 100.. civilians, 200.. innocents, 300.. commuting prinnies, 1001 peddler, 1800 landlady ...)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP_len",
+   "offset": 4,
+   "type": "u32",
+   "desc": "character count of name_JP (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_JP"
+  },
+  {
+   "name": "name_JP",
+   "offset": 8,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "JP"
+  },
+  {
+   "name": "name_EN_len",
+   "offset": 12,
+   "type": "u32",
+   "desc": "character count of name_EN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_EN"
+  },
+  {
+   "name": "name_EN",
+   "offset": 16,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "EN"
+  },
+  {
+   "name": "name_FR_len",
+   "offset": 20,
+   "type": "u32",
+   "desc": "character count of name_FR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_FR"
+  },
+  {
+   "name": "name_FR",
+   "offset": 24,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "FR"
+  },
+  {
+   "name": "name_CHN_len",
+   "offset": 28,
+   "type": "u32",
+   "desc": "character count of name_CHN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_CHN"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 32,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "CHN"
+  },
+  {
+   "name": "name_KOR_len",
+   "offset": 36,
+   "type": "u32",
+   "desc": "character count of name_KOR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_KOR"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 40,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "KOR"
+  },
+  {
+   "name": "room_id",
+   "offset": 44,
+   "type": "u32",
+   "desc": "room the NPC appears in (ItemWorld_RoomDataBase id; 1000 = generic, some values like 102 not in that table)",
+   "confidence": "medium",
+   "ref": "ItemWorld_RoomDataBase.dat"
+  },
+  {
+   "name": "char_id",
+   "offset": 48,
+   "type": "u32",
+   "desc": "class/character of the NPC: char.dat id (char offset 208; 2010 Prinny, 3500 Mil ...). 7524 and 9996..9999 are not in char.dat",
+   "confidence": "high",
+   "ref": "char.dat"
+  },
+  {
+   "name": "unk_034",
+   "offset": 52,
+   "type": "i32",
+   "confidence": "low",
+   "desc": "observed -1..99, 4 distinct; top 99(x200), -1(x72), 5(x5), 0(x2)"
+  },
+  {
+   "name": "level",
+   "offset": 56,
+   "type": "u32",
+   "desc": "NPC level (mostly 100; 9999 for Guardians)",
+   "confidence": "low"
+  },
+  {
+   "name": "talk_id",
+   "offset": 60,
+   "type": "u32",
+   "desc": "message/script id (3060000/10/20/30 for commuting prinnies, 4500001.. innocents); 0 = none",
+   "confidence": "low"
+  },
+  {
+   "name": "x",
+   "offset": 64,
+   "type": "i32",
+   "desc": "map x position",
+   "confidence": "medium"
+  },
+  {
+   "name": "y",
+   "offset": 68,
+   "type": "i32",
+   "desc": "map y position",
+   "confidence": "medium"
+  },
+  {
+   "name": "dir",
+   "offset": 72,
+   "type": "i32",
+   "desc": "facing angle (0/90/180/270)",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_04C",
+   "offset": 76,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 0..100, 2 distinct; top 100(x266), 0(x13)"
+  }
+ ]
+}

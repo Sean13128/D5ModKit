@@ -1,0 +1,1020 @@
+{
+"front": [
+{
+"name": "stand",
+"view": "front",
+"pos": 0,
+"x": 122,
+"y": 170,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "front",
+"pos": 0,
+"x": 1,
+"y": 596,
+"w": 112,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "front",
+"pos": 1,
+"x": 243,
+"y": 170,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "front",
+"pos": 2,
+"x": 364,
+"y": 170,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "front",
+"pos": 3,
+"x": 1,
+"y": 789,
+"w": 112,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "front",
+"pos": 4,
+"x": 114,
+"y": 588,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "front",
+"pos": 5,
+"x": 114,
+"y": 781,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "attack_arrow",
+"view": "front",
+"pos": 0,
+"x": 856,
+"y": 178,
+"w": 96,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_arrow",
+"view": "front",
+"pos": 1,
+"x": 235,
+"y": 548,
+"w": 104,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_arrow",
+"view": "front",
+"pos": 2,
+"x": 235,
+"y": 733,
+"w": 104,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_ax",
+"view": "front",
+"pos": 0,
+"x": 735,
+"y": 178,
+"w": 120,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_ax",
+"view": "front",
+"pos": 1,
+"x": 122,
+"y": 1,
+"w": 144,
+"h": 168,
+"check": 1.0
+},
+{
+"name": "attack_ax",
+"view": "front",
+"pos": 2,
+"x": 267,
+"y": 1,
+"w": 144,
+"h": 168,
+"check": 1.0
+},
+{
+"name": "attack_fist",
+"view": "front",
+"pos": 0,
+"x": 485,
+"y": 178,
+"w": 120,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_fist",
+"view": "front",
+"pos": 1,
+"x": 557,
+"y": 1,
+"w": 128,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_fist",
+"view": "front",
+"pos": 2,
+"x": 686,
+"y": 1,
+"w": 128,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_gun",
+"view": "front",
+"pos": 0,
+"x": 340,
+"y": 725,
+"w": 112,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_gun",
+"view": "front",
+"pos": 1,
+"x": 815,
+"y": 1,
+"w": 128,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_gun",
+"view": "front",
+"pos": 2,
+"x": 453,
+"y": 540,
+"w": 112,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_lance",
+"view": "front",
+"pos": 0,
+"x": 114,
+"y": 395,
+"w": 96,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "attack_lance",
+"view": "front",
+"pos": 1,
+"x": 671,
+"y": 532,
+"w": 104,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_lance",
+"view": "front",
+"pos": 2,
+"x": 566,
+"y": 733,
+"w": 104,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_sword",
+"view": "front",
+"pos": 0,
+"x": 211,
+"y": 363,
+"w": 112,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_sword",
+"view": "front",
+"pos": 1,
+"x": 671,
+"y": 709,
+"w": 104,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_sword",
+"view": "front",
+"pos": 2,
+"x": 905,
+"y": 363,
+"w": 104,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "damage",
+"view": "front",
+"pos": 0,
+"x": 453,
+"y": 717,
+"w": 112,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "damage_hand",
+"view": "front",
+"pos": 0,
+"x": 905,
+"y": 685,
+"w": 112,
+"h": 72,
+"check": 1.0
+},
+{
+"name": "dash",
+"view": "front",
+"pos": 0,
+"x": 412,
+"y": 1,
+"w": 144,
+"h": 168,
+"check": 1.0
+},
+{
+"name": "dash_hand",
+"view": "front",
+"pos": 0,
+"x": 905,
+"y": 839,
+"w": 96,
+"h": 88,
+"check": 1.0
+},
+{
+"name": "gun_aerial",
+"view": "front",
+"pos": 0,
+"x": 324,
+"y": 363,
+"w": 120,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "kabutowari",
+"view": "front",
+"pos": 0,
+"x": 606,
+"y": 178,
+"w": 128,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "kabutowari_hand",
+"view": "front",
+"pos": 0,
+"x": 905,
+"y": 758,
+"w": 104,
+"h": 80,
+"check": 1.0
+},
+{
+"name": "landing",
+"view": "front",
+"pos": 0,
+"x": 445,
+"y": 363,
+"w": 120,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "launch",
+"view": "front",
+"pos": 0,
+"x": 340,
+"y": 540,
+"w": 112,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "launch",
+"view": "front",
+"pos": 1,
+"x": 566,
+"y": 363,
+"w": 104,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "launch",
+"view": "front",
+"pos": 2,
+"x": 566,
+"y": 548,
+"w": 104,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "launch_hand",
+"view": "front",
+"pos": 0,
+"x": 944,
+"y": 58,
+"w": 48,
+"h": 56,
+"check": 1.0
+},
+{
+"name": "launch_hand",
+"view": "front",
+"pos": 1,
+"x": 944,
+"y": 1,
+"w": 56,
+"h": 56,
+"check": 1.0
+},
+{
+"name": "one_arm_up",
+"view": "front",
+"pos": 0,
+"x": 1,
+"y": 1,
+"w": 120,
+"h": 200,
+"check": 1.0
+},
+{
+"name": "roll_landing",
+"view": "front",
+"pos": 0,
+"x": 776,
+"y": 701,
+"w": 128,
+"h": 144,
+"check": 1.0
+},
+{
+"name": "rolling",
+"view": "front",
+"pos": 0,
+"x": 784,
+"y": 363,
+"w": 120,
+"h": 160,
+"check": 1.0
+},
+{
+"name": "rolling",
+"view": "front",
+"pos": 1,
+"x": 889,
+"y": 540,
+"w": 128,
+"h": 144,
+"check": 1.0
+},
+{
+"name": "rolling",
+"view": "front",
+"pos": 2,
+"x": 776,
+"y": 846,
+"w": 128,
+"h": 120,
+"check": 1.0
+},
+{
+"name": "rolling_hand",
+"view": "front",
+"pos": 0,
+"x": 944,
+"y": 115,
+"w": 48,
+"h": 56,
+"check": 1.0
+},
+{
+"name": "squat",
+"view": "front",
+"pos": 0,
+"x": 1,
+"y": 202,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "take_out",
+"view": "front",
+"pos": 0,
+"x": 776,
+"y": 532,
+"w": 112,
+"h": 168,
+"check": 1.0
+},
+{
+"name": "two_arm_up_jump",
+"view": "front",
+"pos": 0,
+"x": 1,
+"y": 395,
+"w": 112,
+"h": 200,
+"check": 1.0
+},
+{
+"name": "two_arm_up_jump",
+"view": "front",
+"pos": 1,
+"x": 671,
+"y": 355,
+"w": 112,
+"h": 176,
+"check": 1.0
+}
+],
+"back": [
+{
+"name": "stand",
+"view": "back",
+"pos": 0,
+"x": 114,
+"y": 588,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "back",
+"pos": 0,
+"x": 461,
+"y": 556,
+"w": 96,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "back",
+"pos": 1,
+"x": 461,
+"y": 186,
+"w": 112,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "back",
+"pos": 2,
+"x": 130,
+"y": 781,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "back",
+"pos": 3,
+"x": 485,
+"y": 1,
+"w": 104,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "back",
+"pos": 4,
+"x": 356,
+"y": 556,
+"w": 104,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "walk",
+"view": "back",
+"pos": 5,
+"x": 364,
+"y": 741,
+"w": 104,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_arrow",
+"view": "back",
+"pos": 0,
+"x": 1,
+"y": 202,
+"w": 112,
+"h": 200,
+"check": 1.0
+},
+{
+"name": "attack_arrow",
+"view": "back",
+"pos": 1,
+"x": 1,
+"y": 403,
+"w": 112,
+"h": 200,
+"check": 1.0
+},
+{
+"name": "attack_arrow",
+"view": "back",
+"pos": 2,
+"x": 1,
+"y": 604,
+"w": 112,
+"h": 200,
+"check": 1.0
+},
+{
+"name": "attack_ax",
+"view": "back",
+"pos": 0,
+"x": 816,
+"y": 178,
+"w": 120,
+"h": 168,
+"check": 1.0
+},
+{
+"name": "attack_ax",
+"view": "back",
+"pos": 1,
+"x": 687,
+"y": 540,
+"w": 136,
+"h": 168,
+"check": 1.0
+},
+{
+"name": "attack_ax",
+"view": "back",
+"pos": 2,
+"x": 719,
+"y": 355,
+"w": 136,
+"h": 168,
+"check": 1.0
+},
+{
+"name": "attack_fist",
+"view": "back",
+"pos": 0,
+"x": 598,
+"y": 363,
+"w": 120,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_fist",
+"view": "back",
+"pos": 1,
+"x": 469,
+"y": 371,
+"w": 128,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_fist",
+"view": "back",
+"pos": 2,
+"x": 574,
+"y": 186,
+"w": 128,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_gun",
+"view": "back",
+"pos": 0,
+"x": 243,
+"y": 1,
+"w": 120,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_gun",
+"view": "back",
+"pos": 1,
+"x": 235,
+"y": 386,
+"w": 120,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_gun",
+"view": "back",
+"pos": 2,
+"x": 340,
+"y": 186,
+"w": 120,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_lance",
+"view": "back",
+"pos": 0,
+"x": 251,
+"y": 756,
+"w": 112,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_lance",
+"view": "back",
+"pos": 1,
+"x": 364,
+"y": 1,
+"w": 120,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_lance",
+"view": "back",
+"pos": 2,
+"x": 235,
+"y": 571,
+"w": 120,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "attack_sword",
+"view": "back",
+"pos": 0,
+"x": 590,
+"y": 1,
+"w": 128,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_sword",
+"view": "back",
+"pos": 1,
+"x": 703,
+"y": 178,
+"w": 112,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "attack_sword",
+"view": "back",
+"pos": 2,
+"x": 719,
+"y": 1,
+"w": 112,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "damage",
+"view": "back",
+"pos": 0,
+"x": 598,
+"y": 725,
+"w": 112,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "dash",
+"view": "back",
+"pos": 0,
+"x": 832,
+"y": 1,
+"w": 144,
+"h": 160,
+"check": 1.0
+},
+{
+"name": "gun_aerial",
+"view": "back",
+"pos": 0,
+"x": 469,
+"y": 741,
+"w": 128,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "kabutowari",
+"view": "back",
+"pos": 0,
+"x": 558,
+"y": 548,
+"w": 128,
+"h": 176,
+"check": 1.0
+},
+{
+"name": "landing",
+"view": "back",
+"pos": 0,
+"x": 711,
+"y": 709,
+"w": 112,
+"h": 168,
+"check": 1.0
+},
+{
+"name": "launch",
+"view": "back",
+"pos": 0,
+"x": 356,
+"y": 371,
+"w": 112,
+"h": 184,
+"check": 1.0
+},
+{
+"name": "launch",
+"view": "back",
+"pos": 1,
+"x": 114,
+"y": 202,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "launch",
+"view": "back",
+"pos": 2,
+"x": 122,
+"y": 1,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "one_arm_up",
+"view": "back",
+"pos": 0,
+"x": 1,
+"y": 805,
+"w": 128,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "roll_landing",
+"view": "back",
+"pos": 0,
+"x": 744,
+"y": 878,
+"w": 128,
+"h": 144,
+"check": 1.0
+},
+{
+"name": "rolling",
+"view": "back",
+"pos": 0,
+"x": 873,
+"y": 653,
+"w": 112,
+"h": 152,
+"check": 1.0
+},
+{
+"name": "rolling",
+"view": "back",
+"pos": 1,
+"x": 615,
+"y": 902,
+"w": 128,
+"h": 121,
+"check": 1.0
+},
+{
+"name": "rolling",
+"view": "back",
+"pos": 2,
+"x": 873,
+"y": 347,
+"w": 136,
+"h": 136,
+"check": 1.0
+},
+{
+"name": "rolling_hand",
+"view": "back",
+"pos": 0,
+"x": 937,
+"y": 219,
+"w": 48,
+"h": 56,
+"check": 1.0
+},
+{
+"name": "squat",
+"view": "back",
+"pos": 0,
+"x": 114,
+"y": 395,
+"w": 120,
+"h": 192,
+"check": 1.0
+},
+{
+"name": "take_out",
+"view": "back",
+"pos": 0,
+"x": 873,
+"y": 484,
+"w": 112,
+"h": 168,
+"check": 1.0
+},
+{
+"name": "two_arm_up_jump",
+"view": "back",
+"pos": 0,
+"x": 1,
+"y": 1,
+"w": 120,
+"h": 200,
+"check": 1.0
+},
+{
+"name": "two_arm_up_jump",
+"view": "back",
+"pos": 1,
+"x": 235,
+"y": 194,
+"w": 104,
+"h": 191,
+"check": 1.0
+}
+],
+"wait_front": [
+{
+"name": "wait",
+"view": "front",
+"pos": 0,
+"x": 0,
+"y": 0,
+"w": 170,
+"h": 180,
+"check": 1.0
+},
+{
+"name": "wait",
+"view": "front",
+"pos": 1,
+"x": 170,
+"y": 0,
+"w": 170,
+"h": 180,
+"check": 1.0
+},
+{
+"name": "wait",
+"view": "front",
+"pos": 2,
+"x": 340,
+"y": 0,
+"w": 170,
+"h": 180,
+"check": 1.0
+},
+{
+"name": "wait",
+"view": "front",
+"pos": 3,
+"x": 0,
+"y": 180,
+"w": 170,
+"h": 180,
+"check": 1.0
+},
+{
+"name": "wait",
+"view": "front",
+"pos": 4,
+"x": 170,
+"y": 180,
+"w": 170,
+"h": 180,
+"check": 1.0
+}
+],
+"wait_back": [
+{
+"name": "wait",
+"view": "back",
+"pos": 0,
+"x": 0,
+"y": 0,
+"w": 170,
+"h": 180,
+"check": 1.0
+},
+{
+"name": "wait",
+"view": "back",
+"pos": 1,
+"x": 170,
+"y": 0,
+"w": 170,
+"h": 180,
+"check": 1.0
+},
+{
+"name": "wait",
+"view": "back",
+"pos": 2,
+"x": 340,
+"y": 0,
+"w": 170,
+"h": 180,
+"check": 1.0
+},
+{
+"name": "wait",
+"view": "back",
+"pos": 3,
+"x": 0,
+"y": 180,
+"w": 170,
+"h": 180,
+"check": 1.0
+},
+{
+"name": "wait",
+"view": "back",
+"pos": 4,
+"x": 170,
+"y": 180,
+"w": 170,
+"h": 180,
+"check": 1.0
+}
+]
+}

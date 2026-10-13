@@ -1,0 +1,710 @@
+{
+ "about": "Find the places where disgaea5.exe asks \"is this unit character X?\" by comparing the unit's class id\n(unit +0x2e04) with a fixed class id or with a searched-for class, and write d5lib/data/identity_sites.json for\nd5lib/identitypatch.py.  The outfit system turns a unit into another class id (the outfit's slot), so these checks\nmust see the base character (the Killia lookup at 0x1401cdc90 crashed on the way back to the hub when Killia wore an\noutfit).",
+ "exe_text_rva": 4096,
+ "sites": [
+  {
+   "va": "0x1400af27e",
+   "kind": "reg",
+   "orig": "81fa9c090000",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0x99c\npop rax\njmp 0x1400af284",
+   "asm": "cmp edx, 0x99c",
+   "load": "0x1400af274"
+  },
+  {
+   "va": "0x140145abb",
+   "kind": "reg",
+   "orig": "4181f99c090000",
+   "src": "push rax\nmov eax, r9d\ncall {shared}\ncmp eax, 0x99c\npop rax\njmp 0x140145ac2",
+   "asm": "cmp r9d, 0x99c",
+   "load": "0x140145ab4"
+  },
+  {
+   "va": "0x1401549f8",
+   "kind": "find",
+   "orig": "66443993042e0000",
+   "src": "push rax\npush rdx\npush rbx\nmovsx eax, r10w\ncall {shared}\nmov edx, eax\npop rbx\nmovsx eax, word ptr [rbx + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x140154a00",
+   "asm": "cmp word ptr [rbx + 0x2e04], r10w"
+  },
+  {
+   "va": "0x14015675f",
+   "kind": "imm",
+   "orig": "81b8042e000052140000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x1452\npop rax\njmp 0x140156769",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x1452"
+  },
+  {
+   "va": "0x14015c376",
+   "kind": "reg",
+   "orig": "3d3a020000",
+   "src": "push rax\nmov eax, eax\ncall {shared}\ncmp eax, 0x23a\npop rax\njmp 0x14015c37b",
+   "asm": "cmp eax, 0x23a",
+   "load": "0x14015c370"
+  },
+  {
+   "va": "0x14015c585",
+   "kind": "find",
+   "orig": "663981042e0000",
+   "src": "push rax\npush rdx\npush rcx\nmovsx eax, ax\ncall {shared}\nmov edx, eax\npop rcx\nmovsx eax, word ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x14015c58c",
+   "asm": "cmp word ptr [rcx + 0x2e04], ax"
+  },
+  {
+   "va": "0x14015cd70",
+   "kind": "reg",
+   "orig": "4181f89c090000",
+   "src": "push rax\nmov eax, r8d\ncall {shared}\ncmp eax, 0x99c\npop rax\njmp 0x14015cd77",
+   "asm": "cmp r8d, 0x99c",
+   "load": "0x14015cd60"
+  },
+  {
+   "va": "0x14015ce3f",
+   "kind": "reg",
+   "orig": "81fa0c030000",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0x30c\npop rax\njmp 0x14015ce45",
+   "asm": "cmp edx, 0x30c",
+   "load": "0x14015ce36"
+  },
+  {
+   "va": "0x14015d9e9",
+   "kind": "reg",
+   "orig": "81fa9c090000",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0x99c\npop rax\njmp 0x14015d9ef",
+   "asm": "cmp edx, 0x99c",
+   "load": "0x14015d9e0"
+  },
+  {
+   "va": "0x14015fc30",
+   "kind": "imm",
+   "orig": "81b9042e000052140000",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0x1452\npop rax\njmp 0x14015fc3a",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0x1452"
+  },
+  {
+   "va": "0x14015ffc5",
+   "kind": "reg",
+   "orig": "3d51140000",
+   "src": "push rax\nmov eax, eax\ncall {shared}\ncmp eax, 0x1451\npop rax\njmp 0x14015ffca",
+   "asm": "cmp eax, 0x1451",
+   "load": "0x14015ffbe"
+  },
+  {
+   "va": "0x1401612c2",
+   "kind": "imm",
+   "orig": "81b9042e000028230000",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0x2328\npop rax\njmp 0x1401612cc",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0x2328"
+  },
+  {
+   "va": "0x14016b18c",
+   "kind": "imm",
+   "orig": "81b8042e000028230000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x2328\npop rax\njmp 0x14016b196",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x2328"
+  },
+  {
+   "va": "0x14017e49c",
+   "kind": "find",
+   "orig": "39b8042e0000",
+   "src": "push rax\npush rdx\npush rax\nmov eax, edi\ncall {shared}\nmov edx, eax\npop rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x14017e4a2",
+   "asm": "cmp dword ptr [rax + 0x2e04], edi"
+  },
+  {
+   "va": "0x140189826",
+   "kind": "reg",
+   "orig": "81f90c030000",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x30c\npop rax\njmp 0x14018982c",
+   "asm": "cmp ecx, 0x30c",
+   "load": "0x140189820"
+  },
+  {
+   "va": "0x14018ab1b",
+   "kind": "find",
+   "orig": "3981042e0000",
+   "src": "push rax\npush rdx\npush rcx\nmov eax, eax\ncall {shared}\nmov edx, eax\npop rcx\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x14018ab21",
+   "asm": "cmp dword ptr [rcx + 0x2e04], eax"
+  },
+  {
+   "va": "0x14018af00",
+   "kind": "imm",
+   "orig": "81ba042e000038040000",
+   "src": "push rax\nmov eax, dword ptr [rdx + 0x2e04]\ncall {shared}\ncmp eax, 0x438\npop rax\njmp 0x14018af0a",
+   "asm": "cmp dword ptr [rdx + 0x2e04], 0x438"
+  },
+  {
+   "va": "0x14018af93",
+   "kind": "imm",
+   "orig": "81b9042e000038040000",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0x438\npop rax\njmp 0x14018af9d",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0x438"
+  },
+  {
+   "va": "0x14018b090",
+   "kind": "find",
+   "orig": "443981042e0000",
+   "src": "push rax\npush rdx\npush rcx\nmov eax, r8d\ncall {shared}\nmov edx, eax\npop rcx\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x14018b097",
+   "asm": "cmp dword ptr [rcx + 0x2e04], r8d"
+  },
+  {
+   "va": "0x14018b100",
+   "kind": "find",
+   "orig": "443981042e0000",
+   "src": "push rax\npush rdx\npush rcx\nmov eax, r8d\ncall {shared}\nmov edx, eax\npop rcx\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x14018b107",
+   "asm": "cmp dword ptr [rcx + 0x2e04], r8d"
+  },
+  {
+   "va": "0x1401931a9",
+   "kind": "find",
+   "orig": "3988042e0000",
+   "src": "push rax\npush rdx\npush rax\nmov eax, ecx\ncall {shared}\nmov edx, eax\npop rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x1401931af",
+   "asm": "cmp dword ptr [rax + 0x2e04], ecx"
+  },
+  {
+   "va": "0x1401cdc90",
+   "kind": "imm",
+   "orig": "4183b9042e00000a",
+   "src": "push rax\nmov eax, dword ptr [r9 + 0x2e04]\ncall {shared}\ncmp eax, 0xa\npop rax\njmp 0x1401cdc98",
+   "asm": "cmp dword ptr [r9 + 0x2e04], 0xa"
+  },
+  {
+   "va": "0x1401d2aa7",
+   "kind": "reg",
+   "orig": "81faf0000000",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0xf0\npop rax\njmp 0x1401d2aad",
+   "asm": "cmp edx, 0xf0",
+   "load": "0x1401d2aa0"
+  },
+  {
+   "va": "0x1401d2d07",
+   "kind": "reg",
+   "orig": "81faf0000000",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0xf0\npop rax\njmp 0x1401d2d0d",
+   "asm": "cmp edx, 0xf0",
+   "load": "0x1401d2d00"
+  },
+  {
+   "va": "0x1401d4d4b",
+   "kind": "imm",
+   "orig": "81bb042e000002030000",
+   "src": "push rax\nmov eax, dword ptr [rbx + 0x2e04]\ncall {shared}\ncmp eax, 0x302\npop rax\njmp 0x1401d4d55",
+   "asm": "cmp dword ptr [rbx + 0x2e04], 0x302"
+  },
+  {
+   "va": "0x1401d5d17",
+   "kind": "reg",
+   "orig": "83f9467405",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x46\npop rax\nje 0x1401d5d21\njmp 0x1401d5d1c",
+   "asm": "cmp ecx, 0x46",
+   "load": "0x1401d5d11"
+  },
+  {
+   "va": "0x1401d6084",
+   "kind": "find",
+   "orig": "66443987042e0000",
+   "src": "push rax\npush rdx\npush rdi\nmovsx eax, r8w\ncall {shared}\nmov edx, eax\npop rdi\nmovsx eax, word ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x1401d608c",
+   "asm": "cmp word ptr [rdi + 0x2e04], r8w"
+  },
+  {
+   "va": "0x1401d6145",
+   "kind": "imm",
+   "orig": "83bf042e00005a",
+   "src": "push rax\nmov eax, dword ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, 0x5a\npop rax\njmp 0x1401d614c",
+   "asm": "cmp dword ptr [rdi + 0x2e04], 0x5a"
+  },
+  {
+   "va": "0x1401d6194",
+   "kind": "imm",
+   "orig": "81bf042e00000c030000",
+   "src": "push rax\nmov eax, dword ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, 0x30c\npop rax\njmp 0x1401d619e",
+   "asm": "cmp dword ptr [rdi + 0x2e04], 0x30c"
+  },
+  {
+   "va": "0x1401d61b6",
+   "kind": "imm",
+   "orig": "81bf042e00003a020000",
+   "src": "push rax\nmov eax, dword ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, 0x23a\npop rax\njmp 0x1401d61c0",
+   "asm": "cmp dword ptr [rdi + 0x2e04], 0x23a"
+  },
+  {
+   "va": "0x1401d61d1",
+   "kind": "imm",
+   "orig": "81bf042e000016030000",
+   "src": "push rax\nmov eax, dword ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, 0x316\npop rax\njmp 0x1401d61db",
+   "asm": "cmp dword ptr [rdi + 0x2e04], 0x316"
+  },
+  {
+   "va": "0x1401d61ec",
+   "kind": "imm",
+   "orig": "81bf042e00004e020000",
+   "src": "push rax\nmov eax, dword ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, 0x24e\npop rax\njmp 0x1401d61f6",
+   "asm": "cmp dword ptr [rdi + 0x2e04], 0x24e"
+  },
+  {
+   "va": "0x1401d6207",
+   "kind": "imm",
+   "orig": "81bf042e000020030000",
+   "src": "push rax\nmov eax, dword ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, 0x320\npop rax\njmp 0x1401d6211",
+   "asm": "cmp dword ptr [rdi + 0x2e04], 0x320"
+  },
+  {
+   "va": "0x1401d6222",
+   "kind": "imm",
+   "orig": "81bf042e0000c6020000",
+   "src": "push rax\nmov eax, dword ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, 0x2c6\npop rax\njmp 0x1401d622c",
+   "asm": "cmp dword ptr [rdi + 0x2e04], 0x2c6"
+  },
+  {
+   "va": "0x1401d623a",
+   "kind": "imm",
+   "orig": "81bf042e00002a030000",
+   "src": "push rax\nmov eax, dword ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, 0x32a\npop rax\njmp 0x1401d6244",
+   "asm": "cmp dword ptr [rdi + 0x2e04], 0x32a"
+  },
+  {
+   "va": "0x1401d624a",
+   "kind": "find",
+   "orig": "443987042e0000",
+   "src": "push rax\npush rdx\npush rdi\nmov eax, r8d\ncall {shared}\nmov edx, eax\npop rdi\nmov eax, dword ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x1401d6251",
+   "asm": "cmp dword ptr [rdi + 0x2e04], r8d"
+  },
+  {
+   "va": "0x1401dc5dd",
+   "kind": "find",
+   "orig": "663987042e0000",
+   "src": "push rax\npush rdx\npush rdi\nmovsx eax, ax\ncall {shared}\nmov edx, eax\npop rdi\nmovsx eax, word ptr [rdi + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x1401dc5e4",
+   "asm": "cmp word ptr [rdi + 0x2e04], ax"
+  },
+  {
+   "va": "0x1401ddb8e",
+   "kind": "find",
+   "orig": "3985042e0000",
+   "src": "push rax\npush rdx\npush rbp\nmov eax, eax\ncall {shared}\nmov edx, eax\npop rbp\nmov eax, dword ptr [rbp + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x1401ddb94",
+   "asm": "cmp dword ptr [rbp + 0x2e04], eax"
+  },
+  {
+   "va": "0x1401ded57",
+   "kind": "find",
+   "orig": "3985042e0000",
+   "src": "push rax\npush rdx\npush rbp\nmov eax, eax\ncall {shared}\nmov edx, eax\npop rbp\nmov eax, dword ptr [rbp + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x1401ded5d",
+   "asm": "cmp dword ptr [rbp + 0x2e04], eax"
+  },
+  {
+   "va": "0x1401ea5d1",
+   "kind": "imm",
+   "orig": "4181bd042e000051140000",
+   "src": "push rax\nmov eax, dword ptr [r13 + 0x2e04]\ncall {shared}\ncmp eax, 0x1451\npop rax\njmp 0x1401ea5dc",
+   "asm": "cmp dword ptr [r13 + 0x2e04], 0x1451"
+  },
+  {
+   "va": "0x1401edb74",
+   "kind": "imm",
+   "orig": "81b8042e0000bc020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x2bc\npop rax\njmp 0x1401edb7e",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x2bc"
+  },
+  {
+   "va": "0x1401ee354",
+   "kind": "imm",
+   "orig": "81b8042e0000bc020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x2bc\npop rax\njmp 0x1401ee35e",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x2bc"
+  },
+  {
+   "va": "0x1401efb9e",
+   "kind": "reg",
+   "orig": "83fa0a740f",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0xa\npop rax\nje 0x1401efbb2\njmp 0x1401efba3",
+   "asm": "cmp edx, 0xa",
+   "load": "0x1401efb98"
+  },
+  {
+   "va": "0x1401f19b3",
+   "kind": "reg",
+   "orig": "81f93a020000",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x23a\npop rax\njmp 0x1401f19b9",
+   "asm": "cmp ecx, 0x23a",
+   "load": "0x1401f19ad"
+  },
+  {
+   "va": "0x1401f7775",
+   "kind": "imm",
+   "orig": "81b8042e0000a8020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x2a8\npop rax\njmp 0x1401f777f",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x2a8"
+  },
+  {
+   "va": "0x1401f798a",
+   "kind": "reg",
+   "orig": "81fac6020000",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0x2c6\npop rax\njmp 0x1401f7990",
+   "asm": "cmp edx, 0x2c6",
+   "load": "0x1401f7984"
+  },
+  {
+   "va": "0x140205b97",
+   "kind": "reg",
+   "orig": "81fa3a020000",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0x23a\npop rax\njmp 0x140205b9d",
+   "asm": "cmp edx, 0x23a",
+   "load": "0x140205b91"
+  },
+  {
+   "va": "0x14020c7ea",
+   "kind": "reg",
+   "orig": "83fa0a7412",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0xa\npop rax\nje 0x14020c801\njmp 0x14020c7ef",
+   "asm": "cmp edx, 0xa",
+   "load": "0x14020c7e4"
+  },
+  {
+   "va": "0x140212de3",
+   "kind": "imm",
+   "orig": "81b9042e0000a8020000",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0x2a8\npop rax\njmp 0x140212ded",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0x2a8"
+  },
+  {
+   "va": "0x140212ef9",
+   "kind": "reg",
+   "orig": "3dc6020000",
+   "src": "push rax\nmov eax, eax\ncall {shared}\ncmp eax, 0x2c6\npop rax\njmp 0x140212efe",
+   "asm": "cmp eax, 0x2c6",
+   "load": "0x140212ef3"
+  },
+  {
+   "va": "0x140216eaf",
+   "kind": "reg",
+   "orig": "81fa9c090000",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0x99c\npop rax\njmp 0x140216eb5",
+   "asm": "cmp edx, 0x99c",
+   "load": "0x140216ea8"
+  },
+  {
+   "va": "0x140217057",
+   "kind": "imm",
+   "orig": "81b9042e00008c140000",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0x148c\npop rax\njmp 0x140217061",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0x148c"
+  },
+  {
+   "va": "0x14021b37d",
+   "kind": "reg",
+   "orig": "81f9c2010000",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x1c2\npop rax\njmp 0x14021b383",
+   "asm": "cmp ecx, 0x1c2",
+   "load": "0x14021b377"
+  },
+  {
+   "va": "0x14021d084",
+   "kind": "find",
+   "orig": "663983042e0000",
+   "src": "push rax\npush rdx\npush rbx\nmovsx eax, ax\ncall {shared}\nmov edx, eax\npop rbx\nmovsx eax, word ptr [rbx + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x14021d08b",
+   "asm": "cmp word ptr [rbx + 0x2e04], ax"
+  },
+  {
+   "va": "0x14021d184",
+   "kind": "find",
+   "orig": "663983042e0000",
+   "src": "push rax\npush rdx\npush rbx\nmovsx eax, ax\ncall {shared}\nmov edx, eax\npop rbx\nmovsx eax, word ptr [rbx + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x14021d18b",
+   "asm": "cmp word ptr [rbx + 0x2e04], ax"
+  },
+  {
+   "va": "0x14021ed80",
+   "kind": "imm",
+   "orig": "81ba042e000038040000",
+   "src": "push rax\nmov eax, dword ptr [rdx + 0x2e04]\ncall {shared}\ncmp eax, 0x438\npop rax\njmp 0x14021ed8a",
+   "asm": "cmp dword ptr [rdx + 0x2e04], 0x438"
+  },
+  {
+   "va": "0x14021ee03",
+   "kind": "imm",
+   "orig": "81b9042e000038040000",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0x438\npop rax\njmp 0x14021ee0d",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0x438"
+  },
+  {
+   "va": "0x14029f597",
+   "kind": "reg",
+   "orig": "81f99c090000",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x99c\npop rax\njmp 0x14029f59d",
+   "asm": "cmp ecx, 0x99c",
+   "load": "0x14029f591"
+  },
+  {
+   "va": "0x1402a3510",
+   "kind": "reg",
+   "orig": "3dfa000000",
+   "src": "push rax\nmov eax, eax\ncall {shared}\ncmp eax, 0xfa\npop rax\njmp 0x1402a3515",
+   "asm": "cmp eax, 0xfa",
+   "load": "0x1402a350a"
+  },
+  {
+   "va": "0x1402a3732",
+   "kind": "reg",
+   "orig": "3dfa000000",
+   "src": "push rax\nmov eax, eax\ncall {shared}\ncmp eax, 0xfa\npop rax\njmp 0x1402a3737",
+   "asm": "cmp eax, 0xfa",
+   "load": "0x1402a372c"
+  },
+  {
+   "va": "0x1402bd456",
+   "kind": "find",
+   "orig": "3988042e0000",
+   "src": "push rax\npush rdx\npush rax\nmov eax, ecx\ncall {shared}\nmov edx, eax\npop rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, edx\npop rdx\npop rax\njmp 0x1402bd45c",
+   "asm": "cmp dword ptr [rax + 0x2e04], ecx"
+  },
+  {
+   "va": "0x1402d023d",
+   "kind": "reg",
+   "orig": "81fa52140000",
+   "src": "push rax\nmov eax, edx\ncall {shared}\ncmp eax, 0x1452\npop rax\njmp 0x1402d0243",
+   "asm": "cmp edx, 0x1452",
+   "load": "0x1402d0237"
+  },
+  {
+   "va": "0x1402d4026",
+   "kind": "reg",
+   "orig": "4181fa52140000",
+   "src": "push rax\nmov eax, r10d\ncall {shared}\ncmp eax, 0x1452\npop rax\njmp 0x1402d402d",
+   "asm": "cmp r10d, 0x1452",
+   "load": "0x1402d401f"
+  },
+  {
+   "va": "0x1402e25bb",
+   "kind": "reg",
+   "orig": "81f90c030000",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x30c\npop rax\njmp 0x1402e25c1",
+   "asm": "cmp ecx, 0x30c",
+   "load": "0x1402e25b4"
+  },
+  {
+   "va": "0x14044b7b4",
+   "kind": "imm",
+   "orig": "81be042e00004e020000",
+   "src": "push rax\nmov eax, dword ptr [rsi + 0x2e04]\ncall {shared}\ncmp eax, 0x24e\npop rax\njmp 0x14044b7be",
+   "asm": "cmp dword ptr [rsi + 0x2e04], 0x24e"
+  },
+  {
+   "va": "0x14044b7c5",
+   "kind": "imm",
+   "orig": "81be042e000020030000",
+   "src": "push rax\nmov eax, dword ptr [rsi + 0x2e04]\ncall {shared}\ncmp eax, 0x320\npop rax\njmp 0x14044b7cf",
+   "asm": "cmp dword ptr [rsi + 0x2e04], 0x320"
+  },
+  {
+   "va": "0x14044f697",
+   "kind": "reg",
+   "orig": "81f90c030000",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x30c\npop rax\njmp 0x14044f69d",
+   "asm": "cmp ecx, 0x30c",
+   "load": "0x14044f668"
+  },
+  {
+   "va": "0x140489c54",
+   "kind": "imm",
+   "orig": "4183b8042e00000a",
+   "src": "push rax\nmov eax, dword ptr [r8 + 0x2e04]\ncall {shared}\ncmp eax, 0xa\npop rax\njmp 0x140489c5c",
+   "asm": "cmp dword ptr [r8 + 0x2e04], 0xa"
+  },
+  {
+   "va": "0x140489c81",
+   "kind": "imm",
+   "orig": "83b8042e00000a",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0xa\npop rax\njmp 0x140489c88",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0xa"
+  },
+  {
+   "va": "0x1404ae5f8",
+   "kind": "imm",
+   "orig": "83ba042e00000a",
+   "src": "push rax\nmov eax, dword ptr [rdx + 0x2e04]\ncall {shared}\ncmp eax, 0xa\npop rax\njmp 0x1404ae5ff",
+   "asm": "cmp dword ptr [rdx + 0x2e04], 0xa"
+  },
+  {
+   "va": "0x1404d792b",
+   "kind": "imm",
+   "orig": "81b9042e00003a020000",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0x23a\npop rax\njmp 0x1404d7935",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0x23a"
+  },
+  {
+   "va": "0x1404d8c25",
+   "kind": "imm",
+   "orig": "81ba042e000012020000",
+   "src": "push rax\nmov eax, dword ptr [rdx + 0x2e04]\ncall {shared}\ncmp eax, 0x212\npop rax\njmp 0x1404d8c2f",
+   "asm": "cmp dword ptr [rdx + 0x2e04], 0x212"
+  },
+  {
+   "va": "0x1404d99d1",
+   "kind": "imm",
+   "orig": "4183b9042e00001e",
+   "src": "push rax\nmov eax, dword ptr [r9 + 0x2e04]\ncall {shared}\ncmp eax, 0x1e\npop rax\njmp 0x1404d99d9",
+   "asm": "cmp dword ptr [r9 + 0x2e04], 0x1e"
+  },
+  {
+   "va": "0x1404d9c2f",
+   "kind": "reg",
+   "orig": "3df2030000",
+   "src": "push rax\nmov eax, eax\ncall {shared}\ncmp eax, 0x3f2\npop rax\njmp 0x1404d9c34",
+   "asm": "cmp eax, 0x3f2",
+   "load": "0x1404d9c29"
+  },
+  {
+   "va": "0x1404d9d85",
+   "kind": "imm",
+   "orig": "81b8042e000012020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x212\npop rax\njmp 0x1404d9d8f",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x212"
+  },
+  {
+   "va": "0x1404d9dcc",
+   "kind": "imm",
+   "orig": "81b8042e00003a020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x23a\npop rax\njmp 0x1404d9dd6",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x23a"
+  },
+  {
+   "va": "0x1404d9e13",
+   "kind": "imm",
+   "orig": "81b8042e000058020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x258\npop rax\njmp 0x1404d9e1d",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x258"
+  },
+  {
+   "va": "0x1404d9e4b",
+   "kind": "imm",
+   "orig": "81b8042e000080020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x280\npop rax\njmp 0x1404d9e55",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x280"
+  },
+  {
+   "va": "0x1404d9e92",
+   "kind": "imm",
+   "orig": "81b8042e0000a8020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x2a8\npop rax\njmp 0x1404d9e9c",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x2a8"
+  },
+  {
+   "va": "0x1404d9ee5",
+   "kind": "imm",
+   "orig": "81bd042e0000da070000",
+   "src": "push rax\nmov eax, dword ptr [rbp + 0x2e04]\ncall {shared}\ncmp eax, 0x7da\npop rax\njmp 0x1404d9eef",
+   "asm": "cmp dword ptr [rbp + 0x2e04], 0x7da"
+  },
+  {
+   "va": "0x1404da033",
+   "kind": "imm",
+   "orig": "81b8042e0000c6020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x2c6\npop rax\njmp 0x1404da03d",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x2c6"
+  },
+  {
+   "va": "0x1404da09b",
+   "kind": "imm",
+   "orig": "81b8042e0000d0020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x2d0\npop rax\njmp 0x1404da0a5",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x2d0"
+  },
+  {
+   "va": "0x1404da0e2",
+   "kind": "imm",
+   "orig": "81b8042e0000da020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x2da\npop rax\njmp 0x1404da0ec",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x2da"
+  },
+  {
+   "va": "0x1404da129",
+   "kind": "imm",
+   "orig": "81b8042e0000f8020000",
+   "src": "push rax\nmov eax, dword ptr [rax + 0x2e04]\ncall {shared}\ncmp eax, 0x2f8\npop rax\njmp 0x1404da133",
+   "asm": "cmp dword ptr [rax + 0x2e04], 0x2f8"
+  },
+  {
+   "va": "0x1405255ac",
+   "kind": "imm",
+   "orig": "83b9042e000032",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0x32\npop rax\njmp 0x1405255b3",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0x32"
+  },
+  {
+   "va": "0x1405255d9",
+   "kind": "imm",
+   "orig": "83bb042e000046",
+   "src": "push rax\nmov eax, dword ptr [rbx + 0x2e04]\ncall {shared}\ncmp eax, 0x46\npop rax\njmp 0x1405255e0",
+   "asm": "cmp dword ptr [rbx + 0x2e04], 0x46"
+  },
+  {
+   "va": "0x14052560a",
+   "kind": "imm",
+   "orig": "83bb042e000028",
+   "src": "push rax\nmov eax, dword ptr [rbx + 0x2e04]\ncall {shared}\ncmp eax, 0x28\npop rax\njmp 0x140525611",
+   "asm": "cmp dword ptr [rbx + 0x2e04], 0x28"
+  },
+  {
+   "va": "0x140539c75",
+   "kind": "reg",
+   "orig": "81f984140000",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x1484\npop rax\njmp 0x140539c7b",
+   "asm": "cmp ecx, 0x1484",
+   "load": "0x140539c6f"
+  },
+  {
+   "va": "0x140547516",
+   "kind": "reg",
+   "orig": "4181fafc080000",
+   "src": "push rax\nmov eax, r10d\ncall {shared}\ncmp eax, 0x8fc\npop rax\njmp 0x14054751d",
+   "asm": "cmp r10d, 0x8fc",
+   "load": "0x14054750f"
+  },
+  {
+   "va": "0x140547890",
+   "kind": "reg",
+   "orig": "4181f9fc080000",
+   "src": "push rax\nmov eax, r9d\ncall {shared}\ncmp eax, 0x8fc\npop rax\njmp 0x140547897",
+   "asm": "cmp r9d, 0x8fc",
+   "load": "0x140547889"
+  },
+  {
+   "va": "0x140556206",
+   "kind": "reg",
+   "orig": "81f9ca120000",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x12ca\npop rax\njmp 0x14055620c",
+   "asm": "cmp ecx, 0x12ca",
+   "load": "0x140556200"
+  },
+  {
+   "va": "0x1405fd038",
+   "kind": "reg",
+   "orig": "81f9ca120000",
+   "src": "push rax\nmov eax, ecx\ncall {shared}\ncmp eax, 0x12ca\npop rax\njmp 0x1405fd03e",
+   "asm": "cmp ecx, 0x12ca",
+   "load": "0x1405fd032"
+  },
+  {
+   "va": "0x1406abff2",
+   "kind": "reg",
+   "orig": "3d28230000",
+   "src": "push rax\nmov eax, eax\ncall {shared}\ncmp eax, 0x2328\npop rax\njmp 0x1406abff7",
+   "asm": "cmp eax, 0x2328",
+   "load": "0x1406abfec"
+  },
+  {
+   "va": "0x140719225",
+   "kind": "imm",
+   "orig": "81b9042e0000f0000000",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0xf0\npop rax\njmp 0x14071922f",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0xf0"
+  },
+  {
+   "va": "0x140725cbf",
+   "kind": "imm",
+   "orig": "81b9042e0000f0000000",
+   "src": "push rax\nmov eax, dword ptr [rcx + 0x2e04]\ncall {shared}\ncmp eax, 0xf0\npop rax\njmp 0x140725cc9",
+   "asm": "cmp dword ptr [rcx + 0x2e04], 0xf0"
+  }
+ ],
+ "skipped": [
+  [
+   "0x140457aad",
+   "branch target inside"
+  ]
+ ]
+}

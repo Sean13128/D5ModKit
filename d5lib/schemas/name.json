@@ -1,0 +1,78 @@
+{
+ "file": "name.dat",
+ "layout": "custom",
+ "custom": "name_lists",
+ "lists": 30,
+ "desc": "Random name lists for created/recruited generic characters. File: u32 counts[30]; u32 offsets[sum(counts)] (relative to pool start, list order); pool of NUL-terminated UTF-8 strings. Lists = 6 kinds x 5 languages (JP,EN,FR,CHN,KOR): 0-4 human male, 5-9 human female, 10-14 monster male, 15-19 monster female, 20-24 extra joke names/nicknames (\"What?\", \"VIP\", \"Generic Name\"; FR list only 45 entries), 25-29 extra (only 29 KOR used, 29 names). Lists are per language and NOT index-aligned (EN male starts \"Dr. Klahn\", JP male starts with アーカード; CHN female list has 944 entries). Pseudo-record per list entry; kind chosen by char.dat kind_gender (human/monster x male/female).",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "pseudo: total entries"
+   }
+  ]
+ },
+ "record_size": 12,
+ "key": null,
+ "display": "text",
+ "fields": [
+  {
+   "name": "list",
+   "offset": 0,
+   "type": "u32",
+   "desc": "list index 0-29 (kind*5 + language); kinds: 0 human male, 1 human female, 2 monster male, 3 monster female, 4 extra/joke names, 5 extra (KOR only)",
+   "confidence": "high",
+   "enum": {
+    "0": "human male JP",
+    "1": "human male EN",
+    "2": "human male FR",
+    "3": "human male CHN",
+    "4": "human male KOR",
+    "5": "human female JP",
+    "6": "human female EN",
+    "7": "human female FR",
+    "8": "human female CHN",
+    "9": "human female KOR",
+    "10": "monster male JP",
+    "11": "monster male EN",
+    "12": "monster male FR",
+    "13": "monster male CHN",
+    "14": "monster male KOR",
+    "15": "monster female JP",
+    "16": "monster female EN",
+    "17": "monster female FR",
+    "18": "monster female CHN",
+    "19": "monster female KOR",
+    "20": "extra/joke JP",
+    "21": "extra/joke EN",
+    "22": "extra/joke FR",
+    "23": "extra/joke CHN",
+    "24": "extra/joke KOR",
+    "25": "extra2 JP",
+    "26": "extra2 EN",
+    "27": "extra2 FR",
+    "28": "extra2 CHN",
+    "29": "extra2 KOR"
+   }
+  },
+  {
+   "name": "pool_order",
+   "offset": 4,
+   "type": "u32",
+   "desc": "position of the string inside the pool (kept for byte-identical rewrite; new rows: use a large number)",
+   "confidence": "high"
+  },
+  {
+   "name": "text",
+   "offset": 8,
+   "type": "strptr",
+   "virtual": true,
+   "desc": "the name",
+   "confidence": "high"
+  }
+ ]
+}

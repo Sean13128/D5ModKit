@@ -1,0 +1,104 @@
+{
+ "file": "news.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 2036,
+ "key": "id",
+ "display": "text_EN",
+ "desc": "Netherworld News ticker messages (261 rows) with a show/hide flag window (story progress).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "news id 1..261",
+   "confidence": "high"
+  },
+  {
+   "name": "hide_flag",
+   "offset": 4,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "news disappears once this flag is ON (0 = never). e.g. 399 FLAG_SCENARIO_03_CLEAR",
+   "confidence": "high"
+  },
+  {
+   "name": "show_flag",
+   "offset": 8,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "news becomes available when this flag is ON (0 = always). scenario flags (101..1736), facility flags (14000..), FLAG_CHARAMAKE_* (17001..) for class features",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_00C",
+   "offset": 12,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "text_JP",
+   "offset": 14,
+   "type": "str",
+   "size": 404,
+   "lang": "JP",
+   "desc": "news ticker text",
+   "confidence": "high"
+  },
+  {
+   "name": "text_EN",
+   "offset": 418,
+   "type": "str",
+   "size": 404,
+   "lang": "EN",
+   "desc": "news ticker text",
+   "confidence": "high"
+  },
+  {
+   "name": "text_FR",
+   "offset": 822,
+   "type": "str",
+   "size": 404,
+   "lang": "FR",
+   "desc": "news ticker text",
+   "confidence": "high"
+  },
+  {
+   "name": "text_CHN",
+   "offset": 1226,
+   "type": "str",
+   "size": 404,
+   "lang": "CHN",
+   "desc": "news ticker text",
+   "confidence": "high"
+  },
+  {
+   "name": "text_KOR",
+   "offset": 1630,
+   "type": "str",
+   "size": 404,
+   "lang": "KOR",
+   "desc": "news ticker text",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_7F2",
+   "offset": 2034,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "low"
+  }
+ ]
+}

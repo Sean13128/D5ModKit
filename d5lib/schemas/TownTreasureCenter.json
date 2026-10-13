@@ -1,0 +1,88 @@
+{
+ "file": "TownTreasureCenter.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 36,
+ "key": "id",
+ "display": null,
+ "desc": "Treasure chests in the pocket netherworld base, 3 per chapter, visible in a story-flag window.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "chest id 0..50",
+   "confidence": "high"
+  },
+  {
+   "name": "direction",
+   "offset": 4,
+   "type": "i32",
+   "desc": "facing angle (-180/-90/0/90)",
+   "confidence": "medium"
+  },
+  {
+   "name": "pos_x",
+   "offset": 8,
+   "type": "u32",
+   "desc": "x position on the base map",
+   "confidence": "medium"
+  },
+  {
+   "name": "pos_y",
+   "offset": 12,
+   "type": "u32",
+   "desc": "y position on the base map",
+   "confidence": "medium"
+  },
+  {
+   "name": "opened_flag",
+   "offset": 16,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "FLAG_TOWN_TREASURE_START(2600)+id: set when the chest is opened",
+   "confidence": "high"
+  },
+  {
+   "name": "show_flag",
+   "offset": 20,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "chest appears after this scenario flag (-1 = from start), e.g. 199 = ep.1 clear",
+   "confidence": "medium"
+  },
+  {
+   "name": "hide_flag",
+   "offset": 24,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "chest disappears after this scenario flag (-1 = never)",
+   "confidence": "medium"
+  },
+  {
+   "name": "treasure_id",
+   "offset": 28,
+   "type": "u32",
+   "desc": "always equal to opened_flag (2600+id); contents lookup id?",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_020",
+   "offset": 32,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  }
+ ]
+}

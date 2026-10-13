@@ -1,0 +1,925 @@
+{
+ "file": "senator2.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 132,
+ "key": "id",
+ "display": null,
+ "desc": "Relationship/affinity matrix, 107 rows x 128 i8 columns. Rows 1..80 form 8 groups of 10: members of a group are +50 to each other and -25 to the paired group (1-10 vs 11-20, 21-30 vs 31-40, ...), 0 to self and everyone else; columns 81..128 and rows 81..107 are 0. What the ids are (senator groups? personalities?) is unverified.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "row id 1..107; rows 1..80 used, 81..107 all zero",
+   "confidence": "high"
+  },
+  {
+   "name": "rel_001",
+   "offset": 4,
+   "type": "i8",
+   "desc": "relation to id 1: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_002",
+   "offset": 5,
+   "type": "i8",
+   "desc": "relation to id 2: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_003",
+   "offset": 6,
+   "type": "i8",
+   "desc": "relation to id 3: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_004",
+   "offset": 7,
+   "type": "i8",
+   "desc": "relation to id 4: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_005",
+   "offset": 8,
+   "type": "i8",
+   "desc": "relation to id 5: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_006",
+   "offset": 9,
+   "type": "i8",
+   "desc": "relation to id 6: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_007",
+   "offset": 10,
+   "type": "i8",
+   "desc": "relation to id 7: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_008",
+   "offset": 11,
+   "type": "i8",
+   "desc": "relation to id 8: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_009",
+   "offset": 12,
+   "type": "i8",
+   "desc": "relation to id 9: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_010",
+   "offset": 13,
+   "type": "i8",
+   "desc": "relation to id 10: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_011",
+   "offset": 14,
+   "type": "i8",
+   "desc": "relation to id 11: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_012",
+   "offset": 15,
+   "type": "i8",
+   "desc": "relation to id 12: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_013",
+   "offset": 16,
+   "type": "i8",
+   "desc": "relation to id 13: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_014",
+   "offset": 17,
+   "type": "i8",
+   "desc": "relation to id 14: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_015",
+   "offset": 18,
+   "type": "i8",
+   "desc": "relation to id 15: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_016",
+   "offset": 19,
+   "type": "i8",
+   "desc": "relation to id 16: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_017",
+   "offset": 20,
+   "type": "i8",
+   "desc": "relation to id 17: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_018",
+   "offset": 21,
+   "type": "i8",
+   "desc": "relation to id 18: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_019",
+   "offset": 22,
+   "type": "i8",
+   "desc": "relation to id 19: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_020",
+   "offset": 23,
+   "type": "i8",
+   "desc": "relation to id 20: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_021",
+   "offset": 24,
+   "type": "i8",
+   "desc": "relation to id 21: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_022",
+   "offset": 25,
+   "type": "i8",
+   "desc": "relation to id 22: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_023",
+   "offset": 26,
+   "type": "i8",
+   "desc": "relation to id 23: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_024",
+   "offset": 27,
+   "type": "i8",
+   "desc": "relation to id 24: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_025",
+   "offset": 28,
+   "type": "i8",
+   "desc": "relation to id 25: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_026",
+   "offset": 29,
+   "type": "i8",
+   "desc": "relation to id 26: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_027",
+   "offset": 30,
+   "type": "i8",
+   "desc": "relation to id 27: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_028",
+   "offset": 31,
+   "type": "i8",
+   "desc": "relation to id 28: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_029",
+   "offset": 32,
+   "type": "i8",
+   "desc": "relation to id 29: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_030",
+   "offset": 33,
+   "type": "i8",
+   "desc": "relation to id 30: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_031",
+   "offset": 34,
+   "type": "i8",
+   "desc": "relation to id 31: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_032",
+   "offset": 35,
+   "type": "i8",
+   "desc": "relation to id 32: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_033",
+   "offset": 36,
+   "type": "i8",
+   "desc": "relation to id 33: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_034",
+   "offset": 37,
+   "type": "i8",
+   "desc": "relation to id 34: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_035",
+   "offset": 38,
+   "type": "i8",
+   "desc": "relation to id 35: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_036",
+   "offset": 39,
+   "type": "i8",
+   "desc": "relation to id 36: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_037",
+   "offset": 40,
+   "type": "i8",
+   "desc": "relation to id 37: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_038",
+   "offset": 41,
+   "type": "i8",
+   "desc": "relation to id 38: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_039",
+   "offset": 42,
+   "type": "i8",
+   "desc": "relation to id 39: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_040",
+   "offset": 43,
+   "type": "i8",
+   "desc": "relation to id 40: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_041",
+   "offset": 44,
+   "type": "i8",
+   "desc": "relation to id 41: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_042",
+   "offset": 45,
+   "type": "i8",
+   "desc": "relation to id 42: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_043",
+   "offset": 46,
+   "type": "i8",
+   "desc": "relation to id 43: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_044",
+   "offset": 47,
+   "type": "i8",
+   "desc": "relation to id 44: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_045",
+   "offset": 48,
+   "type": "i8",
+   "desc": "relation to id 45: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_046",
+   "offset": 49,
+   "type": "i8",
+   "desc": "relation to id 46: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_047",
+   "offset": 50,
+   "type": "i8",
+   "desc": "relation to id 47: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_048",
+   "offset": 51,
+   "type": "i8",
+   "desc": "relation to id 48: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_049",
+   "offset": 52,
+   "type": "i8",
+   "desc": "relation to id 49: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_050",
+   "offset": 53,
+   "type": "i8",
+   "desc": "relation to id 50: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_051",
+   "offset": 54,
+   "type": "i8",
+   "desc": "relation to id 51: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_052",
+   "offset": 55,
+   "type": "i8",
+   "desc": "relation to id 52: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_053",
+   "offset": 56,
+   "type": "i8",
+   "desc": "relation to id 53: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_054",
+   "offset": 57,
+   "type": "i8",
+   "desc": "relation to id 54: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_055",
+   "offset": 58,
+   "type": "i8",
+   "desc": "relation to id 55: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_056",
+   "offset": 59,
+   "type": "i8",
+   "desc": "relation to id 56: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_057",
+   "offset": 60,
+   "type": "i8",
+   "desc": "relation to id 57: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_058",
+   "offset": 61,
+   "type": "i8",
+   "desc": "relation to id 58: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_059",
+   "offset": 62,
+   "type": "i8",
+   "desc": "relation to id 59: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_060",
+   "offset": 63,
+   "type": "i8",
+   "desc": "relation to id 60: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_061",
+   "offset": 64,
+   "type": "i8",
+   "desc": "relation to id 61: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_062",
+   "offset": 65,
+   "type": "i8",
+   "desc": "relation to id 62: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_063",
+   "offset": 66,
+   "type": "i8",
+   "desc": "relation to id 63: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_064",
+   "offset": 67,
+   "type": "i8",
+   "desc": "relation to id 64: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_065",
+   "offset": 68,
+   "type": "i8",
+   "desc": "relation to id 65: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_066",
+   "offset": 69,
+   "type": "i8",
+   "desc": "relation to id 66: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_067",
+   "offset": 70,
+   "type": "i8",
+   "desc": "relation to id 67: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_068",
+   "offset": 71,
+   "type": "i8",
+   "desc": "relation to id 68: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_069",
+   "offset": 72,
+   "type": "i8",
+   "desc": "relation to id 69: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_070",
+   "offset": 73,
+   "type": "i8",
+   "desc": "relation to id 70: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_071",
+   "offset": 74,
+   "type": "i8",
+   "desc": "relation to id 71: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_072",
+   "offset": 75,
+   "type": "i8",
+   "desc": "relation to id 72: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_073",
+   "offset": 76,
+   "type": "i8",
+   "desc": "relation to id 73: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_074",
+   "offset": 77,
+   "type": "i8",
+   "desc": "relation to id 74: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_075",
+   "offset": 78,
+   "type": "i8",
+   "desc": "relation to id 75: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_076",
+   "offset": 79,
+   "type": "i8",
+   "desc": "relation to id 76: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_077",
+   "offset": 80,
+   "type": "i8",
+   "desc": "relation to id 77: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_078",
+   "offset": 81,
+   "type": "i8",
+   "desc": "relation to id 78: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_079",
+   "offset": 82,
+   "type": "i8",
+   "desc": "relation to id 79: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_080",
+   "offset": 83,
+   "type": "i8",
+   "desc": "relation to id 80: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "medium"
+  },
+  {
+   "name": "rel_081",
+   "offset": 84,
+   "type": "i8",
+   "desc": "relation to id 81: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_082",
+   "offset": 85,
+   "type": "i8",
+   "desc": "relation to id 82: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_083",
+   "offset": 86,
+   "type": "i8",
+   "desc": "relation to id 83: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_084",
+   "offset": 87,
+   "type": "i8",
+   "desc": "relation to id 84: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_085",
+   "offset": 88,
+   "type": "i8",
+   "desc": "relation to id 85: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_086",
+   "offset": 89,
+   "type": "i8",
+   "desc": "relation to id 86: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_087",
+   "offset": 90,
+   "type": "i8",
+   "desc": "relation to id 87: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_088",
+   "offset": 91,
+   "type": "i8",
+   "desc": "relation to id 88: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_089",
+   "offset": 92,
+   "type": "i8",
+   "desc": "relation to id 89: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_090",
+   "offset": 93,
+   "type": "i8",
+   "desc": "relation to id 90: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_091",
+   "offset": 94,
+   "type": "i8",
+   "desc": "relation to id 91: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_092",
+   "offset": 95,
+   "type": "i8",
+   "desc": "relation to id 92: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_093",
+   "offset": 96,
+   "type": "i8",
+   "desc": "relation to id 93: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_094",
+   "offset": 97,
+   "type": "i8",
+   "desc": "relation to id 94: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_095",
+   "offset": 98,
+   "type": "i8",
+   "desc": "relation to id 95: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_096",
+   "offset": 99,
+   "type": "i8",
+   "desc": "relation to id 96: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_097",
+   "offset": 100,
+   "type": "i8",
+   "desc": "relation to id 97: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_098",
+   "offset": 101,
+   "type": "i8",
+   "desc": "relation to id 98: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_099",
+   "offset": 102,
+   "type": "i8",
+   "desc": "relation to id 99: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_100",
+   "offset": 103,
+   "type": "i8",
+   "desc": "relation to id 100: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_101",
+   "offset": 104,
+   "type": "i8",
+   "desc": "relation to id 101: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_102",
+   "offset": 105,
+   "type": "i8",
+   "desc": "relation to id 102: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_103",
+   "offset": 106,
+   "type": "i8",
+   "desc": "relation to id 103: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_104",
+   "offset": 107,
+   "type": "i8",
+   "desc": "relation to id 104: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_105",
+   "offset": 108,
+   "type": "i8",
+   "desc": "relation to id 105: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_106",
+   "offset": 109,
+   "type": "i8",
+   "desc": "relation to id 106: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_107",
+   "offset": 110,
+   "type": "i8",
+   "desc": "relation to id 107: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_108",
+   "offset": 111,
+   "type": "i8",
+   "desc": "relation to id 108: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_109",
+   "offset": 112,
+   "type": "i8",
+   "desc": "relation to id 109: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_110",
+   "offset": 113,
+   "type": "i8",
+   "desc": "relation to id 110: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_111",
+   "offset": 114,
+   "type": "i8",
+   "desc": "relation to id 111: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_112",
+   "offset": 115,
+   "type": "i8",
+   "desc": "relation to id 112: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_113",
+   "offset": 116,
+   "type": "i8",
+   "desc": "relation to id 113: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_114",
+   "offset": 117,
+   "type": "i8",
+   "desc": "relation to id 114: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_115",
+   "offset": 118,
+   "type": "i8",
+   "desc": "relation to id 115: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_116",
+   "offset": 119,
+   "type": "i8",
+   "desc": "relation to id 116: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_117",
+   "offset": 120,
+   "type": "i8",
+   "desc": "relation to id 117: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_118",
+   "offset": 121,
+   "type": "i8",
+   "desc": "relation to id 118: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_119",
+   "offset": 122,
+   "type": "i8",
+   "desc": "relation to id 119: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_120",
+   "offset": 123,
+   "type": "i8",
+   "desc": "relation to id 120: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_121",
+   "offset": 124,
+   "type": "i8",
+   "desc": "relation to id 121: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_122",
+   "offset": 125,
+   "type": "i8",
+   "desc": "relation to id 122: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_123",
+   "offset": 126,
+   "type": "i8",
+   "desc": "relation to id 123: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_124",
+   "offset": 127,
+   "type": "i8",
+   "desc": "relation to id 124: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_125",
+   "offset": 128,
+   "type": "i8",
+   "desc": "relation to id 125: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_126",
+   "offset": 129,
+   "type": "i8",
+   "desc": "relation to id 126: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_127",
+   "offset": 130,
+   "type": "i8",
+   "desc": "relation to id 127: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  },
+  {
+   "name": "rel_128",
+   "offset": 131,
+   "type": "i8",
+   "desc": "relation to id 128: +50 friendly (same group of 10), -25 hostile (paired rival group), 0 self/none",
+   "confidence": "low"
+  }
+ ]
+}

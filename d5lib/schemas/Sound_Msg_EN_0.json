@@ -1,0 +1,43 @@
+{
+ "file": "Sound_Msg_EN_0.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 8,
+ "key": "id",
+ "display": "id",
+ "desc": "EN dub story voice (dialogue) index for Sound_Msg_0.dat (msg_en/ members). FAFULLFS header: \"FAFULLFS\", u32 file count, u16 0x6c, u16 0x6c, u64 name-table offset, u64 name-table size, u64 end of data; data starts at 0x200.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "message voice id: member \"msg_en/%09d.ogg\" of Data/Sound_Msg/Sound_Msg_0.dat (FAFULLFS archive; directory = NUL-separated names at the offset in header +0x10). Voiced dialogue lines of events/skits (talk.dat)",
+   "confidence": "high"
+  },
+  {
+   "name": "volume",
+   "offset": 4,
+   "type": "u16",
+   "desc": "volume 11..150",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_006",
+   "offset": 6,
+   "type": "u16",
+   "desc": "always 68",
+   "confidence": "low"
+  }
+ ]
+}

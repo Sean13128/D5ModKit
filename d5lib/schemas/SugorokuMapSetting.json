@@ -1,0 +1,436 @@
+{
+ "file": "SugorokuMapSetting.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 244,
+ "key": null,
+ "display": "name_EN",
+ "desc": "",
+ "fields": [
+  {
+   "name": "unk_000",
+   "offset": 0,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 20,
+   "lang": "JP",
+   "confidence": "medium"
+  },
+  {
+   "name": "name_EN",
+   "offset": 24,
+   "type": "str",
+   "size": 20,
+   "lang": "EN",
+   "confidence": "medium"
+  },
+  {
+   "name": "name_FR",
+   "offset": 44,
+   "type": "str",
+   "size": 20,
+   "lang": "FR",
+   "confidence": "medium"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 64,
+   "type": "str",
+   "size": 20,
+   "lang": "CHN",
+   "confidence": "medium"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 84,
+   "type": "str",
+   "size": 20,
+   "lang": "KOR",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_068",
+   "offset": 104,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_06C",
+   "offset": 108,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_070",
+   "offset": 112,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_074",
+   "offset": 116,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_076",
+   "offset": 118,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_077",
+   "offset": 119,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_078",
+   "offset": 120,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_079",
+   "offset": 121,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_07A",
+   "offset": 122,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_07B",
+   "offset": 123,
+   "type": "u8",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_07C",
+   "offset": 124,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_080",
+   "offset": 128,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_084",
+   "offset": 132,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_088",
+   "offset": 136,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_08A",
+   "offset": 138,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_08C",
+   "offset": 140,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_08E",
+   "offset": 142,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_090",
+   "offset": 144,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_092",
+   "offset": 146,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_094",
+   "offset": 148,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_096",
+   "offset": 150,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_098",
+   "offset": 152,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_09A",
+   "offset": 154,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_09C",
+   "offset": 156,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_09E",
+   "offset": 158,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0A0",
+   "offset": 160,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0A2",
+   "offset": 162,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0A4",
+   "offset": 164,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0A6",
+   "offset": 166,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0A8",
+   "offset": 168,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0AA",
+   "offset": 170,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0AC",
+   "offset": 172,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0AE",
+   "offset": 174,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0B0",
+   "offset": 176,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0B2",
+   "offset": 178,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0B4",
+   "offset": 180,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_0B8",
+   "offset": 184,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_0BC",
+   "offset": 188,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_0C0",
+   "offset": 192,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0C2",
+   "offset": 194,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0C4",
+   "offset": 196,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0C6",
+   "offset": 198,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0C8",
+   "offset": 200,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0CA",
+   "offset": 202,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0CC",
+   "offset": 204,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0D0",
+   "offset": 208,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_0D4",
+   "offset": 212,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_0D8",
+   "offset": 216,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_0DC",
+   "offset": 220,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0DE",
+   "offset": 222,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0E0",
+   "offset": 224,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0E2",
+   "offset": 226,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0E4",
+   "offset": 228,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0E6",
+   "offset": 230,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0E8",
+   "offset": 232,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0EA",
+   "offset": 234,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0EC",
+   "offset": 236,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0EE",
+   "offset": 238,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0F0",
+   "offset": 240,
+   "type": "u16",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0F2",
+   "offset": 242,
+   "type": "u16",
+   "confidence": "low"
+  }
+ ]
+}

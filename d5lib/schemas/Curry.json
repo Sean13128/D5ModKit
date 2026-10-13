@@ -1,0 +1,588 @@
+{
+ "file": "Curry.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1692,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Curry Shop menu (11 curries). Effects are small i32 strengths per stat/resistance/bonus; 'effects_*' is the short effect summary shown in the menu. text3 slots are empty in all rows.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "curry id 1..11",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 40,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 44,
+   "type": "str",
+   "size": 40,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 84,
+   "type": "str",
+   "size": 40,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 124,
+   "type": "str",
+   "size": 40,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 164,
+   "type": "str",
+   "size": 40,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "unlock_flag",
+   "offset": 204,
+   "type": "i32",
+   "desc": "-1 = always available; 18050..18053 on the 4 DLC/bonus curries (Exclusive, Dengeki Rage, Sardine, Sweets): unlock flag/DLC id",
+   "confidence": "medium"
+  },
+  {
+   "name": "price",
+   "offset": 208,
+   "type": "i32",
+   "desc": "price in HL (450..800)",
+   "confidence": "high"
+  },
+  {
+   "name": "HP",
+   "offset": 212,
+   "type": "i32",
+   "desc": "curry effect strength for HP (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "SP",
+   "offset": 216,
+   "type": "i32",
+   "desc": "curry effect strength for SP (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "ATK",
+   "offset": 220,
+   "type": "i32",
+   "desc": "curry effect strength for ATK (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "DEF",
+   "offset": 224,
+   "type": "i32",
+   "desc": "curry effect strength for DEF (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "INT",
+   "offset": 228,
+   "type": "i32",
+   "desc": "curry effect strength for INT (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "RES",
+   "offset": 232,
+   "type": "i32",
+   "desc": "curry effect strength for RES (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "HIT",
+   "offset": 236,
+   "type": "i32",
+   "desc": "curry effect strength for HIT (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "SPD",
+   "offset": 240,
+   "type": "i32",
+   "desc": "curry effect strength for SPD (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "MOV",
+   "offset": 244,
+   "type": "i32",
+   "desc": "curry effect strength for MOV (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "JMP",
+   "offset": 248,
+   "type": "i32",
+   "desc": "curry effect strength for JMP (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "RNG",
+   "offset": 252,
+   "type": "i32",
+   "desc": "curry effect strength for RNG (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "THR",
+   "offset": 256,
+   "type": "i32",
+   "desc": "curry effect strength for THR (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "CNT",
+   "offset": 260,
+   "type": "i32",
+   "desc": "curry effect strength for CNT (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "CRT",
+   "offset": 264,
+   "type": "i32",
+   "desc": "curry effect strength for CRT (small ints; verified e.g. Pork Curry 'Critical Rate Up' -> CRT, Chicken 'SPD Up, Move Up' -> SPD/MOV, Sweets 'Jump Up' -> JMP)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_fist",
+   "offset": 268,
+   "type": "i32",
+   "desc": "resistance-up effect for fist (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_sword",
+   "offset": 272,
+   "type": "i32",
+   "desc": "resistance-up effect for sword (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_spear",
+   "offset": 276,
+   "type": "i32",
+   "desc": "resistance-up effect for spear (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_bow",
+   "offset": 280,
+   "type": "i32",
+   "desc": "resistance-up effect for bow (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_gun",
+   "offset": 284,
+   "type": "i32",
+   "desc": "resistance-up effect for gun (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_axe",
+   "offset": 288,
+   "type": "i32",
+   "desc": "resistance-up effect for axe (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_staff",
+   "offset": 292,
+   "type": "i32",
+   "desc": "resistance-up effect for staff (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_monster",
+   "offset": 296,
+   "type": "i32",
+   "desc": "resistance-up effect for monster (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_fire",
+   "offset": 300,
+   "type": "i32",
+   "desc": "resistance-up effect for fire (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_ice",
+   "offset": 304,
+   "type": "i32",
+   "desc": "resistance-up effect for ice (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_wind",
+   "offset": 308,
+   "type": "i32",
+   "desc": "resistance-up effect for wind (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_star",
+   "offset": 312,
+   "type": "i32",
+   "desc": "resistance-up effect for star (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_poison",
+   "offset": 316,
+   "type": "i32",
+   "desc": "resistance-up effect for poison (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "medium"
+  },
+  {
+   "name": "res_sleep",
+   "offset": 320,
+   "type": "i32",
+   "desc": "resistance-up effect for sleep (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "high"
+  },
+  {
+   "name": "res_paralysis",
+   "offset": 324,
+   "type": "i32",
+   "desc": "resistance-up effect for paralysis (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "high"
+  },
+  {
+   "name": "res_amnesia",
+   "offset": 328,
+   "type": "i32",
+   "desc": "resistance-up effect for amnesia (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "high"
+  },
+  {
+   "name": "res_deprave",
+   "offset": 332,
+   "type": "i32",
+   "desc": "resistance-up effect for deprave (Go Go 'Paralyze Res Up', Katsu 'Sleep', Shrimp 'Amnesia', Beef 'Deprave' verified the ailment slots; element order Fire/Ice/Wind/Star from the old scheme, unverified)",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_150",
+   "offset": 336,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 0..1, 2 distinct; top 0(x10), 1(x1)"
+  },
+  {
+   "name": "unk_154",
+   "offset": 340,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_158",
+   "offset": 344,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_15C",
+   "offset": 348,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_160",
+   "offset": 352,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_164",
+   "offset": 356,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_168",
+   "offset": 360,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_16C",
+   "offset": 364,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_170",
+   "offset": 368,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_174",
+   "offset": 372,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_178",
+   "offset": 376,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_17C",
+   "offset": 380,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "unk_180",
+   "offset": 384,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "HP_regen",
+   "offset": 388,
+   "type": "i32",
+   "desc": "HP recovery per turn effect (Beef Curry 'HP Recovery')",
+   "confidence": "high"
+  },
+  {
+   "name": "SP_regen",
+   "offset": 392,
+   "type": "i32",
+   "desc": "SP recovery per turn effect (Seafood Curry 'SP Recovery')",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_18C",
+   "offset": 396,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 0"
+  },
+  {
+   "name": "EXP_up",
+   "offset": 400,
+   "type": "i32",
+   "desc": "EXP gain up (Exclusive Curry)",
+   "confidence": "high"
+  },
+  {
+   "name": "mana_up",
+   "offset": 404,
+   "type": "i32",
+   "desc": "Mana gain up (Exclusive Curry; also 1 on Go Go Curry)",
+   "confidence": "medium"
+  },
+  {
+   "name": "HL_up",
+   "offset": 408,
+   "type": "i32",
+   "desc": "HL gain up (Exclusive Curry)",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_19C",
+   "offset": 412,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "observed 0..1, 2 distinct; top 0(x10), 1(x1)"
+  },
+  {
+   "name": "enemy_revenge_up",
+   "offset": 416,
+   "type": "i32",
+   "desc": "enemy Revenge gauge up (Dengeki Rage Curry)",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_1A4",
+   "offset": 420,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 1"
+  },
+  {
+   "name": "unk_1A8",
+   "offset": 424,
+   "type": "u32",
+   "confidence": "low",
+   "desc": "always 1"
+  },
+  {
+   "name": "icon",
+   "offset": 428,
+   "type": "i32",
+   "desc": "icon/graphic variant (1 or 2)",
+   "confidence": "low"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 432,
+   "type": "str",
+   "size": 132,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 564,
+   "type": "str",
+   "size": 132,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 696,
+   "type": "str",
+   "size": 132,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 828,
+   "type": "str",
+   "size": 132,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 960,
+   "type": "str",
+   "size": 132,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "effects_JP",
+   "offset": 1092,
+   "type": "str",
+   "size": 60,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "effects_EN",
+   "offset": 1152,
+   "type": "str",
+   "size": 60,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "effects_FR",
+   "offset": 1212,
+   "type": "str",
+   "size": 60,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "effects_CHN",
+   "offset": 1272,
+   "type": "str",
+   "size": 60,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "effects_KOR",
+   "offset": 1332,
+   "type": "str",
+   "size": 60,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "text3_JP",
+   "offset": 1392,
+   "type": "str",
+   "size": 60,
+   "lang": "JP",
+   "confidence": "medium"
+  },
+  {
+   "name": "text3_EN",
+   "offset": 1452,
+   "type": "str",
+   "size": 60,
+   "lang": "EN",
+   "confidence": "medium"
+  },
+  {
+   "name": "text3_FR",
+   "offset": 1512,
+   "type": "str",
+   "size": 60,
+   "lang": "FR",
+   "confidence": "medium"
+  },
+  {
+   "name": "text3_CHN",
+   "offset": 1572,
+   "type": "str",
+   "size": 60,
+   "lang": "CHN",
+   "confidence": "medium"
+  },
+  {
+   "name": "text3_KOR",
+   "offset": 1632,
+   "type": "str",
+   "size": 60,
+   "lang": "KOR",
+   "confidence": "medium"
+  }
+ ]
+}

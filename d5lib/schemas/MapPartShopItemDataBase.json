@@ -1,0 +1,44 @@
+{
+ "file": "MapPartShopItemDataBase.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 12,
+ "key": "id",
+ "display": "id",
+ "desc": "Base (Pocket Netherworld) edit shop: map parts for sale. Objects are char.dat 'characters' (geo objects). Parts 101..161 have no char id (probably exterior/terrain parts, cf. MakaiEdit_ExteriorPartsDataBase).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "map-part id (1..53 = placeable objects, 101..161 = other parts)",
+   "confidence": "high"
+  },
+  {
+   "name": "price",
+   "offset": 4,
+   "type": "u32",
+   "desc": "price in HL (60,000 .. 1,200,000)",
+   "confidence": "high"
+  },
+  {
+   "name": "char_id",
+   "offset": 8,
+   "type": "u32",
+   "desc": "parts 1..53: char.dat id (char offset 208) of the placeable object (5102 Blood Parch Cactus, 5217 Cactus ... 5297 Giant Mushroom); 0 for parts 101+",
+   "confidence": "high",
+   "ref": "char.dat"
+  }
+ ]
+}

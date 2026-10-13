@@ -1,0 +1,64 @@
+{
+ "file": "Enemy_Create_TableDataBase.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 28,
+ "key": null,
+ "display": null,
+ "desc": "",
+ "fields": [
+  {
+   "name": "unk_000",
+   "offset": 0,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_004",
+   "offset": 4,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_008",
+   "offset": 8,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_00C",
+   "offset": 12,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_010",
+   "offset": 16,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_014",
+   "offset": 20,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_018",
+   "offset": 24,
+   "type": "u32",
+   "confidence": "low"
+  }
+ ]
+}

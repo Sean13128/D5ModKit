@@ -1,0 +1,102 @@
+{
+ "file": "THIEF.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 232,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Names of intangible things stolen when Steal takes something that is not an item (Dreams, Affection, Allowance ...), grouped by 'group' (11 = money: Piggy Bank, Avarice, Allowance).",
+ "fields": [
+  {
+   "name": "unk_000",
+   "offset": 0,
+   "type": "u32",
+   "desc": "always 1",
+   "confidence": "low"
+  },
+  {
+   "name": "id",
+   "offset": 4,
+   "type": "u32",
+   "desc": "entry id 1..78",
+   "confidence": "high"
+  },
+  {
+   "name": "group",
+   "offset": 8,
+   "type": "u16",
+   "desc": "category; probably the stat that is stolen (8 groups + 10, 11)",
+   "confidence": "low",
+   "enum": {
+    "0": "HP?",
+    "1": "SP?",
+    "2": "ATK?",
+    "3": "DEF?",
+    "4": "INT?",
+    "5": "RES?",
+    "6": "HIT?",
+    "7": "SPD?",
+    "10": "EXP?",
+    "11": "HL (money)"
+   }
+  },
+  {
+   "name": "name_JP",
+   "offset": 10,
+   "type": "str",
+   "size": 44,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 54,
+   "type": "str",
+   "size": 44,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 98,
+   "type": "str",
+   "size": 44,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 142,
+   "type": "str",
+   "size": 44,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 186,
+   "type": "str",
+   "size": 44,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_0E6",
+   "offset": 230,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

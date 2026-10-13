@@ -1,0 +1,98 @@
+{
+ "file": "AttackMap.dat",
+ "layout": "custom",
+ "custom": "attackmap",
+ "desc": "Area-of-effect / target shapes used by magic.dat attack_map. File: u16 count, u16 cell_count, count x 8-byte shape records, cell_count x 3-byte cells, then 3 trailing junk bytes (\"gra\"). Coordinates: x = sideways, y = forward (facing direction of the user, +y away from the user). Shapes that contain an origin cell (kind 3) are centred on the target cursor (skills with range > 0); shapes without it are placed relative to the user (range 0 skills, e.g. 1001 = the panel in front, 3000 = 3 panels in a line). Cells of kind 2 are where the user ends up (skills that move the user, e.g. 1100 Triple Strike). Id families roughly = cell count x 1000 (1000-1300 one/two panels, 9000 = 9 cells...), 1-9 / 101-122 small cursor shapes, 25000-25008 straight lines of 1..9, 30000 self, 31000 radius-5 diamond (60 cells). The last record (id 33464, cells 61..129) looks like leftover junk and is not referenced.",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u16",
+    "role": "count",
+    "confidence": "high"
+   },
+   {
+    "name": "cell_count",
+    "offset": 2,
+    "type": "u16",
+    "desc": "number of cells in the cells section",
+    "confidence": "high"
+   }
+  ]
+ },
+ "record_size": 8,
+ "key": "id",
+ "display": "id",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "shape id (referenced by magic.dat attack_map)",
+   "confidence": "high"
+  },
+  {
+   "name": "first_cell",
+   "offset": 4,
+   "type": "u16",
+   "desc": "index of the first cell in the cells section (cells of a shape are contiguous)",
+   "confidence": "high"
+  },
+  {
+   "name": "cell_num",
+   "offset": 6,
+   "type": "u8",
+   "desc": "number of cells",
+   "confidence": "high"
+  },
+  {
+   "name": "directional",
+   "offset": 7,
+   "type": "u8",
+   "desc": "1 = shape rotates with the user facing (not 90-degree symmetric); 0 = rotation-symmetric shape (verified: 0 exactly for the 28 shapes that are invariant under 90-degree rotation)",
+   "confidence": "high"
+  }
+ ],
+ "sections": {
+  "cells": {
+   "header": {
+    "size": 0,
+    "fields": []
+   },
+   "record_size": 3,
+   "key": null,
+   "display": null,
+   "fields": [
+    {
+     "name": "x",
+     "offset": 0,
+     "type": "i8",
+     "desc": "sideways offset in panels",
+     "confidence": "high"
+    },
+    {
+     "name": "y",
+     "offset": 1,
+     "type": "i8",
+     "desc": "forward offset in panels (+ = away from the user, in the facing direction)",
+     "confidence": "high"
+    },
+    {
+     "name": "kind",
+     "offset": 2,
+     "type": "u8",
+     "enum": {
+      "1": "affected panel",
+      "2": "user destination (skill moves the user)",
+      "3": "origin / cursor panel (also affected)"
+     },
+     "desc": "cell kind",
+     "confidence": "medium"
+    }
+   ],
+   "desc": "shape cells (3 bytes each); the shape record points into this list with first_cell/cell_num"
+  }
+ }
+}

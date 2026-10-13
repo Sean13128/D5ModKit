@@ -1,0 +1,2527 @@
+{
+ "file": "zukan.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 21288,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Character encyclopedia (Records/zukan), 94 entries (story + generic classes + DLC guests). Each entry: name, char.dat id, 5 pages x 5 unlock-flag slots, and 5 pages x 10 lines x 5 languages of 84-byte text slots starting at +0x120 (line-major, language-minor interleave). Baseline string detection was misaligned (it started at the EN line); fixed here.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "entry id 0..93 (= row index)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 36,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 40,
+   "type": "str",
+   "size": 36,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 76,
+   "type": "str",
+   "size": 36,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 112,
+   "type": "str",
+   "size": 36,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 148,
+   "type": "str",
+   "size": 36,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "char_id",
+   "offset": 184,
+   "type": "u32",
+   "ref": "char.dat",
+   "desc": "character shown for this entry: char.dat id (u32 at char.dat record +0xD0; e.g. 10=Killia, 1010..1015=Warrior tiers)",
+   "confidence": "high"
+  },
+  {
+   "name": "page1_flag1",
+   "offset": 188,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "unlock flag for encyclopedia page 1 (flag id, -1 = none). Slot 1 holds scenario flags (e.g. 101, 701, 1311), FLAG_CHARAMAKE_* (17001..) for generic classes, FLAG_JOIN_* (13600..) or FLAG_DLC_CHARA_HAVE_* (18300..); small values 2..39 on class pages 1 are unnamed flags. Slots 2..5 are -1 in every row (probably extra/alternative flags)",
+   "confidence": "medium"
+  },
+  {
+   "name": "page1_flag2",
+   "offset": 192,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 1 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page1_flag3",
+   "offset": 196,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 1 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page1_flag4",
+   "offset": 200,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 1 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page1_flag5",
+   "offset": 204,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 1 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page2_flag1",
+   "offset": 208,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "unlock flag for encyclopedia page 2 (flag id, -1 = none). Slot 1 holds scenario flags (e.g. 101, 701, 1311), FLAG_CHARAMAKE_* (17001..) for generic classes, FLAG_JOIN_* (13600..) or FLAG_DLC_CHARA_HAVE_* (18300..); small values 2..39 on class pages 1 are unnamed flags. Slots 2..5 are -1 in every row (probably extra/alternative flags)",
+   "confidence": "medium"
+  },
+  {
+   "name": "page2_flag2",
+   "offset": 212,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 2 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page2_flag3",
+   "offset": 216,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 2 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page2_flag4",
+   "offset": 220,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 2 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page2_flag5",
+   "offset": 224,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 2 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page3_flag1",
+   "offset": 228,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "unlock flag for encyclopedia page 3 (flag id, -1 = none). Slot 1 holds scenario flags (e.g. 101, 701, 1311), FLAG_CHARAMAKE_* (17001..) for generic classes, FLAG_JOIN_* (13600..) or FLAG_DLC_CHARA_HAVE_* (18300..); small values 2..39 on class pages 1 are unnamed flags. Slots 2..5 are -1 in every row (probably extra/alternative flags)",
+   "confidence": "medium"
+  },
+  {
+   "name": "page3_flag2",
+   "offset": 232,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 3 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page3_flag3",
+   "offset": 236,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 3 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page3_flag4",
+   "offset": 240,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 3 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page3_flag5",
+   "offset": 244,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 3 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page4_flag1",
+   "offset": 248,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "unlock flag for encyclopedia page 4 (flag id, -1 = none). Slot 1 holds scenario flags (e.g. 101, 701, 1311), FLAG_CHARAMAKE_* (17001..) for generic classes, FLAG_JOIN_* (13600..) or FLAG_DLC_CHARA_HAVE_* (18300..); small values 2..39 on class pages 1 are unnamed flags. Slots 2..5 are -1 in every row (probably extra/alternative flags)",
+   "confidence": "medium"
+  },
+  {
+   "name": "page4_flag2",
+   "offset": 252,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 4 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page4_flag3",
+   "offset": 256,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 4 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page4_flag4",
+   "offset": 260,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 4 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page4_flag5",
+   "offset": 264,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 4 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page5_flag1",
+   "offset": 268,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "unlock flag for encyclopedia page 5 (flag id, -1 = none). Slot 1 holds scenario flags (e.g. 101, 701, 1311), FLAG_CHARAMAKE_* (17001..) for generic classes, FLAG_JOIN_* (13600..) or FLAG_DLC_CHARA_HAVE_* (18300..); small values 2..39 on class pages 1 are unnamed flags. Slots 2..5 are -1 in every row (probably extra/alternative flags)",
+   "confidence": "medium"
+  },
+  {
+   "name": "page5_flag2",
+   "offset": 272,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 5 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page5_flag3",
+   "offset": 276,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 5 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page5_flag4",
+   "offset": 280,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 5 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "page5_flag5",
+   "offset": 284,
+   "type": "i32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "additional unlock flag for page 5 (always -1)",
+   "confidence": "low"
+  },
+  {
+   "name": "p1_line01_JP",
+   "offset": 288,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line01_EN",
+   "offset": 372,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line01_FR",
+   "offset": 456,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line01_CHN",
+   "offset": 540,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line01_KOR",
+   "offset": 624,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line02_JP",
+   "offset": 708,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line02_EN",
+   "offset": 792,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line02_FR",
+   "offset": 876,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line02_CHN",
+   "offset": 960,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line02_KOR",
+   "offset": 1044,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line03_JP",
+   "offset": 1128,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line03_EN",
+   "offset": 1212,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line03_FR",
+   "offset": 1296,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line03_CHN",
+   "offset": 1380,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line03_KOR",
+   "offset": 1464,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line04_JP",
+   "offset": 1548,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line04_EN",
+   "offset": 1632,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line04_FR",
+   "offset": 1716,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line04_CHN",
+   "offset": 1800,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line04_KOR",
+   "offset": 1884,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line05_JP",
+   "offset": 1968,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line05_EN",
+   "offset": 2052,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line05_FR",
+   "offset": 2136,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line05_CHN",
+   "offset": 2220,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line05_KOR",
+   "offset": 2304,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line06_JP",
+   "offset": 2388,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line06_EN",
+   "offset": 2472,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line06_FR",
+   "offset": 2556,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line06_CHN",
+   "offset": 2640,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line06_KOR",
+   "offset": 2724,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line07_JP",
+   "offset": 2808,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line07_EN",
+   "offset": 2892,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line07_FR",
+   "offset": 2976,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line07_CHN",
+   "offset": 3060,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line07_KOR",
+   "offset": 3144,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line08_JP",
+   "offset": 3228,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line08_EN",
+   "offset": 3312,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line08_FR",
+   "offset": 3396,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line08_CHN",
+   "offset": 3480,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line08_KOR",
+   "offset": 3564,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line09_JP",
+   "offset": 3648,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line09_EN",
+   "offset": 3732,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line09_FR",
+   "offset": 3816,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line09_CHN",
+   "offset": 3900,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line09_KOR",
+   "offset": 3984,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line10_JP",
+   "offset": 4068,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 1, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line10_EN",
+   "offset": 4152,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 1, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line10_FR",
+   "offset": 4236,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 1, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line10_CHN",
+   "offset": 4320,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 1, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p1_line10_KOR",
+   "offset": 4404,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 1, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line01_JP",
+   "offset": 4488,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line01_EN",
+   "offset": 4572,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line01_FR",
+   "offset": 4656,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line01_CHN",
+   "offset": 4740,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line01_KOR",
+   "offset": 4824,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line02_JP",
+   "offset": 4908,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line02_EN",
+   "offset": 4992,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line02_FR",
+   "offset": 5076,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line02_CHN",
+   "offset": 5160,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line02_KOR",
+   "offset": 5244,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line03_JP",
+   "offset": 5328,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line03_EN",
+   "offset": 5412,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line03_FR",
+   "offset": 5496,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line03_CHN",
+   "offset": 5580,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line03_KOR",
+   "offset": 5664,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line04_JP",
+   "offset": 5748,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line04_EN",
+   "offset": 5832,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line04_FR",
+   "offset": 5916,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line04_CHN",
+   "offset": 6000,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line04_KOR",
+   "offset": 6084,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line05_JP",
+   "offset": 6168,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line05_EN",
+   "offset": 6252,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line05_FR",
+   "offset": 6336,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line05_CHN",
+   "offset": 6420,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line05_KOR",
+   "offset": 6504,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line06_JP",
+   "offset": 6588,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line06_EN",
+   "offset": 6672,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line06_FR",
+   "offset": 6756,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line06_CHN",
+   "offset": 6840,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line06_KOR",
+   "offset": 6924,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line07_JP",
+   "offset": 7008,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line07_EN",
+   "offset": 7092,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line07_FR",
+   "offset": 7176,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line07_CHN",
+   "offset": 7260,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line07_KOR",
+   "offset": 7344,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line08_JP",
+   "offset": 7428,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line08_EN",
+   "offset": 7512,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line08_FR",
+   "offset": 7596,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line08_CHN",
+   "offset": 7680,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line08_KOR",
+   "offset": 7764,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line09_JP",
+   "offset": 7848,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line09_EN",
+   "offset": 7932,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line09_FR",
+   "offset": 8016,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line09_CHN",
+   "offset": 8100,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line09_KOR",
+   "offset": 8184,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line10_JP",
+   "offset": 8268,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 2, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line10_EN",
+   "offset": 8352,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 2, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line10_FR",
+   "offset": 8436,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 2, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line10_CHN",
+   "offset": 8520,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 2, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p2_line10_KOR",
+   "offset": 8604,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 2, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line01_JP",
+   "offset": 8688,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line01_EN",
+   "offset": 8772,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line01_FR",
+   "offset": 8856,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line01_CHN",
+   "offset": 8940,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line01_KOR",
+   "offset": 9024,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line02_JP",
+   "offset": 9108,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line02_EN",
+   "offset": 9192,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line02_FR",
+   "offset": 9276,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line02_CHN",
+   "offset": 9360,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line02_KOR",
+   "offset": 9444,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line03_JP",
+   "offset": 9528,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line03_EN",
+   "offset": 9612,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line03_FR",
+   "offset": 9696,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line03_CHN",
+   "offset": 9780,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line03_KOR",
+   "offset": 9864,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line04_JP",
+   "offset": 9948,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line04_EN",
+   "offset": 10032,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line04_FR",
+   "offset": 10116,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line04_CHN",
+   "offset": 10200,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line04_KOR",
+   "offset": 10284,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line05_JP",
+   "offset": 10368,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line05_EN",
+   "offset": 10452,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line05_FR",
+   "offset": 10536,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line05_CHN",
+   "offset": 10620,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line05_KOR",
+   "offset": 10704,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line06_JP",
+   "offset": 10788,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line06_EN",
+   "offset": 10872,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line06_FR",
+   "offset": 10956,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line06_CHN",
+   "offset": 11040,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line06_KOR",
+   "offset": 11124,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line07_JP",
+   "offset": 11208,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line07_EN",
+   "offset": 11292,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line07_FR",
+   "offset": 11376,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line07_CHN",
+   "offset": 11460,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line07_KOR",
+   "offset": 11544,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line08_JP",
+   "offset": 11628,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line08_EN",
+   "offset": 11712,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line08_FR",
+   "offset": 11796,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line08_CHN",
+   "offset": 11880,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line08_KOR",
+   "offset": 11964,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line09_JP",
+   "offset": 12048,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line09_EN",
+   "offset": 12132,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line09_FR",
+   "offset": 12216,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line09_CHN",
+   "offset": 12300,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line09_KOR",
+   "offset": 12384,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line10_JP",
+   "offset": 12468,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 3, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line10_EN",
+   "offset": 12552,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 3, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line10_FR",
+   "offset": 12636,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 3, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line10_CHN",
+   "offset": 12720,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 3, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p3_line10_KOR",
+   "offset": 12804,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 3, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line01_JP",
+   "offset": 12888,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line01_EN",
+   "offset": 12972,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line01_FR",
+   "offset": 13056,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line01_CHN",
+   "offset": 13140,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line01_KOR",
+   "offset": 13224,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line02_JP",
+   "offset": 13308,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line02_EN",
+   "offset": 13392,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line02_FR",
+   "offset": 13476,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line02_CHN",
+   "offset": 13560,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line02_KOR",
+   "offset": 13644,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line03_JP",
+   "offset": 13728,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line03_EN",
+   "offset": 13812,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line03_FR",
+   "offset": 13896,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line03_CHN",
+   "offset": 13980,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line03_KOR",
+   "offset": 14064,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line04_JP",
+   "offset": 14148,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line04_EN",
+   "offset": 14232,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line04_FR",
+   "offset": 14316,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line04_CHN",
+   "offset": 14400,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line04_KOR",
+   "offset": 14484,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line05_JP",
+   "offset": 14568,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line05_EN",
+   "offset": 14652,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line05_FR",
+   "offset": 14736,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line05_CHN",
+   "offset": 14820,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line05_KOR",
+   "offset": 14904,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line06_JP",
+   "offset": 14988,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line06_EN",
+   "offset": 15072,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line06_FR",
+   "offset": 15156,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line06_CHN",
+   "offset": 15240,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line06_KOR",
+   "offset": 15324,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line07_JP",
+   "offset": 15408,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line07_EN",
+   "offset": 15492,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line07_FR",
+   "offset": 15576,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line07_CHN",
+   "offset": 15660,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line07_KOR",
+   "offset": 15744,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line08_JP",
+   "offset": 15828,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line08_EN",
+   "offset": 15912,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line08_FR",
+   "offset": 15996,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line08_CHN",
+   "offset": 16080,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line08_KOR",
+   "offset": 16164,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line09_JP",
+   "offset": 16248,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line09_EN",
+   "offset": 16332,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line09_FR",
+   "offset": 16416,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line09_CHN",
+   "offset": 16500,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line09_KOR",
+   "offset": 16584,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line10_JP",
+   "offset": 16668,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 4, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line10_EN",
+   "offset": 16752,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 4, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line10_FR",
+   "offset": 16836,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 4, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line10_CHN",
+   "offset": 16920,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 4, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p4_line10_KOR",
+   "offset": 17004,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 4, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line01_JP",
+   "offset": 17088,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line01_EN",
+   "offset": 17172,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line01_FR",
+   "offset": 17256,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line01_CHN",
+   "offset": 17340,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line01_KOR",
+   "offset": 17424,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 1 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line02_JP",
+   "offset": 17508,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line02_EN",
+   "offset": 17592,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line02_FR",
+   "offset": 17676,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line02_CHN",
+   "offset": 17760,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line02_KOR",
+   "offset": 17844,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 2 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line03_JP",
+   "offset": 17928,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line03_EN",
+   "offset": 18012,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line03_FR",
+   "offset": 18096,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line03_CHN",
+   "offset": 18180,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line03_KOR",
+   "offset": 18264,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 3 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line04_JP",
+   "offset": 18348,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line04_EN",
+   "offset": 18432,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line04_FR",
+   "offset": 18516,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line04_CHN",
+   "offset": 18600,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line04_KOR",
+   "offset": 18684,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 4 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line05_JP",
+   "offset": 18768,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line05_EN",
+   "offset": 18852,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line05_FR",
+   "offset": 18936,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line05_CHN",
+   "offset": 19020,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line05_KOR",
+   "offset": 19104,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 5 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line06_JP",
+   "offset": 19188,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line06_EN",
+   "offset": 19272,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line06_FR",
+   "offset": 19356,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line06_CHN",
+   "offset": 19440,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line06_KOR",
+   "offset": 19524,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 6 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line07_JP",
+   "offset": 19608,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line07_EN",
+   "offset": 19692,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line07_FR",
+   "offset": 19776,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line07_CHN",
+   "offset": 19860,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line07_KOR",
+   "offset": 19944,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 7 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line08_JP",
+   "offset": 20028,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line08_EN",
+   "offset": 20112,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line08_FR",
+   "offset": 20196,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line08_CHN",
+   "offset": 20280,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line08_KOR",
+   "offset": 20364,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 8 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line09_JP",
+   "offset": 20448,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line09_EN",
+   "offset": 20532,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line09_FR",
+   "offset": 20616,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line09_CHN",
+   "offset": 20700,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line09_KOR",
+   "offset": 20784,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 9 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line10_JP",
+   "offset": 20868,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "page 5, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line10_EN",
+   "offset": 20952,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "page 5, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line10_FR",
+   "offset": 21036,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "page 5, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line10_CHN",
+   "offset": 21120,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "page 5, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  },
+  {
+   "name": "p5_line10_KOR",
+   "offset": 21204,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "page 5, text line 10 (lines are interleaved per language: JP,EN,FR,CHN,KOR)",
+   "confidence": "high"
+  }
+ ]
+}

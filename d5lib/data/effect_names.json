@@ -1,0 +1,3892 @@
+{
+ "_doc": "Names and categories of the game's effect models (Start/Effect/effectNNNN.obf), given from their thumbnails and the skills that use them (2026-10-08). 'used': vanilla skills that load the model. Many effects are white because the skill colours them (cmd_3c80).",
+ "effects": {
+  "100": {
+   "name": "Thin arc swipe",
+   "cat": "slash",
+   "used": [
+    "Chaotic X Circle",
+    "Sword Inferno",
+    "Fire",
+    "Omega Fire",
+    "Giga Star",
+    "Geo Blast"
+   ]
+  },
+  "101": {
+   "name": "Ember row",
+   "cat": "fire",
+   "used": [
+    "Phantom Blow",
+    "Phoenix Valor",
+    "Sword Inferno",
+    "Mega Fire",
+    "Giga Fire",
+    "Omega Fire"
+   ]
+  },
+  "102": {
+   "name": "Small flame jet",
+   "cat": "fire",
+   "used": [
+    "Top Shot",
+    "Mega Fire",
+    "Giga Fire",
+    "Tera Fire",
+    "Omega Heal",
+    "Poison"
+   ]
+  },
+  "103": {
+   "name": "Debris sparks",
+   "cat": "impact",
+   "used": [
+    "Killer Spin",
+    "Boulder Crush",
+    "Yo-Yo Trick",
+    "Giga Fire",
+    "Supreme Curry",
+    "Assault Circus"
+   ]
+  },
+  "105": {
+   "name": "Flame streak",
+   "cat": "fire",
+   "used": [
+    "Phantom Blow",
+    "Hellfire Shot",
+    "Flaming Spin Kick",
+    "Monkey Cannon",
+    "Cross Flame Gale",
+    "Atomic Super Blast"
+   ]
+  },
+  "106": {
+   "name": "Flame burst",
+   "cat": "fire",
+   "used": [
+    "Phoenix Valor",
+    "Chaotic X Circle",
+    "Fire",
+    "Mega Fire",
+    "Giga Fire",
+    "Omega Fire"
+   ]
+  },
+  "107": {
+   "name": "Flame wisp",
+   "cat": "fire",
+   "used": [
+    "Phantom Blow",
+    "Rising Heavens",
+    "Phoenix Valor",
+    "Top Shot",
+    "Fire",
+    "Mega Fire"
+   ]
+  },
+  "108": {
+   "name": "Fire streaks",
+   "cat": "fire",
+   "used": [
+    "Phoenix Valor",
+    "Mandatory Repo",
+    "Goddess Artemis",
+    "Moonlight Ensemble"
+   ]
+  },
+  "110": {
+   "name": "Smoke puff",
+   "cat": "smoke",
+   "used": [
+    "Phantom Blow",
+    "Victory Bullet",
+    "Mega Fire",
+    "Hellfire Shot",
+    "Super Damage Lord",
+    "Monkey Cannon"
+   ]
+  },
+  "111": {
+   "name": "Flat ring",
+   "cat": "ring",
+   "used": [
+    "Sword Inferno",
+    "Fire",
+    "Giga Heal",
+    "Braveheart",
+    "Demon's Solace",
+    "Prinnical Meteor"
+   ]
+  },
+  "112": {
+   "name": "Ember glow",
+   "cat": "glow",
+   "used": [
+    "Mega Fire",
+    "Giga Fire",
+    "Draugr King"
+   ]
+  },
+  "113": {
+   "name": "Faint sparkle",
+   "cat": "misc",
+   "used": [
+    "Tera Star",
+    "Monkey Cannon",
+    "Cross Flame Gale",
+    "Freezing Light",
+    "Great Beast War",
+    "Rising Ice Phoenix"
+   ]
+  },
+  "114": {
+   "name": "Small orb",
+   "cat": "glow",
+   "used": [
+    "Phantom Blow",
+    "Fire",
+    "Mega Fire",
+    "Omega Fire",
+    "Double Usa Bomber",
+    "Double Usa Blaster"
+   ]
+  },
+  "115": {
+   "name": "Fireball glow",
+   "cat": "fire",
+   "used": [
+    "Top Shot",
+    "Giga Fire",
+    "Tera Fire",
+    "Flaming Spin Kick",
+    "Monkey Cannon",
+    "Prinnical Meteor"
+   ]
+  },
+  "116": {
+   "name": "Ground flame",
+   "cat": "fire",
+   "used": []
+  },
+  "117": {
+   "name": "Smoke streak",
+   "cat": "smoke",
+   "used": [
+    "Dark Rosario",
+    "Secret Fist Improv",
+    "Dark Fist Volley",
+    "Rock-Paper-Sticky",
+    "Power Unleashed",
+    "Imperial Fox Witch"
+   ]
+  },
+  "118": {
+   "name": "Soft smoke",
+   "cat": "smoke",
+   "used": [
+    "Cell Division",
+    "Twin Attribute"
+   ]
+  },
+  "119": {
+   "name": "Billowing smoke",
+   "cat": "smoke",
+   "used": [
+    "Omega Fire",
+    "白と黒のチカラ",
+    "Flaming Spin Kick",
+    "Blazing Knuckle",
+    "Crimson Flame",
+    "Vulcan Blaze"
+   ]
+  },
+  "120": {
+   "name": "Fireball",
+   "cat": "fire",
+   "used": [
+    "Delinquent Extreme"
+   ]
+  },
+  "121": {
+   "name": "Large flame",
+   "cat": "fire",
+   "used": [
+    "Blast Finger",
+    "Vasa Aergun",
+    "Burning Soul Bros"
+   ]
+  },
+  "122": {
+   "name": "Flame wisp (2)",
+   "cat": "fire",
+   "used": [
+    "Blast Finger",
+    "Soaring Fire",
+    "Burning Soul Bros"
+   ]
+  },
+  "200": {
+   "name": "Fire ring on the ground",
+   "cat": "fire",
+   "used": [
+    "Rising Heavens",
+    "Phoenix Valor",
+    "Great Beast War",
+    "Prinny Kaiser XX",
+    "Justice Knife",
+    "D-Rule: Volunteer"
+   ]
+  },
+  "201": {
+   "name": "Glowing orb",
+   "cat": "glow",
+   "used": [
+    "Omega Fire",
+    "Explosive Elegance",
+    "Super Damage Lord",
+    "Monkey Cannon",
+    "Coney Pound",
+    "Grand Macro Palm"
+   ]
+  },
+  "202": {
+   "name": "Star flare",
+   "cat": "impact",
+   "used": [
+    "Two-Handed Draw",
+    "Super Damage Lord",
+    "Great Beast War",
+    "Stratus Drive",
+    "Blazing Knuckle",
+    "Prinny Raid"
+   ]
+  },
+  "203": {
+   "name": "X burst",
+   "cat": "explosion",
+   "used": [
+    "Rising Heavens",
+    "Top Shot",
+    "Giga Fire",
+    "Explosive Elegance",
+    "Super Damage Lord",
+    "Monkey Cannon"
+   ]
+  },
+  "204": {
+   "name": "Fire explosion",
+   "cat": "explosion",
+   "used": [
+    "Phoenix Valor",
+    "Top Shot",
+    "Toten Kreuz",
+    "Giga Fire",
+    "Omega Fire",
+    "Flaming Spin Kick"
+   ]
+  },
+  "205": {
+   "name": "Soft oval glow",
+   "cat": "glow",
+   "used": [
+    "Toten Kreuz",
+    "Mega Fire",
+    "Omega Fire",
+    "Tera Heal",
+    "Cross Flame Gale",
+    "Gospel of Power"
+   ]
+  },
+  "206": {
+   "name": "Debris",
+   "cat": "impact",
+   "used": [
+    "Phoenix Valor",
+    "Mega Fire",
+    "Twin Macro Palm",
+    "Final Boss Arises",
+    "Delta of Death",
+    "Delta Calamity"
+   ]
+  },
+  "207": {
+   "name": "Fire burst with spike",
+   "cat": "explosion",
+   "used": [
+    "Draugr King",
+    "Flonnezilla"
+   ]
+  },
+  "208": {
+   "name": "Small splash",
+   "cat": "impact",
+   "used": [
+    "Rising Domination",
+    "Toten Kreuz",
+    "Tera Fire",
+    "Omega Star",
+    "Tera Heal",
+    "Hellfire Shot"
+   ]
+  },
+  "209": {
+   "name": "Dome shockwave",
+   "cat": "explosion",
+   "used": [
+    "Toten Kreuz",
+    "Tera Heal",
+    "Ruin Burst",
+    "Wormhole",
+    "Flonnezilla",
+    "True Godly Weapon"
+   ]
+  },
+  "210": {
+   "name": "Dark smoke ring",
+   "cat": "smoke",
+   "used": [
+    "Blazing Impact",
+    "Prinny Parade",
+    "Justice Knife",
+    "Prinny Volcano",
+    "Dark Illuminati",
+    "Resident Undead"
+   ]
+  },
+  "211": {
+   "name": "Faint flash",
+   "cat": "misc",
+   "used": [
+    "Sword Inferno",
+    "Homing Eraser",
+    "Toten Kreuz",
+    "Omega Fire",
+    "Tera Wind",
+    "Demon Star Breaker"
+   ]
+  },
+  "212": {
+   "name": "Small fireball",
+   "cat": "fire",
+   "used": [
+    "Monkey Cannon",
+    "Delinquent Extreme",
+    "Vulcan Blaze",
+    "Burning Soul Bros",
+    "Dark Illuminati",
+    "Carrot Funnel"
+   ]
+  },
+  "213": {
+   "name": "Fire pillar burst",
+   "cat": "explosion",
+   "used": [
+    "Toten Kreuz"
+   ]
+  },
+  "214": {
+   "name": "Soft disc glow",
+   "cat": "glow",
+   "used": [
+    "Azathoth",
+    "Sis-Lord Sky Fist",
+    "Full Desco Burst",
+    "Nether Buccaneer"
+   ]
+  },
+  "215": {
+   "name": "Sharp star flash",
+   "cat": "impact",
+   "used": [
+    "Blast Finger"
+   ]
+  },
+  "300": {
+   "name": "Ice orb",
+   "cat": "ice",
+   "used": [
+    "Ice",
+    "Deicide Shooter",
+    "Justice Knife",
+    "Virgin Innocence",
+    "Crest Roses",
+    "Have an Autograph!"
+   ]
+  },
+  "301": {
+   "name": "Faint ice effect",
+   "cat": "ice",
+   "used": [
+    "Omega Ice",
+    "Final Boss Arises",
+    "Delta of Death",
+    "Delta Calamity",
+    "Virgin Innocence",
+    "Rising Ice Phoenix"
+   ]
+  },
+  "302": {
+   "name": "Ice ring",
+   "cat": "ice",
+   "used": [
+    "Tera Wind",
+    "Ice",
+    "Omega Ice",
+    "白と黒のチカラ",
+    "Enfeeble",
+    "Exploding Tiger"
+   ]
+  },
+  "303": {
+   "name": "Ice sparkle",
+   "cat": "ice",
+   "used": [
+    "Ice",
+    "Giga Ice",
+    "Omega Ice",
+    "白と黒のチカラ",
+    "Exploding Tiger",
+    "Cryo Heartbreaker"
+   ]
+  },
+  "304": {
+   "name": "Ice twinkle",
+   "cat": "ice",
+   "used": [
+    "Homing Eraser",
+    "Mega Ice",
+    "Giga Ice",
+    "Omega Ice",
+    "Omega Star",
+    "Exploding Tiger"
+   ]
+  },
+  "305": {
+   "name": "Ice shards",
+   "cat": "ice",
+   "used": [
+    "Homing Eraser",
+    "Mega Ice",
+    "Giga Ice",
+    "Omega Ice",
+    "白と黒のチカラ",
+    "Armor Break"
+   ]
+  },
+  "306": {
+   "name": "Ice crystal",
+   "cat": "ice",
+   "used": [
+    "Mega Ice",
+    "Giga Ice",
+    "Omega Ice",
+    "Exploding Tiger",
+    "Cryo Heartbreaker",
+    "Secret Fist Improv"
+   ]
+  },
+  "307": {
+   "name": "Faint ice effect (2)",
+   "cat": "ice",
+   "used": [
+    "Ice",
+    "Mega Ice",
+    "Giga Ice",
+    "Secret Fist Improv",
+    "Ice Mirror",
+    "Icy Flame Shot"
+   ]
+  },
+  "308": {
+   "name": "Faint effect",
+   "cat": "misc",
+   "used": []
+  },
+  "309": {
+   "name": "Ice chunk",
+   "cat": "ice",
+   "used": [
+    "Mega Ice",
+    "Exploding Tiger",
+    "Cryo Heartbreaker",
+    "Azathoth",
+    "Wormhole",
+    "Flonnezilla"
+   ]
+  },
+  "310": {
+   "name": "Ice slab",
+   "cat": "ice",
+   "used": [
+    "Exploding Tiger",
+    "Cryo Heartbreaker",
+    "Sicily Delivery",
+    "Frost Dragon"
+   ]
+  },
+  "311": {
+   "name": "Ice crystal pillar",
+   "cat": "ice",
+   "used": [
+    "Homing Eraser",
+    "Exploding Tiger",
+    "Element Device",
+    "Twin Cross Slash"
+   ]
+  },
+  "312": {
+   "name": "Ice shard cluster",
+   "cat": "ice",
+   "used": [
+    "Mega Ice",
+    "Omega Ice",
+    "Omega Heal",
+    "Biting Ice Blade X",
+    "Ice Death Sprout",
+    "Twin Cross Slash"
+   ]
+  },
+  "313": {
+   "name": "Ice wall",
+   "cat": "ice",
+   "used": [
+    "Flonnezilla",
+    "Delta of Death",
+    "Slime Hand"
+   ]
+  },
+  "314": {
+   "name": "Light column",
+   "cat": "beam",
+   "used": [
+    "Requiem Aeternam"
+   ]
+  },
+  "315": {
+   "name": "Pixel glow",
+   "cat": "glow",
+   "used": [
+    "Mega Ice",
+    "Giga Ice",
+    "Omega Star",
+    "Coney Pound",
+    "Ruin Burst",
+    "Rising Ice Phoenix"
+   ]
+  },
+  "316": {
+   "name": "Crystal shard",
+   "cat": "ice",
+   "used": [
+    "Virgin Innocence"
+   ]
+  },
+  "317": {
+   "name": "Snowflake",
+   "cat": "ice",
+   "used": [
+    "Enfeeble",
+    "Secret Fist Improv",
+    "Element Device"
+   ]
+  },
+  "318": {
+   "name": "Ice crystal (2)",
+   "cat": "ice",
+   "used": []
+  },
+  "319": {
+   "name": "Ice pillar",
+   "cat": "ice",
+   "used": [
+    "Freezing Prophecy"
+   ]
+  },
+  "400": {
+   "name": "Water bubble",
+   "cat": "ice",
+   "used": [
+    "Deicide Shooter",
+    "Bubble Cutter",
+    "Water Guillotine",
+    "13 Knights"
+   ]
+  },
+  "401": {
+   "name": "Faint ice effect (3)",
+   "cat": "ice",
+   "used": [
+    "Mega Ice",
+    "Giga Ice",
+    "Tera Ice",
+    "白と黒のチカラ",
+    "Cryo Heartbreaker",
+    "Delta Calamity"
+   ]
+  },
+  "402": {
+   "name": "Water strip",
+   "cat": "ice",
+   "used": [
+    "Omega Ice",
+    "Tera Ice",
+    "Omega Heal",
+    "Chaos Impact",
+    "Flonnezilla",
+    "Nether Buccaneer"
+   ]
+  },
+  "403": {
+   "name": "Prism shards",
+   "cat": "ice",
+   "used": [
+    "Rising Domination",
+    "Tera Ice",
+    "Tera Heal",
+    "Sicily Delivery",
+    "Goddess of Orc"
+   ]
+  },
+  "404": {
+   "name": "Faint heal effect",
+   "cat": "heal",
+   "used": [
+    "Omega Heal",
+    "Metal Justice",
+    "Nether Buccaneer",
+    "Bubble Cutter",
+    "Sanzu River Falls"
+   ]
+  },
+  "405": {
+   "name": "Big white disc",
+   "cat": "glow",
+   "used": [
+    "Meteor Impact",
+    "Delta of Death",
+    "Water Guillotine"
+   ]
+  },
+  "406": {
+   "name": "Faint ice effect (4)",
+   "cat": "ice",
+   "used": [
+    "Omega Ice"
+   ]
+  },
+  "407": {
+   "name": "Ice curtain",
+   "cat": "ice",
+   "used": [
+    "Tera Ice"
+   ]
+  },
+  "408": {
+   "name": "Sparkle orb",
+   "cat": "glow",
+   "used": [
+    "Ruin Burst",
+    "Strange Shot"
+   ]
+  },
+  "409": {
+   "name": "Faint bubbles",
+   "cat": "misc",
+   "used": [
+    "Poison",
+    "Gel Gel Laser",
+    "Bubble Cutter"
+   ]
+  },
+  "410": {
+   "name": "Ice curtain (2)",
+   "cat": "ice",
+   "used": [
+    "Tera Ice"
+   ]
+  },
+  "500": {
+   "name": "Wind disc",
+   "cat": "wind",
+   "used": [
+    "Killer Spin",
+    "Zielregen",
+    "Toten Kreuz",
+    "Omega Fire",
+    "Mega Wind",
+    "Giga Wind"
+   ]
+  },
+  "501": {
+   "name": "Wind swirl",
+   "cat": "wind",
+   "used": [
+    "Hurricane Blow",
+    "Killer Spin",
+    "Phoenix Valor",
+    "Tornado Spark",
+    "Sword Inferno",
+    "Yo-Yo Trick"
+   ]
+  },
+  "502": {
+   "name": "Wind streak",
+   "cat": "wind",
+   "used": [
+    "Hurricane Blow",
+    "Rapid Arrow",
+    "Zielregen",
+    "Mega Fire",
+    "Tera Fire",
+    "Giga Wind"
+   ]
+  },
+  "503": {
+   "name": "Wind swirl (2)",
+   "cat": "wind",
+   "used": [
+    "Phoenix Valor",
+    "Tornado Spark",
+    "Zielregen",
+    "Tera Fire",
+    "Mega Wind",
+    "Giga Wind"
+   ]
+  },
+  "504": {
+   "name": "Soft tornado",
+   "cat": "wind",
+   "used": [
+    "Hurricane Blow",
+    "Tornado Spark",
+    "Mega Wind",
+    "Secret Fist Improv",
+    "Delta Calamity",
+    "Holy Breaker"
+   ]
+  },
+  "505": {
+   "name": "Wind sphere",
+   "cat": "wind",
+   "used": [
+    "Omega Fire",
+    "Mega Wind",
+    "Giga Wind",
+    "Tera Wind",
+    "白と黒のチカラ",
+    "Squad Attack"
+   ]
+  },
+  "506": {
+   "name": "Wind crescent",
+   "cat": "wind",
+   "used": [
+    "Giga Wind",
+    "Tera Wind",
+    "Demon Star Breaker",
+    "Extreme Kick",
+    "Exploding Tiger",
+    "Rising Gale Kick"
+   ]
+  },
+  "507": {
+   "name": "Small swirl",
+   "cat": "wind",
+   "used": [
+    "Phoenix Valor",
+    "Omega Fire",
+    "Mega Wind",
+    "Giga Wind",
+    "Tera Wind",
+    "Squad Attack"
+   ]
+  },
+  "508": {
+   "name": "Thin line",
+   "cat": "misc",
+   "used": [
+    "Shroom Skyscraper"
+   ]
+  },
+  "509": {
+   "name": "Green wind orb",
+   "cat": "wind",
+   "used": [
+    "Doppelganger",
+    "Mega Wind",
+    "Omega Wind",
+    "Omega Star",
+    "Tera Heal",
+    "Flaming Spin Kick"
+   ]
+  },
+  "510": {
+   "name": "Tornado",
+   "cat": "wind",
+   "used": [
+    "Rising Gale Kick",
+    "Running Crosses",
+    "Freezing Prophecy",
+    "Nether Buccaneer",
+    "Imperial Fox Witch"
+   ]
+  },
+  "511": {
+   "name": "Wind ribbons",
+   "cat": "wind",
+   "used": [
+    "Shadow Smash",
+    "Ruin Burst",
+    "Azathoth",
+    "T-Rule: Moxibustion",
+    "Pillar Break",
+    "Temperance Break"
+   ]
+  },
+  "512": {
+   "name": "Thin vertical line",
+   "cat": "misc",
+   "used": [
+    "Supreme Curry",
+    "Lantern Section"
+   ]
+  },
+  "513": {
+   "name": "Orbit orb",
+   "cat": "glow",
+   "used": [
+    "Toten Kreuz",
+    "Star",
+    "Espoir",
+    "白と黒のチカラ",
+    "Hellfire Shot",
+    "Cryo Heartbreaker"
+   ]
+  },
+  "514": {
+   "name": "Wind cone",
+   "cat": "wind",
+   "used": [
+    "Giga Wind",
+    "Slumber Acrobatics",
+    "Twin Attribute",
+    "13 Knights"
+   ]
+  },
+  "515": {
+   "name": "Wide tornado",
+   "cat": "wind",
+   "used": [
+    "Giga Wind",
+    "Bloody Storm",
+    "Vulcan Blaze",
+    "Cradius"
+   ]
+  },
+  "516": {
+   "name": "Storm column",
+   "cat": "wind",
+   "used": [
+    "Omega Wind",
+    "Final Boss Arises"
+   ]
+  },
+  "601": {
+   "name": "Lightning web",
+   "cat": "lightning",
+   "used": [
+    "Rising Domination",
+    "Impaler Drop",
+    "Omega Wind",
+    "Tera Wind",
+    "Giga Star",
+    "Omega Star"
+   ]
+  },
+  "603": {
+   "name": "Lightning bolt",
+   "cat": "lightning",
+   "used": [
+    "Excavation",
+    "Giga Star",
+    "Omega Star",
+    "Freezing Light",
+    "Chaos Impact",
+    "Execution Chain"
+   ]
+  },
+  "604": {
+   "name": "Ripple ring",
+   "cat": "ring",
+   "used": [
+    "Tera Wind",
+    "Capture Skill 3",
+    "Battle Orchestra",
+    "Freezing Light",
+    "Prinnical Meteor",
+    "Coney Pound"
+   ]
+  },
+  "605": {
+   "name": "Light sphere",
+   "cat": "star",
+   "used": [
+    "Rising Heavens",
+    "Omega Wind",
+    "Giga Star",
+    "Geo Blast",
+    "Shadow Smash",
+    "Ruin Burst"
+   ]
+  },
+  "607": {
+   "name": "Spark bolt",
+   "cat": "lightning",
+   "used": [
+    "Omega Wind",
+    "Giga Star",
+    "Ruin Burst",
+    "Dead End Chaos",
+    "Grim Specter",
+    "Delta of Death"
+   ]
+  },
+  "609": {
+   "name": "Soft ring",
+   "cat": "ring",
+   "used": [
+    "Top Shot",
+    "Tera Fire",
+    "Giga Star",
+    "Stun",
+    "Capture Skill 3",
+    "Execution Chain"
+   ]
+  },
+  "610": {
+   "name": "Electric hexes",
+   "cat": "lightning",
+   "used": [
+    "Impaler Drop",
+    "Omega Wind",
+    "Omega Star",
+    "Rising Gale Kick",
+    "Draugr King",
+    "Great Beast War"
+   ]
+  },
+  "611": {
+   "name": "Lightning crackle",
+   "cat": "lightning",
+   "used": [
+    "Impaler Drop",
+    "Sword Inferno",
+    "Homing Eraser",
+    "Omega Wind",
+    "Tera Wind",
+    "Omega Star"
+   ]
+  },
+  "612": {
+   "name": "Lightning strike",
+   "cat": "lightning",
+   "used": [
+    "Omega Wind",
+    "Tera Wind",
+    "Giga Star",
+    "Tera Star",
+    "Stun",
+    "Gospel of Power"
+   ]
+  },
+  "613": {
+   "name": "Small spark",
+   "cat": "lightning",
+   "used": [
+    "Impaler Drop",
+    "Omega Wind",
+    "Cross Flame Gale",
+    "Gospel of Power",
+    "Secret Fist Improv",
+    "Grand Macro Palm"
+   ]
+  },
+  "614": {
+   "name": "Lightning flash",
+   "cat": "lightning",
+   "used": [
+    "Impaler Drop",
+    "Omega Wind",
+    "Tera Wind",
+    "Omega Star",
+    "Gospel of Power",
+    "Dead End Chaos"
+   ]
+  },
+  "615": {
+   "name": "Spark hexes",
+   "cat": "lightning",
+   "used": [
+    "Purgatory Palm",
+    "Rising Domination",
+    "Omega Wind",
+    "Twin Macro Palm",
+    "Shadow Light Fist",
+    "Wormhole"
+   ]
+  },
+  "616": {
+   "name": "Dark lightning",
+   "cat": "lightning",
+   "used": [
+    "Dark Liberation"
+   ]
+  },
+  "617": {
+   "name": "Lightning burst",
+   "cat": "lightning",
+   "used": []
+  },
+  "700": {
+   "name": "Speed streak",
+   "cat": "slash",
+   "used": [
+    "Phantom Blow",
+    "Excavation",
+    "Spear Gate",
+    "Tornado Spark",
+    "Doppelganger",
+    "Chaotic X Circle"
+   ]
+  },
+  "701": {
+   "name": "Spiky flash",
+   "cat": "impact",
+   "used": [
+    "Tri-Burst",
+    "Flatty Dance",
+    "Impaler Prince",
+    "Dual Canine Attack",
+    "Goddess Artemis",
+    "Moonlight Ensemble"
+   ]
+  },
+  "702": {
+   "name": "Faint slash",
+   "cat": "slash",
+   "used": [
+    "Purgatory Palm",
+    "Tri-Burst",
+    "Victory Bullet",
+    "Top Shot",
+    "Boulder Crush",
+    "Cross Flame Gale"
+   ]
+  },
+  "703": {
+   "name": "Streak",
+   "cat": "slash",
+   "used": [
+    "Phantom Blow",
+    "Impaler Drop",
+    "Spear Gate",
+    "Rapid Arrow",
+    "Zielregen",
+    "Chaotic X Circle"
+   ]
+  },
+  "704": {
+   "name": "Streak (2)",
+   "cat": "slash",
+   "used": [
+    "Excavation",
+    "Rising Heavens",
+    "Impaler Drop",
+    "Sword Inferno",
+    "Tri-Burst",
+    "Tera Wind"
+   ]
+  },
+  "705": {
+   "name": "Wide star flare",
+   "cat": "impact",
+   "used": [
+    "Excavation",
+    "Wild Crescent",
+    "Silver Slugger",
+    "Omega Star",
+    "Squad Attack",
+    "Assault Circus"
+   ]
+  },
+  "706": {
+   "name": "Big arc swipe",
+   "cat": "slash",
+   "used": [
+    "Bomb-Bat-Stic",
+    "Grim Specter",
+    "Justice Knife",
+    "Love Revelation",
+    "Badass Overdrive",
+    "Tyrant Sweep"
+   ]
+  },
+  "707": {
+   "name": "Crescent slash",
+   "cat": "slash",
+   "used": [
+    "Rising Domination",
+    "Killer Spin",
+    "Vacuum Slice X",
+    "Wild Crescent",
+    "Two-Handed Draw",
+    "Prinnical Meteor"
+   ]
+  },
+  "708": {
+   "name": "Claw slash",
+   "cat": "slash",
+   "used": [
+    "Killer Spin",
+    "Excavation",
+    "Homing Eraser",
+    "Boulder Crush",
+    "Yo-Yo Trick",
+    "Silver Slugger"
+   ]
+  },
+  "709": {
+   "name": "Blade fan",
+   "cat": "slash",
+   "used": [
+    "Rising Heavens",
+    "Toten Kreuz",
+    "Giga Star",
+    "Dark Rosario",
+    "Impaler Prince",
+    "Martial Transformer"
+   ]
+  },
+  "710": {
+   "name": "Speed lines",
+   "cat": "slash",
+   "used": [
+    "Excavation",
+    "Vacuum Slice X",
+    "Boulder Crush",
+    "Steel Arm Lariat",
+    "Hero Team-Up",
+    "Demon Ice Fang"
+   ]
+  },
+  "711": {
+   "name": "Small slash",
+   "cat": "slash",
+   "used": [
+    "Excavation",
+    "Yo-Yo Trick",
+    "Wild Crescent",
+    "Silver Slugger",
+    "Wind",
+    "Assault Circus"
+   ]
+  },
+  "712": {
+   "name": "Faint sword effect",
+   "cat": "slash",
+   "used": [
+    "Spinning Swordance",
+    "Hero Team-Up",
+    "Come Come Bear"
+   ]
+  },
+  "713": {
+   "name": "Faint wind",
+   "cat": "wind",
+   "used": [
+    "Mega Wind"
+   ]
+  },
+  "714": {
+   "name": "Blue glow",
+   "cat": "glow",
+   "used": [
+    "Top Shot",
+    "Omega Star",
+    "Supreme Curry",
+    "Draugr King",
+    "Sonic Smash",
+    "Icy Flame Shot"
+   ]
+  },
+  "715": {
+   "name": "Double slash",
+   "cat": "slash",
+   "used": [
+    "Vacuum Slice X",
+    "Running Crosses",
+    "Summon Swordance",
+    "Captured Princess",
+    "Biting Ice Blade X",
+    "Vital Steal"
+   ]
+  },
+  "716": {
+   "name": "Yellow energy slashes",
+   "cat": "slash",
+   "used": [
+    "Extreme Kick",
+    "Martial Transformer",
+    "Azure Prison"
+   ]
+  },
+  "717": {
+   "name": "Thin streak",
+   "cat": "slash",
+   "used": [
+    "Tera Star",
+    "Two-Handed Draw",
+    "Freezing Light",
+    "Extreme Kick",
+    "Love Extreme",
+    "Twilight Elemental"
+   ]
+  },
+  "718": {
+   "name": "Spiky burst",
+   "cat": "impact",
+   "used": [
+    "Tornado Spark",
+    "Cross Flame Gale",
+    "Curry Break",
+    "Shadow Smash",
+    "Captured Princess",
+    "Sonic Smash"
+   ]
+  },
+  "719": {
+   "name": "Cyan burst",
+   "cat": "glow",
+   "used": [
+    "Cross Flame Gale",
+    "13 Knights"
+   ]
+  },
+  "720": {
+   "name": "Horizontal burst",
+   "cat": "impact",
+   "used": [
+    "Bonus Change",
+    "Bonus Blast",
+    "Cross Flame Gale",
+    "Freezing Light",
+    "Extreme Kick",
+    "Ruin Burst"
+   ]
+  },
+  "721": {
+   "name": "Cyan slash streak",
+   "cat": "slash",
+   "used": [
+    "Yo-Yo Trick",
+    "Giant Meow Swing"
+   ]
+  },
+  "722": {
+   "name": "Big crescent slash",
+   "cat": "slash",
+   "used": [
+    "Exploding Tiger",
+    "Rising Gale Kick",
+    "Pillar Break",
+    "Temperance Break",
+    "Vulcan Blaze",
+    "Giant Meow Swing"
+   ]
+  },
+  "723": {
+   "name": "Crescent slash (2)",
+   "cat": "slash",
+   "used": [
+    "Rising Domination",
+    "Excavation",
+    "Silver Slugger",
+    "Flaming Spin Kick",
+    "Captured Princess",
+    "Demon Ice Fang"
+   ]
+  },
+  "724": {
+   "name": "Horizontal flash",
+   "cat": "impact",
+   "used": [
+    "Ruin Burst",
+    "Shadow Light Fist",
+    "Spinning Swordance",
+    "Ninja Art Darkness",
+    "Shadow Phantom",
+    "Twin Cross Slash"
+   ]
+  },
+  "725": {
+   "name": "Feather slash",
+   "cat": "slash",
+   "used": [
+    "Silver Slugger",
+    "Vital Steal"
+   ]
+  },
+  "800": {
+   "name": "Sparkle ring burst",
+   "cat": "impact",
+   "used": [
+    "Purgatory Palm",
+    "Killer Spin",
+    "Excavation",
+    "Vacuum Slice X",
+    "Phoenix Valor",
+    "Rapid Arrow"
+   ]
+  },
+  "801": {
+   "name": "Hit burst",
+   "cat": "impact",
+   "used": [
+    "Purgatory Palm",
+    "Doppelganger",
+    "Magic Wall",
+    "Supreme Curry",
+    "Two-Handed Draw",
+    "Explosive Elegance"
+   ]
+  },
+  "802": {
+   "name": "Ray burst",
+   "cat": "impact",
+   "used": [
+    "Purgatory Palm",
+    "Tornado Spark",
+    "Giga Wind",
+    "Omega Star",
+    "Squad Attack",
+    "Two-Handed Draw"
+   ]
+  },
+  "803": {
+   "name": "Orange ring",
+   "cat": "ring",
+   "used": [
+    "Phantom Blow",
+    "Killer Spin",
+    "Impaler Drop",
+    "Spear Gate",
+    "Doppelganger",
+    "Zielregen"
+   ]
+  },
+  "804": {
+   "name": "Impact star",
+   "cat": "impact",
+   "used": [
+    "Phantom Blow",
+    "Spear Gate",
+    "Wild Crescent",
+    "Silver Slugger",
+    "Omega Star",
+    "Flaming Spin Kick"
+   ]
+  },
+  "805": {
+   "name": "Purple orb",
+   "cat": "glow",
+   "used": [
+    "白と黒のチカラ",
+    "Shadow Light Fist",
+    "Virgin Innocence",
+    "Captured Princess",
+    "Lightning Sword",
+    "Demon Bullet"
+   ]
+  },
+  "806": {
+   "name": "Scribble sphere",
+   "cat": "dark",
+   "used": [
+    "Bonus Blast",
+    "Bloody Storm",
+    "Vanargandr",
+    "Martial Transformer",
+    "Nova Balmung",
+    "Justice Knife"
+   ]
+  },
+  "807": {
+   "name": "Faint effect (2)",
+   "cat": "misc",
+   "used": [
+    "Purgatory Palm",
+    "Yo-Yo Trick",
+    "Giga Fire",
+    "Omega Fire",
+    "Mega Star",
+    "Cross Flame Gale"
+   ]
+  },
+  "808": {
+   "name": "Pink burst",
+   "cat": "impact",
+   "used": [
+    "Silver Slugger",
+    "Omega Star",
+    "Supreme Curry",
+    "Two-Handed Draw",
+    "Explosive Elegance",
+    "Cross Flame Gale"
+   ]
+  },
+  "809": {
+   "name": "Fiery burst",
+   "cat": "explosion",
+   "used": [
+    "Phantom Blow",
+    "Purgatory Palm",
+    "Killer Spin",
+    "Rapid Arrow",
+    "Boulder Crush",
+    "Yo-Yo Trick"
+   ]
+  },
+  "810": {
+   "name": "Glowing core",
+   "cat": "glow",
+   "used": [
+    "Chaotic X Circle",
+    "Tera Star",
+    "Squad Attack",
+    "Monkey Cannon",
+    "Curry Break",
+    "Demon Star Breaker"
+   ]
+  },
+  "811": {
+   "name": "Faint effect (3)",
+   "cat": "misc",
+   "used": [
+    "Vacuum Slice X",
+    "Rising Heavens",
+    "Rapid Arrow",
+    "Zielregen",
+    "Sword Inferno",
+    "Toten Kreuz"
+   ]
+  },
+  "812": {
+   "name": "Green beacon",
+   "cat": "glow",
+   "used": [
+    "Phantom Blow",
+    "Purgatory Palm",
+    "Tornado Spark",
+    "Silver Slugger",
+    "Mon-Toss",
+    "Cross Flame Gale"
+   ]
+  },
+  "813": {
+   "name": "Soft grey glow",
+   "cat": "glow",
+   "used": [
+    "Vacuum Slice X",
+    "Giga Fire",
+    "Giga Wind",
+    "Tera Wind",
+    "Giga Ice",
+    "Giga Star"
+   ]
+  },
+  "814": {
+   "name": "White burst",
+   "cat": "impact",
+   "used": [
+    "Purgatory Palm",
+    "Doppelganger",
+    "Curry Break",
+    "Demon Star Breaker",
+    "Freikugel",
+    "Double Holy Arrows"
+   ]
+  },
+  "815": {
+   "name": "Radiant burst",
+   "cat": "impact",
+   "used": [
+    "Doppelganger",
+    "Chaotic X Circle",
+    "Giga Ice",
+    "Explosive Elegance",
+    "Assault Circus",
+    "Destruction Shot"
+   ]
+  },
+  "816": {
+   "name": "Small disc",
+   "cat": "glow",
+   "used": []
+  },
+  "900": {
+   "name": "Faint effect (4)",
+   "cat": "misc",
+   "used": [
+    "Phantom Blow",
+    "Rising Domination",
+    "Vacuum Slice X",
+    "Spear Gate",
+    "Doppelganger",
+    "Chaotic X Circle"
+   ]
+  },
+  "901": {
+   "name": "Faint effect (5)",
+   "cat": "misc",
+   "used": [
+    "Top Shot",
+    "Omega Fire",
+    "Super Damage Lord",
+    "Freezing Light",
+    "Double Usa Bomber",
+    "Double Usa Blaster"
+   ]
+  },
+  "902": {
+   "name": "Ground splash",
+   "cat": "impact",
+   "used": [
+    "Phantom Blow",
+    "Purgatory Palm",
+    "Killer Spin",
+    "Vacuum Slice X",
+    "Rising Heavens",
+    "Rapid Arrow"
+   ]
+  },
+  "903": {
+   "name": "Flat sparkle ring",
+   "cat": "ring",
+   "used": [
+    "Phantom Blow",
+    "Hurricane Blow",
+    "Rising Domination",
+    "Killer Spin",
+    "Excavation",
+    "Vacuum Slice X"
+   ]
+  },
+  "904": {
+   "name": "Faint effect (6)",
+   "cat": "misc",
+   "used": [
+    "Rising Heavens",
+    "Spear Gate",
+    "Phoenix Valor",
+    "Top Shot",
+    "Toten Kreuz",
+    "Wild Crescent"
+   ]
+  },
+  "906": {
+   "name": "Soft disc ring",
+   "cat": "ring",
+   "used": [
+    "Giga Fire",
+    "Mega Wind",
+    "Tera Wind",
+    "Giga Ice",
+    "Tera Ice",
+    "Giga Star"
+   ]
+  },
+  "907": {
+   "name": "Light cage",
+   "cat": "star",
+   "used": [
+    "Mega Wind",
+    "Battle Orchestra",
+    "Mandatory Repo",
+    "True Godly Weapon",
+    "Vasa Aergun",
+    "Light and Darkness"
+   ]
+  },
+  "908": {
+   "name": "Faint effect (7)",
+   "cat": "misc",
+   "used": [
+    "Phantom Blow",
+    "Purgatory Palm",
+    "Victory Bullet",
+    "Yo-Yo Trick",
+    "Mega Ice",
+    "Omega Ice"
+   ]
+  },
+  "909": {
+   "name": "Faint effect (8)",
+   "cat": "misc",
+   "used": [
+    "Impaler Drop",
+    "Sword Inferno",
+    "Homing Eraser",
+    "Mon-Toss",
+    "Giant Body Slam",
+    "Ruin Burst"
+   ]
+  },
+  "910": {
+   "name": "Green sigil",
+   "cat": "heal",
+   "used": [
+    "Mega Wind",
+    "Omega Heal",
+    "Espoir",
+    "Monkey Cannon",
+    "Electric Garden"
+   ]
+  },
+  "911": {
+   "name": "Sparkle halo",
+   "cat": "heal",
+   "used": [
+    "Doppelganger",
+    "Tera Heal",
+    "Espoir",
+    "Echoing Hymn"
+   ]
+  },
+  "912": {
+   "name": "Purple swirl",
+   "cat": "aura",
+   "used": []
+  },
+  "913": {
+   "name": "Small sparkle",
+   "cat": "star",
+   "used": [
+    "Omega Ice",
+    "Espoir"
+   ]
+  },
+  "1000": {
+   "name": "Blue ring flash",
+   "cat": "glow",
+   "used": [
+    "Rising Domination",
+    "Rising Heavens",
+    "Tornado Spark",
+    "Sword Inferno",
+    "Tera Wind",
+    "Giga Heal"
+   ]
+  },
+  "1001": {
+   "name": "Ring flash",
+   "cat": "impact",
+   "used": [
+    "Phantom Blow",
+    "Tera Wind",
+    "Mega Ice",
+    "Mega Heal",
+    "Giga Heal",
+    "Tera Heal"
+   ]
+  },
+  "1002": {
+   "name": "Radial spokes",
+   "cat": "misc",
+   "used": [
+    "Tera Star",
+    "Tera Heal",
+    "白と黒のチカラ",
+    "Supreme Curry",
+    "Battle Orchestra",
+    "Explosive Elegance"
+   ]
+  },
+  "1003": {
+   "name": "Ray lines",
+   "cat": "star",
+   "used": [
+    "Giga Heal",
+    "Bonus Change",
+    "Squad Attack",
+    "Explosive Elegance",
+    "Secret Fist Improv",
+    "Chaos Impact"
+   ]
+  },
+  "1004": {
+   "name": "Soft glow",
+   "cat": "glow",
+   "used": [
+    "Chaotic X Circle",
+    "Sword Inferno",
+    "Omega Ice",
+    "Mega Heal",
+    "Magic Boost",
+    "白と黒のチカラ"
+   ]
+  },
+  "1005": {
+   "name": "Small flare",
+   "cat": "glow",
+   "used": [
+    "Giga Star",
+    "Twin Macro Palm",
+    "Wormhole",
+    "Dual Canine Attack",
+    "Physical Gain",
+    "Pirate Shell"
+   ]
+  },
+  "1006": {
+   "name": "White disc",
+   "cat": "glow",
+   "used": [
+    "Doppelganger",
+    "Braveheart"
+   ]
+  },
+  "1007": {
+   "name": "Soft radial glow",
+   "cat": "glow",
+   "used": [
+    "Phantom Blow",
+    "Purgatory Palm",
+    "Rising Domination",
+    "Killer Spin",
+    "Excavation",
+    "Vacuum Slice X"
+   ]
+  },
+  "1008": {
+   "name": "Faint effect (9)",
+   "cat": "misc",
+   "used": [
+    "Purgatory Palm",
+    "Rising Domination",
+    "Rising Heavens",
+    "Phoenix Valor",
+    "Tornado Spark",
+    "Chaotic X Circle"
+   ]
+  },
+  "1009": {
+   "name": "Crown splash",
+   "cat": "impact",
+   "used": [
+    "Tornado Spark",
+    "Giga Fire",
+    "Omega Fire",
+    "Giga Star",
+    "白と黒のチカラ",
+    "Exploding Tiger"
+   ]
+  },
+  "1010": {
+   "name": "Droplets",
+   "cat": "ice",
+   "used": [
+    "Cryo Heartbreaker",
+    "Cross Flame Gale",
+    "Freezing Light",
+    "Freikugel",
+    "Chaos Impact",
+    "Flonnezilla"
+   ]
+  },
+  "1011": {
+   "name": "Light dome",
+   "cat": "glow",
+   "used": [
+    "Cross Flame Gale",
+    "Freezing Light",
+    "Extreme Kick",
+    "Twin Macro Palm",
+    "Shadow Light Fist",
+    "Overlord's Wrath"
+   ]
+  },
+  "1012": {
+   "name": "Faint effect (10)",
+   "cat": "misc",
+   "used": [
+    "Wild Crescent",
+    "Supreme Curry",
+    "Two-Handed Draw",
+    "Monkey Cannon",
+    "Cross Flame Gale",
+    "Extreme Kick"
+   ]
+  },
+  "1013": {
+   "name": "Fire jet",
+   "cat": "fire",
+   "used": [
+    "Yo-Yo Trick",
+    "Captured Princess",
+    "Pringer Beam",
+    "GoldAxe SilverAxe",
+    "Dazzling Stage",
+    "Roaring Demon"
+   ]
+  },
+  "1014": {
+   "name": "Faint effect (11)",
+   "cat": "misc",
+   "used": [
+    "Rising Heavens",
+    "Tri-Burst",
+    "Tera Ice",
+    "Assault Circus",
+    "Demon Star Breaker",
+    "Secret Fist Improv"
+   ]
+  },
+  "1015": {
+   "name": "Red dot",
+   "cat": "glow",
+   "used": [
+    "Blank Out",
+    "Bonus Change"
+   ]
+  },
+  "1016": {
+   "name": "White dot",
+   "cat": "glow",
+   "used": [
+    "Rising Domination",
+    "Tera Star",
+    "Giga Heal",
+    "Tera Heal",
+    "白と黒のチカラ",
+    "Geo Blast"
+   ]
+  },
+  "1017": {
+   "name": "Fire crown",
+   "cat": "fire",
+   "used": [
+    "Monkey Cannon"
+   ]
+  },
+  "1018": {
+   "name": "Faint effect (12)",
+   "cat": "misc",
+   "used": [
+    "Shine Beam",
+    "Vasa Aergun",
+    "Running Crosses",
+    "Legend White",
+    "Rising Ice Phoenix",
+    "Freezing Prophecy"
+   ]
+  },
+  "1019": {
+   "name": "Blue orb",
+   "cat": "glow",
+   "used": [
+    "Freezing Light",
+    "Vasa Aergun",
+    "Hero Team-Up",
+    "Legend White",
+    "Vulcan Blaze",
+    "Rising Ice Phoenix"
+   ]
+  },
+  "1020": {
+   "name": "Fire orb",
+   "cat": "fire",
+   "used": [
+    "Flaming Spin Kick",
+    "Extreme Kick",
+    "Grand Macro Palm",
+    "Ruin Burst",
+    "Wormhole",
+    "Delinquent Extreme"
+   ]
+  },
+  "1021": {
+   "name": "Faint effect (13)",
+   "cat": "misc",
+   "used": [
+    "Azathoth",
+    "Blast Finger",
+    "Hero Team-Up",
+    "Witch Domination",
+    "Love Revelation",
+    "Burning Soul Bros"
+   ]
+  },
+  "1100": {
+   "name": "Spike burst",
+   "cat": "impact",
+   "used": [
+    "Chaotic X Circle",
+    "Omega Star",
+    "Badass Overdrive"
+   ]
+  },
+  "1101": {
+   "name": "Light cloud",
+   "cat": "smoke",
+   "used": [
+    "Purgatory Palm",
+    "Sword Inferno",
+    "Homing Eraser",
+    "Tera Fire",
+    "Omega Wind",
+    "Giga Ice"
+   ]
+  },
+  "1102": {
+   "name": "Spiky star",
+   "cat": "impact",
+   "used": [
+    "Purgatory Palm",
+    "Rising Domination",
+    "Toten Kreuz",
+    "Wild Crescent",
+    "Tera Fire",
+    "Omega Wind"
+   ]
+  },
+  "1103": {
+   "name": "Scratch star",
+   "cat": "impact",
+   "used": [
+    "Phantom Blow",
+    "Rising Domination",
+    "Vacuum Slice X",
+    "Rising Heavens",
+    "Chaotic X Circle",
+    "Sword Inferno"
+   ]
+  },
+  "1104": {
+   "name": "Glowing sphere",
+   "cat": "glow",
+   "used": [
+    "Purgatory Palm",
+    "Rising Heavens",
+    "Doppelganger",
+    "Chaotic X Circle",
+    "Victory Bullet",
+    "Homing Eraser"
+   ]
+  },
+  "1105": {
+   "name": "Star shower",
+   "cat": "star",
+   "used": [
+    "Rising Heavens",
+    "Rapid Arrow",
+    "Homing Eraser",
+    "Toten Kreuz",
+    "Star",
+    "Flaming Spin Kick"
+   ]
+  },
+  "1106": {
+   "name": "Slash circle",
+   "cat": "slash",
+   "used": [
+    "Sword Inferno",
+    "Tera Heal",
+    "Malicious Eye",
+    "Demon's Solace",
+    "Piercing Light",
+    "Sis-Lord Sky Fist"
+   ]
+  },
+  "1107": {
+   "name": "Sparkle cluster",
+   "cat": "star",
+   "used": [
+    "Purgatory Palm",
+    "Chaotic X Circle",
+    "Mega Star",
+    "Omega Heal",
+    "Battle Orchestra",
+    "Great Beast War"
+   ]
+  },
+  "1108": {
+   "name": "Big soft orb",
+   "cat": "glow",
+   "used": [
+    "Execution Chain",
+    "N I S A",
+    "Blast Finger",
+    "Shine Beam",
+    "Vulcan Blaze",
+    "Badass Overdrive"
+   ]
+  },
+  "1200": {
+   "name": "Picture quad",
+   "cat": "backdrop",
+   "used": [
+    "Target Lock",
+    "Blind",
+    "Slumber",
+    "Supreme Curry",
+    "Two-Handed Draw",
+    "Grand Macro Palm"
+   ]
+  },
+  "1201": {
+   "name": "Needle beam",
+   "cat": "beam",
+   "used": [
+    "Rising Domination",
+    "Tera Ice",
+    "Mega Star",
+    "Tera Star",
+    "Tera Heal",
+    "Magic Boost"
+   ]
+  },
+  "1202": {
+   "name": "Smoke comet",
+   "cat": "smoke",
+   "used": [
+    "Giga Star",
+    "Double Holy Arrows",
+    "Deicide Shooter"
+   ]
+  },
+  "1203": {
+   "name": "Fan streak",
+   "cat": "slash",
+   "used": [
+    "Tera Wind",
+    "Double Holy Arrows",
+    "Deicide Shooter",
+    "Delta of Death",
+    "Land Decimator",
+    "Lovely Paw Fist"
+   ]
+  },
+  "1204": {
+   "name": "Fan streak (2)",
+   "cat": "slash",
+   "used": [
+    "Two-Handed Draw",
+    "Icy Flame Shot"
+   ]
+  },
+  "1205": {
+   "name": "Small comet",
+   "cat": "projectile",
+   "used": [
+    "Excavation",
+    "Impaler Drop",
+    "Tornado Spark",
+    "Chaotic X Circle",
+    "Giga Star",
+    "Omega Star"
+   ]
+  },
+  "1206": {
+   "name": "Beam bar",
+   "cat": "beam",
+   "used": [
+    "Rising Domination",
+    "Tornado Spark",
+    "Sword Inferno",
+    "Homing Eraser",
+    "Battle Orchestra",
+    "Explosive Elegance"
+   ]
+  },
+  "1207": {
+   "name": "Thin ray",
+   "cat": "beam",
+   "used": [
+    "Malicious Eye",
+    "Piercing Light",
+    "Ruin Burst",
+    "Prinny Kaiser XX",
+    "Imperial Cross",
+    "Imperial Cross R"
+   ]
+  },
+  "1208": {
+   "name": "Motion blur lines",
+   "cat": "slash",
+   "used": [
+    "Rising Domination",
+    "Tera Ice",
+    "Battle Orchestra",
+    "Gospel of Power",
+    "Freezing Light",
+    "Dark Rosario"
+   ]
+  },
+  "1209": {
+   "name": "Faint effect (14)",
+   "cat": "misc",
+   "used": [
+    "Zielregen",
+    "Tera Star",
+    "Giga Heal",
+    "Exploding Tiger",
+    "Cryo Heartbreaker",
+    "Battle Orchestra"
+   ]
+  },
+  "1210": {
+   "name": "Thin light pillar",
+   "cat": "beam",
+   "used": [
+    "Avidya Holy Waters",
+    "Mephistopheles",
+    "Holy Arrows",
+    "Goddess Artemis",
+    "Legend White",
+    "Nun Punishment"
+   ]
+  },
+  "1211": {
+   "name": "Spiky blast",
+   "cat": "impact",
+   "used": [
+    "Mega Star",
+    "Giga Star",
+    "Super Damage Lord",
+    "Gospel of Power",
+    "Freezing Light",
+    "Rising Gale Kick"
+   ]
+  },
+  "1212": {
+   "name": "Cyan cap",
+   "cat": "misc",
+   "used": []
+  },
+  "1213": {
+   "name": "Faint effect (15)",
+   "cat": "misc",
+   "used": []
+  },
+  "1214": {
+   "name": "Falling comet",
+   "cat": "projectile",
+   "used": [
+    "Rising Domination",
+    "Vacuum Slice X",
+    "Sword Inferno",
+    "Wild Crescent",
+    "Two-Handed Draw",
+    "Battle Orchestra"
+   ]
+  },
+  "1215": {
+   "name": "Faint effect (16)",
+   "cat": "misc",
+   "used": [
+    "Victory Bullet",
+    "Ninja Art Darkness",
+    "Galahad's Shield",
+    "Gel Gel Laser"
+   ]
+  },
+  "1216": {
+   "name": "Falling comet (2)",
+   "cat": "projectile",
+   "used": [
+    "Flaming Spin Kick",
+    "Destruction Shot",
+    "Martial Transformer",
+    "Prinny Volcano"
+   ]
+  },
+  "1217": {
+   "name": "Spotlight cone",
+   "cat": "beam",
+   "used": [
+    "Omega Wind",
+    "Curry Break",
+    "Coney Pound",
+    "Great Beast War",
+    "Freikugel",
+    "Tri-Angels"
+   ]
+  },
+  "1300": {
+   "name": "Heal sparkle",
+   "cat": "heal",
+   "used": [
+    "Heal",
+    "Mega Heal",
+    "Giga Heal",
+    "Omega Heal",
+    "Tera Heal",
+    "白と黒のチカラ"
+   ]
+  },
+  "1301": {
+   "name": "Red heal pillar",
+   "cat": "heal",
+   "used": [
+    "Heal",
+    "Mega Heal",
+    "Giga Heal",
+    "Tera Heal",
+    "白と黒のチカラ",
+    "Supreme Curry"
+   ]
+  },
+  "1302": {
+   "name": "White flare",
+   "cat": "glow",
+   "used": [
+    "Spear Gate",
+    "Tera Wind",
+    "Tera Ice",
+    "Giga Heal",
+    "Omega Heal",
+    "Tera Heal"
+   ]
+  },
+  "1303": {
+   "name": "Heal twinkle",
+   "cat": "heal",
+   "used": [
+    "Omega Ice",
+    "Mega Heal",
+    "Tera Heal",
+    "Bonus Change",
+    "Avidya Holy Waters",
+    "Love Extreme"
+   ]
+  },
+  "1305": {
+   "name": "White splash",
+   "cat": "impact",
+   "used": [
+    "Omega Fire",
+    "Mega Heal",
+    "Giga Heal",
+    "Tera Heal",
+    "白と黒のチカラ",
+    "Gospel of Power"
+   ]
+  },
+  "1306": {
+   "name": "Bright glow",
+   "cat": "glow",
+   "used": [
+    "Mega Heal",
+    "Omega Heal",
+    "白と黒のチカラ",
+    "Demon's Solace",
+    "Holy Breaker",
+    "Nun Punishment"
+   ]
+  },
+  "1307": {
+   "name": "Small blob",
+   "cat": "glow",
+   "used": [
+    "Heal",
+    "Demon's Solace",
+    "Ailment Barrier",
+    "Noblesse Oblige",
+    "Hip Attack"
+   ]
+  },
+  "1308": {
+   "name": "Faint effect (17)",
+   "cat": "misc",
+   "used": [
+    "Angelic Whip",
+    "Holy Saber",
+    "Flying Flame Shot",
+    "Flying Spore Shot"
+   ]
+  },
+  "1400": {
+   "name": "Concentric sigil",
+   "cat": "circle",
+   "used": [
+    "Blank Out",
+    "Execution Chain"
+   ]
+  },
+  "1401": {
+   "name": "Rainbow sparkle ring",
+   "cat": "ring",
+   "used": [
+    "Magic Boost",
+    "Mind Break",
+    "Freikugel",
+    "Sicily Delivery",
+    "Deicide Shooter",
+    "D-Rule: EcoFriend"
+   ]
+  },
+  "1402": {
+   "name": "Faint effect (18)",
+   "cat": "misc",
+   "used": [
+    "Toten Kreuz",
+    "Giga Fire",
+    "Giga Wind",
+    "Giga Ice",
+    "Giga Star",
+    "Giga Heal"
+   ]
+  },
+  "1403": {
+   "name": "Hexagram circle",
+   "cat": "circle",
+   "used": [
+    "Mega Fire",
+    "Mega Wind",
+    "Mega Ice",
+    "Mega Star",
+    "Mega Heal",
+    "Dead End Chaos"
+   ]
+  },
+  "1404": {
+   "name": "Faint effect (19)",
+   "cat": "misc",
+   "used": [
+    "Freezing Light"
+   ]
+  },
+  "1405": {
+   "name": "Triangle magic circle (colour)",
+   "cat": "circle",
+   "used": [
+    "Holy Arrows",
+    "Soul Reaper",
+    "Delinquent Extreme",
+    "World is Metallia's",
+    "Energy Potion",
+    "Soul Bind"
+   ]
+  },
+  "1406": {
+   "name": "Ornate magic circle",
+   "cat": "circle",
+   "used": [
+    "Spear Gate",
+    "Thunderbolt",
+    "Soul Bind"
+   ]
+  },
+  "1407": {
+   "name": "Square magic circle",
+   "cat": "circle",
+   "used": [
+    "Giga Fire",
+    "Giga Wind",
+    "Giga Ice",
+    "Giga Star",
+    "Giga Heal",
+    "Speed Boost"
+   ]
+  },
+  "1408": {
+   "name": "Splash shards",
+   "cat": "impact",
+   "used": [
+    "Sicily Delivery",
+    "Delta of Death",
+    "D-Rule: Recycle",
+    "Holy Breaker",
+    "Demon Ice Fang",
+    "Element Device"
+   ]
+  },
+  "1409": {
+   "name": "Concentric sigil (2)",
+   "cat": "circle",
+   "used": [
+    "Chaotic X Circle",
+    "Monkey Cannon",
+    "Holy Arrows",
+    "Goddess Artemis",
+    "D-Rule: Volunteer",
+    "Twilight Elemental"
+   ]
+  },
+  "1410": {
+   "name": "Faint effect (20)",
+   "cat": "misc",
+   "used": [
+    "Delta of Death",
+    "Element Device"
+   ]
+  },
+  "1412": {
+   "name": "White sparkle ring",
+   "cat": "ring",
+   "used": [
+    "Slumber Acrobatics",
+    "Dazzling Stage"
+   ]
+  },
+  "1413": {
+   "name": "Faint effect (21)",
+   "cat": "misc",
+   "used": [
+    "Malicious Eye"
+   ]
+  },
+  "1414": {
+   "name": "Star magic circle",
+   "cat": "circle",
+   "used": [
+    "Malicious Eye",
+    "Piercing Light",
+    "Gospel of Power",
+    "Freezing Light",
+    "Judgment Ray"
+   ]
+  },
+  "1415": {
+   "name": "Faint effect (22)",
+   "cat": "misc",
+   "used": []
+  },
+  "1416": {
+   "name": "Rune ring circle",
+   "cat": "circle",
+   "used": [
+    "Malicious Eye",
+    "Piercing Light",
+    "Gospel of Power",
+    "Freezing Light",
+    "Freikugel",
+    "Summon Swordance"
+   ]
+  },
+  "1417": {
+   "name": "Red magic circle",
+   "cat": "circle",
+   "used": [
+    "Freezing Light"
+   ]
+  },
+  "1418": {
+   "name": "Four-fold ornate circle",
+   "cat": "circle",
+   "used": [
+    "Chaotic X Circle"
+   ]
+  },
+  "1419": {
+   "name": "Small hex",
+   "cat": "misc",
+   "used": [
+    "白と黒のチカラ",
+    "Freezing Light",
+    "Ailment Barrier",
+    "Physical Gain",
+    "Spiritual Gain",
+    "Strange Shot"
+   ]
+  },
+  "1420": {
+   "name": "Faint effect (23)",
+   "cat": "misc",
+   "used": []
+  },
+  "1421": {
+   "name": "Kanji glyph",
+   "cat": "backdrop",
+   "used": []
+  },
+  "1422": {
+   "name": "Winged crest",
+   "cat": "circle",
+   "used": [
+    "Strange Shot",
+    "13 Knights"
+   ]
+  },
+  "1423": {
+   "name": "Red ornate circle",
+   "cat": "circle",
+   "used": [
+    "Freezing Light",
+    "Dual Canine Attack"
+   ]
+  },
+  "1424": {
+   "name": "Triangle magic circle",
+   "cat": "circle",
+   "used": [
+    "T-Rule: Moxibustion",
+    "Pillar Break",
+    "Temperance Break",
+    "Shadow Phantom"
+   ]
+  },
+  "1425": {
+   "name": "Rune circle",
+   "cat": "circle",
+   "used": []
+  },
+  "1426": {
+   "name": "Red rune circle",
+   "cat": "circle",
+   "used": [
+    "Hero Team-Up"
+   ]
+  },
+  "1427": {
+   "name": "Rune circle (2)",
+   "cat": "circle",
+   "used": [
+    "Hero Team-Up"
+   ]
+  },
+  "1500": {
+   "name": "Charm sparkle",
+   "cat": "heal",
+   "used": [
+    "Charm",
+    "Cryo Heartbreaker",
+    "Two-Handed Draw",
+    "Battle Orchestra",
+    "Malicious Eye",
+    "Explosive Elegance"
+   ]
+  },
+  "1501": {
+   "name": "Heart outline",
+   "cat": "heal",
+   "used": [
+    "Charm",
+    "Cryo Heartbreaker",
+    "Two-Handed Draw",
+    "Battle Orchestra",
+    "Malicious Eye",
+    "Explosive Elegance"
+   ]
+  },
+  "1502": {
+   "name": "Star orb",
+   "cat": "star",
+   "used": [
+    "Star",
+    "Mega Star",
+    "白と黒のチカラ",
+    "Malicious Eye",
+    "Piercing Light",
+    "Prinnical Meteor"
+   ]
+  },
+  "1503": {
+   "name": "Rainbow fan",
+   "cat": "star",
+   "used": [
+    "Tera Star",
+    "Battle Orchestra",
+    "Coney Pound",
+    "Demon Star Breaker",
+    "Extreme Kick",
+    "Chaos Impact"
+   ]
+  },
+  "1504": {
+   "name": "Diamond shield",
+   "cat": "heal",
+   "used": [
+    "Shield",
+    "Armor Break",
+    "Deicide Shooter",
+    "Noblesse Oblige"
+   ]
+  },
+  "1505": {
+   "name": "Ghost shroud",
+   "cat": "dark",
+   "used": [
+    "Magic Wall",
+    "Resist Break",
+    "Galahad's Shield"
+   ]
+  },
+  "1506": {
+   "name": "Blue swirl glow",
+   "cat": "heal",
+   "used": [
+    "Slumber",
+    "Strange Shot"
+   ]
+  },
+  "1507": {
+   "name": "Pink flare",
+   "cat": "star",
+   "used": [
+    "Excavation",
+    "Top Shot",
+    "Toten Kreuz",
+    "Prinny Raid",
+    "Martial Transformer",
+    "Justice Knife"
+   ]
+  },
+  "1508": {
+   "name": "Soft orb",
+   "cat": "glow",
+   "used": [
+    "Poison",
+    "Supreme Curry",
+    "D-Rule: EcoFriend",
+    "Temperance Break",
+    "Diving Booty Bump",
+    "Cell Division"
+   ]
+  },
+  "1509": {
+   "name": "Spiral",
+   "cat": "dark",
+   "used": [
+    "Giga Star",
+    "Blank Out",
+    "Prinnical Meteor",
+    "Coney Pound",
+    "Azathoth",
+    "Wormhole"
+   ]
+  },
+  "1510": {
+   "name": "Hex shield",
+   "cat": "heal",
+   "used": [
+    "Shield",
+    "Bulk Up"
+   ]
+  },
+  "1511": {
+   "name": "Violet glow",
+   "cat": "glow",
+   "used": [
+    "Freezing Light",
+    "Magic Siphon",
+    "Miracle of Love"
+   ]
+  },
+  "1512": {
+   "name": "Purple swirl orb",
+   "cat": "aura",
+   "used": []
+  },
+  "1513": {
+   "name": "Skull",
+   "cat": "dark",
+   "used": [
+    "Soul Reaper",
+    "Grim Specter"
+   ]
+  },
+  "1514": {
+   "name": "Pink heart",
+   "cat": "heal",
+   "used": [
+    "Sexy Beam",
+    "Love Knuckle",
+    "Holy Arrows",
+    "Love Extreme",
+    "Love Revelation",
+    "3 Year Crush Kill"
+   ]
+  },
+  "1600": {
+   "name": "Dust puff",
+   "cat": "smoke",
+   "used": [
+    "Killer Spin",
+    "Excavation",
+    "Sword Inferno",
+    "Mega Wind",
+    "Supreme Curry",
+    "Two-Handed Draw"
+   ]
+  },
+  "1601": {
+   "name": "Dark smoke burst",
+   "cat": "smoke",
+   "used": [
+    "Phantom Blow",
+    "Hurricane Blow",
+    "Rising Domination",
+    "Killer Spin",
+    "Vacuum Slice X",
+    "Rising Heavens"
+   ]
+  },
+  "1602": {
+   "name": "White smoke puff",
+   "cat": "smoke",
+   "used": [
+    "Phantom Blow",
+    "Rising Domination",
+    "Killer Spin",
+    "Excavation",
+    "Rising Heavens",
+    "Impaler Drop"
+   ]
+  },
+  "1603": {
+   "name": "Dust cloud",
+   "cat": "smoke",
+   "used": [
+    "Silver Slugger",
+    "Omega Heal",
+    "Demon's Solace",
+    "Coney Pound",
+    "Demon Star Breaker",
+    "Grand Macro Palm"
+   ]
+  },
+  "1604": {
+   "name": "Small puff",
+   "cat": "smoke",
+   "used": [
+    "Sword Inferno",
+    "Freezing Light",
+    "Coney Pound",
+    "Demon Star Breaker",
+    "Extreme Kick",
+    "Prinny Parade"
+   ]
+  },
+  "1605": {
+   "name": "Faint effect (24)",
+   "cat": "misc",
+   "used": [
+    "Coney Pound",
+    "Bloody Storm",
+    "Justice Knife",
+    "The Great Gun King",
+    "Magnificent World",
+    "Slumber Acrobatics"
+   ]
+  },
+  "1606": {
+   "name": "Bubble cloud",
+   "cat": "smoke",
+   "used": [
+    "Draugr King",
+    "Prinny Volcano",
+    "Imp Pyramid"
+   ]
+  },
+  "1607": {
+   "name": "Speckle ring",
+   "cat": "ring",
+   "used": [
+    "Gospel of Power",
+    "Rising Gale Kick",
+    "Necro Wave",
+    "Meteor Impact",
+    "Prinny Raid",
+    "Moonlight Ensemble"
+   ]
+  },
+  "1608": {
+   "name": "Smoky flame",
+   "cat": "fire",
+   "used": [
+    "Flonnezilla",
+    "Land Crusher"
+   ]
+  },
+  "1609": {
+   "name": "Dust trail",
+   "cat": "smoke",
+   "used": [
+    "Freikugel",
+    "Sonic Smash",
+    "Ninja Art Darkness",
+    "Dazzling Stage",
+    "Beastly Howl",
+    "Demonic Howl"
+   ]
+  },
+  "1610": {
+   "name": "Claw crescent",
+   "cat": "slash",
+   "used": [
+    "Purgatory Palm",
+    "Rising Domination",
+    "Excavation",
+    "Impaler Drop",
+    "Silver Slugger",
+    "Two-Handed Draw"
+   ]
+  },
+  "1700": {
+   "name": "Stone block",
+   "cat": "object",
+   "used": [
+    "Great Beast War",
+    "Flonnezilla",
+    "Magnificent World",
+    "Captured Princess",
+    "Nun Punishment",
+    "Dead Hurdles"
+   ]
+  },
+  "1701": {
+   "name": "Stone pillar",
+   "cat": "object",
+   "used": [
+    "Yo-Yo Trick",
+    "Stratus Drive",
+    "Vanargandr",
+    "Execution Chain",
+    "Tri-Angels",
+    "Nun Punishment"
+   ]
+  },
+  "1702": {
+   "name": "Arrow",
+   "cat": "projectile",
+   "used": [
+    "Rapid Arrow",
+    "Doppelganger",
+    "Zielregen",
+    "Chaotic X Circle",
+    "Goddess Artemis",
+    "Moonlight Ensemble"
+   ]
+  },
+  "1703": {
+   "name": "Prism dome",
+   "cat": "object",
+   "used": [
+    "Freikugel",
+    "Short Recoil",
+    "Silent Sniper",
+    "Dead Hurdles",
+    "Immortal Sanctuary",
+    "Rebellion Breath"
+   ]
+  },
+  "1704": {
+   "name": "Glowing rock",
+   "cat": "object",
+   "used": [
+    "Excavation",
+    "Tera Ice",
+    "Supreme Curry",
+    "Giant Body Slam",
+    "Destruction Shot",
+    "Freikugel"
+   ]
+  },
+  "1705": {
+   "name": "White rock chunk",
+   "cat": "object",
+   "used": [
+    "Rising Domination",
+    "Rising Heavens",
+    "Sword Inferno",
+    "Boulder Crush",
+    "Wild Crescent",
+    "Omega Wind"
+   ]
+  },
+  "1706": {
+   "name": "Rock slab",
+   "cat": "object",
+   "used": [
+    "Rising Domination",
+    "Killer Spin",
+    "Rising Heavens",
+    "Zielregen",
+    "Boulder Crush",
+    "Wild Crescent"
+   ]
+  },
+  "1707": {
+   "name": "Brick pillar",
+   "cat": "object",
+   "used": [
+    "Hyper Suction"
+   ]
+  },
+  "1709": {
+   "name": "Patterned box",
+   "cat": "object",
+   "used": [
+    "Top Shot",
+    "Meteor Impact",
+    "Blazing Impact",
+    "Usagi of the Dead",
+    "Evil Sword Balmung",
+    "Delta of Death"
+   ]
+  },
+  "1710": {
+   "name": "Patterned pillar",
+   "cat": "object",
+   "used": [
+    "Justice Knife"
+   ]
+  },
+  "1711": {
+   "name": "Chain",
+   "cat": "object",
+   "used": [
+    "Aching Heart",
+    "Burning Soul Bros",
+    "Ninja Art Darkness",
+    "Slumber Acrobatics",
+    "Dazzling Stage"
+   ]
+  },
+  "1712": {
+   "name": "Meteor",
+   "cat": "fire",
+   "used": [
+    "Meteor Impact",
+    "Overlord Dimension",
+    "Blazing Impact"
+   ]
+  },
+  "1714": {
+   "name": "Faint effect (25)",
+   "cat": "misc",
+   "used": [
+    "Slumber Acrobatics"
+   ]
+  },
+  "1715": {
+   "name": "Faint effect (26)",
+   "cat": "misc",
+   "used": [
+    "Cold Rain"
+   ]
+  },
+  "1716": {
+   "name": "Faint effect (27)",
+   "cat": "misc",
+   "used": [
+    "Grand Macro Palm",
+    "Silent Sniper"
+   ]
+  },
+  "1717": {
+   "name": "Faint effect (28)",
+   "cat": "misc",
+   "used": [
+    "Chaotic X Circle"
+   ]
+  },
+  "1718": {
+   "name": "Faint effect (29)",
+   "cat": "misc",
+   "used": [
+    "Electric Garden",
+    "Dazzling Stage"
+   ]
+  },
+  "1719": {
+   "name": "White shard shape",
+   "cat": "misc",
+   "used": []
+  },
+  "1720": {
+   "name": "Faint effect (30)",
+   "cat": "misc",
+   "used": [
+    "Rabbit Slicer"
+   ]
+  },
+  "1721": {
+   "name": "Faint effect (31)",
+   "cat": "misc",
+   "used": []
+  },
+  "1722": {
+   "name": "Faint effect (32)",
+   "cat": "misc",
+   "used": []
+  },
+  "1723": {
+   "name": "Picture quad (still)",
+   "cat": "backdrop",
+   "used": [
+    "Silver Slugger",
+    "Omega Fire",
+    "Speed Boost",
+    "Slow",
+    "Demon Star Breaker",
+    "Great Beast War"
+   ]
+  },
+  "1724": {
+   "name": "Stone spike",
+   "cat": "object",
+   "used": [
+    "Lightning Sword"
+   ]
+  },
+  "1726": {
+   "name": "Checker board",
+   "cat": "object",
+   "used": [
+    "Flonnezilla"
+   ]
+  },
+  "1728": {
+   "name": "Cabinet",
+   "cat": "object",
+   "used": [
+    "Flonnezilla"
+   ]
+  },
+  "1729": {
+   "name": "Parasol",
+   "cat": "object",
+   "used": [
+    "Lantern Section",
+    "Slumber Acrobatics"
+   ]
+  },
+  "1730": {
+   "name": "Tree",
+   "cat": "object",
+   "used": [
+    "Flonnezilla",
+    "Witch Domination",
+    "Dazzling Stage",
+    "Sanzu River Falls"
+   ]
+  },
+  "1732": {
+   "name": "Crystal chest",
+   "cat": "object",
+   "used": [
+    "Great Beast War",
+    "Immortal Sanctuary"
+   ]
+  },
+  "1733": {
+   "name": "Dirt mound",
+   "cat": "object",
+   "used": [
+    "Toten Kreuz",
+    "Omega Fire",
+    "Tera Fire",
+    "Omega Wind",
+    "Tera Wind",
+    "Omega Ice"
+   ]
+  },
+  "1734": {
+   "name": "Tree (2)",
+   "cat": "object",
+   "used": [
+    "Great Beast War",
+    "Sanzu River Falls"
+   ]
+  },
+  "1735": {
+   "name": "Goblet",
+   "cat": "object",
+   "used": [
+    "Dark Illuminati"
+   ]
+  },
+  "1736": {
+   "name": "Patterned panel",
+   "cat": "object",
+   "used": [
+    "Demon Star Breaker",
+    "Twin Macro Palm",
+    "Shadow Light Fist",
+    "Lightning Sword",
+    "3 Year Crush Kill",
+    "Dark Illuminati"
+   ]
+  },
+  "1737": {
+   "name": "Boulder",
+   "cat": "object",
+   "used": [
+    "Omega Ice",
+    "Rebellion Breath"
+   ]
+  },
+  "1738": {
+   "name": "Rock",
+   "cat": "object",
+   "used": [
+    "Full Desco Burst",
+    "Captured Princess"
+   ]
+  },
+  "1739": {
+   "name": "Faint effect (33)",
+   "cat": "misc",
+   "used": [
+    "Freikugel"
+   ]
+  },
+  "1740": {
+   "name": "Parchment",
+   "cat": "backdrop",
+   "used": [
+    "Rebellion Breath"
+   ]
+  },
+  "1741": {
+   "name": "Yellow tree",
+   "cat": "object",
+   "used": [
+    "Dark Illuminati",
+    "Dazzling Stage",
+    "Hyper Suction"
+   ]
+  },
+  "1742": {
+   "name": "Colourful tree",
+   "cat": "object",
+   "used": [
+    "Bloody Storm"
+   ]
+  },
+  "1743": {
+   "name": "Stone pillar (2)",
+   "cat": "object",
+   "used": [
+    "Execution Chain",
+    "Captured Princess"
+   ]
+  },
+  "1800": {
+   "name": "Flash line",
+   "cat": "slash",
+   "used": [
+    "Rising Domination",
+    "Vacuum Slice X",
+    "Rising Heavens",
+    "Phoenix Valor",
+    "Zielregen",
+    "Chaotic X Circle"
+   ]
+  },
+  "1801": {
+   "name": "Flash lines",
+   "cat": "slash",
+   "used": [
+    "Excavation",
+    "Rising Heavens",
+    "Omega Fire",
+    "Tera Star",
+    "Exploding Tiger",
+    "Cryo Heartbreaker"
+   ]
+  },
+  "1802": {
+   "name": "Flash line (2)",
+   "cat": "slash",
+   "used": [
+    "Phantom Blow",
+    "Excavation",
+    "Doppelganger",
+    "Toten Kreuz",
+    "Hellfire Shot",
+    "Flaming Spin Kick"
+   ]
+  },
+  "1803": {
+   "name": "Faint effect (34)",
+   "cat": "misc",
+   "used": [
+    "Cross Flame Gale",
+    "Assault Circus",
+    "Destruction Shot",
+    "Secret Fist Improv",
+    "Shadow Light Fist",
+    "Silent Sniper"
+   ]
+  },
+  "1804": {
+   "name": "Electric spindle",
+   "cat": "lightning",
+   "used": [
+    "Giant Evilman Ray"
+   ]
+  },
+  "1805": {
+   "name": "Faint blue effect",
+   "cat": "misc",
+   "used": [
+    "Two-Handed Draw",
+    "Battle Orchestra"
+   ]
+  },
+  "1806": {
+   "name": "Faint effect (35)",
+   "cat": "misc",
+   "used": [
+    "Tornado Spark",
+    "Top Shot",
+    "Omega Fire",
+    "Giga Wind",
+    "Giga Star",
+    "Rising Gale Kick"
+   ]
+  },
+  "1807": {
+   "name": "Wire bowl",
+   "cat": "misc",
+   "used": [
+    "Overlord Dimension",
+    "Giant Evilman Ray"
+   ]
+  },
+  "1900": {
+   "name": "Star shape",
+   "cat": "star",
+   "used": [
+    "Sicily Delivery",
+    "Dead Hurdles"
+   ]
+  },
+  "1901": {
+   "name": "White panel",
+   "cat": "backdrop",
+   "used": [
+    "Chaos Impact",
+    "Dead End Chaos",
+    "Flonnezilla",
+    "Rose Thorns",
+    "Badass Overdrive"
+   ]
+  },
+  "1902": {
+   "name": "Black panel",
+   "cat": "backdrop",
+   "used": []
+  },
+  "1903": {
+   "name": "White polygon",
+   "cat": "backdrop",
+   "used": [
+    "Tyrant Flughude",
+    "Judgment Ray"
+   ]
+  },
+  "1904": {
+   "name": "Faint effect (36)",
+   "cat": "misc",
+   "used": [
+    "Mandatory Repo",
+    "V Extreme"
+   ]
+  },
+  "1905": {
+   "name": "Jagged panel",
+   "cat": "backdrop",
+   "used": [
+    "Phoenix Valor",
+    "Tornado Spark",
+    "Zielregen",
+    "Chaotic X Circle",
+    "Sword Inferno",
+    "Homing Eraser"
+   ]
+  },
+  "1906": {
+   "name": "White panel (2)",
+   "cat": "backdrop",
+   "used": [
+    "Excavation",
+    "Top Shot",
+    "Silver Slugger",
+    "Squad Attack",
+    "Cross Flame Gale",
+    "Grand Macro Palm"
+   ]
+  },
+  "1907": {
+   "name": "Burst lines",
+   "cat": "impact",
+   "used": [
+    "Rising Domination",
+    "Phoenix Valor",
+    "Silver Slugger",
+    "Omega Fire",
+    "Tera Fire",
+    "Omega Wind"
+   ]
+  },
+  "1908": {
+   "name": "Galaxy disc",
+   "cat": "star",
+   "used": [
+    "Omega Star",
+    "Super Damage Lord",
+    "Prinnical Meteor",
+    "Coney Pound",
+    "Demon Star Breaker",
+    "Wormhole"
+   ]
+  },
+  "1909": {
+   "name": "Sparkle sun",
+   "cat": "star",
+   "used": [
+    "Tera Fire",
+    "Omega Star",
+    "Hellfire Shot",
+    "Flaming Spin Kick",
+    "Super Damage Lord",
+    "Cross Flame Gale"
+   ]
+  },
+  "1910": {
+   "name": "Planet",
+   "cat": "backdrop",
+   "used": [
+    "Omega Star",
+    "Super Damage Lord",
+    "Prinnical Meteor",
+    "Wormhole"
+   ]
+  },
+  "1911": {
+   "name": "Planet ring",
+   "cat": "ring",
+   "used": [
+    "Omega Star"
+   ]
+  },
+  "1912": {
+   "name": "Cloud strip",
+   "cat": "backdrop",
+   "used": []
+  },
+  "1913": {
+   "name": "Distant sun",
+   "cat": "star",
+   "used": [
+    "Omega Heal",
+    "Giant Body Slam",
+    "Draugr King",
+    "Nova Balmung",
+    "Super Piledriver",
+    "Dazzling Stage"
+   ]
+  },
+  "1914": {
+   "name": "Small black square",
+   "cat": "misc",
+   "used": []
+  },
+  "1915": {
+   "name": "Grid backdrop",
+   "cat": "backdrop",
+   "used": []
+  },
+  "1916": {
+   "name": "Violet grid backdrop",
+   "cat": "backdrop",
+   "used": []
+  },
+  "1917": {
+   "name": "Nebula backdrop",
+   "cat": "backdrop",
+   "used": [
+    "Ruin Burst",
+    "Legend White",
+    "13 Knights"
+   ]
+  },
+  "1918": {
+   "name": "Star field backdrop",
+   "cat": "backdrop",
+   "used": [
+    "Toten Kreuz",
+    "Omega Star",
+    "Coney Pound",
+    "Demon Star Breaker",
+    "Wormhole",
+    "Neo Zetta Beam"
+   ]
+  },
+  "1919": {
+   "name": "Blue sky backdrop",
+   "cat": "backdrop",
+   "used": [
+    "Grand Macro Palm",
+    "Flonnezilla",
+    "Bloody Hole",
+    "Tyrant Flughude",
+    "Grand Sword",
+    "Moon Shine Slash"
+   ]
+  },
+  "1920": {
+   "name": "Tiny sparkle",
+   "cat": "misc",
+   "used": [
+    "Purgatory Palm",
+    "Omega Ice",
+    "Bonus Blast",
+    "Demon Star Breaker",
+    "Azathoth",
+    "Chaos Impact"
+   ]
+  },
+  "1921": {
+   "name": "Moon",
+   "cat": "backdrop",
+   "used": [
+    "Super Damage Lord",
+    "Demon Star Breaker",
+    "Wormhole",
+    "Overlord Dimension",
+    "Sicily Delivery",
+    "Twin Attribute"
+   ]
+  },
+  "1922": {
+   "name": "Moon (2)",
+   "cat": "backdrop",
+   "used": [
+    "Toten Kreuz",
+    "Omega Star",
+    "Super Damage Lord",
+    "Coney Pound",
+    "Demon Star Breaker",
+    "Ruin Burst"
+   ]
+  },
+  "1923": {
+   "name": "Thin falling streak",
+   "cat": "beam",
+   "used": [
+    "Omega Star",
+    "Explosive Elegance",
+    "Demon Star Breaker",
+    "Azathoth",
+    "Chaos Impact",
+    "Delta of Death"
+   ]
+  },
+  "1924": {
+   "name": "Scope panel",
+   "cat": "backdrop",
+   "used": [
+    "Silent Sniper"
+   ]
+  },
+  "1925": {
+   "name": "Cloud strip (2)",
+   "cat": "backdrop",
+   "used": [
+    "Coney Pound",
+    "Wormhole"
+   ]
+  },
+  "1926": {
+   "name": "Earth",
+   "cat": "backdrop",
+   "used": [
+    "Toten Kreuz",
+    "Omega Star",
+    "Super Damage Lord",
+    "Prinnical Meteor",
+    "Coney Pound",
+    "Demon Star Breaker"
+   ]
+  },
+  "2000": {
+   "name": "Soft halo",
+   "cat": "glow",
+   "used": [
+    "Dark Rosario",
+    "Destruction Shot",
+    "Secret Fist Improv",
+    "Azathoth",
+    "Delta of Death",
+    "Twilight Elemental"
+   ]
+  },
+  "2001": {
+   "name": "Green vortex",
+   "cat": "aura",
+   "used": [
+    "Mind Break",
+    "Tyrant Flughude",
+    "Soul Reaper",
+    "D-Rule: EcoFriend",
+    "Twilight Elemental",
+    "Demon Emperor"
+   ]
+  },
+  "2006": {
+   "name": "Faint effect (37)",
+   "cat": "misc",
+   "used": [
+    "Tera Heal",
+    "白と黒のチカラ",
+    "Coney Pound",
+    "Azathoth",
+    "Wormhole",
+    "Meteor Impact"
+   ]
+  },
+  "2101": {
+   "name": "Light curtain",
+   "cat": "beam",
+   "used": [
+    "Geo Blast",
+    "Prinny Raid",
+    "Blazing Impact",
+    "Ice Mirror",
+    "Requiem Aeternam",
+    "Energy Potion"
+   ]
+  },
+  "2102": {
+   "name": "Cracked ground",
+   "cat": "object",
+   "used": []
+  },
+  "2104": {
+   "name": "Pink pole",
+   "cat": "misc",
+   "used": [
+    "Giant Body Slam",
+    "Freezing Light",
+    "Super Piledriver"
+   ]
+  },
+  "2115": {
+   "name": "Small cube",
+   "cat": "misc",
+   "used": []
+  },
+  "2116": {
+   "name": "Small shards",
+   "cat": "impact",
+   "used": []
+  },
+  "2200": {
+   "name": "Fire X",
+   "cat": "fire",
+   "used": [
+    "The Great Gun King",
+    "Cameo Storm"
+   ]
+  },
+  "2201": {
+   "name": "Rock cube",
+   "cat": "object",
+   "used": [
+    "Killer Spin",
+    "Excavation",
+    "Sword Inferno",
+    "Toten Kreuz",
+    "Boulder Crush",
+    "Wild Crescent"
+   ]
+  },
+  "2500": {
+   "name": "Soft cloud",
+   "cat": "smoke",
+   "used": [
+    "Tera Fire",
+    "Supreme Curry",
+    "Explosive Elegance",
+    "Draugr King",
+    "Rising Ice Phoenix",
+    "Sonic Smash"
+   ]
+  },
+  "2502": {
+   "name": "Target reticle",
+   "cat": "misc",
+   "used": [
+    "Target Lock",
+    "Blind",
+    "Silent Sniper"
+   ]
+  },
+  "2503": {
+   "name": "Petal",
+   "cat": "misc",
+   "used": [
+    "Tera Wind",
+    "Lantern Section",
+    "Death Sprout",
+    "Ice Death Sprout"
+   ]
+  },
+  "2504": {
+   "name": "Round petal",
+   "cat": "misc",
+   "used": [
+    "Pillar Break",
+    "Temperance Break"
+   ]
+  },
+  "2507": {
+   "name": "Small pyramid",
+   "cat": "object",
+   "used": [
+    "Impaler Prince",
+    "Grim Specter"
+   ]
+  },
+  "2518": {
+   "name": "Glass cylinder",
+   "cat": "object",
+   "used": [
+    "Top Shot",
+    "Great Beast War",
+    "Flonnezilla",
+    "Magnificent World",
+    "Hero Style Orders",
+    "Dead Hurdles"
+   ]
+  },
+  "2520": {
+   "name": "Patterned panel (2)",
+   "cat": "object",
+   "used": [
+    "Silver Slugger",
+    "Monkey Cannon",
+    "Captured Princess",
+    "Sonic Smash",
+    "Silent Sniper",
+    "Imp Pyramid"
+   ]
+  },
+  "2528": {
+   "name": "Anchor",
+   "cat": "object",
+   "used": []
+  },
+  "2535": {
+   "name": "Stage curtains",
+   "cat": "backdrop",
+   "used": []
+  },
+  "2538": {
+   "name": "Tiny bits",
+   "cat": "misc",
+   "used": [
+    "Overlord's Wrath",
+    "Overlord Dimension",
+    "Flonnezilla",
+    "Yog Sothoth",
+    "Magnificent World",
+    "Frost Dragon"
+   ]
+  },
+  "2540": {
+   "name": "Stacked boxes",
+   "cat": "object",
+   "used": [
+    "Magnificent World",
+    "Love Dynamite T"
+   ]
+  },
+  "2541": {
+   "name": "Cage",
+   "cat": "object",
+   "used": [
+    "Flonnezilla",
+    "Love Dynamite T",
+    "Nun Punishment"
+   ]
+  },
+  "2542": {
+   "name": "Giant sword",
+   "cat": "object",
+   "used": [
+    "Overlord Dimension",
+    "Grand Sword"
+   ]
+  },
+  "2543": {
+   "name": "Mecha head",
+   "cat": "object",
+   "used": []
+  },
+  "2544": {
+   "name": "Crystal structure",
+   "cat": "object",
+   "used": [
+    "Slumber Acrobatics",
+    "Comedy Impact"
+   ]
+  },
+  "2545": {
+   "name": "Guitar",
+   "cat": "object",
+   "used": [
+    "Aching Heart",
+    "Love Dynamite T"
+   ]
+  },
+  "2546": {
+   "name": "Kanji ring",
+   "cat": "ring",
+   "used": []
+  },
+  "2547": {
+   "name": "Paper shards",
+   "cat": "object",
+   "used": [
+    "Overlord Dimension",
+    "Bloody Hole",
+    "Moonlight Ensemble",
+    "V Extreme",
+    "Aching Heart",
+    "Frost Dragon"
+   ]
+  },
+  "2548": {
+   "name": "Spike cone",
+   "cat": "projectile",
+   "used": [
+    "Sicily Delivery"
+   ]
+  },
+  "2549": {
+   "name": "Arc line",
+   "cat": "misc",
+   "used": [
+    "Blind"
+   ]
+  },
+  "2550": {
+   "name": "Faint effect (38)",
+   "cat": "misc",
+   "used": [
+    "Unmasking Death"
+   ]
+  },
+  "2551": {
+   "name": "Glowing star",
+   "cat": "star",
+   "used": [
+    "Tera Star",
+    "白と黒のチカラ",
+    "Prinnical Meteor",
+    "Coney Pound",
+    "Demon Star Breaker"
+   ]
+  },
+  "2552": {
+   "name": "Pirate ship",
+   "cat": "object",
+   "used": [
+    "Monkey Cannon",
+    "Pirate Shell"
+   ]
+  },
+  "2553": {
+   "name": "Stone panel",
+   "cat": "backdrop",
+   "used": [
+    "Great Beast War",
+    "Flonnezilla",
+    "3 Year Crush Kill"
+   ]
+  },
+  "2554": {
+   "name": "Capture net",
+   "cat": "misc",
+   "used": [
+    "Capture Skill 1"
+   ]
+  },
+  "2555": {
+   "name": "Capture dome",
+   "cat": "misc",
+   "used": [
+    "Capture Skill 2"
+   ]
+  },
+  "2556": {
+   "name": "Pirate ship (2)",
+   "cat": "object",
+   "used": [
+    "Captured Princess",
+    "Pirate Shell",
+    "Nether Buccaneer"
+   ]
+  },
+  "2557": {
+   "name": "Pirate ship (firing)",
+   "cat": "object",
+   "used": [
+    "Pirate Shell",
+    "Nether Buccaneer"
+   ]
+  },
+  "2558": {
+   "name": "Evil sword",
+   "cat": "object",
+   "used": [
+    "Evil Sword Balmung",
+    "Martial Transformer"
+   ]
+  },
+  "2559": {
+   "name": "Faint effect (39)",
+   "cat": "misc",
+   "used": [
+    "Evil Sword Balmung",
+    "Nova Balmung"
+   ]
+  },
+  "2560": {
+   "name": "Jagged blade",
+   "cat": "object",
+   "used": [
+    "Martial Transformer",
+    "Nova Balmung"
+   ]
+  },
+  "2561": {
+   "name": "Wire cage",
+   "cat": "misc",
+   "used": [
+    "Captured Princess"
+   ]
+  },
+  "2562": {
+   "name": "Stage",
+   "cat": "object",
+   "used": [
+    "Love Dynamite T"
+   ]
+  },
+  "2563": {
+   "name": "Grey vortex",
+   "cat": "dark",
+   "used": [
+    "Dark Liberation"
+   ]
+  }
+ }
+}

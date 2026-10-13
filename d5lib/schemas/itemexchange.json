@@ -1,0 +1,58 @@
+{
+ "file": "itemexchange.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 12,
+ "key": "id",
+ "display": "item",
+ "desc": "Point-threshold item rewards (52 rows): when a counter reaches 'points', 'item' is given. The counter itself is not identified (low); rewards are IW items, emblems and gag weapons.",
+ "fields": [
+  {
+   "name": "points",
+   "offset": 0,
+   "type": "u16",
+   "desc": "required cumulative points/threshold (10, 25, 50, 75, 100, 150 ... 4700 in steps of 100)",
+   "confidence": "medium"
+  },
+  {
+   "name": "item",
+   "offset": 2,
+   "type": "u16",
+   "desc": "reward item id (Diver-5, Dark Rosary, gag weapons TV/Watermelon/Pie...)",
+   "confidence": "high",
+   "ref": "item.dat"
+  },
+  {
+   "name": "id",
+   "offset": 4,
+   "type": "u16",
+   "desc": "entry id 1..52 (= row index + 1)",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_006",
+   "offset": 6,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_008",
+   "offset": 8,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

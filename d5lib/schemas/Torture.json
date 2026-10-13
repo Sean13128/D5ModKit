@@ -1,0 +1,116 @@
+{
+ "file": "Torture.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 888,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Interrogation (torture room) methods: 94 rows, id/name/description + a small category value. Ids 100+ are unit-specific methods (e.g. \"Sister's Story\", \"Too Many Asagis\").",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "interrogation method id: 1..4 generic, 100..189 character-specific",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 56,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 108,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 160,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 212,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 264,
+   "type": "str",
+   "size": 124,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 388,
+   "type": "str",
+   "size": 124,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 512,
+   "type": "str",
+   "size": 124,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 636,
+   "type": "str",
+   "size": 124,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 760,
+   "type": "str",
+   "size": 124,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "category",
+   "offset": 884,
+   "type": "u32",
+   "desc": "values 0,1,3,5 (25/21/24/24 rows); probably method type/reaction group; unverified",
+   "confidence": "low"
+  }
+ ]
+}

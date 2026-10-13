@@ -1,0 +1,622 @@
+{
+ "file": "DLC_ShopDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 300,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Pool-string variant of the DLC shop list (26 rows): label, DLC content id, 7 five-language strings each preceded by its character count (FR/CHN/KOR are EN copies).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "shop entry id (= SPC_Shop.id)",
+   "confidence": "high"
+  },
+  {
+   "name": "label_len",
+   "offset": 4,
+   "type": "u32",
+   "desc": "character count of label (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "label"
+  },
+  {
+   "name": "label",
+   "offset": 8,
+   "type": "strptr",
+   "desc": "internal identifier, e.g. DLC_SHOP_CHARA_LAHARL_CHAN",
+   "confidence": "high"
+  },
+  {
+   "name": "dlc_id",
+   "offset": 12,
+   "type": "u32",
+   "desc": "DLC content id (100004 Girl Laharl, 300000.. scenarios, 600000.. item/money)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP_len",
+   "offset": 16,
+   "type": "u32",
+   "desc": "character count of name_JP (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_JP"
+  },
+  {
+   "name": "name_JP",
+   "offset": 20,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "JP"
+  },
+  {
+   "name": "name_EN_len",
+   "offset": 24,
+   "type": "u32",
+   "desc": "character count of name_EN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_EN"
+  },
+  {
+   "name": "name_EN",
+   "offset": 28,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "EN"
+  },
+  {
+   "name": "name_FR_len",
+   "offset": 32,
+   "type": "u32",
+   "desc": "character count of name_FR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_FR"
+  },
+  {
+   "name": "name_FR",
+   "offset": 36,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "FR"
+  },
+  {
+   "name": "name_CHN_len",
+   "offset": 40,
+   "type": "u32",
+   "desc": "character count of name_CHN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_CHN"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 44,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "CHN"
+  },
+  {
+   "name": "name_KOR_len",
+   "offset": 48,
+   "type": "u32",
+   "desc": "character count of name_KOR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "name_KOR"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 52,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "KOR"
+  },
+  {
+   "name": "desc_JP_len",
+   "offset": 56,
+   "type": "u32",
+   "desc": "character count of desc_JP (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc_JP"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 60,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "JP"
+  },
+  {
+   "name": "desc_EN_len",
+   "offset": 64,
+   "type": "u32",
+   "desc": "character count of desc_EN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc_EN"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 68,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "EN"
+  },
+  {
+   "name": "desc_FR_len",
+   "offset": 72,
+   "type": "u32",
+   "desc": "character count of desc_FR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc_FR"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 76,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "FR"
+  },
+  {
+   "name": "desc_CHN_len",
+   "offset": 80,
+   "type": "u32",
+   "desc": "character count of desc_CHN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc_CHN"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 84,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "CHN"
+  },
+  {
+   "name": "desc_KOR_len",
+   "offset": 88,
+   "type": "u32",
+   "desc": "character count of desc_KOR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc_KOR"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 92,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "KOR"
+  },
+  {
+   "name": "desc2_JP_len",
+   "offset": 96,
+   "type": "u32",
+   "desc": "character count of desc2_JP (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc2_JP"
+  },
+  {
+   "name": "desc2_JP",
+   "offset": 100,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "JP"
+  },
+  {
+   "name": "desc2_EN_len",
+   "offset": 104,
+   "type": "u32",
+   "desc": "character count of desc2_EN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc2_EN"
+  },
+  {
+   "name": "desc2_EN",
+   "offset": 108,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "EN"
+  },
+  {
+   "name": "desc2_FR_len",
+   "offset": 112,
+   "type": "u32",
+   "desc": "character count of desc2_FR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc2_FR"
+  },
+  {
+   "name": "desc2_FR",
+   "offset": 116,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "FR"
+  },
+  {
+   "name": "desc2_CHN_len",
+   "offset": 120,
+   "type": "u32",
+   "desc": "character count of desc2_CHN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc2_CHN"
+  },
+  {
+   "name": "desc2_CHN",
+   "offset": 124,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "CHN"
+  },
+  {
+   "name": "desc2_KOR_len",
+   "offset": 128,
+   "type": "u32",
+   "desc": "character count of desc2_KOR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc2_KOR"
+  },
+  {
+   "name": "desc2_KOR",
+   "offset": 132,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "KOR"
+  },
+  {
+   "name": "desc3_JP_len",
+   "offset": 136,
+   "type": "u32",
+   "desc": "character count of desc3_JP (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc3_JP"
+  },
+  {
+   "name": "desc3_JP",
+   "offset": 140,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "JP"
+  },
+  {
+   "name": "desc3_EN_len",
+   "offset": 144,
+   "type": "u32",
+   "desc": "character count of desc3_EN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc3_EN"
+  },
+  {
+   "name": "desc3_EN",
+   "offset": 148,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "EN"
+  },
+  {
+   "name": "desc3_FR_len",
+   "offset": 152,
+   "type": "u32",
+   "desc": "character count of desc3_FR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc3_FR"
+  },
+  {
+   "name": "desc3_FR",
+   "offset": 156,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "FR"
+  },
+  {
+   "name": "desc3_CHN_len",
+   "offset": 160,
+   "type": "u32",
+   "desc": "character count of desc3_CHN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc3_CHN"
+  },
+  {
+   "name": "desc3_CHN",
+   "offset": 164,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "CHN"
+  },
+  {
+   "name": "desc3_KOR_len",
+   "offset": 168,
+   "type": "u32",
+   "desc": "character count of desc3_KOR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc3_KOR"
+  },
+  {
+   "name": "desc3_KOR",
+   "offset": 172,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "KOR"
+  },
+  {
+   "name": "desc4_JP_len",
+   "offset": 176,
+   "type": "u32",
+   "desc": "character count of desc4_JP (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc4_JP"
+  },
+  {
+   "name": "desc4_JP",
+   "offset": 180,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "JP"
+  },
+  {
+   "name": "desc4_EN_len",
+   "offset": 184,
+   "type": "u32",
+   "desc": "character count of desc4_EN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc4_EN"
+  },
+  {
+   "name": "desc4_EN",
+   "offset": 188,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "EN"
+  },
+  {
+   "name": "desc4_FR_len",
+   "offset": 192,
+   "type": "u32",
+   "desc": "character count of desc4_FR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc4_FR"
+  },
+  {
+   "name": "desc4_FR",
+   "offset": 196,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "FR"
+  },
+  {
+   "name": "desc4_CHN_len",
+   "offset": 200,
+   "type": "u32",
+   "desc": "character count of desc4_CHN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc4_CHN"
+  },
+  {
+   "name": "desc4_CHN",
+   "offset": 204,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "CHN"
+  },
+  {
+   "name": "desc4_KOR_len",
+   "offset": 208,
+   "type": "u32",
+   "desc": "character count of desc4_KOR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "desc4_KOR"
+  },
+  {
+   "name": "desc4_KOR",
+   "offset": 212,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "KOR"
+  },
+  {
+   "name": "received_JP_len",
+   "offset": 216,
+   "type": "u32",
+   "desc": "character count of received_JP (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "received_JP"
+  },
+  {
+   "name": "received_JP",
+   "offset": 220,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "JP"
+  },
+  {
+   "name": "received_EN_len",
+   "offset": 224,
+   "type": "u32",
+   "desc": "character count of received_EN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "received_EN"
+  },
+  {
+   "name": "received_EN",
+   "offset": 228,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "EN"
+  },
+  {
+   "name": "received_FR_len",
+   "offset": 232,
+   "type": "u32",
+   "desc": "character count of received_FR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "received_FR"
+  },
+  {
+   "name": "received_FR",
+   "offset": 236,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "FR"
+  },
+  {
+   "name": "received_CHN_len",
+   "offset": 240,
+   "type": "u32",
+   "desc": "character count of received_CHN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "received_CHN"
+  },
+  {
+   "name": "received_CHN",
+   "offset": 244,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "CHN"
+  },
+  {
+   "name": "received_KOR_len",
+   "offset": 248,
+   "type": "u32",
+   "desc": "character count of received_KOR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "received_KOR"
+  },
+  {
+   "name": "received_KOR",
+   "offset": 252,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "KOR"
+  },
+  {
+   "name": "not_received_JP_len",
+   "offset": 256,
+   "type": "u32",
+   "desc": "character count of not_received_JP (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "not_received_JP"
+  },
+  {
+   "name": "not_received_JP",
+   "offset": 260,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "JP"
+  },
+  {
+   "name": "not_received_EN_len",
+   "offset": 264,
+   "type": "u32",
+   "desc": "character count of not_received_EN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "not_received_EN"
+  },
+  {
+   "name": "not_received_EN",
+   "offset": 268,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "EN"
+  },
+  {
+   "name": "not_received_FR_len",
+   "offset": 272,
+   "type": "u32",
+   "desc": "character count of not_received_FR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "not_received_FR"
+  },
+  {
+   "name": "not_received_FR",
+   "offset": 276,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "FR"
+  },
+  {
+   "name": "not_received_CHN_len",
+   "offset": 280,
+   "type": "u32",
+   "desc": "character count of not_received_CHN (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "not_received_CHN"
+  },
+  {
+   "name": "not_received_CHN",
+   "offset": 284,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "CHN"
+  },
+  {
+   "name": "not_received_KOR_len",
+   "offset": 288,
+   "type": "u32",
+   "desc": "character count of not_received_KOR (auto-computed on write)",
+   "confidence": "high",
+   "role": "strlen",
+   "of": "not_received_KOR"
+  },
+  {
+   "name": "not_received_KOR",
+   "offset": 292,
+   "type": "strptr",
+   "confidence": "high",
+   "lang": "KOR"
+  },
+  {
+   "name": "delivery_group",
+   "offset": 296,
+   "type": "u32",
+   "desc": "DLC wave/group 100..150 (= DLC_DeliveryDataBase.group)",
+   "confidence": "medium"
+  }
+ ]
+}

@@ -1,0 +1,174 @@
+{
+ "file": "ship.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 396,
+ "key": "id",
+ "display": "name_JP",
+ "desc": "Item World pirate ships (11 rows, JP-only). Referenced by pirate.dat ship_id/ship_obj. Trailing 8 bytes are small ship parameters (unknown).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "ship id 1..11",
+   "confidence": "high"
+  },
+  {
+   "name": "ship_obj",
+   "offset": 4,
+   "type": "u16",
+   "desc": "ship object id 4261..4271 (= 4260 + id)",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_006",
+   "offset": 6,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "icon",
+   "offset": 7,
+   "type": "u8",
+   "desc": "100..110 (= 99 + id): icon/graphic id",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_008",
+   "offset": 8,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "always 10"
+  },
+  {
+   "name": "unk_009",
+   "offset": 9,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 0..6, 5 distinct; top 1(x4), 4(x2), 0(x2), 2(x2), 6(x1)"
+  },
+  {
+   "name": "unk_00A",
+   "offset": 10,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 0..6, 6 distinct; top 1(x5), 2(x2), 5(x1), 6(x1), 0(x1), 3(x1)"
+  },
+  {
+   "name": "unk_00B",
+   "offset": 11,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 3..100, 6 distinct; top 100(x6), 30(x1), 60(x1), 40(x1), 10(x1), 3(x1)"
+  },
+  {
+   "name": "name_JP",
+   "offset": 12,
+   "type": "str",
+   "desc": "ship name (JP only)",
+   "confidence": "high",
+   "size": 49
+  },
+  {
+   "name": "desc1_JP",
+   "offset": 61,
+   "type": "str",
+   "desc": "description line 1 (JP)",
+   "confidence": "high",
+   "size": 108
+  },
+  {
+   "name": "desc2_JP",
+   "offset": 169,
+   "type": "str",
+   "desc": "description line 2 (JP)",
+   "confidence": "high",
+   "size": 108
+  },
+  {
+   "name": "desc3_JP",
+   "offset": 277,
+   "type": "str",
+   "desc": "description line 3 (JP)",
+   "confidence": "high",
+   "size": 108
+  },
+  {
+   "name": "unk_181",
+   "offset": 385,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 1..13, 5 distinct; top 3(x4), 9(x2), 1(x2), 5(x2), 13(x1)"
+  },
+  {
+   "name": "unk_182",
+   "offset": 386,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 1..15, 8 distinct; top 5(x3), 3(x2), 10(x1), 13(x1), 15(x1), 1(x1)"
+  },
+  {
+   "name": "unk_183",
+   "offset": 387,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "always 255"
+  },
+  {
+   "name": "unk_184",
+   "offset": 388,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 1..13, 5 distinct; top 3(x4), 9(x2), 1(x2), 5(x2), 13(x1)"
+  },
+  {
+   "name": "unk_185",
+   "offset": 389,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 0..5, 5 distinct; top 1(x5), 5(x2), 2(x2), 0(x1), 3(x1)"
+  },
+  {
+   "name": "unk_186",
+   "offset": 390,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 0..5, 5 distinct; top 1(x5), 5(x2), 2(x2), 0(x1), 3(x1)"
+  },
+  {
+   "name": "unk_187",
+   "offset": 391,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 5..38, 9 distinct; top 18(x2), 19(x2), 13(x1), 30(x1), 27(x1), 38(x1)"
+  },
+  {
+   "name": "unk_188",
+   "offset": 392,
+   "type": "u8",
+   "confidence": "low",
+   "desc": "observed 5..38, 9 distinct; top 18(x2), 19(x2), 13(x1), 30(x1), 27(x1), 38(x1)"
+  },
+  {
+   "name": "pad_189",
+   "offset": 393,
+   "type": "bytes",
+   "desc": "always 0",
+   "confidence": "high",
+   "size": 3
+  }
+ ]
+}

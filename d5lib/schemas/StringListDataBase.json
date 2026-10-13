@@ -1,0 +1,112 @@
+{
+ "file": "StringListDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 44,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Generic localized UI/system string table (pool layout: id + 5 x (char count, string pointer)). Texts are looked up by id from code (e.g. 0x2c10/0x2c11 = 11280/11281). PC exe picks the slot by game language (0=JP,1=EN,2=FR); language ids 3/4 are remapped to slot 1, so CHN/KOR slots appear unused on PC. Field names kept as name_* (used by test_roundtrip edit test).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "string id, sorted (exe binary search 0x140139ed0). Ranges: 10001-12789 system/UI messages, 12798-13084, 14000-14100, 14500-14512, 15000-15004, 15100-15101, 15500-15621, 15700-15821, 15900-15914, 20000-20434, 30000-30001, 40000-40005 (movie/demo captions)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP_len",
+   "offset": 4,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_JP",
+   "desc": "character count of name_JP (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 8,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN_len",
+   "offset": 12,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_EN",
+   "desc": "character count of name_EN (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR_len",
+   "offset": 20,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_FR",
+   "desc": "character count of name_FR (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 24,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN_len",
+   "offset": 28,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_CHN",
+   "desc": "character count of name_CHN (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 32,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR_len",
+   "offset": 36,
+   "type": "u32",
+   "role": "strlen",
+   "of": "name_KOR",
+   "desc": "character count of name_KOR (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 40,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  }
+ ]
+}

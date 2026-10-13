@@ -1,0 +1,51 @@
+{
+ "_about": "Dragon (DRPG 30133), v2. Front sheet is a 4x4 grid; back / wait sheets are packed the same way ('grid'). stand = 81049 (closed mouth, the same drawing as wait frame 17017, so stand <-> idle does not pop); walk = the two stepping drawings (113049 right foot up, 81114 left foot up) between stands; hit = 49017 (flinch, eyes shut); crouch = 49114 (wings up, calm: jump / lift take-off); jump = 18016 (head thrown back, roaring); attack = 17050 (wings up, claws clenched) -> 18016 (rear back) -> 13080 (lunge, mouth forward). 49049 / 48051 are DRPG white flash frames and stay unused, 18112 = 18016, 112015 / 50081 spare.",
+ "front": {
+  "stand": 81049,
+  "walk": [
+   113049,
+   81114
+  ],
+  "hit": 49017,
+  "crouch": 49114,
+  "jump": [
+   18016
+  ],
+  "attack": [
+   17050,
+   18016,
+   13080
+  ],
+  "other": [
+   50081,
+   112015,
+   81017
+  ]
+ },
+ "back": "grid",
+ "wait_front": "grid",
+ "wait_back": "grid",
+ "mouth": {
+  "front:13080": [
+   6,
+   197
+  ],
+  "front:17050": [
+   20,
+   75
+  ],
+  "back:14016": [
+   80,
+   6
+  ],
+  "back:17081": [
+   192,
+   157
+  ],
+  "back:15052": [
+   185,
+   58
+  ]
+ },
+ "_mouth_doc": "mouth opening (region pixels) of the drawings the Dragon shows while Dragon King's fire breath plays"
+}

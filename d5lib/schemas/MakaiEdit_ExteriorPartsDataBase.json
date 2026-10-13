@@ -1,0 +1,199 @@
+{
+ "file": "MakaiEdit_ExteriorPartsDataBase",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 92,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Netherworld Edit exterior parts (look of your pocket netherworld / research netherworlds). 6 categories x 30. Referenced by Makai.dat ext_* fields.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "part id: 1000s aerial, 2000s upper, 3000s core, 4000s lower, 5000s optional, 6000s outer",
+   "confidence": "high"
+  },
+  {
+   "name": "category",
+   "offset": 4,
+   "type": "u32",
+   "enum": {
+    "0": "aerial",
+    "1": "upper",
+    "2": "outer",
+    "3": "core",
+    "4": "lower",
+    "5": "optional"
+   },
+   "desc": "part slot (from description texts)",
+   "confidence": "high"
+  },
+  {
+   "name": "unlock_id",
+   "offset": 8,
+   "type": "i32",
+   "desc": "1..16 = story netherworld the part comes from (1 Blood Parch...), 101..118 extra parts, -1 dummy",
+   "confidence": "low"
+  },
+  {
+   "name": "name_JP",
+   "offset": 12,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 20,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 24,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 28,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 32,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 36,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 40,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 44,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 48,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "unused_text_JP",
+   "offset": 52,
+   "type": "strptr",
+   "lang": "JP",
+   "desc": "always \"ダミー\" (dummy)",
+   "confidence": "high"
+  },
+  {
+   "name": "unused_text_EN",
+   "offset": 56,
+   "type": "strptr",
+   "lang": "EN",
+   "desc": "always \"ダミー\" (dummy)",
+   "confidence": "high"
+  },
+  {
+   "name": "unused_text_FR",
+   "offset": 60,
+   "type": "strptr",
+   "lang": "FR",
+   "desc": "always \"ダミー\" (dummy)",
+   "confidence": "high"
+  },
+  {
+   "name": "unused_text_CHN",
+   "offset": 64,
+   "type": "strptr",
+   "lang": "CHN",
+   "desc": "always \"ダミー\" (dummy)",
+   "confidence": "high"
+  },
+  {
+   "name": "unused_text_KOR",
+   "offset": 68,
+   "type": "strptr",
+   "lang": "KOR",
+   "desc": "always \"ダミー\" (dummy)",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_048",
+   "offset": 72,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_04C",
+   "offset": 76,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_050",
+   "offset": 80,
+   "type": "u32",
+   "desc": "11 in all rows except the first (0)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_054",
+   "offset": 84,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "index",
+   "offset": 88,
+   "type": "u32",
+   "desc": "index within category 0..29",
+   "confidence": "high"
+  }
+ ]
+}

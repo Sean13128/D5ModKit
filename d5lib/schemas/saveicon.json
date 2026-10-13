@@ -1,0 +1,116 @@
+{
+ "file": "saveicon.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 200,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Selectable save-file icons (character portraits). The row order also matches the character index list used by SkitStartCharSetting (0 Killia, 1 Seraphina, 2 Red Magnus, 3 Christo, 4 Usalia, 5 Zeroken, 6 Goldion, ...).",
+ "fields": [
+  {
+   "name": "unlock_type",
+   "offset": 0,
+   "type": "i32",
+   "desc": "-1 = always available (Killia, Seraphina, Prinny); 10 = needs unlock (character obtained?)",
+   "confidence": "low"
+  },
+  {
+   "name": "unlock_param",
+   "offset": 4,
+   "type": "i32",
+   "desc": "-1 with unlock_type -1, else 0",
+   "confidence": "low"
+  },
+  {
+   "name": "id",
+   "offset": 8,
+   "type": "u32",
+   "desc": "save icon id 1..41",
+   "confidence": "high"
+  },
+  {
+   "name": "icon_index",
+   "offset": 12,
+   "type": "u16",
+   "desc": "icon index 0..40 (= id-1) in the save icon texture (saveicon.txf)",
+   "confidence": "medium"
+  },
+  {
+   "name": "name_JP",
+   "offset": 14,
+   "type": "str",
+   "size": 36,
+   "lang": "JP",
+   "desc": "character name shown for the icon",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 50,
+   "type": "str",
+   "size": 36,
+   "lang": "EN",
+   "desc": "character name shown for the icon",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 86,
+   "type": "str",
+   "size": 36,
+   "lang": "FR",
+   "desc": "character name shown for the icon",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 122,
+   "type": "str",
+   "size": 36,
+   "lang": "CHN",
+   "desc": "character name shown for the icon",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 158,
+   "type": "str",
+   "size": 36,
+   "lang": "KOR",
+   "desc": "character name shown for the icon",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_0C2",
+   "offset": 194,
+   "type": "u8",
+   "desc": "always 0xFF",
+   "confidence": "low"
+  },
+  {
+   "name": "pad_0C3",
+   "offset": 195,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "medium"
+  },
+  {
+   "name": "dlc_group",
+   "offset": 196,
+   "type": "u32",
+   "desc": "content group 100 base, 110 D1 chars, 120 D4, 130 D3/others, 140 D2, 150 other titles (same codes as music.dat dlc_group)",
+   "confidence": "medium"
+  }
+ ]
+}

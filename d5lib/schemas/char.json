@@ -1,0 +1,929 @@
+{
+ "file": "char.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 908,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Character / class master table (806 rows x 908 bytes). One row per unique character form, per generic class TIER (6 rows per class, ids family*10+0..5), per NPC and per map object. Key = id (+0xD0). Links: learnset -> magic.dat, evility1/2 -> Skill.dat, overload_id -> OverlordSkill.dat, help_id -> charhelp.dat, sprite_id -> anmNNNNN, magichange_weapon -> item.dat, voice_id -> charPersonal voice_group (/10) and Sound_Voice. Class-family ids (tier 0 ids: 10..990 uniques, 1010..1350 human classes, 2010..2330 monster classes) index comb.dat; tier rows are chained by JobRank.dat. Row layout: stats/learnset/evility block 0x000-0x0F7, 5x name (0x34), 5x title (0x44), aptitudes/masteries/resistances/misc 0x350-0x38B. Reserved empty class slots: Human Dummy rows (ids 1270-1355) and Monster Dummy rows (2220-2335).",
+ "fields": [
+  {
+   "name": "immunity_flags",
+   "offset": 0,
+   "type": "i32",
+   "desc": "bitmask, 0 for almost everyone; bosses: 127 (Bloodis, Void Dark, Liezerota Dark, Prinny Overlord), 16383 (Killidia), -1 (Dark, Baal, Ball Bits). Probably ailment/effect immunity bits (not verified which bit = which ailment).",
+   "confidence": "low"
+  },
+  {
+   "name": "base_HP",
+   "offset": 4,
+   "type": "u16",
+   "desc": "base stat (level-1 value before aptitude); order HP SP ATK DEF INT RES HIT SPD. Verified: Magician INT>ATK, Red Magnus HP 42, generic tiers +2/+1 per tier.",
+   "confidence": "high"
+  },
+  {
+   "name": "base_SP",
+   "offset": 6,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "base_ATK",
+   "offset": 8,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "base_DEF",
+   "offset": 10,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "base_INT",
+   "offset": 12,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "base_RES",
+   "offset": 14,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "base_HIT",
+   "offset": 16,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "base_SPD",
+   "offset": 18,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn1_skill",
+   "offset": 20,
+   "type": "u32",
+   "ref": "magic.dat",
+   "desc": "learnset: skill/spell id (magic.dat key) learned at learn<N>_level; slots beyond learn_count are 0. 1xxxx = unique/class skills, 2xxxx = Magichange skills, 3xxxx = combo skills, <10000 = generic spells (Fire 9001, Heal 1401 ...)",
+   "confidence": "high"
+  },
+  {
+   "name": "learn2_skill",
+   "offset": 24,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn3_skill",
+   "offset": 28,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn4_skill",
+   "offset": 32,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn5_skill",
+   "offset": 36,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn6_skill",
+   "offset": 40,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn7_skill",
+   "offset": 44,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn8_skill",
+   "offset": 48,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn9_skill",
+   "offset": 52,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn10_skill",
+   "offset": 56,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn11_skill",
+   "offset": 60,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn12_skill",
+   "offset": 64,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn13_skill",
+   "offset": 68,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn14_skill",
+   "offset": 72,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn15_skill",
+   "offset": 76,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn16_skill",
+   "offset": 80,
+   "type": "u32",
+   "ref": "magic.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "learn1_level",
+   "offset": 84,
+   "type": "u16",
+   "desc": "level at which learn<N>_skill is learned (1..9999; 10000 seen = effectively never / special unlock)",
+   "confidence": "high"
+  },
+  {
+   "name": "learn2_level",
+   "offset": 86,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn3_level",
+   "offset": 88,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn4_level",
+   "offset": 90,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn5_level",
+   "offset": 92,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn6_level",
+   "offset": 94,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn7_level",
+   "offset": 96,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn8_level",
+   "offset": 98,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn9_level",
+   "offset": 100,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn10_level",
+   "offset": 102,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn11_level",
+   "offset": 104,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn12_level",
+   "offset": 106,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn13_level",
+   "offset": 108,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn14_level",
+   "offset": 110,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn15_level",
+   "offset": 112,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn16_level",
+   "offset": 114,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "learn_count",
+   "offset": 116,
+   "type": "u16",
+   "desc": "number of used learn slots (0..16); slots >= count are zero",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_076",
+   "offset": 118,
+   "type": "bytes",
+   "size": 66,
+   "desc": "always zero (66 bytes); maybe spare learnset space",
+   "confidence": "high"
+  },
+  {
+   "name": "evility1",
+   "offset": 184,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "innate (unique/class) Evility, Skill.dat id. Killia 10 War Demon, Seraphina 40, Warrior 1010 Wild Cry, Prinny 2010 Explosive Body; generic classes use their class-family id; 0 = none",
+   "confidence": "high"
+  },
+  {
+   "name": "evility2",
+   "offset": 188,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "second innate Evility (only main story cast: Killia 11, Seraphina 41, Red Magnus 51, Christo 61, Usalia 71, Zeroken 101 ...), else 0",
+   "confidence": "high"
+  },
+  {
+   "name": "evility3",
+   "offset": 192,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "always 0 - presumed further innate Evility slot",
+   "confidence": "low"
+  },
+  {
+   "name": "evility4",
+   "offset": 196,
+   "type": "u32",
+   "ref": "Skill.dat",
+   "desc": "always 0 - presumed further innate Evility slot",
+   "confidence": "low"
+  },
+  {
+   "name": "evility_count",
+   "offset": 200,
+   "type": "u16",
+   "desc": "number of innate evilities: the engine uses evility1..evility<N> and ignores the rest (0x1402c0040 loops over byte +0xC8). Equals the number of non-zero evility fields on every vanilla row; the kit sets it automatically for modded characters. (Called story_flag before.)",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_0CA",
+   "offset": 202,
+   "type": "u16",
+   "desc": "group id 100..189 shared by visually related characters: 100 = Killia/dummies/misc, 101 Seraphina, 102 Red Magnus, 103 Christo, 104 Usalia+family+Yellow Prinny, 105 Zeroken, 117..142 = the human classes in order (Warrior 117 .. Sorcerer 189 for DLC classes 187-189), 140 Prinny (+helper Prinnies), 141 Imp .. 160 Horseman, 161..186 DLC guest characters; NPCs share their class group (e.g. Memoria=Witch 120). 0 for objects/NPCs without. Not an anm id and not a charhelp id; maybe a cut-in/motion/effect set.",
+   "confidence": "low"
+  },
+  {
+   "name": "overload_id",
+   "offset": 204,
+   "type": "u32",
+   "ref": "OverlordSkill.dat",
+   "desc": "Overload (unique special) id, OverlordSkill.dat key: Killia 1, Seraphina 2, Red Magnus 4, Christo 6, Usalia 8, Zeroken 9, Majorita 11/12, Void Dark 13, Void 19, Dark 20, story Overlords 100..114, DLC guests 200..213; 0 = none",
+   "confidence": "high"
+  },
+  {
+   "name": "id",
+   "offset": 208,
+   "type": "u32",
+   "desc": "unique character id (KEY, referenced by comb.dat, JobRank.dat, Quest rewards, zukan.dat, DLC delivery, Enemy_Create_Table...). Uniques: multiples of 10 (Killia 10, Seraphina 40 ...); generic classes: family*10 + tier (Warrior 1010..1015, Prinny 2010..2015); shop NPCs 3000-4999, objects 5000+",
+   "confidence": "high"
+  },
+  {
+   "name": "sprite_id",
+   "offset": 212,
+   "type": "u16",
+   "ref": "anm",
+   "desc": "battle sprite = anm%05d file in ANM_HI_* (anmNNN0 main, anmNNN1 companion file). All tiers of a class share it (Warrior 1010); variant forms may borrow another sprite (Void Dark? rows use Chimera 2150 / Imp 2020). Dummies point to non-existent 1270..",
+   "confidence": "high"
+  },
+  {
+   "name": "size_radius",
+   "offset": 214,
+   "type": "u16",
+   "desc": "5..21: grows with body size (Prinny 5, humans 6, Bear 8, Dragon 9, Horseman 12, Proto Darkdeath 18, UFO 21). Probably shadow/footprint size",
+   "confidence": "low"
+  },
+  {
+   "name": "height",
+   "offset": 216,
+   "type": "u16",
+   "desc": "unit height (Prinny 11, humans 14, Succubus 17, Tree 38, Pillar 36) - probably used for lift/tower/marker placement",
+   "confidence": "medium"
+  },
+  {
+   "name": "height2",
+   "offset": 218,
+   "type": "u16",
+   "desc": "second height value, usually = height but larger for tall heads/ears (Usalia 20, Red Magnus 17, Dark 17) - probably HP bar/marker position",
+   "confidence": "medium"
+  },
+  {
+   "name": "help_id",
+   "offset": 220,
+   "type": "u16",
+   "ref": "charhelp.dat",
+   "desc": "charhelp.dat id of the description shown in status/encyclopedia (all tiers share the family help; Seraphina Bunny Girl uses 40). 100% of values exist in charhelp.dat",
+   "confidence": "high"
+  },
+  {
+   "name": "color_id",
+   "offset": 222,
+   "type": "u16",
+   "desc": "look/palette variant: for classes = sprite_id + tier (Warrior 1010..1015 -> tier palettes), special forms sprite+n (2158, 2027); objects = own id; 9999 ship parts. Probably selects palette/appearance record",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_0E0",
+   "offset": 224,
+   "type": "u16",
+   "desc": "3..9: class grade-like value, constant over tiers for most classes (Warrior/Magician/Cleric 4, Thief/Archer/Gunner/Ninja 5, Samurai/Armor Knight/Magic Knight/Professor 6, Pirate/Sage/Dark Knight 7) but Asagi class 3..8 by tier, Item God 9. Unknown",
+   "confidence": "low"
+  },
+  {
+   "name": "MOV",
+   "offset": 226,
+   "type": "u16",
+   "desc": "Move range (Killia 5, Seraphina 4, Warrior 4, Thief/Ninja/Zeroken 6, objects 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "move_type",
+   "offset": 228,
+   "type": "u16",
+   "enum": {
+    "0": "ground",
+    "1": "fly/float?",
+    "2": "special (Bits)"
+   },
+   "desc": "0 normal; 1 flying/floating units (Imp, Fairy, Winged Warrior, Succubus, Sea Angel, Nine-Tails, Celestial Host/Hostess, Majorita, Void Dark, Dark Bit, Level Fish, Horseman); 2 = Bits",
+   "confidence": "low"
+  },
+  {
+   "name": "attack_range",
+   "offset": 230,
+   "type": "u16",
+   "desc": "probably normal-attack range: 1 for most, 2-4 for magic monsters (Succubus 4, Nine-Tails/Chimera/Sea Angel 3), Baal 9, Bottlemail 0",
+   "confidence": "low"
+  },
+  {
+   "name": "hl_value",
+   "offset": 232,
+   "type": "u16",
+   "desc": "HL reward base when defeated: Lucky Board \"HL Man\" 2000/\"HL Prince\" 7500, Thief 150..200, most 10..65",
+   "confidence": "medium"
+  },
+  {
+   "name": "exp_value",
+   "offset": 234,
+   "type": "u16",
+   "desc": "EXP reward base when defeated: Lucky Board \"EXP Man\" 200/\"EXP Prince\" 750, generic tiers 20..25",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_0EC",
+   "offset": 236,
+   "type": "u16",
+   "desc": "% value, 100 for most; Killia 130, Bear 150, Bloodis 165, Liezerota Dark 300, Lucky Boards 500, Christo 75, Armor Knight 60, Celestial Host 50, objects/Bottlemail 0. Maybe Revenge-gauge gain rate",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_0EE",
+   "offset": 238,
+   "type": "u16",
+   "desc": "10 for uniques; generic tiers 10,13,16,19,22,25 (+3 per tier), Asagi 14..29, Item God 55. Unknown (reward/level related)",
+   "confidence": "low"
+  },
+  {
+   "name": "mana_value",
+   "offset": 240,
+   "type": "u16",
+   "desc": "Mana-related value: Lucky Board \"Mana Man\" 2000/\"Mana Prince\" 7500; generic tiers 100,85,70,55,40,25 (Prinny 200..125). Likely Mana reward base (or Mana gain rate)",
+   "confidence": "medium"
+  },
+  {
+   "name": "dlc_group",
+   "offset": 242,
+   "type": "u16",
+   "desc": "100 = base game; 110/120/130/140/150 = DLC content packs (Disgaea 1 / D4 / D3 / D2 / other guest characters and the DLC classes Celestial Hostess 110, Kunoichi 120, Sorcerer 130)",
+   "confidence": "medium"
+  },
+  {
+   "name": "magichange_weapon",
+   "offset": 244,
+   "type": "u16",
+   "ref": "item.dat",
+   "desc": "item.dat id of the weapon this unit becomes when Magichanging (Prinny 251 \"Prinny Sword\", Sludge 151 \"Gel Gloves\", Desco 5351 \"Desco Sword\"); 0 = cannot Magichange (443 on monster dummies = invalid)",
+   "confidence": "high"
+  },
+  {
+   "name": "voice_id",
+   "offset": 246,
+   "type": "u16",
+   "desc": "voice/sound set: Sound_Voice ids are (voice_id/10)*100000+n; charPersonal voice_group = voice_id/10 for generics (Warrior 1010 -> 101). Variant forms reuse (Dark Killia 30 = Killidia, helper Prinnies 2010); objects 5100.. (break sounds)",
+   "confidence": "medium"
+  },
+  {
+   "name": "name_JP",
+   "offset": 248,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "desc": "character name (generic classes: class name, e.g. \"Warrior\")",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 300,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 352,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 404,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 456,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "title_JP",
+   "offset": 508,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "desc": "title / class-rank name shown under the name (Killia \"Wanderer\", Warrior tiers \"Fighter\"..\"Battle Master\")",
+   "confidence": "high"
+  },
+  {
+   "name": "title_EN",
+   "offset": 576,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "title_FR",
+   "offset": 644,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "title_CHN",
+   "offset": 712,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "title_KOR",
+   "offset": 780,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "apt_HP",
+   "offset": 848,
+   "type": "u8",
+   "desc": "aptitude % per stat (HP SP ATK DEF INT RES HIT SPD); Killia ATK 125, Magician INT 120, tiers +5 every 2 tiers",
+   "confidence": "high"
+  },
+  {
+   "name": "apt_SP",
+   "offset": 849,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "apt_ATK",
+   "offset": 850,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "apt_DEF",
+   "offset": 851,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "apt_INT",
+   "offset": 852,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "apt_RES",
+   "offset": 853,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "apt_HIT",
+   "offset": 854,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "apt_SPD",
+   "offset": 855,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_fist",
+   "offset": 856,
+   "type": "u16",
+   "desc": "weapon-mastery aptitude per weapon type (Fist Sword Spear Bow Gun Axe Staff MonsterPhys MonsterMag); humans have 0 for monster weapons, monsters 0 for human weapons. Verified: Archer Bow 20, Gunner Gun 20, Magician Staff 16, Martial Artist Fist 16",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_sword",
+   "offset": 858,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_spear",
+   "offset": 860,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_bow",
+   "offset": 862,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_gun",
+   "offset": 864,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_axe",
+   "offset": 866,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_staff",
+   "offset": 868,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_monster_phys",
+   "offset": 870,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_monster_mag",
+   "offset": 872,
+   "type": "u16",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_armor",
+   "offset": 874,
+   "type": "u16",
+   "desc": "10th value in the mastery block: 10 typical, Armor Knight 18..23, Dark Knight 15..20, Horseman 14..19, Wrestler 4..6, grows with tier. Probably armor mastery/aptitude (HABIT.dat equip order is weapons.., Armor ...)",
+   "confidence": "low"
+  },
+  {
+   "name": "res_fire",
+   "offset": 876,
+   "type": "i8",
+   "desc": "elemental resistance % (signed) Fire Wind Ice Star: Magician +25/+25/+25/0, Sludge -75 x4, Dragon King fire +50, Sea Angel fire -75",
+   "confidence": "high"
+  },
+  {
+   "name": "res_wind",
+   "offset": 877,
+   "type": "i8",
+   "confidence": "high"
+  },
+  {
+   "name": "res_ice",
+   "offset": 878,
+   "type": "i8",
+   "confidence": "high"
+  },
+  {
+   "name": "res_star",
+   "offset": 879,
+   "type": "i8",
+   "confidence": "medium"
+  },
+  {
+   "name": "wres_fist",
+   "offset": 880,
+   "type": "i8",
+   "desc": "weapon-type resistance % (signed) vs attacks of Fist Sword Spear Bow Gun Axe Staff Monster (D5 \"weapon resistance\"): Armor Knight +30/+30/+20/+20/+20/-20/-40/-30, Sludge resists physical but weak to staff, Bottlemail +50 all, Lucky Board -25 all. Correlates with own weapon mastery (r 0.4-0.8)",
+   "confidence": "medium"
+  },
+  {
+   "name": "wres_sword",
+   "offset": 881,
+   "type": "i8",
+   "confidence": "medium"
+  },
+  {
+   "name": "wres_spear",
+   "offset": 882,
+   "type": "i8",
+   "confidence": "medium"
+  },
+  {
+   "name": "wres_bow",
+   "offset": 883,
+   "type": "i8",
+   "confidence": "medium"
+  },
+  {
+   "name": "wres_gun",
+   "offset": 884,
+   "type": "i8",
+   "confidence": "medium"
+  },
+  {
+   "name": "wres_axe",
+   "offset": 885,
+   "type": "i8",
+   "confidence": "medium"
+  },
+  {
+   "name": "wres_staff",
+   "offset": 886,
+   "type": "i8",
+   "confidence": "medium"
+  },
+  {
+   "name": "wres_monster",
+   "offset": 887,
+   "type": "i8",
+   "confidence": "medium"
+  },
+  {
+   "name": "kind_gender",
+   "offset": 888,
+   "type": "u8",
+   "enum": {
+    "1": "unique male",
+    "2": "unique female",
+    "11": "human class male",
+    "12": "human class female",
+    "13": "other",
+    "21": "monster class male",
+    "22": "monster class female"
+   },
+   "desc": "tens digit = kind (0 unique/special/object, 1 generic human class, 2 generic monster class), ones digit = gender (1 male, 2 female, 3 none: talk-check dummies). Human Dummy rows are 12, monster dummies 21/22",
+   "confidence": "high"
+  },
+  {
+   "name": "tier",
+   "offset": 889,
+   "type": "u8",
+   "desc": "class tier / rank index 0..5 (Fighter 0 .. Battle Master 5); other values (up to 9) used by enemy-only variants (Bottlemail/Lucky Board/Proto Darkdeath levels, Void Dark? 7/8)",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_37A",
+   "offset": 890,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_37B",
+   "offset": 891,
+   "type": "u8",
+   "desc": "always 10",
+   "confidence": "low"
+  },
+  {
+   "name": "JMP",
+   "offset": 892,
+   "type": "u8",
+   "desc": "Jump height (Killia 20, Seraphina 15, Magician 15, Thief 25, Ninja 30, Kunoichi/Rabbit/Winged 35, Level Fish 64)",
+   "confidence": "high"
+  },
+  {
+   "name": "throw",
+   "offset": 893,
+   "type": "u8",
+   "desc": "Throw distance (Logan the \"Throwing Overlord\" 7, Bear 7, Killia 5, Magician 3, objects 0)",
+   "confidence": "medium"
+  },
+  {
+   "name": "counter",
+   "offset": 894,
+   "type": "u8",
+   "desc": "Counter count (Martial Artist/Fight Mistress 4, Zeroken/Ninja/Wrestler 3, Killia 2, Magician/Maid 0)",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_37F",
+   "offset": 895,
+   "type": "u8",
+   "desc": "0 objects/Baal, 1 default, 2 melee classes (Killia, Warrior, Valkyrie, Martial Artist, Lady Samurai, Magic Knight, Wrestler, Dark Knight, Rabbit, Laharl ...), 3 Maid, Armor Knight, Red Magnus, Bloodis, Goldion, Fenrich. Unknown",
+   "confidence": "low"
+  },
+  {
+   "name": "crit",
+   "offset": 896,
+   "type": "u8",
+   "desc": "0..20, grows slowly with tier (Warrior 5-6, Thief 9-11, Ninja/Kunoichi/Fuka 15, Asagi 12, objects 0). Probably base critical rate %",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_381",
+   "offset": 897,
+   "type": "u8",
+   "desc": "category 0..9 per class (Warrior 1, Magician 2, Martial Artist 6, Clergy 7, Maid/Wrestler 9 ...). Unknown (personality / interrogation type?)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_382",
+   "offset": 898,
+   "type": "u8",
+   "desc": "1 only for Magician & Witch tiers and NPCs using those sprites (Manari, Shrimp, Memoria); sprite/motion flag?",
+   "confidence": "low"
+  },
+  {
+   "name": "magichange_type",
+   "offset": 899,
+   "type": "u8",
+   "enum": {
+    "0": "none",
+    "1": "fist",
+    "2": "sword",
+    "3": "spear",
+    "4": "bow",
+    "5": "gun",
+    "6": "axe",
+    "7": "staff"
+   },
+   "desc": "weapon type of the Magichange weapon (1 Fist 2 Sword 3 Spear 4 Bow 5 Gun 6 Axe 7 Staff) = first digit of magichange_weapon; 0 = none",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_384",
+   "offset": 900,
+   "type": "u8",
+   "desc": "1 = uniques + special enemies (Bottlemail, Lucky Board, Mr. Egg), 2 = generic classes, NPC shopkeepers, objects",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_385",
+   "offset": 901,
+   "type": "u8",
+   "desc": "0 except Lost Officer = 2",
+   "confidence": "low"
+  },
+  {
+   "name": "body_type",
+   "offset": 902,
+   "type": "u8",
+   "enum": {
+    "0": "humanoid",
+    "1": "monster",
+    "2": "object"
+   },
+   "desc": "0 humanoid, 1 monster-type (monster classes, Christo, Usalia, story monsters; all Magichange users), 2 object",
+   "confidence": "medium"
+  },
+  {
+   "name": "pad_387",
+   "offset": 903,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_388",
+   "offset": 904,
+   "type": "u8",
+   "desc": "1 for scenery objects (cactus, tables, pillars, mushrooms, item symbols...), 0 otherwise (incl. boxes/barrels/bombs)",
+   "confidence": "low"
+  },
+  {
+   "name": "pad_389",
+   "offset": 905,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "high"
+  },
+  {
+   "name": "is_dummy_slot",
+   "offset": 906,
+   "type": "u8",
+   "desc": "1 = reserved empty class slot (\"Human Dummy\" ids 1270-1355, \"Monster Dummy\" 2220-2335), 0 otherwise",
+   "confidence": "medium"
+  },
+  {
+   "name": "pad_38B",
+   "offset": 907,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

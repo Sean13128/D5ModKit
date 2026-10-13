@@ -1,0 +1,91 @@
+{
+ "file": "charPersonal.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 348,
+ "key": null,
+ "display": "name_EN",
+ "desc": "Generic-class personalities (voice variants) offered at character creation: 3 rows per class voice group (26 human + 21 monster classes = 141 rows x 348). Looked up by (voice_group, variant). A new generic class needs 3 rows with its voice_group (char.dat voice_id/10) and matching Sound_Voice data to have selectable voices.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "personality entry id 0..131 (not unique: the DLC classes 124-126 reuse 129-131)",
+   "confidence": "medium"
+  },
+  {
+   "name": "voice_group",
+   "offset": 4,
+   "type": "u16",
+   "desc": "generic class voice group = char.dat voice_id / 10 (101 Warrior .. 126 Sorcerer, 201 Prinny .. 221 Horseman); Sound_Voice ids of this group are voice_group*100000+n",
+   "confidence": "high"
+  },
+  {
+   "name": "variant",
+   "offset": 6,
+   "type": "u8",
+   "desc": "personality index 0..2 within the class (the 3 selectable voices/personalities at character creation)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 7,
+   "type": "str",
+   "size": 68,
+   "lang": "JP",
+   "desc": "personality name shown when creating a character (\"Cool\", \"Quietly Burning\", ...)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 75,
+   "type": "str",
+   "size": 68,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 143,
+   "type": "str",
+   "size": 68,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 211,
+   "type": "str",
+   "size": 68,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 279,
+   "type": "str",
+   "size": 68,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_15B",
+   "offset": 347,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

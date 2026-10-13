@@ -1,0 +1,422 @@
+{
+"-22": {
+"region": [
+"front",
+"slot",
+21
+],
+"mirror": 0,
+"k": 0,
+"ox": -8,
+"oy": 15,
+"rect": [
+112,
+168
+],
+"part": 1.097,
+"votes": 0.76,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-21": {
+"region": [
+"front",
+"slot",
+21
+],
+"mirror": 0,
+"k": 0,
+"ox": -10,
+"oy": 15,
+"rect": [
+112,
+168
+],
+"part": 1.103,
+"votes": 0.75,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-20": {
+"region": [
+"front",
+"slot",
+21
+],
+"mirror": 0,
+"k": 0,
+"ox": -9,
+"oy": 14,
+"rect": [
+112,
+168
+],
+"part": 1.122,
+"votes": 0.77,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-18": {
+"region": [
+"wait_back",
+"slot",
+2
+],
+"mirror": 1,
+"k": 1,
+"ox": 33,
+"oy": 3,
+"rect": [
+184,
+104
+],
+"part": 0.982,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 15.2
+},
+"-17": {
+"region": [
+"wait_back",
+"slot",
+2
+],
+"mirror": 1,
+"k": 1,
+"ox": 33,
+"oy": 0,
+"rect": [
+184,
+104
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.3
+},
+"-16": {
+"region": [
+"wait_back",
+"slot",
+4
+],
+"mirror": 1,
+"k": 1,
+"ox": 33,
+"oy": -3,
+"rect": [
+184,
+104
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"-15": {
+"region": [
+"wait_back",
+"slot",
+1
+],
+"mirror": 1,
+"k": 0,
+"ox": 33,
+"oy": 10,
+"rect": [
+104,
+168
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.3
+},
+"-14": {
+"region": [
+"wait_back",
+"slot",
+3
+],
+"mirror": 1,
+"k": 0,
+"ox": 33,
+"oy": 10,
+"rect": [
+104,
+168
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.2
+},
+"-13": {
+"region": [
+"wait_back",
+"slot",
+0
+],
+"mirror": 1,
+"k": 0,
+"ox": 32,
+"oy": 2,
+"rect": [
+104,
+176
+],
+"part": 0.997,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.3
+},
+"-12": {
+"region": [
+"back",
+"loose",
+120022
+],
+"mirror": 0,
+"k": 0,
+"ox": 944,
+"oy": 163,
+"rect": [
+40,
+48
+],
+"part": 1.115,
+"votes": 0.59,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-11": {
+"region": [
+"back",
+"loose",
+120022
+],
+"mirror": 0,
+"k": 0,
+"ox": 944,
+"oy": 160,
+"rect": [
+40,
+48
+],
+"part": 1.071,
+"votes": 0.61,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-10": {
+"region": [
+"back",
+"loose",
+120022
+],
+"mirror": 0,
+"k": 0,
+"ox": 944,
+"oy": 166,
+"rect": [
+40,
+48
+],
+"part": 1.068,
+"votes": 0.62,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-9": {
+"region": [
+"back",
+"loose",
+120022
+],
+"mirror": 0,
+"k": 0,
+"ox": 941,
+"oy": 159,
+"rect": [
+40,
+48
+],
+"part": 1.053,
+"votes": 0.61,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-8": {
+"region": [
+"back",
+"loose",
+120022
+],
+"mirror": 0,
+"k": 0,
+"ox": 942,
+"oy": 162,
+"rect": [
+40,
+48
+],
+"part": 1.065,
+"votes": 0.61,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-7": {
+"region": [
+"back",
+"loose",
+120022
+],
+"mirror": 0,
+"k": 0,
+"ox": 944,
+"oy": 162,
+"rect": [
+40,
+48
+],
+"part": 1.08,
+"votes": 0.61,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-6": {
+"region": [
+"wait_front",
+"slot",
+4
+],
+"mirror": 0,
+"k": 0,
+"ox": 36,
+"oy": 4,
+"rect": [
+96,
+176
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.6
+},
+"-5": {
+"region": [
+"wait_front",
+"slot",
+2
+],
+"mirror": 0,
+"k": 0,
+"ox": 36,
+"oy": 10,
+"rect": [
+96,
+168
+],
+"part": 0.999,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.6
+},
+"-4": {
+"region": [
+"wait_front",
+"slot",
+2
+],
+"mirror": 0,
+"k": 0,
+"ox": 32,
+"oy": 7,
+"rect": [
+104,
+176
+],
+"part": 1.008,
+"votes": 0.92,
+"exact": 0,
+"twins": 1,
+"err": null
+},
+"-3": {
+"region": [
+"wait_front",
+"slot",
+1
+],
+"mirror": 0,
+"k": 0,
+"ox": 33,
+"oy": 14,
+"rect": [
+104,
+168
+],
+"part": 0.994,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.5
+},
+"-2": {
+"region": [
+"wait_front",
+"slot",
+3
+],
+"mirror": 0,
+"k": 0,
+"ox": 37,
+"oy": 14,
+"rect": [
+96,
+168
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.5
+},
+"-1": {
+"region": [
+"wait_front",
+"slot",
+0
+],
+"mirror": 0,
+"k": 0,
+"ox": 37,
+"oy": 7,
+"rect": [
+96,
+176
+],
+"part": 0.995,
+"votes": 2.0,
+"exact": 1,
+"twins": 1,
+"err": 4.9
+}
+}

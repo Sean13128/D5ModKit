@@ -1,0 +1,345 @@
+{
+ "file": "Makai.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1380,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Named netherworlds (49): story worlds 1..14, class netherworlds 18..39 (featured class char id), Carnage Dimension (40), DLC/post-game worlds 41..49. Used by the Nether Research / world map; each row has a 3-line description, unlock flag, level and 6 exterior parts (MakaiEdit_ExteriorPartsDataBase ids).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "netherworld id 1..49",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 34,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 38,
+   "type": "str",
+   "size": 34,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 72,
+   "type": "str",
+   "size": 34,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 106,
+   "type": "str",
+   "size": 34,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 140,
+   "type": "str",
+   "size": 34,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_JP",
+   "offset": 174,
+   "type": "str",
+   "size": 76,
+   "lang": "JP",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_EN",
+   "offset": 250,
+   "type": "str",
+   "size": 76,
+   "lang": "EN",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_FR",
+   "offset": 326,
+   "type": "str",
+   "size": 76,
+   "lang": "FR",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_CHN",
+   "offset": 402,
+   "type": "str",
+   "size": 76,
+   "lang": "CHN",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_KOR",
+   "offset": 478,
+   "type": "str",
+   "size": 76,
+   "lang": "KOR",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_JP",
+   "offset": 554,
+   "type": "str",
+   "size": 76,
+   "lang": "JP",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_EN",
+   "offset": 630,
+   "type": "str",
+   "size": 76,
+   "lang": "EN",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_FR",
+   "offset": 706,
+   "type": "str",
+   "size": 76,
+   "lang": "FR",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_CHN",
+   "offset": 782,
+   "type": "str",
+   "size": 76,
+   "lang": "CHN",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_KOR",
+   "offset": 858,
+   "type": "str",
+   "size": 76,
+   "lang": "KOR",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_JP",
+   "offset": 934,
+   "type": "str",
+   "size": 76,
+   "lang": "JP",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_EN",
+   "offset": 1010,
+   "type": "str",
+   "size": 76,
+   "lang": "EN",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_FR",
+   "offset": 1086,
+   "type": "str",
+   "size": 76,
+   "lang": "FR",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_CHN",
+   "offset": 1162,
+   "type": "str",
+   "size": 76,
+   "lang": "CHN",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_KOR",
+   "offset": 1238,
+   "type": "str",
+   "size": 76,
+   "lang": "KOR",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_522",
+   "offset": 1314,
+   "type": "u16",
+   "desc": "0 for story netherworlds 1..14 and Carnage (40), 1 for class/extra/DLC worlds",
+   "confidence": "low"
+  },
+  {
+   "name": "unlock_flag",
+   "offset": 1316,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "available when flag ON: scenario flags 199..1712, 14018 FLAG_FACILITY_SHURA_WORLD for Carnage; 0 for extra worlds (unlocked otherwise)",
+   "confidence": "medium"
+  },
+  {
+   "name": "level",
+   "offset": 1318,
+   "type": "u16",
+   "desc": "rises with story order (5..150), class worlds 30..175, DLC worlds 200, Carnage 1000; probably base enemy level",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_528",
+   "offset": 1320,
+   "type": "u16",
+   "desc": "values 20..40 (mostly 30)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_52A",
+   "offset": 1322,
+   "type": "u16",
+   "desc": "4..101, grows with level (~level/5)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_52C",
+   "offset": 1324,
+   "type": "u32",
+   "desc": "always 7",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_530",
+   "offset": 1328,
+   "type": "i32",
+   "desc": "-1, or 1..9 for DLC worlds 41..49 (index)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_534",
+   "offset": 1332,
+   "type": "u32",
+   "desc": "20..65 (mostly 50)",
+   "confidence": "low"
+  },
+  {
+   "name": "class_char_id",
+   "offset": 1336,
+   "type": "i32",
+   "ref": "char.dat",
+   "desc": "featured monster/class of class netherworlds 18..39 (e.g. 2010 Prinny Village): char.dat id (u32 at char.dat record +0xD0; e.g. 10=Killia, 1010..1015=Warrior tiers); -1 none",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_53C",
+   "offset": 1340,
+   "type": "u32",
+   "desc": "65535 when class_char_id is set, else 1",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_540",
+   "offset": 1344,
+   "type": "u32",
+   "desc": "10 (story worlds 1..14) or 15",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_544",
+   "offset": 1348,
+   "type": "u32",
+   "desc": "101..120 / 201..218 (model/field or BGM set id?)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_548",
+   "offset": 1352,
+   "type": "u32",
+   "desc": "1..15",
+   "confidence": "low"
+  },
+  {
+   "name": "ext_aerial",
+   "offset": 1356,
+   "type": "u32",
+   "ref": "MakaiEdit_ExteriorPartsDataBase",
+   "desc": "exterior part (aerial, 1000s) of the netherworld ship/planet",
+   "confidence": "medium"
+  },
+  {
+   "name": "ext_upper",
+   "offset": 1360,
+   "type": "u32",
+   "ref": "MakaiEdit_ExteriorPartsDataBase",
+   "desc": "exterior part (upper, 2000s)",
+   "confidence": "medium"
+  },
+  {
+   "name": "ext_outer",
+   "offset": 1364,
+   "type": "u32",
+   "ref": "MakaiEdit_ExteriorPartsDataBase",
+   "desc": "exterior part (outer, 6000s; DLC rows use 3000)",
+   "confidence": "medium"
+  },
+  {
+   "name": "ext_core",
+   "offset": 1368,
+   "type": "u32",
+   "ref": "MakaiEdit_ExteriorPartsDataBase",
+   "desc": "exterior part (core, 3000s; DLC rows 4000)",
+   "confidence": "medium"
+  },
+  {
+   "name": "ext_lower",
+   "offset": 1372,
+   "type": "u32",
+   "ref": "MakaiEdit_ExteriorPartsDataBase",
+   "desc": "exterior part (lower, 4000s; DLC rows 5000)",
+   "confidence": "medium"
+  },
+  {
+   "name": "ext_optional",
+   "offset": 1376,
+   "type": "u32",
+   "ref": "MakaiEdit_ExteriorPartsDataBase",
+   "desc": "exterior part (optional, 5000s; DLC rows 6000)",
+   "confidence": "medium"
+  }
+ ]
+}

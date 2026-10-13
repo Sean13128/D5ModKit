@@ -1,0 +1,70 @@
+{
+ "file": "GroupHelp.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 664,
+ "key": "id",
+ "display": "text_EN",
+ "desc": "Squad rank effect texts (157 x 664): one line (5 languages) per squad rank; id = Group.dat id*10 + rank.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "squad id * 10 + rank (11 = Capture Squad rank 1)",
+   "confidence": "high"
+  },
+  {
+   "name": "text_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 132,
+   "lang": "JP",
+   "desc": "effect gained at this squad rank (\"Squad limit +2.\" ...)",
+   "confidence": "high"
+  },
+  {
+   "name": "text_EN",
+   "offset": 136,
+   "type": "str",
+   "size": 132,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "text_FR",
+   "offset": 268,
+   "type": "str",
+   "size": 132,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "text_CHN",
+   "offset": 400,
+   "type": "str",
+   "size": 132,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "text_KOR",
+   "offset": 532,
+   "type": "str",
+   "size": 132,
+   "lang": "KOR",
+   "confidence": "high"
+  }
+ ]
+}

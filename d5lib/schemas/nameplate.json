@@ -1,0 +1,38 @@
+{
+ "file": "nameplate.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 76,
+ "key": "id",
+ "display": "name_JP",
+ "desc": "Name plate table - stub. The exe loader (0x1400c29e0) expects 0x16C-byte records (u32 id + 5 x 72-byte names), but the shipped file has a single truncated 76-byte record (id + JP name only). Do not add rows with this schema; a working table would need 364-byte records.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "only row: 99",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 72,
+   "lang": "JP",
+   "desc": "placeholder \"？？？\"",
+   "confidence": "high"
+  }
+ ]
+}

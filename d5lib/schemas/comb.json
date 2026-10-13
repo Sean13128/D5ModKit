@@ -1,0 +1,1824 @@
+{
+ "file": "comb.dat",
+ "layout": "custom",
+ "custom": "matrix",
+ "dim": 256,
+ "desc": "Team-attack (combo) affinity matrix between character families. File: u32 used_count (167); u16 ids[256] (char.dat tier-0 ids: 10..990 uniques, 1010..1350 human classes incl. Human Dummy 1270-1350, 2010..2330 monster classes incl. dummies; rest 0); u8 m[256][256]. Pseudo-record per row: id + 256 values, value m[row][col] = chance (%) that the column character joins/combos with the row character (asymmetric: Killia row, Seraphina column = 99 but not vice versa; Bloodis/Goldion rows vs Majorita = 0 (enemies), Usalia row vs Majorita = 80). Default 30, same family (diagonal) 50, friends 40-80, 99 = always, 0 = never. A new class/character needs its tier-0 id in a free id slot (replace a 0 or a dummy id) and a row+column of values, otherwise the default rate is not available. Header count NOT auto-updated.",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "desc": "number of used ids (167); NOT auto-updated",
+    "confidence": "high"
+   }
+  ]
+ },
+ "record_size": 258,
+ "key": "id",
+ "display": "id",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u16",
+   "ref": "char.dat",
+   "desc": "character family id of this row = char.dat id of tier 0 (10 Killia, 40 Seraphina, 1010 Warrior, 2010 Prinny); 0 = unused slot. Row i and column i refer to the same id-vector slot",
+   "confidence": "high"
+  },
+  {
+   "name": "with_10",
+   "offset": 2,
+   "type": "u8",
+   "desc": "rate % when partner is id 10 (Killia) [id-vector slot 0]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_20",
+   "offset": 3,
+   "type": "u8",
+   "desc": "rate % when partner is id 20 (Killia) [id-vector slot 1]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_30",
+   "offset": 4,
+   "type": "u8",
+   "desc": "rate % when partner is id 30 (Killidia) [id-vector slot 2]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_40",
+   "offset": 5,
+   "type": "u8",
+   "desc": "rate % when partner is id 40 (Seraphina) [id-vector slot 3]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_50",
+   "offset": 6,
+   "type": "u8",
+   "desc": "rate % when partner is id 50 (Red Magnus) [id-vector slot 4]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_60",
+   "offset": 7,
+   "type": "u8",
+   "desc": "rate % when partner is id 60 (Christo) [id-vector slot 5]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_70",
+   "offset": 8,
+   "type": "u8",
+   "desc": "rate % when partner is id 70 (Usalia) [id-vector slot 6]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_80",
+   "offset": 9,
+   "type": "u8",
+   "desc": "rate % when partner is id 80 (Usalia) [id-vector slot 7]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_90",
+   "offset": 10,
+   "type": "u8",
+   "desc": "rate % when partner is id 90 (???) [id-vector slot 8]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_100",
+   "offset": 11,
+   "type": "u8",
+   "desc": "rate % when partner is id 100 (Zeroken) [id-vector slot 9]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_110",
+   "offset": 12,
+   "type": "u8",
+   "desc": "rate % when partner is id 110 (Bloodis) [id-vector slot 10]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_120",
+   "offset": 13,
+   "type": "u8",
+   "desc": "rate % when partner is id 120 (Goldion) [id-vector slot 11]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_130",
+   "offset": 14,
+   "type": "u8",
+   "desc": "rate % when partner is id 130 (Majorita) [id-vector slot 12]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_140",
+   "offset": 15,
+   "type": "u8",
+   "desc": "rate % when partner is id 140 (Majorita) [id-vector slot 13]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_150",
+   "offset": 16,
+   "type": "u8",
+   "desc": "rate % when partner is id 150 (Void Dark) [id-vector slot 14]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_160",
+   "offset": 17,
+   "type": "u8",
+   "desc": "rate % when partner is id 160 (Void) [id-vector slot 15]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_170",
+   "offset": 18,
+   "type": "u8",
+   "desc": "rate % when partner is id 170 (Liezerota・Dark) [id-vector slot 16]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_180",
+   "offset": 19,
+   "type": "u8",
+   "desc": "rate % when partner is id 180 (Liezerota) [id-vector slot 17]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_190",
+   "offset": 20,
+   "type": "u8",
+   "desc": "rate % when partner is id 190 (Yellow Prinny) [id-vector slot 18]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_200",
+   "offset": 21,
+   "type": "u8",
+   "desc": "rate % when partner is id 200 (Usalia's Father) [id-vector slot 19]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_210",
+   "offset": 22,
+   "type": "u8",
+   "desc": "rate % when partner is id 210 (Usalia's Mother) [id-vector slot 20]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_220",
+   "offset": 23,
+   "type": "u8",
+   "desc": "rate % when partner is id 220 (Panchos) [id-vector slot 21]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_230",
+   "offset": 24,
+   "type": "u8",
+   "desc": "rate % when partner is id 230 (Seraphina's Father) [id-vector slot 22]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_240",
+   "offset": 25,
+   "type": "u8",
+   "desc": "rate % when partner is id 240 (Asagi) [id-vector slot 23]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_250",
+   "offset": 26,
+   "type": "u8",
+   "desc": "rate % when partner is id 250 (Logan) [id-vector slot 24]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_260",
+   "offset": 27,
+   "type": "u8",
+   "desc": "rate % when partner is id 260 (Geese) [id-vector slot 25]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_270",
+   "offset": 28,
+   "type": "u8",
+   "desc": "rate % when partner is id 270 (Hedler) [id-vector slot 26]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_280",
+   "offset": 29,
+   "type": "u8",
+   "desc": "rate % when partner is id 280 (Erynder Z) [id-vector slot 27]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_290",
+   "offset": 30,
+   "type": "u8",
+   "desc": "rate % when partner is id 290 (Izuna) [id-vector slot 28]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_300",
+   "offset": 31,
+   "type": "u8",
+   "desc": "rate % when partner is id 300 (Drumdawn) [id-vector slot 29]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_310",
+   "offset": 32,
+   "type": "u8",
+   "desc": "rate % when partner is id 310 (Brave) [id-vector slot 30]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_320",
+   "offset": 33,
+   "type": "u8",
+   "desc": "rate % when partner is id 320 (Beheritas) [id-vector slot 31]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_330",
+   "offset": 34,
+   "type": "u8",
+   "desc": "rate % when partner is id 330 (Nero) [id-vector slot 32]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_340",
+   "offset": 35,
+   "type": "u8",
+   "desc": "rate % when partner is id 340 (Ignis) [id-vector slot 33]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_350",
+   "offset": 36,
+   "type": "u8",
+   "desc": "rate % when partner is id 350 (Vint) [id-vector slot 34]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_360",
+   "offset": 37,
+   "type": "u8",
+   "desc": "rate % when partner is id 360 (Graser) [id-vector slot 35]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_370",
+   "offset": 38,
+   "type": "u8",
+   "desc": "rate % when partner is id 370 (Mundo) [id-vector slot 36]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_380",
+   "offset": 39,
+   "type": "u8",
+   "desc": "rate % when partner is id 380 (Dark) [id-vector slot 37]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_390",
+   "offset": 40,
+   "type": "u8",
+   "desc": "rate % when partner is id 390 (Pleinair) [id-vector slot 38]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_400",
+   "offset": 41,
+   "type": "u8",
+   "desc": "rate % when partner is id 400 (Meaver) [id-vector slot 39]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_410",
+   "offset": 42,
+   "type": "u8",
+   "desc": "rate % when partner is id 410 (Dark Bit) [id-vector slot 40]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_420",
+   "offset": 43,
+   "type": "u8",
+   "desc": "rate % when partner is id 420 (Alfonzo) [id-vector slot 41]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_430",
+   "offset": 44,
+   "type": "u8",
+   "desc": "rate % when partner is id 430 (Prinny Overlord) [id-vector slot 42]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_440",
+   "offset": 45,
+   "type": "u8",
+   "desc": "rate % when partner is id 440 (Dark Killia) [id-vector slot 43]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_450",
+   "offset": 46,
+   "type": "u8",
+   "desc": "rate % when partner is id 450 (Void Dark?) [id-vector slot 44]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_460",
+   "offset": 47,
+   "type": "u8",
+   "desc": "rate % when partner is id 460 (Void Dark?) [id-vector slot 45]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_470",
+   "offset": 48,
+   "type": "u8",
+   "desc": "rate % when partner is id 470 (Unique Dummy) [id-vector slot 46]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_480",
+   "offset": 49,
+   "type": "u8",
+   "desc": "rate % when partner is id 480 (Unique Dummy) [id-vector slot 47]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_490",
+   "offset": 50,
+   "type": "u8",
+   "desc": "rate % when partner is id 490 (Unique Dummy) [id-vector slot 48]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_500",
+   "offset": 51,
+   "type": "u8",
+   "desc": "rate % when partner is id 500 (Seraphina) [id-vector slot 49]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_510",
+   "offset": 52,
+   "type": "u8",
+   "desc": "rate % when partner is id 510 (Laharl) [id-vector slot 50]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_520",
+   "offset": 53,
+   "type": "u8",
+   "desc": "rate % when partner is id 520 (Etna) [id-vector slot 51]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_530",
+   "offset": 54,
+   "type": "u8",
+   "desc": "rate % when partner is id 530 (Flonne) [id-vector slot 52]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_540",
+   "offset": 55,
+   "type": "u8",
+   "desc": "rate % when partner is id 540 (Sicily) [id-vector slot 53]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_550",
+   "offset": 56,
+   "type": "u8",
+   "desc": "rate % when partner is id 550 (Girl Laharl) [id-vector slot 54]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_560",
+   "offset": 57,
+   "type": "u8",
+   "desc": "rate % when partner is id 560 (Pleinair) [id-vector slot 55]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_570",
+   "offset": 58,
+   "type": "u8",
+   "desc": "rate % when partner is id 570 (Valvatorez) [id-vector slot 56]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_580",
+   "offset": 59,
+   "type": "u8",
+   "desc": "rate % when partner is id 580 (Fenrich) [id-vector slot 57]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_590",
+   "offset": 60,
+   "type": "u8",
+   "desc": "rate % when partner is id 590 (Artina) [id-vector slot 58]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_600",
+   "offset": 61,
+   "type": "u8",
+   "desc": "rate % when partner is id 600 (Fuka) [id-vector slot 59]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_610",
+   "offset": 62,
+   "type": "u8",
+   "desc": "rate % when partner is id 610 (Desco) [id-vector slot 60]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_620",
+   "offset": 63,
+   "type": "u8",
+   "desc": "rate % when partner is id 620 (Emizel) [id-vector slot 61]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_630",
+   "offset": 64,
+   "type": "u8",
+   "desc": "rate % when partner is id 630 (Nisa) [id-vector slot 62]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_640",
+   "offset": 65,
+   "type": "u8",
+   "desc": "rate % when partner is id 640 (Mao) [id-vector slot 63]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_650",
+   "offset": 66,
+   "type": "u8",
+   "desc": "rate % when partner is id 650 (Raspberyl) [id-vector slot 64]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_660",
+   "offset": 67,
+   "type": "u8",
+   "desc": "rate % when partner is id 660 (Salvatore) [id-vector slot 65]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_670",
+   "offset": 68,
+   "type": "u8",
+   "desc": "rate % when partner is id 670 (Almaz) [id-vector slot 66]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_680",
+   "offset": 69,
+   "type": "u8",
+   "desc": "rate % when partner is id 680 (Sapphire) [id-vector slot 67]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_690",
+   "offset": 70,
+   "type": "u8",
+   "desc": "rate % when partner is id 690 (Metallia) [id-vector slot 68]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_700",
+   "offset": 71,
+   "type": "u8",
+   "desc": "rate % when partner is id 700 (Adell) [id-vector slot 69]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_710",
+   "offset": 72,
+   "type": "u8",
+   "desc": "rate % when partner is id 710 (Rozalin) [id-vector slot 70]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_720",
+   "offset": 73,
+   "type": "u8",
+   "desc": "rate % when partner is id 720 (Axel) [id-vector slot 71]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_730",
+   "offset": 74,
+   "type": "u8",
+   "desc": "rate % when partner is id 730 (Zetta) [id-vector slot 72]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_740",
+   "offset": 75,
+   "type": "u8",
+   "desc": "rate % when partner is id 740 (Pram) [id-vector slot 73]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_750",
+   "offset": 76,
+   "type": "u8",
+   "desc": "rate % when partner is id 750 (Petta) [id-vector slot 74]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_760",
+   "offset": 77,
+   "type": "u8",
+   "desc": "rate % when partner is id 760 (Overlord Priere) [id-vector slot 75]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_770",
+   "offset": 78,
+   "type": "u8",
+   "desc": "rate % when partner is id 770 (Baal) [id-vector slot 76]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_780",
+   "offset": 79,
+   "type": "u8",
+   "desc": "rate % when partner is id 780 (Pure Flonne) [id-vector slot 77]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_790",
+   "offset": 80,
+   "type": "u8",
+   "desc": "rate % when partner is id 790 (Tyrant Valvatorez) [id-vector slot 78]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_800",
+   "offset": 81,
+   "type": "u8",
+   "desc": "rate % when partner is id 800 (Sister Artina) [id-vector slot 79]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_810",
+   "offset": 82,
+   "type": "u8",
+   "desc": "rate % when partner is id 810 (Rozalin) [id-vector slot 80]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_820",
+   "offset": 83,
+   "type": "u8",
+   "desc": "rate % when partner is id 820 (Ball Bit) [id-vector slot 81]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_830",
+   "offset": 84,
+   "type": "u8",
+   "desc": "rate % when partner is id 830 (Ball Bit) [id-vector slot 82]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_840",
+   "offset": 85,
+   "type": "u8",
+   "desc": "rate % when partner is id 840 (Ball Bit) [id-vector slot 83]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_850",
+   "offset": 86,
+   "type": "u8",
+   "desc": "rate % when partner is id 850 (Ball Bit) [id-vector slot 84]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_860",
+   "offset": 87,
+   "type": "u8",
+   "desc": "rate % when partner is id 860 (Magical ☆ Prinny) [id-vector slot 85]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_870",
+   "offset": 88,
+   "type": "u8",
+   "desc": "rate % when partner is id 870 (H252 Prinny) [id-vector slot 86]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_880",
+   "offset": 89,
+   "type": "u8",
+   "desc": "rate % when partner is id 880 (Poor Clever Prinny) [id-vector slot 87]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_890",
+   "offset": 90,
+   "type": "u8",
+   "desc": "rate % when partner is id 890 (Pringer?) [id-vector slot 88]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_900",
+   "offset": 91,
+   "type": "u8",
+   "desc": "rate % when partner is id 900 (N2 Prinny) [id-vector slot 89]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_910",
+   "offset": 92,
+   "type": "u8",
+   "desc": "rate % when partner is id 910 (Bankai Prinny) [id-vector slot 90]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_920",
+   "offset": 93,
+   "type": "u8",
+   "desc": "rate % when partner is id 920 (Martian Prinny) [id-vector slot 91]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_930",
+   "offset": 94,
+   "type": "u8",
+   "desc": "rate % when partner is id 930 (Tyrant Prinio) [id-vector slot 92]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_940",
+   "offset": 95,
+   "type": "u8",
+   "desc": "rate % when partner is id 940 (Value Your Life) [id-vector slot 93]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_950",
+   "offset": 96,
+   "type": "u8",
+   "desc": "rate % when partner is id 950 (DLC Dummy) [id-vector slot 94]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_960",
+   "offset": 97,
+   "type": "u8",
+   "desc": "rate % when partner is id 960 (DLC Dummy) [id-vector slot 95]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_970",
+   "offset": 98,
+   "type": "u8",
+   "desc": "rate % when partner is id 970 (DLC Dummy) [id-vector slot 96]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_980",
+   "offset": 99,
+   "type": "u8",
+   "desc": "rate % when partner is id 980 (DLC Dummy) [id-vector slot 97]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_990",
+   "offset": 100,
+   "type": "u8",
+   "desc": "rate % when partner is id 990 (DLC Dummy) [id-vector slot 98]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1010",
+   "offset": 101,
+   "type": "u8",
+   "desc": "rate % when partner is id 1010 (Warrior) [id-vector slot 99]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1020",
+   "offset": 102,
+   "type": "u8",
+   "desc": "rate % when partner is id 1020 (Valkyrie) [id-vector slot 100]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1030",
+   "offset": 103,
+   "type": "u8",
+   "desc": "rate % when partner is id 1030 (Magician) [id-vector slot 101]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1040",
+   "offset": 104,
+   "type": "u8",
+   "desc": "rate % when partner is id 1040 (Witch) [id-vector slot 102]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1050",
+   "offset": 105,
+   "type": "u8",
+   "desc": "rate % when partner is id 1050 (Martial Artist) [id-vector slot 103]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1060",
+   "offset": 106,
+   "type": "u8",
+   "desc": "rate % when partner is id 1060 (Fight Mistress) [id-vector slot 104]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1070",
+   "offset": 107,
+   "type": "u8",
+   "desc": "rate % when partner is id 1070 (Clergy) [id-vector slot 105]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1080",
+   "offset": 108,
+   "type": "u8",
+   "desc": "rate % when partner is id 1080 (Cleric) [id-vector slot 106]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1090",
+   "offset": 109,
+   "type": "u8",
+   "desc": "rate % when partner is id 1090 (Thief) [id-vector slot 107]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1100",
+   "offset": 110,
+   "type": "u8",
+   "desc": "rate % when partner is id 1100 (Maid) [id-vector slot 108]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1110",
+   "offset": 111,
+   "type": "u8",
+   "desc": "rate % when partner is id 1110 (Archer) [id-vector slot 109]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1120",
+   "offset": 112,
+   "type": "u8",
+   "desc": "rate % when partner is id 1120 (Gunner) [id-vector slot 110]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1130",
+   "offset": 113,
+   "type": "u8",
+   "desc": "rate % when partner is id 1130 (Ninja) [id-vector slot 111]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1140",
+   "offset": 114,
+   "type": "u8",
+   "desc": "rate % when partner is id 1140 (Lady Samurai) [id-vector slot 112]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1150",
+   "offset": 115,
+   "type": "u8",
+   "desc": "rate % when partner is id 1150 (Armor Knight) [id-vector slot 113]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1160",
+   "offset": 116,
+   "type": "u8",
+   "desc": "rate % when partner is id 1160 (Magic Knight) [id-vector slot 114]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1170",
+   "offset": 117,
+   "type": "u8",
+   "desc": "rate % when partner is id 1170 (Celestial Host) [id-vector slot 115]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1180",
+   "offset": 118,
+   "type": "u8",
+   "desc": "rate % when partner is id 1180 (Professor) [id-vector slot 116]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1190",
+   "offset": 119,
+   "type": "u8",
+   "desc": "rate % when partner is id 1190 (Wrestler) [id-vector slot 117]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1200",
+   "offset": 120,
+   "type": "u8",
+   "desc": "rate % when partner is id 1200 (Pirate) [id-vector slot 118]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1210",
+   "offset": 121,
+   "type": "u8",
+   "desc": "rate % when partner is id 1210 (Sage) [id-vector slot 119]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1220",
+   "offset": 122,
+   "type": "u8",
+   "desc": "rate % when partner is id 1220 (Dark Knight) [id-vector slot 120]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1230",
+   "offset": 123,
+   "type": "u8",
+   "desc": "rate % when partner is id 1230 (Asagi) [id-vector slot 121]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1240",
+   "offset": 124,
+   "type": "u8",
+   "desc": "rate % when partner is id 1240 (Celestial Hostess) [id-vector slot 122]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1250",
+   "offset": 125,
+   "type": "u8",
+   "desc": "rate % when partner is id 1250 (Kunoichi) [id-vector slot 123]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1260",
+   "offset": 126,
+   "type": "u8",
+   "desc": "rate % when partner is id 1260 (Sorcerer) [id-vector slot 124]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1270",
+   "offset": 127,
+   "type": "u8",
+   "desc": "rate % when partner is id 1270 (Human Dummy) [id-vector slot 125]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1280",
+   "offset": 128,
+   "type": "u8",
+   "desc": "rate % when partner is id 1280 (Human Dummy) [id-vector slot 126]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1290",
+   "offset": 129,
+   "type": "u8",
+   "desc": "rate % when partner is id 1290 (Human Dummy) [id-vector slot 127]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1300",
+   "offset": 130,
+   "type": "u8",
+   "desc": "rate % when partner is id 1300 (Human Dummy) [id-vector slot 128]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1310",
+   "offset": 131,
+   "type": "u8",
+   "desc": "rate % when partner is id 1310 (Human Dummy) [id-vector slot 129]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1320",
+   "offset": 132,
+   "type": "u8",
+   "desc": "rate % when partner is id 1320 (Human Dummy) [id-vector slot 130]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1330",
+   "offset": 133,
+   "type": "u8",
+   "desc": "rate % when partner is id 1330 (Human Dummy) [id-vector slot 131]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1340",
+   "offset": 134,
+   "type": "u8",
+   "desc": "rate % when partner is id 1340 (Human Dummy) [id-vector slot 132]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_1350",
+   "offset": 135,
+   "type": "u8",
+   "desc": "rate % when partner is id 1350 (Human Dummy) [id-vector slot 133]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2010",
+   "offset": 136,
+   "type": "u8",
+   "desc": "rate % when partner is id 2010 (Prinny) [id-vector slot 134]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2020",
+   "offset": 137,
+   "type": "u8",
+   "desc": "rate % when partner is id 2020 (Imp) [id-vector slot 135]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2030",
+   "offset": 138,
+   "type": "u8",
+   "desc": "rate % when partner is id 2030 (Orc) [id-vector slot 136]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2040",
+   "offset": 139,
+   "type": "u8",
+   "desc": "rate % when partner is id 2040 (Rabbit) [id-vector slot 137]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2050",
+   "offset": 140,
+   "type": "u8",
+   "desc": "rate % when partner is id 2050 (Fairy) [id-vector slot 138]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2060",
+   "offset": 141,
+   "type": "u8",
+   "desc": "rate % when partner is id 2060 (Sludge) [id-vector slot 139]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2070",
+   "offset": 142,
+   "type": "u8",
+   "desc": "rate % when partner is id 2070 (Slumber Cat) [id-vector slot 140]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2080",
+   "offset": 143,
+   "type": "u8",
+   "desc": "rate % when partner is id 2080 (Winged Warrior) [id-vector slot 141]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2090",
+   "offset": 144,
+   "type": "u8",
+   "desc": "rate % when partner is id 2090 (Undead) [id-vector slot 142]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2100",
+   "offset": 145,
+   "type": "u8",
+   "desc": "rate % when partner is id 2100 (Shroom) [id-vector slot 143]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2110",
+   "offset": 146,
+   "type": "u8",
+   "desc": "rate % when partner is id 2110 (Flora Beast) [id-vector slot 144]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2120",
+   "offset": 147,
+   "type": "u8",
+   "desc": "rate % when partner is id 2120 (Felynn) [id-vector slot 145]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2130",
+   "offset": 148,
+   "type": "u8",
+   "desc": "rate % when partner is id 2130 (Sea Angel) [id-vector slot 146]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2140",
+   "offset": 149,
+   "type": "u8",
+   "desc": "rate % when partner is id 2140 (Succubus) [id-vector slot 147]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2150",
+   "offset": 150,
+   "type": "u8",
+   "desc": "rate % when partner is id 2150 (Chimera) [id-vector slot 148]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2160",
+   "offset": 151,
+   "type": "u8",
+   "desc": "rate % when partner is id 2160 (Nether Noble) [id-vector slot 149]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2170",
+   "offset": 152,
+   "type": "u8",
+   "desc": "rate % when partner is id 2170 (Bear) [id-vector slot 150]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2180",
+   "offset": 153,
+   "type": "u8",
+   "desc": "rate % when partner is id 2180 (Dragon King) [id-vector slot 151]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2190",
+   "offset": 154,
+   "type": "u8",
+   "desc": "rate % when partner is id 2190 (Nine-Tails) [id-vector slot 152]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2200",
+   "offset": 155,
+   "type": "u8",
+   "desc": "rate % when partner is id 2200 (Twin Dragon) [id-vector slot 153]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2210",
+   "offset": 156,
+   "type": "u8",
+   "desc": "rate % when partner is id 2210 (Horseman) [id-vector slot 154]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2220",
+   "offset": 157,
+   "type": "u8",
+   "desc": "rate % when partner is id 2220 (Monster Dummy) [id-vector slot 155]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2230",
+   "offset": 158,
+   "type": "u8",
+   "desc": "rate % when partner is id 2230 (Monster Dummy) [id-vector slot 156]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2240",
+   "offset": 159,
+   "type": "u8",
+   "desc": "rate % when partner is id 2240 (Monster Dummy) [id-vector slot 157]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2250",
+   "offset": 160,
+   "type": "u8",
+   "desc": "rate % when partner is id 2250 (Monster Dummy) [id-vector slot 158]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2260",
+   "offset": 161,
+   "type": "u8",
+   "desc": "rate % when partner is id 2260 (Monster Dummy) [id-vector slot 159]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2270",
+   "offset": 162,
+   "type": "u8",
+   "desc": "rate % when partner is id 2270 (Monster Dummy) [id-vector slot 160]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2280",
+   "offset": 163,
+   "type": "u8",
+   "desc": "rate % when partner is id 2280 (Monster Dummy) [id-vector slot 161]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2290",
+   "offset": 164,
+   "type": "u8",
+   "desc": "rate % when partner is id 2290 (Monster Dummy) [id-vector slot 162]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2300",
+   "offset": 165,
+   "type": "u8",
+   "desc": "rate % when partner is id 2300 (Monster Dummy) [id-vector slot 163]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2310",
+   "offset": 166,
+   "type": "u8",
+   "desc": "rate % when partner is id 2310 (Monster Dummy) [id-vector slot 164]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2320",
+   "offset": 167,
+   "type": "u8",
+   "desc": "rate % when partner is id 2320 (Monster Dummy) [id-vector slot 165]",
+   "confidence": "medium"
+  },
+  {
+   "name": "with_2330",
+   "offset": 168,
+   "type": "u8",
+   "desc": "rate % when partner is id 2330 (Monster Dummy) [id-vector slot 166]",
+   "confidence": "medium"
+  },
+  {
+   "name": "slot_167",
+   "offset": 169,
+   "type": "u8",
+   "desc": "unused id-vector slot 167 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_168",
+   "offset": 170,
+   "type": "u8",
+   "desc": "unused id-vector slot 168 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_169",
+   "offset": 171,
+   "type": "u8",
+   "desc": "unused id-vector slot 169 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_170",
+   "offset": 172,
+   "type": "u8",
+   "desc": "unused id-vector slot 170 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_171",
+   "offset": 173,
+   "type": "u8",
+   "desc": "unused id-vector slot 171 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_172",
+   "offset": 174,
+   "type": "u8",
+   "desc": "unused id-vector slot 172 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_173",
+   "offset": 175,
+   "type": "u8",
+   "desc": "unused id-vector slot 173 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_174",
+   "offset": 176,
+   "type": "u8",
+   "desc": "unused id-vector slot 174 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_175",
+   "offset": 177,
+   "type": "u8",
+   "desc": "unused id-vector slot 175 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_176",
+   "offset": 178,
+   "type": "u8",
+   "desc": "unused id-vector slot 176 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_177",
+   "offset": 179,
+   "type": "u8",
+   "desc": "unused id-vector slot 177 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_178",
+   "offset": 180,
+   "type": "u8",
+   "desc": "unused id-vector slot 178 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_179",
+   "offset": 181,
+   "type": "u8",
+   "desc": "unused id-vector slot 179 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_180",
+   "offset": 182,
+   "type": "u8",
+   "desc": "unused id-vector slot 180 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_181",
+   "offset": 183,
+   "type": "u8",
+   "desc": "unused id-vector slot 181 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_182",
+   "offset": 184,
+   "type": "u8",
+   "desc": "unused id-vector slot 182 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_183",
+   "offset": 185,
+   "type": "u8",
+   "desc": "unused id-vector slot 183 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_184",
+   "offset": 186,
+   "type": "u8",
+   "desc": "unused id-vector slot 184 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_185",
+   "offset": 187,
+   "type": "u8",
+   "desc": "unused id-vector slot 185 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_186",
+   "offset": 188,
+   "type": "u8",
+   "desc": "unused id-vector slot 186 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_187",
+   "offset": 189,
+   "type": "u8",
+   "desc": "unused id-vector slot 187 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_188",
+   "offset": 190,
+   "type": "u8",
+   "desc": "unused id-vector slot 188 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_189",
+   "offset": 191,
+   "type": "u8",
+   "desc": "unused id-vector slot 189 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_190",
+   "offset": 192,
+   "type": "u8",
+   "desc": "unused id-vector slot 190 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_191",
+   "offset": 193,
+   "type": "u8",
+   "desc": "unused id-vector slot 191 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_192",
+   "offset": 194,
+   "type": "u8",
+   "desc": "unused id-vector slot 192 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_193",
+   "offset": 195,
+   "type": "u8",
+   "desc": "unused id-vector slot 193 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_194",
+   "offset": 196,
+   "type": "u8",
+   "desc": "unused id-vector slot 194 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_195",
+   "offset": 197,
+   "type": "u8",
+   "desc": "unused id-vector slot 195 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_196",
+   "offset": 198,
+   "type": "u8",
+   "desc": "unused id-vector slot 196 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_197",
+   "offset": 199,
+   "type": "u8",
+   "desc": "unused id-vector slot 197 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_198",
+   "offset": 200,
+   "type": "u8",
+   "desc": "unused id-vector slot 198 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_199",
+   "offset": 201,
+   "type": "u8",
+   "desc": "unused id-vector slot 199 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_200",
+   "offset": 202,
+   "type": "u8",
+   "desc": "unused id-vector slot 200 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_201",
+   "offset": 203,
+   "type": "u8",
+   "desc": "unused id-vector slot 201 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_202",
+   "offset": 204,
+   "type": "u8",
+   "desc": "unused id-vector slot 202 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_203",
+   "offset": 205,
+   "type": "u8",
+   "desc": "unused id-vector slot 203 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_204",
+   "offset": 206,
+   "type": "u8",
+   "desc": "unused id-vector slot 204 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_205",
+   "offset": 207,
+   "type": "u8",
+   "desc": "unused id-vector slot 205 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_206",
+   "offset": 208,
+   "type": "u8",
+   "desc": "unused id-vector slot 206 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_207",
+   "offset": 209,
+   "type": "u8",
+   "desc": "unused id-vector slot 207 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_208",
+   "offset": 210,
+   "type": "u8",
+   "desc": "unused id-vector slot 208 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_209",
+   "offset": 211,
+   "type": "u8",
+   "desc": "unused id-vector slot 209 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_210",
+   "offset": 212,
+   "type": "u8",
+   "desc": "unused id-vector slot 210 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_211",
+   "offset": 213,
+   "type": "u8",
+   "desc": "unused id-vector slot 211 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_212",
+   "offset": 214,
+   "type": "u8",
+   "desc": "unused id-vector slot 212 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_213",
+   "offset": 215,
+   "type": "u8",
+   "desc": "unused id-vector slot 213 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_214",
+   "offset": 216,
+   "type": "u8",
+   "desc": "unused id-vector slot 214 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_215",
+   "offset": 217,
+   "type": "u8",
+   "desc": "unused id-vector slot 215 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_216",
+   "offset": 218,
+   "type": "u8",
+   "desc": "unused id-vector slot 216 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_217",
+   "offset": 219,
+   "type": "u8",
+   "desc": "unused id-vector slot 217 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_218",
+   "offset": 220,
+   "type": "u8",
+   "desc": "unused id-vector slot 218 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_219",
+   "offset": 221,
+   "type": "u8",
+   "desc": "unused id-vector slot 219 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_220",
+   "offset": 222,
+   "type": "u8",
+   "desc": "unused id-vector slot 220 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_221",
+   "offset": 223,
+   "type": "u8",
+   "desc": "unused id-vector slot 221 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_222",
+   "offset": 224,
+   "type": "u8",
+   "desc": "unused id-vector slot 222 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_223",
+   "offset": 225,
+   "type": "u8",
+   "desc": "unused id-vector slot 223 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_224",
+   "offset": 226,
+   "type": "u8",
+   "desc": "unused id-vector slot 224 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_225",
+   "offset": 227,
+   "type": "u8",
+   "desc": "unused id-vector slot 225 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_226",
+   "offset": 228,
+   "type": "u8",
+   "desc": "unused id-vector slot 226 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_227",
+   "offset": 229,
+   "type": "u8",
+   "desc": "unused id-vector slot 227 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_228",
+   "offset": 230,
+   "type": "u8",
+   "desc": "unused id-vector slot 228 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_229",
+   "offset": 231,
+   "type": "u8",
+   "desc": "unused id-vector slot 229 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_230",
+   "offset": 232,
+   "type": "u8",
+   "desc": "unused id-vector slot 230 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_231",
+   "offset": 233,
+   "type": "u8",
+   "desc": "unused id-vector slot 231 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_232",
+   "offset": 234,
+   "type": "u8",
+   "desc": "unused id-vector slot 232 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_233",
+   "offset": 235,
+   "type": "u8",
+   "desc": "unused id-vector slot 233 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_234",
+   "offset": 236,
+   "type": "u8",
+   "desc": "unused id-vector slot 234 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_235",
+   "offset": 237,
+   "type": "u8",
+   "desc": "unused id-vector slot 235 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_236",
+   "offset": 238,
+   "type": "u8",
+   "desc": "unused id-vector slot 236 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_237",
+   "offset": 239,
+   "type": "u8",
+   "desc": "unused id-vector slot 237 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_238",
+   "offset": 240,
+   "type": "u8",
+   "desc": "unused id-vector slot 238 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_239",
+   "offset": 241,
+   "type": "u8",
+   "desc": "unused id-vector slot 239 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_240",
+   "offset": 242,
+   "type": "u8",
+   "desc": "unused id-vector slot 240 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_241",
+   "offset": 243,
+   "type": "u8",
+   "desc": "unused id-vector slot 241 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_242",
+   "offset": 244,
+   "type": "u8",
+   "desc": "unused id-vector slot 242 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_243",
+   "offset": 245,
+   "type": "u8",
+   "desc": "unused id-vector slot 243 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_244",
+   "offset": 246,
+   "type": "u8",
+   "desc": "unused id-vector slot 244 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_245",
+   "offset": 247,
+   "type": "u8",
+   "desc": "unused id-vector slot 245 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_246",
+   "offset": 248,
+   "type": "u8",
+   "desc": "unused id-vector slot 246 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_247",
+   "offset": 249,
+   "type": "u8",
+   "desc": "unused id-vector slot 247 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_248",
+   "offset": 250,
+   "type": "u8",
+   "desc": "unused id-vector slot 248 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_249",
+   "offset": 251,
+   "type": "u8",
+   "desc": "unused id-vector slot 249 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_250",
+   "offset": 252,
+   "type": "u8",
+   "desc": "unused id-vector slot 250 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_251",
+   "offset": 253,
+   "type": "u8",
+   "desc": "unused id-vector slot 251 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_252",
+   "offset": 254,
+   "type": "u8",
+   "desc": "unused id-vector slot 252 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_253",
+   "offset": 255,
+   "type": "u8",
+   "desc": "unused id-vector slot 253 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_254",
+   "offset": 256,
+   "type": "u8",
+   "desc": "unused id-vector slot 254 (id 0, all values 0)",
+   "confidence": "high"
+  },
+  {
+   "name": "slot_255",
+   "offset": 257,
+   "type": "u8",
+   "desc": "unused id-vector slot 255 (id 0, all values 0)",
+   "confidence": "high"
+  }
+ ]
+}

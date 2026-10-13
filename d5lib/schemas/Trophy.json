@@ -1,0 +1,284 @@
+{
+ "file": "Trophy.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 8768,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Trophies/achievements list (51 rows). Name, condition text, up to 3 flavor lines, grade and hidden flag. Unlock logic is hard-coded (conditions are text only).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "trophy id 1..51",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 196,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 200,
+   "type": "str",
+   "size": 196,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 396,
+   "type": "str",
+   "size": 196,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 592,
+   "type": "str",
+   "size": 196,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 788,
+   "type": "str",
+   "size": 196,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_3D8",
+   "offset": 984,
+   "type": "bytes",
+   "size": 2580,
+   "desc": "always zero in all 51 rows (2580 bytes; possibly unused text slots)",
+   "confidence": "low"
+  },
+  {
+   "name": "condition_JP",
+   "offset": 3564,
+   "type": "str",
+   "size": 260,
+   "lang": "JP",
+   "desc": "unlock condition text (\"Condition：...\")",
+   "confidence": "high"
+  },
+  {
+   "name": "condition_EN",
+   "offset": 3824,
+   "type": "str",
+   "size": 260,
+   "lang": "EN",
+   "desc": "unlock condition text (\"Condition：...\")",
+   "confidence": "high"
+  },
+  {
+   "name": "condition_FR",
+   "offset": 4084,
+   "type": "str",
+   "size": 260,
+   "lang": "FR",
+   "desc": "unlock condition text (\"Condition：...\")",
+   "confidence": "high"
+  },
+  {
+   "name": "condition_CHN",
+   "offset": 4344,
+   "type": "str",
+   "size": 260,
+   "lang": "CHN",
+   "desc": "unlock condition text (\"Condition：...\")",
+   "confidence": "high"
+  },
+  {
+   "name": "condition_KOR",
+   "offset": 4604,
+   "type": "str",
+   "size": 260,
+   "lang": "KOR",
+   "desc": "unlock condition text (\"Condition：...\")",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor1_JP",
+   "offset": 4864,
+   "type": "str",
+   "size": 260,
+   "lang": "JP",
+   "desc": "flavor text / quote, line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor1_EN",
+   "offset": 5124,
+   "type": "str",
+   "size": 260,
+   "lang": "EN",
+   "desc": "flavor text / quote, line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor1_FR",
+   "offset": 5384,
+   "type": "str",
+   "size": 260,
+   "lang": "FR",
+   "desc": "flavor text / quote, line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor1_CHN",
+   "offset": 5644,
+   "type": "str",
+   "size": 260,
+   "lang": "CHN",
+   "desc": "flavor text / quote, line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor1_KOR",
+   "offset": 5904,
+   "type": "str",
+   "size": 260,
+   "lang": "KOR",
+   "desc": "flavor text / quote, line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor2_JP",
+   "offset": 6164,
+   "type": "str",
+   "size": 260,
+   "lang": "JP",
+   "desc": "flavor text line 2 (continuation; only a few rows, mostly EN)",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor2_EN",
+   "offset": 6424,
+   "type": "str",
+   "size": 260,
+   "lang": "EN",
+   "desc": "flavor text line 2 (continuation; only a few rows, mostly EN)",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor2_FR",
+   "offset": 6684,
+   "type": "str",
+   "size": 260,
+   "lang": "FR",
+   "desc": "flavor text line 2 (continuation; only a few rows, mostly EN)",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor2_CHN",
+   "offset": 6944,
+   "type": "str",
+   "size": 260,
+   "lang": "CHN",
+   "desc": "flavor text line 2 (continuation; only a few rows, mostly EN)",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor2_KOR",
+   "offset": 7204,
+   "type": "str",
+   "size": 260,
+   "lang": "KOR",
+   "desc": "flavor text line 2 (continuation; only a few rows, mostly EN)",
+   "confidence": "high"
+  },
+  {
+   "name": "flavor3_JP",
+   "offset": 7464,
+   "type": "str",
+   "size": 260,
+   "lang": "JP",
+   "desc": "flavor text line 3 (empty in all rows)",
+   "confidence": "medium"
+  },
+  {
+   "name": "flavor3_EN",
+   "offset": 7724,
+   "type": "str",
+   "size": 260,
+   "lang": "EN",
+   "desc": "flavor text line 3 (empty in all rows)",
+   "confidence": "medium"
+  },
+  {
+   "name": "flavor3_FR",
+   "offset": 7984,
+   "type": "str",
+   "size": 260,
+   "lang": "FR",
+   "desc": "flavor text line 3 (empty in all rows)",
+   "confidence": "medium"
+  },
+  {
+   "name": "flavor3_CHN",
+   "offset": 8244,
+   "type": "str",
+   "size": 260,
+   "lang": "CHN",
+   "desc": "flavor text line 3 (empty in all rows)",
+   "confidence": "medium"
+  },
+  {
+   "name": "flavor3_KOR",
+   "offset": 8504,
+   "type": "str",
+   "size": 260,
+   "lang": "KOR",
+   "desc": "flavor text line 3 (empty in all rows)",
+   "confidence": "medium"
+  },
+  {
+   "name": "grade",
+   "offset": 8764,
+   "type": "u8",
+   "enum": {
+    "1": "platinum",
+    "2": "gold",
+    "3": "silver",
+    "4": "bronze"
+   },
+   "desc": "trophy grade (verified: row 1 \"all trophies\" = platinum, story clears bronze, Damage-oholic gold)",
+   "confidence": "high"
+  },
+  {
+   "name": "hidden",
+   "offset": 8765,
+   "type": "u8",
+   "desc": "1 = hidden/secret trophy (story-episode trophies, Carnage, Item World legend ones)",
+   "confidence": "medium"
+  },
+  {
+   "name": "pad_223E",
+   "offset": 8766,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "low"
+  }
+ ]
+}

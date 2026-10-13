@@ -1,0 +1,217 @@
+{
+ "file": "OverlordSkill.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 2128,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Overload skills (49 x 2128): id, 5-language name, three 5-language description lines, script id. The battle skill itself is the magic.dat row 3000-3047 (skill_type 4); which character owns which Overload is in char.dat (+0xCC, u16 Overload id; 41 rows non-zero).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "Overload id (key): 1-20 main story characters, 100-114 generic/story, 200-213 DLC characters. The matching magic.dat skill (skill_type 4) is 2999+id for 1-19, 2919+id for 100-114, 2834+id for 200-213 (magic 3000-3047, same names)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "desc": "Overload name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 56,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "desc": "Overload name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 108,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "desc": "Overload name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 160,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "desc": "Overload name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 212,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "desc": "Overload name",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_JP",
+   "offset": 264,
+   "type": "str",
+   "size": 124,
+   "lang": "JP",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_EN",
+   "offset": 388,
+   "type": "str",
+   "size": 124,
+   "lang": "EN",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_FR",
+   "offset": 512,
+   "type": "str",
+   "size": 124,
+   "lang": "FR",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_CHN",
+   "offset": 636,
+   "type": "str",
+   "size": 124,
+   "lang": "CHN",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_KOR",
+   "offset": 760,
+   "type": "str",
+   "size": 124,
+   "lang": "KOR",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_JP",
+   "offset": 884,
+   "type": "str",
+   "size": 124,
+   "lang": "JP",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_EN",
+   "offset": 1008,
+   "type": "str",
+   "size": 124,
+   "lang": "EN",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_FR",
+   "offset": 1132,
+   "type": "str",
+   "size": 124,
+   "lang": "FR",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_CHN",
+   "offset": 1256,
+   "type": "str",
+   "size": 124,
+   "lang": "CHN",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_KOR",
+   "offset": 1380,
+   "type": "str",
+   "size": 124,
+   "lang": "KOR",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_JP",
+   "offset": 1504,
+   "type": "str",
+   "size": 124,
+   "lang": "JP",
+   "desc": "description line 3 (mostly empty / a single full-width space)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_EN",
+   "offset": 1628,
+   "type": "str",
+   "size": 124,
+   "lang": "EN",
+   "desc": "description line 3 (mostly empty / a single full-width space)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_FR",
+   "offset": 1752,
+   "type": "str",
+   "size": 124,
+   "lang": "FR",
+   "desc": "description line 3 (mostly empty / a single full-width space)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_CHN",
+   "offset": 1876,
+   "type": "str",
+   "size": 124,
+   "lang": "CHN",
+   "desc": "description line 3 (mostly empty / a single full-width space)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_KOR",
+   "offset": 2000,
+   "type": "str",
+   "size": 124,
+   "lang": "KOR",
+   "desc": "description line 3 (mostly empty / a single full-width space)",
+   "confidence": "high"
+  },
+  {
+   "name": "script_id",
+   "offset": 2124,
+   "type": "u32",
+   "ref": "script",
+   "desc": "event-script entry run for the Overload (13200000 + n*100/10 per Overload, 16100900 shared by several generic ones); each value occurs exactly once in Script/script.dat",
+   "confidence": "medium"
+  }
+ ]
+}

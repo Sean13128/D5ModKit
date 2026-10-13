@@ -1,0 +1,316 @@
+{
+ "file": "SPC_Shop.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 17688,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Special (DLC) shop list, full 5-language version (26 rows x 17688 bytes). Only text + DLC content id; what a DLC grants is decided by code from dlc_id.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "DLC shop entry id (1, 9..36)",
+   "confidence": "high"
+  },
+  {
+   "name": "dlc_id",
+   "offset": 4,
+   "type": "u32",
+   "desc": "DLC content id: 1000xx characters, 3000xx scenarios, 6000xx item/money packs (same numbering as SPC_Delivery.dlc_id and DLC_ShopDataBase.dlc_id)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 8,
+   "type": "str",
+   "size": 196,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 204,
+   "type": "str",
+   "size": 196,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 400,
+   "type": "str",
+   "size": 196,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 596,
+   "type": "str",
+   "size": 196,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 792,
+   "type": "str",
+   "size": 196,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 988,
+   "type": "str",
+   "size": 1024,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 2012,
+   "type": "str",
+   "size": 1024,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 3036,
+   "type": "str",
+   "size": 1024,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 4060,
+   "type": "str",
+   "size": 1024,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 5084,
+   "type": "str",
+   "size": 1024,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "detail1_JP",
+   "offset": 6108,
+   "type": "str",
+   "size": 260,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "detail1_EN",
+   "offset": 6368,
+   "type": "str",
+   "size": 260,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "detail1_FR",
+   "offset": 6628,
+   "type": "str",
+   "size": 260,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "detail1_CHN",
+   "offset": 6888,
+   "type": "str",
+   "size": 260,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "detail1_KOR",
+   "offset": 7148,
+   "type": "str",
+   "size": 260,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "detail2_JP",
+   "offset": 7408,
+   "type": "str",
+   "size": 260,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "detail2_EN",
+   "offset": 7668,
+   "type": "str",
+   "size": 260,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "detail2_FR",
+   "offset": 7928,
+   "type": "str",
+   "size": 260,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "detail2_CHN",
+   "offset": 8188,
+   "type": "str",
+   "size": 260,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "detail2_KOR",
+   "offset": 8448,
+   "type": "str",
+   "size": 260,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "detail3_JP",
+   "offset": 8708,
+   "type": "str",
+   "size": 260,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "detail3_EN",
+   "offset": 8968,
+   "type": "str",
+   "size": 260,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "detail3_FR",
+   "offset": 9228,
+   "type": "str",
+   "size": 260,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "detail3_CHN",
+   "offset": 9488,
+   "type": "str",
+   "size": 260,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "detail3_KOR",
+   "offset": 9748,
+   "type": "str",
+   "size": 260,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "received_JP",
+   "offset": 10008,
+   "type": "str",
+   "size": 768,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "received_EN",
+   "offset": 10776,
+   "type": "str",
+   "size": 768,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "received_FR",
+   "offset": 11544,
+   "type": "str",
+   "size": 768,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "received_CHN",
+   "offset": 12312,
+   "type": "str",
+   "size": 768,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "received_KOR",
+   "offset": 13080,
+   "type": "str",
+   "size": 768,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "not_received_JP",
+   "offset": 13848,
+   "type": "str",
+   "size": 768,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "not_received_EN",
+   "offset": 14616,
+   "type": "str",
+   "size": 768,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "not_received_FR",
+   "offset": 15384,
+   "type": "str",
+   "size": 768,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "not_received_CHN",
+   "offset": 16152,
+   "type": "str",
+   "size": 768,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "not_received_KOR",
+   "offset": 16920,
+   "type": "str",
+   "size": 768,
+   "lang": "KOR",
+   "confidence": "high"
+  }
+ ]
+}

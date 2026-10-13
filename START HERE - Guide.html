@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D5 Mod Kit — Guide</title>
+<style>
+:root{--bg:#16131d;--panel:#211c2b;--panel2:#2a2436;--text:#e9e4f0;--muted:#a79fb6;--accent:#e64e8d;--accent2:#7c5cff;--ok:#5ad1a0;--warn:#f0b35a;--bad:#ff6b6b;--code:#120f18;--line:#3a3248}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#faf8fc;--panel:#ffffff;--panel2:#f2eef7;--text:#1d1726;--muted:#6b6178;--code:#f4f0f9;--line:#ddd5e8}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 "Segoe UI",system-ui,sans-serif}
+a{color:var(--accent2)}
+.layout{display:grid;grid-template-columns:270px 1fr;min-height:100vh}
+nav{position:sticky;top:0;height:100vh;overflow:auto;background:var(--panel);border-right:1px solid var(--line);padding:18px 14px}
+nav .brand{font-weight:800;letter-spacing:.06em;font-size:20px}
+nav .sub{color:var(--accent);font-size:11px;letter-spacing:.12em;margin-bottom:14px}
+nav a{display:block;color:var(--text);text-decoration:none;padding:4px 8px;border-radius:6px;font-size:14px}
+nav a:hover{background:var(--panel2)}
+nav .grp{color:var(--muted);font-size:11px;letter-spacing:.12em;margin:14px 8px 4px;text-transform:uppercase}
+main{padding:28px 44px 80px;max-width:1100px}
+h1{font-size:34px;margin:0 0 6px}
+h2{font-size:26px;margin:48px 0 12px;padding-top:12px;border-top:1px solid var(--line)}
+h3{font-size:19px;margin:28px 0 8px}
+p,li{max-width:80ch}
+.lead{color:var(--muted);font-size:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:14px 0}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps>li{counter-increment:s;position:relative;padding:10px 0 10px 52px;max-width:none}
+.steps>li::before{content:counter(s);position:absolute;left:0;top:8px;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+.note{border-left:4px solid var(--accent2);background:var(--panel2);padding:10px 16px;border-radius:0 8px 8px 0;margin:14px 0}
+.warn{border-left-color:var(--warn)}
+.bad{border-left-color:var(--bad)}
+.ok{border-left-color:var(--ok)}
+code,kbd{font-family:Consolas,"Cascadia Mono",monospace;font-size:.92em}
+code{background:var(--code);padding:1px 6px;border-radius:5px}
+kbd{background:var(--panel2);border:1px solid var(--line);border-bottom-width:3px;padding:0 6px;border-radius:5px}
+pre{background:var(--code);border:1px solid var(--line);padding:12px 16px;border-radius:8px;overflow:auto}
+pre code{background:none;padding:0}
+img.shot{width:100%;border:1px solid var(--line);border-radius:10px;margin:10px 0;cursor:zoom-in}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:15px}
+th,td{border-bottom:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:20px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:900px){.layout{grid-template-columns:1fr}nav{position:static;height:auto}main{padding:20px 16px}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <div class="brand">D5 MOD KIT</div>
+  <div class="sub">GUIDE &amp; TUTORIALS</div>
+  <div class="grp">Start</div>
+  <a href="#welcome">Welcome</a>
+  <a href="#requirements">What you need</a>
+  <a href="#setup">Setting up (5 minutes)</a>
+  <a href="#included">What's included</a>
+  <a href="#ingame">Finding the mods in game</a>
+  <a href="#saves">Your saves</a>
+  <div class="grp">Using the kit</div>
+  <a href="#basics">How the kit works</a>
+  <a href="#pages">The pages, one by one</a>
+  <a href="#manage">Turning mods on and off</a>
+  <a href="#restore">Restoring the original game</a>
+  <div class="grp">Tutorials</div>
+  <a href="#t-first">1 · Your first edit</a>
+  <a href="#t-char">2 · A new recruitable character</a>
+  <a href="#t-outfit">3 · An outfit from a sprite sheet</a>
+  <a href="#t-color">4 · Recolouring a sprite</a>
+  <a href="#t-drpg">5 · Disgaea RPG outfits</a>
+  <a href="#t-grips">6 · Weapon grips</a>
+  <a href="#t-skill">7 · A skill's animation</a>
+  <a href="#t-text">8 · Dialogue and text</a>
+  <a href="#t-stage">9 · A stage's enemies</a>
+  <a href="#t-music">10 · Music and sounds</a>
+  <a href="#t-db">11 · Database (items, skills…)</a>
+    <a href="#t-class">13 · New classes and monsters</a>
+  <a href="#t-share">14 · Sharing your mods</a>
+  <div class="grp">Reference</div>
+  <a href="#cli">Command-line tools</a>
+  <a href="#trouble">Troubleshooting &amp; FAQ</a>
+  <a href="#update">Updating the kit</a>
+  <a href="#tech">Technical documents</a>
+</nav>
+<main>
+
+<h1 id="welcome">Welcome to the D5 Mod Kit</h1>
+<p>Version 1.1 · what changed: <code>CHANGELOG.md</code></p>
+<p class="lead">A modding studio for <b>Disgaea 5 Complete (PC)</b>, together with the Outfit System,
+175 outfits for 26 characters and a new playable character: Thunderlady, Girl Laharl's lightning alternative.</p>
+<div class="card">
+<b>The short version</b>
+<ol class="steps">
+<li>Close the game. Extract the zip into the game folder, so you get <code>…\Disgaea 5 Complete\D5ModKit</code>.</li>
+<li>Double-click <code>Start D5 Mod Kit.bat</code> in that folder.</li>
+<li>Press <b>⚡ Install &amp; Play</b> (bottom left). The first install takes a minute or two. Have fun.</li>
+</ol>
+</div>
+<p>Nothing else to install: the kit carries its own Python and every library it needs (in the
+<code>runtime</code> folder). The original game files are backed up before anything changes, and
+<b>Restore original game…</b> puts them back exactly as they were.</p>
+
+<h2 id="requirements">What you need</h2>
+<table>
+<tr><th>Item</th><th>Details</th></tr>
+<tr><td>Windows</td><td>Windows 10 or 11, 64-bit.</td></tr>
+<tr><td>The game</td><td><b>Disgaea 5 Complete for PC</b>, in any language setting. This is the Windows version
+(on Steam), not the Switch or PS4 game. The kit checks the game's program file when it starts; see
+<a href="#trouble">Troubleshooting</a> if it shows a warning.</td></tr>
+<tr><td>Disk space</td><td>About 3.5 GB for the kit folder, plus about 1.5 GB of game data the mods add.</td></tr>
+<tr><td>A clean game</td><td>The kit backs up the game files the first time it installs. If other mods or tools
+already changed the game, restore it first (Steam: right-click the game › Properties › Installed Files ›
+<i>Verify integrity of game files</i>).</td></tr>
+</table>
+
+<h2 id="setup">Setting up (5 minutes)</h2>
+<ol class="steps">
+<li><b>Close Disgaea 5.</b> The kit can't change files the running game holds open.</li>
+<li><b>Find the game folder.</b> Steam: right-click Disgaea 5 Complete › Manage › <i>Browse local files</i>.
+It's the folder with <code>disgaea5.exe</code> and <code>Data</code>.</li>
+<li><b>Unblock, then extract.</b> Right-click the downloaded zip › Properties › tick <b>Unblock</b> (if you see it) › OK. This stops Windows from asking about every file. Then right-click the zip › Extract All… and choose the game folder. You get a
+<code>D5ModKit</code> folder next to <code>disgaea5.exe</code>.
+<div class="note">The kit also works from any other folder (for example <code>Documents\D5ModKit</code>). It looks for
+the game through Steam by itself, and asks for the folder if it can't find it.</div></li>
+<li><b>Start the kit:</b> double-click <code>Start D5 Mod Kit.bat</code>. If Windows shows <i>Windows protected your PC</i>, click <i>More info</i> › <i>Run anyway</i>. The first start takes a few seconds longer.
+The Home page shows <i>Game: …\Disgaea 5 Complete</i> at the bottom. If a red or orange message appears under it,
+read <a href="#trouble">Troubleshooting</a>.</li>
+<li><b>Install the mods:</b> press <b>⚡ Install &amp; Play</b> in the box at the bottom left. The kit backs up the
+original files, writes every enabled mod into the game (about 1–3 minutes the first time) and starts the game.
+From then on the box shows 🟢 <i>Ready to play</i>, and <b>▶ Play</b> starts the game.</li>
+</ol>
+<img class="shot" src="docs/guide/home.png" alt="The Home page">
+<div class="note warn"><b>Antivirus.</b> The mods add two small files the game loads (<code>d5auto.dll</code>,
+<code>d5core.dll</code>) and change <code>disgaea5.exe</code>. Some antivirus programs distrust unsigned files like
+these. If yours quarantines them, allow the game folder and the <code>D5ModKit</code> folder.</div>
+
+<h2 id="included">What's included</h2>
+<p>Every mod below is switched on and installed by <b>Install &amp; Play</b>. The Home page lists them; untick one
+to leave it out (see <a href="#manage">Turning mods on and off</a>).</p>
+<table>
+<tr><th>Mod</th><th>What it adds</th></tr>
+<tr><td>Outfit System</td><td>The <b>Outfit</b> entry in the character menu. Needed by every outfit mod and the new
+characters.</td></tr>
+<tr><td>Girl Laharl Outfits</td><td>13 outfits: Swimsuit, Attired Girl, Demonic Angel, Thunderlady, RK Girl,
+Beach Thunderlady, Uniform, Groom Thunderlady, Santa, Magical Girl, Supreme, Demon Detective, Young
+Thunderlady. With the Thunderlady mod on, the four Thunderlady looks belong to her instead
+(Girl Laharl keeps the other 9).</td></tr>
+<tr><td>Thunderlady</td><td><b>Thunderlady</b>, Girl Laharl's lightning alternative, as a character of her own:
+Girl Laharl's skills redone as lightning (<i>Thunder Knuckle</i>, <i>Thunderlady's Wrath</i>, <i>Thunder Impact</i>,
+<i>Thunder Dimension</i>), faster and more magical stats, her own weapon masteries, resistances and two evilities
+(<i>Thunderlady's Dignity</i>, <i>Static Shock</i>), 3 outfits (Beach, Groom, Young Thunderlady). Quest
+<i>The Thunderlady</i>.</td></tr>
+<tr><td>DRPG Outfits · 24 characters</td><td>Disgaea RPG looks for Killia (4), Seraphina (11), Majorita (6), Asagi (9),
+Laharl (9), Etna (15), Flonne (14), Sicily (10), Pleinair (5), Valvatorez (9), Fenrich (3), Artina (9), Fuka (10),
+Emizel (2), Nisa (3), Mao (5), Salvatore (6), Almaz (2), Sapphire (4), Adell (4), Rozalin (15), Axel (2), Pram (4),
+Petta (2). Each character's outfits are a separate mod.</td></tr>
+</table>
+<p>The kit also fixes things the outfits need in the game's code: a character in an outfit still counts as that
+character for story checks (no crash after battles), and outfits are drawn at full size.</p>
+
+<h2 id="ingame">Finding the mods in game</h2>
+<table>
+<tr><th>Feature</th><th>Where</th></tr>
+<tr><td>Outfits</td><td>Main Menu (<kbd>R</kbd>) › <b>Characters</b> › pick a character › <b>Outfit</b> › choose
+<i>Default</i> or an outfit. The look changes at once. Long lists continue under <i>More outfits…</i>.</td></tr>
+<tr><td>Thunderlady</td><td>The <b>Quest Shop</b> lists <i>The Thunderlady</i>: accept it, complete its condition and
+report back, and she joins (level 1). Her outfits are under <b>Outfit</b> like everyone's.</td></tr>
+</table>
+
+<h2 id="saves">Your saves</h2>
+<div class="note warn">
+<p><b>Back up your saves before playing with mods.</b> They are in
+<code>%APPDATA%\Nippon Ichi Software, Inc\Disgaea 5 Complete</code> (paste that into Explorer's address bar);
+copy the <code>SaveData</code> folder somewhere safe.</p>
+<p>The mods never change your saves, and you can load your existing saves with them. But a save that contains
+something a mod added (a character wearing a mod outfit) needs that
+mod installed. Before you remove such a mod, switch the characters back to <i>Default</i> and dismiss the added
+units, or keep a save from before you used them.</p>
+</div>
+
+<h2 id="basics">How the kit works</h2>
+<div class="grid2">
+<div class="card"><b>Mods are folders of changes.</b> Every change you make (a name, a colour, a whole new outfit)
+is saved into a <i>mod</i> under <code>D5ModKit\mods</code>. The game itself isn't touched while you edit.</div>
+<div class="card"><b>Install writes them into the game.</b> <b>Install &amp; Play</b> combines every enabled mod
+and writes the result into the game files. The originals are backed up first, into <code>D5ModKit\state</code>.</div>
+<div class="card"><b>"Saving edits to".</b> The box in the sidebar picks the mod your <b>💾 Save</b> buttons write
+into. If none is picked, the kit asks for a name the first time you save.</div>
+<div class="card"><b>The status box</b> (bottom left) always tells you whether the game has your latest changes:
+🟢 <i>Ready to play</i> or 🟠 <i>Changes not in the game yet</i>. Its button does the right thing.</div>
+</div>
+<p>Hover any field or button for an explanation. The <b>Log</b> at the bottom shows everything the kit did.</p>
+
+<h2 id="pages">The pages, one by one</h2>
+<h3>🧙 Characters &amp; Classes</h3>
+<p>Every character and class: names, stats, aptitudes, movement, weapon mastery, resistances, evilities, learned
+skills, sprite, voice and face picture. <b>✨ New character / class…</b> makes a new unit from any template.</p>
+<img class="shot" src="docs/guide/characters.png" alt="Characters page">
+<h3>👗 Outfits</h3>
+<p>All outfits of all mods. <b>✨ New outfit…</b> makes one from a sprite sheet (or from a copy of the character's
+sprite). The buttons under the list set face pictures and cut-in portraits, rename outfits and edit their colour
+parts.</p>
+<img class="shot" src="docs/guide/outfits.png" alt="Outfits page">
+<h3>📊 Database Editor</h3>
+<p>All 90 game tables as spreadsheets: items, skills, evilities, classes, stages, quests, shops, Dark Assembly…
+Column headers explain each field when you hover them. You can export to CSV and import back.</p>
+<img class="shot" src="docs/guide/database.png" alt="Database page">
+<h3>✨ Skills &amp; Animations</h3>
+<p>What a skill looks like in battle. The <b>🎬 Timeline editor</b> plays the whole skill inside the kit, the
+way the game shows it (its camera, effects, cut-in and the battle map; no game needed), and lets you move, retime
+and add effects, camera moves, poses and sounds. <b>🧩 Presets</b> add ready-made dashes, jumps, close-ups,
+shakes, fades and hits; <b>🟥 Area</b> shows and changes the panels the skill hits (and puts enemies on them to try
+it); <b>👥 Who learns it</b> lists the characters and classes that learn it, at which level (the same list as on the
+Characters &amp; Classes page). Give a skill another skill's animation, or put your own pictures into its effects.
+<b>Preview in game</b> sends your edit to the running game without a reinstall. <b>Overloads</b> are here too (the
+Overloads category, <b>⚡ New Overload…</b>): see below.</p>
+<img class="shot" src="docs/guide/skills.png" alt="Skills page">
+<h3>💬 Dialogue &amp; Text</h3>
+<p>Search all 7,000 conversations, edit lines in every language, change speakers, add or remove message boxes,
+and find &amp; replace across the whole game.</p>
+<img class="shot" src="docs/guide/dialogue.png" alt="Dialogue page">
+<h3>🗺 Stages &amp; Maps</h3>
+<p>Battle maps: move, add or delete enemies and change their class, level, equipment and skills. Paint Geo
+Panels, place Geo Symbols, move the base panel, clone a stage.</p>
+<img class="shot" src="docs/guide/stages.png" alt="Stages page">
+<h3>🎨 Sprites &amp; Colors</h3>
+<p>Every character and monster sprite with a live animated preview. Click the character to select a part, then
+drag hue, saturation and brightness. Export sprite sheets, repaint them, import them again.</p>
+<img class="shot" src="docs/guide/sprites.png" alt="Sprites page">
+<h3>🗡 Weapon Grips</h3>
+<p>Where each character holds its weapon, per animation and frame: drag the weapon onto the hand.</p>
+<img class="shot" src="docs/guide/grips.png" alt="Weapon Grips page">
+<h3>🖼 Textures &amp; UI · 🎵 Music &amp; Sound</h3>
+<p>Menus, windows, icons and logos as PNG pictures; all background music and sound effects. Replace them with
+your own.</p>
+<div class="grid2"><img class="shot" src="docs/guide/textures.png" alt="Textures page"><img class="shot" src="docs/guide/music.png" alt="Music page"></div>
+<h3>🧩 Event Scripts · 📦 Archive Explorer <span class="tag">advanced</span></h3>
+<p>All 19,000 event scripts as editable text, and every file inside every game archive (preview, export, replace).</p>
+
+<h2 id="manage">Turning mods on and off</h2>
+<ol class="steps">
+<li>On the Home page the <b>Mods</b> list is grouped <b>by category</b>: Systems, Outfits (each with its character),
+New characters, Classes &amp; monsters, Skills, Gameplay … Tick or untick a mod, or a whole group at once (a
+half-filled box: some of it is on).</li>
+<li>Type in the search box to find a mod by its name, a character or an outfit name.</li>
+<li>Click a mod: <b>What it adds</b> says it in words (its outfits by name, new characters, classes, skills,
+quests, database changes, sprites) and which mods need it; its files are listed below.</li>
+<li><b>Load order</b> (button above the list) shows the order mods are installed in: drag to reorder. When two mods
+change the same thing, the lower one wins.</li>
+<li>Press <b>⚡ Install &amp; Play</b> (or <b>Install only</b>). The game gets exactly the ticked mods.</li>
+</ol>
+<p><b>Packs.</b> Select several mods (Ctrl+click), right-click › <b>Group into a pack…</b>: they show and switch as one
+entry. A pack only groups them: the mods themselves don't change, and <i>Ungroup</i> undoes it.</p>
+<p>A mod that needs another one (every outfit mod needs <i>Outfit System</i>) shows ⚠ when that one is off; ticking
+it switches on what it needs too. Right-click a mod for more: edit its details (and its category), open its folder,
+share it, make your own version of it, delete it.</p>
+
+<h2 id="restore">Restoring the original game</h2>
+<p>Home › <b>Restore original game…</b> puts every changed game file back exactly as it was before the first
+install. Your mods stay in the kit; install them again whenever you like. Do this before uninstalling the kit or
+deleting its folder.</p>
+
+<h2 id="t-first">Tutorial 1 · Your first edit</h2>
+<p>Rename Killia and give him more HP.</p>
+<ol class="steps">
+<li>Home › <b>＋ New mod</b>. Name it <i>My First Mod</i>. Your edits now go into it.</li>
+<li>Open <b>🧙 Characters &amp; Classes</b> and pick <i>Killia — Wanderer</i> in the list.</li>
+<li>Change <b>Name (English)</b>, and raise the HP base value (first row of <i>Base stats</i>).</li>
+<li>Press <b>💾 Save</b>. The status box turns orange: <i>Changes not in the game yet</i>.</li>
+<li>Press <b>⚡ Install &amp; Play</b>, load a save and look at Killia's status.</li>
+</ol>
+<div class="note">To undo it, untick <i>My First Mod</i> on the Home page and install again. Or select the change
+in the mod's file list (right side of Home) and press <b>Remove selected change</b>.</div>
+
+<h2 id="t-char">Tutorial 2 · A new recruitable character</h2>
+<ol class="steps">
+<li>Characters &amp; Classes: select the character to start from (for example Seraphina). The new one copies its
+stats, skills and evilities.</li>
+<li>Press <b>✨ New character / class…</b>. Choose <i>Unique character</i>, give it a name, title and up to three
+lines of description.</li>
+<li><b>Look</b>: <i>The template's look</i> (keep <b>Give it its own copy of the sprite</b> ticked to recolour or
+repaint it), or <b>any outfit</b> of your outfit mods — <i>Killia — Formal</i>, <i>Etna — …</i>. A Disgaea RPG outfit
+is drawn again as a complete character of its own (every animation, face, portrait, cut-in); another outfit's
+sprite is copied. Tick <b>Take that outfit out of the Outfit menu</b> if it should only exist as the new character:
+your mod hides it, the outfit's own mod is not changed, and units already wearing it keep it.</li>
+<li><b>Stats</b>: keep the template's or start from a preset (All-rounder, Heavy hitter, Spellcaster, Defender,
+Speedster, Gunner, Healer, Overlord — the numbers of one of the game's playable characters).</li>
+<li>Keep <b>Save it in a new mod of its own</b> ticked: one character = one mod, easy to share, update or switch
+off.</li>
+<li>Keep <b>Make it recruitable with a new quest</b> ticked and write the quest title, client and text. Long text
+is split into the quest board's lines for you.</li>
+<li>OK. Then shape it on the page and <b>💾 Save</b>:
+<ul>
+<li><b>Quick setup</b>: another preset, or <b>📋 Copy from another…</b> — any character's or class's base stats,
+aptitudes, movement, mastery, resistances, evilities, Overload or skills, base stats at a power % of your choice.</li>
+<li><b>✨ New skill of their own…</b>: a copy of any skill (its numbers and animation) with its own name, SP cost and
+learn level. Tick <i>Then open the skill editor</i>: the timeline editor opens on it, and <b>↩ Back to …'s setup</b>
+brings you back.</li>
+<li><b>✨ New evility of their own…</b>: your own name and description; in battle it works like an evility of
+the game you choose.</li>
+<li>Evilities, Overload and learned skills are drop-down lists; hover an entry to read what it does.</li>
+<li>For its own face, press <b>🙂 Face picture…</b> (a square picture, about 200×200).</li>
+</ul></li>
+<li>Install. In game, accept the quest at the Quest Shop, complete it and report back: the character joins.</li>
+</ol>
+<p>Choosing a generic class (for example Warrior) as the template makes a new <b>class</b> (six ranks, hired at the
+Recruiter) instead.</p>
+
+<h2 id="t-outfit">Tutorial 3 · An outfit from a sprite sheet</h2>
+<p>A sprite sheet is a picture with one row of frames per animation (stand, walk, attack…), front and back views,
+like the Disgaea RPG frame dumps. <code>D5ModKit\SpriteSheet</code> contains examples.</p>
+<ol class="steps">
+<li><b>👗 Outfits</b> › <b>✨ New outfit…</b>.</li>
+<li>Choose the <b>Character</b>, type the <b>Outfit name</b> shown in game, keep <i>Convert a sprite sheet</i> and
+pick the PNG.</li>
+<li>Optional: a <b>Face picture</b> (square; tick <i>Mirror</i> if it looks to the right) and a <b>Cut-in
+portrait</b> (tall; white backgrounds are removed).</li>
+<li>OK. The kit matches every frame to the game's own poses: the outfit animates exactly like the character, with
+colour variants made automatically. Check it in the preview.</li>
+<li>Install. In game: Characters › the character › <b>Outfit</b>.</li>
+</ol>
+<div class="note">Colours look off in some poses? <b>🖌 Parts</b> opens the part painter: paint a few poses and the
+kit fixes the rest. The in-game colour editor then works per part (hair, clothes, skin…).</div>
+
+<h2 id="t-color">Tutorial 4 · Recolouring a sprite</h2>
+<ol class="steps">
+<li><b>🎨 Sprites &amp; Colors</b>: search the character and select it. Pick the colour variant (<i>Normal
+Color</i>, <i>Extra Color 1–4</i>) at the top.</li>
+<li>Click the hair (or any part) in the live preview: its shades are selected.</li>
+<li>Drag <b>Hue</b>, <b>Saturation</b> and <b>Brightness</b>. The animation updates as you drag.</li>
+<li><b>💾 Save</b>, then install.</li>
+</ol>
+<p>For a full repaint use the <b>🖼 Sprite sheets</b> tab: <i>Export all sheets…</i>, paint them in any image
+editor (keep the size and layout), then <i>Import all sheets…</i>.</p>
+
+<h2 id="t-drpg">Tutorial 5 · Disgaea RPG outfits <span class="tag">command line</span></h2>
+<p>The kit builds Disgaea RPG looks for the game's characters by itself. It uses the DRPG sprites in
+<code>D5ModKit\DRPG Assets (Updated)</code> and the list in <code>d5lib\data\drpg_outfit_catalog.json</code>.</p>
+<ol class="steps">
+<li>Find the DRPG unit numbers in <code>DRPG Assets (Updated)\Units IDs.txt</code>.</li>
+<li>Open <code>d5lib\data\drpg_outfit_catalog.json</code> in Notepad. Find the character (for example
+<code>"name": "Etna"</code>, <code>"class": 520</code>) and add <code>[unit number, "Outfit name"]</code> to its <code>"outfits"</code> list.</li>
+<li>Double-click <code>D5 Mod Kit Console.bat</code> and type
+<pre><code>python tools\drpg_outfits.py check
+python tools\drpg_outfits.py build 520</code></pre>
+(520 is Etna's <code>"class"</code> number in the catalog). Each outfit takes a few seconds.</li>
+<li>Back in the kit, the outfits are in <b>👗 Outfits</b>. Install and play.</li>
+</ol>
+<p>A character that's new to the catalog needs its <i>twin</i>: the DRPG unit drawn exactly like the game's own
+sprite. Then run <code>python tools\drpg_outfits.py learn CLASS</code> once. See <code>docs\OUTFITS.md</code> for
+details, including new playable characters (<code>"kind": "new_character"</code>).</p>
+
+<h2 id="t-grips">Tutorial 6 · Weapon grips</h2>
+<ol class="steps">
+<li><b>🗡 Weapon Grips</b>: choose the character, weapon type and animation.</li>
+<li>Drag the weapon onto the hand. Right-drag rotates it, the arrow keys nudge it, <kbd>Q</kbd>/<kbd>E</kbd> turn it
+and <kbd>F</kbd> mirrors it.</li>
+<li>Choose whether the change applies to this frame or the whole animation, play it back, then <b>💾 Save</b> and
+install.</li>
+</ol>
+
+<h2 id="t-skill">Tutorial 7 · A skill's animation</h2>
+<ol class="steps">
+<li><b>✨ Skills &amp; Animations</b>: search a skill (for example <i>Mega Fire</i>).</li>
+<li>Quick change: <b>🎬 Use animation of…</b> plays another skill's animation instead.</li>
+<li>Your own version: open the <b>🎬 Timeline editor</b> tab and press ▶ — the skill plays right there, with
+its camera, on a battle map. The first edit makes an editable copy in your mod. Drag effects in the preview or on
+the timeline. Right-click the timeline to add effects, poses, sounds and presets.</li>
+<li>Click anything to see it in <b>✏ Properties</b>: folding panels (Transform, Timing, Drawing, Motion …) with a
+line of help under each setting. An effect drawn over a character when it should be under it (or the other way
+round): <b>Drawing → Draw order</b> and <b>Nearer camera</b> — they write the game's own commands, so the game draws it
+the same way.</li>
+<li>Poses and sounds are chosen by sight and by ear: <b>🏃 Change pose…</b> shows every pose playing its animation,
+<b>🔊 Choose by ear…</b> lists the sounds with their waveform and the skills that use them (click to hear).</li>
+<li>The badge at the top right of the preview says which camera you see: <b>🎥 Game camera</b> (the skill's own,
+moving as in the game) or the free camera you get by looking around with the middle / right mouse button — click the
+badge, press <b>C</b> or play the skill to go back.</li>
+<li>Building blocks: the <b>🧩 Presets</b> tab — for example <i>Dash to the target and back</i>, <i>Close-up</i>,
+<i>Quake</i>, <i>Hit</i>. Set the values, <b>➕ Add at frame…</b>, then move it on the timeline.</li>
+<li>Where it hits: the <b>🟥 Area</b> tab. Click panels to change the area, set how far the cursor reaches, and use
+<i>Place enemies</i> to see the skill hit several enemies. <b>💾 Save area</b> writes it into your mod.</li>
+<li>Optional: <b>Preview in game</b> sends your version to the running game (edits show up without reinstalling).</li>
+<li><b>💾 Save</b>, then install to keep it. New pictures (Effects &amp; pictures tab) need an install and a game
+restart.</li>
+</ol>
+<p>Give a skill to a character with <b>➕ Give to character…</b> or on the <b>👥 Who learns it</b> tab (change the
+level there, or remove it). More in <code>docs\SKILL_EDITOR.md</code>.</p>
+<p><b>Overloads.</b> Press <b>⚡ New Overload…</b> (or pick one of the game's in the <b>Overloads</b> category): give it
+a name and description, and choose what it does on the <b>⚡ Overload</b> tab — the code of a game Overload (giant,
+extra actions, revive…) or numbers of its own (power, element, area, effects). Its name gets a title banner of its
+own (pick the style and colours, or use your own picture). Its animation is edited on the Timeline editor like any
+skill's. <b>➕ Give to character / class…</b> hands it to anyone, new characters included. In battle it needs Revenge
+Mode, as always. More in <code>docs\OVERLOADS.md</code>.</p>
+
+<h2 id="t-text">Tutorial 8 · Dialogue and text</h2>
+<ol class="steps">
+<li><b>💬 Dialogue &amp; Text</b>: search for a word from the line you want to change.</li>
+<li>Select the message, edit it in <i>Edit selected message</i>, and change the speaker if needed.</li>
+<li><b>💾 Save</b> and install. For mass edits use <b>Find &amp; Replace…</b>.</li>
+</ol>
+
+<h2 id="t-stage">Tutorial 9 · A stage's enemies</h2>
+<ol class="steps">
+<li><b>🗺 Stages &amp; Maps</b>: pick a stage. The map shows enemies, Geo Panels and the base panel.</li>
+<li><b>Add enemy</b>, click a panel, then set its class, level, equipment and skills on the right.</li>
+<li><b>💾 Save</b>, install, and play the stage. <b>Clone as new stage…</b> copies a stage for your own level.</li>
+</ol>
+
+<h2 id="t-music">Tutorial 10 · Music and sounds</h2>
+<ol class="steps">
+<li><b>🎵 Music &amp; Sound</b>: pick a track. Play it, or <b>Replace with my song…</b>.</li>
+<li>WAV files work as they are. For MP3, OGG or FLAC, install <a href="https://ffmpeg.org/">ffmpeg</a> and make sure
+<code>ffmpeg.exe</code> is on your PATH.</li>
+<li>Install, then listen in game.</li>
+</ol>
+
+<h2 id="t-db">Tutorial 11 · Database (items, skills…)</h2>
+<ol class="steps">
+<li><b>📊 Database Editor</b>: choose a table (for example <i>item</i>), search for the row and change the value.
+Hover a column header to see what it means.</li>
+<li><b>💾 Save</b>, then install. <i>Changed rows only</i> shows what your mods change. CSV export and import let
+you work in Excel.</li>
+</ol>
+<div class="note warn">Don't delete the game's own rows: saves refer to them. Add new ones instead. The kit always
+gives new things ids above the existing ones.</div>
+
+
+<h2 id="t-class">Tutorial 13 · New classes and monsters <span class="tag">command line</span></h2>
+<p>Make a generic class or monster from a Disgaea RPG unit, animated like a vanilla class or monster:</p>
+<pre><code>python tools\new_drpg_class.py UNIT TEMPLATE "Name" --titles "T1,T2,T3,T4,T5,T6" --desc "one line for Hire Character"
+python tools\new_drpg_monster.py --help</code></pre>
+<p>Run them in <code>D5 Mod Kit Console.bat</code>. <code>docs\CLASSES.md</code> and <code>docs\MONSTERS.md</code>
+explain every step.</p>
+
+<h2 id="t-share">Tutorial 14 · Sharing your mods</h2>
+<div class="grid2">
+<div class="card"><b>With other kit users</b><br>Home › right-click a mod › <b>Share (export as .zip)…</b> (or
+<b>📤 Share this character…</b> on the Characters page). Give it a version. They use Home › <b>More ▾</b> ›
+<b>Import / update from .zip…</b> and install.</div>
+<div class="card"><b>With players (no kit)</b><br>One installer .exe with your mods: they run it, press Install, done.
+Uninstall restores their game exactly.
+<pre><code>python tools\export_pack.py "My Mods.exe" --title "My Disgaea 5 mods"</code></pre>
+Details: <code>docs\SHARING.md</code>.</div>
+</div>
+<p><b>Updates never break saves.</b> A shared mod carries an identity: importing a later version of a mod you
+already have <i>updates</i> it (the old version is kept in <code>D5ModKit\state\mod_backups</code>). When a mod you
+import uses an id one of your other mods already uses (two people both made a character in the same free slot), the
+kit moves it to a free one and remembers that, so every update lands on the same ids and recruited units stay what
+they are. Your other mods are never changed.</p>
+<p><b>Building on someone's work.</b> Right-click their mod › <b>Make my own version…</b>: a copy with its own
+identity that remembers where it came from (shown under the mod's description). It takes the original's place in
+the game; the original stays as it was, switched off, and can still be updated.</p>
+<p>To share the whole kit like this package, run <code>python tools\make_release.py OUTPUT_FOLDER --zip</code>.</p>
+
+<h2 id="cli">Command-line tools</h2>
+<p>Double-click <code>D5 Mod Kit Console.bat</code>: a command prompt where <code>python</code> is the kit's own
+Python. The tools work on the game folder the kit uses.</p>
+<table>
+<tr><th>Command</th><th>What it does</th></tr>
+<tr><td><code>python tools\install_mods.py</code></td><td>Install the enabled mods (the same as the Install button).</td></tr>
+<tr><td><code>python tools\drpg_outfits.py check | learn | build</code></td><td>Disgaea RPG outfits (Tutorial 5).</td></tr>
+<tr><td><code>python tools\new_drpg_class.py</code> · <code>new_drpg_monster.py</code></td><td>New class / monster from a DRPG unit.</td></tr>
+<tr><td><code>python tools\export_pack.py</code></td><td>Make a player installer .exe.</td></tr>
+<tr><td><code>python tools\make_release.py</code></td><td>Make a shareable copy of the whole kit (like this one).</td></tr>
+<tr><td><code>python tools\skilledit.py</code></td><td>Skill animations from the command line.</td></tr>
+<tr><td><code>python tools\grips.py</code> · <code>partcli.py</code></td><td>Weapon grips · outfit colour parts.</td></tr>
+<tr><td><code>python tools\qa_sprite.py</code> · <code>render_skill.py</code></td><td>Check a built sprite · render a skill's frames.</td></tr>
+</table>
+<p>Run any of them with <code>--help</code> for its options. The other files in <code>tools</code>
+(<code>d5ctl</code>, <code>battle_nav</code>, <code>walk</code>…) drive the game for automated tests. They need
+<code>remote=1</code> under <code>[debug]</code> in <code>d5auto.ini</code> and are for developers.</p>
+<div class="note">Changing the C source of the game runtime (<code>d5lib\native</code>) needs the Zig compiler:
+<code>runtime\python.exe -m pip install ziglang</code>. Everything else works without it.</div>
+
+<h2 id="trouble">Troubleshooting &amp; FAQ</h2>
+<h3>"Disgaea 5 Complete was not found"</h3>
+<p>Choose the folder that contains <code>disgaea5.exe</code> and <code>Data</code> (Home › <b>Change game
+folder…</b>). Steam shows it under Manage › Browse local files.</p>
+<h3>⚠ "This disgaea5.exe is not the version the kit was made for"</h3>
+<p>The kit was made for the PC release's program file (its last update was in October 2018). If another tool changed
+your exe, verify the game files in Steam and start the kit again. With a really different version, the mods that
+change the game program (outfits, new characters and classes, colour slots, skills) refuse to install
+safely, with a message. Data-only mods still work.</p>
+<h3>⛔ "The game already has mods from another copy of the D5 Mod Kit"</h3>
+<p>Another kit folder (or an older copy of this one) installed mods into this game. Press <b>Restore original
+game…</b> in that copy first, or copy its <code>state</code> folder into this kit (it holds the backups), or verify
+the game files in Steam.</p>
+<h3>⛔ "A mods package is installed in this game"</h3>
+<p>A player installer .exe made with the kit is installed. Run it again and press <b>Uninstall</b> first.</p>
+<h3>The install failed</h3>
+<p>Close the game, then try again. The message (and the Log) says which file or mod caused it. If the game is under
+<code>C:\Program Files</code>, start the kit as administrator.</p>
+<h3>Steam updated or verified the game, and the mods are gone</h3>
+<p>Press <b>Install &amp; Play</b> again; the kit keeps its backups.</p>
+<h3>The game crashes</h3>
+<p>Note what you were doing. Then restore the original game and install again with fewer mods ticked to find the
+cause. Check <code>d5auto.log</code> in the game folder: it records what the runtime did. Keep a backup of your saves.</p>
+<h3>Uninstalling the kit</h3>
+<p>Home › <b>Restore original game…</b>, then delete the <code>D5ModKit</code> folder. The game folder may still hold files the mods' runtime made while you played: <code>d5auto.log</code>,
+<code>d5looks.bin</code>, <code>d5core_live*.dll</code> and
+<code>d5live_script.dat</code>. Delete them too if you like.</p>
+
+<h2 id="update">Updating the kit</h2>
+<p>To move to a newer copy of the kit without losing anything:</p>
+<ol class="steps">
+<li>In the old kit, press <b>Restore original game…</b>.</li>
+<li>Copy your own mods (any folder in <code>old\mods</code> you made) into the new kit's <code>mods</code> folder.</li>
+<li>Start the new kit and install.</li>
+</ol>
+<p>Or copy the old kit's <code>state</code> folder into the new one instead of restoring. It holds the backups of the
+original game files, so the new kit takes over where the old one left off.</p>
+
+<h2 id="tech">Technical documents</h2>
+<p>For modders who want to know how things work inside, see <code>D5ModKit\docs</code>:</p>
+<table>
+<tr><td><code>README.md</code></td><td>Overview of the kit and its limits (in the kit folder).</td></tr>
+<tr><td><code>OUTFITS.md</code> · <code>COLORS.md</code> · <code>WEAPON_GRIPS.md</code></td><td>Outfits, the DRPG builder, colour parts, grips.</td></tr>
+<tr><td><code>CLASSES.md</code> · <code>MONSTERS.md</code></td><td>New generic classes and monsters.</td></tr>
+<tr><td><code>SKILL_EDITOR.md</code> · <code>SKILL_ANIMATIONS.md</code> · <code>VOICES.md</code></td><td>Skills, effects, voices.</td></tr>
+<tr><td><code>OVERLOADS.md</code></td><td>New Overloads and changing the game's.</td></tr>
+<tr><td><code>CHARACTER_STUDIO.md</code></td><td>New characters: outfit looks, presets, skills and evilities of their own.</td></tr>
+<tr><td><code>SHARING.md</code></td><td>Sharing and updating mods between kit users, player installers, the kit's release.</td></tr>
+<tr><td><code>FORMATS.md</code> · <code>ANM.md</code> · <code>DATABASE.md</code> · <code>MAPS_AND_OBJECTS.md</code> · <code>EXE_ANALYSIS.md</code></td><td>The game's file formats and program.</td></tr>
+</table>
+<p style="color:var(--muted);margin-top:40px">Disgaea 5 and Disgaea RPG are © Nippon Ichi Software / NIS America.
+This is an unofficial fan modding kit; the art in the mods comes from those games. Share it with people who own the
+game.</p>
+</main>
+</div>
+<script>
+document.querySelectorAll('img.shot').forEach(function (img) {
+  img.addEventListener('click', function () { window.open(img.src, '_blank'); });
+});
+</script>
+</body>
+</html>

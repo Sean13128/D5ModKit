@@ -1,0 +1,149 @@
+{
+ "file": "EventCg.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1112,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Event CG gallery entries.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "CG id 1..54",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 84,
+   "lang": "JP",
+   "desc": "CG title",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 88,
+   "type": "str",
+   "size": 84,
+   "lang": "EN",
+   "desc": "CG title",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 172,
+   "type": "str",
+   "size": 84,
+   "lang": "FR",
+   "desc": "CG title",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 256,
+   "type": "str",
+   "size": 84,
+   "lang": "CHN",
+   "desc": "CG title",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 340,
+   "type": "str",
+   "size": 84,
+   "lang": "KOR",
+   "desc": "CG title",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 424,
+   "type": "str",
+   "size": 136,
+   "lang": "JP",
+   "desc": "CG description",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 560,
+   "type": "str",
+   "size": 136,
+   "lang": "EN",
+   "desc": "CG description",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 696,
+   "type": "str",
+   "size": 136,
+   "lang": "FR",
+   "desc": "CG description",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 832,
+   "type": "str",
+   "size": 136,
+   "lang": "CHN",
+   "desc": "CG description",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 968,
+   "type": "str",
+   "size": 136,
+   "lang": "KOR",
+   "desc": "CG description",
+   "confidence": "high"
+  },
+  {
+   "name": "unlock_flag",
+   "offset": 1104,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag that unlocks the CG in the gallery (14601.. FLAG_EVENT_VIEWER_CGn)",
+   "confidence": "high"
+  },
+  {
+   "name": "anm",
+   "offset": 1106,
+   "type": "u16",
+   "ref": "anm",
+   "desc": "anm file with the picture (anm08301-08317 event CGs, 09035-09040 battle results, 09300 Chara World)",
+   "confidence": "high"
+  },
+  {
+   "name": "anim_id",
+   "offset": 1108,
+   "type": "u16",
+   "desc": "animation number inside that anm (10, 20, 101..132)",
+   "confidence": "high"
+  },
+  {
+   "name": "order",
+   "offset": 1110,
+   "type": "u16",
+   "desc": "gallery display order 0..53",
+   "confidence": "high"
+  }
+ ]
+}

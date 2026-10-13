@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+
+# made on each PC / by the kit at run time
+settings.json
+state/
+cache/
+runtime/
+*.log
+
+# game-derived art and mods: not kept in this repository (they come with the release zip)
+mods/
+SpriteSheet/
+partmaps/
+DRPG Assets/
+DRPG Assets (Updated)/
+d5lib/data/drpg_ref_humanoid.pickle

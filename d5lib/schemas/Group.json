@@ -1,0 +1,312 @@
+{
+ "file": "Group.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1092,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Squads (49 x 1092): name + 3 description lines, number of ranks, rank-up costs and member limits per rank. Per-rank effect texts are in GroupHelp.dat (id*10+rank). Not a character-class table.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "squad id (1..25 player squads, 101..124 enemy/story squads). GroupHelp ids are id*10 + rank",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "desc": "squad name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 56,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 108,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 160,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 212,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_JP",
+   "offset": 264,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "desc": "description line 1",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_EN",
+   "offset": 316,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_FR",
+   "offset": 368,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_CHN",
+   "offset": 420,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_KOR",
+   "offset": 472,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_JP",
+   "offset": 524,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_EN",
+   "offset": 576,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_FR",
+   "offset": 628,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_CHN",
+   "offset": 680,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_KOR",
+   "offset": 732,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_JP",
+   "offset": 784,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_EN",
+   "offset": 836,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_FR",
+   "offset": 888,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_CHN",
+   "offset": 940,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_KOR",
+   "offset": 992,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "max_rank",
+   "offset": 1044,
+   "type": "u32",
+   "desc": "number of squad ranks (3..9); GroupHelp has one line per rank (id*10+1 .. id*10+max_rank)",
+   "confidence": "high"
+  },
+  {
+   "name": "rank2_cost",
+   "offset": 1048,
+   "type": "u32",
+   "desc": "cost to raise the squad to rank N (rank2 cost = first value: Capture 15, Elite Four 30000; then e.g. Capture 60,200,450,1200,12000); 0 beyond max_rank. Currency not verified (probably Mana)",
+   "confidence": "medium"
+  },
+  {
+   "name": "rank3_cost",
+   "offset": 1052,
+   "type": "u32",
+   "confidence": "medium"
+  },
+  {
+   "name": "rank4_cost",
+   "offset": 1056,
+   "type": "u32",
+   "confidence": "medium"
+  },
+  {
+   "name": "rank5_cost",
+   "offset": 1060,
+   "type": "u32",
+   "confidence": "medium"
+  },
+  {
+   "name": "rank6_cost",
+   "offset": 1064,
+   "type": "u32",
+   "confidence": "medium"
+  },
+  {
+   "name": "rank7_cost",
+   "offset": 1068,
+   "type": "u32",
+   "confidence": "medium"
+  },
+  {
+   "name": "rank8_cost",
+   "offset": 1072,
+   "type": "u32",
+   "confidence": "medium"
+  },
+  {
+   "name": "rank9_cost",
+   "offset": 1076,
+   "type": "u32",
+   "confidence": "medium"
+  },
+  {
+   "name": "rank1_members",
+   "offset": 1080,
+   "type": "u8",
+   "desc": "squad member limit at rank N (Capture 4,4,6,6,6,8,8 matching GroupHelp \"Squad limit +2\" at ranks 3/6); 0 beyond max_rank",
+   "confidence": "high"
+  },
+  {
+   "name": "rank2_members",
+   "offset": 1081,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "rank3_members",
+   "offset": 1082,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "rank4_members",
+   "offset": 1083,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "rank5_members",
+   "offset": 1084,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "rank6_members",
+   "offset": 1085,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "rank7_members",
+   "offset": 1086,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "rank8_members",
+   "offset": 1087,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "rank9_members",
+   "offset": 1088,
+   "type": "u8",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_441",
+   "offset": 1089,
+   "type": "bytes",
+   "size": 3,
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

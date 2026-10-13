@@ -1,0 +1,65 @@
+{
+ "file": "FlagList_DLCDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 20,
+ "key": "id",
+ "display": "label",
+ "desc": "DLC ownership flag names.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "DLC flag id: 2000000.. (shops/spa/curry), 4000000.. (magazine weapons), 5000000 (Poritan), 6000000 (2nd-episode weapons); separate id space from FlagListDataBase",
+   "confidence": "high"
+  },
+  {
+   "name": "label_len",
+   "offset": 4,
+   "type": "u32",
+   "role": "strlen",
+   "of": "label",
+   "desc": "character count of label (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "label",
+   "offset": 8,
+   "type": "strptr",
+   "desc": "identifier DLC_FLAG_*",
+   "confidence": "high"
+  },
+  {
+   "name": "comment_JP_len",
+   "offset": 12,
+   "type": "u32",
+   "role": "strlen",
+   "of": "comment_JP",
+   "desc": "character count of comment_JP (auto-computed on write)",
+   "confidence": "high"
+  },
+  {
+   "name": "comment_JP",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "JP",
+   "desc": "DLC name (JP)",
+   "confidence": "high"
+  }
+ ]
+}

@@ -1,0 +1,102 @@
+{
+ "file": "JobRank.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 20,
+ "key": "id",
+ "display": "id",
+ "desc": "Class rank (tier) chain for generic classes: one row per class tier (325 rows x 20 bytes; 1010-1265 human classes incl. DLC Celestial Hostess/Kunoichi/Sorcerer, 2010-2215 monsters, 9930-9995 unused dummy chains). Gives mastery EXP requirement, next tier id and per-rank stat bonus. A new generic class needs 6 rows here (ids family*10+0..5).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "ref": "char.dat",
+   "desc": "char.dat id of the class tier this row describes (1010 = Warrior tier 0 \"Fighter\"); 0 = empty row 0",
+   "confidence": "high"
+  },
+  {
+   "name": "mastery_exp",
+   "offset": 4,
+   "type": "u32",
+   "desc": "class-mastery EXP needed for this rank: base x 1,4,16,64,256,4096 (Warrior base 64: 64..262144; Thief 96; Ninja/Samurai 128; Pirate/Sage/Dark Knight 256). Rows 9930-9995 (unused dummy chains) use 100..14400",
+   "confidence": "medium"
+  },
+  {
+   "name": "next_id",
+   "offset": 8,
+   "type": "u16",
+   "ref": "char.dat",
+   "desc": "char.dat id of the next tier (1010->1011 ... 1015->1010 wraps). Asagi 1230.. points to 1237..1242 (no such rows)",
+   "confidence": "high"
+  },
+  {
+   "name": "bonus_HP",
+   "offset": 10,
+   "type": "u8",
+   "desc": "permanent stat bonus granted by reaching this class-mastery rank (HP SP ATK DEF INT RES HIT SPD). Pattern follows class aptitudes (Warrior ATK/HP, Magician INT/SP); last tier gives large values (e.g. 24/3/20/12/...)",
+   "confidence": "medium"
+  },
+  {
+   "name": "bonus_SP",
+   "offset": 11,
+   "type": "u8",
+   "confidence": "medium"
+  },
+  {
+   "name": "bonus_ATK",
+   "offset": 12,
+   "type": "u8",
+   "confidence": "medium"
+  },
+  {
+   "name": "bonus_DEF",
+   "offset": 13,
+   "type": "u8",
+   "confidence": "medium"
+  },
+  {
+   "name": "bonus_INT",
+   "offset": 14,
+   "type": "u8",
+   "confidence": "medium"
+  },
+  {
+   "name": "bonus_RES",
+   "offset": 15,
+   "type": "u8",
+   "confidence": "medium"
+  },
+  {
+   "name": "bonus_HIT",
+   "offset": 16,
+   "type": "u8",
+   "confidence": "medium"
+  },
+  {
+   "name": "bonus_SPD",
+   "offset": 17,
+   "type": "u8",
+   "confidence": "medium"
+  },
+  {
+   "name": "pad_012",
+   "offset": 18,
+   "type": "bytes",
+   "size": 2,
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

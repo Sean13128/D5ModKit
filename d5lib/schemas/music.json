@@ -1,0 +1,163 @@
+{
+ "file": "music.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1048,
+ "key": "track_id",
+ "display": "title_EN",
+ "desc": "Music gallery (Jukebox) entries: one row per selectable track. file -> Sound_BGM archive member NNN.ogg; loop points / volume of that file are in Sound_BGM_0.dat. Verified against ref/ReadMe.md + ref/database_0.scheme (layout identical).",
+ "fields": [
+  {
+   "name": "pad_000",
+   "offset": 0,
+   "type": "bytes",
+   "size": 8,
+   "desc": "always 0 (8 bytes)",
+   "confidence": "high"
+  },
+  {
+   "name": "file",
+   "offset": 8,
+   "type": "u32",
+   "ref": "Sound_BGM_0.dat",
+   "desc": "music file number = NNN.ogg in Data/Sound_BGM/Sound_BGM_0.dat (= Sound_BGM_0.dat id). 400 = RANDOM, 401 = RANDOM MEDLEY (magic values, no file)",
+   "confidence": "high"
+  },
+  {
+   "name": "unlock",
+   "offset": 12,
+   "type": "u32",
+   "desc": "0 = unlocked by story progress, 3 = available from the start (BGM01, SONG01, RANDOM, RANDOM MEDLEY). ref/ReadMe calls it auto-unlock; use 3 for added tracks",
+   "confidence": "medium"
+  },
+  {
+   "name": "title_JP",
+   "offset": 16,
+   "type": "str",
+   "size": 44,
+   "lang": "JP",
+   "desc": "gallery title (e.g. \"BGM 01\")",
+   "confidence": "high"
+  },
+  {
+   "name": "title_EN",
+   "offset": 60,
+   "type": "str",
+   "size": 44,
+   "lang": "EN",
+   "desc": "gallery title (e.g. \"BGM 01\")",
+   "confidence": "high"
+  },
+  {
+   "name": "title_FR",
+   "offset": 104,
+   "type": "str",
+   "size": 44,
+   "lang": "FR",
+   "desc": "gallery title (e.g. \"BGM 01\")",
+   "confidence": "high"
+  },
+  {
+   "name": "title_CHN",
+   "offset": 148,
+   "type": "str",
+   "size": 44,
+   "lang": "CHN",
+   "desc": "gallery title (e.g. \"BGM 01\")",
+   "confidence": "high"
+  },
+  {
+   "name": "title_KOR",
+   "offset": 192,
+   "type": "str",
+   "size": 44,
+   "lang": "KOR",
+   "desc": "gallery title (e.g. \"BGM 01\")",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 236,
+   "type": "str",
+   "size": 160,
+   "lang": "JP",
+   "desc": "gallery description / real song name",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 396,
+   "type": "str",
+   "size": 160,
+   "lang": "EN",
+   "desc": "gallery description / real song name",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 556,
+   "type": "str",
+   "size": 160,
+   "lang": "FR",
+   "desc": "gallery description / real song name",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 716,
+   "type": "str",
+   "size": 160,
+   "lang": "CHN",
+   "desc": "gallery description / real song name",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 876,
+   "type": "str",
+   "size": 160,
+   "lang": "KOR",
+   "desc": "gallery description / real song name",
+   "confidence": "high"
+  },
+  {
+   "name": "track_id",
+   "offset": 1036,
+   "type": "i16",
+   "desc": "track id (random-play on/off state; RANDOM & MEDLEY share 100). ReadMe: ids > 151 not picked up",
+   "confidence": "high"
+  },
+  {
+   "name": "dlc_group",
+   "offset": 1038,
+   "type": "i16",
+   "desc": "content group: 100 = base game, 110 = D1 DLC songs (501-504), 120 = D4 (511-517), 130 = D3 (521-528), 140 = D2 (531-533), 150 = other NIS titles (541-548). Same code set as saveicon.dat dlc_group (ReadMe \"mystery\")",
+   "confidence": "medium"
+  },
+  {
+   "name": "list_order",
+   "offset": 1040,
+   "type": "u32",
+   "desc": "position in the music gallery list (0..75)",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_414",
+   "offset": 1044,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

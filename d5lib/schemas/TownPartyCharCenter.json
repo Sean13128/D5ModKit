@@ -1,0 +1,72 @@
+{
+ "file": "TownPartyCharCenter.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 28,
+ "key": "id",
+ "display": null,
+ "desc": "Spots in the pocket netherworld where roster (party) characters can be placed/stand. No char ids: the occupant is chosen at runtime.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "spot id 0..40",
+   "confidence": "high"
+  },
+  {
+   "name": "direction",
+   "offset": 4,
+   "type": "i32",
+   "desc": "facing angle in degrees",
+   "confidence": "medium"
+  },
+  {
+   "name": "pos_x",
+   "offset": 8,
+   "type": "u32",
+   "desc": "x position on the base map",
+   "confidence": "medium"
+  },
+  {
+   "name": "pos_y",
+   "offset": 12,
+   "type": "u32",
+   "desc": "y position on the base map",
+   "confidence": "medium"
+  },
+  {
+   "name": "occupied_flag",
+   "offset": 16,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "FLAG_TOWN_PARTYCHARA_nn (6601..6641): \"a party character is placed here\"",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_014",
+   "offset": 20,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_018",
+   "offset": 24,
+   "type": "u32",
+   "desc": "always 1",
+   "confidence": "low"
+  }
+ ]
+}

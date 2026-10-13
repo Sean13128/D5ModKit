@@ -1,0 +1,1096 @@
+{
+ "_about": "Skill choreography commands (script.dat events 15xxxxxx / 12000xxx). sure: verified = tested in game, high = clear from the handler or the data, guess = from how vanilla skills use it. Positions are in 1/10 'dots' relative to an actor; actor 1256 = the caster, 1254/1255 = other battle actors, 300-399 = locator actors made with cmd_66b0. Times are frames (60 per second). 'traced' = read from the command's code in disgaea5.exe and checked against recordings of the game (2026-10-10).",
+ "commands": {
+  "wait": {
+   "args": [
+    "frames"
+   ],
+   "desc": "pause this event for N frames",
+   "sure": "verified"
+  },
+  "wait_children": {
+   "args": [],
+   "desc": "wait until every event started by this one has finished, then END this event (anything after it never runs)",
+   "sure": "high"
+  },
+  "wait_children_c": {
+   "args": [],
+   "desc": "wait until every event started by this one has finished, then go on",
+   "sure": "high"
+  },
+  "call_event": {
+   "args": [
+    "event",
+    "args..."
+   ],
+   "desc": "run another event (and its arguments). 12000010 / 12000011 = skill start / end, 12000020 = actor motion sequence, 12000045 = damage hits at the listed frames, 12000055 / 12000056 = camera to caster / back",
+   "sure": "high"
+  },
+  "spawn_event": {
+   "args": [
+    "event"
+   ],
+   "desc": "start another event in parallel (no wait)",
+   "sure": "high"
+  },
+  "se_play": {
+   "args": [
+    "sound",
+    "volume",
+    "pitch"
+   ],
+   "desc": "play sound effect (SE id, volume 0-240, pitch / speed 1000 = normal?)",
+   "sure": "high"
+  },
+  "voice_play_actor": {
+   "args": [
+    "voice",
+    "volume"
+   ],
+   "desc": "play a voice line of the caster",
+   "sure": "high"
+  },
+  "cmd_3c00": {
+   "args": [
+    "slot",
+    "effect"
+   ],
+   "desc": "load effect model effectNNNN.obf (Effect.dat) into effect slot 0-255. Swap the number to change what is drawn",
+   "sure": "verified"
+  },
+  "cmd_3c02": {
+   "args": [
+    "slot"
+   ],
+   "desc": "remove the effect in the slot",
+   "sure": "high"
+  },
+  "cmd_3c10": {
+   "args": [
+    "slot",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "size",
+    "step",
+    "plays"
+   ],
+   "desc": "show the slot's effect at an actor + offset (offsets turn with the skill's facing); size 1000 = 100% (the same value cmd_3c40 changes); step = model frames per game frame x 1000 (1000 normal, 2000 double, 0 = hold the frame); plays = how many times its animation runs before it disappears (0 / 1 once, -1 forever)",
+   "sure": "traced"
+  },
+  "cmd_3c18": {
+   "args": [
+    "slot",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "size",
+    "step",
+    "plays",
+    "from",
+    "to",
+    "p11",
+    "p12"
+   ],
+   "desc": "show the slot's effect like cmd_3c10, playing the model's animation from frame 'from' (to 'to'; 0 = its end)",
+   "sure": "traced"
+  },
+  "cmd_3c20": {
+   "args": [
+    "slot",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "size",
+    "step",
+    "plays"
+   ],
+   "desc": "show the slot's effect attached to an actor (it follows the actor)",
+   "sure": "traced"
+  },
+  "cmd_3c22": {
+   "args": [
+    "slot",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "size",
+    "step",
+    "plays",
+    "from",
+    "to",
+    "p11",
+    "p12"
+   ],
+   "desc": "show attached to an actor, from frame 'from'",
+   "sure": "traced"
+  },
+  "cmd_3c30": {
+   "args": [
+    "slot",
+    "p2",
+    "layer"
+   ],
+   "desc": "which picture layer of a two-layer (LA88) texture the effect uses (0 sharp, 1 the softened copy)",
+   "sure": "traced"
+  },
+  "cmd_3c40": {
+   "args": [
+    "slot",
+    "frames",
+    "sx",
+    "sy",
+    "sz"
+   ],
+   "desc": "size of the effect in percent per axis over N frames (replaces the show's size; 0 hides it)",
+   "sure": "traced"
+  },
+  "cmd_3c42": {
+   "args": [
+    "slot",
+    "frames",
+    "sx",
+    "sy",
+    "sz",
+    "ease",
+    "flag"
+   ],
+   "desc": "size per axis over N frames, eased",
+   "sure": "traced"
+  },
+  "cmd_3c44": {
+   "args": [
+    "slot",
+    "frames",
+    "sx",
+    "sy",
+    "sz"
+   ],
+   "desc": "set / scale size (percent) over N frames",
+   "sure": "guess"
+  },
+  "cmd_3c64": {
+   "args": [
+    "slot",
+    "frames",
+    "rx",
+    "ry",
+    "rz"
+   ],
+   "desc": "turn the effect TO rx / ry / rz degrees over N frames (roll, then pitch, then yaw)",
+   "sure": "traced"
+  },
+  "cmd_3c68": {
+   "args": [
+    "slot",
+    "frames",
+    "rx",
+    "ry",
+    "rz"
+   ],
+   "desc": "turn the effect BY rx / ry / rz degrees over N frames",
+   "sure": "traced"
+  },
+  "cmd_3c74": {
+   "args": [
+    "slot",
+    "frames",
+    "rx",
+    "ry",
+    "rz"
+   ],
+   "desc": "second rotation of the effect: BY degrees (it does not move the effect)",
+   "sure": "traced"
+  },
+  "cmd_3c80": {
+   "args": [
+    "slot",
+    "frames",
+    "r",
+    "g",
+    "b",
+    "alpha"
+   ],
+   "desc": "colour and opacity in percent over N frames (100 = as drawn; above 100 does not brighten)",
+   "sure": "traced"
+  },
+  "cmd_3c88": {
+   "args": [
+    "slot",
+    "frames",
+    "r",
+    "g",
+    "b",
+    "alpha",
+    "ease",
+    "flag"
+   ],
+   "desc": "colour and opacity, eased",
+   "sure": "traced"
+  },
+  "cmd_3ca0": {
+   "args": [
+    "slot",
+    "value"
+   ],
+   "desc": "draw the effect nearer the camera by value / 20 map units (100 = 5): it then sits on the ground or a unit without cutting into it, and comes later in the sorted draw queue (0x14017c790 -> 0x14030aba0 / 0x14030b4d0)",
+   "sure": "traced"
+  },
+  "cmd_3cb8": {
+   "args": [
+    "slot",
+    "frames",
+    "sx",
+    "sy",
+    "sz"
+   ],
+   "desc": "size of each piece of the model (percent) without moving the pieces apart -- e.g. small dots on a big ring",
+   "sure": "traced"
+  },
+  "cmd_3cd6": {
+   "args": [
+    "slot",
+    "blend"
+   ],
+   "desc": "blending of every part of the effect (0x14017d020 → inst+0x1a0; the blend state 0x1403d6ba0): 1 normal, 2 adds light, 3 takes light away (screen − colour), 4 multiplies (see-through parts fade to white), 5 colour − screen; 255 = the model's own",
+   "sure": "traced"
+  },
+  "cmd_3cda": {
+   "args": [
+    "slot",
+    "frames",
+    "alpha"
+   ],
+   "desc": "the effect's opacity to alpha % over N frames (the alpha byte of its colour; 3c80 sets the whole colour) (0x14017d170)",
+   "sure": "traced"
+  },
+  "cmd_4400": {
+   "args": [
+    "emitter",
+    "type",
+    "spread_a",
+    "spread_b",
+    "speed",
+    "p6",
+    "p7",
+    "size_a",
+    "size_b",
+    "size_c",
+    "count",
+    "p12",
+    "p13"
+   ],
+   "desc": "define particle emitter 0-77 (sparkles, dust, shards)",
+   "sure": "guess"
+  },
+  "cmd_4410": {
+   "args": [
+    "emitter",
+    "r",
+    "g",
+    "b"
+   ],
+   "desc": "particle colour (percent)",
+   "sure": "guess"
+  },
+  "cmd_4418": {
+   "args": [
+    "emitter",
+    "r",
+    "g",
+    "b",
+    "p5",
+    "p6"
+   ],
+   "desc": "particle colour change",
+   "sure": "guess"
+  },
+  "cmd_4428": {
+   "args": [
+    "emitter",
+    "frames"
+   ],
+   "desc": "stop / fade the emitter after N frames",
+   "sure": "guess"
+  },
+  "cmd_4430": {
+   "args": [
+    "emitter",
+    "life",
+    "p3"
+   ],
+   "desc": "particle life time (frames)",
+   "sure": "guess"
+  },
+  "cmd_4438": {
+   "args": [
+    "emitter",
+    "flag"
+   ],
+   "desc": "particle option",
+   "sure": "guess"
+  },
+  "cmd_4480": {
+   "args": [
+    "emitter",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "count",
+    "p7",
+    "p8"
+   ],
+   "desc": "emit particles at an actor + offset",
+   "sure": "guess"
+  },
+  "cmd_4490": {
+   "args": [
+    "emitter",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "rate",
+    "count",
+    "spread",
+    "angle_a",
+    "angle_b"
+   ],
+   "desc": "emit a particle stream at an actor + offset",
+   "sure": "guess"
+  },
+  "cmd_44b5": {
+   "args": [
+    "emitter",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "radius",
+    "count",
+    "p8",
+    "p9",
+    "p10",
+    "angle_a",
+    "angle_b"
+   ],
+   "desc": "emit particles in a ring / sphere around an actor",
+   "sure": "guess"
+  },
+  "cmd_4140": {
+   "args": [
+    "slot",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "frames",
+    "flag"
+   ],
+   "desc": "move the effect to an actor + offset over N frames (straight)",
+   "sure": "traced"
+  },
+  "cmd_4170": {
+   "args": [
+    "slot",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "frames",
+    "flag",
+    "ease",
+    "eflag"
+   ],
+   "desc": "fly the effect to an actor + offset over N frames, eased (projectiles)",
+   "sure": "traced"
+  },
+  "cmd_3210": {
+   "args": [
+    "actor",
+    "x",
+    "y",
+    "z",
+    "frames"
+   ],
+   "desc": "camera: aim at an actor + offset over N frames (straight)",
+   "sure": "traced"
+  },
+  "cmd_3220": {
+   "args": [
+    "actor",
+    "x",
+    "y",
+    "z",
+    "frames",
+    "ease",
+    "flag"
+   ],
+   "desc": "camera: aim at an actor + offset over N frames, eased (ease 200 = speeding up, -200 = slowing down; flag 1)",
+   "sure": "traced"
+  },
+  "cmd_3230": {
+   "args": [
+    "frames",
+    "distance"
+   ],
+   "desc": "camera distance (zoom) over N frames: 700 = the battle view, smaller = closer; 0 = back to the default",
+   "sure": "traced"
+  },
+  "cmd_3240": {
+   "args": [
+    "frames",
+    "distance",
+    "ease",
+    "flag"
+   ],
+   "desc": "camera distance (zoom) over N frames, eased (ease 200 = speeding up, -200 = slowing down; flag 1)",
+   "sure": "traced"
+  },
+  "cmd_32a0": {
+   "args": [
+    "sideways",
+    "updown",
+    "frames"
+   ],
+   "desc": "camera shake for N frames: the camera jumps by the amounts / 100 map units (sideways along the view, up-down), alternating every 2 frames; frames -1 = until another shake (e.g. 0, 80, 6 = a hit)",
+   "sure": "traced"
+  },
+  "screen_fade": {
+   "args": [
+    "value",
+    "frames"
+   ],
+   "desc": "fade the screen over N frames: 127 = black, 129 (-127) = white, 0 = clear, 192 = half white",
+   "sure": "traced"
+  },
+  "cmd_6510": {
+   "args": [
+    "actor",
+    "motion",
+    "blend"
+   ],
+   "desc": "play a sprite motion on an actor: 0 idle, 100/101 attack, 109 cast, 151 cast release, the class's own special poses 7001...",
+   "sure": "verified"
+  },
+  "cmd_6530": {
+   "args": [
+    "actor",
+    "frame"
+   ],
+   "desc": "jump the actor's motion to frame N (0x14016d070: the sprite's time = N); it does not wait — the script goes straight on",
+   "sure": "traced"
+  },
+  "cmd_65a0": {
+   "args": [
+    "actor",
+    "frames",
+    "sx",
+    "sy",
+    "sz"
+   ],
+   "desc": "scale an actor (percent) over N frames",
+   "sure": "guess"
+  },
+  "cmd_65b4": {
+   "args": [
+    "actor",
+    "frames",
+    "pivot_x",
+    "pivot_y",
+    "degrees"
+   ],
+   "sure": "traced",
+   "desc": "turn the actor's sprite BY degrees over N frames (clockwise in the sprite's own picture: mirrored sprites turn the other way), around a pivot (x 0.1875 sprite pixels)"
+  },
+  "cmd_65b8": {
+   "args": [
+    "actor",
+    "frames",
+    "pivot_x",
+    "pivot_y",
+    "degrees"
+   ],
+   "sure": "traced",
+   "desc": "turn the actor's sprite TO an angle (the short way round) over N frames, around a pivot (x 0.1875 sprite pixels from its anchor, y down)"
+  },
+  "cmd_6642": {
+   "args": [
+    "actor",
+    "to",
+    "x",
+    "y",
+    "z",
+    "frames",
+    "mode"
+   ],
+   "sure": "traced",
+   "desc": "move an actor to another actor + offset over N frames (0 = at once): mode 0 straight, 1 / 2 / 5 / 6 an arc (the offset's height = the apex)"
+  },
+  "cmd_6672": {
+   "args": [
+    "actor",
+    "to",
+    "x",
+    "y",
+    "z",
+    "frames",
+    "mode",
+    "ease",
+    "every"
+   ],
+   "sure": "traced",
+   "desc": "move an actor to another actor + offset over N frames: mode 0 speeds up / slows down step by step (ease 200 / -200), 100 eased, 1 / 2 / 5 / 6 / 11 / 12 / 21 / 22 arcs (the offset's height = the apex)"
+  },
+  "cmd_66b0": {
+   "args": [
+    "locator",
+    "actor",
+    "x",
+    "y",
+    "z",
+    "flag"
+   ],
+   "desc": "create locator 300-399 at an actor + offset (a point other commands can use as 'actor')",
+   "sure": "traced"
+  },
+  "cmd_6480": {
+   "args": [
+    "actor",
+    "r",
+    "g",
+    "b",
+    "alpha",
+    "frames"
+   ],
+   "desc": "tint an actor's sprite (percent) over N frames; alpha 0 hides it. Actor 10000 = every other unit on the map",
+   "sure": "traced"
+  },
+  "cmd_6c04": {
+   "args": [
+    "actor",
+    "follows"
+   ],
+   "desc": "the actor moves with another one from now on (the Killia you see in Macrocosm follows the hidden caster)",
+   "sure": "traced"
+  },
+  "cmd_6c08": {
+   "args": [
+    "actor"
+   ],
+   "desc": "stop following",
+   "sure": "traced"
+  },
+  "cmd_72f0": {
+   "args": [
+    "on"
+   ],
+   "sure": "traced",
+   "desc": "mirror the skill from now on (1) or not (0): sideways offsets, effect turns and sizes, camera aim and turns, actor moves and sprite turns flip -- skills use it for facings 1 and 2"
+  },
+  "cmd_7220": {
+   "args": [
+    "actor",
+    "actor2",
+    "percent"
+   ],
+   "sure": "verified",
+   "desc": "deal this % of the skill's damage to the actor now (shows the number). A choreography that never calls it deals NO damage; several calls split it (shares should add up to 100). Targets: 3600 (single), 3000-3015 for area skills (present when $60400+i == 1)"
+  },
+  "cmd_7228": {
+   "args": [
+    "actor",
+    "frames"
+   ],
+   "sure": "high",
+   "desc": "finish the actor's damage (every vanilla damaging skill ends with it, 30 frames)"
+  },
+  "cmd_3250": {
+   "args": [
+    "frames",
+    "lens"
+   ],
+   "desc": "the camera's lens over N frames: field of view 27008 / lens degrees (vertical); 0 = the battle's 5120 (5.3°, narrow); smaller = wider (Macrocosm's planet: 700-1500)",
+   "sure": "traced"
+  },
+  "cmd_3258": {
+   "args": [
+    "frames",
+    "lens",
+    "ease",
+    "flag"
+   ],
+   "desc": "the camera's lens, eased (see cmd_3250)",
+   "sure": "traced"
+  },
+  "cmd_325c": {
+   "args": [],
+   "desc": "the camera stops turning (its rotation keeps the current angle; aim and zoom go on; 0x140166fd0)",
+   "sure": "traced"
+  },
+  "cmd_3260": {
+   "args": [
+    "frames",
+    "pitch",
+    "yaw",
+    "roll"
+   ],
+   "desc": "turn the camera BY pitch / yaw / roll degrees over N frames (minus turns the other way)",
+   "sure": "traced"
+  },
+  "cmd_3268": {
+   "args": [
+    "frames",
+    "pitch",
+    "yaw",
+    "roll"
+   ],
+   "desc": "turn the camera TO an angle: pitch 30 - value, yaw = the battle view's yaw - value, roll -value (0,0,0,0 = the battle view)",
+   "sure": "traced"
+  },
+  "cmd_3280": {
+   "args": [
+    "frames",
+    "pitch",
+    "yaw",
+    "roll",
+    "ease",
+    "flag"
+   ],
+   "desc": "turn the camera BY degrees over N frames, eased",
+   "sure": "traced"
+  },
+  "cmd_3290": {
+   "args": [
+    "frames"
+   ],
+   "desc": "turn the camera back to the battle view over N frames",
+   "sure": "traced"
+  },
+  "cmd_2820": {
+   "args": [
+    "r",
+    "g",
+    "b",
+    "alpha",
+    "frames"
+   ],
+   "desc": "colour and opacity of the battle map in percent over N frames (alpha 0 hides the map: the backdrop shows)",
+   "sure": "traced"
+  },
+  "cmd_2830": {
+   "args": [
+    "frames",
+    "r1",
+    "g1",
+    "b1",
+    "r2",
+    "g2",
+    "b2",
+    "r3",
+    "g3",
+    "b3",
+    "r4",
+    "g4",
+    "b4"
+   ],
+   "desc": "backdrop behind everything: 4 corner colours (top left, top right, bottom left, bottom right; 128 = full) over N frames",
+   "sure": "traced"
+  },
+  "cmd_2832": {
+   "args": [
+    "frames",
+    "r1",
+    "g1",
+    "b1",
+    "r2",
+    "g2",
+    "b2",
+    "vertical"
+   ],
+   "desc": "backdrop gradient over N frames: colour 1 to colour 2, top to bottom (vertical 1) or left to right (0); 128 = full",
+   "sure": "traced"
+  },
+  "cmd_2834": {
+   "args": [
+    "frames",
+    "r",
+    "g",
+    "b"
+   ],
+   "desc": "backdrop in one colour over N frames (128 = full)",
+   "sure": "traced"
+  },
+  "cmd_2835": {
+   "args": [
+    "frames"
+   ],
+   "desc": "backdrop back to the map's own colours over N frames",
+   "sure": "traced"
+  },
+  "cmd_3c6a": {
+   "args": [
+    "slot",
+    "frames",
+    "rx",
+    "ry",
+    "rz",
+    "ease",
+    "flag"
+   ],
+   "desc": "turn the effect BY degrees, eased",
+   "sure": "traced"
+  },
+  "cmd_3c70": {
+   "args": [
+    "slot",
+    "frames",
+    "rx",
+    "ry",
+    "rz"
+   ],
+   "desc": "second rotation of the effect (applied after the first): TO degrees",
+   "sure": "traced"
+  },
+  "cmd_3c78": {
+   "args": [
+    "slot",
+    "order"
+   ],
+   "desc": "rotation order of the effect (0-5 first rotation, 6-11 second)",
+   "sure": "traced"
+  },
+  "cmd_3c90": {
+   "args": [
+    "slot",
+    "step"
+   ],
+   "desc": "model frames per game frame x 990 (animation speed of the model)",
+   "sure": "traced"
+  },
+  "cmd_3cba": {
+   "args": [
+    "slot",
+    "frames",
+    "sx",
+    "sy",
+    "sz",
+    "ease",
+    "flag"
+   ],
+   "desc": "size of each piece, eased",
+   "sure": "traced"
+  },
+  "cmd_3cbc": {
+   "args": [
+    "slot",
+    "on"
+   ],
+   "desc": "the effect takes the size and turn of the actor it is attached to",
+   "sure": "traced"
+  },
+  "cmd_3cbd": {
+   "args": [
+    "slot",
+    "on"
+   ],
+   "desc": "the effect takes the turn of the actor it is attached to",
+   "sure": "traced"
+  },
+  "cmd_3cbe": {
+   "args": [
+    "slot",
+    "on"
+   ],
+   "desc": "the effect takes the size of the actor it is attached to",
+   "sure": "traced"
+  },
+  "cmd_3cc6": {
+   "args": [
+    "slot",
+    "frame"
+   ],
+   "desc": "jump the model's animation to a frame",
+   "sure": "traced"
+  },
+  "cmd_3cd8": {
+   "args": [
+    "slot",
+    "mode"
+   ],
+   "desc": "face the camera: 1 always, 2 turning only around the vertical, 0 never (-1 = the model's own)",
+   "sure": "traced"
+  },
+  "cmd_3cdc": {
+   "args": [
+    "slot",
+    "frames",
+    "alpha",
+    "ease",
+    "flag"
+   ],
+   "desc": "opacity in percent over N frames, eased",
+   "sure": "traced"
+  },
+  "cmd_6402": {
+   "args": [
+    "actor",
+    "class"
+   ],
+   "desc": "give an extra actor the look of a class (its sprite): 20 = Killia's second form, 7000 / 7002 = event poses",
+   "sure": "traced"
+  },
+  "cmd_640a": {
+   "args": [
+    "actor"
+   ],
+   "desc": "switch the actor on; waits while its sprite files are still loading (0x1401689d0 rewinds the script and returns 0)",
+   "sure": "traced"
+  },
+  "cmd_6411": {
+   "args": [
+    "actor",
+    "of"
+   ],
+   "desc": "make the actor the cut-in portrait of another (its picture file 10000 + sprite, animations 8000-8100)",
+   "sure": "traced"
+  },
+  "cmd_6460": {
+   "args": [
+    "actor",
+    "screen"
+   ],
+   "desc": "1: the actor is drawn on the screen (cut-in), not in the world",
+   "sure": "traced"
+  },
+  "cmd_6482": {
+   "args": [
+    "actor",
+    "alpha",
+    "frames"
+   ],
+   "desc": "opacity of an actor (percent) over N frames",
+   "sure": "traced"
+  },
+  "cmd_6620": {
+   "args": [
+    "actor"
+   ],
+   "desc": "the actor's base place = where it is now (plain references to it point there)",
+   "sure": "traced"
+  },
+  "cmd_6680": {
+   "args": [
+    "actor",
+    "to",
+    "x",
+    "y",
+    "z",
+    "frames",
+    "mode",
+    "ease_up_down",
+    "ease_sideways",
+    "every"
+   ],
+   "sure": "traced",
+   "desc": "jump an actor to another actor + offset over N frames: the offset's height is how high it jumps (mode 2: lands at the destination's own height; 1 / 5: on the ground there; 6: see the docs); ease_up_down shapes the arc's timing, ease_sideways the sideways speed"
+  },
+  "cmd_6660": {
+   "args": [
+    "actor",
+    "x",
+    "y",
+    "p4",
+    "p5"
+   ],
+   "desc": "place a screen actor (cut-in) at x / y tenths of a 1080p pixel from the screen centre",
+   "sure": "traced"
+  },
+  "cmd_6664": {
+   "args": [
+    "actor",
+    "x",
+    "y",
+    "p4",
+    "frames",
+    "ease",
+    "flag"
+   ],
+   "desc": "move a screen actor (cut-in) to x / y (tenths of a 1080p pixel from the centre) over N frames, eased",
+   "sure": "traced"
+  },
+  "cmd_66b8": {
+   "args": [
+    "locator",
+    "x",
+    "y",
+    "z"
+   ],
+   "desc": "move a locator by an offset",
+   "sure": "traced"
+  },
+  "cmd_65b5": {
+   "args": [
+    "actor",
+    "frames",
+    "pivot_x",
+    "pivot_y",
+    "degrees",
+    "ease",
+    "every"
+   ],
+   "sure": "traced",
+   "desc": "turn the actor's sprite BY degrees, eased"
+  },
+  "cmd_65c1": {
+   "args": [
+    "actor",
+    "frames",
+    "pivot_x",
+    "pivot_y",
+    "degrees",
+    "ease",
+    "every"
+   ],
+   "sure": "traced",
+   "desc": "turn the actor's sprite TO an angle, eased"
+  },
+  "cmd_65bc": {
+   "args": [
+    "actor",
+    "frames",
+    "x",
+    "y"
+   ],
+   "sure": "traced",
+   "desc": "draw the actor's sprite shifted by x / y (x 0.1875 sprite pixels, y down: 0, -300 lifts it)"
+  },
+  "cmd_32f8": {
+   "args": [
+    "on"
+   ],
+   "sure": "traced",
+   "desc": "mirror the camera aim only (see cmd_72f0)"
+  },
+  "cmd_3cd0": {
+   "args": [
+    "on"
+   ],
+   "sure": "traced",
+   "desc": "mirror effect turns only (see cmd_72f0)"
+  },
+  "cmd_3cd2": {
+   "args": [
+    "on"
+   ],
+   "sure": "traced",
+   "desc": "mirror effect sizes only (see cmd_72f0)"
+  },
+  "cmd_3cd4": {
+   "args": [
+    "on"
+   ],
+   "sure": "traced",
+   "desc": "mirror effect shows and flights only (see cmd_72f0)"
+  },
+  "cmd_65f0": {
+   "args": [
+    "on"
+   ],
+   "sure": "traced",
+   "desc": "mirror sprite turns / animations only (see cmd_72f0)"
+  },
+  "cmd_66f8": {
+   "args": [
+    "on"
+   ],
+   "sure": "traced",
+   "desc": "mirror actor moves and points only (see cmd_72f0)"
+  },
+  "cmd_3cde": {
+   "args": [
+    "slot",
+    "queue"
+   ],
+   "desc": "draw queue of the whole effect (0-11, drawn in that order; 6 is sorted back to front with the units, 4 / 5 come before them = behind every unit); without it each part uses its mesh layer byte + 2 (0x14017d5e0)",
+   "sure": "traced"
+  },
+  "cmd_3c9a": {
+   "args": [
+    "slot",
+    "on"
+   ],
+   "desc": "0: hide the effect (its animation stops too), 1: show it again (0x14017c6f0)",
+   "sure": "traced"
+  },
+  "cmd_3ca5": {
+   "args": [
+    "slot",
+    "on"
+   ],
+   "desc": "1: the effect's camera-facing (billboard) parts stop facing the camera (0x14017c860)",
+   "sure": "traced"
+  },
+  "cmd_3c98": {
+   "args": [
+    "slot",
+    "value"
+   ],
+   "desc": "stores a value on the effect (+0x22a) that nothing reads (0x14017c640)",
+   "sure": "traced"
+  },
+  "cmd_6610": {
+   "args": [
+    "actor",
+    "value"
+   ],
+   "desc": "a unit value at +0x2c = value / 100 (negative: 0.163); not drawing (0x14016f820)",
+   "sure": "traced"
+  },
+  "cmd_6560": {
+   "args": [
+    "actor",
+    "on"
+   ],
+   "desc": "stop (0) or play at 100 % (anything else) the actor's motion (0x14016d530; the same speed as cmd_6570, an earlier speed is not kept)",
+   "sure": "traced"
+  },
+  "cmd_6570": {
+   "args": [
+    "actor",
+    "percent"
+   ],
+   "desc": "the actor's motion speed in percent (0x14016d860)",
+   "sure": "traced"
+  },
+  "cmd_6470": {
+   "args": [
+    "actor",
+    "mode"
+   ],
+   "desc": "the actor's shadow: 0 none, 1-4 how it finds the ground under it (0x14016a5b0 -> actor +0x25c, read by 0x140149bd7)",
+   "sure": "traced"
+  },
+  "cmd_6410": {
+   "args": [
+    "actor",
+    "source"
+   ],
+   "desc": "give the actor a look: source = mode x 10000 + number (u16): 0 / 1 like actor N, 2 a unit, 3 class N, 5 sprite N (9100 = an invisible helper); 0x140168d70",
+   "sure": "traced"
+  },
+  "cmd_6630": {
+   "args": [
+    "actor",
+    "to"
+   ],
+   "desc": "put the actor at a place at once (cmd_6642 with no offset and 0 frames; 0x14016fa00)",
+   "sure": "traced"
+  }
+ }
+}

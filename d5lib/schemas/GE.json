@@ -1,0 +1,121 @@
+{
+ "file": "GE.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 808,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Geo Effects (Geo panel effects): 61 rows, id + 5-language name/description + magnitude value.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "Geo effect id 1..61 (row index+1); the Geo panel effect number used by maps",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 44,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 48,
+   "type": "str",
+   "size": 44,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 92,
+   "type": "str",
+   "size": 44,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 136,
+   "type": "str",
+   "size": 44,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 180,
+   "type": "str",
+   "size": 44,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 224,
+   "type": "str",
+   "size": 116,
+   "lang": "JP",
+   "desc": "effect description; the game appends it to the panel colour (\"... units on\")",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 340,
+   "type": "str",
+   "size": 116,
+   "lang": "EN",
+   "desc": "effect description; the game appends it to the panel colour (\"... units on\")",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 456,
+   "type": "str",
+   "size": 116,
+   "lang": "FR",
+   "desc": "effect description; the game appends it to the panel colour (\"... units on\")",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 572,
+   "type": "str",
+   "size": 116,
+   "lang": "CHN",
+   "desc": "effect description; the game appends it to the panel colour (\"... units on\")",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 688,
+   "type": "str",
+   "size": 116,
+   "lang": "KOR",
+   "desc": "effect description; the game appends it to the panel colour (\"... units on\")",
+   "confidence": "high"
+  },
+  {
+   "name": "value",
+   "offset": 804,
+   "type": "u32",
+   "desc": "effect magnitude: % for Damage/Recovery (20) and EXP/HL/ATK/DEF/element/boost effects (50); +1 for Attack Times/Move/Magic Range/Counter; Enemy Turbo 3; Enemy Level Up 10; 0 for on/off effects",
+   "confidence": "medium"
+  }
+ ]
+}

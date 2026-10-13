@@ -1,0 +1,240 @@
+{
+ "file": "DLC_DeliveryDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 120,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Pool-string variant of the DLC delivery list (45 rows; FR/CHN/KOR strings are EN copies). Same meaning as SPC_Delivery.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "entry id (1..17 top level, 1001..8002 children)",
+   "confidence": "high"
+  },
+  {
+   "name": "group",
+   "offset": 4,
+   "type": "u32",
+   "desc": "DLC wave/group 110..150 (= DLC_ShopDataBase.delivery_group)",
+   "confidence": "medium"
+  },
+  {
+   "name": "type",
+   "offset": 8,
+   "type": "u32",
+   "desc": "entry type",
+   "confidence": "high",
+   "enum": {
+    "1": "scenario pack (value = child id base)",
+    "2": "scenario summary (value = help line id)",
+    "3": "character (value = char.dat id)"
+   }
+  },
+  {
+   "name": "value",
+   "offset": 12,
+   "type": "u32",
+   "desc": "type 3: char.dat id (verified 510 Laharl, 520 Etna, 550 Girl Laharl, 1240 Celestial Hostess...); type 2: first DLC_Delivery_HelpDataBase id; type 1: child id base",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 20,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 24,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 28,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 32,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 36,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 40,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 44,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 48,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 52,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_JP",
+   "offset": 56,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_EN",
+   "offset": 60,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_FR",
+   "offset": 64,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_CHN",
+   "offset": 68,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_KOR",
+   "offset": 72,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_JP",
+   "offset": 76,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_EN",
+   "offset": 80,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_FR",
+   "offset": 84,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_CHN",
+   "offset": 88,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_KOR",
+   "offset": 92,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc4_JP",
+   "offset": 96,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc4_EN",
+   "offset": 100,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc4_FR",
+   "offset": 104,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc4_CHN",
+   "offset": 108,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc4_KOR",
+   "offset": 112,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "dlc_id",
+   "offset": 116,
+   "type": "u32",
+   "desc": "DLC content id for top-level rows (1000004 Girl Laharl, 3000000.. scenarios; SPC numbering with an extra digit); 0 for children",
+   "confidence": "high"
+  }
+ ]
+}

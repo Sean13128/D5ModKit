@@ -1,0 +1,299 @@
+{
+ "file": "MakaiName.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1864,
+ "key": "id",
+ "display": "word1_EN",
+ "desc": "Word lists and description templates used to generate random netherworld names/descriptions (Nether Research). Text only.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "row id 1..129",
+   "confidence": "high"
+  },
+  {
+   "name": "word1_JP",
+   "offset": 4,
+   "type": "str",
+   "size": 24,
+   "lang": "JP",
+   "desc": "name word slot 1 (adjective, e.g. \"Downpour\")",
+   "confidence": "high"
+  },
+  {
+   "name": "word1_EN",
+   "offset": 28,
+   "type": "str",
+   "size": 24,
+   "lang": "EN",
+   "desc": "name word slot 1 (adjective, e.g. \"Downpour\")",
+   "confidence": "high"
+  },
+  {
+   "name": "word1_FR",
+   "offset": 52,
+   "type": "str",
+   "size": 24,
+   "lang": "FR",
+   "desc": "name word slot 1 (adjective, e.g. \"Downpour\")",
+   "confidence": "high"
+  },
+  {
+   "name": "word1_CHN",
+   "offset": 76,
+   "type": "str",
+   "size": 24,
+   "lang": "CHN",
+   "desc": "name word slot 1 (adjective, e.g. \"Downpour\")",
+   "confidence": "high"
+  },
+  {
+   "name": "word1_KOR",
+   "offset": 100,
+   "type": "str",
+   "size": 24,
+   "lang": "KOR",
+   "desc": "name word slot 1 (adjective, e.g. \"Downpour\")",
+   "confidence": "high"
+  },
+  {
+   "name": "word2_JP",
+   "offset": 124,
+   "type": "str",
+   "size": 24,
+   "lang": "JP",
+   "desc": "name word slot 2 (e.g. \"Spiky\"); empty in 28 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "word2_EN",
+   "offset": 148,
+   "type": "str",
+   "size": 24,
+   "lang": "EN",
+   "desc": "name word slot 2 (e.g. \"Spiky\"); empty in 28 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "word2_FR",
+   "offset": 172,
+   "type": "str",
+   "size": 24,
+   "lang": "FR",
+   "desc": "name word slot 2 (e.g. \"Spiky\"); empty in 28 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "word2_CHN",
+   "offset": 196,
+   "type": "str",
+   "size": 24,
+   "lang": "CHN",
+   "desc": "name word slot 2 (e.g. \"Spiky\"); empty in 28 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "word2_KOR",
+   "offset": 220,
+   "type": "str",
+   "size": 24,
+   "lang": "KOR",
+   "desc": "name word slot 2 (e.g. \"Spiky\"); empty in 28 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "word3_JP",
+   "offset": 244,
+   "type": "str",
+   "size": 24,
+   "lang": "JP",
+   "desc": "name word slot 3 (noun, e.g. \"Weapon\"); empty in 32 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "word3_EN",
+   "offset": 268,
+   "type": "str",
+   "size": 24,
+   "lang": "EN",
+   "desc": "name word slot 3 (noun, e.g. \"Weapon\"); empty in 32 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "word3_FR",
+   "offset": 292,
+   "type": "str",
+   "size": 24,
+   "lang": "FR",
+   "desc": "name word slot 3 (noun, e.g. \"Weapon\"); empty in 32 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "word3_CHN",
+   "offset": 316,
+   "type": "str",
+   "size": 24,
+   "lang": "CHN",
+   "desc": "name word slot 3 (noun, e.g. \"Weapon\"); empty in 32 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "word3_KOR",
+   "offset": 340,
+   "type": "str",
+   "size": 24,
+   "lang": "KOR",
+   "desc": "name word slot 3 (noun, e.g. \"Weapon\"); empty in 32 rows",
+   "confidence": "medium"
+  },
+  {
+   "name": "desc1_JP",
+   "offset": 364,
+   "type": "str",
+   "size": 100,
+   "lang": "JP",
+   "desc": "description line 1 (may contain <char>/<item> placeholders)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_EN",
+   "offset": 464,
+   "type": "str",
+   "size": 100,
+   "lang": "EN",
+   "desc": "description line 1 (may contain <char>/<item> placeholders)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_FR",
+   "offset": 564,
+   "type": "str",
+   "size": 100,
+   "lang": "FR",
+   "desc": "description line 1 (may contain <char>/<item> placeholders)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_CHN",
+   "offset": 664,
+   "type": "str",
+   "size": 100,
+   "lang": "CHN",
+   "desc": "description line 1 (may contain <char>/<item> placeholders)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc1_KOR",
+   "offset": 764,
+   "type": "str",
+   "size": 100,
+   "lang": "KOR",
+   "desc": "description line 1 (may contain <char>/<item> placeholders)",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_JP",
+   "offset": 864,
+   "type": "str",
+   "size": 100,
+   "lang": "JP",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_EN",
+   "offset": 964,
+   "type": "str",
+   "size": 100,
+   "lang": "EN",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_FR",
+   "offset": 1064,
+   "type": "str",
+   "size": 100,
+   "lang": "FR",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_CHN",
+   "offset": 1164,
+   "type": "str",
+   "size": 100,
+   "lang": "CHN",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc2_KOR",
+   "offset": 1264,
+   "type": "str",
+   "size": 100,
+   "lang": "KOR",
+   "desc": "description line 2",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_JP",
+   "offset": 1364,
+   "type": "str",
+   "size": 100,
+   "lang": "JP",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_EN",
+   "offset": 1464,
+   "type": "str",
+   "size": 100,
+   "lang": "EN",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_FR",
+   "offset": 1564,
+   "type": "str",
+   "size": 100,
+   "lang": "FR",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_CHN",
+   "offset": 1664,
+   "type": "str",
+   "size": 100,
+   "lang": "CHN",
+   "desc": "description line 3",
+   "confidence": "high"
+  },
+  {
+   "name": "desc3_KOR",
+   "offset": 1764,
+   "type": "str",
+   "size": 100,
+   "lang": "KOR",
+   "desc": "description line 3",
+   "confidence": "high"
+  }
+ ]
+}

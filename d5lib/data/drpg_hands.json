@@ -1,0 +1,9 @@
+{
+"_doc": "Weapon grip point of the unit's hand in each DRPG wait (idle) frame: unit -> sheet -> one [x, y] or [x, y, rot] per wait slot 0-4, slot coordinates of drpg_slots.json in atlas orientation (wait_back is drawn mirrored in game: an atlas-left hand is on the screen-right side in game). drpgmap.anchor_on_hands puts the stand pose's weapon rig on this point (mirrored automatically when the hand is on the other side of the body than the stand pose's weapon hand; optional 'mirror': {sheet: true|false} overrides). rot (degrees, clockwise) turns the weapon about the hand. Units without an entry get automatic hand detection (the build log prints suggested points) or no idle weapon.",
+"10030": {"_name": "Onmyo Monk: the closed fist (the hand that is not pointing)",
+          "wait_front": [[115, 112], [114, 112], [115, 113], [115, 112], [114, 115]],
+          "wait_back":  [[71, 110], [71, 110], [71, 109], [70, 110], [72, 113]]},
+"10031": {"_name": "Beast Master",
+          "wait_front": [[42, 97], [49, 102], [48, 99], [46, 94], [45, 94]],
+          "wait_back":  [[57, 100], [56, 97], [55, 103], [54, 97], [52, 99]]}
+}

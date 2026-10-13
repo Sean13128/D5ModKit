@@ -1,0 +1,170 @@
+{
+ "file": "MakaiSkillDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 80,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Netherworld skills (effects active while a netherworld is dropped/called into battle). Pool table.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "netherworld skill id: 1000.. persistent, 2000.. end-of-turn, 3000.. on-call",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 8,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 12,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 20,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 24,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 28,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 32,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 36,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 40,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_02C",
+   "offset": 44,
+   "type": "u32",
+   "desc": "0/1: 1 for 28 generic stat/bonus skills (Sandstorm, EXP Up, Auto HP Recovery...), 0 for special/Baal/dummy ones; maybe \"can appear randomly\"",
+   "confidence": "low"
+  },
+  {
+   "name": "trigger",
+   "offset": 48,
+   "type": "u32",
+   "enum": {
+    "1": "persistent",
+    "3": "end of turn",
+    "4": "on call/activation"
+   },
+   "desc": "when the skill acts (matches dummy row names 永続/終了時/起動時)",
+   "confidence": "high"
+  },
+  {
+   "name": "effect_type",
+   "offset": 52,
+   "type": "u32",
+   "desc": "1..4; 2 = stat/resistance modifier, 3 = gain-rate bonus (EXP/Mana/HL...), 1 = damage/one-shot, 4 = special",
+   "confidence": "low"
+  },
+  {
+   "name": "target",
+   "offset": 56,
+   "type": "u32",
+   "desc": "6 for most (all units), 3 = allies (Baal debuffs), 1 = ally single?, 4 = enemies",
+   "confidence": "low"
+  },
+  {
+   "name": "param",
+   "offset": 60,
+   "type": "u32",
+   "desc": "affected parameter: 1 HP, 2 SP, 9 MOV, 10 JMP, 12 throw range, 16 fire/17 wind/18 water resist, 50 EXP, 51 Mana, 52 HL, 53 weapon mastery, 54 skill EXP, 55 class prof., 100 poison",
+   "confidence": "medium"
+  },
+  {
+   "name": "value",
+   "offset": 64,
+   "type": "i32",
+   "desc": "effect value (%, or flat for MOV/JMP/range); -1 = none",
+   "confidence": "medium"
+  },
+  {
+   "name": "value2",
+   "offset": 68,
+   "type": "u32",
+   "desc": "secondary value (Baal Berserk DEF -50, Final Trump Card 1)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_048",
+   "offset": 72,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "index",
+   "offset": 76,
+   "type": "u32",
+   "desc": "row index 0..99",
+   "confidence": "high"
+  }
+ ]
+}

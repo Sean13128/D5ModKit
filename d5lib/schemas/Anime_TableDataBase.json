@@ -1,0 +1,43 @@
+{
+ "file": "Anime_TableDataBase.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 12,
+ "key": "id",
+ "display": "anim_base",
+ "desc": "Motion list of the character animation viewer (preview of a unit's sprite motions, prev/next browsing; screen object field +0x19170 = current row id). NOT the char->anm mapping: which anm file is shown comes from the character; this table only lists which animation numbers to cycle through. Groups are contiguous id ranges ended by a terminator row (anim_base=-1); the group used per character is hard-coded in the exe (see id). A new humanoid unit automatically uses the generic list 100..125; a new monster family would need an exe patch (or reuse an existing family id).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "row id 100..383, sorted (exe binary-searches it, 0x1400b2a90). Rows form lists terminated by a row with anim_base=-1. List start/end ids are HARD-CODED in the exe (0x140457650 / 0x140457200): char.dat byte +0x386 != 1 (humanoid) -> list 100..125 (shared humanoid motions); monster/special chars -> switch on char id: 70 Usalia->126 (or 138), 260->271, 270->213, 280->231, 290->308, 300->316, 310->290, 600->340, 640->351, 690->361, 760->371..383, 860..940 & generic 2010 family->147..158, other monster families by char_id/10: 2020->159, 2030->168, 2040->176, 2050->185, 2060->196, 2070->205, 2080->213, 2090->220, 2100->231, 2110->239, 2120->246, 2130->256, 2140->264, 2150->271, 2160->283, 2170->290, 2180->299, 2190->308, 2200->316, 2210->331",
+   "confidence": "high"
+  },
+  {
+   "name": "anim_base",
+   "offset": 4,
+   "type": "i32",
+   "desc": "animation number inside the unit anm file; the viewer plays anim_base+1 (front) or anim_base+7 (back/flipped view). Values 10, 1000..1110 (idle/walk/attack...), 1500..1550, 2000..2070, 4000..4030. -1 = end of list",
+   "confidence": "high"
+  },
+  {
+   "name": "freeze_frame",
+   "offset": 8,
+   "type": "i32",
+   "desc": "-1 = play normally (speed 1.0); >=0 = animation paused (speed 0) at this frame (exe 0x140456f90 -> 0x1402f2f20 sets time=frame<<16). Observed 0..54",
+   "confidence": "high"
+  }
+ ]
+}

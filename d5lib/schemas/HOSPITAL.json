@@ -1,0 +1,65 @@
+{
+ "file": "HOSPITAL.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 20,
+ "key": "id",
+ "display": "reward_item",
+ "desc": "Hospital prize list (33 rows): an item is awarded when all non-zero requirements (HP healed, SP healed, revive count) are reached.",
+ "fields": [
+  {
+   "name": "hp_healed_req",
+   "offset": 0,
+   "type": "u32",
+   "desc": "required cumulative HP healed at the hospital (200 .. 3,840,000)",
+   "confidence": "high"
+  },
+  {
+   "name": "sp_healed_req",
+   "offset": 4,
+   "type": "u32",
+   "desc": "required cumulative SP healed (50 .. 480,000)",
+   "confidence": "high"
+  },
+  {
+   "name": "id",
+   "offset": 8,
+   "type": "u32",
+   "desc": "reward id 1..33",
+   "confidence": "high"
+  },
+  {
+   "name": "revive_req",
+   "offset": 12,
+   "type": "u16",
+   "desc": "required number of revivals (5 .. 300)",
+   "confidence": "high"
+  },
+  {
+   "name": "reward_item",
+   "offset": 14,
+   "type": "u16",
+   "desc": "item given: muscles (HP rows), orbs (SP rows), recovery items (revive rows), emblems (mixed rows)",
+   "confidence": "high",
+   "ref": "item.dat"
+  },
+  {
+   "name": "pad_010",
+   "offset": 16,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

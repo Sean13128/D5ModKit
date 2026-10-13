@@ -1,0 +1,239 @@
+{
+ "file": "TextureDataBase.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 124,
+ "key": "id",
+ "display": "id",
+ "desc": "UI sprite atlas: rectangle of a UI texture (.txf in Start_*.dat/Texture*) per sprite id, with one rect set per language (75 rows differ: EN/FR text-bearing graphics). PC exe picks the slot by game language (0=JP,1=EN,2=FR); language ids 3/4 are remapped to slot 1, so CHN/KOR slots appear unused on PC. Relevant for new units: face icons live in wf_*_48px/64px.txf with ids 10836-12469 (which id a unit uses is computed by code, no char.dat field holds a TextureDataBase id). Adding a row beyond 13172 or a new texture requires an exe patch; editing rects/pixels of existing ids does not. Rect maxima exceed some Texture_opt txf sizes (those are downscaled variants).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "sprite id 10000..13172. Row index = id-10000 (the exe indexes rows directly, table must stay contiguous and sorted). The texture file is chosen by HARD-CODED id ranges in the exe (0x14019fbc0 -> texture slot, slot filled with a .txf name in the static init 0x14004fde0): button.txf 10000-10023, item.txf 10024-10177, number01.txf 10178-10270, system01.txf 10271-10373, system02.txf 10374-10564, windowtitle01-03 10565-10589(=10565/10574/10583), itemwindow 10586, statuslist 10590, equip01 10606, equip02 10608, sys_battle 10616, gauge01 10627, attacktarget 10652, number02 10664, skill01 10685, skill02 10699, number.txf 10713, sys1 10727, Window 10730, throw_info 10741, status_maiframe 10746, status_mainstatus 10748, skill.txf 10751, status_revengegage 10810, stageselect01 10814, stageselect02 10816-10835, unit face icons 48px: wf_unique01 10836-10880, wf_unique02 10881, wf_unique03 10886, wf_human01 10923, wf_human02 11024, wf_human03 11125, wf_human04 11159, wf_monster01 11190, wf_monster02 11291, wf_monster03 11392, wf_bonus01 11406, wf_bonus02 11507, wf_object01 11528, wf_object02 11628-11652; 64px: wf_unique01 11653, wf_unique02 11698, wf_unique03 11703, wf_human01 11740, wf_human02 11841, wf_human03 11942, wf_human04 11976, wf_monster01 12007, wf_monster02 12108, wf_monster03 12209, wf_bonus01 12223, wf_bonus02 12324, wf_object01 12345, wf_object02 12445-12469; partyicon 12470, icon_item 12516, icon_system 12693, geopanelinfo 12766, scout01 12774, troop 12812, name 12817, icon_item_s 12820, status_bar 12997, curryshop 13005, status_stargauge 13018, coloredit 13023, eventreport 13031, eventreport_B 13033, mapinformation 13035, unitgage 13040, skipauto 13046, icon_trophy_all 13050, trophy 13108, icon_trophy_rank 13161, mouse_help_01/02/03 13167/13169/13171-13172",
+   "confidence": "high"
+  },
+  {
+   "name": "x_JP",
+   "offset": 4,
+   "type": "u32",
+   "desc": "JP: source rect left (texture pixels)",
+   "confidence": "high"
+  },
+  {
+   "name": "y_JP",
+   "offset": 8,
+   "type": "u32",
+   "desc": "JP: source rect top",
+   "confidence": "high"
+  },
+  {
+   "name": "w_JP",
+   "offset": 12,
+   "type": "u32",
+   "desc": "JP: source rect width",
+   "confidence": "high"
+  },
+  {
+   "name": "h_JP",
+   "offset": 16,
+   "type": "u32",
+   "desc": "JP: source rect height",
+   "confidence": "high"
+  },
+  {
+   "name": "draw_w_JP",
+   "offset": 20,
+   "type": "u32",
+   "desc": "JP: drawn width (callers may override; equals w except 1 row)",
+   "confidence": "high"
+  },
+  {
+   "name": "draw_h_JP",
+   "offset": 24,
+   "type": "u32",
+   "desc": "JP: drawn height",
+   "confidence": "high"
+  },
+  {
+   "name": "x_EN",
+   "offset": 28,
+   "type": "u32",
+   "desc": "EN: source rect left (texture pixels)",
+   "confidence": "high"
+  },
+  {
+   "name": "y_EN",
+   "offset": 32,
+   "type": "u32",
+   "desc": "EN: source rect top",
+   "confidence": "high"
+  },
+  {
+   "name": "w_EN",
+   "offset": 36,
+   "type": "u32",
+   "desc": "EN: source rect width",
+   "confidence": "high"
+  },
+  {
+   "name": "h_EN",
+   "offset": 40,
+   "type": "u32",
+   "desc": "EN: source rect height",
+   "confidence": "high"
+  },
+  {
+   "name": "draw_w_EN",
+   "offset": 44,
+   "type": "u32",
+   "desc": "EN: drawn width (callers may override; equals w except 1 row)",
+   "confidence": "high"
+  },
+  {
+   "name": "draw_h_EN",
+   "offset": 48,
+   "type": "u32",
+   "desc": "EN: drawn height",
+   "confidence": "high"
+  },
+  {
+   "name": "x_FR",
+   "offset": 52,
+   "type": "u32",
+   "desc": "FR: source rect left (texture pixels)",
+   "confidence": "high"
+  },
+  {
+   "name": "y_FR",
+   "offset": 56,
+   "type": "u32",
+   "desc": "FR: source rect top",
+   "confidence": "high"
+  },
+  {
+   "name": "w_FR",
+   "offset": 60,
+   "type": "u32",
+   "desc": "FR: source rect width",
+   "confidence": "high"
+  },
+  {
+   "name": "h_FR",
+   "offset": 64,
+   "type": "u32",
+   "desc": "FR: source rect height",
+   "confidence": "high"
+  },
+  {
+   "name": "draw_w_FR",
+   "offset": 68,
+   "type": "u32",
+   "desc": "FR: drawn width (callers may override; equals w except 1 row)",
+   "confidence": "high"
+  },
+  {
+   "name": "draw_h_FR",
+   "offset": 72,
+   "type": "u32",
+   "desc": "FR: drawn height",
+   "confidence": "high"
+  },
+  {
+   "name": "x_CHN",
+   "offset": 76,
+   "type": "u32",
+   "desc": "CHN: source rect left (texture pixels)",
+   "confidence": "medium"
+  },
+  {
+   "name": "y_CHN",
+   "offset": 80,
+   "type": "u32",
+   "desc": "CHN: source rect top",
+   "confidence": "medium"
+  },
+  {
+   "name": "w_CHN",
+   "offset": 84,
+   "type": "u32",
+   "desc": "CHN: source rect width",
+   "confidence": "medium"
+  },
+  {
+   "name": "h_CHN",
+   "offset": 88,
+   "type": "u32",
+   "desc": "CHN: source rect height",
+   "confidence": "medium"
+  },
+  {
+   "name": "draw_w_CHN",
+   "offset": 92,
+   "type": "u32",
+   "desc": "CHN: drawn width (callers may override; equals w except 1 row)",
+   "confidence": "medium"
+  },
+  {
+   "name": "draw_h_CHN",
+   "offset": 96,
+   "type": "u32",
+   "desc": "CHN: drawn height",
+   "confidence": "medium"
+  },
+  {
+   "name": "x_KOR",
+   "offset": 100,
+   "type": "u32",
+   "desc": "KOR: source rect left (texture pixels)",
+   "confidence": "medium"
+  },
+  {
+   "name": "y_KOR",
+   "offset": 104,
+   "type": "u32",
+   "desc": "KOR: source rect top",
+   "confidence": "medium"
+  },
+  {
+   "name": "w_KOR",
+   "offset": 108,
+   "type": "u32",
+   "desc": "KOR: source rect width",
+   "confidence": "medium"
+  },
+  {
+   "name": "h_KOR",
+   "offset": 112,
+   "type": "u32",
+   "desc": "KOR: source rect height",
+   "confidence": "medium"
+  },
+  {
+   "name": "draw_w_KOR",
+   "offset": 116,
+   "type": "u32",
+   "desc": "KOR: drawn width (callers may override; equals w except 1 row)",
+   "confidence": "medium"
+  },
+  {
+   "name": "draw_h_KOR",
+   "offset": 120,
+   "type": "u32",
+   "desc": "KOR: drawn height",
+   "confidence": "medium"
+  }
+ ]
+}

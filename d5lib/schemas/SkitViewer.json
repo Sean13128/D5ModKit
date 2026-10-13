@@ -1,0 +1,245 @@
+{
+ "file": "SkitViewer.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 484,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Skit replay viewer list (same record layout as EventViewer). req_on1 = set_on1 = skit read flag 8000+n (FLAG_SKIT_READ_START = 8000).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "1 = header row, entries 101..209",
+   "confidence": "high"
+  },
+  {
+   "name": "skit_no",
+   "offset": 4,
+   "type": "u16",
+   "ref": "skit",
+   "desc": "skit number -> Skit/Skit_0.dat member skit%04d.dat (101..1605, 2001..2030)",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 6,
+   "type": "str",
+   "size": 88,
+   "lang": "JP",
+   "desc": "skit title",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 94,
+   "type": "str",
+   "size": 88,
+   "lang": "EN",
+   "desc": "skit title",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 182,
+   "type": "str",
+   "size": 88,
+   "lang": "FR",
+   "desc": "skit title",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 270,
+   "type": "str",
+   "size": 88,
+   "lang": "CHN",
+   "desc": "skit title",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 358,
+   "type": "str",
+   "size": 88,
+   "lang": "KOR",
+   "desc": "skit title",
+   "confidence": "high"
+  },
+  {
+   "name": "req_on1",
+   "offset": 446,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags that must all be ON for the entry to be listed",
+   "confidence": "medium"
+  },
+  {
+   "name": "req_on2",
+   "offset": 448,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags that must all be ON for the entry to be listed",
+   "confidence": "medium"
+  },
+  {
+   "name": "req_on3",
+   "offset": 450,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags that must all be ON for the entry to be listed",
+   "confidence": "medium"
+  },
+  {
+   "name": "req_on4",
+   "offset": 452,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags that must all be ON for the entry to be listed",
+   "confidence": "medium"
+  },
+  {
+   "name": "req_off1",
+   "offset": 454,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags that must be OFF (tutorial rows: 3312/3313)",
+   "confidence": "low"
+  },
+  {
+   "name": "req_off2",
+   "offset": 456,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags that must be OFF (tutorial rows: 3312/3313)",
+   "confidence": "low"
+  },
+  {
+   "name": "req_off3",
+   "offset": 458,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags that must be OFF (tutorial rows: 3312/3313)",
+   "confidence": "low"
+  },
+  {
+   "name": "req_off4",
+   "offset": 460,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags that must be OFF (tutorial rows: 3312/3313)",
+   "confidence": "low"
+  },
+  {
+   "name": "set_on1",
+   "offset": 462,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags set ON before playback (Suicidal Decision: 1650; skits: 8000+n read flag)",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_on2",
+   "offset": 464,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags set ON before playback (Suicidal Decision: 1650; skits: 8000+n read flag)",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_on3",
+   "offset": 466,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags set ON before playback (Suicidal Decision: 1650; skits: 8000+n read flag)",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_on4",
+   "offset": 468,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags set ON before playback (Suicidal Decision: 1650; skits: 8000+n read flag)",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_off1",
+   "offset": 470,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags cleared before playback (Tragic Ending: 1650)",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_off2",
+   "offset": 472,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags cleared before playback (Tragic Ending: 1650)",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_off3",
+   "offset": 474,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags cleared before playback (Tragic Ending: 1650)",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_off4",
+   "offset": 476,
+   "type": "u16",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flags cleared before playback (Tragic Ending: 1650)",
+   "confidence": "medium"
+  },
+  {
+   "name": "req_on_count",
+   "offset": 478,
+   "type": "u8",
+   "desc": "number of used req_on entries (0..4)",
+   "confidence": "high"
+  },
+  {
+   "name": "req_off_count",
+   "offset": 479,
+   "type": "u8",
+   "desc": "number of used req_off entries (0..4)",
+   "confidence": "high"
+  },
+  {
+   "name": "set_on_count",
+   "offset": 480,
+   "type": "u8",
+   "desc": "number of used set_on entries (0..4)",
+   "confidence": "high"
+  },
+  {
+   "name": "set_off_count",
+   "offset": 481,
+   "type": "u8",
+   "desc": "number of used set_off entries (0..4)",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_1E2",
+   "offset": 482,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

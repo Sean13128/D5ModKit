@@ -1,0 +1,252 @@
+{
+ "file": "Makai_InvaderaDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 148,
+ "key": null,
+ "display": "name_EN",
+ "desc": "",
+ "fields": [
+  {
+   "name": "unk_000",
+   "offset": 0,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "JP"
+  },
+  {
+   "name": "name_EN",
+   "offset": 8,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "EN"
+  },
+  {
+   "name": "name_FR",
+   "offset": 12,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "FR"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 16,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "CHN"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 20,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "KOR"
+  },
+  {
+   "name": "unk_018",
+   "offset": 24,
+   "type": "i32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_01C",
+   "offset": 28,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_020",
+   "offset": 32,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_024",
+   "offset": 36,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_028",
+   "offset": 40,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_02C",
+   "offset": 44,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_030",
+   "offset": 48,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_034",
+   "offset": 52,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_038",
+   "offset": 56,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_03C",
+   "offset": 60,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_040",
+   "offset": 64,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_044",
+   "offset": 68,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_048",
+   "offset": 72,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_04C",
+   "offset": 76,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_050",
+   "offset": 80,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_054",
+   "offset": 84,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_058",
+   "offset": 88,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_05C",
+   "offset": 92,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_060",
+   "offset": 96,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_064",
+   "offset": 100,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_068",
+   "offset": 104,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_06C",
+   "offset": 108,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_070",
+   "offset": 112,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_074",
+   "offset": 116,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_078",
+   "offset": 120,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_07C",
+   "offset": 124,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_080",
+   "offset": 128,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_084",
+   "offset": 132,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_088",
+   "offset": 136,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_08C",
+   "offset": 140,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_090",
+   "offset": 144,
+   "type": "u32",
+   "confidence": "low"
+  }
+ ]
+}

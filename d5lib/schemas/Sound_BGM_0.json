@@ -1,0 +1,58 @@
+{
+ "file": "Sound_BGM_0.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 144,
+ "key": "id",
+ "display": "label",
+ "desc": "Index/loop table for the music archive Data/Sound_BGM/Sound_BGM_0.dat. When adding a new track: add NNN.ogg to the archive (d5lib.sound.build_track), a row here (loop_start = intro samples, loop_end = intro+loop samples) and a music.dat row if it should appear in the jukebox.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "file number: member \"<id>.ogg\" of Data/Sound_BGM/Sound_BGM_0.dat (PS_FS_V1); all 78 match the archive 1:1. Referenced by music.dat file and script bgm_play",
+   "confidence": "high"
+  },
+  {
+   "name": "label",
+   "offset": 4,
+   "type": "str",
+   "size": 128,
+   "desc": "internal JP label (e.g. \"ＢＧＭ０１\", \"配信ＢＧＭ１－１\" = DLC, \"ＪＩＮ\" = jingles)",
+   "confidence": "high"
+  },
+  {
+   "name": "volume",
+   "offset": 132,
+   "type": "u32",
+   "desc": "playback volume 40..80 (mostly 40-60)",
+   "confidence": "medium"
+  },
+  {
+   "name": "loop_start",
+   "offset": 136,
+   "type": "u32",
+   "desc": "loop start in samples (48 kHz) = sample count of the intro Ogg stream (verified on all tracks); 0 for jingles",
+   "confidence": "high"
+  },
+  {
+   "name": "loop_end",
+   "offset": 140,
+   "type": "u32",
+   "desc": "loop end in samples = intro + loop stream samples (verified; outro never played)",
+   "confidence": "high"
+  }
+ ]
+}

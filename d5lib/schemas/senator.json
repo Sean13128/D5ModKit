@@ -1,0 +1,203 @@
+{
+ "file": "senator.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 304,
+ "key": "senator_id",
+ "display": "name_EN",
+ "desc": "Dark Assembly senators: 258 rows = 43 parties x 6 senators (levels 5..220). Each links to a char.dat id (its sprite/class). Bills are in WishDataBase.dat; senator2.dat is an affinity matrix.",
+ "fields": [
+  {
+   "name": "senator_id",
+   "offset": 0,
+   "type": "u16",
+   "desc": "senator id; equals char_id in every row (1010..1225, 2010..2215)",
+   "confidence": "medium"
+  },
+  {
+   "name": "level",
+   "offset": 2,
+   "type": "u16",
+   "desc": "senator level: 5,30,75,120,180,220 for the 6 senators of each party",
+   "confidence": "high"
+  },
+  {
+   "name": "char_id",
+   "offset": 4,
+   "type": "u32",
+   "ref": "char.dat",
+   "desc": "appearance/class of the senator: char.dat id (u32 at char.dat record +0xD0; e.g. 10=Killia, 1010..1015=Warrior tiers); party N uses tiers 10*class+0..5",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_008",
+   "offset": 8,
+   "type": "u16",
+   "desc": "cycles 0,1,2 within each party (86 rows each); maybe personality/attitude group",
+   "confidence": "low"
+  },
+  {
+   "name": "name_JP",
+   "offset": 10,
+   "type": "str",
+   "size": 52,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 62,
+   "type": "str",
+   "size": 52,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 114,
+   "type": "str",
+   "size": 52,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 166,
+   "type": "str",
+   "size": 52,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 218,
+   "type": "str",
+   "size": 52,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "party",
+   "offset": 270,
+   "type": "u8",
+   "desc": "party (faction) id 1..43 (Warrior=1 ... Horseman=39, 40..43 extra); WishDataBase bills 200+party (\"Train with a Warrior!\" = 201) target this party",
+   "confidence": "high"
+  },
+  {
+   "name": "unk_10F",
+   "offset": 271,
+   "type": "u8",
+   "desc": "1,1,5,10,15,20 by tier within party (influence/votes?)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_110",
+   "offset": 272,
+   "type": "u8",
+   "desc": "1,1,2,2,3,4 by tier",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_111",
+   "offset": 273,
+   "type": "u8",
+   "desc": "4,4,8,8,12,16 by tier",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_112",
+   "offset": 274,
+   "type": "u8",
+   "desc": "always 1",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_113",
+   "offset": 275,
+   "type": "u8",
+   "desc": "always 99",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_114",
+   "offset": 276,
+   "type": "u8",
+   "desc": "always 1",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_115",
+   "offset": 277,
+   "type": "u8",
+   "desc": "always 1",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_116",
+   "offset": 278,
+   "type": "u8",
+   "desc": "per party: 0 mostly; 20 (party 4), 50 (Prinny 23), 30 (party 29)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_117",
+   "offset": 279,
+   "type": "u8",
+   "desc": "per party: 0 mostly; 50 for Pirate party (20)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_118",
+   "offset": 280,
+   "type": "u32",
+   "desc": "per party, cycles 80..84 (party mod 5)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_11C",
+   "offset": 284,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_120",
+   "offset": 288,
+   "type": "u32",
+   "desc": "per party, = unk_118+1 (wrapping 84->80)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_124",
+   "offset": 292,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_128",
+   "offset": 296,
+   "type": "u32",
+   "desc": "per party value 1..36 (likes/favourite category?)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_12C",
+   "offset": 300,
+   "type": "u32",
+   "desc": "always 0",
+   "confidence": "low"
+  }
+ ]
+}

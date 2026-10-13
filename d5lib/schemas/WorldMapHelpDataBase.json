@@ -1,0 +1,136 @@
+{
+ "file": "WorldMapHelpDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 64,
+ "key": null,
+ "display": "name_EN",
+ "desc": "",
+ "fields": [
+  {
+   "name": "unk_000",
+   "offset": 0,
+   "type": "u32",
+   "confidence": "low"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "JP"
+  },
+  {
+   "name": "name_EN",
+   "offset": 8,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "EN"
+  },
+  {
+   "name": "name_FR",
+   "offset": 12,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "FR"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 16,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "CHN"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 20,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "KOR"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 24,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "JP"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 28,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "EN"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 32,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "FR"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 36,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "CHN"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 40,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "KOR"
+  },
+  {
+   "name": "text2_JP",
+   "offset": 44,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "JP"
+  },
+  {
+   "name": "text2_EN",
+   "offset": 48,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "EN"
+  },
+  {
+   "name": "text2_FR",
+   "offset": 52,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "FR"
+  },
+  {
+   "name": "text2_CHN",
+   "offset": 56,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "CHN"
+  },
+  {
+   "name": "text2_KOR",
+   "offset": 60,
+   "type": "strptr",
+   "confidence": "medium",
+   "lang": "KOR"
+  }
+ ]
+}

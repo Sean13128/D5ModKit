@@ -1,0 +1,383 @@
+{
+ "file": "item.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1120,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Items: weapons, armor, accessories and consumables (1364 rows x 1120 bytes). Price and 8 stat bonuses are 64-bit. Key 'id' is used by shop/drop/delivery/exchange tables. unique_innocent -> HABIT.dat id, use_skill -> magic.dat id, weapon_anm -> anm file. Rows 0..~1130 are equipment in order fist, sword, spear, bow, gun, axe, staff, monster, armor, belt, shoes, orb, glasses, muscle, emblem; each normal series is followed by its +10000 high-rank copy.",
+ "fields": [
+  {
+   "name": "price",
+   "offset": 0,
+   "type": "u64",
+   "desc": "shop price in HL (u64; e.g. Thimble 80, Ultimus 300,000,000)",
+   "confidence": "high"
+  },
+  {
+   "name": "HP",
+   "offset": 8,
+   "type": "i64",
+   "desc": "base HP bonus of the item (signed 64-bit; axes have negative HIT/SPD)",
+   "confidence": "high"
+  },
+  {
+   "name": "SP",
+   "offset": 16,
+   "type": "i64",
+   "desc": "base SP bonus of the item (signed 64-bit; axes have negative HIT/SPD)",
+   "confidence": "high"
+  },
+  {
+   "name": "ATK",
+   "offset": 24,
+   "type": "i64",
+   "desc": "base ATK bonus of the item (signed 64-bit; axes have negative HIT/SPD)",
+   "confidence": "high"
+  },
+  {
+   "name": "DEF",
+   "offset": 32,
+   "type": "i64",
+   "desc": "base DEF bonus of the item (signed 64-bit; axes have negative HIT/SPD)",
+   "confidence": "high"
+  },
+  {
+   "name": "INT",
+   "offset": 40,
+   "type": "i64",
+   "desc": "base INT bonus of the item (signed 64-bit; axes have negative HIT/SPD)",
+   "confidence": "high"
+  },
+  {
+   "name": "RES",
+   "offset": 48,
+   "type": "i64",
+   "desc": "base RES bonus of the item (signed 64-bit; axes have negative HIT/SPD)",
+   "confidence": "high"
+  },
+  {
+   "name": "HIT",
+   "offset": 56,
+   "type": "i64",
+   "desc": "base HIT bonus of the item (signed 64-bit; axes have negative HIT/SPD)",
+   "confidence": "high"
+  },
+  {
+   "name": "SPD",
+   "offset": 64,
+   "type": "i64",
+   "desc": "base SPD bonus of the item (signed 64-bit; axes have negative HIT/SPD)",
+   "confidence": "high"
+  },
+  {
+   "name": "id",
+   "offset": 72,
+   "type": "u32",
+   "desc": "item id (unique; weapons 101..,  +10000 = high-rank copies, armor 901.., consumables 2001.., DLC 5101..). Referenced by shops/drops/deliveries",
+   "confidence": "high"
+  },
+  {
+   "name": "icon",
+   "offset": 76,
+   "type": "u16",
+   "desc": "menu icon id (0 fist,1 sword,2 spear,3 bow,4 gun,5 axe,6 staff,7 monster, 13 monster-spear, 21 medal, 29 orb, 61 muscle, 96 attack item, 160 chara-world item ...)",
+   "confidence": "medium"
+  },
+  {
+   "name": "category",
+   "offset": 78,
+   "type": "u16",
+   "desc": "item sub-category shown in menus/sorting",
+   "confidence": "high",
+   "enum": {
+    "1": "fist",
+    "2": "sword",
+    "3": "spear",
+    "4": "bow",
+    "5": "gun",
+    "6": "axe",
+    "7": "staff",
+    "8": "monster (physical)",
+    "9": "monster (magic/medal)",
+    "10": "armor",
+    "11": "belt",
+    "12": "shoes",
+    "13": "orb",
+    "14": "glasses",
+    "15": "muscle",
+    "16": "key",
+    "17": "scroll",
+    "19": "emblem",
+    "20": "recovery item",
+    "21": "steal hand",
+    "22": "item-world item",
+    "26": "special gift item",
+    "27": "mana potion",
+    "28": "exp potion",
+    "29": "stat shard",
+    "33": "cooked food",
+    "35": "chara-world (sugoroku) item",
+    "36": "attack item"
+   }
+  },
+  {
+   "name": "MOV",
+   "offset": 80,
+   "type": "u16",
+   "desc": "movement bonus (shoes 1..4, Baal gear 1)",
+   "confidence": "high"
+  },
+  {
+   "name": "CNT",
+   "offset": 82,
+   "type": "u16",
+   "desc": "counter bonus (fists 1..2)",
+   "confidence": "high"
+  },
+  {
+   "name": "unique_innocent",
+   "offset": 84,
+   "type": "u16",
+   "desc": "innocent (resident) always attached to the item, 0 = none. Values are HABIT.dat ids (247 Burner on fire weapons, 248 Blower wind, 249 Freezer ice, 250 Revenge Booster, 201.. gag weapons e.g. TV->45 Degree Angler)",
+   "confidence": "high",
+   "ref": "HABIT.dat"
+  },
+  {
+   "name": "weapon_anm",
+   "offset": 86,
+   "type": "u16",
+   "desc": "weapon model/sprite file (anmNNNNN.dat); 0 = no weapon graphic (armor/items). 415 of 416 values exist in ANM_HI_JP",
+   "confidence": "high",
+   "ref": "anm"
+  },
+  {
+   "name": "not_in_shop",
+   "offset": 88,
+   "type": "u8",
+   "desc": "1 = not sold in the shop (all +10000 high-rank items, rare/special items); 0 = normal shop stock",
+   "confidence": "medium"
+  },
+  {
+   "name": "name_JP",
+   "offset": 89,
+   "type": "str",
+   "size": 64,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 153,
+   "type": "str",
+   "size": 64,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 217,
+   "type": "str",
+   "size": 64,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 281,
+   "type": "str",
+   "size": 64,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 345,
+   "type": "str",
+   "size": 64,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 409,
+   "type": "str",
+   "size": 136,
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 545,
+   "type": "str",
+   "size": 136,
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 681,
+   "type": "str",
+   "size": 136,
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 817,
+   "type": "str",
+   "size": 136,
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 953,
+   "type": "str",
+   "size": 136,
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_441",
+   "offset": 1089,
+   "type": "bytes",
+   "desc": "always 0",
+   "confidence": "high",
+   "size": 5
+  },
+  {
+   "name": "rank",
+   "offset": 1094,
+   "type": "u8",
+   "desc": "item rank (1..40 normal series, 101..140 for the +10000 high-rank copies; char-exclusive items 39, DLC 10). Price/stats grow with it",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_447",
+   "offset": 1095,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "high"
+  },
+  {
+   "name": "RNG",
+   "offset": 1096,
+   "type": "u8",
+   "desc": "attack range (fist/sword/axe 1, spear 2, bow 4-6, gun 5-7, staff 2-3); for usable items the use range",
+   "confidence": "high"
+  },
+  {
+   "name": "JMP",
+   "offset": 1097,
+   "type": "u8",
+   "desc": "jump bonus (shoes 2..34, Baal gear 12)",
+   "confidence": "high"
+  },
+  {
+   "name": "pad_44A",
+   "offset": 1098,
+   "type": "u8",
+   "desc": "always 0",
+   "confidence": "high"
+  },
+  {
+   "name": "CRT",
+   "offset": 1099,
+   "type": "u8",
+   "desc": "critical rate % (weapons 2..30)",
+   "confidence": "high"
+  },
+  {
+   "name": "weapon_param_44C",
+   "offset": 1100,
+   "type": "u32",
+   "desc": "per-weapon-type constant: fist/sword/spear/bow/monster 5, gun 3, axe 30, staff 10 (some special weapons deviate); 0 for non-weapons. Meaning unknown (damage variance? mastery?)",
+   "confidence": "low"
+  },
+  {
+   "name": "use_skill",
+   "offset": 1104,
+   "type": "u32",
+   "desc": "magic.dat id executed when the item is used: attack items 960..983 ('(Item Skill)'), steal hands 5 (Steal); 0 = none",
+   "confidence": "high",
+   "ref": "magic.dat"
+  },
+  {
+   "name": "item_group",
+   "offset": 1108,
+   "type": "u16",
+   "desc": "grouping: 1 normal weapon, 2 special/legendary/DLC weapon, 3 char-exclusive, 4 char-exclusive XL, 5 char-exclusive top, 6 gag weapons (TV, Watermelon...), 8 armor/accessory, 9 key/special (Gate Key, Famitsu Shield, Axel Gear), 10 consumable",
+   "confidence": "low"
+  },
+  {
+   "name": "dlc_pct_456",
+   "offset": 1110,
+   "type": "u16",
+   "desc": "100 normally; 110..150 on crossover/DLC weapons (Prinny Book 110 ... Zetta Sword 150). Probably a percentage multiplier (growth/IW?)",
+   "confidence": "low"
+  },
+  {
+   "name": "char_exclusive",
+   "offset": 1112,
+   "type": "u8",
+   "desc": "1 = character-specific weapon (Usalia Fists, Usanagi Sword, Dragzwei, Starfox Cane, Desco Sword, Beryl Staff, ...), 0 otherwise",
+   "confidence": "medium"
+  },
+  {
+   "name": "equip_type",
+   "offset": 1113,
+   "type": "u8",
+   "desc": "equipment class",
+   "confidence": "high",
+   "enum": {
+    "1": "fist",
+    "2": "sword",
+    "3": "spear",
+    "4": "bow",
+    "5": "gun",
+    "6": "axe",
+    "7": "staff",
+    "8": "monster weapon",
+    "9": "armor",
+    "10": "accessory",
+    "11": "emblem",
+    "13": "consumable (recovery/food)",
+    "14": "usable/special item",
+    "15": "permanent-use item (potions, shards)"
+   }
+  },
+  {
+   "name": "sort_order",
+   "offset": 1114,
+   "type": "u16",
+   "desc": "list/encyclopedia sort position (mostly equals row index; 0xFFFF = not listed, e.g. Runeblades)",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_45C",
+   "offset": 1116,
+   "type": "u16",
+   "desc": "0xFFFF (355 rows) or 8..51; shared by an item and its +10000 copy; consumables: sweets 44, drinks 45, other food 46, EXP potions 49, chara-world items 8. Not a HABIT id (48 missing there). Possibly a use/effect or item-world theme id",
+   "confidence": "low"
+  },
+  {
+   "name": "pad_45E",
+   "offset": 1118,
+   "type": "u16",
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

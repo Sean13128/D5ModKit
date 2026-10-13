@@ -1,0 +1,67 @@
+{
+ "file": "DLC_Delivery_HelpDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 24,
+ "key": "id",
+ "display": "text_EN",
+ "desc": "Scenario summary text lines for the DLC delivery viewer (110 rows). DLC_DeliveryDataBase/SPC_Delivery type-2 rows point at the first line id.",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "help line id (1000.. per scenario summary; consecutive ids = consecutive lines)",
+   "confidence": "high"
+  },
+  {
+   "name": "text_JP",
+   "offset": 4,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "text_EN",
+   "offset": 8,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "text_FR",
+   "offset": 12,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "text_CHN",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "text_KOR",
+   "offset": 20,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  }
+ ]
+}

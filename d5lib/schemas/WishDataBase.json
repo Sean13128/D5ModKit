@@ -1,0 +1,265 @@
+{
+ "file": "WishDataBase.dat",
+ "layout": "pool",
+ "pool": {
+  "base": 4
+ },
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 128,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Dark Assembly bills (\"wishes\", 議題): 164 rows. Name/description, difficulty, Mana cost, approval bias and a flag program: listed if req_flags ON and block_flags OFF; on passing set_flags are turned ON and clear_flags OFF. Effects without flags (stat/item bills, party bills 201..243) are hard-coded by id. No bill creates/unlocks characters or classes directly (only party relation bills 201..243).",
+ "fields": [
+  {
+   "name": "id",
+   "offset": 0,
+   "type": "u32",
+   "desc": "bill id: 1..28 utility (names/colours/reincarnate/subclass), 31..72 misc, 101..128 temporary effects, 201..243 party-relation bills (200+senator party), 302..318 unlocks, 401..411 new maps, 1001..1048 item bills",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 4,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 8,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 12,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 16,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 20,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 24,
+   "type": "strptr",
+   "lang": "JP",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 28,
+   "type": "strptr",
+   "lang": "EN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 32,
+   "type": "strptr",
+   "lang": "FR",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 36,
+   "type": "strptr",
+   "lang": "CHN",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 40,
+   "type": "strptr",
+   "lang": "KOR",
+   "confidence": "high"
+  },
+  {
+   "name": "difficulty",
+   "offset": 44,
+   "type": "u32",
+   "desc": "0..5; 0 for menu-like bills (no vote), 5 for the hardest (strategy/MOV/range)",
+   "confidence": "medium"
+  },
+  {
+   "name": "mana_cost",
+   "offset": 48,
+   "type": "u32",
+   "desc": "Mana cost (e.g. Martial Training 1000/5000/10000/50000/100000; Raise Max Item Level 9999999)",
+   "confidence": "medium"
+  },
+  {
+   "name": "vote_modifier",
+   "offset": 52,
+   "type": "i32",
+   "desc": "-100..100: approval bias (10 typical; -100 \"Will surely be denied\" / strategy bills; negative for strong bills)",
+   "confidence": "medium"
+  },
+  {
+   "name": "unk_038",
+   "offset": 56,
+   "type": "u32",
+   "desc": "0; 20 for item ability bills 1041..1047; 500 for Raise Max Item Level (max passes / increment?)",
+   "confidence": "low"
+  },
+  {
+   "name": "unk_03C",
+   "offset": 60,
+   "type": "u32",
+   "desc": "1 mostly; 5/25/50 Pleinair, 6/12/25/50/100 Martial Training, 100 map bills, 10/1000/100000 item stat bills (required level/rank?)",
+   "confidence": "low"
+  },
+  {
+   "name": "req_flag1",
+   "offset": 64,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "bill only listed if this flag is ON (0 = none), e.g. 16029 FLAG_WISH_UNIQUE_EVILITY, 1736 FLAG_SCENARIO_AFTER_VOID",
+   "confidence": "high"
+  },
+  {
+   "name": "req_flag2",
+   "offset": 68,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "bill only listed if this flag is ON (0 = none), e.g. 16029 FLAG_WISH_UNIQUE_EVILITY, 1736 FLAG_SCENARIO_AFTER_VOID",
+   "confidence": "medium"
+  },
+  {
+   "name": "req_flag3",
+   "offset": 72,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "bill only listed if this flag is ON (0 = none), e.g. 16029 FLAG_WISH_UNIQUE_EVILITY, 1736 FLAG_SCENARIO_AFTER_VOID",
+   "confidence": "medium"
+  },
+  {
+   "name": "req_flag4",
+   "offset": 76,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "bill only listed if this flag is ON (0 = none), e.g. 16029 FLAG_WISH_UNIQUE_EVILITY, 1736 FLAG_SCENARIO_AFTER_VOID",
+   "confidence": "medium"
+  },
+  {
+   "name": "block_flag1",
+   "offset": 80,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "bill not available while this flag is ON (0 = none); mutually exclusive bills list each other's flags (e.g. EXP bills 14800..14803)",
+   "confidence": "high"
+  },
+  {
+   "name": "block_flag2",
+   "offset": 84,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "bill not available while this flag is ON (0 = none); mutually exclusive bills list each other's flags (e.g. EXP bills 14800..14803)",
+   "confidence": "medium"
+  },
+  {
+   "name": "block_flag3",
+   "offset": 88,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "bill not available while this flag is ON (0 = none); mutually exclusive bills list each other's flags (e.g. EXP bills 14800..14803)",
+   "confidence": "medium"
+  },
+  {
+   "name": "block_flag4",
+   "offset": 92,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "bill not available while this flag is ON (0 = none); mutually exclusive bills list each other's flags (e.g. EXP bills 14800..14803)",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_flag1",
+   "offset": 96,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag turned ON when the bill passes (0 = none): e.g. 14520 FLAG_GROUP_OPEN_EXP, 5211 FLAG_DUNGEON_OPEN_RENBU_1, 13001 FLAG_PRINY_DAY",
+   "confidence": "high"
+  },
+  {
+   "name": "set_flag2",
+   "offset": 100,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag turned ON when the bill passes (0 = none): e.g. 14520 FLAG_GROUP_OPEN_EXP, 5211 FLAG_DUNGEON_OPEN_RENBU_1, 13001 FLAG_PRINY_DAY",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_flag3",
+   "offset": 104,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag turned ON when the bill passes (0 = none): e.g. 14520 FLAG_GROUP_OPEN_EXP, 5211 FLAG_DUNGEON_OPEN_RENBU_1, 13001 FLAG_PRINY_DAY",
+   "confidence": "medium"
+  },
+  {
+   "name": "set_flag4",
+   "offset": 108,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag turned ON when the bill passes (0 = none): e.g. 14520 FLAG_GROUP_OPEN_EXP, 5211 FLAG_DUNGEON_OPEN_RENBU_1, 13001 FLAG_PRINY_DAY",
+   "confidence": "medium"
+  },
+  {
+   "name": "clear_flag1",
+   "offset": 112,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag turned OFF when the bill passes (0 = none), e.g. \"Cancel Prinny Day\" clears 13001",
+   "confidence": "high"
+  },
+  {
+   "name": "clear_flag2",
+   "offset": 116,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag turned OFF when the bill passes (0 = none), e.g. \"Cancel Prinny Day\" clears 13001",
+   "confidence": "medium"
+  },
+  {
+   "name": "clear_flag3",
+   "offset": 120,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag turned OFF when the bill passes (0 = none), e.g. \"Cancel Prinny Day\" clears 13001",
+   "confidence": "medium"
+  },
+  {
+   "name": "clear_flag4",
+   "offset": 124,
+   "type": "u32",
+   "ref": "flag:FlagListDataBase.dat",
+   "desc": "flag turned OFF when the bill passes (0 = none), e.g. \"Cancel Prinny Day\" clears 13001",
+   "confidence": "medium"
+  }
+ ]
+}

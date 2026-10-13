@@ -1,0 +1,282 @@
+{
+ "file": "HABIT.dat",
+ "layout": "fixed",
+ "header": {
+  "size": 4,
+  "fields": [
+   {
+    "name": "count",
+    "offset": 0,
+    "type": "u32",
+    "role": "count",
+    "desc": "number of records"
+   }
+  ]
+ },
+ "record_size": 1072,
+ "key": "id",
+ "display": "name_EN",
+ "desc": "Innocents / residents (110 x 1072). level cap, id, granted evility (special innocents), names (64 B) and descriptions (144 B) in 5 languages, 18 per-item-category appearance weights (order from ref/database_0.scheme), group and value type. Item unique innocents reference id (item.dat unique_innocent).",
+ "fields": [
+  {
+   "name": "level_cap",
+   "offset": 0,
+   "type": "u32",
+   "desc": "maximum innocent level/value (stat innocents 50000, ailment & elemental 100, weapon resistance 20, Broker/Manager 300, Statistician 900, Instructor/Mentor 1900, special evility innocents 1)",
+   "confidence": "medium"
+  },
+  {
+   "name": "id",
+   "offset": 4,
+   "type": "u32",
+   "desc": "innocent id (key): 0 Jobless, 1-8 stat innocents (HP SP ATK DEF INT RES HIT SPD), 11-17 dual-stat, 21-28 on-attack ailments/crit, 41-47 ailment resist, 51-53 element resist, 61-68 weapon resist, 71-75 money/EXP/mana/mastery/skill, 131-134 Item World bosses, 201-308 special innocents granting an evility. Referenced by item.dat unique_innocent",
+   "confidence": "high"
+  },
+  {
+   "name": "evility",
+   "offset": 8,
+   "type": "u16",
+   "ref": "Skill.dat",
+   "desc": "evility granted by special innocents (id 201+) -> Skill.dat id (3000-3306, 6125, 6200); 0 otherwise",
+   "confidence": "high"
+  },
+  {
+   "name": "name_JP",
+   "offset": 10,
+   "type": "str",
+   "size": 64,
+   "lang": "JP",
+   "desc": "innocent name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_EN",
+   "offset": 74,
+   "type": "str",
+   "size": 64,
+   "lang": "EN",
+   "desc": "innocent name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_FR",
+   "offset": 138,
+   "type": "str",
+   "size": 64,
+   "lang": "FR",
+   "desc": "innocent name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_CHN",
+   "offset": 202,
+   "type": "str",
+   "size": 64,
+   "lang": "CHN",
+   "desc": "innocent name",
+   "confidence": "high"
+  },
+  {
+   "name": "name_KOR",
+   "offset": 266,
+   "type": "str",
+   "size": 64,
+   "lang": "KOR",
+   "desc": "innocent name",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_JP",
+   "offset": 330,
+   "type": "str",
+   "size": 144,
+   "lang": "JP",
+   "desc": "innocent description",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_EN",
+   "offset": 474,
+   "type": "str",
+   "size": 144,
+   "lang": "EN",
+   "desc": "innocent description",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_FR",
+   "offset": 618,
+   "type": "str",
+   "size": 144,
+   "lang": "FR",
+   "desc": "innocent description",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_CHN",
+   "offset": 762,
+   "type": "str",
+   "size": 144,
+   "lang": "CHN",
+   "desc": "innocent description",
+   "confidence": "high"
+  },
+  {
+   "name": "desc_KOR",
+   "offset": 906,
+   "type": "str",
+   "size": 144,
+   "lang": "KOR",
+   "desc": "innocent description",
+   "confidence": "high"
+  },
+  {
+   "name": "rate_consumable",
+   "offset": 1050,
+   "type": "u8",
+   "desc": "relative chance (weight) of this innocent appearing on items of this category (Item World / random items). Column order from ref/database_0.scheme (BTAxis); 0 = never. Stat innocents use 5-40, others 1-5",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_fist",
+   "offset": 1051,
+   "type": "u8",
+   "desc": "appearance weight on fist items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_sword",
+   "offset": 1052,
+   "type": "u8",
+   "desc": "appearance weight on sword items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_spear",
+   "offset": 1053,
+   "type": "u8",
+   "desc": "appearance weight on spear items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_bow",
+   "offset": 1054,
+   "type": "u8",
+   "desc": "appearance weight on bow items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_gun",
+   "offset": 1055,
+   "type": "u8",
+   "desc": "appearance weight on gun items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_axe",
+   "offset": 1056,
+   "type": "u8",
+   "desc": "appearance weight on axe items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_staff",
+   "offset": 1057,
+   "type": "u8",
+   "desc": "appearance weight on staff items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_monster_phys",
+   "offset": 1058,
+   "type": "u8",
+   "desc": "appearance weight on monster phys items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_monster_mag",
+   "offset": 1059,
+   "type": "u8",
+   "desc": "appearance weight on monster mag items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_armor",
+   "offset": 1060,
+   "type": "u8",
+   "desc": "appearance weight on armor items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_belt",
+   "offset": 1061,
+   "type": "u8",
+   "desc": "appearance weight on belt items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_shoes",
+   "offset": 1062,
+   "type": "u8",
+   "desc": "appearance weight on shoes items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_orb",
+   "offset": 1063,
+   "type": "u8",
+   "desc": "appearance weight on orb items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_glasses",
+   "offset": 1064,
+   "type": "u8",
+   "desc": "appearance weight on glasses items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_muscle",
+   "offset": 1065,
+   "type": "u8",
+   "desc": "appearance weight on muscle items",
+   "confidence": "medium"
+  },
+  {
+   "name": "rate_armor7",
+   "offset": 1066,
+   "type": "u8",
+   "desc": "appearance weight on armor7 items",
+   "confidence": "low"
+  },
+  {
+   "name": "rate_emblem",
+   "offset": 1067,
+   "type": "u8",
+   "desc": "appearance weight on emblem items",
+   "confidence": "medium"
+  },
+  {
+   "name": "group",
+   "offset": 1068,
+   "type": "u8",
+   "desc": "innocent group: 1 stat, 2 on-attack effect (ailment/critical), 3 resistance, 4 bonus (money/EXP/mana/mastery/skill), 6 Item World boss, 0 special evility innocents / Jobless",
+   "confidence": "high"
+  },
+  {
+   "name": "value_type",
+   "offset": 1069,
+   "type": "u8",
+   "desc": "value display type (scheme: \"#mult\"): 0 stat points, 1 percent, 2 weapon resistance percent, 3 no value (special / Item World bosses)",
+   "confidence": "low"
+  },
+  {
+   "name": "pad_42E",
+   "offset": 1070,
+   "type": "bytes",
+   "size": 2,
+   "desc": "always 0",
+   "confidence": "high"
+  }
+ ]
+}

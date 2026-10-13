@@ -1,0 +1,57 @@
+{
+ "_doc": "Dragon King's fire breath: the D5 cells of the breath layers (front views 88-102, back views 96-102 + 125, in the normal attack 2071/2077 and the skills 1521/1527, 3071/3077, 4001/4007, 4011/4017), and Dragon King's mouth in the DRPG twin drawings (unit 30069) his body shows while he breathes: region pixel coordinates.",
+ "breath": {
+  "cells": [
+   88,
+   89,
+   90,
+   91,
+   92,
+   93,
+   94,
+   95,
+   96,
+   97,
+   98,
+   99,
+   100,
+   101,
+   102,
+   125
+  ],
+  "mouth": {
+   "front:59080": [
+    65,
+    122
+   ],
+   "front:58016": [
+    45,
+    130
+   ],
+   "back:57047": [
+    228,
+    112
+   ],
+   "back:62016": [
+    248,
+    102
+   ],
+   "back:96016": [
+    220,
+    112
+   ]
+  },
+  "_mouth_doc": "62016 (back lunge): the head is hidden behind the fist; the point is where it would be, under the horn",
+  "fade_behind_mouth": [
+   1521,
+   1527,
+   2071,
+   2077,
+   3071,
+   3077,
+   4001,
+   4007
+  ],
+  "_fade_doc": "forward breaths: the torrent's part behind the new monster's mouth fades out (4011/4017 sweep the stream around the body: kept whole)"
+ }
+}
