@@ -75,6 +75,11 @@ person uses Home › More › **Import / update from .zip…**.
 
     python tools/make_release.py D:\Release --zip
 
+* Every release folder gets `manifest.json` (each file's SHA-1 and the version). `--previous OLD_RELEASE` (its folder
+  or manifest.json) also writes `D5ModKit-update-<old>-to-<new>.zip` with only what changed: attach it to the GitHub
+  release next to D5ModKit.zip, and kits of the old version update themselves in place (`d5lib/updater.py`,
+  `d5gui/updates.py`: GitHub's latest release, the update zip for the kit's version, your edits to shipped files
+  backed up in state\update_backups, files in use swapped in at the next start by D5ModKit.pyw).
 * Profiles: `--profile outfits` (default: the Outfit System and the outfit mods) or `--profile all`; `--mods A,B`
   adds mods by folder name (and stops when a mod's requirement is missing).
 * The Item World auto-battle never goes in (it stays on this PC): its mod, page, docs, Python modules and native

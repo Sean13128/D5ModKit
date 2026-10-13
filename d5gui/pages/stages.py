@@ -350,14 +350,31 @@ class StagesPage(QWidget):
         finally:
             QApplication.restoreOverrideCursor()
 
+    def _have_map(self, mid):
+        """does the game (or the active mod) have map `mid`?  A few stage rows name maps the PC release doesn't ship
+        (Companion Zone (Demo): map00221)"""
+        name = f"map{mid:05d}.lzs"
+        if not hasattr(self, "_maps_in_game"):
+            self._maps_in_game = {n.lower() for n in self.ws.fs.list_members("Map/Map_JP.dat")}
+        if name in self._maps_in_game:
+            return True
+        return bool(self.ws.active_mod) and any(f.endswith("/" + name) for f in self.ws.active_mod.list_files())
+
     def _populate(self):
         self.stages.clear()
         t = self.svc.table(DUNGEON)
         for i, row in enumerate(t.rows):
             rec = mapfile.DungeonRecord(bytes(row.raw))
-            it = QListWidgetItem(f"{rec.name() or '(unnamed)'}   ·  map{rec.map_id:05d}")
+            have = self._have_map(rec.map_id)
+            it = QListWidgetItem(f"{rec.name() or '(unnamed)'}   ·  map{rec.map_id:05d}"
+                                 + ("" if have else "   (no map in the game files)"))
             it.setData(ROLE, ("stage", i, rec.map_id))
-            it.setToolTip(f"dungeon.dat row {i}, stage #{rec.index}, episode {rec.episode}")
+            it.setToolTip(f"dungeon.dat row {i}, stage #{rec.index}, episode {rec.episode}"
+                          + ("" if have else f"<br>The game files have no map{rec.map_id:05d}: a stage entry left "
+                                            "over from development (demo / dummy stages), or one whose map the game "
+                                            "builds itself."))
+            if not have:
+                it.setForeground(QBrush(QColor("#8e89a6")))
             self.stages.addItem(it)
         hdr = QListWidgetItem("── maps without a stage entry ──")
         hdr.setFlags(Qt.ItemFlag.NoItemFlags)
@@ -399,6 +416,13 @@ class StagesPage(QWidget):
             if r == QMessageBox.StandardButton.Save:
                 self.save()
         kind, row, mid = it.data(ROLE)
+        if not self._have_map(mid):
+            self.title.setText(f"map{mid:05d} is not in the game files")
+            info_box(self, "No map for this stage",
+                     f"The game files have no map{mid:05d}, so there is nothing to open. The game has a few stage "
+                     "entries like this: left over from its development (demo and dummy stages), or places whose "
+                     "map the game builds itself.")
+            return
         self.open_map(mid, row)
 
     # ================================================================== load / save

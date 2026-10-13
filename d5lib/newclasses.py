@@ -36,7 +36,7 @@ import json
 import os
 import pickle
 
-from . import anm, database, dbpatch, sprites
+from . import anm, database, dbpatch, exemap, sprites
 from .modsys import register_finalizer, register_patch_handler
 
 FOLDER = "classes"
@@ -252,7 +252,7 @@ def build_sprite(fs, mod, template_sprite, N, uid, log=print):
             f"automatic hand detection, which is often a few pixels off. Check it on the Weapon Grips page "
             f"(anm{N:05d}, Idle 6001 / 6007) and drag it into the hand.")
     outfits.save_source(mod, N, out)
-    info = colorvariants.repartition(out, base)
+    info = colorvariants.repartition(out, base, fs=fs)
     ref = colorvariants.reference_for(uid)        # the class's own colours from the Disgaea wiki (data/wiki_colors)
     if ref:
         colorvariants.from_reference(out, ref, info, log)
@@ -296,7 +296,7 @@ def build_monster_sprite(fs, mod, template_sprite, N, uid, pairs, log=print):
     base = anm.parse(fs.read(sprites.sprite_vpath(fs, template_sprite, "EN")))
     out, rep = monstermap.build(fs, uid, template_sprite, N, pairs, log=log)
     outfits.save_source(mod, N, out)
-    info = colorvariants.repartition(out, base)
+    info = colorvariants.repartition(out, base, fs=fs)
     ref = colorvariants.reference_for(uid)
     if ref:
         colorvariants.from_reference(out, ref, info, log)
@@ -493,7 +493,7 @@ def _lookup_src(classes, auto):
         "lk_orig:",
         "    xor r10d, r10d",
         "    lea r11, [rip + table_sym]",
-        f"    jmp {LOOKUP_VA + len(LOOKUP_ORIG):#x}",
+        f"    jmp {exemap.at(LOOKUP_VA, len(LOOKUP_ORIG))}",
         "    .align 4",
         "auto_ids:",
         "    .long " + ", ".join(str(c) for c in list(auto) + [0]),
@@ -527,7 +527,7 @@ def _setter_src(classes):
         f"    jmp {SETTER_TAIL:#x}",
         "st_orig:",
         "    lea eax, [rcx - 0x7da]",
-        f"    jmp {SETTER_VA + len(SETTER_ORIG):#x}",
+        f"    jmp {exemap.at(SETTER_VA, len(SETTER_ORIG))}",
         _table_src(classes),
         "base_sym = 0x140000000",
         f"table_sym = {TABLE_VA:#x}",
@@ -736,9 +736,10 @@ def _reloc_stub(exe, va, disp, entry, buf_off):
     import pefile
     from .exepatch import IMAGE_BASE
     pe = pefile.PE(data=exe, fast_load=True)
-    off = pe.get_offset_from_rva(va - IMAGE_BASE)
+    nva = exemap.ACTIVE(va)                 # the instruction in the game build being patched
+    off = pe.get_offset_from_rva(nva - IMAGE_BASE)
     md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_64)
-    ins = next(md.disasm(exe[off:off + 16], va))
+    ins = next(md.disasm(exe[off:off + 16], nva))
     text = f"{ins.mnemonic} {ins.op_str}"
     m = re.search(r"\[(\w+)(?: \+ (\w+)\*(\d))? \+ (0x[0-9a-f]+)\]", ins.op_str)
     if not m or int(m.group(4), 16) - disp not in range(0, entry):
@@ -748,14 +749,14 @@ def _reloc_stub(exe, va, disp, entry, buf_off):
     idx = f" + {m.group(2)}*{m.group(3)}" if m.group(2) else ""
     new = ins.op_str[:m.start()] + f"[{S}{idx}" + (f" + {k}" if k else "") + "]" + ins.op_str[m.end():]
     src = chr(10).join([f"    push {S}", f"    lea {S}, [rip + bufsym]", f"    {ins.mnemonic} {new}", f"    pop {S}",
-                        f"    jmp {va + ins.size:#x}", f"bufsym = {{shared}} + {buf_off}"])
+                        f"    jmp {nva + ins.size}", f"bufsym = {{shared}} + {buf_off}"])
     return (va, bytes(ins.bytes), src, 0xE9)
 
 
 def _reloc_hooks(exe):
     hooks = [_reloc_stub(exe, va, 0x90, 8, BUF_CAROUSEL) for va in CAROUSEL_SITES]
     hooks.append((CAROUSEL_CLEAR, CAROUSEL_CLEAR_ORIG, chr(10).join([
-        "    lea rcx, [rip + bufsym]", f"    mov r8d, {CAROUSEL_CAP * 8}", f"    jmp {CAROUSEL_CLEAR + 7:#x}",
+        "    lea rcx, [rip + bufsym]", f"    mov r8d, {CAROUSEL_CAP * 8}", f"    jmp {exemap.at(CAROUSEL_CLEAR, 7)}",
         f"bufsym = {{shared}} + {BUF_CAROUSEL}"]), 0xE9))
     hooks += [_reloc_stub(exe, va, 0x1E404, 4, BUF_CLASSTAB) for va in CLASSTAB_SITES]
     hooks += [_reloc_stub(exe, va, 0x1E330, 4, BUF_PROF) for va in PROF_SITES]
@@ -785,7 +786,7 @@ def _reloc_hooks(exe):
             f"profbuf = {{shared}} + {BUF_PROF}"]), 0xE9))
     hooks.append((CLASSTAB_APPEND, CLASSTAB_APPEND_ORIG, chr(10).join([
         "    sub rcx, rbx", "    push rdx", "    lea rdx, [rip + bufsym]", "    mov dword ptr [rdx + rcx], eax",
-        "    pop rdx", "    add rcx, rbx", f"    jmp {CLASSTAB_APPEND + 6:#x}",
+        "    pop rdx", "    add rcx, rbx", f"    jmp {exemap.at(CLASSTAB_APPEND, 6)}",
         f"bufsym = {{shared}} + {BUF_CLASSTAB}"]), 0xE9))
     return hooks
 

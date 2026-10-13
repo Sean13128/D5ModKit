@@ -1,5 +1,81 @@
 # D5 Mod Kit — changes
 
+## 1.2 (2026-10-13)
+
+**A faster, smoother kit**
+* No more stutter every few seconds: the "are my mods in the game?" check ran on the window's thread every 2.5 s and
+  read every mod's file list (0.15 s here, more on slower disks). It now runs in the background.
+* Pages open faster and coming back to a page is instant (under 0.1 s; Outfits took 1.4 s every time, Home 0.2 s).
+  Textures (4 s → 0.4 s) and Music (1.8 s → 0.2 s) no longer re-read every mod for each list row.
+* Event Scripts (10-20 s) and Skills & Animations (5-6 s) open at once: the game's 19 053 scripts are read once, in
+  the background, shortly after the kit starts, for both pages.
+* Fewer random pauses: Python's memory clean-up passed over everything the kit keeps (0.2-0.5 s each time, many
+  times while a page loaded). It runs far less often now and skips what pages keep.
+* Texture thumbnails are made in the background, and the big font textures decompress about 24x faster.
+* Opening Skills & Animations for the first time no longer makes the whole window flash and redraw.
+
+**Music & Sound**
+* Previews play like the game: the intro once, then the loop part over and over (no more skips at the join).
+* The second "542" was a song the game never plays (it sits in an archive the game doesn't load). It is now labelled
+  "not used by the game", plays when you pick it, and can't be replaced by mistake.
+* The window title shows the right version again (1.1 still said 1.0).
+
+**Cleaner Disgaea RPG looks**
+* Extra colours (the Strategy Assembly's colour options) of every outfit and new character were redone: each piece of
+  an outfit now follows the matching part of the character's own extra colours (her hair, her clothes, her skin), in
+  whole pieces -- no more speckles of another colour inside a cape or a crown, no skin turning blue with a coat.
+  Checked against the game's own classes, whose Disgaea RPG versions are the same drawings: the new extra colours
+  are as close to the artist's as the default colours are (the old ones were 3-4 times further off).
+* New Disgaea RPG outfits and characters get a better palette (eyes and highlights keep their own colours).
+* Sprite previews (Outfits, Characters & Classes, the animation on Sprites & Colors) are drawn smooth, like the game
+  draws them, instead of in hard square pixels. Sprite sheets and painting keep hard pixels.
+
+**Music: new tracks**
+* Music & Sound → ➕ Add new track…: your song under a new track number (600 and up), next to the game's instead of
+  replacing one. It can be listed in the game's music list (always available) and plays wherever its number is used
+  (a stage's music, an event script's bgm_play). Revert removes it.
+
+**Updates in the kit**
+* The kit checks GitHub for a newer version a few seconds after it starts (Home: *at start*, or *Check for
+  updates*). A bar offers **Update now**: only the files that changed are downloaded, your own mods and settings
+  stay, and a shipped file you edited is backed up first (state\update_backups). From 1.2 on; 1.1 needs this
+  download once.
+
+**Profiles (separate modpacks)**
+* Home → **Profile**: keep several modpacks side by side, like the profiles of Mod Organizer for Skyrim. Each
+  profile has its own mods switched on and its own load order; the mods themselves are shared, so switching is
+  instant. **Install** puts the chosen profile's mods into the game, and the status box says when the game has
+  another profile in it. New profile, Copy this profile, Rename and Delete are next to it (a deleted profile is kept
+  in state\deleted_profiles).
+* **Separate saves** (Profile ▾, optional): a profile can keep its own saves, for a modpack whose saves need its mods.
+  Its saves go into the game when it is installed (and when you press Play), the others' are put aside meanwhile.
+  Start it with a copy of your saves or a new game; nothing is ever deleted and every switch keeps a copy in
+  state\save_backups. Only the save files move: your game settings and key bindings stay.
+* Your mods list from 1.1 becomes the profile *Default*.
+* A save with a unit from a mod that is switched off (a recruited character, an outfit class) made the game crash entering a battle, without a word. Now the game shows *Save needs a mod that's off!* when such a save loads, and Home names the unit and its mod ("Your save has units from mods that are switched off in this profile: Future Usalia (mod 'DRPG Human Usalia')").
+
+**Every PC copy of the game, Steam's current one included**
+* The kit installs on the Steam version as it is today (the January 2019 update with Chinese and Korean) as well as
+  on the October 2018 launch build: outfits, new characters and classes, colour slots, Extra Color 4, skills and
+  the kit's in-game features all work on both. Verifying the game files in Steam is no longer needed (or helpful).
+* Builds the kit hasn't seen are matched by themselves: the kit finds the game code it changes by its shape. A change
+  it can't place there is left out of the install and named in the log; everything else installs.
+* One kit can look after several copies of the game: each game folder keeps its own backups of the original files
+  (state\games), so switching the game folder on Home can't mix them up. Your 1.1 backups move to their game folder
+  on the first start.
+* **Copy compatibility report** (Home) still says which build a game is, for the kit's author.
+
+**Stages & Maps**
+* Stage entries whose map the game files don't have (Companion Zone (Demo), the dummy and demo stages, places the game
+  builds itself) are marked in the list and explain themselves instead of failing to load.
+
+**No duplicate outfits**
+* Girl Laharl Outfits no longer lists the four Thunderlady looks (Thunderlady, Beach, Groom, Young Thunderlady):
+  they belong to the Thunderlady character. Girl Laharl has 9 outfits. A unit already wearing one of those looks
+  keeps working (the looks stay in the mod, just off every list).
+* Outfits a mod hides are left out everywhere in the kit too: the Outfits page, the mod list's counts and the
+  character studio's "outfit as a character" list.
+
 ## 1.1 (2026-10-12)
 
 **Overloads of your own** (docs/OVERLOADS.md)

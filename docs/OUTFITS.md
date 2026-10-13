@@ -176,21 +176,32 @@ The resident pack (~415 MB) is edited with `d5lib/lzs_splice.py`, which reuses t
 (LZS back-references reach only 255 bytes).
 
 ## Colour presets
-Automatic when a sheet is converted (`colorvariants.repartition`):
-* **Parts** (hair, hoodie, skin, bikini, gold ...) = colours of the same tint (Lab, lightness down-weighted).
-  Every part gets its own palette entries, so a preset can't bleed into a neighbouring part.
-* **Edges**: a small part whose colour lies between the two parts it touches most is anti-aliasing; in
-  every preset it becomes the same mix of those two parts' new colours. Lone specks join their surroundings.
-* **Details** (eyes, mouth, face shadows): colours used mostly in small patches, or small patches far from
-  their part's big pieces, follow the original character's identical colour (only if she has it).
-* Presets 1.. of each part follow the base character's own presets (hue-matched: a pink hoodie follows the
-  red scarf).
-* Palette limit: when parts need more than 255 entries, the least visible shades are merged (a few pixels
-  may take a neighbouring part's identical colour instead), so the default look stays as converted.
-
-The part info is saved as `patches/outfits/parts_<sprite>.json`. *Re-derive color presets* uses it with the
-current colours, so recolouring a part in Sprites & Colors and re-deriving keeps the new colours.
-
+Automatic when a sheet or a Disgaea RPG unit is converted (`colorvariants.repartition`, then `derive_parts`):
+* **Palette** (`ownanim._palette`): one shared 255-colour palette for all drawings -- Pillow's octree palette refined
+  by weighted k-means (colours weigh pixels ** 0.55, so eyes and highlights keep colours of their own). Against the
+  Disgaea RPG drawings: mean dE 2.4 (the octree alone: 3.4).
+* **Parts** (hair, hoodie, skin, bikini, gold ...) = colours of the same tint (Lab, lightness down-weighted), each
+  part in palette rows of its own (the Strategy Assembly's precise colour editor edits rows of 16); the small details
+  (eyes, mouth) in row 0. The part info is saved as `patches/outfits/parts_<sprite>.json`.
+* **Presets 1..** follow the base character's own presets part by part (`d5lib/recolor.py`, 2026-10-13): the new
+  sprite and the base character are drawn in the same poses (index rendering, no mixing), which tells for every
+  colour which of the character's parts (her palette rows) lies under it. Every material (a part of the part info;
+  touching parts of the same tint and the same position are merged) takes ONE of the character's parts:
+  * the same colours as one of her parts, where that part is: that part (her hair, her eyes);
+  * lying mostly over one part and about as light: that part whatever its hue (red demon hair where his blue hair
+    is follows his hair);
+  * otherwise the part it lies over that fits its colours (a gold crown above the head follows her gold bracelets);
+    fitting none: it keeps its colours, like the game's own metal and outlines;
+  * skin follows skin only, and skin tones over her skin are her skin;
+  * a small undecided material (edge shades, stray bits) joins the material it touches most.
+  In a preset every colour takes its part's change along the shading ramp (the part's shades nearest in lightness
+  carry their new colour, the colour keeps its own offset: lightness added, saturation scaled, hue turned when it is
+  of the part's colour family). Measured on the game's classes against their pixel-identical Disgaea RPG twins (the
+  artist's presets are the answer): 3-4.6 dE from the real presets (the earlier hue matching: 12-16).
+* *Re-derive color presets* uses the part info with the current colours, so recolouring a part in Sprites & Colors
+  and re-deriving keeps the new colours. `tools/rederive_colors.py [MOD ...]` re-derives every sprite with part info
+  (outfits, new characters and their outfits; the base of a new character is the game character whose animations it
+  plays). All the kit's own sprites were re-derived on 2026-10-13.
 
 ## Capacity (2026-10-06)
 * **Ids below 1000** (unique characters' outfits and new unique characters, shared): `slots.unique_pool` -- every id

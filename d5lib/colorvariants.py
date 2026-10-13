@@ -493,7 +493,7 @@ def _consistent(labels, ind, texs, log=None):
     return out
 
 
-def repartition(sprite, base_sprite, colors=255, log=None):
+def repartition(sprite, base_sprite, colors=255, log=None, fs=None):
     """Re-encode an indexed sprite so every part (hair, hoodie, skin ...) has its own palette colours
     (an index is never shared by two parts, so presets can't bleed into a neighbouring part) and
     derive the colour presets per part.  Rewrites textures + all palettes of `sprite`.
@@ -558,7 +558,7 @@ def repartition(sprite, base_sprite, colors=255, log=None):
         sprite.textures[i].data = new.tobytes()
     anm.set_palette(sprite, 0, new_pal)
     info = {"entries": entries}
-    derive_parts(sprite, base_sprite, info)
+    derive_parts(sprite, base_sprite, info, fs=fs, log=log)
     return info
 
 
@@ -672,9 +672,22 @@ def _merge_pairs(pairs, pal, colors, keep=()):
     return remap
 
 
-def derive_parts(sprite, base_sprite, info):
+def derive_parts(sprite, base_sprite, info, fs=None, log=None):
     """Colour presets 1.. of a repartitioned sprite from its part info (see repartition), following the
-    CURRENT first palette (so recolouring a part in the editor and re-deriving keeps the new colours)."""
+    CURRENT first palette (so recolouring a part in the editor and re-deriving keeps the new colours).
+    fs (the game files, for the shared motions): every colour follows the part of the character it lies over in the
+    same poses (d5lib.recolor) -- the method used whenever the game files are at hand; without them, the old
+    hue-matching one below."""
+    if fs is not None:
+        from . import recolor, sprites as _sprites
+        try:
+            pals, _ = recolor.derive(_sprites.preview_file(fs, sprite), _sprites.preview_file(fs, base_sprite),
+                                     info=info, log=log)
+            apply_to_sprite(sprite, pals)
+            return sprite
+        except Exception as e:                           # never lose the variants over it
+            if log:
+                log(f"  (part-following colour variants failed: {e}; hue matching instead)")
     pal = anm.get_palette(sprite, 0)
     entries = {int(k): v for k, v in info["entries"].items()}
     anchors = pal[:, :3].copy()
@@ -707,7 +720,7 @@ def derive_parts(sprite, base_sprite, info):
     return sprite
 
 
-def repartition_rows(sprite, base_sprite, rows, log=None):
+def repartition_rows(sprite, base_sprite, rows, log=None, fs=None):
     """Re-encode an indexed sprite from explicit parts: rows = {texture: editor row per pixel (-1 transparent)},
     e.g. painted by hand (d5lib.partmap).  Part N becomes palette row N (editor "Part N"), row 0 the details; a row
     keeps at most 16 shades (row 0: 15), ordered dark to light.  The colour presets are derived per part.
@@ -767,5 +780,5 @@ def repartition_rows(sprite, base_sprite, rows, log=None):
         used = sorted({k // 256 for k in pairs})
         log(f"  parts: rows {used}, {merged} rare shades merged into the nearest shade of their part")
     info = {"entries": entries, "painted": True}
-    derive_parts(sprite, base_sprite, info)
+    derive_parts(sprite, base_sprite, info, fs=fs, log=log)
     return info

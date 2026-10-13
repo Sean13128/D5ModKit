@@ -126,3 +126,37 @@ __declspec(dllexport) int64_t lzs_decompress_body(const uint8_t *in, size_t n, u
     }
     return (int64_t)o;
 }
+
+/* Yukes LZ (YKCMP_V1 type 4; d5lib/ykcmp.py _yk_lz) from src[pos..n) -> out[0..size); returns the decoded length,
+ * or < 0 where the Python decoder would not give `size` bytes (it then decides) */
+__declspec(dllexport) int64_t yk_lz_decompress(const uint8_t *src, size_t n, size_t pos, uint8_t *out, size_t size) {
+    size_t o = 0;
+    while (o < size && pos < n) {
+        uint8_t b = src[pos++];
+        if (b < 0x80) {
+            if (pos + b > n || o + b > size) return -2;
+            memcpy(out + o, src + pos, b);
+            o += b;
+            pos += b;
+            continue;
+        }
+        size_t length, dist;
+        if (b < 0xC0) {
+            length = ((b >> 4) & 0x3) + 1;
+            dist = (b & 0xF) + 1;
+        } else if (b < 0xE0) {
+            if (pos >= n) return -3;
+            length = (b & 0x3F) + 2;
+            dist = (size_t)src[pos++] + 1;
+        } else {
+            if (pos + 1 >= n) return -3;
+            uint8_t b2 = src[pos], b3 = src[pos + 1];
+            pos += 2;
+            length = ((((size_t)b & 0x1F) << 4) | (b2 >> 4)) + 3;
+            dist = ((((size_t)b2 & 0xF) << 8) | b3) + 1;
+        }
+        if (dist > o || o + length > size) return -4;
+        for (size_t k = 0; k < length; k++) { out[o] = out[o - dist]; o++; }   /* overlap-safe, like the Python */
+    }
+    return (int64_t)o;
+}

@@ -1,9 +1,10 @@
 """D5 Mod Kit — main window."""
+import gc
 import os
 import sys
 import traceback
 
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QFont, QKeySequence, QShortcut
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton,
                              QLabel, QStackedWidget, QButtonGroup, QComboBox, QPlainTextEdit, QSplitter,
@@ -48,6 +49,15 @@ class MainWindow(QMainWindow):
 
         root = QWidget()
         self.setCentralWidget(root)
+        # An OpenGL view (the skill editor's preview) added to a window already on screen makes Qt destroy and
+        # create the whole window again as an OpenGL one: the kit flashed and jumped the first time Skills &
+        # Animations opened.  A hidden OpenGL widget from the start makes the window OpenGL-capable before it shows.
+        try:
+            from PyQt6.QtOpenGLWidgets import QOpenGLWidget
+            self._gl_window = QOpenGLWidget(root)
+            self._gl_window.hide()
+        except Exception:
+            pass
         h = QHBoxLayout(root)
         h.setContentsMargins(0, 0, 0, 0)
         h.setSpacing(0)
@@ -112,6 +122,9 @@ class MainWindow(QMainWindow):
         wrap = QWidget()
         wl = QVBoxLayout(wrap)
         wl.setContentsMargins(16, 10, 16, 6)
+        from .updates import UpdateBar
+        self.update_bar = UpdateBar(self)
+        wl.addWidget(self.update_bar)
         wl.addWidget(self.stack)
         self.right.addWidget(wrap)
         logbox = QWidget()
@@ -152,6 +165,27 @@ class MainWindow(QMainWindow):
         self.statusBar().showMessage(f"Game folder: {self.ws.game_dir}")
         QShortcut(QKeySequence("Ctrl+S"), self, activated=self._save_current)
         self.show_page("home")
+        # The kit keeps big tables in memory (scripts, sprites, databases).  Python's full collection passes walk
+        # all of them -- 0.2-0.5 s each, many times while a page loaded and now and then afterwards: the kit's
+        # stutters.  Collect far less often, and freeze what pages keep (show_page) so later passes skip it.
+        gc.set_threshold(20000, 20, 20)
+        gc.freeze()
+        QTimer.singleShot(2000, self._prewarm)
+        if self.ws.settings.get("check_updates", True):
+            QTimer.singleShot(5000, self.update_bar.check)
+
+    def _prewarm(self):
+        """parse the game's 19 053 scripts in the background shortly after start-up: Skills & Animations and Event
+        Scripts then open at once"""
+        from d5lib import skills
+        from .common import Worker
+        try:
+            if not self.ws.game_ok() or skills.vanilla_scripts_ready(self.ws.fs):
+                return
+        except Exception:
+            return
+        self._prewarm_worker = Worker(skills.vanilla_scripts, self.ws.fs, True)
+        self._prewarm_worker.start()
 
     # ------------------------------------------------------------------ log
     def _log(self, msg):
@@ -269,6 +303,7 @@ class MainWindow(QMainWindow):
                 w.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             p["widget"] = w
             p["index"] = self.stack.addWidget(w)
+            QTimer.singleShot(4000, gc.freeze)        # what the new page keeps: out of the collector's passes
         p["button"].setChecked(True)
         self.stack.setCurrentIndex(p["index"])
         if hasattr(p["widget"], "on_show"):
@@ -330,6 +365,8 @@ def main():
     ensure_game_dir()
     w = MainWindow()
     w.show()
+    from .common import Worker
+    app.aboutToQuit.connect(Worker.wait_all)
     sys.exit(app.exec())
 
 

@@ -59,15 +59,18 @@ class ImageView(QGraphicsView):
     """Zoomable, pannable image viewer with a checkerboard background for transparency."""
     clicked = pyqtSignal(int, int)  # image pixel coords
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, smooth=False):
+        """smooth: zoomed pictures are filtered like the game draws its sprites (character / outfit previews);
+        off: hard pixels, for pixel work (sheets, textures, parts)"""
         super().__init__(parent)
         self._scene = QGraphicsScene(self)
         self.setScene(self._scene)
         self._item = None
+        self.smooth = smooth
         self.setBackgroundBrush(checker_brush())
         self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
         self.setTransformationAnchor(QGraphicsView.ViewportAnchor.AnchorUnderMouse)
-        self.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, False)
+        self.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, smooth)
         self.setMinimumSize(200, 200)
         self._zoom = 1.0
 
@@ -78,6 +81,8 @@ class ImageView(QGraphicsView):
             return
         pm = img if isinstance(img, QPixmap) else pil_to_pixmap(img)
         self._item = self._scene.addPixmap(pm)
+        if self.smooth:
+            self._item.setTransformationMode(Qt.TransformationMode.SmoothTransformation)
         self._scene.setSceneRect(QRectF(pm.rect()))
         if fit:
             self.fit()
@@ -110,9 +115,22 @@ class Worker(QThread):
     failed = pyqtSignal(str)
     progress = pyqtSignal(str)
 
+    alive = set()           # running workers: kept referenced, and waited for when the kit closes (wait_all)
+
     def __init__(self, fn, *args, **kw):
         super().__init__()
         self.fn, self.args, self.kw = fn, args, kw
+        self.finished.connect(lambda: Worker.alive.discard(self))
+
+    def start(self, *a):
+        Worker.alive.add(self)
+        super().start(*a)
+
+    @staticmethod
+    def wait_all(ms=8000):
+        """at exit: a QThread destroyed while it runs aborts the program"""
+        for w in list(Worker.alive):
+            w.wait(ms)
 
     def run(self):
         try:

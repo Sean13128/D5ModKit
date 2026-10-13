@@ -57,10 +57,13 @@ def patch(exe: bytes, mapping, log=print) -> bytes:
     import pefile
     pe = pefile.PE(data=exe, fast_load=True)
     hooks, missing = [], []
+    from . import exemap
+    T = exemap.ACTIVE
     for s in sites():
         va, orig = int(s["va"], 16), bytes.fromhex(s["orig"])
-        if pe.get_data(va - exepatch.IMAGE_BASE, len(orig)) != orig:
-            missing.append(s["va"])          # another patch owns these bytes: leave the site as it is
+        nva = T(va) if T.has(va) else None
+        if nva is None or not exemap.same_code(T, va, orig, nva, pe.get_data(nva - exepatch.IMAGE_BASE, len(orig))):
+            missing.append(s["va"])          # another patch owns these bytes (or this build lacks it): left alone
             continue
         hooks.append((va, orig, s["src"], 0xE9))
     if missing:

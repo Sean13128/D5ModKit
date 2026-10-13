@@ -1,3 +1,3 @@
 """The kit's version (shown in the window title; CHANGELOG.md lists what each one brought)."""
-VERSION = "1.0"
-RELEASED = "2026-10-11"
+VERSION = "1.2"
+RELEASED = "2026-10-13"

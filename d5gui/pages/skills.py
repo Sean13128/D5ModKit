@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QList
                              QDoubleSpinBox, QSpinBox, QCheckBox, QDialogButtonBox, QFileDialog, QAbstractItemView)
 
 from d5lib import overloads, skills
-from ..common import PageHeader, SearchBox, error_box, info_box, pil_to_pixmap
+from ..common import PageHeader, SearchBox, Worker, error_box, info_box, pil_to_pixmap
 from ..dbservice import get_service, table_names, char_names
 from ..skilledit.editor import SkillTimelineEditor
 from .stages import SearchCombo
@@ -398,10 +398,39 @@ class SkillsPage(QWidget):
         return ms
 
     def on_show(self):
+        if self._loaded:
+            return
+        if not skills.vanilla_scripts_ready(self.ws.fs):
+            self._load_in_background()
+            return
+        self._first_load()
+
+    def _first_load(self):
         if not self._loaded:
             self._loaded = True
             self._fill_reference()
             self.load()
+
+    def _load_in_background(self):
+        """the game's 19 053 scripts are parsed once (~2 s): in a worker, the page shows at once and the kit stays
+        usable (MainWindow also starts this a moment after start-up)"""
+        if getattr(self, "_bg", None) is not None:
+            return
+        self.list.clear()
+        self.list.addItem("Loading the game's skill animations…")
+        self._bg = Worker(skills.vanilla_scripts, self.ws.fs, True)
+
+        def done(_):
+            self._bg = None
+            self._first_load()
+
+        def failed(msg):
+            self._bg = None
+            self.list.clear()
+            self.list.addItem("Could not load the skill scripts: " + msg.splitlines()[0])
+        self._bg.done.connect(done)
+        self._bg.failed.connect(failed)
+        self._bg.start()
 
     def reload_quiet(self):
         """re-read the scripts and the mods' skill data without touching the views (the timeline editor's saves)"""
@@ -698,7 +727,7 @@ class SkillsPage(QWidget):
         """show skill sid in the editor (e.g. a new skill made on the Characters page); back = (character id,
         name): a button returns to that character's setup"""
         if not self._loaded:
-            self.on_show()
+            self._first_load()                     # now (waits for a background load already running)
         else:
             self.load()                            # the skill may be brand new
         self._back = back
@@ -727,7 +756,7 @@ class SkillsPage(QWidget):
 
     def new_overload(self):
         if not self._loaded:
-            self.on_show()
+            self._first_load()
         ovl = self.ovl_panel.new_overload()
         if ovl:
             self.open_skill(skills.OVL_KEY + ovl)

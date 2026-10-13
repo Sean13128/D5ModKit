@@ -80,8 +80,12 @@ OUTFIT_PAGE = 12           # outfits per page: the list opens at a fixed place a
 
 
 def _asm(src, addr):
+    """assemble src at addr; the game addresses written in it are those of the known build, translated to the build
+    being patched (exemap.ACTIVE)"""
     if Ks is None:
         raise RuntimeError("keystone-engine is required: pip install keystone-engine")
+    from . import exemap
+    src = exemap.ACTIVE.text(src)
     ks = Ks(KS_ARCH_X86, KS_MODE_64)
     enc, _ = ks.asm(src, addr)
     return bytes(enc)
@@ -93,10 +97,9 @@ def add_hook_section(exe: bytes, name: bytes, hooks, shared_src="", writable=Fal
     data) is placed first; hook sources reach it as {shared}.  Each source is assembled at its own address, so labels
     only need to be unique within one source.  shared_bytes: raw data placed first instead (e.g. a zeroed buffer;
     writable=True makes the section writable)."""
+    from . import exemap
     pe = pefile.PE(data=exe)
-    for va, orig, _, _ in hooks:
-        if pe.get_data(va - IMAGE_BASE, len(orig)) != orig:
-            raise ValueError(f"unexpected exe version: hook site {va:#x} doesn't match")
+    hooks = [(exemap.site(pe, va, orig, "hook site"), orig, body, op) for va, orig, body, op in hooks]
     sec_align = pe.OPTIONAL_HEADER.SectionAlignment
     file_align = pe.OPTIONAL_HEADER.FileAlignment
     secs = sorted(pe.sections, key=lambda s: s.VirtualAddress)
@@ -224,15 +227,15 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
     faces: [(outfit class id, face animation id)] for outfits with their own face picture.
     looks: {class id: (look index, looks in the group)} -- each look keeps its own custom colours
     (Strategy Assembly precise colours) in one of the unit's three colour sets; 0 looks = shared."""
+    from . import exemap
     pe = pefile.PE(data=exe)
     if is_patched(exe):
         raise ValueError("exe already contains the .d5mod section (patch the vanilla exe)")
+    at = {}
     for va, orig in ((OPEN_VA, OPEN_ORIG), (DISPATCH_VA, DISPATCH_ORIG), (HUB_VA, HUB_ORIG),
                      (LAYER_VA, LAYER_ORIG), (FACE_A_VA, FACE_A_ORIG), (FACE_B_VA, FACE_B_ORIG),
                      (GFX_VA, GFX_ORIG)):
-        if pe.get_data(va - IMAGE_BASE, len(orig)) != orig:
-            raise ValueError("unexpected exe version: patch sites don't match "
-                             "(only the PC 'Complete' build is supported)")
+        at[va] = exemap.site(pe, va, orig, "outfit menu patch site")
 
     sec_align = pe.OPTIONAL_HEADER.SectionAlignment
     file_align = pe.OPTIONAL_HEADER.FileAlignment
@@ -746,13 +749,16 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
         off = pe.get_offset_from_rva(va - IMAGE_BASE)
         out[off:off + len(b)] = b
 
-    put(DISPATCH_VA, _jmp(DISPATCH_VA, labels["dispatch"], len(DISPATCH_ORIG)))
-    put(OPEN_VA, _jmp(OPEN_VA, labels["open"], len(OPEN_ORIG)))
-    put(HUB_VA, _jmp(HUB_VA, labels["hub"], len(HUB_ORIG)))
+    def hook(va, label, orig):
+        put(at[va], _jmp(at[va], labels[label], len(orig)))
+
+    hook(DISPATCH_VA, "dispatch", DISPATCH_ORIG)
+    hook(OPEN_VA, "open", OPEN_ORIG)
+    hook(HUB_VA, "hub", HUB_ORIG)
     if own_sprites:
-        put(LAYER_VA, _jmp(LAYER_VA, labels["layer"], len(LAYER_ORIG)))
+        hook(LAYER_VA, "layer", LAYER_ORIG)
     if faces:
-        put(FACE_A_VA, _jmp(FACE_A_VA, labels["face_a"], len(FACE_A_ORIG)))
-        put(FACE_B_VA, _jmp(FACE_B_VA, labels["face_b"], len(FACE_B_ORIG)))
-        put(GFX_VA, _jmp(GFX_VA, labels["gfx"], len(GFX_ORIG)))
+        hook(FACE_A_VA, "face_a", FACE_A_ORIG)
+        hook(FACE_B_VA, "face_b", FACE_B_ORIG)
+        hook(GFX_VA, "gfx", GFX_ORIG)
     return bytes(out)

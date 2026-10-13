@@ -13,6 +13,19 @@
 
 static int g_rows_fixed;
 
+/* A save with a unit whose class the game doesn't have (its mod is switched off): the game crashes when it next
+   looks the class up (entering a battle, 0x14015ce30).  Said once per class: in d5auto.log (the kit's Home page
+   reads it and names the mod) and on screen. */
+static int g_rows_missing[16], g_nrows_missing;
+static void rows_missing(int unit, int cls) {
+    for (int k = 0; k < g_nrows_missing; k++)
+        if (g_rows_missing[k] == cls) return;
+    if (g_nrows_missing < 16) g_rows_missing[g_nrows_missing++] = cls;
+    logf_("rows: MISSING CLASS %d (roster unit %d): a mod this save needs is not installed", cls, unit);
+    snprintf(g_cc_toast, sizeof g_cc_toast, "Save needs a mod that's off!");
+    g_cc_toast_until = GetTickCount() + 12000;
+}
+
 static void rows_tick(void) {
     const unsigned char *recs = *(const unsigned char *const *)G(VA_CHAR_RECORDS);
     unsigned int count = *(const unsigned int *)G(VA_CHAR_COUNT);
@@ -28,6 +41,10 @@ static void rows_tick(void) {
             continue;
         fix(u);
         short now = *(const short *)(u + 0x2E0A);
+        if (now < 0) {      /* no row has this class: a unit of a mod that isn't installed (battles would crash) */
+            rows_missing(i, cls);
+            continue;
+        }
         if (g_rows_fixed++ < 64)
             logf_("rows: unit %d (class %d) row %d -> %d", i, cls, (int)row, (int)now);
     }

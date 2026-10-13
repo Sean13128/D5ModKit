@@ -114,22 +114,25 @@ _vanilla = {}
 
 def vanilla_tables(exe):
     """({Overload id: magic id}, {Overload id: banner}) of the game's two switches (ids 1 .. 213)"""
-    key = len(exe), exe[:0x400]
+    from . import exemap
+    key = len(exe), exe[:0x400], exemap.ACTIVE.id
     if key in _vanilla:
         return _vanilla[key]
     rd = _rva_reader(exe)
+    from . import exemap
+    T = exemap.ACTIVE                       # the tables of the game build being patched
     magic, banner = {}, {}
-    idx = rd(MAP_INDEX, MAP_COUNT)
+    idx = rd(T(MAP_INDEX), MAP_COUNT)
     for i, k in enumerate(idx):
-        tgt = IMAGE_BASE + struct.unpack("<i", rd(MAP_JUMPS + 4 * k, 4))[0]
+        tgt = IMAGE_BASE + struct.unpack("<i", rd(T(MAP_JUMPS) + 4 * k, 4))[0]
         code = rd(tgt, 6)
         if code[0] == 0xB8 and code[5] == 0xC3:                 # mov eax, imm32 / ret
             v = struct.unpack_from("<i", code, 1)[0]
             if v > 0:
                 magic[i + 1] = v
-    idx = rd(BANNER_INDEX, MAP_COUNT)
+    idx = rd(T(BANNER_INDEX), MAP_COUNT)
     for i, k in enumerate(idx):
-        tgt = IMAGE_BASE + struct.unpack("<i", rd(BANNER_JUMPS + 4 * k, 4))[0]
+        tgt = IMAGE_BASE + struct.unpack("<i", rd(T(BANNER_JUMPS) + 4 * k, 4))[0]
         code = rd(tgt, 5)
         banner[i + 1] = struct.unpack_from("<i", code, 1)[0] if code[0] == 0xBB else DEFAULT_BANNER
     _vanilla[key] = magic, banner

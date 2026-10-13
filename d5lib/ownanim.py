@@ -53,8 +53,12 @@ def _pack(sizes, page=PAGE, pad=PAD):
     return pos, len(pages)
 
 
-def _palette(frames, colors=255):
-    """Shared palette for RGBA arrays -> (256x4 palette, [index arrays])."""
+def _palette(frames, colors=255, iters=16, power=0.55):
+    """Shared palette for RGBA arrays -> (256x4 palette, [index arrays]).  Pillow's octree palette, refined by
+    weighted k-means: every colour counts as (pixels ** 0.55), so the few pixels of eyes, mouths and highlights get
+    palette colours of their own instead of being merged into the big areas (the octree alone was ~1.6x further
+    from the Disgaea RPG drawings and smeared their eyes)."""
+    from scipy.spatial import cKDTree
     flat = np.concatenate([f.reshape(-1, 4) for f in frames], 0)
     side = int(np.ceil(np.sqrt(len(flat))))
     pad = np.zeros((side * side, 4), np.uint8)
@@ -62,15 +66,48 @@ def _palette(frames, colors=255):
     q = Image.fromarray(pad.reshape(side, side, 4), "RGBA").quantize(
         colors=colors, method=Image.Quantize.FASTOCTREE, dither=Image.Dither.NONE)
     qp = np.array(q.getpalette("RGBA")[:colors * 4], np.uint8).reshape(-1, 4)
+    vis = flat[:, 3] > 0
+    if vis.any():
+        W = np.array([1.0, 1.15, 0.85, 1.3])          # green most visible; alpha edges matter
+
+        def feat(c):
+            c = c.astype(np.float64)
+            return np.concatenate([c[:, :3] * (c[:, 3:4] / 255.0), c[:, 3:4]], 1) * W
+        key = np.ascontiguousarray(flat[vis]).view(np.uint32).ravel()
+        uk, inv, cnt = np.unique(key, return_inverse=True, return_counts=True)
+        uc = uk.view(np.uint8).reshape(-1, 4)
+        X = feat(uc)
+        w = cnt.astype(np.float64) ** power
+        C = feat(qp)
+        for _ in range(iters):
+            d, a = cKDTree(C).query(X)
+            sw = np.bincount(a, w, len(C))
+            ok = sw > 0
+            for j in range(4):
+                s_ = np.bincount(a, w * X[:, j], len(C))
+                C[ok, j] = s_[ok] / sw[ok]
+            empty = np.nonzero(~ok)[0]
+            if len(empty):                              # re-seed at the worst-served colours
+                C[empty] = X[np.argsort(-(d ** 2) * w)[:len(empty)]]
+        _, a = cKDTree(C).query(X)
+        # palette colour = the pixel-weighted mean of its real colours
+        sw = np.bincount(a, cnt, len(C))
+        P = np.stack([np.bincount(a, cnt * uc[:, j].astype(np.float64), len(C)) for j in range(4)], 1)
+        P = np.where(sw[:, None] > 0, P / np.maximum(sw, 1)[:, None], 0)
+        qp = np.clip(np.round(P), 0, 255).astype(np.uint8)
+        qp[sw == 0] = 0
+        _, a2 = cKDTree(feat(qp)).query(X)
+        idx = np.zeros(len(flat), np.int32)
+        idx[vis] = a2[inv.ravel()] + 1
+    else:
+        idx = np.zeros(len(flat), np.int32)
     pal = np.zeros((256, 4), np.uint8)
     pal[1:1 + len(qp)] = qp
-    idx = np.asarray(q, np.int32).reshape(-1)[:len(flat)] + 1
-    idx[flat[:, 3] == 0] = 0
     out, pos = [], 0
     for f in frames:
-        h, w = f.shape[:2]
-        out.append(idx[pos:pos + h * w].reshape(h, w).astype(np.uint8))
-        pos += h * w
+        h, w_ = f.shape[:2]
+        out.append(idx[pos:pos + h * w_].reshape(h, w_).astype(np.uint8))
+        pos += h * w_
     return pal, out
 
 

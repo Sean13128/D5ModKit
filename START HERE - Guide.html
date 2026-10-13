@@ -62,6 +62,7 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
   <a href="#basics">How the kit works</a>
   <a href="#pages">The pages, one by one</a>
   <a href="#manage">Turning mods on and off</a>
+  <a href="#profiles">Profiles: separate modpacks</a>
   <a href="#restore">Restoring the original game</a>
   <div class="grp">Tutorials</div>
   <a href="#t-first">1 · Your first edit</a>
@@ -106,7 +107,8 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
 <tr><th>Item</th><th>Details</th></tr>
 <tr><td>Windows</td><td>Windows 10 or 11, 64-bit.</td></tr>
 <tr><td>The game</td><td><b>Disgaea 5 Complete for PC</b>, in any language setting. This is the Windows version
-(on Steam), not the Switch or PS4 game. The kit checks the game's program file when it starts; see
+(on Steam), not the Switch or PS4 game. Both PC versions work: the Steam game as it is today (January 2019 update)
+and the October 2018 launch version. The kit checks the game's program file when it starts; see
 <a href="#trouble">Troubleshooting</a> if it shows a warning.</td></tr>
 <tr><td>Disk space</td><td>About 3.5 GB for the kit folder, plus about 1.5 GB of game data the mods add.</td></tr>
 <tr><td>A clean game</td><td>The kit backs up the game files the first time it installs. If other mods or tools
@@ -142,10 +144,9 @@ to leave it out (see <a href="#manage">Turning mods on and off</a>).</p>
 <tr><th>Mod</th><th>What it adds</th></tr>
 <tr><td>Outfit System</td><td>The <b>Outfit</b> entry in the character menu. Needed by every outfit mod and the new
 characters.</td></tr>
-<tr><td>Girl Laharl Outfits</td><td>13 outfits: Swimsuit, Attired Girl, Demonic Angel, Thunderlady, RK Girl,
-Beach Thunderlady, Uniform, Groom Thunderlady, Santa, Magical Girl, Supreme, Demon Detective, Young
-Thunderlady. With the Thunderlady mod on, the four Thunderlady looks belong to her instead
-(Girl Laharl keeps the other 9).</td></tr>
+<tr><td>Girl Laharl Outfits</td><td>9 outfits: Swimsuit, Attired Girl, Demonic Angel, RK Girl, Uniform, Santa,
+Magical Girl, Supreme, Demon Detective. The Thunderlady looks belong to the Thunderlady character
+(next row).</td></tr>
 <tr><td>Thunderlady</td><td><b>Thunderlady</b>, Girl Laharl's lightning alternative, as a character of her own:
 Girl Laharl's skills redone as lightning (<i>Thunder Knuckle</i>, <i>Thunderlady's Wrath</i>, <i>Thunder Impact</i>,
 <i>Thunder Dimension</i>), faster and more magical stats, her own weapon masteries, resistances and two evilities
@@ -256,9 +257,31 @@ entry. A pack only groups them: the mods themselves don't change, and <i>Ungroup
 it switches on what it needs too. Right-click a mod for more: edit its details (and its category), open its folder,
 share it, make your own version of it, delete it.</p>
 
+<h2 id="profiles">Profiles: separate modpacks</h2>
+<p>A <b>profile</b> is a modpack: which mods are ticked and their load order. Like the profiles of Mod Organizer for
+Skyrim, each profile keeps its own, so you can have, say, a <i>Story</i> profile with outfits only and a <i>Hard
+Mode</i> one with everything, and switch between them. The mods themselves are shared by all profiles (a mod ticked in
+two profiles is the same mod), so switching is instant and costs no disk space.</p>
+<ol class="steps">
+<li>Home › <b>Profile</b> (top of the Mods list): pick a profile. The list shows its mods at once.</li>
+<li><b>＋ New profile…</b> starts one with no mod ticked; <b>Profile ▾ › Copy this profile…</b> starts one with the
+same mods as this one. Rename and Delete are in the same menu (a deleted profile is kept in
+<code>D5ModKit\state\deleted_profiles</code>).</li>
+<li>Press <b>⚡ Install &amp; Play</b>: the game gets the profile's mods. The status box says <i>Another profile is in
+the game</i> while the game still has a different profile's mods.</li>
+</ol>
+<p><b>Separate saves</b> (optional): <b>Profile ▾ › Separate saves for this profile</b>. A save that contains something a
+mod added needs that mod, so a modpack can keep its own saves. They go into the game when the profile is installed
+(and when you press Play); the saves of the other profiles are put aside meanwhile. Start it with a copy of your
+current saves or with none (a new game). Nothing is deleted: every switch also keeps a copy in
+<code>D5ModKit\state\save_backups</code>, and only the save files move (your game settings and key bindings
+stay). Start the game through the kit (<b>Play</b>) so the right saves are in place; Steam Cloud keeps whatever saves
+are in the game.</p>
+
 <h2 id="restore">Restoring the original game</h2>
 <p>Home › <b>Restore original game…</b> puts every changed game file back exactly as it was before the first
-install. Your mods stay in the kit; install them again whenever you like. Do this before uninstalling the kit or
+install (and the shared saves, if a profile with its own saves was in the game). Your mods stay in the kit; install
+them again whenever you like. Do this before uninstalling the kit or
 deleting its folder.</p>
 
 <h2 id="t-first">Tutorial 1 · Your first edit</h2>
@@ -485,15 +508,17 @@ Python. The tools work on the game folder the kit uses.</p>
 <h3>"Disgaea 5 Complete was not found"</h3>
 <p>Choose the folder that contains <code>disgaea5.exe</code> and <code>Data</code> (Home › <b>Change game
 folder…</b>). Steam shows it under Manage › Browse local files.</p>
-<h3>⚠ "This disgaea5.exe is not the version the kit was made for"</h3>
-<p>The kit was made for the PC release's program file (its last update was in October 2018). If another tool changed
-your exe, verify the game files in Steam and start the kit again. With a really different version, the mods that
-change the game program (outfits, new characters and classes, colour slots, skills) refuse to install
-safely, with a message. Data-only mods still work.</p>
+<h3>⚠ "This disgaea5.exe is a build of the game the kit hasn't been checked with"</h3>
+<p>The kit knows the Steam game as it is today and the October 2018 launch version. Another build (an older or a
+future update) still works: the kit finds the places it changes in the game program by itself. If a change can't
+be placed there, it is left out of the install and named in the Log, and everything else installs. Press
+<b>Copy compatibility report</b> on Home and send it to the kit's author so the build can be added. If another tool
+changed your exe, verify the game files in Steam and start the kit again.</p>
 <h3>⛔ "The game already has mods from another copy of the D5 Mod Kit"</h3>
 <p>Another kit folder (or an older copy of this one) installed mods into this game. Press <b>Restore original
 game…</b> in that copy first, or copy its <code>state</code> folder into this kit (it holds the backups), or verify
-the game files in Steam.</p>
+the game files in Steam. One kit can look after several copies of the game: each game folder keeps its own backups
+(<code>state\games</code>).</p>
 <h3>⛔ "A mods package is installed in this game"</h3>
 <p>A player installer .exe made with the kit is installed. Run it again and press <b>Uninstall</b> first.</p>
 <h3>The install failed</h3>
@@ -510,7 +535,12 @@ cause. Check <code>d5auto.log</code> in the game folder: it records what the run
 <code>d5live_script.dat</code>. Delete them too if you like.</p>
 
 <h2 id="update">Updating the kit</h2>
-<p>To move to a newer copy of the kit without losing anything:</p>
+<p><b>In the kit (version 1.2 and later):</b> a few seconds after it starts, the kit asks GitHub whether there is a
+newer version. If there is, a bar appears over the pages: press <b>Update now</b>. Only the files that changed are
+downloaded, your own mods and settings stay, and a shipped file you edited yourself is backed up first (in
+<code>state\update_backups</code>). Then restart the kit. <b>Check for updates</b> on the Home page asks right away;
+untick <b>at start</b> to stop the automatic check.</p>
+<p>When an update needs the full download (or from an older kit), move to the new copy without losing anything:</p>
 <ol class="steps">
 <li>In the old kit, press <b>Restore original game…</b>.</li>
 <li>Copy your own mods (any folder in <code>old\mods</code> you made) into the new kit's <code>mods</code> folder.</li>

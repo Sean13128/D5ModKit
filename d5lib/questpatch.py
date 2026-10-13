@@ -174,9 +174,9 @@ def build_newchar_hook(exe: bytes, recruit_ids=(), class_map=None, palette_map=N
     pal_orig = b"\xE8" + struct.pack("<i", PAL_LOOKUP - (PAL_CALL_VA + 5))
     sites = [(HOOK_VA, HOOK_ORIG, ids, _recruit_src, 0xE9), (ANM_OF_VA, ANM_OF_ORIG, cls_pairs, _class_src, 0xE9),
              (PAL_CALL_VA, pal_orig, pal_pairs, _palette_src, 0xE8)]
-    for va, orig, used, _, _ in sites:
-        if used and pe.get_data(va - IMAGE_BASE, len(orig)) != orig:
-            raise ValueError(f"unexpected exe version: the new-character hook site {va:#x} doesn't match")
+    from . import exemap
+    sites = [(exemap.site(pe, va, orig, "the new-character hook site") if used else va, orig, used, src, op)
+             for va, orig, used, src, op in sites]
     sec_align = pe.OPTIONAL_HEADER.SectionAlignment
     file_align = pe.OPTIONAL_HEADER.FileAlignment
     last = max(pe.sections, key=lambda s: s.VirtualAddress)

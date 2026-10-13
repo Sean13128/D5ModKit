@@ -8,8 +8,8 @@ Disgaea 5 Complete on PC.**
 Never modded a game before? Follow these steps in order. It takes about 10 minutes, and there's nothing else to
 install.
 
-**You need:** Windows 10 or 11 (64-bit), **Disgaea 5 Complete for PC** (Steam), and about **4 GB** of free disk
-space.
+**You need:** Windows 10 or 11 (64-bit), **Disgaea 5 Complete for PC** (Steam, as it is today; the October 2018
+version works too), and about **4 GB** of free disk space.
 
 ### Step 1 · Back up your saves
 
@@ -75,6 +75,9 @@ on.
   outfit mod, switch your characters back to **Default**: a save with a character wearing that outfit needs the
   mod.
 * **Remove all mods:** press **Restore original game…** (4). After that you can delete the `D5ModKit` folder.
+* **Several modpacks:** **Profile** (above the mods list) keeps separate sets of mods, like Mod Organizer's
+  profiles for Skyrim, and can give each its own saves.
+* **Updating the kit:** Home › **Check for updates** downloads only what changed (from 1.2 on).
 * **Steam updated or verified the game and the mods are gone:** open the kit and press **⚡ Install & Play**
   again.
 
@@ -85,6 +88,9 @@ on.
   folder, then press **⚡ Install & Play** again.
 * **The install failed:** close the game and try again. If your game is under `C:\Program Files`, right-click
   `Start D5 Mod Kit.bat` › **Run as administrator**.
+* **The game says *Save needs a mod that's off!*:** your save has a character from a mod you switched off. The
+  Home page names it: tick that mod again and press **⚡ Install & Play** (the game would crash in battle
+  otherwise).
 * **Anything else:** see *Troubleshooting & FAQ* in **Guide & Tutorials** (5), or
   [open an issue](https://github.com/eraser4521/D5ModKit/issues).
 
@@ -94,7 +100,7 @@ step-by-step tutorial for each one, and the rest of this page describes them all
 
 ---
 
-> **About this repository.** It holds the kit's code and documentation (version 1.1). The mods (outfits,
+> **About this repository.** It holds the kit's code and documentation (version 1.2). The mods (outfits,
 > Thunderlady, classes …), the Disgaea RPG reference art the outfit builder matches against
 > (`d5lib/data/drpg_ref_humanoid.pickle`) and the bundled Python come with the release zip, not with this repository:
 > they are drawn from Disgaea 5 / Disgaea RPG art. To run from a clone: `pip install -r requirements.txt`, then
@@ -109,8 +115,11 @@ installed Python 3.10+ with PyQt6, numpy, scipy, Pillow, pefile, keystone-engine
 runtime).
 
 The kit finds the game by itself: the folder it sits in, else Steam's libraries, else it asks (Home → Change game
-folder…). It checks the game's exe build and warns about anything that would stop an install (another kit's or a
-package's mods still installed, missing files) — `d5lib/gamecheck.py`.
+folder…). It works with the Steam game as it is today (January 2019 update) and the October 2018 launch build: the
+game addresses the kit uses are carried over to each build by `d5lib/exemap.py` (shipped maps in
+`d5lib/data/exe_map_*.json`; a build without one is matched on the fly, and a change that can't be placed is left out
+with a note). It warns about anything that would stop an install (another kit's or a package's mods still installed,
+missing files) — `d5lib/gamecheck.py`. Each game folder keeps its own backups (`state/games/`).
 
 ## How it works (30-second version)
 1. **Pick the mod you're working on** — bottom left, *Saving edits to*. A mod is a folder of changes
@@ -124,6 +133,9 @@ package's mods still installed, missing files) — `d5lib/gamecheck.py`.
 4. **Restore original game…** (Home) puts every game file back exactly as it was; your mods stay in the kit.
 
 Mods can be enabled/disabled, reordered (lower in the list wins conflicts), exported to `.zip` and shared.
+**Profiles** (Home → Profile) keep separate modpacks, like Mod Organizer's profiles for Skyrim: each has its own
+enabled mods and load order (`profiles/<id>/load_order.json`), optionally its own saves, swapped in with its mods at
+install — `d5lib/profiles.py`.
 The editors always show the game as your enabled mods make it (every mod's changes, the one you edit on top).
 
 ## Pages
@@ -219,8 +231,3 @@ The editors always show the game as your enabled mods make it (every mod's chang
   the sprites / faces / cut-ins the builders read, ~1 GB).  Tested
   2026-10-10: a staged copy, on its own Python, installs byte-identical game files to this kit's install and its
   restore returns the original files exactly.
-
-## License
-The kit's code and documentation are released under the [MIT License](LICENSE). Disgaea 5 and Disgaea RPG are
-© Nippon Ichi Software / NIS America; this is an unofficial fan project and contains none of their game files or
-art. You need your own copy of Disgaea 5 Complete (PC) to use it.

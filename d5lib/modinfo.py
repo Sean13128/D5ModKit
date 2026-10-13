@@ -63,10 +63,14 @@ def handlers(mod):
 
 
 def outfits_of(mod):
-    """[(character class, outfit class, outfit name)] from patches/outfits/outfits.json"""
+    """[(character class, outfit class, outfit name)] from patches/outfits/outfits.json -- without the ones the mod
+    hides itself (kept only so saves using them still work, e.g. Girl Laharl's Thunderlady looks, which are the
+    Thunderlady character's)"""
     d = _json(os.path.join(mod.patches_dir, "outfits", "outfits.json")) or {}
     names = d.get("names") or {}
-    return [(int(c), int(o), names.get(str(o)) or f"outfit {o}") for c, o in d.get("pairs") or []]
+    hidden = {int(x) for x in d.get("hide") or []}
+    return [(int(c), int(o), names.get(str(o)) or f"outfit {o}") for c, o in d.get("pairs") or []
+            if int(o) not in hidden]
 
 
 def db_changes(mod):

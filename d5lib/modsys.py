@@ -10,7 +10,8 @@ A mod is a folder under `D5ModKit/mods/<folder>/`:
     patches/<handler>/*.json       structured patches (database rows, dialogue lines, ...)
                                    applied by registered patch handlers, in mod priority order.
 
-`mods/load_order.json` lists enabled mods (first = lowest priority).
+The active profile's load order (profiles/<id>/load_order.json, see d5lib/profiles.py) lists the enabled mods
+(first = lowest priority).
 
 Install strategy (fast and fully reversible):
   * NISPACK archives are patched *in place by appending*: new member data is written after the
@@ -57,6 +58,48 @@ RUNTIME_FILES = ["d5core_live*.dll"]
 
 
 # =============================================================================== mods
+EDITS = [0]         # bumped by every write through a Mod (change_token: pages rebuild only when something changed)
+
+
+def change_token(mods_dir):
+    """cheap fingerprint of the mods' state: the kit's own writes (EDITS) plus, for writes made around the Mod
+    class, the times of each mod's mod.json, its folders and patch folders (files added / removed) and the load
+    order / packs files"""
+    out = [EDITS[0]]
+    try:
+        names = sorted(os.listdir(mods_dir))
+    except OSError:
+        return tuple(out)
+    for n in names:
+        d = os.path.join(mods_dir, n)
+        paths = [d]
+        if os.path.isdir(d):
+            paths += [os.path.join(d, "mod.json"), os.path.join(d, "files"), os.path.join(d, "patches")]
+            try:
+                paths += [e.path for e in os.scandir(os.path.join(d, "patches")) if e.is_dir()]
+            except OSError:
+                pass
+        for p in paths:
+            try:
+                out.append(os.stat(p).st_mtime_ns)
+            except OSError:
+                out.append(None)
+    # the profiles' load orders and the active profile (settings.json)
+    kit = os.path.dirname(os.path.abspath(mods_dir))
+    prof = os.path.join(kit, "profiles")
+    try:
+        extra = [os.path.join(kit, "settings.json")] + [os.path.join(prof, n, "load_order.json")
+                                                        for n in sorted(os.listdir(prof))]
+    except OSError:
+        extra = []
+    for p in extra:
+        try:
+            out.append(os.stat(p).st_mtime_ns)
+        except OSError:
+            out.append(None)
+    return tuple(out)
+
+
 class Mod:
     def __init__(self, folder):
         self.folder = folder
@@ -80,6 +123,7 @@ class Mod:
         return os.path.join(self.folder, "patches")
 
     def save_meta(self):
+        EDITS[0] += 1
         os.makedirs(self.folder, exist_ok=True)
         with open(os.path.join(self.folder, "mod.json"), "w", encoding="utf-8") as f:
             json.dump(self.meta, f, indent=2, ensure_ascii=False)
@@ -96,12 +140,14 @@ class Mod:
             return f.read()
 
     def write_file(self, vpath, data: bytes):
+        EDITS[0] += 1
         p = self.file_path(vpath)
         os.makedirs(os.path.dirname(p), exist_ok=True)
         with open(p, "wb") as f:
             f.write(data)
 
     def remove_file(self, vpath):
+        EDITS[0] += 1
         p = self.file_path(vpath)
         if os.path.exists(p):
             os.remove(p)
@@ -126,6 +172,7 @@ class Mod:
             return json.load(f)
 
     def save_patch(self, handler, name, obj):
+        EDITS[0] += 1
         p = self.patch_path(handler, name)
         os.makedirs(os.path.dirname(p), exist_ok=True)
         if obj in (None, {}, []):
@@ -143,19 +190,60 @@ class Mod:
 
 
 class ModManager:
-    def __init__(self, kit_dir=KIT_DIR):
+    def __init__(self, kit_dir=KIT_DIR, profile=None):
+        """the mods of the kit; enabled / their order: the profile `profile` (an id), else the active one"""
+        from .profiles import Profiles
         self.kit_dir = kit_dir
         self.mods_dir = os.path.join(kit_dir, "mods")
         os.makedirs(self.mods_dir, exist_ok=True)
-        self.order_file = os.path.join(self.mods_dir, "load_order.json")
+        self.profiles = Profiles(kit_dir)
+        self._cache = None
+        self.set_profile(profile)
 
-    def all_mods(self):
-        mods = []
+    def set_profile(self, profile=None):
+        """work on another profile's load order (an id; None = the active one)"""
+        self.profile = (self.profiles.get(profile) if profile else None) or self.profiles.active()
+        self.order_file = self.profile.order_file
+        self._cache = None
+        return self.profile
+
+    def _snapshot(self):
+        """({mod id: meta}, load order), read once and kept while nothing changed: pages asked for the mods once per
+        list row (Textures read ~13 000 files to open).  Read again when the kit wrote anything through a Mod or the
+        manager (EDITS), the mods folder or the load order file changed, or after a second (edits made outside the
+        kit)."""
+        try:
+            key = (EDITS[0], os.stat(self.mods_dir).st_mtime_ns, self.order_file,
+                   os.stat(self.order_file).st_mtime_ns if os.path.exists(self.order_file) else None)
+        except OSError:
+            key = None
+        now = time.monotonic()
+        c = self._cache
+        if c is not None and key is not None and c[0] == key and now - c[1] < 1.0:
+            return c[2]
+        metas = {}
         for d in sorted(os.listdir(self.mods_dir)):
             full = os.path.join(self.mods_dir, d)
             if os.path.isdir(full):
-                mods.append(Mod(full))
-        return mods
+                metas[d] = Mod(full).meta
+        if os.path.exists(self.order_file):
+            with open(self.order_file, encoding="utf-8") as f:
+                order = json.load(f)
+        else:
+            order = []
+        snap = (metas, [m for m in order if m in metas])
+        self._cache = (key, now, snap)
+        return snap
+
+    def _mod(self, mod_id, meta):
+        m = Mod.__new__(Mod)                # a Mod of its own (callers change meta), without reading mod.json again
+        m.folder = os.path.join(self.mods_dir, mod_id)
+        m.id = mod_id
+        m.meta = dict(meta)
+        return m
+
+    def all_mods(self):
+        return [self._mod(i, meta) for i, meta in self._snapshot()[0].items()]
 
     def get(self, mod_id):
         full = os.path.join(self.mods_dir, mod_id)
@@ -178,24 +266,22 @@ class ModManager:
         return m
 
     def delete(self, mod_id):
+        EDITS[0] += 1
         shutil.rmtree(os.path.join(self.mods_dir, mod_id), ignore_errors=True)
-        self.save_load_order([m for m in self.load_order() if m != mod_id])
+        self.profiles.without_mod(mod_id)                # every profile's load order
 
     def load_order(self):
-        if os.path.exists(self.order_file):
-            with open(self.order_file, encoding="utf-8") as f:
-                order = json.load(f)
-        else:
-            order = []
-        existing = {m.id for m in self.all_mods()}
-        return [m for m in order if m in existing]
+        return list(self._snapshot()[1])
 
     def save_load_order(self, order):
+        EDITS[0] += 1
+        os.makedirs(os.path.dirname(self.order_file), exist_ok=True)
         with open(self.order_file, "w", encoding="utf-8") as f:
             json.dump(order, f, indent=2)
 
     def enabled_mods(self):
-        return [Mod(os.path.join(self.mods_dir, m)) for m in self.load_order()]
+        metas, order = self._snapshot()
+        return [self._mod(i, metas[i]) for i in order]
 
     def set_enabled(self, mod_id, enabled):
         order = self.load_order()
@@ -282,6 +368,15 @@ def missing_requirements(mods):
 
 def build(fs: GameFS, mods, log=print):
     load_handlers(log)
+    # the game build being patched: the game addresses the kit's exe patches and runtime name are translated to it
+    from . import exemap
+    try:
+        t = exemap.use(exemap.translator_for(fs.read(EXE_FILE), log))
+        if not t.identity:
+            log(f"Game build {t.sha1[:12]} ({'the kit knows it' if t.source == 'map' else 'found automatically'})")
+    except Exception as e:                       # no exe (tests): the known build
+        exemap.use(exemap.Translator(exemap.KNOWN_SHA1))
+        log(f"  (game build not read: {e})")
     ctx = BuildContext(fs, log)
     ctx.mod_ids = [m.id for m in mods]
     for mod, req in missing_requirements(mods):
@@ -293,11 +388,31 @@ def build(fs: GameFS, mods, log=print):
         for name, (order, fn) in sorted(PATCH_HANDLERS.items(), key=lambda kv: kv[1][0]):
             pdir = os.path.join(mod.patches_dir, name)
             if os.path.isdir(pdir) and os.listdir(pdir):
-                fn(ctx, mod, pdir)
+                _tolerant(ctx, f"{mod.name}: {name}", fn, ctx, mod, pdir)
     for fn in FINALIZERS:
-        fn(ctx)
+        _tolerant(ctx, f"{fn.__module__.split('.')[-1]}", fn, ctx)
+    skipped = getattr(ctx, "skipped_features", [])
+    if skipped:
+        log("Not installed, as this build of the game differs where they change it: "
+            + "; ".join(f"{what} ({why})" for what, why in skipped))
     ctx._flush()
     return ctx
+
+
+def _tolerant(ctx, what, fn, *args):
+    """run a handler / finalizer; a part that doesn't fit this build of the game (a patch site that isn't where the
+    kit expects it, an address the build lacks) is left out with a note instead of stopping the whole install"""
+    from . import exemap
+    try:
+        fn(*args)
+    except exemap.Unmapped as e:
+        ctx.skipped_features = getattr(ctx, "skipped_features", []) + [(what, str(e).strip("'\""))]
+        ctx.log(f"  warning: {what} left out: {e}")
+    except ValueError as e:
+        if "unexpected exe version" not in str(e):
+            raise
+        ctx.skipped_features = getattr(ctx, "skipped_features", []) + [(what, str(e))]
+        ctx.log(f"  warning: {what} left out: {e}")
 
 
 def _group_outputs(ctx: BuildContext):
@@ -360,16 +475,98 @@ def _assemble_member(fs: GameFS, archive, member, changes):
 
 
 # =============================================================================== install
+def _same_file(a, b, chunk=1 << 20):
+    with open(a, "rb") as fa, open(b, "rb") as fb:
+        while True:
+            x, y = fa.read(chunk), fb.read(chunk)
+            if x != y:
+                return False
+            if not x:
+                return True
+
+
+def game_state_dir(game_dir, kit_dir=KIT_DIR):
+    """the kit's state of one game folder (the backups of its original files): state/games/<folder>-<path hash>.
+    One kit can look after several copies of the game (a Steam copy and another one) without mixing them up."""
+    import hashlib
+    import re
+    g = os.path.abspath(game_dir).rstrip("\\/")
+    name = re.sub(r"[^A-Za-z0-9]+", "_", os.path.basename(g) or "game").strip("_")[:40] or "game"
+    h = hashlib.sha1(os.path.normcase(g).encode("utf-8")).hexdigest()[:8]
+    return os.path.join(kit_dir, "state", "games", f"{name}-{h}")
+
+
 class Installer:
     def __init__(self, game_dir, kit_dir=KIT_DIR, log=print):
         self.game_dir = os.path.abspath(game_dir)
         self.data_dir = os.path.join(self.game_dir, "Data")
         self.state_dir = os.path.join(kit_dir, "state")
-        self.backup_dir = os.path.join(self.state_dir, "backups")
-        os.makedirs(self.backup_dir, exist_ok=True)
-        self.index_file = os.path.join(self.state_dir, "backups.json")
+        self.game_state = game_state_dir(self.game_dir, kit_dir)
+        self.backup_dir = os.path.join(self.game_state, "backups")
+        self.index_file = os.path.join(self.game_state, "backups.json")
         self.log = log
+        if not os.path.exists(self.index_file):
+            self._adopt_legacy()
+        os.makedirs(self.backup_dir, exist_ok=True)
+        about = os.path.join(self.game_state, "game.json")
+        if not os.path.exists(about):
+            with open(about, "w", encoding="utf-8") as f:
+                json.dump({"game_dir": self.game_dir}, f, indent=2)
         self.index = self._load_index()
+
+    def _adopt_legacy(self):
+        """Kit versions before 1.2 kept one set of backups (state/backups, state/backups.json) for whichever game
+        folder they were used with.  They move to the folder they were made from -- recognised by its program file:
+        modded by this kit (the backups say so), or, unmodded, the very file the backup holds."""
+        old_index = os.path.join(self.state_dir, "backups.json")
+        old_dir = os.path.join(self.state_dir, "backups")
+        if not os.path.exists(old_index):
+            return
+        try:
+            with open(old_index, encoding="utf-8") as f:
+                index = json.load(f)
+        except (OSError, ValueError):
+            return
+        exe = os.path.join(self.game_dir, "disgaea5.exe")
+        rec = index.get(EXE_FILE)
+        try:
+            from .gamecheck import kit_sections
+            modded = bool(kit_sections(exe))
+        except OSError:
+            return
+        if modded:
+            mine = bool(rec and rec.get("modified"))
+        else:
+            b = os.path.join(old_dir, EXE_FILE.replace("/", "__") + ".full")
+            mine = bool(rec) and os.path.exists(b) and os.path.getsize(b) == os.path.getsize(exe) and \
+                _same_file(b, exe)
+        if not mine:
+            return
+        os.makedirs(self.game_state, exist_ok=True)
+        if os.path.isdir(old_dir):
+            os.replace(old_dir, self.backup_dir)
+        os.replace(old_index, self.index_file)
+        self.log(f"  the backups of {self.game_dir} now live in "
+                 f"{os.path.relpath(self.game_state, os.path.dirname(self.state_dir))}")
+
+    # ---------------------------------------------------------------- what is installed in this game folder
+    @property
+    def installed_file(self):
+        return os.path.join(self.game_state, "installed.json")
+
+    def installed_info(self):
+        """{"signature", "profile", "profile_name", "mods", "time"} of the last install into this folder, or {}"""
+        try:
+            with open(self.installed_file, encoding="utf-8") as f:
+                return json.load(f) or {}
+        except (OSError, ValueError):
+            return {}
+
+    def set_installed(self, info):
+        tmp = self.installed_file + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(dict(info or {}, time=time.time()) if info else {}, f, indent=2)
+        os.replace(tmp, self.installed_file)
 
     # ---------------------------------------------------------------- bookkeeping
     def _load_index(self):
@@ -626,6 +823,9 @@ class Installer:
         magic = header[:8]
         entries = sound.parse_toc(header)
         by_name = {e.name.lower(): e for e in entries}
+        # the game's music archive lists its tracks sorted by name and finds them by name ("%d.ogg"): a new track
+        # (Music & Sound: Add new track) goes into its place in the order, not at the end
+        was_sorted = len(entries) > 1 and [e.name for e in entries] == sorted(e.name for e in entries)
         pending = []
         for name, data in raw_members.items():
             e = by_name.get(name.lower())
@@ -633,6 +833,8 @@ class Installer:
                 e = sound.Entry(name, 0, 0)
                 entries.append(e)
             pending.append((e, data))
+        if was_sorted:
+            entries.sort(key=lambda e: e.name)
         # keep original order; new names are appended
         need = 16 + len(entries) * sound.entry_size(magic)
         pend_ids = {id(e) for e, _ in pending}

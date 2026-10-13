@@ -182,7 +182,7 @@ class Session:
     def ingame(self, out, palette=1):
         base = outfits.base_sprite(self.fs, self.mod, self.slot)
         a = pickle.loads(pickle.dumps(self.sprite))
-        colorvariants.repartition_rows(a, base, self.m.final())
+        colorvariants.repartition_rows(a, base, self.m.final(), fs=self.fs)
         p = sprites.preview_file(self.fs, a)
         anims = {x["id"]: x for x in anm.list_animations(p) if x["layers"]}
         show = [(1, 0), (7, 0), (21, 0), (21, 16), (21, 32), (27, 8), (1021, 8), (1027, 8), (3011, 12),

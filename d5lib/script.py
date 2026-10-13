@@ -550,7 +550,8 @@ class ScriptFile:
         return 0 < n < 0x100000 and 4 + 8 * n <= len(b) and struct.unpack_from("<I", b, 4)[0] == 0
 
     @classmethod
-    def from_bytes(cls, b: bytes, strict: bool = True) -> "ScriptFile":
+    def from_bytes(cls, b: bytes, strict: bool = True, pause=None) -> "ScriptFile":
+        """pause: called every 256 events (a background load lets the GUI thread have the interpreter)"""
         if not cls._looks_plain(b):
             b = crypt.decode(b)
             if not cls._looks_plain(b):
@@ -563,7 +564,9 @@ class ScriptFile:
             raise ValueError("event offsets not ascending - unsupported layout")
         self = cls()
         ends = list(offs[1:]) + [len(code)]
-        for eid, o, e in zip(ids, offs, ends):
+        for k, (eid, o, e) in enumerate(zip(ids, offs, ends)):
+            if pause is not None and not k & 255:
+                pause()
             try:
                 self.events.append(parse_event(eid, code, o, e))
             except (ValueError, IndexError, struct.error):

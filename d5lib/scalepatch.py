@@ -10,7 +10,7 @@ A sprite's cut-in / Status screen portrait is block sprite + 10000: for the kit'
 20000-29999, a range the game never scales -- those portraits showed at 1.5 times their size, spilling out of the
 Status screen's frame (Liezerota 23040).  Both sites scale them like the game's own portraits.
 """
-from . import exepatch
+from . import exemap, exepatch
 
 SECTION = b".d5sc"
 # cmp eax, 10000 / jb scale / lea eax, [rcx - 30000] / cmp eax, 10000 / jae skip   (ecx = block id)
@@ -107,6 +107,6 @@ def script_sprite_patch(exe: bytes, mapping, log=print) -> bytes:
                         "ss_hit:", "mov eax, dword ptr [rdx + 4]",
                         "ss_done:", "pop rdx", "pop rcx", "ret", ".align 4", "ss_table:"]
                        + [f".long {a}, {b}" for a, b in rows])
-    src = "\n".join(["movsx eax, word ptr [rax + 0xd4]", "call {shared}", f"jmp {SS_SITE + 7:#x}"])
+    src = "\n".join(["movsx eax, word ptr [rax + 0xd4]", "call {shared}", f"jmp {exemap.at(SS_SITE, 7)}"])
     log(f"  script sprites: skill scripts see {len(rows)} own sprite(s) as their character's / template's")
     return exepatch.add_hook_section(exe, SS_SECTION, [(SS_SITE, bytes.fromhex(SS_ORIG), src, 0xE9)], shared)

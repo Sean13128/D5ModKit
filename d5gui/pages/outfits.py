@@ -276,7 +276,7 @@ class OutfitsPage(QWidget):
         self.info = QLabel("")
         self.info.setWordWrap(True)
         rl.addWidget(self.info)
-        self.view = ImageView()
+        self.view = ImageView(smooth=True)      # like the game draws it
         self.view.setBackgroundBrush(QColor(40, 90, 60))
         self.view.setToolTip("Preview: standing front / back, walking frames, the 5 colour presets (0 = default, "
                              "chosen in the Strategy Assembly), the face picture and the cut-in portrait.")
@@ -287,10 +287,18 @@ class OutfitsPage(QWidget):
         split.setSizes([420, 900])
         lay.addWidget(split, 1)
         self._names = None
+        self._shown_sig = None
         ws.active_mod_changed.connect(lambda _: self.refresh())
 
     def on_show(self):
-        self.refresh()
+        if self._shown_sig != self._sig():            # rebuilding the list takes ~0.4 s: only when something changed
+            self.refresh()
+
+    def _sig(self):
+        """what the list is made of: the mods (modsys.change_token) and which one is active"""
+        from d5lib.modsys import change_token
+        act = self.ws.active_mod
+        return change_token(self.ws.mods.mods_dir), act.id if act else None
 
     def names(self):
         if self._names is None:
@@ -304,32 +312,38 @@ class OutfitsPage(QWidget):
         return [m for m in mods if outfits.load(m)]
 
     def refresh(self):
+        self._shown_sig = self._sig()
         cur = self._cur()
         self.list.clear()
         mods = self._outfit_mods()
         if not mods:
             self.list.addItem("(no outfits yet — press ✨ New outfit)")
             return
+        # outfits a mod hides (kept only so saves using them still work, e.g. Girl Laharl's Thunderlady looks,
+        # which are the Thunderlady character's own): not listed, like in the game's Outfit menu
+        hidden = {int(h) for m in mods for h in outfits._data(m).get("hide", [])}
         for mod in mods:
+            sprites = outfits.outfit_sprites(self.ws.fs, mod)        # one table load per mod, not per outfit
+            names = outfits.load_names(mod)
             for base, slot in outfits.load(mod):
-                if base >= 1000:
-                    continue  # compatibility entries
-                n = outfits.outfit_sprite(self.ws.fs, mod, slot)
-                name = outfits.outfit_name(mod, slot)
+                if base >= 1000 or int(slot) in hidden:
+                    continue  # compatibility entries / hidden
+                n = sprites.get(slot)
+                name = names.get(int(slot)) or "Outfit"
                 face = "  🙂" if os.path.exists(outfits.face_path(mod, slot)) else ""
                 it = QListWidgetItem(f"{self.names().get(base, base)}  —  “{name}”{face}")
                 it.setData(Qt.ItemDataRole.UserRole, (base, slot, n, mod.id))
-                it.setToolTip(self._outfit_tip(mod, base, slot, n) + f"<br><i>in mod {mod.name}</i>")
+                it.setToolTip(self._outfit_tip(mod, base, slot, n, name) + f"<br><i>in mod {mod.name}</i>")
                 self.list.addItem(it)
                 if cur and cur[:2] == (base, slot):
                     self.list.setCurrentItem(it)
         if self.list.currentRow() < 0 and self.list.count():
             self.list.setCurrentRow(0)
 
-    def _outfit_tip(self, mod, base, slot, n):
+    def _outfit_tip(self, mod, base, slot, n, name=None):
         who = self.svc.ref_tooltip("char.dat", base) or ""
         who = who.replace("<qt>", "").replace("</qt>", "")
-        lines = [f"<b>Outfit “{outfits.outfit_name(mod, slot)}”</b>"]
+        lines = [f"<b>Outfit “{name or outfits.outfit_name(mod, slot)}”</b>"]
         lines.append(f"sprite anm{n:05d} (animated by the toolkit)" if n else "no sprite yet")
         lines.append("own face picture" if os.path.exists(outfits.face_path(mod, slot))
                      else "uses the character's face")

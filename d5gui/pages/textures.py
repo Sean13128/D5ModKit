@@ -1,13 +1,14 @@
 import os
+import time
 
 from PIL import Image
-from PyQt6.QtCore import Qt, QSize, QTimer
-from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import Qt, QSize, QThread, pyqtSignal
+from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QSplitter,
                              QPushButton, QLabel, QFileDialog, QComboBox, QMessageBox, QProgressDialog)
 
 from d5lib import txf
-from ..common import PageHeader, ImageView, SearchBox, pil_to_pixmap, error_box
+from ..common import PageHeader, ImageView, SearchBox, pil_to_pixmap, pil_to_qimage, error_box
 
 ROLE = Qt.ItemDataRole.UserRole
 
@@ -18,6 +19,29 @@ def square_thumb(img, size=96):
     canvas = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     canvas.paste(img, ((size - img.width) // 2, (size - img.height) // 2))
     return canvas
+
+
+class _Thumbs(QThread):
+    """the list's thumbnails, made in the background: decoding a big texture takes up to seconds, which on the GUI
+    thread froze the whole kit (and went on after leaving the page)"""
+    ready = pyqtSignal(int, object, str)        # row, QImage, size / kind
+
+    def __init__(self, ws, jobs):
+        super().__init__()
+        self.ws, self.jobs, self.stopped = ws, jobs, False
+
+    def run(self):
+        for row, vpath in self.jobs:
+            if self.stopped:
+                return
+            try:
+                data = self.ws.read(vpath)
+                img = txf.to_image(data)
+                self.ready.emit(row, pil_to_qimage(square_thumb(img)),
+                                f"{img.width}×{img.height} · {txf.info(data)['kind']}")
+            except Exception:
+                pass
+            time.sleep(0.002)                   # the GUI thread gets the interpreter between pictures
 
 
 class TexturesPage(QWidget):
@@ -92,9 +116,9 @@ class TexturesPage(QWidget):
         split.setSizes([620, 700])
         lay.addWidget(split, 1)
         self._loaded = False
-        self._thumb_queue = []
-        self._timer = QTimer(self)
-        self._timer.timeout.connect(self._thumb_step)
+        self._thumbs = None
+        from PyQt6.QtWidgets import QApplication
+        QApplication.instance().aboutToQuit.connect(self._stop_thumbs)
         ws.file_changed.connect(self._file_changed)
 
     def on_show(self):
@@ -123,27 +147,27 @@ class TexturesPage(QWidget):
             it.setData(ROLE, vpath)
             it.setToolTip(self._tip(name, vpath, localized))
             self.list.addItem(it)
-        self._thumb_queue = list(range(self.list.count()))
-        self._timer.start(0)
+        if self._thumbs is not None:
+            self._thumbs.stopped = True
+            self._thumbs.ready.disconnect()
+            self._old_thumbs = self._thumbs         # kept alive until it notices (a running QThread must not die)
+        self._thumbs = _Thumbs(self.ws, [(i, self.list.item(i).data(ROLE)) for i in range(self.list.count())])
+        self._thumbs.ready.connect(self._thumb_ready)
+        self._thumbs.start()
 
-    def _thumb_step(self):
-        for _ in range(3):
-            if not self._thumb_queue:
-                self._timer.stop()
-                return
-            i = self._thumb_queue.pop(0)
-            it = self.list.item(i)
-            if it is None:
-                continue
-            try:
-                data = self.ws.read(it.data(ROLE))
-                img = txf.to_image(data)
-                it.setIcon(QIcon(pil_to_pixmap(square_thumb(img))))
-                vpath = it.data(ROLE)
-                it.setToolTip(self._tip(vpath.split("/")[-1], vpath, "_opt" in vpath or "/Start_EN" in vpath,
-                                        f"{img.width}×{img.height} · {txf.info(data)['kind']}"))
-            except Exception:
-                pass
+    def _stop_thumbs(self):
+        for t in (self._thumbs, getattr(self, "_old_thumbs", None)):
+            if t is not None:
+                t.stopped = True
+                t.wait(5000)
+
+    def _thumb_ready(self, row, qimg, info):
+        it = self.list.item(row)
+        if it is None:
+            return
+        it.setIcon(QIcon(QPixmap.fromImage(qimg)))
+        vpath = it.data(ROLE)
+        it.setToolTip(self._tip(vpath.split("/")[-1], vpath, "_opt" in vpath or "/Start_EN" in vpath, info))
 
     def _tip(self, name, vpath, localized, size=None):
         lines = [f"<b>{name}</b>"]

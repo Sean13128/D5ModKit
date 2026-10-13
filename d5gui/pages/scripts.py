@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QList
                              QCheckBox)
 
 from d5lib import script, scriptpatch
-from ..common import PageHeader, SearchBox, error_box, info_box
+from ..common import PageHeader, SearchBox, Worker, error_box, info_box
 
 EDITED = QColor("#e0457b")
 
@@ -80,32 +80,55 @@ class ScriptsPage(QWidget):
             self.load()
 
     def load(self):
-        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
-        try:
-            data = self.ws.fs.read(scriptpatch.SCRIPT)
-            self.vanilla = script.ScriptFile.from_bytes(data)
-            self.sf = script.ScriptFile.from_bytes(data)
-            mod = self.ws.active_mod
-            if mod:
-                p = mod.load_patch("script", "script.json")
-                if p:
-                    scriptpatch.apply(self.sf, p)
-            self._van = {}
-            for e in self.vanilla.events:
-                self._van.setdefault(e.id, e.encode())
-            self._refs = self.sf.references()
-            self._callers = {}
-            for eid, refs in self._refs.items():
-                for r in refs:
-                    self._callers.setdefault(r, []).append(eid)
-        finally:
-            QApplication.restoreOverrideCursor()
+        """parse script.dat in the background (~5 s for 1.6 million commands): the kit stays usable meanwhile"""
+        if getattr(self, "_worker", None) is not None:
+            self._reload = True
+            return
+        self._reload = False
+        self.list.clear()
+        self.status.setText("Loading the game's 19,053 event scripts…")
+        self._worker = Worker(self._parse, self.ws.fs, self.ws.active_mod)
+        self._worker.done.connect(self._loaded_scripts)
+        self._worker.failed.connect(self._load_failed)
+        self._worker.start()
+
+    @staticmethod
+    def _parse(fs, mod):
+        from d5lib import skills
+        base = skills.vanilla_scripts(fs, background=True)      # parsed once for the whole kit (Skills uses it too)
+        sf = script.ScriptFile()
+        sf.events = list(base.sf.events)     # a list of our own: edits replace entries, never change an Event
+        vanilla = script.ScriptFile()
+        vanilla.events = list(base.sf.events)   # the same Event objects: an unedited event *is* its vanilla one
+        if mod:
+            p = mod.load_patch("script", "script.json")
+            if p:
+                scriptpatch.apply(sf, p)
+        refs = sf.references()
+        callers = {}
+        for eid, rs in refs.items():
+            for r in rs:
+                callers.setdefault(r, []).append(eid)
+        van = {}
+        for e in vanilla.events:
+            van.setdefault(e.id, e)
+        return vanilla, sf, van, refs, callers
+
+    def _loaded_scripts(self, res):
+        self._worker = None
+        if self._reload:
+            return self.load()
+        self.vanilla, self.sf, self._van, self._refs, self._callers = res
         self.status.setText("")
         self._search()
 
+    def _load_failed(self, msg):
+        self._worker = None
+        self.status.setText("Could not load the scripts: " + msg.splitlines()[0])
+
     def _edited(self, e):
         v = self._van.get(e.id)
-        return v is None or v != e.encode()
+        return v is None or (v is not e and v.encode() != e.encode())
 
     def _search(self):
         if not self.sf:
@@ -146,6 +169,8 @@ class ScriptsPage(QWidget):
         self.edit.setPlainText(scriptpatch.event_text(e))
 
     def apply(self):
+        if self.sf is None:            # still loading
+            return
         if self.cur is None:
             return
         try:
@@ -160,6 +185,8 @@ class ScriptsPage(QWidget):
             self.list.currentItem().setForeground(QBrush(EDITED))
 
     def save(self):
+        if self.sf is None:            # still loading
+            return
         mod = self.ws.require_mod(self)
         if not mod:
             return
@@ -173,6 +200,8 @@ class ScriptsPage(QWidget):
             error_box(self, "Save failed", e)
 
     def revert(self):
+        if self.sf is None:            # still loading
+            return
         if self.cur is None:
             return
         e = self.sf.events[self.cur]
@@ -183,6 +212,8 @@ class ScriptsPage(QWidget):
             self._pick(self.list.currentItem())
 
     def new_event(self):
+        if self.sf is None:            # still loading
+            return
         top = max(e.id for e in self.sf.events)
         eid, ok = QInputDialog.getInt(self, "New event", "New event id (unused):", top + 1, 1, 2 ** 24 - 1)
         if not ok:

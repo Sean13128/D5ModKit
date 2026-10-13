@@ -25,6 +25,8 @@ Mod data (patches/skills/skills.json, images next to it):
 import json
 import os
 import re
+import threading
+import time
 
 from . import database, nested, obf, script, ykcmp
 from .modsys import register_patch_handler
@@ -113,17 +115,17 @@ EFFECT_RE = re.compile(r"^(\s*cmd_3c00\s+[^,]+,\s*)(\d+)")
 class Scripts:
     """script.dat events by id (the game uses the first of duplicate ids, like ScriptFile.get)"""
 
-    def __init__(self, data: bytes):
-        self.sf = script.ScriptFile.from_bytes(data)
+    def __init__(self, data: bytes, pause=None):
+        self.sf = script.ScriptFile.from_bytes(data, pause=pause)
         self.ovl_scripts = {}
         self.ev = {}
         for e in self.sf.events:
             self.ev.setdefault(e.id, e)
 
     @classmethod
-    def load(cls, fs_or_ctx):
+    def load(cls, fs_or_ctx, pause=None):
         get = getattr(fs_or_ctx, "get", None) or fs_or_ctx.read
-        sc = cls(get(SCRIPT))
+        sc = cls(get(SCRIPT), pause)
         sc.ovl_scripts = overload_scripts(get)
         return sc
 
@@ -398,14 +400,32 @@ def used_ids(mod):
 
 
 _cache = {}
+_cache_lock = threading.Lock()
 
 
-def vanilla_scripts(fs):
-    """Scripts of the vanilla game (cached per GameFS: loading takes a few seconds)"""
+def vanilla_scripts(fs, background=False):
+    """Scripts of the vanilla game, parsed once per GameFS and shared by the whole kit (Skills & Animations, Event
+    Scripts, the builders): 1.6 million commands, ~2 s.  Never changed in place (Event Scripts edits a copy of the
+    event list).  The collector is off while they are made (its passes nearly doubled the time) and they are
+    frozen out of its later passes: each full pass over them took ~0.4 s, a stutter anywhere in the kit.
+    background: a worker thread's load -- the GUI thread gets the interpreter every 256 events."""
     k = id(fs)
-    if k not in _cache:
-        _cache[k] = Scripts.load(fs)
-    return _cache[k]
+    with _cache_lock:                    # a second caller waits for the first load instead of parsing again
+        if k not in _cache:
+            import gc
+            was = gc.isenabled()
+            gc.disable()
+            try:
+                _cache[k] = Scripts.load(fs, (lambda: time.sleep(0.001)) if background else None)
+            finally:
+                gc.freeze()
+                if was:
+                    gc.enable()
+        return _cache[k]
+
+
+def vanilla_scripts_ready(fs):
+    return id(fs) in _cache
 
 
 def inherit(fs, mod, skill_id, copy_of):

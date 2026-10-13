@@ -44,7 +44,10 @@ def decompress(data: bytes) -> bytes:
     if typ == 7:
         out = zlib.decompress(data[20:total])
     elif typ == 4:
-        out = _yk_lz(data, 20, raw)
+        from . import lzs_native                  # ~100x faster (a big font texture: 1.5 s in Python)
+        out = lzs_native.yk_lz(data, 20, raw)
+        if out is None:
+            out = _yk_lz(data, 20, raw)
     else:
         raise ValueError(f"unknown YKCMP type {typ}")
     if len(out) != raw:

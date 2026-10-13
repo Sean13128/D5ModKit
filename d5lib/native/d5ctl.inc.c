@@ -169,14 +169,16 @@ static int g_skitff = -2;                   /* -2: not set yet (ctl_tick takes t
 static int g_skitff_orig_mult = -1;
 
 static void skitff_apply(void) {
-    static const unsigned char ON[7] = {0xc6, 0x05, 0x79, 0x55, 0x5c, 0x00, 0x01};
-    static const unsigned char RD[8] = {0x44, 0x0f, 0xb6, 0x1d, 0x63, 0xd4, 0x4f, 0x06};
+    /* mov byte [rip+d], 0/1 and movzx r11d, byte [VA_FF_ALWAYS]: the displacements differ between game builds */
+    static const unsigned char ON[2] = {0xc6, 0x05};
+    unsigned char RD[8] = {0x44, 0x0f, 0xb6, 0x1d};
     static const unsigned char RD_OFF[8] = {0x45, 0x31, 0xdb, 0x0f, 0x1f, 0x44, 0x00, 0x00};   /* xor r11d,r11d; nop5 */
     static const unsigned char RD_ON[8] = {0x41, 0xb3, 0x01, 0x0f, 0x1f, 0x44, 0x00, 0x00};    /* mov r11b,1; nop5 */
     unsigned char *p = (unsigned char *)G(VA_FF_SET_ON), *r = (unsigned char *)G(VA_FF_READ), b[7];
-    if (memcmp(p, ON, 6)) return;                          /* not the expected code: leave it alone */
+    *(int *)(RD + 4) = (int)((unsigned char *)G(VA_FF_ALWAYS) - (r + 8));
+    if (memcmp(p, ON, 2) || p[6] > 1) return;              /* not the expected code: leave it alone */
     if (memcmp(r, RD, 8) && memcmp(r, RD_OFF, 8) && memcmp(r, RD_ON, 8)) return;
-    memcpy(b, ON, 7);
+    memcpy(b, p, 7);
     b[6] = g_skitff == 0 ? 0 : 1;
     if (p[6] != b[6]) write_code(VA_FF_SET_ON, b, 7);      /* write_code keeps the original for core_shutdown */
     const unsigned char *want = g_skitff == 1 ? RD_OFF : g_skitff >= 2 ? RD_ON : RD;
@@ -190,12 +192,36 @@ static void skitff_apply(void) {
         g_skitff_orig_mult = -1;
     }
 }
+/* dev: the saves are READ from another folder (harness "saves_from DIR", "saves_from" alone switches it off; writes
+   stay blocked): a copy of the game with no saves of its own (another Steam account folder) is tested on existing
+   progress without copying anything into its save folder */
+static wchar_t g_save_src[MAX_PATH];
+static const wchar_t *save_file_w(const wchar_t *p) {      /* "X.sav" of ...\SaveData\X.sav, else NULL */
+    const wchar_t *s = p ? wcsstr(p, L"SaveData") : NULL;
+    if (!s || (s[8] != L'\\' && s[8] != L'/')) return NULL;
+    s += 9;
+    if (wcschr(s, L'\\') || wcschr(s, L'/') || !wcsstr(s, L".sav")) return NULL;
+    return s;
+}
 static HANDLE WINAPI hkCreateFileA(LPCSTR p, DWORD acc, DWORD sh, LPSECURITY_ATTRIBUTES sa, DWORD disp, DWORD fl,
                                    HANDLE t) {
     if ((acc & (GENERIC_WRITE | FILE_WRITE_DATA | FILE_APPEND_DATA)) && is_save_path_a(p)) {
         logf_("ctl: save blocked (%s)", p);
         SetLastError(ERROR_ACCESS_DENIED);
         return INVALID_HANDLE_VALUE;
+    }
+    if (g_save_src[0] && p) {
+        wchar_t w[MAX_PATH];
+        if (MultiByteToWideChar(CP_ACP, 0, p, -1, w, MAX_PATH)) {
+            const wchar_t *n = save_file_w(w);
+            if (n) {
+                wchar_t q[MAX_PATH];
+                _snwprintf(q, MAX_PATH, L"%ls\\%ls", g_save_src, n);
+                q[MAX_PATH - 1] = 0;
+                logf_("ctl: save read from %ls", q);
+                return oCreateFileW(q, acc, sh, sa, disp, fl, t);
+            }
+        }
     }
     return oCreateFileA(p, acc, sh, sa, disp, fl, t);
 }
@@ -205,6 +231,14 @@ static HANDLE WINAPI hkCreateFileW(LPCWSTR p, DWORD acc, DWORD sh, LPSECURITY_AT
         logf_("ctl: save blocked (%ls)", p);
         SetLastError(ERROR_ACCESS_DENIED);
         return INVALID_HANDLE_VALUE;
+    }
+    const wchar_t *n = g_save_src[0] ? save_file_w(p) : NULL;
+    if (n) {
+        wchar_t q[MAX_PATH];
+        _snwprintf(q, MAX_PATH, L"%ls\\%ls", g_save_src, n);
+        q[MAX_PATH - 1] = 0;
+        logf_("ctl: save read from %ls", q);
+        return oCreateFileW(q, acc, sh, sa, disp, fl, t);
     }
     return oCreateFileW(p, acc, sh, sa, disp, fl, t);
 }
@@ -742,6 +776,15 @@ static void ctl_tick(void) {
         int k = load_script_data(path);
         if (k < 0) sbf(o, "{\"error\":\"load failed\"}");
         else sbf(o, "{\"ok\":1,\"scripts\":%d}", k);
+    } else if (!strcmp(c, "saves_from")) {         /* saves_from [DIR]: read the saves from DIR (dev; no writes) */
+        char path[MAX_PATH];
+        snprintf(path, sizeof path, "%s", rest_after(g_cmd, 1));
+        for (int k = (int)strlen(path) - 1; k >= 0 && (path[k] == '\r' || path[k] == '\n' || path[k] == ' '); k--)
+            path[k] = 0;
+        if (!path[0]) g_save_src[0] = 0;
+        else MultiByteToWideChar(CP_UTF8, 0, path, -1, g_save_src, MAX_PATH);
+        logf_("ctl: saves read from %ls", g_save_src[0] ? g_save_src : L"their own folder");
+        sbf(o, "{\"ok\":1,\"on\":%d}", g_save_src[0] ? 1 : 0);
     } else if (!strcmp(c, "reload")) {             /* the loader swaps in a new d5core.dll */
         InterlockedExchange(&g_reload, 1);
         sbf(o, "{\"ok\":1,\"reloading\":1}");

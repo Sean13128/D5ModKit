@@ -1,5 +1,7 @@
 """Game status: are the mods in the game?  One controller owns install / play / restore for the whole app, and
 StatusPanel shows its state (sidebar and Home use the same panel, so they can never disagree)."""
+import threading
+
 from PyQt6.QtCore import QObject, QTimer, pyqtSignal, Qt
 from PyQt6.QtWidgets import (QFrame, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QMessageBox, QProgressBar)
 
@@ -12,12 +14,15 @@ STATES = {
                 "You saved changes since the last install. Install them to see them in game."),
     "not_installed": ("#f5a524", "Mods not installed", "The game is still original. Install your mods to play them."),
     "vanilla": ("#8e89a6", "Original game", "No mod is enabled. Enable or create a mod on the Home page."),
+    "other_profile": ("#f5a524", "Another profile is in the game",
+                      "The game has the mods of another profile. Install to put this profile's mods in."),
     "installing": ("#8b5cf6", "Installing…", "Building your mods and writing them into the game files."),
 }
 
 
 class GameStatus(QObject):
     changed = pyqtSignal()
+    _checked = pyqtSignal(object)
 
     def __init__(self, ws, main):
         super().__init__()
@@ -28,22 +33,53 @@ class GameStatus(QObject):
         self.step = ""
         self.last_result = ""
         self.worker = None
+        self._checking = False
+        self._again = False
+        self._checked.connect(self._apply)
         self._timer = QTimer(self)
-        self._timer.timeout.connect(self.refresh)
+        self._timer.timeout.connect(self.refresh_later)
         self._timer.start(2500)
-        ws.file_changed.connect(lambda *_: QTimer.singleShot(150, self.refresh))
-        ws.mods_changed.connect(lambda: QTimer.singleShot(150, self.refresh))
+        ws.file_changed.connect(lambda *_: QTimer.singleShot(150, self.refresh_later))
+        ws.mods_changed.connect(lambda: QTimer.singleShot(150, self.refresh_later))
         ws.log_message.connect(self._log)
         self.refresh()
 
-    def refresh(self):
-        if self.busy:
-            return
+    def _check(self):
         try:
             st = self.ws.install_state()
         except Exception:
             st = "pending"
-        run = self.ws.is_game_running()
+        try:
+            run = self.ws.is_game_running()
+        except Exception:
+            run = False
+        return st, run
+
+    def refresh(self):
+        """check now (after an install / restore, where the next step needs the answer)"""
+        if not self.busy:
+            self._apply(self._check(), mine=False)
+
+    def refresh_later(self):
+        """check in the background: the install state reads every enabled mod's file list (~0.15 s, more on a slow
+        disk), which on the GUI thread every 2.5 s made the whole kit stutter"""
+        if self.busy:
+            return
+        if self._checking:
+            self._again = True
+            return
+        self._checking = True
+        threading.Thread(target=lambda: self._checked.emit(self._check()), daemon=True).start()
+
+    def _apply(self, res, mine=True):
+        if mine:
+            self._checking = False
+            if self._again:
+                self._again = False
+                QTimer.singleShot(0, self.refresh_later)
+        if self.busy:
+            return
+        st, run = res
         if (st, run) != (self.state, self.running):
             self.state, self.running = st, run
             self.changed.emit()
@@ -97,7 +133,7 @@ class GameStatus(QObject):
         if self.running:
             QMessageBox.information(self.main, "Game is running", "Disgaea 5 is already running.")
             return
-        if self.state in ("pending", "not_installed"):
+        if self.state in ("pending", "not_installed", "other_profile"):
             r = QMessageBox.question(self.main, "Install first?",
                                      "Your latest changes are not in the game yet.\n\nInstall them before playing?",
                                      QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No |
@@ -109,7 +145,7 @@ class GameStatus(QObject):
         try:
             self.ws.launch_game()
             self.ws.log("▶ Game started.")
-            QTimer.singleShot(4000, self.refresh)
+            QTimer.singleShot(4000, self.refresh_later)
         except Exception as e:
             QMessageBox.critical(self.main, "Could not start the game", str(e))
 
@@ -150,13 +186,20 @@ class GameStatus(QObject):
                 title, detail = "Restoring…", "Putting the original game files back."
             return col, title, self.step or detail, "Working…", None, False
         col, title, detail = STATES.get(self.state, STATES["pending"])
+        if self.state == "other_profile":
+            try:
+                inst = self.ws.installer.installed_info().get("profile_name") or "another profile"
+                detail = (f"The game has the mods of the profile '{inst}'. Install to put the profile "
+                          f"'{self.ws.profile.name}' in.")
+            except Exception:
+                pass
         if self.running:
-            if self.state in ("pending", "not_installed"):
+            if self.state in ("pending", "not_installed", "other_profile"):
                 return ("#f5a524", "Game running — changes not in it",
                         "Close the game, then install to see your latest changes.", "Close the game to install",
                         None, False)
             return col, "Game running", "Have fun! The installed mods are active.", "Game is running", None, False
-        if self.state in ("pending", "not_installed"):
+        if self.state in ("pending", "not_installed", "other_profile"):
             return col, title, detail, "⚡  Install && Play", lambda: self.install(True), True
         return col, title, detail, "▶  Play", self.play, True
 

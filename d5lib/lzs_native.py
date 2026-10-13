@@ -54,6 +54,10 @@ def _load():
                                                 ctypes.c_int]
             lib.lzs_choose_marker.restype = ctypes.c_int
             lib.lzs_choose_marker.argtypes = [ctypes.c_char_p, ctypes.c_size_t]
+            if hasattr(lib, "yk_lz_decompress"):            # (a DLL older than its source has no YKCMP)
+                lib.yk_lz_decompress.restype = ctypes.c_int64
+                lib.yk_lz_decompress.argtypes = [ctypes.c_char_p, ctypes.c_size_t, ctypes.c_size_t, ctypes.c_void_p,
+                                                 ctypes.c_size_t]
             _lib = lib
         except OSError:
             _lib = None
@@ -77,6 +81,17 @@ def compress(data: bytes, tag: bytes = b"pac") -> bytes:
         raise RuntimeError(f"native LZS compression failed ({m})")
     ext = bytes(tag[:4]).rstrip(b"\0")[:3].ljust(4, b"\0")
     return ext + struct.pack("<III", n, m + 12, marker) + buf.raw[:m]
+
+
+def yk_lz(src: bytes, pos: int, size: int):
+    """Yukes LZ (d5lib.ykcmp) natively -> bytes, or None (no DLL, or a stream the Python decoder must judge)"""
+    lib = _load()
+    if lib is None or not hasattr(lib, "yk_lz_decompress"):
+        return None
+    src = bytes(src)
+    buf = ctypes.create_string_buffer(max(1, size))
+    m = lib.yk_lz_decompress(src, len(src), pos, buf, size)
+    return buf.raw[:size] if m == size else None
 
 
 def decompress(data: bytes) -> bytes:

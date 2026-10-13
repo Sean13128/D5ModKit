@@ -62,7 +62,7 @@ class Workspace(QObject):
             self.settings["game_dir"] = found or ""
             if found:
                 self.save_settings()
-        self.mods = modsys.ModManager(KIT_DIR)
+        self.mods = modsys.ModManager(KIT_DIR, self.settings.get("profile"))
         self._open_game()
         self.active_mod = self.mods.get(self.settings.get("active_mod") or "") if self.settings.get("active_mod") else None
 
@@ -70,6 +70,13 @@ class Workspace(QObject):
     def _open_game(self):
         self.installer = modsys.Installer(self.game_dir, KIT_DIR, log=self.log)
         self.fs = GameFS(self.game_dir, backup_resolver=self.installer.backup_resolver)
+        # kit 1.1 kept "what is installed" in settings.json for its one game folder: it moves to that folder's state
+        legacy = self.settings.get("installed_signature")
+        if legacy and not self.installer.installed_info() and self.installer.modified_archives():
+            self.installer.set_installed({"signature": legacy, "profile": self.mods.profile.id,
+                                          "profile_name": self.mods.profile.name})
+            self.settings.pop("installed_signature", None)
+            self.save_settings()
 
     @property
     def game_dir(self):
@@ -95,6 +102,41 @@ class Workspace(QObject):
 
     def log(self, msg):
         self.log_message.emit(str(msg))
+
+    # ------------------------------------------------------------------ profiles
+    @property
+    def profile(self):
+        return self.mods.profile
+
+    def set_profile(self, pid):
+        """work on another profile (its load order); the game gets it at the next Install"""
+        if not self.mods.profiles.get(pid):
+            raise ValueError(f"no profile {pid!r}")
+        self.settings["profile"] = pid
+        self.save_settings()
+        self.mods.set_profile(pid)
+        self.log(f"Profile: {self.mods.profile.name}")
+        self.mods_changed.emit()
+
+    def installed_profile(self):
+        """the profile whose mods are in this game folder (None: the original game, or installed before profiles)"""
+        info = self.installer.installed_info() if self.installer.modified_archives() else {}
+        return self.mods.profiles.get(info.get("profile")) if info.get("profile") else None
+
+    def saves(self):
+        from d5lib import profiles
+        return profiles.Saves(KIT_DIR)
+
+    def sync_saves(self, profile):
+        """the game's save folder gets the saves of `profile` (its own, or the shared ones; None = shared)"""
+        sv = self.saves()
+        ps = self.mods.profiles
+        if sv.live_owner() == ps.owner_id(profile):
+            return False
+        if self.is_game_running():
+            self.log("⚠ Saves not switched: the game is running (close it and press Install again).")
+            return False
+        return sv.switch(ps.store_of(profile), ps.owner_id(profile), log=self.log)
 
     # ------------------------------------------------------------------ mods
     def set_active_mod(self, mod):
@@ -183,18 +225,23 @@ class Workspace(QObject):
         return h.hexdigest()
 
     def install_state(self):
-        """'pending' (mods changed since the install) | 'not_installed' | 'ready' | 'vanilla' (no mods at all)"""
+        """'pending' (mods changed since the install) | 'not_installed' | 'ready' | 'vanilla' (no mods at all) |
+        'other_profile' (the game has another profile's mods)"""
         enabled = self.mods.load_order()
         installed = bool(self.installer.modified_archives())
+        info = self.installer.installed_info() if installed else {}
+        if info.get("profile") and info["profile"] != self.mods.profile.id:
+            return "other_profile"
         if not enabled:
             return "pending" if installed else "vanilla"
         if not installed:
             return "not_installed"
-        return "ready" if self.settings.get("installed_signature") == self.mods_signature() else "pending"
+        return "ready" if info.get("signature") == self.mods_signature() else "pending"
 
     def mark_installed(self, installed=True):
-        self.settings["installed_signature"] = self.mods_signature() if installed else None
-        self.save_settings()
+        p = self.mods.profile
+        self.installer.set_installed({"signature": self.mods_signature(), "profile": p.id, "profile_name": p.name,
+                                      "mods": self.mods.load_order()} if installed else None)
 
     def revert(self, vpath, mod=None):
         mod = mod or self.owner(vpath)
@@ -209,20 +256,24 @@ class Workspace(QObject):
         if problems:
             raise RuntimeError("The mods were not installed:\n\n" + "\n\n".join(problems))
         sig = self.mods_signature()              # taken first: edits made during the install count as new
+        prof = self.mods.profile
         mods = self.mods.enabled_mods()
-        self.log(f"Installing {len(mods)} mod(s): " + ", ".join(m.name for m in mods))
+        self.log(f"Installing {len(mods)} mod(s) of the profile '{prof.name}': " + ", ".join(m.name for m in mods))
         ctx = modsys.build(self.fs, mods, log=self.log)
         self.installer.install(self.fs, ctx)
-        self.settings["installed_signature"] = sig
-        self.save_settings()
+        self.installer.set_installed({"signature": sig, "profile": prof.id, "profile_name": prof.name,
+                                      "mods": [m.id for m in mods]})
+        self.sync_saves(prof)                    # a profile with its own saves: they go with its mods
         return len(ctx.outputs)
 
     def restore_vanilla(self):
         self.installer.restore_all()
         self.fs.reset()
         self.mark_installed(False)
+        self.sync_saves(None)                    # the original game plays the shared saves
 
     def launch_game(self):
+        self.sync_saves(self.installed_profile())    # the saves of the modpack in the game (installed elsewhere?)
         exe = os.path.join(self.game_dir, "disgaea5.exe")
         subprocess.Popen([exe], cwd=self.game_dir)
 

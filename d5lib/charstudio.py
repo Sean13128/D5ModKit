@@ -147,6 +147,7 @@ def outfit_sources(mods, names=None):
     """[dict(mod, base, outfit, name, who, drpg_uid, sprite)] of every outfit in these mods"""
     from . import outfits
     out = []
+    hidden = {h for m in mods for h in hidden_outfits(m)}     # not offered: they are another character's now
     for m in mods:
         pairs = outfits.load(m)
         if not pairs:
@@ -154,6 +155,8 @@ def outfit_sources(mods, names=None):
         nm = outfits.load_names(m)
         uids = {int(v): int(k) for k, v in (m.load_patch("outfits", "drpg_units.json") or {}).items()}
         for base, o in pairs:
+            if int(o) in hidden:
+                continue
             out.append(dict(mod=m, base=int(base), outfit=int(o), name=nm.get(int(o)) or f"Outfit {o}",
                             who=(names or {}).get(int(base)) or f"class {base}", drpg_uid=uids.get(int(o))))
     return out

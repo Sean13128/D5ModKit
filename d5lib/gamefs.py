@@ -97,6 +97,7 @@ class GameFS:
         self._lock = threading.RLock()
         self._backup_resolver = backup_resolver  # callable(archive) -> (header_bytes|None, full_copy_path|None)
         self._cache = {}
+        self._kids = {}          # (archive, member) -> {child name: bytes} of the last containers read (_KIDS_BYTES)
 
     # ---------------------------------------------------------------- archives
     def archive_path(self, archive):
@@ -153,6 +154,7 @@ class GameFS:
                 p.close()
             self._packs.clear()
             self._cache.clear()
+            self._kids.clear()
 
     def list_members(self, archive):
         return self.pack(archive).names()
@@ -187,10 +189,22 @@ class GameFS:
                         raise KeyError(f"{seg} not found in {vpath}")
                     data = files[seg.lower()]
                 return data
-            data = pk.read(parts[0])
-        for i, seg in enumerate(parts[1:]):
-            container = decode_member(data)
-            data = _child(container, seg, vpath)
+            if len(parts) == 1:
+                return pk.read(parts[0])
+            # a file inside a container member: the container's files are kept (reading a texture list read and
+            # decrypted its whole 40 MB pack for every picture, ~0.12 s each)
+            ck = (archive.lower(), parts[0].lower())
+            kids = self._kids.pop(ck, None)
+            if kids is None:
+                kids = _children(decode_member(pk.read(parts[0])))
+            self._kids[ck] = kids                    # most recently used last
+            while len(self._kids) > 1 and sum(_kids_size(k) for k in self._kids.values()) > _KIDS_BYTES:
+                self._kids.pop(next(iter(self._kids)))
+        if kids is None or parts[1].lower() not in kids:
+            raise KeyError(f"{parts[1]} not found in {vpath}")
+        data = kids[parts[1].lower()]
+        for seg in parts[2:]:
+            data = _child(decode_member(data), seg, vpath)
         return data
 
     def read(self, vpath) -> bytes:
@@ -227,6 +241,29 @@ class GameFS:
             if os.path.exists(self.archive_path(loc)) and self.has_member(loc, name):
                 return loc
         return tmpl.format("JP")
+
+
+_KIDS_BYTES = 256 << 20
+
+
+def _children(container: bytes):
+    """{child name (lower case): bytes} of a container (nested NISPACK or pac); {} for anything else"""
+    if nested.is_plain_nispack(container):
+        out = {}
+        for n, d, _ in nested.read_plain(container):
+            out.setdefault(n.lower(), d)
+        return out
+    try:
+        out = {}
+        for n, d in pac.read_pac(container):
+            out.setdefault(n.lower(), d)
+        return out
+    except Exception:
+        return {}
+
+
+def _kids_size(kids):
+    return sum(len(v) for v in kids.values())
 
 
 def _child(container: bytes, name: str, vpath: str) -> bytes:

@@ -17,7 +17,7 @@ import json
 import os
 import struct
 
-from . import database
+from . import database, exemap
 from .dbpatch import DB_ARCHIVE
 from .exepatch import add_hook_section
 from .gamefs import EXE_FILE
@@ -30,7 +30,9 @@ EC4_VA = 0x1404560DC              # lea eax, [r15-1] / cmp eax, 2 / ja 0x140455e
 EC4_ORIG = bytes.fromhex("418d47ff83f8020f879dfdffff")
 EC4_LABEL = 0x1404560E9           # "Extra Color %d" entry
 EC4_SKIP = 0x140455E7C            # next entry (reloads rdx = the class bit mask the loop top tests)
-CACHE = os.path.join(KIT_DIR, "cache", "palette_counts.json")
+# other builds of the game: the same code with other registers -> (original bytes, entry register, scene register)
+EC4_BUILDS = {"9460a6411699": (bytes.fromhex("418d46ff83f8020f87b0fdffff"), "r14", "r15")}    # Steam, 2019-01
+CACHE = os.path.join(KIT_DIR, "cache", "palette_counts.json")      # + the game folder: builds differ in sprites
 
 
 def load_settings(mod):
@@ -51,8 +53,11 @@ def _palettes(data):
 
 def palette_counts(ctx, numbers):
     """{sprite number: palettes} as installed (modded files are read, the game's own ones cached on disk)"""
+    from .modsys import game_state_dir
+    cache_path = CACHE.replace(".json", "-" + os.path.basename(game_state_dir(ctx.fs.game_dir)).rsplit("-", 1)[-1]
+                               + ".json")
     try:
-        with open(CACHE, encoding="utf-8") as f:
+        with open(cache_path, encoding="utf-8") as f:
             cache = {int(k): v for k, v in json.load(f).items()}
     except Exception:
         cache = {}
@@ -73,21 +78,27 @@ def palette_counts(ctx, numbers):
             changed = True
         out[n] = cache[n]
     if changed:
-        os.makedirs(os.path.dirname(CACHE), exist_ok=True)
-        with open(CACHE, "w", encoding="utf-8") as f:
+        os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+        with open(cache_path, "w", encoding="utf-8") as f:
             json.dump({str(k): v for k, v in cache.items()}, f)
     return out
 
 
+def _ec4_form():
+    """(original bytes, entry register, scene register) in the game build being patched"""
+    return exemap.variant(EC4_BUILDS, (EC4_ORIG, "r15", "rsi"))
+
+
 def _ec4_src(deny):
     nl = chr(10)
+    _, entry, scene = _ec4_form()
     return nl.join([
-        "    lea eax, [r15 - 1]",
+        f"    lea eax, [{entry} - 1]",
         "    cmp eax, 2",
         f"    jbe {EC4_LABEL:#x}",                       # Extra Color 1-3: as before
-        "    cmp r15d, 4",
+        f"    cmp {entry}d, 4",
         f"    jne {EC4_SKIP:#x}",
-        "    mov rax, qword ptr [rsi + 0x47e0]",           # the unit shown
+        f"    mov rax, qword ptr [{scene} + 0x47e0]",      # the unit shown
         "    mov eax, dword ptr [rax + 0x2e04]",
         "    lea rdx, [rip + deny]",
         f"    mov ecx, {len(deny)}",
@@ -117,7 +128,7 @@ def _finalize(ctx):
     exe = ctx.get(EXE_FILE)
     if SECTION_NAME in exe[:0x400]:
         return
-    ctx.put(EXE_FILE, add_hook_section(exe, SECTION_NAME, [(EC4_VA, EC4_ORIG, _ec4_src(deny), 0xE9)]))
+    ctx.put(EXE_FILE, add_hook_section(exe, SECTION_NAME, [(EC4_VA, _ec4_form()[0], _ec4_src(deny), 0xE9)]))
     ctx.log(f"  colours: Extra Color 4 for unique characters ({len(deny)} class(es) without a 5th palette keep 3)")
 
 

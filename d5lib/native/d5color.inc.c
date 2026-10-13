@@ -25,11 +25,21 @@
 #define CC_MAX 1024
 #define VT_COLOUR_SCENE 0x1409b9ee0ULL
 #define VA_CC_LIST_END 0x140455e93ULL
-static const unsigned char CC_LIST_ORIG[7] = {0x48, 0x8b, 0x86, 0xe0, 0x47, 0x00, 0x00};   /* mov rax,[rsi+0x47e0] */
 #define VA_CC_CHOICE 0x140457bf0ULL
 static const unsigned char CC_CHOICE_ORIG[5] = {0x48, 0x89, 0x5c, 0x24, 0x08};            /* mov [rsp+8],rbx */
 #define VA_CC_CONFIRM 0x1404556cbULL
+#if defined(D5_BUILD_9460A6411699)
+/* the Steam build: the same code with the scene in other registers (r15 at the list end, rbp at the confirm) */
+static const unsigned char CC_LIST_ORIG[7] = {0x49, 0x8b, 0x87, 0xe0, 0x47, 0x00, 0x00};   /* mov rax,[r15+0x47e0] */
+static const unsigned char CC_CONFIRM_ORIG[6] = {0x8b, 0x85, 0x88, 0x00, 0x00, 0x00};     /* mov eax,[rbp+0x88] */
+static const unsigned char CC_LIST_SCENE[3] = {0x4c, 0x89, 0xf9};                         /* mov rcx, r15 */
+static const unsigned char CC_CONFIRM_SCENE[3] = {0x48, 0x89, 0xe9};                      /* mov rcx, rbp */
+#else
+static const unsigned char CC_LIST_ORIG[7] = {0x48, 0x8b, 0x86, 0xe0, 0x47, 0x00, 0x00};   /* mov rax,[rsi+0x47e0] */
 static const unsigned char CC_CONFIRM_ORIG[6] = {0x8b, 0x86, 0x88, 0x00, 0x00, 0x00};     /* mov eax,[rsi+0x88] */
+static const unsigned char CC_LIST_SCENE[3] = {0x48, 0x89, 0xf1};                         /* mov rcx, rsi */
+static const unsigned char CC_CONFIRM_SCENE[3] = {0x48, 0x89, 0xf1};                      /* mov rcx, rsi */
+#endif
 #define VA_LIST_ADD 0x14008a9e0ULL
 #define VA_PREVIEW_UNIT 0x140147750ULL
 
@@ -139,14 +149,14 @@ static void __cdecl cc_confirm(unsigned char *scene, int value) {
 }
 
 /* a detour that calls fn(rcx = <reg>, rdx = <reg2 or 0>) with every volatile register kept, then runs the
-   displaced instructions and returns to the site */
+   displaced instructions and returns to the site.  rcx_mov: the 3-byte "mov rcx, <scene register>" */
 static unsigned char *cc_stub(unsigned char *t, unsigned long long va, const unsigned char *orig, int n,
-                              void *fn, unsigned char rcx_from_rsi, unsigned char rdx_from_r14) {
+                              void *fn, const unsigned char *rcx_mov, unsigned char rdx_from_r14) {
     int k = 0;
     static const unsigned char push[] = {0x50, 0x51, 0x52, 0x41, 0x50, 0x41, 0x51, 0x41, 0x52, 0x41, 0x53};
     memcpy(t + k, push, sizeof push); k += sizeof push;                 /* push rax rcx rdx r8 r9 r10 r11 */
     t[k++] = 0x48; t[k++] = 0x83; t[k++] = 0xec; t[k++] = 0x28;         /* sub rsp, 0x28 */
-    if (rcx_from_rsi) { t[k++] = 0x48; t[k++] = 0x89; t[k++] = 0xf1; } /* mov rcx, rsi */
+    if (rcx_mov) { memcpy(t + k, rcx_mov, 3); k += 3; }                 /* mov rcx, <scene> */
     if (rdx_from_r14) { t[k++] = 0x44; t[k++] = 0x89; t[k++] = 0xf2; } /* mov edx, r14d */
     t[k++] = 0x48; t[k++] = 0xb8; memcpy(t + k, &fn, 8); k += 8;        /* mov rax, fn */
     t[k++] = 0xff; t[k++] = 0xd0;                                       /* call rax */
@@ -187,8 +197,8 @@ static void cc_install(void) {
     void *fn = (void *)cc_choice;
     jmp[0] = 0x48; jmp[1] = 0xb8; memcpy(jmp + 2, &fn, 8);            /* mov rax, cc_choice */
     jmp[10] = 0xff; jmp[11] = 0xe0;                                   /* jmp rax */
-    cc_stub(pg + 0x440, VA_CC_LIST_END, CC_LIST_ORIG, 7, (void *)cc_list_end, 1, 0);
-    cc_stub(pg + 0x4c0, VA_CC_CONFIRM, CC_CONFIRM_ORIG, 6, (void *)cc_confirm, 1, 1);
+    cc_stub(pg + 0x440, VA_CC_LIST_END, CC_LIST_ORIG, 7, (void *)cc_list_end, CC_LIST_SCENE, 0);
+    cc_stub(pg + 0x4c0, VA_CC_CONFIRM, CC_CONFIRM_ORIG, 6, (void *)cc_confirm, CC_CONFIRM_SCENE, 1);
     cc_jump(VA_CC_CHOICE, jmp, 5);
     cc_jump(VA_CC_LIST_END, pg + 0x440, 7);
     cc_jump(VA_CC_CONFIRM, pg + 0x4c0, 6);
@@ -346,8 +356,8 @@ static void crect(int x0, int y0, int x1, int y1, COLORREF c) {
 }
 
 static void cc_draw(IDXGISwapChain *sc) {
-    int toast = g_cc_toast_until && GetTickCount() < g_cc_toast_until;
-    if (!g_cc_enabled || (!g_cc_in_editor && !g_cc_open && !toast)) return;
+    int toast = g_cc_toast_until && GetTickCount() < g_cc_toast_until;    /* also other features' messages */
+    if ((!g_cc_enabled && !toast) || (!g_cc_in_editor && !g_cc_open && !toast)) return;
     if (g_cc_closing && !toast) return;
     ID3D11Device *dev = NULL;
     ID3D11DeviceContext *ctx = NULL;

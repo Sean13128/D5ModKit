@@ -2,6 +2,11 @@
 the kit needs, the guide -- one folder (and a .zip) that works on another PC.
 
     python tools/make_release.py OUT_DIR [--zip] [--profile outfits|all] [--mods A,B,...] [--drpg] [--no-runtime]
+                                 [--previous OLD_RELEASE_FOLDER or its manifest.json]
+
+Every release gets manifest.json (every file with its SHA-1 and the version; d5lib.updater).  --previous also writes
+OUT_DIR/D5ModKit-update-<old>-to-<new>.zip: only what changed since that release, for the kit's in-place update
+(attach it to the GitHub release next to D5ModKit.zip).
 
 OUT_DIR/D5ModKit is (re)made from scratch; --zip also writes OUT_DIR/D5ModKit.zip.
 
@@ -46,6 +51,7 @@ PY_SKIP_LIB = {"site-packages", "test", "idlelib", "tkinter", "turtledemo", "ens
                }
 DRPG_UPDATED = "DRPG Assets (Updated)"
 DRPG_PARTS = [("Characters", "Sprites"), ("Characters", "Icons"), ("Characters", "Cut-Ins")]
+PREVIOUS_UNKNOWN = "previous"         # the version of a release folder without manifest.json
 NO_DEFLATE = {".png", ".jpg", ".jpeg", ".webp", ".zip", ".mp3", ".ogg"}
 
 # which mods a release carries (folder names, * patterns)
@@ -119,11 +125,8 @@ def release_mods(profile, extra=()):
     if unknown:
         raise SystemExit(f"no such mod: {', '.join(unknown)}")
     picked = [m for m in have if any(fnmatch.fnmatchcase(m, p) for p in pats) and m not in PERSONAL_MODS]
-    try:
-        with open(os.path.join(mods_dir, "load_order.json"), encoding="utf-8") as f:
-            order = json.load(f)
-    except (OSError, ValueError):
-        order = []
+    from d5lib.profiles import Profiles
+    order = Profiles(KIT).active().load_order()          # the order of this kit's active profile
     first = [m for m in order if m in picked]
     picked = first + [m for m in picked if m not in first]
     # every mod a picked one needs must come along
@@ -198,7 +201,7 @@ def stage_kit(out, mods):
             skip = lambda rel, d=d: personal(d, rel)  # noqa
         n = copy_tree(src, os.path.join(out, d), skip)
         log(f"  {d}: {n} files")
-    # the release's mods, in load order (enabled = listed)
+    # the release's mods, in load order (enabled = listed; the first start makes it the profile Default)
     with open(os.path.join(out, "mods", "load_order.json"), "w", encoding="utf-8") as f:
         json.dump(mods, f, indent=2)
     for dp, _, _ in os.walk(out, topdown=False):            # folders left empty by the skips (deepest first)
@@ -221,6 +224,7 @@ def stage_kit(out, mods):
         f.write(CONSOLE)
     with open(os.path.join(out, "settings.json"), "w", encoding="utf-8") as f:
         json.dump({"language": "EN", "active_mod": None}, f, indent=2)
+    filter_exe_data(out)
     # the compiled runtime DLLs, built from the release's own native sources (no auto-battle) and named by their
     # hash: a copy of the kit finds them in cache/ and needs no compiler
     from d5lib import runtime
@@ -228,8 +232,12 @@ def stage_kit(out, mods):
     cache = os.path.join(out, "cache")
     if runtime.has_autobattle(native):
         raise SystemExit("the release's native sources still hold the auto-battle")
-    runtime.build_core(log=lambda *a: None, native=native, cache=cache)
-    runtime.build_loader(log=lambda *a: None, native=native, cache=cache)
+    from d5lib import exemap
+    for t in [exemap.Translator(exemap.KNOWN_SHA1)] + [exemap.translator_from_map(p) for p in exemap.shipped_maps()]:
+        exemap.use(t)                                   # every checked build of the game: its own addresses
+        runtime.build_core(log=lambda *a: None, native=native, cache=cache)
+        runtime.build_loader(log=lambda *a: None, native=native, cache=cache)
+    exemap.use(exemap.Translator(exemap.KNOWN_SHA1))
     for f in os.listdir(cache):                         # the compiler's side files (.pdb, .lib)
         if not f.endswith(".dll"):
             os.remove(os.path.join(cache, f))
@@ -239,6 +247,29 @@ def stage_kit(out, mods):
     os.utime(os.path.join(out, "d5lib", "bin", "d5lzs.dll"), (now, now))
     for d in ("state",):
         os.makedirs(os.path.join(out, d), exist_ok=True)
+
+
+def filter_exe_data(out):
+    """the game-address reference and the build maps keep only the addresses the release's own files use (none of
+    the personal features')"""
+    import glob
+    from d5lib import exemap
+    keep = {hex(a) for a in exemap.kit_addresses(out)}
+    ref_path = os.path.join(out, "d5lib", "data", os.path.basename(exemap.REF_PATH))
+    ref = exemap.load_reference(ref_path)
+    n = len(ref["sites"])
+    ref["sites"] = {k: v for k, v in ref["sites"].items() if k in keep}
+    exemap.save_reference(ref, ref_path)
+    for p in glob.glob(os.path.join(out, "d5lib", "data", "exe_map_*.json")):
+        with open(p) as f:
+            d = json.load(f)
+        for k in ("map", "how", "manual", "manual_notes"):
+            if k in d:
+                d[k] = {a: v for a, v in d[k].items() if a in keep}
+        d["missing"] = [a for a in d.get("missing", []) if a in keep]
+        with open(p, "w") as f:
+            json.dump(d, f, indent=0)
+    log(f"  game addresses: {len(ref['sites'])} of {n} (the release's files)")
 
 
 def stage_drpg(out):
@@ -339,6 +370,7 @@ def main():
     ap.add_argument("--runtime-only", action="store_true", help="(re)make only the runtime folder of OUT_DIR")
     ap.add_argument("--profile", choices=sorted(PROFILES), default="outfits")
     ap.add_argument("--mods", default="", help="more mods (folder names, comma separated)")
+    ap.add_argument("--previous", default="", help="the previous release (folder or manifest.json): update zip")
     a = ap.parse_args()
     out_dir = os.path.abspath(a.out)
     folder = os.path.join(out_dir, "D5ModKit")
@@ -366,8 +398,32 @@ def main():
     if not a.no_runtime:
         log("Python runtime ...")
         stage_runtime(folder)
+    from d5lib import updater
+    from d5lib.version import VERSION
+    manifest = updater.make_manifest(folder, VERSION)
+    with open(os.path.join(folder, updater.MANIFEST), "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=0)
     size = sum(os.path.getsize(os.path.join(dp, f)) for dp, _, fs in os.walk(folder) for f in fs)
-    log(f"staged {folder}: {size / 1e9:.2f} GB in {time.time() - t:.0f}s")
+    log(f"staged {folder}: {size / 1e9:.2f} GB in {time.time() - t:.0f}s ({len(manifest['files'])} files in the manifest)")
+    if a.previous:
+        prev = a.previous
+        if os.path.isdir(prev):
+            mp = os.path.join(prev, updater.MANIFEST)
+            if not os.path.exists(mp) and os.path.isdir(os.path.join(prev, "D5ModKit")):
+                prev = os.path.join(prev, "D5ModKit")
+                mp = os.path.join(prev, updater.MANIFEST)
+            if os.path.exists(mp):
+                with open(mp, encoding="utf-8") as f:
+                    old = json.load(f)
+            else:                                       # a release from before manifests: made from its files
+                old = updater.make_manifest(prev, PREVIOUS_UNKNOWN)
+        else:
+            with open(prev, encoding="utf-8") as f:
+                old = json.load(f)
+        up = os.path.join(out_dir, updater.update_name(old["version"], VERSION))
+        changed, removed = updater.make_update(folder, manifest, old, up)
+        log(f"-> {up}: {len(changed)} changed / new file(s), {len(removed)} removed, "
+            f"{os.path.getsize(up) / 1e6:.1f} MB")
     if a.zip:
         write_zip(out_dir, folder)
 

@@ -77,7 +77,7 @@ def diff(vanilla: script.ScriptFile, edited: script.ScriptFile) -> dict:
             continue
         seen.add(e.id)
         v = van.get(e.id)
-        if v is None or v.encode() != e.encode():
+        if v is None or (v is not e and v.encode() != e.encode()):        # same object: not edited
             out[str(e.id)] = event_text(e, annotate=False)
     return {"events": out} if out else {}
 

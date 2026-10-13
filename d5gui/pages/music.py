@@ -9,8 +9,8 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QTableWidget, QT
                              QLabel, QFileDialog, QMessageBox, QHeaderView, QSlider, QDialog, QFormLayout,
                              QLineEdit, QDialogButtonBox, QCheckBox)
 
-from d5lib import sound
-from ..common import PageHeader, SearchBox, Card, human_size, error_box
+from d5lib import music, sound
+from ..common import PageHeader, SearchBox, Card, human_size, error_box, info_box
 
 try:
     from PyQt6.QtMultimedia import QMediaPlayer, QAudioOutput
@@ -18,6 +18,8 @@ except Exception:  # pragma: no cover
     QMediaPlayer = None
 
 BGM = "Sound_BGM/Sound_BGM_0.dat"
+# a leftover of the last patch (one other song, also named 542.ogg): the game loads only Sound_BGM_0.dat (its music
+# loader 0x1400bf9f0 is set up for one archive), so this copy is listed for listening, never played in game
 BGM_EXTRA = "Sound_BGM/Sound_BGM_1.dat"
 MUSIC_DB = "Database/Database_0.dat/music.dat"
 ROLE = Qt.ItemDataRole.UserRole
@@ -63,9 +65,9 @@ def to_ogg(path):
 
 
 class ReplaceDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, new=False):
         super().__init__(parent)
-        self.setWindowTitle("Replace music track")
+        self.setWindowTitle("Add a new music track" if new else "Replace music track")
         f = QFormLayout(self)
         f.addRow(QLabel("Pick the song to use. Optionally split it into an intro (played once)\n"
                         "and a loop part (repeats forever). Most people only need the loop file.\n"
@@ -83,6 +85,22 @@ class ReplaceDialog(QDialog):
             b.clicked.connect(lambda _, e=edit: self._browse(e))
             row.addWidget(b)
             f.addRow(label, row)
+        self.title = self.name = self.listed = None
+        if new:
+            self.title = QLineEdit()
+            self.title.setPlaceholderText("e.g. MOD 01")
+            self.title.setToolTip("The label in the game's music list (like the game's own 'BGM 54').")
+            self.name = QLineEdit()
+            self.name.setPlaceholderText("e.g. My Battle Theme")
+            self.name.setToolTip("The song's name, shown under the label.")
+            self.listed = QCheckBox("List it in the game's music list (always available)")
+            self.listed.setChecked(True)
+            self.listed.setToolTip("Adds the song to the in-game music list, where you choose the music of your "
+                                   "base and battles. Off: the song only plays where you put its number "
+                                   "(a stage's music, an event script).")
+            f.addRow("List label", self.title)
+            f.addRow("Song name", self.name)
+            f.addRow("", self.listed)
         bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
         bb.accepted.connect(self.accept)
         bb.rejected.connect(self.reject)
@@ -260,15 +278,19 @@ class MusicPage(QWidget):
         self.table.doubleClicked.connect(self.play)
         lay.addWidget(self.table, 1)
         row = QHBoxLayout()
-        tips = {"▶ Play": "Play the selected track (double-click a row does the same).",
+        tips = {"➕ Add new track…": "Add a song of your own under a new track number (the game's tracks stay as they "
+                                      "are). It can be listed in the game's music list, and plays wherever its "
+                                      "number is used (a stage's music, an event script). Saved into the active mod.",
+                "▶ Play": "Play the selected track (double-click a row does the same).",
                 "■ Stop": "Stop playback.",
                 "Export .ogg…": "Save the selected track as an .ogg file.",
                 "Replace with my song…": "Use your own song for this track (optional intro + loop part). "
                                          "MP3/WAV/FLAC are converted when ffmpeg is installed. Saved into the "
                                          "active mod.",
-                "Revert": "Undo your replacement: the original track plays again."}
-        for text, fn in [("▶ Play", self.play), ("■ Stop", self.stop), ("Export .ogg…", self.export),
-                         ("Replace with my song…", self.replace), ("Revert", self.revert)]:
+                "Revert": "Undo your replacement: the original track plays again. On a new track: remove it."}
+        for text, fn in [("➕ Add new track…", self.add_track), ("▶ Play", self.play), ("■ Stop", self.stop),
+                         ("Export .ogg…", self.export), ("Replace with my song…", self.replace),
+                         ("Revert", self.revert)]:
             b = QPushButton(text)
             b.setToolTip(tips[text])
             b.clicked.connect(fn)
@@ -288,6 +310,10 @@ class MusicPage(QWidget):
             self.player.setAudioOutput(self.audio)
             self.player.durationChanged.connect(self.pos.setMaximum)
             self.player.positionChanged.connect(self._pos)
+            self.player.mediaStatusChanged.connect(self._status)
+        self._seq = 0
+        self._loop_url = None
+        self._part = ""
         self._loaded = False
         ws.file_changed.connect(lambda v: v.startswith("Sound_BGM") and self.load())
         self.se_tab = SoundEffectsTab(ws, self.player)
@@ -302,7 +328,16 @@ class MusicPage(QWidget):
     def _pos(self, p):
         if not self.pos.isSliderDown():
             self.pos.setValue(p)
-        self.now.setText(f"{p // 60000}:{p // 1000 % 60:02d}")
+        self.now.setText(f"{self._part}{p // 60000}:{p // 1000 % 60:02d}")
+
+    def _status(self, st):
+        """the intro has played: the loop part follows and repeats, as in the game"""
+        if st == QMediaPlayer.MediaStatus.EndOfMedia and self._loop_url is not None:
+            url, self._loop_url = self._loop_url, None
+            self._part = "loop "
+            self.player.setSource(url)
+            self.player.setLoops(QMediaPlayer.Loops.Infinite)
+            self.player.play()
 
     def load(self):
         try:
@@ -314,10 +349,35 @@ class MusicPage(QWidget):
             for e in self.ws.fs.pack(arc).entries:
                 rows.append((arc, e))
         rows.sort(key=lambda r: int(r[1].name.split(".")[0]) if r[1].name.split(".")[0].isdigit() else 99999)
+        # tracks the mods add (new numbers): after the game's
+        self._new = {}
+        mods = self.ws.mods.enabled_mods()
+        if self.ws.active_mod and all(m.id != self.ws.active_mod.id for m in mods):
+            mods.append(self.ws.active_mod)
+        for m in mods:
+            for num in music.mod_tracks(m):
+                if num in self._new:
+                    continue
+                self._new[num] = m
+                vp = music.track_vpath(num)
+                size = len(m.read_file(vp))
+
+                class _E:
+                    pass
+                e = _E()
+                e.name, e.size = f"{num}.ogg", size
+                rows.append((BGM, e))
         self.table.setRowCount(len(rows))
         for i, (arc, e) in enumerate(rows):
             num = e.name.split(".")[0]
             t, d = titles.get(int(num), ("", "")) if num.isdigit() else ("", "")
+            unused = arc == BGM_EXTRA
+            if unused:
+                t, d = "(not used by the game)", "Another song also numbered " + num + " (Sound_BGM_1.dat)"
+            new = num.isdigit() and int(num) in self._new
+            if new:
+                ls = music.listing(self.ws.fs, self._new[int(num)], int(num))
+                t, d = ls if ls else ("(not in the music list)", f"New track {num}")
             vpath = f"{arc}/{e.name}"
             modified = self.ws.is_modified(vpath)
             try:
@@ -325,9 +385,15 @@ class MusicPage(QWidget):
             except Exception:
                 meta = None
             samples = meta[3] if meta else None
-            items = [num, t or "(not in music gallery)", d, "", "✏ replaced" if modified else ""]
+            items = [num + (" (extra)" if unused else ""), t or "(not in music gallery)", d, "",
+                     f"✚ new (mod {self._new[int(num)].name})" if new else
+                     "✏ replaced" if modified else ("unused copy" if unused else "")]
             tip = (f"<qt><b>{d or 'Track ' + num}</b><br>"
-                   + (f"Music gallery: {t}<br>" if t else "Not listed in the music gallery<br>")
+                   + ("This song is in Sound_BGM_1.dat, which the game never loads: the game's track " + num +
+                      " is the other row. You can listen to it and export it.<br>" if unused else
+                      f"A track your mod adds: use number {num} for a stage's music or in an event script "
+                      "(bgm_play).<br>" if new else
+                      f"Music gallery: {t}<br>" if t else "Not listed in the music gallery<br>")
                    + f"file {num} · {human_size(e.size)}"
                    + ("<br>✏ replaced by your mod" if modified else "") + "<br>Double-click to play</qt>")
             for c, v in enumerate(items):
@@ -348,18 +414,49 @@ class MusicPage(QWidget):
         return self.table.item(r, 0).data(ROLE) if r >= 0 else None
 
     def play(self, *a):
+        """the intro once, then the loop part over and over, as the game plays it.  The parts are separate files:
+        the track's single chained Ogg (intro + loop streams) tripped the player at the join.  Every play writes
+        files of its own: the same name for the two tracks numbered 542 kept the second from playing (the player
+        still had the first file open)."""
         v = self._cur()
         if not v or not self.player:
             return
-        path = os.path.join(self.tmpdir, v.split("/")[-1].replace(".ogg", "") + ("_mod" if self.ws.is_modified(v) else "") + ".ogg")
-        with open(path, "wb") as f:
-            f.write(sound.track_to_ogg(self.ws.read(v)))
+        try:
+            t = sound.parse_track(self.ws.read(v))
+        except Exception as e:
+            error_box(self, "Could not read the track", e)
+            return
         self.player.stop()
-        self.player.setSource(QUrl.fromLocalFile(path))
+        self.player.setSource(QUrl())                  # let go of the previous files
+        self._clean_tmp()
+        self._seq += 1
+        arc = v.split("/")[-2].split(".")[0]
+        base = os.path.join(self.tmpdir, f"{self._seq}_{arc}_{v.split('/')[-1].split('.')[0]}")
+        with open(base + "_loop.ogg", "wb") as f:
+            f.write(t["loop"])
+        loop = QUrl.fromLocalFile(base + "_loop.ogg")
+        if t["intro"]:
+            with open(base + "_intro.ogg", "wb") as f:
+                f.write(t["intro"])
+            self._loop_url, self._part = loop, "intro "
+            self.player.setSource(QUrl.fromLocalFile(base + "_intro.ogg"))
+            self.player.setLoops(1)
+        else:
+            self._loop_url, self._part = None, "loop "
+            self.player.setSource(loop)
+            self.player.setLoops(QMediaPlayer.Loops.Infinite)
         self.player.play()
+
+    def _clean_tmp(self):
+        for f in os.listdir(self.tmpdir):
+            try:
+                os.remove(os.path.join(self.tmpdir, f))
+            except OSError:
+                pass                                   # still open: removed next time
 
     def stop(self):
         if self.player:
+            self._loop_url = None
             self.player.stop()
 
     def export(self):
@@ -371,9 +468,40 @@ class MusicPage(QWidget):
             with open(p, "wb") as f:
                 f.write(sound.track_to_ogg(self.ws.read(v)))
 
+    def add_track(self):
+        mod = self.ws.require_mod(self)
+        if not mod:
+            return
+        dlg = ReplaceDialog(self, new=True)
+        if not dlg.exec() or not dlg.loop.text():
+            return
+        try:
+            loop = to_ogg(dlg.loop.text())
+            intro = to_ogg(dlg.intro.text()) if dlg.intro.text() else b""
+            mods = self.ws.mods.all_mods()
+            num = music.add_track(self.ws.fs, mod, mods, loop, intro, dlg.title.text().strip(),
+                                  dlg.name.text().strip(), listed=dlg.listed.isChecked())
+        except Exception as e:
+            error_box(self, "Could not add the song", e)
+            return
+        self.ws.file_changed.emit(music.track_vpath(num))
+        self.ws.log(f"New music track {num} in mod '{mod.name}'")
+        info_box(self, "New track added",
+                 f"Your song is track {num}." +
+                 (" It is in the game's music list once you install." if dlg.listed.isChecked() else "") +
+                 f"\n\nUse {num} wherever a music number is asked for: a stage's music (Stages & Maps), or "
+                 f"bgm_play {num} in an event script.")
+        self.load()
+
     def replace(self):
         v = self._cur()
         if not v:
+            return
+        if v.startswith(BGM_EXTRA):
+            QMessageBox.information(self, "Not used by the game",
+                                    "This song is in Sound_BGM_1.dat, which the game never loads, so replacing it "
+                                    "would change nothing in game. Replace the other row with the same number "
+                                    "instead: that's the track the game plays.")
             return
         dlg = ReplaceDialog(self)
         if not dlg.exec() or not dlg.loop.text():
@@ -389,6 +517,18 @@ class MusicPage(QWidget):
 
     def revert(self):
         v = self._cur()
-        if v:
+        if not v:
+            return
+        num = v.split("/")[-1].split(".")[0]
+        if num.isdigit() and int(num) in getattr(self, "_new", {}):
+            mod = self._new[int(num)]
+            if QMessageBox.question(self, "Remove track", f"Remove your track {num} (and its place in the game's "
+                                    f"music list) from mod '{mod.name}'?") != QMessageBox.StandardButton.Yes:
+                return
             self.stop()
-            self.ws.revert(v)
+            music.remove_track(self.ws.fs, mod, int(num))
+            self.ws.file_changed.emit(v)
+            self.load()
+            return
+        self.stop()
+        self.ws.revert(v)

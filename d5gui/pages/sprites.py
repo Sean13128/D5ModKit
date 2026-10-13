@@ -285,7 +285,7 @@ class SpritesPage(QWidget):
         self.anim_combo.setToolTip("Animation (id ending in 1 = facing front, 7 = facing back)")
         self.anim_combo.currentIndexChanged.connect(self._anim_changed)
         v.addWidget(self.anim_combo)
-        self.anim_view = ImageView()
+        self.anim_view = ImageView(smooth=True)
         self.anim_view.setBackgroundBrush(BACKGROUNDS["Green"])
         self.anim_view.clicked.connect(self._pick_color)
         v.addWidget(self.anim_view, 1)

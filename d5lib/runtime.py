@@ -59,7 +59,8 @@ def is_hooked(exe: bytes) -> bool:
 
 def _asm(src, addr):
     from keystone import Ks, KS_ARCH_X86, KS_MODE_64
-    enc, _ = Ks(KS_ARCH_X86, KS_MODE_64).asm(src, addr)
+    from . import exemap
+    enc, _ = Ks(KS_ARCH_X86, KS_MODE_64).asm(exemap.ACTIVE.text(src), addr)
     return bytes(enc)
 
 
@@ -67,9 +68,9 @@ def build_exe_hook(exe: bytes) -> bytes:
     """Add the per-frame DLL hook to an exe (vanilla or already carrying other .d5 patches)."""
     if is_hooked(exe):
         return exe
+    from . import exemap
     pe = pefile.PE(data=exe)
-    if pe.get_data(FRAME_VA - IMAGE_BASE, len(FRAME_ORIG)) != FRAME_ORIG:
-        raise ValueError("unexpected exe version: the runtime's hook site doesn't match")
+    frame_va = exemap.site(pe, FRAME_VA, FRAME_ORIG, "the runtime's hook site")
     sec_align = pe.OPTIONAL_HEADER.SectionAlignment
     file_align = pe.OPTIONAL_HEADER.FileAlignment
     last = max(pe.sections, key=lambda s: s.VirtualAddress)
@@ -135,18 +136,32 @@ def build_exe_hook(exe: bytes) -> bytes:
     struct.pack_into("<I", out, fh + 20 + 56, size_of_image)
     out += section
     # the hooked call: same length (5 bytes), now calls our stub
-    off = pe.get_offset_from_rva(FRAME_VA - IMAGE_BASE)
-    out[off:off + 5] = b"\xE8" + struct.pack("<i", base - (FRAME_VA + 5))
+    off = pe.get_offset_from_rva(frame_va - IMAGE_BASE)
+    out[off:off + 5] = b"\xE8" + struct.pack("<i", base - (frame_va + 5))
     return bytes(out)
 
 
 # ------------------------------------------------------------------------------------------ dll
+def _source_text(path):
+    """a native source as compiled for the game build being patched (exemap.ACTIVE: its game addresses)"""
+    from . import exemap
+    with open(path, "rb") as f:
+        raw = f.read()
+    if exemap.ACTIVE.identity:
+        return raw
+    src = exemap.translate_c(exemap.ACTIVE, raw.decode("utf-8", "replace"))
+    if os.path.basename(path) == "d5auto.c":
+        # the build, for code that differs in more than its addresses (#if defined(D5_BUILD_9460A6411699) ...)
+        src = f"#define D5_BUILD_{exemap.ACTIVE.sha1[:12].upper()} 1\n#line 1\n" + src
+    return src.encode("utf-8")
+
+
 def cached_name(sources, out_name):
-    """the cache file name of a DLL built from these sources (sha1 of their names and contents)"""
+    """the cache file name of a DLL built from these sources (sha1 of their names and contents, as translated for
+    the game build)"""
     src = b""
     for path in sources:
-        with open(path, "rb") as f:
-            src += os.path.basename(path).encode() + b"|" + f.read()
+        src += os.path.basename(path).encode() + b"|" + _source_text(path)
     h = hashlib.sha1(src + b"v3").hexdigest()[:12]
     return f"{os.path.splitext(out_name)[0]}-{h}.dll"
 
@@ -157,6 +172,14 @@ def _compile(sources, out_name, main, libs, log, cache=CACHE):
     out = os.path.join(cache, cached_name(sources, out_name))
     if not os.path.exists(out):
         log(f"  compiling {out_name} (Zig) ...")
+        from . import exemap
+        if not exemap.ACTIVE.identity:          # this game build's addresses: a translated copy of the sources
+            import tempfile
+            tdir = tempfile.mkdtemp(prefix="d5native_")
+            for path in sources:
+                with open(os.path.join(tdir, os.path.basename(path)), "wb") as f:
+                    f.write(_source_text(path))
+            main = os.path.join(tdir, os.path.basename(main))
         cmd = [sys.executable, "-m", "ziglang", "cc", "-target", "x86_64-windows-gnu", "-shared", "-O2",
                "-o", out, main] + libs
         r = subprocess.run(cmd, capture_output=True, text=True,

@@ -918,7 +918,7 @@ class PartPainterDialog(QDialog):
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         try:
             a = pickle.loads(pickle.dumps(self.sprite))
-            colorvariants.repartition_rows(a, self.base, self.model.final())
+            colorvariants.repartition_rows(a, self.base, self.model.final(), fs=self.ws.fs)
             self.rebuilt = sprites.preview_file(self.ws.fs, a)
         except Exception as e:
             self.rebuilt = None

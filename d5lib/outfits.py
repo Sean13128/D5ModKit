@@ -22,7 +22,7 @@ import json
 import os
 import pickle
 
-from . import anm, database, dbpatch, exepatch, sprites
+from . import anm, database, dbpatch, exemap, exepatch, sprites
 from .gamefs import EXE_FILE
 from .modsys import register_patch_handler, register_finalizer
 
@@ -856,7 +856,7 @@ def create_drpg_outfit(fs, mod, base_id, uid, name, log=print, roots=None, hybri
         known = int(uid) in drpgmap.load_hands()
         out, rep = drpgmap.build(fs, uid, base_sprite, N, log=log, roots=roots, auto_hands=not known, specials=True)
         save_source(mod, N, out)
-        _save_parts(mod, N, colorvariants.repartition(out, base))
+        _save_parts(mod, N, colorvariants.repartition(out, base, fs=fs))
         mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N:05d}.lzs", out.to_bytes())
         mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 1:05d}.lzs", ownanim.with_id(out, N + 1).to_bytes())
         save(mod, load(mod), set(load_own(mod)) | {N, N + 1})
@@ -981,7 +981,7 @@ def create_drpg_character(fs, mod, source_id, template, uid, name, title=None, s
     known = int(uid) in drpgmap.load_hands()
     out, rep = drpgmap.build(fs, uid, tsprite, N, log=log, roots=roots, auto_hands=not known, specials=True)
     save_source(mod, N, out)
-    _save_parts(mod, N, colorvariants.repartition(out, base))
+    _save_parts(mod, N, colorvariants.repartition(out, base, fs=fs))
     mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N:05d}.lzs", out.to_bytes())
     mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 1:05d}.lzs", ownanim.with_id(out, N + 1).to_bytes())
     save(mod, load(mod), set(load_own(mod)) | {N, N + 1})          # own animation set: the exe's layer hook
@@ -1034,7 +1034,7 @@ def rebuild_drpg_sprite(fs, mod, N, uid, template_sprite, log=print, roots=None)
     known = int(uid) in drpgmap.load_hands()
     out, rep = drpgmap.build(fs, uid, template_sprite, N, log=log, roots=roots, auto_hands=not known, specials=True)
     save_source(mod, N, out)
-    _save_parts(mod, N, colorvariants.repartition(out, base))
+    _save_parts(mod, N, colorvariants.repartition(out, base, fs=fs))
     mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N:05d}.lzs", out.to_bytes())
     if N + 1 in {int(x) for x in load_own(mod)}:
         mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 1:05d}.lzs", ownanim.with_id(out, N + 1).to_bytes())
@@ -1096,7 +1096,7 @@ def _create_hybrid_files(fs, mod, base_row, slot, N, uid, hybrid, log, roots=Non
         out = hybridanim.compose(tmpl, hum, N, hybrid.get("sources"), hybrid.get("keep", ()), log)
         rep = dict(rep, animations=hybridanim.compose.report)
     save_source(mod, N, out)
-    _save_parts(mod, N, colorvariants.repartition(out, tmpl))
+    _save_parts(mod, N, colorvariants.repartition(out, tmpl, fs=fs))
     mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N:05d}.lzs", out.to_bytes())
     # the companion file keeps exactly the template companion's animation ids (a full copy hangs counterattacks);
     # neither file is an 'own sprite': monster-type units always play their sprite's own animations
@@ -1176,7 +1176,7 @@ def write_sheet_sprite(fs, mod, base_sprite, N, sheet_sequences, log=print):
     save_source(mod, N, out)
     from . import colorvariants
     # every part (hair, hoodie, skin ...) gets its own palette colours, presets derived per part
-    _save_parts(mod, N, colorvariants.repartition(out, base))
+    _save_parts(mod, N, colorvariants.repartition(out, base, fs=fs))
     mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N:05d}.lzs", out.to_bytes())
     mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 1:05d}.lzs", ownanim.with_id(out, N + 1).to_bytes())
     # small standing picture (N+2, and the outfit class slot's copy) redrawn from the new sprite
@@ -1302,9 +1302,9 @@ def regenerate_presets(fs, mod, slot, log=print):
     a = anm.load(mod.read_file(vp))
     info = _load_parts(mod, N)
     if info and all(0 < int(k) < 256 for k in info.get("entries", {})):
-        colorvariants.derive_parts(a, base, info)          # parts known: follow the current colours
+        colorvariants.derive_parts(a, base, info, fs=fs, log=log)    # parts known: follow the current colours
     else:
-        _save_parts(mod, N, colorvariants.repartition(a, base))
+        _save_parts(mod, N, colorvariants.repartition(a, base, fs=fs))
     mod.write_file(vp, a.to_bytes())
     if N in load_own(mod):
         mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 1:05d}.lzs", ownanim.with_id(a, N + 1).to_bytes())
@@ -1331,6 +1331,15 @@ def outfit_sprite(fs, mod, slot):
     _, ed = _char_tables(fs, mod)
     r = next((r for r in ed.rows if r["id"] == slot), None)
     return r["sprite_id"] if r is not None else None
+
+
+def outfit_sprites(fs, mod):
+    """{slot: sprite id} of all of a mod's outfits (one table load for all of them)"""
+    slots = {int(s) for _, s in load(mod)}
+    if not slots:
+        return {}
+    _, ed = _char_tables(fs, mod)
+    return {r["id"]: r["sprite_id"] for r in ed.rows if r["id"] in slots}
 
 
 def remove_outfit(fs, mod, slot):
@@ -1561,7 +1570,7 @@ def apply_rows(fs, mod, slot, rows, log=print, sprite=None):
     base_id = base_of(mod, slot)
     base_sprite = next(r for r in _char_tables(fs, mod)[1].rows if r["id"] == base_id)["sprite_id"]
     base = anm.parse(fs.read(sprites.sprite_vpath(fs, base_sprite, "EN")))
-    info = colorvariants.repartition_rows(a, base, rows, log=log)
+    info = colorvariants.repartition_rows(a, base, rows, log=log, fs=fs)
     vp = f"Anime/ANM_HI_JP.dat/anm{N:05d}.lzs"
     mod.write_file(vp, a.to_bytes())
     if N in load_own(mod):
@@ -1588,7 +1597,7 @@ def import_partmap(fs, mod, slot, folder, log=print):
     base_sprite = next(r for r in _char_tables(fs, mod)[1].rows if r["id"] == base_id)["sprite_id"]
     base = anm.parse(fs.read(sprites.sprite_vpath(fs, base_sprite, "EN")))
     rows = partmap.import_rows(a, folder)
-    info = colorvariants.repartition_rows(a, base, rows, log=log)
+    info = colorvariants.repartition_rows(a, base, rows, log=log, fs=fs)
     mod.write_file(vp, a.to_bytes())
     if N in load_own(mod):
         mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 1:05d}.lzs", ownanim.with_id(a, N + 1).to_bytes())
@@ -1730,7 +1739,7 @@ def _icon_src(table):
         "icon_none:",
         "    sub rsp, 0x28",
         "    movsx r11, cx",
-        f"    jmp {ICON_PICK_VA + 8:#x}",
+        f"    jmp {exemap.at(ICON_PICK_VA, 8)}",
         "    .align 4",
         "icons:",
         "    .long " + rows,
@@ -1775,10 +1784,10 @@ def _icon_res_src(first, count):
         "    ret",
         "res_back:",
         "    xor eax, eax",
-        f"    jmp {ICON_RES_VA + len(ICON_RES_ORIG):#x}",
+        f"    jmp {exemap.at(ICON_RES_VA, len(ICON_RES_ORIG))}",
         # symbols after their use: keystone makes [rip + symbol] rip-relative
         f"res_struct = {S:#x}",
-        f"res_index = {S + 8:#x}",
+        f"res_index = {exemap.at(S, 8)}",
         f"res_tex48 = {ICON_TEX48:#x}",
         f"res_tex64 = {ICON_TEX64:#x}",
     ])

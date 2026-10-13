@@ -61,6 +61,12 @@ STEPS = [("1", "Pick the mod you're working on",
           "<b>Install &amp; Play</b> writes every enabled mod into the game; the originals are backed up.")]
 
 
+PROFILE_HELP = ("A profile is a modpack: which mods are switched on and their load order. Each profile keeps its "
+                "own, like the profiles of Mod Organizer for Skyrim; the mods themselves are shared, so switching is "
+                "instant. The game gets the profile's mods when you press Install. A profile can also keep its own "
+                "saves (Profile ▾ › Separate saves).")
+
+
 class HomePage(QWidget):
     def __init__(self, ws, main):
         super().__init__()
@@ -102,6 +108,37 @@ class HomePage(QWidget):
 
         # ---- mods: by category (tree) or in load order (list)
         m = Card("Mods")
+        prow = QHBoxLayout()
+        pl = QLabel("Profile:")
+        pl.setToolTip(PROFILE_HELP)
+        prow.addWidget(pl)
+        self.profile_box = QComboBox()
+        self.profile_box.setMinimumWidth(180)
+        self.profile_box.setToolTip(PROFILE_HELP)
+        self.profile_box.activated.connect(self._profile_chosen)
+        prow.addWidget(self.profile_box, 1)
+        b = QPushButton("＋ New profile…")
+        b.setToolTip("A new modpack: starts with no mod switched on (or copy this one from the menu next to it)")
+        b.clicked.connect(lambda: self.new_profile(copy=False))
+        prow.addWidget(b)
+        pm = QPushButton("Profile ▾")
+        menu = QMenu(pm)
+        menu.addAction("Copy this profile…", lambda: self.new_profile(copy=True))
+        menu.addAction("Rename…", self.rename_profile)
+        menu.addAction("Delete…", self.delete_profile)
+        menu.addSeparator()
+        self.act_saves = menu.addAction("Separate saves for this profile")
+        self.act_saves.setCheckable(True)
+        self.act_saves.setToolTip("This profile keeps its own saves: they go into the game with its mods")
+        self.act_saves.triggered.connect(self.toggle_profile_saves)
+        menu.setToolTipsVisible(True)
+        pm.setMenu(menu)
+        prow.addWidget(pm)
+        m.lay.addLayout(prow)
+        self.profile_note = QLabel()
+        self.profile_note.setObjectName("muted")
+        self.profile_note.setWordWrap(True)
+        m.lay.addWidget(self.profile_note)
         top = QHBoxLayout()
         self.search = SearchBox("Find a mod, a character, an outfit…")
         self.search.textChanged.connect(lambda _: self._fill_tree())
@@ -224,6 +261,20 @@ class HomePage(QWidget):
         b = QPushButton("Change game folder…")
         b.clicked.connect(self.change_game_dir)
         g.addWidget(b)
+        from PyQt6.QtWidgets import QCheckBox
+        from d5lib.version import VERSION
+        up = QPushButton(f"Check for updates (v{VERSION})")
+        up.setToolTip("Ask GitHub whether there is a newer D5 Mod Kit. Updates download only what changed; your "
+                      "mods and settings stay.")
+        up.clicked.connect(lambda: self.main.update_bar.check(quiet=False))
+        g.addWidget(up)
+        auto = QCheckBox("at start")
+        auto.setToolTip("Check for a newer kit a few seconds after the kit starts (needs the internet; nothing is "
+                        "downloaded unless you press Update now)")
+        auto.setChecked(bool(self.ws.settings.get("check_updates", True)))
+        auto.toggled.connect(lambda v: (self.ws.settings.__setitem__("check_updates", bool(v)),
+                                        self.ws.save_settings()))
+        g.addWidget(auto)
         outer.addLayout(g)
         self.check_label = QLabel()
         self.check_label.setWordWrap(True)
@@ -238,13 +289,18 @@ class HomePage(QWidget):
 
     # ------------------------------------------------------------------ state
     def on_show(self):
-        self.refresh()
+        from d5lib.modsys import change_token
+        if getattr(self, "_shown_token", None) != (change_token(self.ws.mods.mods_dir), self.ws.game_dir):
+            self.refresh()                     # ~0.2 s (every mod's files are read): only when something changed
 
     def refresh(self):
+        from d5lib.modsys import change_token
+        self._shown_token = (change_token(self.ws.mods.mods_dir), self.ws.game_dir)
         ok = self.ws.game_ok()
         self.game_label.setText(("Game: " if ok else "❌ Game not found in ") + (self.ws.game_dir or "(no folder)") +
                                 ("" if ok else "  — choose the folder with disgaea5.exe"))
         self._show_checks(ok)
+        self._fill_profiles()
         self._names = None
         self._fill_tree()
         cur = self._selected_mod()
@@ -273,6 +329,126 @@ class HomePage(QWidget):
                 self.modlist.setCurrentItem(it)
         self.modlist.blockSignals(False)
         self._show_mod()
+
+    # ---- profiles
+    def _fill_profiles(self):
+        ps = self.ws.mods.profiles
+        cur = self.ws.profile
+        self.profile_box.blockSignals(True)
+        self.profile_box.clear()
+        for p in ps.all():
+            self.profile_box.addItem(p.name + ("   (own saves)" if p.separate_saves else ""), p.id)
+        self.profile_box.setCurrentIndex(max(0, self.profile_box.findData(cur.id)))
+        self.profile_box.blockSignals(False)
+        self.act_saves.setChecked(cur.separate_saves)
+        inst = self.ws.installed_profile()
+        n = len(self.ws.mods.load_order())
+        note = f"{n} mod(s) switched on in this profile."
+        if inst and inst.id != cur.id:
+            note += f"  The game has the profile <b>{inst.name}</b> installed: Install puts this one in."
+        elif inst:
+            note += "  This is the profile in the game."
+        self.profile_note.setText(note)
+
+    def _profile_chosen(self, index):
+        pid = self.profile_box.itemData(index)
+        if pid and pid != self.ws.profile.id:
+            self.ws.set_profile(pid)
+
+    def new_profile(self, copy=False):
+        cur = self.ws.profile
+        name, ok = QInputDialog.getText(self, "Copy profile" if copy else "New profile",
+                                        (f"A copy of '{cur.name}' (the same mods switched on, in the same order). "
+                                         if copy else "A new modpack with no mod switched on yet. ") +
+                                        "\n\nName of the profile:", text=f"{cur.name} copy" if copy else "")
+        if not ok or not name.strip():
+            return
+        try:
+            p = self.ws.mods.profiles.create(name.strip(), copy_from=cur if copy else None)
+        except ValueError as e:
+            return QMessageBox.warning(self, "Profile", str(e))
+        self.ws.set_profile(p.id)
+
+    def rename_profile(self):
+        cur = self.ws.profile
+        name, ok = QInputDialog.getText(self, "Rename profile", "New name:", text=cur.name)
+        if not ok or not name.strip() or name.strip() == cur.name:
+            return
+        try:
+            self.ws.mods.profiles.rename(cur.id, name)
+        except ValueError as e:
+            return QMessageBox.warning(self, "Profile", str(e))
+        self.ws.mods.set_profile(cur.id)
+        self.ws.mods_changed.emit()
+
+    def delete_profile(self):
+        ps = self.ws.mods.profiles
+        cur = self.ws.profile
+        others = [p for p in ps.all() if p.id != cur.id]
+        if not others:
+            return QMessageBox.information(self, "Profile", "This is your only profile: make another one first.")
+        extra = "  Its own saves are kept too." if ps.has_own_saves(cur) else ""
+        if QMessageBox.question(self, "Delete profile",
+                                f"Delete the profile '{cur.name}'?\n\nOnly the profile goes (which mods it switches "
+                                f"on); the mods stay in the kit. It is kept in D5ModKit/state/deleted_profiles in "
+                                f"case you want it back.{extra}") != QMessageBox.StandardButton.Yes:
+            return
+        try:
+            self.ws.set_profile(others[0].id)      # the active profile can't go: move to another one first
+            ps.delete(cur.id, live_owner=self.ws.saves().live_owner())
+        except ValueError as e:
+            self.ws.set_profile(cur.id)
+            return QMessageBox.warning(self, "Profile", str(e))
+        self.ws.mods_changed.emit()
+
+    def toggle_profile_saves(self, on):
+        ps = self.ws.mods.profiles
+        cur = self.ws.profile
+        self.act_saves.setChecked(cur.separate_saves)
+        if bool(on) == cur.separate_saves:
+            return
+        if self.ws.is_game_running():
+            return QMessageBox.information(self, "Close the game first",
+                                           "Disgaea 5 is running. Close it before changing where its saves go.")
+        inst = self.ws.installed_profile()
+        installed = inst.id if inst else None
+        if not on:
+            if QMessageBox.question(self, "Shared saves",
+                                    f"Let '{cur.name}' use the shared saves again?\n\nIts own saves stay in its "
+                                    "folder (switch this on again later to get them back). The shared saves go into "
+                                    "the game the next time this profile is installed.") \
+                    != QMessageBox.StandardButton.Yes:
+                return
+            ps.set_separate_saves(cur.id, False, self.ws.saves(), installed=installed, log=self.ws.log)
+        else:
+            box = QMessageBox(self)
+            box.setWindowTitle("Separate saves")
+            box.setIcon(QMessageBox.Icon.Question)
+            box.setText(f"Give '{cur.name}' its own saves?")
+            box.setInformativeText(
+                "A modpack's saves can depend on its mods (a unit in a class or outfit only this profile has). With "
+                "its own saves, this profile's saves go into the game when it is installed, and the saves of the "
+                "other profiles are put aside meanwhile (nothing is deleted; every switch also keeps a copy in "
+                "D5ModKit/state/save_backups).\n\nTip: Steam Cloud keeps whatever saves are in the game; launch "
+                "through the kit (Play) so the right saves are in place.\n\nStart this profile with:")
+            b_copy = box.addButton("A copy of my current saves", QMessageBox.ButtonRole.AcceptRole)
+            b_keep = box.addButton("Its earlier saves", QMessageBox.ButtonRole.AcceptRole) \
+                if ps.has_own_saves(cur) else None
+            b_new = box.addButton("No saves (a new game)", QMessageBox.ButtonRole.AcceptRole)
+            box.addButton(QMessageBox.StandardButton.Cancel)
+            box.exec()
+            c = box.clickedButton()
+            start = "copy" if c is b_copy else "keep" if (b_keep is not None and c is b_keep) else \
+                "empty" if c is b_new else None
+            if not start:
+                return
+            try:
+                ps.set_separate_saves(cur.id, True, self.ws.saves(), start=start, installed=installed,
+                                      log=self.ws.log)
+            except OSError as e:
+                return QMessageBox.critical(self, "Separate saves", f"The saves could not be copied: {e}")
+        self.ws.mods.set_profile(cur.id)
+        self.ws.mods_changed.emit()
 
     # ---- the category tree
     def _class_names(self):
@@ -582,6 +758,16 @@ class HomePage(QWidget):
             found = gamecheck.check(self.ws.installer) if ok else []
         except Exception as e:
             found = [("warning", f"The game could not be checked: {e}")]
+        try:
+            need = gamecheck.save_needs_mods(self.ws.game_dir, self.ws.mods.all_mods(), set(self.ws.mods.load_order()))                 if ok else []
+        except Exception:
+            need = []
+        if need:
+            what = ", ".join((f"{n} " if n else f"class {c} ") + (f"(mod '{m.name}')" if m else "(no mod of this kit)")
+                             for c, n, m in need)
+            found.append(("warning", "Your save has units from mods that are switched off in this profile: " + what +
+                          ". The game crashes entering a battle with that save: switch those mods on (or pick a "
+                          "profile that has them) and install."))
         if not found:
             self.check_label.hide()
             return
@@ -589,6 +775,34 @@ class HomePage(QWidget):
         color = "#ff6b6b" if any(l == "error" for l, _ in found) else "#f0b35a"
         self.check_label.setText(f"<div style='color:{color}'>" + "<br>".join(rows) + "</div>")
         self.check_label.show()
+        unknown = ok and gamecheck.unknown_exe(self.ws.installer)
+        if unknown and not hasattr(self, "report_btn"):
+            from PyQt6.QtWidgets import QPushButton
+            self.report_btn = QPushButton("📋  Copy compatibility report")
+            self.report_btn.setToolTip("Which build of the game this is and how much of it the kit can find "
+                                       "(nothing of the game itself). Paste it into a GitHub issue or send it to "
+                                       "the kit's author.")
+            self.report_btn.clicked.connect(self._copy_report)
+            lay = self.check_label.parentWidget().layout()
+            lay.insertWidget(lay.indexOf(self.check_label) + 1, self.report_btn)
+        if hasattr(self, "report_btn"):
+            self.report_btn.setVisible(bool(unknown))
+
+    def _copy_report(self):
+        from PyQt6.QtWidgets import QApplication
+        from d5lib import exemap, gamecheck
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        try:
+            text = "D5 Mod Kit compatibility report\n" + exemap.report(gamecheck.original_exe(self.ws.installer))
+        except Exception as e:
+            text = f"D5 Mod Kit compatibility report failed: {e}"
+        finally:
+            QApplication.restoreOverrideCursor()
+        QApplication.clipboard().setText(text)
+        QMessageBox.information(self, "Compatibility report copied",
+                                "The report is on the clipboard. Paste it into a new issue at "
+                                "github.com/eraser4521/D5ModKit/issues (or send it to the kit's author).\n\n"
+                                + text[:1200])
 
     # ------------------------------------------------------------------ actions
     def _lang_changed(self, lang):
