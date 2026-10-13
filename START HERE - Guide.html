@@ -337,8 +337,15 @@ editor (keep the size and layout), then <i>Import all sheets…</i>.</p>
 <h2 id="t-drpg">Tutorial 5 · Disgaea RPG outfits <span class="tag">command line</span></h2>
 <p>The kit builds Disgaea RPG looks for the game's characters by itself. It uses the DRPG sprites in
 <code>D5ModKit\DRPG Assets (Updated)</code> and the list in <code>d5lib\data\drpg_outfit_catalog.json</code>.</p>
+<p class="note">This package doesn't include the Disgaea RPG sprites. The outfits, characters and classes
+it comes with are already built and work without them. To build new ones, put your own copy of the Disgaea RPG
+character sprites in <code>D5ModKit\DRPG Assets (Updated)\Characters\Sprites</code>: the folders
+<code>front</code>, <code>back</code>, <code>wait_front</code> and <code>wait_back</code>
+(<code>front&lt;unit&gt;.png</code>, <code>back&lt;unit&gt;.png</code>). Faces and cut-ins are optional:
+<code>Characters\Icons</code> and <code>Characters\Cut-Ins</code> (<code>&lt;unit&gt;.png</code>).</p>
 <ol class="steps">
-<li>Find the DRPG unit numbers in <code>DRPG Assets (Updated)\Units IDs.txt</code>.</li>
+<li>Find the DRPG unit numbers in <code>DRPG Assets (Updated)\Units IDs.txt</code> (or in the file
+names of your copy of the sprites).</li>
 <li>Open <code>d5lib\data\drpg_outfit_catalog.json</code> in Notepad. Find the character (for example
 <code>"name": "Etna"</code>, <code>"class": 520</code>) and add <code>[unit number, "Outfit name"]</code> to its <code>"outfits"</code> list.</li>
 <li>Double-click <code>D5 Mod Kit Console.bat</code> and type
@@ -427,7 +434,8 @@ gives new things ids above the existing ones.</div>
 
 
 <h2 id="t-class">Tutorial 13 · New classes and monsters <span class="tag">command line</span></h2>
-<p>Make a generic class or monster from a Disgaea RPG unit, animated like a vanilla class or monster:</p>
+<p>Make a generic class or monster from a Disgaea RPG unit, animated like a vanilla class or monster (it
+needs the Disgaea RPG sprites: see Tutorial 5):</p>
 <pre><code>python tools\new_drpg_class.py UNIT TEMPLATE "Name" --titles "T1,T2,T3,T4,T5,T6" --desc "one line for Hire Character"
 python tools\new_drpg_monster.py --help</code></pre>
 <p>Run them in <code>D5 Mod Kit Console.bat</code>. <code>docs\CLASSES.md</code> and <code>docs\MONSTERS.md</code>

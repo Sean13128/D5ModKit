@@ -1,8 +1,7 @@
 """Make a shareable copy of the kit: the D5 Mod Kit, the mods of a release profile, a private Python with everything
-the kit needs, the Disgaea RPG sprites the outfit builder uses, the guide -- one folder (and a .zip) that works on
-another PC.
+the kit needs, the guide -- one folder (and a .zip) that works on another PC.
 
-    python tools/make_release.py OUT_DIR [--zip] [--profile outfits|all] [--mods A,B,...] [--no-drpg] [--no-runtime]
+    python tools/make_release.py OUT_DIR [--zip] [--profile outfits|all] [--mods A,B,...] [--drpg] [--no-runtime]
 
 OUT_DIR/D5ModKit is (re)made from scratch; --zip also writes OUT_DIR/D5ModKit.zip.
 
@@ -16,9 +15,11 @@ edition markers: <!--mod:ID,ID-->...<!--/mod--> (kept only when one of those mod
 <!--share: TEXT --> (shown only in a release; {OUTFIT_SUMMARY} becomes "N outfits for M characters").
 
 Left out on purpose: state/ (this PC's backups of its own game), cache/ (rebuilt from the other player's game; only
-the compiled runtime DLLs are kept so nobody needs a compiler), _research/ and _extracted/ (research), the full
-Disgaea RPG asset folders (only the sprites, faces and cut-ins the builders read are copied), the underscore test
-scripts, settings.json (the other PC chooses its own game folder).
+the compiled runtime DLLs are kept so nobody needs a compiler), _research/ and _extracted/ (research), the Disgaea RPG
+asset folders (the mods are already built from them; only the command-line builders of new DRPG outfits, classes and
+monsters read them, and the guide tells the other player where to put their own copy.  --drpg copies the sprites,
+faces and cut-ins the builders read, ~1 GB), the underscore test scripts, settings.json (the other PC chooses its own
+game folder).
 """
 import argparse
 import fnmatch
@@ -333,7 +334,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("out")
     ap.add_argument("--zip", action="store_true")
-    ap.add_argument("--no-drpg", action="store_true")
+    ap.add_argument("--drpg", action="store_true", help="also copy the Disgaea RPG sprites the builders read")
     ap.add_argument("--no-runtime", action="store_true")
     ap.add_argument("--runtime-only", action="store_true", help="(re)make only the runtime folder of OUT_DIR")
     ap.add_argument("--profile", choices=sorted(PROFILES), default="outfits")
@@ -359,7 +360,7 @@ def main():
     log(f"profile {a.profile} ({PROFILES[a.profile][0]}): {len(mods)} mods -- {', '.join(mods)}")
     log("kit and mods ...")
     stage_kit(folder, mods)
-    if not a.no_drpg:
+    if a.drpg:
         log("Disgaea RPG assets ...")
         stage_drpg(folder)
     if not a.no_runtime:

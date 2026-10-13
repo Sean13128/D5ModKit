@@ -59,6 +59,10 @@ def _unit_sheets(uid, roots=None):
                     "back": os.path.join(b, "BattleBack", f"back{uid}.png"),
                     "wait_front": os.path.join(b, "WaitFront", f"front{uid}.png"),
                     "wait_back": os.path.join(b, "WaitBack", f"back{uid}.png")}
+    if not any(os.path.isdir(r) for r in roots or ROOTS):
+        raise FileNotFoundError(f"the Disgaea RPG sprites are not in the kit (the release zip leaves them out): put "
+                                f"them in {os.path.join(ROOTS[0], 'Characters', 'Sprites')} (front, back, wait_front, "
+                                f"wait_back; see the guide, Tutorial 5)")
     raise FileNotFoundError(f"no DRPG sprites for unit {uid} in {roots or ROOTS}")
 
 

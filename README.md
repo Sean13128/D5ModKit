@@ -118,9 +118,11 @@ The editors always show the game as your enabled mods make it (every mod's chang
 * **Sharing the whole kit:** `python tools/make_release.py OUT_DIR --zip` makes `OUT_DIR/D5ModKit` (+ `.zip`): the
   kit, the mods of a release profile (default `outfits`: the Outfit System and the outfit mods; `--profile all` /
   `--mods A,B`), a private Python 3.10 with the libraries (`runtime/`, `python310._pth` keeps it isolated from any
-  installed Python), the compiled runtime DLLs (`cache/`), the Disgaea RPG sprites / faces / cut-ins the builders read,
-  the guide and launchers (`Start D5 Mod Kit.bat`, `D5 Mod Kit Console.bat`).  Left out: `state/` (this PC's
-  backups), the rest of `cache/`, `_research/`, `_extracted/`, the underscore test tools, `settings.json`.  Tested
+  installed Python), the compiled runtime DLLs (`cache/`), the guide and launchers (`Start D5 Mod Kit.bat`,
+  `D5 Mod Kit Console.bat`).  Left out: `state/` (this PC's backups), the rest of `cache/`, `_research/`,
+  `_extracted/`, the underscore test tools, `settings.json`, and the Disgaea RPG asset folders (the mods are already
+  built from them; the guide says where the other player puts their own copy for the DRPG builders; `--drpg` adds
+  the sprites / faces / cut-ins the builders read, ~1 GB).  Tested
   2026-10-10: a staged copy, on its own Python, installs byte-identical game files to this kit's install and its
   restore returns the original files exactly.
 

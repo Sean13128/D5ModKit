@@ -86,19 +86,21 @@ person uses Home › More › **Import / update from .zip…**.
 * The guide and README are written for what the release holds: `<!--mod:ID,ID-->…<!--/mod-->` blocks and lines
   ending in `<!--mod-line:ID-->` stay only when one of those mods is in; `<!--full-->…<!--/full-->` is this PC's
   copy only; `<!--share: TEXT -->` shows only in a release (`{OUTFIT_SUMMARY}` = "N outfits for M characters").
-* What it makes: `D:\Release\D5ModKit` and `D:\Release\D5ModKit.zip` (about 1.6 GB). They contain:
+* What it makes: `D:\Release\D5ModKit` and `D:\Release\D5ModKit.zip` (about 0.6 GB). They contain:
   * the kit and the profile's mods;
   * `runtime\`: a private Python 3.10 with every library the kit uses (PyQt6, numpy, scipy, Pillow, pefile,
     keystone, capstone, pip);
   * the compiled runtime DLLs;
-  * the Disgaea RPG sprites, faces and cut-ins the builders read;
   * `START HERE - Guide.html`, `Start D5 Mod Kit.bat` and `D5 Mod Kit Console.bat`.
 * For the other person: extract it (best into the game folder), double-click `Start D5 Mod Kit.bat`, press
   Install & Play. Nothing to install. The kit finds the game through Steam if it is elsewhere, or asks for it.
 * Never in the zip:
   * `state\` (your backups of your own game files) and `settings.json` (your game folder);
   * `cache\` (rebuilt from the other person's game);
-  * `_research\` and `_extracted\`.
+  * `_research\` and `_extracted\`;
+  * the Disgaea RPG asset folders. The mods are already built from them; only the command-line builders of new DRPG
+    outfits, classes and monsters read them, and the guide (Tutorial 5) tells the other person where to put their
+    own copy. `--drpg` copies the sprites, faces and cut-ins the builders read (about 1 GB more).
 * Verified: a copy running on its own Python installs byte-identical game files to the original kit, and its restore
   gives back the original files exactly.
 
