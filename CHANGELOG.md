@@ -1,5 +1,70 @@
 # D5 Mod Kit — changes
 
+## 1.4 (2026-10-14)
+
+**Outfit colours without blotches**
+* The extra colours of outfits and new characters (Strategy Assembly › Change Colors) had patches and squares in
+  the hair, faces and clothes: Disgaea RPG's compressed art stores one colour as small blocks of slightly different
+  shades, and those shades could change differently. Now shades that touch and look alike change alike, so every
+  part takes its new colour in one piece.
+* Her skin stays skin: a shade the artist used both on the skin and elsewhere (Pram's face highlight is the white of
+  her hair) now has a twin for the skin, so a red variant no longer paints her face red. Outfits are checked once
+  (where their drawing lies over the character's own skin); the default look doesn't change.
+* All included outfits and characters were re-derived (`tools/rederive_colors.py --skin`); outfits you made get it
+  from Outfits › Colors › *Re-derive color presets from the character*.
+
+**Clearer lists**
+* Outfits: one entry per character with its outfits inside (fold it open), and a search box. ✨ New outfit starts on
+  the character whose outfits are open.
+* Characters & Classes: in sections — your new characters & classes first, then the game's unique characters,
+  generic classes and monster classes (one entry per class, its six ranks inside) and the others. The copies of a
+  character that outfits make, and the game's empty reserved rows, aren't listed (filter *Outfit copies* shows them).
+
+**New characters (fixes from testers' reports)**
+* A new character could get the id of one of the game's empty reserved rows (970 "DLC Dummy") as a SECOND row: the
+  game read the dummy's, so the character showed "DLC Dummy" with the dummy's stats, resistances, weapon mastery
+  and "DLC Dummy Description Row" text around the new sprites. New characters now fill the reserved row itself, and
+  characters made with an older kit are repaired when the kit or the game reads them (Install again).
+* New characters no longer get ids whose numbers the game's own files use (id 11 sat on Killia's sprite files: the
+  wrong small sprite and no status portrait). Every new character gets its small standing picture (menus, the quest
+  shop's "has joined") at install.
+* A new character always gets its own description (its name and title when none was typed), never the copied
+  character's or the reserved row's.
+* Characters & Classes: **Description** box (3 lines, wrapped; saved alone too), **Gender** (some evilities and
+  skills check it), **🖼 Portrait…** (the status screen / skill cut-in picture of a new character) and **🗑 Delete
+  this character…** (its row, description, recruit quest, sprite files and face; makes room to create it again).
+* Name and title edits change every game language that still had the old text (a game in French showed the old
+  name).
+* Imported portraits and cut-ins: the plain white background left along the sides and bottom (beside an arm or the
+  hair) is removed too; shaded white clothes stay.
+* Stages & Maps: a stage the story also plays as its "(Demo)" version says so (its own map and base panel: the
+  story's first battle on 1-1 is the Demo stage). Checked in game: the base panel moved in the editor is where the
+  units enter.
+
+**Contributions**
+* Original Disgaea RPG idle timing for outfits (Sean13128, pull request #3): `tools/rpg_idle_sources.py` exports the
+  idle clocks from your own Disgaea RPG game files, `tools/repair_outfit_idles.py` makes an override mod
+  (docs/RPG_IDLE_TIMING.md). Without the exported files nothing changes.
+* The editor runs on macOS (Sean13128, pull request #2; docs/MACOS.md).
+
+**Fixes**
+* Axel's *Netherworld President* outfit showed Rozalin, and Rozalin's *Hero* outfit a girl from Yomawari: the Disgaea
+  RPG units list names units 405-407 one place off. Both outfits are drawn again from the right units (same outfit
+  slots, so units wearing them keep them), and the unit browser shows those three units' real names.
+* A new character's description longer than a help line made creating it fail ("line1_JP: 111 bytes > 91
+  available"); the text is now wrapped onto the game's three 42-character lines.
+
+**Skill editor: closer to the game**
+* Every skill was run through the editor's preview to list what it didn't draw yet; the most used commands were
+  traced in the game's code and now play as in the game. 66 skills (was 50) now use only commands the preview draws.
+* Hurricane Blow: the enemy spins in the whirlwind (units turning, `6710`, in 170 skills, now turn and show the right
+  view of their sprite).
+* Purgatory Palm (and 8 more skills): its effects shown at a unit itself now appear.
+* Effects that ride along with a fighter (Exploding Tiger's flames and many more) now move with it, and a unit set
+  to follow another keeps its place instead of jumping onto it.
+* Sprites shifted or scaled step by step, and effects resized relative to their size, play as in the game.
+* Fixed: sprites turning around their own centre (Macrocosm's juggled enemy) had stopped turning in the preview.
+
 ## 1.3 (2026-10-13)
 
 **Disgaea RPG sprites in the editor, no command line**

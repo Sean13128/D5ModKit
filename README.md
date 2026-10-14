@@ -21,7 +21,7 @@ The mods never change your saves, but a backup is always a good idea.
 
 ### Step 2 · Download the kit
 
-Download **[D5ModKit.zip](https://github.com/eraser4521/D5ModKit/releases/latest/download/D5ModKit.zip)** (550 MB)
+Download **[D5ModKit.zip](https://github.com/eraser4521/D5ModKit/releases/latest/download/D5ModKit.zip)** (556 MB)
 from the [latest release](https://github.com/eraser4521/D5ModKit/releases/latest).
 
 > ⚠️ Don't use the green **Code › Download ZIP** button on this page: that's only the source code, without the
@@ -104,7 +104,7 @@ done. Tutorial 5 in the guide shows the folder layout.
 
 ---
 
-> **About this repository.** It holds the kit's code and documentation (version 1.3). The mods (outfits,
+> **About this repository.** It holds the kit's code and documentation (version 1.4). The mods (outfits,
 > Thunderlady, classes …), the Disgaea RPG reference art the outfit builder matches against
 > (`d5lib/data/drpg_ref_humanoid.pickle`) and the bundled Python come with the release zip, not with this repository:
 > they are drawn from Disgaea 5 / Disgaea RPG art. To run from a clone: `pip install -r requirements.txt`, then
