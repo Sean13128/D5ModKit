@@ -707,7 +707,9 @@ class OutfitsPage(QWidget):
             QMessageBox.critical(self, "Parts", str(e))
             return
         self.ws.log(f"parts exported to {folder}")
-        os.startfile(folder)
+        from PyQt6.QtCore import QUrl
+        from PyQt6.QtGui import QDesktopServices
+        QDesktopServices.openUrl(QUrl.fromLocalFile(os.path.abspath(folder)))
         info_box(self, "Parts", f"Exported to:\n{folder}\n\nPaint parts_0.png (and parts_1.png ...) over the "
                                 "sprite sheet with the legend colours — HOW_TO_PAINT.txt in that folder explains it "
                                 "step by step. Then come back and press “Import painted parts”.")

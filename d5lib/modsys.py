@@ -732,7 +732,12 @@ class Installer:
                     if not parts:
                         raise ValueError(f"{archive}: cannot replace a whole archive")
                     per_member.setdefault(parts[0], {})[parts[1:]] = data
-                raw_members = {m: _assemble_member(fs, archive, m, ch) for m, ch in per_member.items()}
+                raw_members = {}
+                total_members = len(per_member)
+                for member_number, (m, ch) in enumerate(per_member.items(), 1):
+                    self.log(f"  Preparing {archive}: {member_number}/{total_members} — {m}")
+                    raw_members[m] = _assemble_member(fs, archive, m, ch)
+                self.log(f"  Writing {archive}: {total_members} member(s)")
                 if fs.archive_kind(archive) == "psfs":
                     self._ensure_backup(archive, "psfs")
                     self._append_patch_psfs(archive, raw_members)

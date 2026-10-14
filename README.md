@@ -239,3 +239,7 @@ The editors always show the game as your enabled mods make it (every mod's chang
   the sprites / faces / cut-ins the builders read, ~1 GB).  Tested
   2026-10-10: a staged copy, on its own Python, installs byte-identical game files to this kit's install and its
   restore returns the original files exactly.
+
+### macOS editor
+
+See [macOS setup](docs/MACOS.md) for the native editor, host LZS codec, Finder launcher, and Steam/Wine game routing.

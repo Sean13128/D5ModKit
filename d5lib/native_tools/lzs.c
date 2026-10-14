@@ -11,13 +11,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _WIN32
+#define D5_EXPORT __declspec(dllexport)
+#else
+#define D5_EXPORT __attribute__((visibility("default")))
+#endif
+
 #define MAX_DIST 254
 #define MAX_LEN 254
 #define MIN_LEN 4
 #define HBITS 16
 #define DEPTH 48
 
-__declspec(dllexport) int lzs_choose_marker(const uint8_t *in, size_t n) {
+D5_EXPORT int lzs_choose_marker(const uint8_t *in, size_t n) {
     size_t cnt[256] = {0};
     for (size_t i = 0; i < n; i++) cnt[in[i]]++;
     int best = 0;
@@ -59,7 +65,7 @@ static int best_at(const uint8_t *in, size_t n, size_t i, const int32_t *prev, i
 }
 
 /* body (without the 16-byte header) into out; returns its length, or -1 when cap is too small */
-__declspec(dllexport) int64_t lzs_compress_body(const uint8_t *in, size_t n, uint8_t *out, size_t cap, int marker) {
+D5_EXPORT int64_t lzs_compress_body(const uint8_t *in, size_t n, uint8_t *out, size_t cap, int marker) {
     int32_t *prev = (int32_t *)malloc((n + 1) * sizeof(int32_t));
     int32_t *head = (int32_t *)malloc(((size_t)1 << HBITS) * sizeof(int32_t));
     if (!prev || !head) { free(prev); free(head); return -2; }
@@ -101,7 +107,7 @@ __declspec(dllexport) int64_t lzs_compress_body(const uint8_t *in, size_t n, uin
 }
 
 /* stream (after the 16-byte header) -> out; returns the decoded length, or -1 on a malformed stream / small cap */
-__declspec(dllexport) int64_t lzs_decompress_body(const uint8_t *in, size_t n, uint8_t *out, size_t cap, int marker) {
+D5_EXPORT int64_t lzs_decompress_body(const uint8_t *in, size_t n, uint8_t *out, size_t cap, int marker) {
     size_t i = 0, o = 0;
     uint8_t mk = (uint8_t)marker;
     while (i < n) {
@@ -129,7 +135,7 @@ __declspec(dllexport) int64_t lzs_decompress_body(const uint8_t *in, size_t n, u
 
 /* Yukes LZ (YKCMP_V1 type 4; d5lib/ykcmp.py _yk_lz) from src[pos..n) -> out[0..size); returns the decoded length,
  * or < 0 where the Python decoder would not give `size` bytes (it then decides) */
-__declspec(dllexport) int64_t yk_lz_decompress(const uint8_t *src, size_t n, size_t pos, uint8_t *out, size_t size) {
+D5_EXPORT int64_t yk_lz_decompress(const uint8_t *src, size_t n, size_t pos, uint8_t *out, size_t size) {
     size_t o = 0;
     while (o < size && pos < n) {
         uint8_t b = src[pos++];

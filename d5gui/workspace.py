@@ -2,6 +2,7 @@
 import json
 import os
 import subprocess
+import sys
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
@@ -13,6 +14,16 @@ KIT_DIR = modsys.KIT_DIR
 
 def game_running(exe="disgaea5.exe"):
     """Is the game running?  (process snapshot through the Windows API: no console window flashes)"""
+    if sys.platform == "darwin":
+        # Match the executable itself, not Steam launchers that mention it as an argument.
+        try:
+            snapshot = subprocess.run(["/bin/ps", "-A", "-ww", "-o", "comm="], capture_output=True,
+                                      text=True, check=True, timeout=5)
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise RuntimeError("Could not check whether Disgaea 5 is running. Close the game and check "
+                               "process access before installing mods.") from exc
+        return any(line.strip().replace("\\", "/").rsplit("/", 1)[-1].lower() == exe.lower()
+                   for line in snapshot.stdout.splitlines())
     import ctypes
     from ctypes import wintypes
 
@@ -129,6 +140,11 @@ class Workspace(QObject):
 
     def sync_saves(self, profile):
         """the game's save folder gets the saves of `profile` (its own, or the shared ones; None = shared)"""
+        if sys.platform == "darwin" and not os.environ.get("APPDATA"):
+            if profile is not None and profile.separate_saves:
+                raise RuntimeError("Separate profile saves need APPDATA set to this game's Wine save location. "
+                                   "Use shared saves until that location is configured.")
+            return False  # Steam/Wine owns the shared saves; never guess a relative save location.
         sv = self.saves()
         ps = self.mods.profiles
         if sv.live_owner() == ps.owner_id(profile):
@@ -251,6 +267,11 @@ class Workspace(QObject):
 
     # ------------------------------------------------------------------ install / launch
     def build_and_install(self):
+        if self.is_game_running():
+            raise RuntimeError("Close Disgaea 5 before installing mods.")
+        if sys.platform == "darwin" and self.profile.separate_saves and not os.environ.get("APPDATA"):
+            raise RuntimeError("Separate profile saves need APPDATA set to this game's Wine save location. "
+                               "Use shared saves until that location is configured.")
         from d5lib import gamecheck
         problems = gamecheck.errors(self.installer)
         if problems:
@@ -274,6 +295,9 @@ class Workspace(QObject):
 
     def launch_game(self):
         self.sync_saves(self.installed_profile())    # the saves of the modpack in the game (installed elsewhere?)
+        if sys.platform == "darwin":
+            subprocess.run(["/usr/bin/open", f"steam://run/{paths.STEAM_APP_ID}"], check=True)
+            return
         exe = os.path.join(self.game_dir, "disgaea5.exe")
         subprocess.Popen([exe], cwd=self.game_dir)
 

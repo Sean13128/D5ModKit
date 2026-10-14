@@ -87,7 +87,7 @@ class GameStatus(QObject):
     def _log(self, msg):
         if self.busy and msg:
             line = msg.strip().splitlines()[0]
-            if line.startswith(("Building mod:", "patched", "Restoring", "restored")):
+            if line.startswith(("Building mod:", "patched", "Restoring", "restored", "Preparing", "Writing")):
                 self.step = line
                 self.changed.emit()
 

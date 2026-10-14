@@ -16,3 +16,9 @@ partmaps/
 DRPG Assets/
 DRPG Assets (Updated)/
 d5lib/data/drpg_ref_humanoid.pickle
+
+# local Mac environment and generated launcher
+.venv-macos
+D5 Mod Kit.app/
+d5lib/bin/*.dylib
+d5lib/bin/*.so
