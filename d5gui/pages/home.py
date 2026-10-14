@@ -851,7 +851,9 @@ class HomePage(QWidget):
     def open_mod_folder(self):
         mod = self._selected_mod()
         if mod:
-            os.startfile(mod.folder)
+            from PyQt6.QtCore import QUrl
+            from PyQt6.QtGui import QDesktopServices
+            QDesktopServices.openUrl(QUrl.fromLocalFile(os.path.abspath(mod.folder)))
 
     def export_mod(self, mod=None):
         """share the mod: a zip with its identity (uid) and version, so whoever installs a later version gets an

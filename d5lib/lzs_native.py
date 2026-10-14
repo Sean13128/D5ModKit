@@ -1,4 +1,4 @@
-"""Native LZS codec (d5lib/native_tools/lzs.c -> d5lib/bin/d5lzs.dll), ~100x faster than the Python one.
+"""Native LZS codec (d5lib/native_tools/lzs.c -> platform library in d5lib/bin), ~100x faster than the Python one.
 
 The DLL ships prebuilt in d5lib/bin; when it is missing (or older than its source) and Zig is installed
 (pip install ziglang) it is compiled on first use.  available() is False when neither works -- callers then use
@@ -7,13 +7,15 @@ the pure-Python codec (d5lib.lzs / d5lib.lzs_compress), which produces the same 
 import ctypes
 import os
 import struct
+import shutil
 import subprocess
 import sys
 import threading
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SOURCE = os.path.join(HERE, "native_tools", "lzs.c")
-DLL = os.path.join(HERE, "bin", "d5lzs.dll")
+LIB_NAME = "libd5lzs.dylib" if sys.platform == "darwin" else ("d5lzs.dll" if os.name == "nt" else "libd5lzs.so")
+DLL = os.path.join(HERE, "bin", LIB_NAME)
 _lib = None
 _tried = False
 _lock = threading.Lock()
@@ -21,9 +23,24 @@ _lock = threading.Lock()
 
 def _build():
     os.makedirs(os.path.dirname(DLL), exist_ok=True)
-    cmd = [sys.executable, "-m", "ziglang", "cc", "-target", "x86_64-windows-gnu", "-shared", "-O2", "-s", "-o", DLL,
-           SOURCE]
-    r = subprocess.run(cmd, capture_output=True, text=True, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+    temporary = DLL + ".building"
+    if os.name == "nt":
+        cmd = [sys.executable, "-m", "ziglang", "cc", "-target", "x86_64-windows-gnu", "-shared", "-O2", "-s"]
+    else:
+        compiler = shutil.which("clang") or shutil.which("cc")
+        cmd = [compiler] if compiler else [sys.executable, "-m", "ziglang", "cc"]
+        cmd += ["-dynamiclib" if sys.platform == "darwin" else "-shared", "-O2"]
+        if sys.platform != "darwin":
+            cmd += ["-fPIC"]
+    cmd += ["-o", temporary, SOURCE]
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=120,
+                           creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        if r.returncode == 0 and os.path.exists(temporary):
+            os.replace(temporary, DLL)
+    finally:
+        if os.path.exists(temporary):
+            os.remove(temporary)
     for junk in (os.path.splitext(DLL)[0] + ".pdb", os.path.join(os.path.dirname(DLL), "lzs.lib")):
         if os.path.exists(junk):
             os.remove(junk)
