@@ -240,6 +240,9 @@ The editors always show the game as your enabled mods make it (every mod's chang
   2026-10-10: a staged copy, on its own Python, installs byte-identical game files to this kit's install and its
   restore returns the original files exactly.
 
+* [Original RPG costume idle timing](docs/RPG_IDLE_TIMING.md): export local source
+  clocks, rebuild existing costume idles, and use those clocks in future builds.
+
 ### macOS editor
 
 See [macOS setup](docs/MACOS.md) for the native editor, host LZS codec, Finder launcher, and Steam/Wine game routing.

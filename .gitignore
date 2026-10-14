@@ -22,3 +22,6 @@ d5lib/data/drpg_ref_humanoid.pickle
 D5 Mod Kit.app/
 d5lib/bin/*.dylib
 d5lib/bin/*.so
+
+# local RPG idle source exports (contain game-derived art)
+rpg-idle-sources/

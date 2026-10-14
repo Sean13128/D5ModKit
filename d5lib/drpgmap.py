@@ -1421,7 +1421,7 @@ def strip_special_overlays(b, specials, keep=()):
 
 
 def build(fs, uid, template_cls, sprite_id, cmap=None, own_map=None, variants=None, log=print, roots=None,
-          hands=None, identity=None, auto_hands=False, specials=False):
+          hands=None, identity=None, auto_hands=False, specials=False, idle_source=None):
     """DRPG unit `uid` -> a sprite with the template class's complete animation set (shared motions + its own
     idle / specials), every cell replaced by the unit's drawing of the same pose at the same place
     -> (AnmFile, report)
@@ -1432,7 +1432,10 @@ def build(fs, uid, template_cls, sprite_id, cmap=None, own_map=None, variants=No
     (place_idle_weapons; hands: drpg_hands.json entry of the unit, default load_hands()[uid]; auto_hands: apply the
     automatic skin-blob grips of a unit without hand data instead of only suggesting them).  identity: the unit is the
     template's twin (default: TWIN_OF), whose idle pieces and grips already belong to its drawing - only the loop is
-    settled.  Approximate loose own pieces are never drawn (drawable_own_map)."""
+    settled.  Approximate loose own pieces are never drawn (drawable_own_map).
+    Non-identity costumes use original RPG idle clocks when idle_source or a portable
+    rpg-idle-timings.json manifest is available under roots; PNG-only roots retain
+    the existing donor-clock fallback. Source timing is applied after attachment placement."""
     from . import ownanim
     motion = sprites.motion_block(fs, 1)
     base = anm.parse(fs.read(sprites.sprite_vpath(fs, template_cls, "EN")))
@@ -1518,4 +1521,13 @@ def build(fs, uid, template_cls, sprite_id, cmap=None, own_map=None, variants=No
         log(f"DRPG {uid} on {template_cls}'s animations: {len(matches)} cells placed, {len(missing)} without a drawing; "
             f"idle loops {sorted(loops)}: {held} in-between keys held"
             + ("" if identity else ", weapons " + ", ".join(f"{a} {w['source']}" for a, w in sorted(weapons.items()))))
+    # An exported source clock overrides the donor idle after its appearance and
+    # equipment have been assembled. PNG-only sources keep the existing fallback.
+    if not identity:
+        from . import rpgidle
+        source = idle_source if idle_source is not None else rpgidle.source_for(uid, roots or drpg.ROOTS)
+        if source is not None:
+            out, rep["source_idle_timing"] = rpgidle.repair_sprite(out, source)
+            if log:
+                log(f"DRPG {uid}: original RPG idle clocks applied")
     return out, rep
