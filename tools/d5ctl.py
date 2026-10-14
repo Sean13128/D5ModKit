@@ -24,6 +24,39 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(
 from d5lib.paths import game_dir as _game_dir  # noqa: E402
 
 GAME_DIR = _game_dir() or os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+_TRANSLATE = {}
+
+
+def running_exe():
+    """path of the running disgaea5.exe (None if the game isn't running)"""
+    try:
+        out = subprocess.check_output(["powershell", "-NoProfile", "-Command",
+                                       "(Get-Process disgaea5 -ErrorAction SilentlyContinue | Select -First 1).Path"],
+                                      text=True, timeout=15).strip()
+        return out or None
+    except Exception:
+        return None
+
+
+def game_addr(va):
+    """a launch-build address (what the dev tools are written with) in the running game's build: the Steam build
+    goes through its shipped address map (d5lib/data/exe_map_<sha12>.json)"""
+    if "t" not in _TRANSLATE:
+        import hashlib
+        from d5lib import exemap
+        t = None
+        exe = running_exe()
+        if exe and os.path.exists(exe):
+            # the kit patches the exe at install: the build is the one of the original it backed up
+            from d5lib import modsys
+            orig = os.path.join(modsys.game_state_dir(os.path.dirname(exe)), "backups", "EXE__disgaea5.exe.full")
+            sha = hashlib.sha1(open(orig if os.path.exists(orig) else exe, "rb").read()).hexdigest()
+            for p in exemap.shipped_maps():
+                if os.path.basename(p) == f"exe_map_{sha[:12]}.json":
+                    t = exemap.translator_from_map(p)
+        _TRANSLATE["t"] = t
+    t = _TRANSLATE["t"]
+    return t(va) if t is not None else va
 
 
 class Ctl:

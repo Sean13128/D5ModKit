@@ -161,10 +161,11 @@ def fill_class(fs, mod, family, template, name, titles, help_lines=(), edit=None
             r.set("id", family)
             r.set("char_id", family)
             he.rows.append(r)
+    lines = dbpatch.help_lines(help_lines)
     for r in he.rows:
         if r["char_id"] == family or r["id"] == family:
             for n in range(3):
-                set_langs(r, f"line{n + 1}", help_lines[n] if n < len(help_lines) else "")
+                set_langs(r, f"line{n + 1}", lines[n])
     _save(mod, HELP, hv, he)
     log(f"class {name}: rows {family}-{family + 5} from {trows[template]['name_EN']}")
 
@@ -1055,7 +1056,7 @@ def _finalize(ctx):
             st.rows.append(row)
         for L in LANGS:
             if f"name_{L}" in row:
-                row.set(f"name_{L}", s["hire_desc"])
+                row.set(f"name_{L}", s["hire_desc"], truncate=True)
         descs.append((fam, sid))
     if descs:
         st.rows.sort(key=lambda r: r["id"])

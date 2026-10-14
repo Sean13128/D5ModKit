@@ -680,6 +680,14 @@ def derive_parts(sprite, base_sprite, info, fs=None, log=None):
     hue-matching one below."""
     if fs is not None:
         from . import recolor, sprites as _sprites
+        if not info.get("painted") and not info.get("skin_checked"):
+            # her skin apart from the shades it shares (once: the sprite and its part info are updated)
+            try:
+                recolor.refine_skin(sprite, base_sprite, info, fs, log=log)
+                info["skin_checked"] = True
+            except Exception as e:
+                if log:
+                    log(f"  (skin check skipped: {e})")
         try:
             pals, _ = recolor.derive(_sprites.preview_file(fs, sprite), _sprites.preview_file(fs, base_sprite),
                                      info=info, log=log)

@@ -352,6 +352,41 @@ pictures);
   character's animations there (its hurt, guard … animation, 1061 …) with a shake or an offset around it. The
   preview and the pose pictures follow that (`anm.evaluate(..., nested=True)`; editing tools leave it off).
 
+### Commands traced 2026-10-13 (every skill swept through the simulator)
+
+A sweep of all 519 skills (`StageSim` over each skill's timeline) lists the drawing commands (screen 28xx, camera
+32xx, effects 3cxx / 40xx-41xx, particles 44xx, actors 64xx-6cxx) the preview doesn't simulate. 39 of them run in the
+shared battle wrapper of every skill; the skill-specific rest was traced in disgaea5.exe, starting with the most used:
+
+* **Thin wrappers** (their handlers only rearrange operands and call / jump into another command's handler, found
+  automatically from the code): `3c12 slot, actor, size, step` = `3c18 slot, actor, 0, 0, 0, size, step, 0, 0 …`
+  (an effect at the actor itself); `3c1a slot, actor, size, step, from` = the same playing from frame `from`
+  (Purgatory Palm, 7x); `65b0 actor, frames, s, y` = `65a0 actor, frames, s, y, s`; `65b6 / 65b9 / 65bb / 65bd` =
+  `65b4 / 65b8 / 65ba / 65bc` with frames + 1. Not yet simulated wrappers: `6c10 → 6c18`, `6c14 → 6c1c`,
+  `6c40 → 6c48`, `6c44 → 6c4c`, `44dc → 44de`, `4482 → 4480` (operands a1..a5 + zeros; `4482`: a1, a2, 0, 0, 0, a3..a5).
+* `6c00 a, b, x, y, z` (0x140184470 -> 0x1402e7b20): a is attached to b at the offset x, y, z (tenths of map units,
+  turned by the skill's facing, x mirrored by switch 10). `6c04 a, b` (-> 0x1402e78e0) attaches **keeping a where it
+  is** (the game stores a's place relative to b, child +0x128; the preview used to snap a onto b). Both take effect
+  slots too (7000 + i): Exploding Tiger's flames (slots 50-57, 80-84, 90) ride along with the fighters this way.
+  `6c08` detaches, leaving it where it is.
+* `65ba actor, frames, x, y` (0x14016e550): `65bc` BY x, y from the sprite's current shift (0.1875 sprite pixels).
+* `3c48 slot, frames, sx, sy, sz, ease, every` (0x14017a4d0): `3c42` as percent OF the effect's current size.
+* `6710 unit, frames, degrees` (0x140173ca0): the unit turns, which changes the view drawn (front / back, mirrored).
+  frames >= 10000: TO the skill's direction + degrees, the short way, over frames - 10000 (0x140149070); else BY
+  degrees -- whole spins too -- over frames (0x140149170); degrees mirrored by switch 7. Hurricane Blow spins its
+  target -1080 degrees in 35 frames. Facing angle θ = direction (-sin θ, cos θ); the skill's direction = its quarter
+  turns x 90 (`stage.ang_dir`).
+* `6c18 actor, frames, rx, ry, rz, ease, every` (0x140184800): turns the actor in 3D BY degrees (actor +0x174,
+  radians, ry / rz mirrored by switch 9); `6c10` is its linear form. Not drawn yet: the preview has no 3D actor turn.
+* `41a0 slot, x, y, z, frames` (0x14017e220): the slot's virtual +0x20 (move to x, y, z / 10 over frames), the call
+  `4140` ends with -- but with the values themselves, not an actor's place + offset; always after a show at 1256 /
+  11256 with `3ca5 slot, 1` and values like 15000. Probably camera / screen space: needs a recording.
+* Fixed on the way: `stage.py` defined `_h_turn` twice, and the second (a generic rotation nobody draws) replaced the
+  traced `65b4` turn (Macrocosm's juggled enemy).
+
+Result: skills whose own drawing commands are all simulated 50 -> 66 of 519; unsimulated skill-specific command uses
+66 074 -> 49 785. Hurricane Blow still lacks `6c10 / 6c18` (3D turns) and `6540`; Purgatory Palm `66c0` and `2890`.
+
 ### What is still approximate
 
 * Particles (0x44xx) follow the game's code since 2026-10-12 (below). Not ported: the rings' (`cmd_44b5`) own

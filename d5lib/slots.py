@@ -45,7 +45,7 @@ def used_dummy_ids(mod, vanilla=None):
 # from 1000 up as a generic class).  Usable: the unused dummy rows (edited in place) and every id the game has no
 # row for whose colour-keyed graphics files are free -- anm <id> + 2 (small standing picture) and 10000 + <id>
 # (portrait / cut-in), the two copies the kit writes for the id (its sprite has numbers of its own: SPRITE_NUMBERS).
-# 706 ids (542 when anm <id>, +1 and 10001 + <id> were required free as well: nothing reads those for a unique id).
+# Every number keyed to the id must be free in the game (anm <id>, +1, +2, 10000 + <id>, +1): ~540 ids.
 # The dummy families come first (nothing of the game's sits next to them), then every other free id.
 DUMMY_ROWS = (470, 480, 490, 950, 960, 970, 980, 990)
 
@@ -57,7 +57,9 @@ def unique_pool(fs, vanilla=None):
         vanilla = database.load_table("char.dat", fs.read(CHAR))
     rows = {r["id"] for r in vanilla.rows}
     used_anm = sprites.used_sprite_numbers(fs)
-    free = [i for i in range(10, 1000) if i not in rows and not {i + 2, i + 10000} & used_anm]
+    # none of the game's files may sit at the numbers keyed to the id: anm <id> / <id> + 1 are a character's sprite
+    # and its copy (id 11 is Killia's copy: a character there showed the wrong pictures and no status portrait)
+    free = [i for i in range(10, 1000) if i not in rows and not {i, i + 1, i + 2, i + 10000, i + 10001} & used_anm]
     dummy = [i for d in DUMMY_ROWS for i in range(d, d + 10) if i in DUMMY_ROWS or i in free]
     return dummy + [i for i in free if i not in dummy]
 

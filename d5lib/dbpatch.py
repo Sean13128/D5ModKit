@@ -80,7 +80,11 @@ def apply_patch(table, patch: dict, strict=False):
         row = table.new_row()
         for name, v in vals.items():
             _set(row, name, v, warn, table.name)
-        table.rows.append(row)
+        si = _reserved_row(table, row)
+        if si is not None:
+            table.rows[si] = row
+        else:
+            table.rows.append(row)
     for k, sp in (patch.get("sections") or {}).items():
         if k in table.sections:
             warn += apply_patch(table.sections[k], sp, strict)
@@ -89,6 +93,22 @@ def apply_patch(table, patch: dict, strict=False):
     if strict and warn:
         raise ValueError("\n".join(warn))
     return warn
+
+
+RESERVED_NAMES = {"Unique Dummy", "DLC Dummy", "Human Dummy", "Monster Dummy"}   # the game's empty char.dat rows
+
+
+def _reserved_row(table, row):
+    """char.dat: an added row with the id of one of the game's empty reserved rows ('DLC Dummy' 970 ...) fills that
+    row -> its index (None: append).  Kit versions before 1.4 appended new characters with such an id, and the game
+    reads the first row of an id: the dummy's name, stats and description with the new character's sprites."""
+    if not str(getattr(table, "name", "")).startswith("char.dat") or "id" not in row or "name_EN" not in row:
+        return None
+    rid = row["id"]
+    for i, r in enumerate(table.rows):
+        if r["id"] == rid:
+            return i if r["name_EN"] in RESERVED_NAMES and row["name_EN"] not in RESERVED_NAMES else None
+    return None
 
 
 RENAMED = {"story_flag": "evility_count"}       # old field name in saved patches -> current name
@@ -122,6 +142,35 @@ def quest_lines(text, width=QUEST_LINE, lines=5):
     while out and not out[-1]:
         out.pop()
     return (out + [""] * lines)[:lines]
+
+
+HELP_LINE = 42           # characters per character-help line (the game's own: 42 at most)
+
+
+def help_lines(lines, width=HELP_LINE, count=3):
+    """a character's help text (one string or its lines) -> the 3 lines of charhelp.dat, word-wrapped to the game's
+    width; text that doesn't fit is cut with "..." (a line's byte limit is checked when it is set)"""
+    import textwrap
+    if isinstance(lines, str):
+        lines = [lines]
+    out = []
+    for para in "\n".join(str(x or "") for x in lines).replace("\r", "").split("\n"):
+        out += textwrap.wrap(para, width) or ([""] if para.strip() == "" and out else [])
+    while out and not out[-1]:
+        out.pop()
+    if len(out) > count:
+        last = " ".join(out[count - 1:])
+        cut = last[:width - 3]
+        if " " in cut and last[width - 3:width - 2] not in ("", " "):
+            cut = cut.rsplit(" ", 1)[0]                  # end on a whole word
+        out = out[:count - 1] + [cut.rstrip(" ,;:") + "..."]
+    return (out + [""] * count)[:count]
+
+
+def default_help(name, title=None):
+    """the description a new character gets when none was typed: its own help row, never the copied character's or
+    a reserved dummy's ('DLC Dummy Description Row 1')"""
+    return [f"{name}, {title}." if title and title != name else f"{name}.", "", ""]
 
 
 def free_quest_slot(table, exclude=None):

@@ -4,10 +4,10 @@ import struct
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QBrush
-from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QListWidget, QListWidgetItem,
-                             QPushButton, QLabel, QComboBox, QGroupBox, QGridLayout, QFormLayout, QSpinBox,
+from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QTreeWidget, QTreeWidgetItem,
+                             QTreeWidgetItemIterator, QPushButton, QLabel, QComboBox, QGroupBox, QGridLayout, QFormLayout, QSpinBox,
                              QLineEdit, QScrollArea, QMessageBox, QDialog, QDialogButtonBox, QRadioButton,
-                             QCheckBox, QApplication, QTextEdit, QProgressDialog)
+                             QCheckBox, QApplication, QTextEdit, QPlainTextEdit, QProgressDialog)
 
 from d5lib import anm, charstudio, dbpatch, sprites
 from ..common import PageHeader, SearchBox, ImageView, error_box, info_box
@@ -72,6 +72,21 @@ def kind_of(cid):
     return "Other / NPC"
 
 
+ROLE = Qt.ItemDataRole.UserRole
+DUMMY_NAMES = {"Unique Dummy", "DLC Dummy", "Human Dummy", "Monster Dummy"}   # the game's empty reserved rows
+RESERVED_TEXTS = DUMMY_NAMES | {"Unique Dummy Character", "DLC Character", "Generic Human Dummy",
+                                "Generic Monster Dummy"}
+NEW = "New (made with mods)"
+OUTFITS = "Outfit copies"
+# list sections, top to bottom: (key, title, kind filter that shows it, open at first)
+SECTIONS = [("new", "✨ New characters & classes", NEW, True),
+            ("unique", "Unique characters", "Unique", True),
+            ("human", "Generic classes", "Human class", True),
+            ("monster", "Monster classes", "Monster class", True),
+            ("other", "Other / NPC", "Other / NPC", False),
+            ("outfit", "Outfit copies (made by the Outfits page)", OUTFITS, True)]
+
+
 class CharactersPage(QWidget):
     def __init__(self, ws, main):
         super().__init__()
@@ -93,13 +108,18 @@ class CharactersPage(QWidget):
         ll = QVBoxLayout(left)
         ll.setContentsMargins(0, 0, 0, 0)
         self.kind = QComboBox()
-        self.kind.addItems(["All", "Unique", "Human class", "Monster class", "Other / NPC", "Added by mod"])
+        self.kind.addItems(["All", NEW, "Unique", "Human class", "Monster class", "Other / NPC", OUTFITS])
+        self.kind.setToolTip("Which characters to list. Outfits are edited on the Outfits page; their copies of the "
+                             "character are listed here only under 'Outfit copies'.")
         self.kind.currentIndexChanged.connect(self._filter)
         ll.addWidget(self.kind)
         self.search = SearchBox("Search characters / classes…")
         self.search.textChanged.connect(self._filter)
         ll.addWidget(self.search)
-        self.list = QListWidget()
+        self.list = QTreeWidget()
+        self.list.setHeaderHidden(True)
+        self.list.setUniformRowHeights(True)
+        self.list.setIndentation(14)
         self.list.currentItemChanged.connect(self._pick)
         ll.addWidget(self.list, 1)
         b = QPushButton("✨ New character / class…")
@@ -137,10 +157,20 @@ class CharactersPage(QWidget):
                      "icon. Without one they use the faces of the character they were copied from.")
         b.clicked.connect(self.set_face)
         rl.addWidget(b)
+        b = QPushButton("🖼 Portrait…")
+        b.setToolTip("New characters only: the big picture on the status screen and in the skill cut-in. A plain "
+                     "white background is made transparent.")
+        b.clicked.connect(self.set_portrait)
+        rl.addWidget(b)
         b = QPushButton("📤 Share this character…")
         b.setToolTip("Export the mod that holds this character as a .zip anyone with the D5 Mod Kit can import "
                      "(Home › Import). A later version you share installs as an update.")
         b.clicked.connect(self.share_character)
+        rl.addWidget(b)
+        b = QPushButton("🗑 Delete this character…")
+        b.setToolTip("A unique character your mod made: its row (a reserved row goes back to the game's), "
+                     "description, recruit quest, sprite files and face picture. Makes room to create it again.")
+        b.clicked.connect(self.delete_character)
         rl.addWidget(b)
         for text, fn in [("💾 Save", self.save), ("↺ Revert this character", self.revert),
                          ("Discard unsaved", self.discard)]:
@@ -184,61 +214,182 @@ class CharactersPage(QWidget):
                 QApplication.restoreOverrideCursor()
         return self._names
 
+    def _outfit_rows(self):
+        """char.dat ids of outfits (copies of a character the Outfits page made), in every mod"""
+        from d5lib import outfits
+        ids = set()
+        for m in self.ws.mods.all_mods():
+            try:
+                pairs = outfits.load(m)
+            except Exception:
+                continue
+            for _, slot in pairs:
+                ids.update(range(int(slot), int(slot) + 10) if outfits.is_generic(slot) else {int(slot)})
+        return ids
+
+    def _leaves(self):
+        it = QTreeWidgetItemIterator(self.list)
+        while it.value():
+            node = it.value()
+            if node.childCount() == 0 and node.data(0, ROLE) is not None:
+                yield node
+            it += 1
+
     def _populate(self):
+        """the list in sections: new characters & classes made with mods first, then the game's unique characters,
+        generic and monster classes (one entry per class, its ranks inside), others.  Outfit copies (Outfits page)
+        and the game's unused reserved rows are left out."""
         cur = self.row_index
+        opened = {n.data(0, ROLE + 1) for n in self._groups() if n.isExpanded()} if self.list.topLevelItemCount() \
+            else None
         self.list.blockSignals(True)
         self.list.clear()
         t = self.table()
-        base = len(self.svc.vanilla(CHAR).rows)
+        van = self.svc.vanilla(CHAR).rows
+        base = len(van)
         tips = self.svc.ref_tooltips(CHAR)
+        outfit_ids = self._outfit_rows()
+        bold = self.list.font()
+        bold.setBold(True)
+        sections, families = {}, {}
+        seen_new = set()
+
+        def section(key):
+            if key not in sections:
+                title = next(s[1] for s in SECTIONS if s[0] == key)
+                sections[key] = n = QTreeWidgetItem([title])
+                n.setData(0, ROLE + 1, key)
+                n.setFont(0, bold)
+                n.setFlags(Qt.ItemFlag.ItemIsEnabled)
+            return sections[key]
+
         for i, r in enumerate(t.rows):
             name, title = r["name_EN"], r["title_EN"]
             if not name and not title:
                 continue
-            it = QListWidgetItem(f"{name} — {title}" if title and title != name else name)
-            it.setData(Qt.ItemDataRole.UserRole, i)
-            desc = tips.get(r["id"], "").replace("<qt>", "").replace("</qt>", "")
-            it.setToolTip(f"<qt>{desc + '<br>' if desc else ''}"
-                          f"<span style='color:#9aa4b8'>id {r['id']}  ·  row {i}  ·  sprite anm{r['sprite_id']:05d}</span></qt>")
+            cid = r["id"]
             added = i >= base
-            if added:
-                it.setForeground(QBrush(QColor("#5fe0a0")))
-            elif bytes(r.raw) != bytes(self.svc.vanilla(CHAR).rows[i].raw):
-                it.setForeground(QBrush(QColor("#e0457b")))
-            self.list.addItem(it)
+            dummy = not added and van[i]["name_EN"] in DUMMY_NAMES
+            if cid in outfit_ids:
+                key = "outfit"
+            elif added or (dummy and name not in DUMMY_NAMES):
+                key = "new"
+            elif dummy:
+                continue                                     # a reserved row nobody uses yet
+            else:
+                key = {"Unique": "unique", "Human class": "human", "Monster class": "monster"}.get(kind_of(cid),
+                                                                                                  "other")
+            label = f"{name} — {title}" if title and title != name else name
+            twin = key == "new" and (name, title) in seen_new          # e.g. Killixia's row kept for older saves
+            seen_new.add((name, title)) if key == "new" else None
+            it = QTreeWidgetItem([label + ("  (older saves)" if twin else "")])
+            it.setData(0, ROLE, i)
+            desc = tips.get(cid, "").replace("<qt>", "").replace("</qt>", "")
+            it.setToolTip(0, f"<qt>{desc + '<br>' if desc else ''}"
+                             + ("<i>A second row of this character, kept so saves made with an older version of its "
+                                "mod still load. Edit the first one.</i><br>" if twin else "")
+                             + f"<span style='color:#9aa4b8'>id {cid}  ·  row {i}"
+                             f"  ·  sprite anm{r['sprite_id']:05d}</span></qt>")
+            if added or (dummy and key == "new"):
+                it.setForeground(0, QBrush(QColor("#5fe0a0")))
+            elif bytes(r.raw) != bytes(van[i].raw):
+                it.setForeground(0, QBrush(QColor("#e0457b")))
+            if cid >= 1000 and key in ("human", "monster", "new", "outfit"):
+                fk = (key, cid // 10)                        # a class: its six ranks under one entry
+                fam = families.get(fk)
+                if fam is None:
+                    families[fk] = fam = QTreeWidgetItem([name or title])
+                    fam.setData(0, ROLE, i)                  # (selecting the class shows its first rank)
+                    fam.setData(0, ROLE + 1, f"{key}:{cid // 10}")
+                    fam.setToolTip(0, it.toolTip(0))
+                    fam.setForeground(0, it.foreground(0))
+                    section(key).addChild(fam)
+                fam.addChild(it)
+            else:
+                section(key).addChild(it)
+        for key, *_ in SECTIONS:
+            if key in sections:
+                self.list.addTopLevelItem(sections[key])
+        for (key, _), fam in families.items():
+            n = fam.childCount()
+            fam.setText(0, f"{fam.text(0)}  ({n} rank{'s' if n != 1 else ''})" if n > 1 else fam.child(0).text(0))
+        for key, s in sections.items():
+            s.setText(0, f"{s.text(0)}  ({sum(1 for _ in self._leaves_of(s))})")
+            s.setExpanded(opened is None and next(x[3] for x in SECTIONS if x[0] == key)
+                          or (opened is not None and key in opened))
+        if opened:
+            for fam in families.values():
+                fam.setExpanded(fam.data(0, ROLE + 1) in opened)
         self.list.blockSignals(False)
         self._filter()
-        if cur is not None:
-            for k in range(self.list.count()):
-                if self.list.item(k).data(Qt.ItemDataRole.UserRole) == cur:
-                    self.list.setCurrentRow(k)
-                    break
-        if self.list.currentRow() < 0:
-            for k in range(self.list.count()):       # never open on an empty editor
-                if not self.list.item(k).isHidden():
-                    self.list.setCurrentRow(k)
-                    break
+        if cur is not None and self._select_row(cur):
+            return
+        for leaf in self._leaves():                   # never open on an empty editor
+            if not leaf.isHidden() and not (leaf.parent() and leaf.parent().isHidden()):
+                self.list.setCurrentItem(leaf)
+                break
+
+    def _groups(self):
+        it = QTreeWidgetItemIterator(self.list)
+        while it.value():
+            if it.value().childCount():
+                yield it.value()
+            it += 1
+
+    @staticmethod
+    def _leaves_of(node):
+        for k in range(node.childCount()):
+            c = node.child(k)
+            if c.childCount():
+                yield from CharactersPage._leaves_of(c)
+            else:
+                yield c
+
+    def _select_row(self, row):
+        for leaf in self._leaves():
+            if leaf.data(0, ROLE) == row and not leaf.isHidden():
+                p = leaf.parent()
+                while p is not None:
+                    p.setExpanded(True)
+                    p = p.parent()
+                self.list.setCurrentItem(leaf)
+                self.list.scrollToItem(leaf)
+                return True
+        return False
 
     def _filter(self, *a):
-        t = self.search.text().lower()
+        t = self.search.text().lower().strip()
         kind = self.kind.currentText()
-        base = len(self.svc.vanilla(CHAR).rows)
         rows = self.table().rows
-        for k in range(self.list.count()):
-            it = self.list.item(k)
-            i = it.data(Qt.ItemDataRole.UserRole)
-            cid = rows[i]["id"]
-            ok = not t or t in it.text().lower() or t == str(cid)
-            if kind == "Added by mod":
-                ok = ok and i >= base
-            elif kind != "All":
-                ok = ok and kind_of(cid) == kind
-            it.setHidden(not ok)
+        for k in range(self.list.topLevelItemCount()):
+            sec = self.list.topLevelItem(k)
+            key = sec.data(0, ROLE + 1)
+            want = next(s[2] for s in SECTIONS if s[0] == key)
+            shown = (kind == want) or (kind == "All" and key != "outfit")
+            any_sec = False
+            for c in range(sec.childCount()):
+                node = sec.child(c)
+                kids = [node.child(j) for j in range(node.childCount())] or [node]
+                any_node = False
+                for leaf in kids:
+                    cid = rows[leaf.data(0, ROLE)]["id"]
+                    ok = shown and (not t or t in leaf.text(0).lower() or t in node.text(0).lower()
+                                    or t == str(cid))
+                    if leaf is not node:
+                        leaf.setHidden(not ok)
+                    any_node |= ok
+                node.setHidden(not any_node)
+                if t and any_node and node.childCount():
+                    node.setExpanded(True)
+                any_sec |= any_node
+            sec.setHidden(not any_sec)
+            if t and any_sec:
+                sec.setExpanded(True)
 
     def _pick(self, it, prev=None):
-        if not it:
+        if not it or it.data(0, ROLE) is None:
             return
-        self.row_index = it.data(Qt.ItemDataRole.UserRole)
+        self.row_index = it.data(0, ROLE)
         self._build_form()
         # debounce: while scrolling quickly through the list only the final selection is rendered
         if not hasattr(self, "_pv_timer"):
@@ -305,6 +456,14 @@ class CharactersPage(QWidget):
             self._loading = False
         if getattr(self, "voice_box", None) is not None:
             self.voice_box.load(r)
+        self._loading = True
+        try:
+            if "kind_gender" in r:
+                k = self.gender.findData(int(r["kind_gender"]) % 10)
+                self.gender.setCurrentIndex(k if k >= 0 else 0)
+            self.desc_edit.setPlainText("\n".join(x for x in self._desc_lines(r) if x))
+        finally:
+            self._loading = False
         cid = r["id"]
         self.title.setText(f"{r['name_EN']} — {r['title_EN']}\nid {cid} · {kind_of(cid)}")
         self.id_label.setText(f"{cid}   (maps and quests refer to this id)")
@@ -314,10 +473,19 @@ class CharactersPage(QWidget):
         try:
             if r[name] == v:
                 return
+            old = r[name]
             r.set(name, v, truncate=True) if r.field(name).type == "str" else r.set(name, v)
         except Exception as e:
             QMessageBox.warning(self, "Invalid value", str(e))
             return
+        if name in ("name_EN", "title_EN"):
+            # every language that still shows the old text (or a reserved row's) follows: a game in French shows
+            # name_FR, and a new character made in English must not stay 'DLC Dummy' there
+            pre = name[:-3]
+            for L in LANGS:
+                f = f"{pre}_{L}"
+                if L != "EN" and f in r and (r[f] in (old, "") or r[f] in RESERVED_TEXTS):
+                    r.set(f, v, truncate=True)
         if name in dbpatch.EVILITIES:            # the game uses evility1..N only (the install also closes gaps)
             r.set("evility_count", sum(1 for f in dbpatch.EVILITIES if r[f]))
         self.svc.mark_dirty(CHAR)
@@ -335,14 +503,36 @@ class CharactersPage(QWidget):
 
         g = QGroupBox("Identity")
         f = QFormLayout(g)
-        f.addRow("Name (English)", self._text("name_EN"))
-        f.addRow("Title / class (English)", self._text("title_EN"))
+        f.addRow("Name", self._text("name_EN"))
+        f.addRow("Title / class", self._text("title_EN"))
         other = QPushButton("Other languages…")
+        other.setToolTip("Name and title per game language. Editing them above also changes every language that "
+                         "still had the old text (a game set to French shows the French name).")
         other.clicked.connect(self._langs_dialog)
         f.addRow("", other)
+        self.gender = QComboBox()
+        for lab, v in (("Male", 1), ("Female", 2), ("None", 3)):
+            self.gender.addItem(lab, v)
+        self.gender.setToolTip("Some evilities and skills check it (char.dat kind_gender: the ones digit; the tens "
+                               "digit, the kind of unit, stays)")
+        self.gender.currentIndexChanged.connect(self._set_gender)
+        f.addRow("Gender", self.gender)
+        self.desc_edit = QPlainTextEdit()
+        self.desc_edit.setPlaceholderText("What the status screen says about this character: up to 3 lines of about "
+                                          "42 characters (longer text is wrapped)")
+        self.desc_edit.setFixedHeight(66)
+        self.desc_edit.setToolTip("Saved in every game language that still had the old text. A character that "
+                                  "shares its description with another gets one of its own.")
+        from PyQt6.QtCore import QTimer
+        self._desc_timer = QTimer(self)
+        self._desc_timer.setSingleShot(True)
+        self._desc_timer.setInterval(700)
+        self._desc_timer.timeout.connect(self._save_desc)
+        self.desc_edit.textChanged.connect(lambda: self._loading or self._desc_timer.start())
+        f.addRow("Description", self.desc_edit)
         self.id_label = QLabel()
         f.addRow("Id", self.id_label)
-        f.addRow("Description id", self._spin("help_id", tip="charhelp.dat entry (edit texts in Database Editor → Character descriptions)"))
+        f.addRow("Description id", self._spin("help_id", tip="charhelp.dat entry the description above is kept in"))
         self.form_lay.addWidget(g)
 
         g = QGroupBox("Sprite")
@@ -621,12 +811,13 @@ class CharactersPage(QWidget):
         if not self._loaded:
             self.on_show()
         self.search.clear()
-        self.kind.setCurrentText("All")
-        for k in range(self.list.count()):
-            it = self.list.item(k)
-            if self.table().rows[it.data(Qt.ItemDataRole.UserRole)]["id"] == int(cid):
-                self.list.setCurrentRow(k)
-                self.list.scrollToItem(it)
+        rows = self.table().rows
+        row = next((i for i, r in enumerate(rows) if r["id"] == int(cid)), None)
+        if row is None:
+            return False
+        for kind in ("All", OUTFITS):                # an outfit's copy is listed only under 'Outfit copies'
+            self.kind.setCurrentText(kind)
+            if self._select_row(row):
                 return True
         return False
 
@@ -657,6 +848,129 @@ class CharactersPage(QWidget):
                 self._set(f"name_{L}", a.text())
                 self._set(f"title_{L}", b.text())
             self._build_form()
+
+    # ================================================================== gender, description, delete
+    def _set_gender(self, *_):
+        if self._loading or self.row_index is None:
+            return
+        r = self._row()
+        if "kind_gender" not in r:
+            return
+        self._set("kind_gender", int(r["kind_gender"]) // 10 * 10 + int(self.gender.currentData()))
+
+    def _help_row(self, r):
+        """(charhelp index, row) of character r's description: the row whose char_id is r's help_id"""
+        ch = self.svc.table("charhelp.dat")
+        for i, h in enumerate(ch.rows):
+            if h["char_id"] == r["help_id"]:
+                return i, h
+        return None, None
+
+    def _desc_lines(self, r):
+        _, h = self._help_row(r)
+        if h is None:
+            return ["", "", ""]
+        return [h.get(f"line{k}_EN") or "" for k in (1, 2, 3)]
+
+    def _save_desc(self):
+        """the description box -> the character's own help row (made when it shares one, or has none)"""
+        if self.row_index is None:
+            return
+        r = self._row()
+        lines = dbpatch.help_lines(self.desc_edit.toPlainText())
+        old = self._desc_lines(r)
+        if lines == old:
+            return
+        ch = self.svc.table("charhelp.dat")
+        i, h = self._help_row(r)
+        shared = h is None or any(x is not r and x["help_id"] == r["help_id"] for x in self.table().rows)
+        if shared:
+            # one of its own: a fresh id (>= 4000: the game doesn't round it), the same value as id and char_id
+            hid = max({x["id"] for x in ch.rows} | {x["char_id"] for x in ch.rows} | {3999}) + 1
+            h = ch.add_row(copy_from=i)
+            h.set("id", hid)
+            h.set("char_id", hid)
+            for fl in ("flag_off1", "flag_off2", "flag_off3"):
+                if fl in h:
+                    h.set(fl, 0)
+            self._set("help_id", hid)
+            kind, w = self.widgets.get("help_id", (None, None))
+            if w is not None:
+                self._loading = True
+                w.setValue(hid)
+                self._loading = False
+        for k in range(3):
+            for L in LANGS:
+                f = f"line{k + 1}_{L}"
+                if f in h and (L == "EN" or shared or h[f] in (old[k], "") or h[f].startswith("DLC Dummy")):
+                    h.set(f, lines[k], truncate=True)
+        self.svc.mark_dirty("charhelp.dat")
+        self.status.setText("● unsaved changes")
+
+    def _is_new(self, i, r):
+        """a character or class a mod added (an added row, or a reserved dummy row filled in)"""
+        van = self.svc.vanilla(CHAR).rows
+        return i >= len(van) or (van[i]["name_EN"] in DUMMY_NAMES and r["name_EN"] not in DUMMY_NAMES)
+
+    def delete_character(self):
+        """remove a new character the active mod made: its row (a reserved row goes back to the game's), its own
+        description, its recruit quest, its sprite files and face picture"""
+        if self.row_index is None:
+            return
+        r = self._row()
+        cid, name = r["id"], r["name_EN"]
+        if cid >= 1000 or not self._is_new(self.row_index, r):
+            QMessageBox.information(self, "Delete character",
+                                    "Only unique characters your mods made can be deleted here. A game character "
+                                    "goes back to how the game has it with ↺ Revert; a new class is its own mod "
+                                    "(Home: switch it off or delete the mod).")
+            return
+        owners = self._owner_mods(cid)
+        act = self.ws.active_mod
+        if act is None or act.id not in {m.id for m in owners}:
+            where = ", ".join(m.name for m in owners) or "no enabled mod"
+            QMessageBox.information(self, "Delete character",
+                                    f"'{name}' is in {where}. Choose that mod in 'Saving edits to' (bottom left), "
+                                    "then delete it again.")
+            return
+        if QMessageBox.question(self, "Delete character",
+                                f"Delete '{name}' (id {cid}) from the mod '{act.name}'?\n\nIts description, recruit "
+                                "quest, sprite files and face picture go too. Saves with this character need it: "
+                                "keep the mod as it is while you still play one.") != QMessageBox.StandardButton.Yes:
+            return
+        from d5lib import newchars
+        chars = self.table()
+        van = self.svc.vanilla(CHAR).rows
+        i = self.row_index
+        sprite, hid = r["sprite_id"], r["help_id"]
+        if i < len(van):
+            chars.rows[i] = van[i].copy()                 # the reserved row as the game has it
+        else:
+            chars.delete_row(i)
+        self.svc.mark_dirty(CHAR)
+        ch = self.svc.table("charhelp.dat")
+        if hid >= 4000 and not any(x["help_id"] == hid for x in chars.rows):
+            for k in range(len(ch.rows) - 1, len(self.svc.vanilla("charhelp.dat").rows) - 1, -1):
+                if ch.rows[k]["char_id"] == hid:
+                    ch.delete_row(k)
+            self.svc.mark_dirty("charhelp.dat")
+        q = self.svc.table("Quest.dat")
+        qv = len(self.svc.vanilla("Quest.dat").rows)
+        for k in range(len(q.rows) - 1, qv - 1, -1):
+            if q.rows[k]["reward_type"] == 5 and q.rows[k]["reward_value"] == cid:
+                q.delete_row(k)
+                self.svc.mark_dirty("Quest.dat")
+        # its own sprite files (the game's own numbers stay)
+        game = set(sprites.used_sprite_numbers(self.ws.fs))
+        for n in (sprite, sprite + 1, sprite + 2, sprite + 10000, sprite + 10001, cid + 2, cid + 10000):
+            vp = f"Anime/ANM_HI_JP.dat/anm{n:05d}.lzs"
+            if n not in game and act.has_file(vp):
+                act.remove_file(vp)
+        newchars.remove_face(act, cid)
+        self.row_index = None
+        self.save()
+        self._populate()
+        self.ws.log(f"Deleted character '{name}' (id {cid}) from '{act.name}'. Install to update the game.")
 
     # ================================================================== preview
     def _preview(self):
@@ -752,12 +1066,45 @@ class CharactersPage(QWidget):
         info_box(self, "Face picture", "Face picture set (status panel, battle and character list icon). "
                  "Press Install to see it in game.")
 
+    def set_portrait(self):
+        """The big picture of a new unique character: the status screen and the skill cut-in (anm 10000 + its id,
+        made from its template's portrait; a plain white background is made transparent)."""
+        from PyQt6.QtWidgets import QFileDialog
+        from d5lib import newchars, outfits
+        mod = self.ws.active_mod
+        if self.row_index is None or not mod:
+            return
+        r = self._row()
+        van = {v["id"]: v for v in self.svc.vanilla(CHAR).rows}
+        if not newchars.is_new_character(r, van, outfits.used_slots(mod)):
+            info_box(self, "Portrait", "Portraits here are for new unique characters (made with “New character”). "
+                     "Outfits get theirs on the Outfits page (Edit › Set cut-in portrait).")
+            return
+        p, _ = QFileDialog.getOpenFileName(self, "Portrait (tall picture: head at the top)", "",
+                                           "Images (*.png *.jpg *.webp)")
+        if not p:
+            return
+        cid = r["id"]
+        dst = 10000 + cid
+        vp = f"Anime/ANM_HI_JP.dat/anm{dst:05d}.lzs"
+        try:
+            if not mod.has_file(vp):
+                tmpl = r["color_id"] if r["color_id"] != cid else r["sprite_id"]
+                if not any(outfits._clone(self.ws.fs, mod, src, dst)
+                           for src in (r["sprite_id"] + 10000, tmpl + 10000, 10010)):
+                    raise RuntimeError("no portrait file to start from")
+            outfits._set_portrait(mod, dst, p)
+        except Exception as e:
+            error_box(self, "Portrait", e)
+            return
+        self.ws.log(f"portrait of {r['name_EN']} ({cid}) set: anm{dst:05d}")
+        info_box(self, "Portrait", "Portrait set (status screen and skill cut-in). A plain white background is made "
+                 "transparent. Press Install to see it in game.")
+
     # ================================================================== save
     def save(self):
-        if self.svc.commit(CHAR, self):
-            for extra in ("charhelp.dat", "Quest.dat", "JobRank.dat"):
-                if self.svc.is_dirty(extra):
-                    self.svc.commit(extra, self)
+        members = [m for m in (CHAR, "charhelp.dat", "Quest.dat", "JobRank.dat") if self.svc.is_dirty(m)] or [CHAR]
+        if all(self.svc.commit(m, self) for m in members):      # (a description alone is saved too)
             self.status.setText("")
             self.ws.log(f"Saved characters into '{self.ws.active_mod.name}'. Install (bottom left) to see them in game.")
 
@@ -815,7 +1162,7 @@ class CharactersPage(QWidget):
             return
         QApplication.restoreOverrideCursor()
         self._populate()
-        self.kind.setCurrentText("Added by mod")
+        self.kind.setCurrentText(NEW)
         if v.get("sheet") and getattr(self, "_last_clone", None):
             return self._sheet_onto_clone(mod, v, msg)
         info_box(self, "Unit created", msg)
@@ -1017,7 +1364,7 @@ class NewUnitDialog(QDialog):
         f.addRow("Name (class name for classes)", self.name)
         f.addRow("Title (tier-1 title for classes)", self.title)
         self.desc = QTextEdit()
-        self.desc.setPlaceholderText("Up to 3 short lines of description")
+        self.desc.setPlaceholderText("Up to 3 lines of about 42 characters (longer text is wrapped to fit)")
         self.desc.setFixedHeight(70)
         f.addRow("Description", self.desc)
         self.clone_sprite = QCheckBox("Give it its own copy of the sprite (so you can repaint / recolor it)")
@@ -1212,7 +1559,7 @@ class NewUnitDialog(QDialog):
         drpg = self.look.currentData() == "drpg"
         sheet = self.look.currentData() == "sheet"
         return {"generic": self.klass.isChecked(), "name": self.name.text().strip() or "New Unit",
-                "title": self.title.text().strip(), "desc": self.desc.toPlainText().strip().split("\n")[:3],
+                "title": self.title.text().strip(), "desc": self.desc.toPlainText().strip().split("\n"),
                 "clone_sprite": self.clone_sprite.isChecked(), "quest": self.quest.isChecked(),
                 "quest_title": self.quest_title.text().strip(), "quest_client": self.quest_client.text().strip(),
                 "quest_text": self.quest_text.text().strip(),
@@ -1498,6 +1845,8 @@ def create_unit(page, v):
         lines.append(f"Created character '{v['name']}' with id {unit_id}.")
 
     # description
+    if not v["generic"] and not any(v["desc"]):
+        v["desc"] = dbpatch.default_help(v["name"], v["title"])      # its own description, never the template's
     if any(v["desc"]):
         ch = svc.table("charhelp.dat")
         src = ch.index_of(tmpl["help_id"])
@@ -1508,8 +1857,9 @@ def create_unit(page, v):
         new_help = max(taken | {3999}) + 1
         hr.set("id", new_help)
         hr.set("char_id", new_help)
+        lines = dbpatch.help_lines(v["desc"])
         for k in range(3):
-            _set_all_langs(hr, f"line{k + 1}", v["desc"][k] if k < len(v["desc"]) else "")
+            _set_all_langs(hr, f"line{k + 1}", lines[k])
         for fl in ("flag_off1", "flag_off2", "flag_off3"):
             if fl in hr:
                 hr.set(fl, 0)

@@ -2,7 +2,10 @@
 (outfits, new characters and their outfits) by the part-following method (d5lib.recolor): every colour follows the
 part of the character it lies over in the same poses.  The default look and the drawings are not changed.
 
-    python tools/rederive_colors.py [MOD ...] [--only SPRITE,...] [--dry]
+    python tools/rederive_colors.py [MOD ...] [--only SPRITE,...] [--dry] [--skin]
+
+--skin: check her skin again (d5lib.recolor.refine_skin: skin texels of shades shared with other parts get their
+own entries; done once per sprite otherwise).  Every variant is repaired against blotches (recolor.repair).
 
 Without MOD: every mod with part info.  The base of a sprite: the character an outfit belongs to (its own game
 sprite), else -- a new character and its outfits -- the game character whose animation set the sprite plays (the
@@ -83,6 +86,7 @@ def base_sprite_of(fs, mod, num, van):
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     dry = "--dry" in sys.argv
+    recheck = "--skin" in sys.argv
     only = None
     if "--only" in sys.argv:
         only = {int(x) for x in sys.argv[sys.argv.index("--only") + 1].split(",")}
@@ -109,16 +113,23 @@ def main():
             a = anm.load(mod.read_file(vp))
             base = anm.parse(fs.read(sprites.sprite_vpath(fs, base_num, "EN")))
             info = outfits._load_parts(mod, num)
+            if recheck:
+                info.pop("skin_checked", None)
             lines = []
             colorvariants.derive_parts(a, base, info, fs=fs, log=lines.append)
             print(f"{mod.id} anm{num:05d} ({why}): " + " ".join(x.strip() for x in lines))
             if dry:
                 continue
             mod.write_file(vp, a.to_bytes())
+            outfits._save_parts(mod, num, info)
             cvp = f"Anime/ANM_HI_JP.dat/anm{num + 1:05d}.lzs"
             if num % 10 == 0 and mod.has_file(cvp):              # the companion shares the palettes
                 c = anm.load(mod.read_file(cvp))
                 if len(c.palettes) == len(a.palettes):
+                    c0, a0 = anm.get_palette(c, 0), anm.get_palette(a, 0)
+                    twins = (c0[:, 3] == 0) & (a0[:, 3] > 0)          # skin twins of its shades
+                    c0[twins] = a0[twins]
+                    anm.set_palette(c, 0, c0)
                     for p in range(1, len(a.palettes)):
                         anm.set_palette(c, p, anm.get_palette(a, p))
                     mod.write_file(cvp, c.to_bytes())

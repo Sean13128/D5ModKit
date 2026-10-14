@@ -88,6 +88,16 @@ def turn_offset(v, q):
     return np.array([x, y, z])
 
 
+def ang_dir(deg):
+    """the game's facing angle (degrees: the skill's direction is its quarter turns x 90) -> (x, z) direction"""
+    r = math.radians(deg)
+    return np.array([-math.sin(r), math.cos(r)])
+
+
+def dir_ang(d):
+    return math.degrees(math.atan2(-float(d[0]), float(d[1]))) % 360.0
+
+
 def facing_quarter(facing):
     """$60201 -> the quarter turns the game gives the skill's offsets (seen: the camera target of Macrocosm)"""
     return (4 - int(facing)) % 4
@@ -396,7 +406,8 @@ class Actor:
         self.sprite = sprite             # sprite number (None: invisible helper / not set)
         self.palette = palette
         self.copy = None                 # actor id whose look this one copies
-        self.follow = None               # actor id it moves with (cmd_6c04)
+        self.follow = None               # actor id it moves with (cmd_6c04 / 6c00)
+        self.follow_off = np.zeros(3)    # where it sits from that actor (the game's local position, child +0x128)
         self.anim = None                 # cmd_6500 animation id (minus: mirrored)
         self.motion = 0                  # cmd_6510 motion
         self.motion_start = 0
@@ -421,6 +432,7 @@ class Actor:
         self.turn = None                 # (from, to, frames, i, EaseSteps or None): cmd_65b4 / 65b5 / 65b8 / 65c1
         self.pivot = (0.0, 0.0)          # what it turns around: obj +0x40 / +0x42 (x 0.0625 = sprite pixels, y down)
         self.pix = Lerp([0.0, 0.0])      # cmd_65bc: the sprite drawn shifted (sprite pixels, y down)
+        self.dturn = None                # (from, to, frames, i): cmd_6710 turning the unit (degrees, actor +0x2c0..)
 
     def lerps(self):
         return (self.offset, self.scale, self.rot, self.tint, self.spos, self.fade, self.pix)
@@ -430,7 +442,7 @@ class Actor:
         if self.follow is not None and stage is not None and depth < 8:
             lead = stage.actors.get(self.follow)
             if lead is not None and lead is not self:
-                return lead.place(stage, depth + 1) + self.offset.get()
+                return lead.place(stage, depth + 1) + self.follow_off + self.offset.get()
         return self.pos + self.offset.get()
 
 
@@ -611,6 +623,11 @@ class Stage:
         for ac in self.actors.values():
             for lp in ac.lerps():
                 lp.tick()
+            if ac.dturn is not None:
+                d0, d1, n, i = ac.dturn
+                i += 1
+                ac.dir = ang_dir(d0 + (d1 - d0) * min(1.0, i / float(n)))
+                ac.dturn = None if i >= n else (d0, d1, n, i)
             if ac.turn is not None:
                 a0, a1, n, i, ease = ac.turn
                 i += 1
@@ -818,20 +835,73 @@ def _h_sprite(st, a, f, m):
     ac.exists = True
 
 
+def _slot_operand(st, v):
+    """an effect slot addressed like an actor: 7000 + i (17000 + i: the same) -> its Slot, else None"""
+    try:
+        v = int(v)
+    except (TypeError, ValueError):
+        return None
+    if 7000 <= v % 10000 < 7256 and v < 20000:
+        return st.slots.get(v % 10000 - 7000)
+    return None
+
+
+def _lead_operand(v):
+    """what a follower is placed from: an effect slot as it is (7000 + i), an actor where it is NOW (1xxxx)"""
+    v = int(v)
+    if 7000 <= v % 10000 < 7256 or v >= 10000:
+        return v
+    return 10000 + v
+
+
 def _h_follow(st, a, f, m):
-    """cmd_6c04 a, b: a moves with b from now on (Macrocosm: the Killia you see follows the hidden caster)"""
+    """cmd_6c04 a, b (0x140184670 -> 0x1402e78e0): a moves with b from now on, staying where it is -- the game
+    stores a's place relative to b's (child +0x128) (Macrocosm: the Killia you see follows the hidden caster).
+    a can be an effect slot (7000 + i): Exploding Tiger's flames ride along with the dashing fighter"""
+    sl = _slot_operand(st, a[0])
+    if sl is not None:
+        here = st.slot_world(sl)
+        sl.attached = _lead_operand(a[1])
+        sl.offset = here - st.where(sl.attached)
+        return
+    ac = st.actor(a[0])
+    src = choreo.actor_id(a[1])
+    if src in st.actors and src != choreo.actor_id(a[0]):
+        here = ac.place(st) - ac.offset.get()
+        ac.follow = src
+        ac.follow_off = here - st.actors[src].place(st)
+        ac.dir = st.actors[src].dir.copy()
+
+
+def _h_attach_at(st, a, f, m):
+    """cmd_6c00 a, b, x, y, z (0x140184470 -> 0x1402e7b20): a moves with b from now on, at the offset x, y, z from it
+    (tenths of map units, turned by the skill's facing; x mirrored by switch 10, cmd_6c80)"""
+    sl = _slot_operand(st, a[0])
+    if sl is not None:
+        sl.attached = _lead_operand(a[1])
+        sl.offset = st.off(a, 2) / 10.0
+        return
     ac = st.actor(a[0])
     src = choreo.actor_id(a[1])
     if src in st.actors and src != choreo.actor_id(a[0]):
         ac.follow = src
+        ac.follow_off = st.off(a, 2) / 10.0
         ac.dir = st.actors[src].dir.copy()
 
 
 def _h_unfollow(st, a, f, m):
+    """cmd_6c08 a: a stops following, staying where it is"""
+    sl = _slot_operand(st, a[0])
+    if sl is not None:
+        if sl.attached is not None:
+            sl.pos.to(st.slot_world(sl))
+            sl.attached = None
+        return
     ac = st.actor(a[0], create=False)
     if ac is not None and ac.follow is not None:
         ac.pos = ac.place(st) - ac.offset.get()
         ac.follow = None
+        ac.follow_off = np.zeros(3)
 
 
 def _h_copy(st, a, f, m):
@@ -1039,6 +1109,34 @@ def _h_pixel_offset(st, a, f, m):
     st.actor(a[0]).pix.to([float(a[2]) * 0.1875, float(a[3]) * 0.1875], n)
 
 
+def _h_pixel_shift(st, a, f, m):
+    """cmd_65ba actor, frames, x, y (0x14016e550 -> 0x1402f2d80): like 65bc, but BY x, y from where the sprite is
+    drawn now (the game subtracts x, y x -0.1875 from the sprite's current offset)"""
+    n = int(a[1]) if a[1] > 1 else 0
+    ac = st.actor(a[0])
+    cx, cy = ac.pix.get()
+    ac.pix.to([cx + float(a[2]) * 0.1875, cy + float(a[3]) * 0.1875], n)
+
+
+def _h_unit_turn(st, a, f, m):
+    """cmd_6710 unit, frames, degrees (0x140173ca0): the unit turns, which changes the view of it drawn (front / back,
+    mirrored). frames >= 10000: TO the skill's direction + degrees, the short way, over frames - 10000 (0x140149070);
+    else BY degrees from where it faces -- whole spins too -- over frames (0x140149170). Degrees mirrored by switch 7
+    (cmd_67f0)"""
+    ac = st.actor(a[0])
+    cur = dir_ang(ac.dir)
+    if a[1] >= 10000:
+        n = int(a[1]) - 10000
+        end = cur + _norm180(facing_quarter(st.setup.facing) * 90.0 + float(a[2]) - cur)
+    else:
+        n = int(a[1])
+        end = cur + float(a[2])
+    if n <= 0:
+        ac.dir, ac.dturn = ang_dir(end), None
+    else:
+        ac.dturn = (cur, end, n, 0)
+
+
 def _norm180(d):
     d = (d + 180.0) % 360.0 - 180.0
     return 180.0 if d == -180.0 else d
@@ -1075,8 +1173,9 @@ def _h_scale(st, a, f, m, eased=False):
     st.actor(a[0]).scale.to(_vec(a, 2) / 100.0, a[1], ease_factor(a[5], a[6]) if eased else None)
 
 
-def _h_turn(st, a, f, m, eased=False):
-    st.actor(a[0]).rot.to(_vec(a, 2), a[1], ease_factor(a[5], a[6]) if eased else None)
+def _plus1(a):
+    """cmd_65b6 / 65b9 / 65bb / 65bd: jump into 65b4 / 65b8 / 65ba / 65bc with the second operand (frames) + 1"""
+    return [a[0], a[1] + 1] + list(a[2:])
 
 
 def _h_tint(st, a, f, m):
@@ -1157,6 +1256,13 @@ def _h_remove(st, a, f, m):
 
 def _h_fx_scale(st, a, f, m, eased=False):
     st.slot(a[0]).scale.to(_vec(a, 2) / 100.0, a[1], ease_factor(a[5], a[6]) if eased else None)
+
+
+def _h_fx_scale_by(st, a, f, m, eased=True):
+    """cmd_3c48 slot, frames, sx, sy, sz, ease, every (0x14017a4d0): like 3c42, but percent OF the effect's current
+    size (the game multiplies by the slot's size +0x2c8..; no mirroring: the current size has the sign already)"""
+    sl = st.slot(a[0])
+    sl.scale.to(sl.scale.get() * (_vec(a, 2) / 100.0), a[1], ease_factor(a[5], a[6]) if eased else None)
 
 
 def _h_fx_nscale(st, a, f, m, eased=False):
@@ -1257,6 +1363,7 @@ _HANDLERS = {
     0x2810: _h_fade, 0x2830: _h_back4, 0x2832: _h_back2, 0x2834: _h_back1, 0x2835: _h_back_map,
     0x2820: _h_map_color,
     0x6510: _h_motion, 0x6500: _h_anim, 0x6402: _h_sprite, 0x6405: _h_sprite, 0x6c04: _h_follow, 0x6c08: _h_unfollow,
+    0x6c00: _h_attach_at,
     0x6410: _h_copy, 0x6412: _h_copy, 0x640a: _h_new, 0x65f4: _h_place_at, 0x65f6: _h_place_at,
     0x6630: _h_face_as, 0x6620: _h_home, 0x6411: _h_cutin, 0x6460: _h_screen,
     0x6482: _h_actor_fade, 0x6660: _h_screen_place, 0x6664: _h_screen_move, 0x6570: _h_speed, 0x6560: _h_pause,
@@ -1266,12 +1373,22 @@ _HANDLERS = {
     0x65a0: _h_scale, 0x65a1: lambda s, a, f, m: _h_scale(s, a, f, m, True),
     0x65b4: _h_turn, 0x65b5: lambda s, a, f, m: _h_turn(s, a, f, m, True),
     0x6480: _h_tint, 0x66b0: _h_locator, 0x66b8: _h_locator_move, 0x7220: _h_damage,
+    # thin wrappers of the commands above (their handlers only rearrange operands, disgaea5.exe 2026-10-13)
+    0x65b0: lambda s, a, f, m: _h_scale(s, [a[0], a[1], a[2], a[3], a[2]], f, m),        # 0x14016df60: x = z
+    0x65b6: lambda s, a, f, m: _h_turn(s, _plus1(a), f, m),
+    0x65b9: lambda s, a, f, m: _h_turn_to(s, _plus1(a), f, m),
+    0x65bd: lambda s, a, f, m: _h_pixel_offset(s, _plus1(a), f, m),
+    0x65ba: _h_pixel_shift, 0x65bb: lambda s, a, f, m: _h_pixel_shift(s, _plus1(a), f, m),
+    0x6710: _h_unit_turn,
+    # 0x140178d40 / 0x1401790b0: cmd_3c18 at the actor itself (no offset), size, step (+ from frame)
+    0x3c12: lambda s, a, f, m: _h_show(s, [a[0], a[1], 0, 0, 0, a[2], a[3], 0, 0, 0, 0, 0], f, m, ranged=True),
+    0x3c1a: lambda s, a, f, m: _h_show(s, [a[0], a[1], 0, 0, 0, a[2], a[3], 0, a[4], 0, 0, 0], f, m, ranged=True),
     0x3c00: _h_load, 0x3c02: _h_remove, 0x3c04: _h_remove,
     0x3c10: _h_show, 0x3c18: lambda s, a, f, m: _h_show(s, a, f, m, ranged=True),
     0x3c20: lambda s, a, f, m: _h_show(s, a, f, m, attached=True),
     0x3c22: lambda s, a, f, m: _h_show(s, a, f, m, attached=True, ranged=True),
     0x3c40: _h_fx_scale, 0x3c42: lambda s, a, f, m: _h_fx_scale(s, a, f, m, True),
-    0x3c44: _h_fx_scale,
+    0x3c44: _h_fx_scale, 0x3c48: _h_fx_scale_by,
     0x3cb8: _h_fx_nscale, 0x3cba: lambda s, a, f, m: _h_fx_nscale(s, a, f, m, True),
     0x3c64: _h_fx_rot_to, 0x3c66: lambda s, a, f, m: _h_fx_rot_to(s, a, f, m, eased=True),
     0x3c68: _h_fx_rot_by, 0x3c6a: lambda s, a, f, m: _h_fx_rot_by(s, a, f, m, eased=True),
@@ -1310,11 +1427,13 @@ for _c in (0x3c10, 0x3c18, 0x3c20, 0x3c22, 0x3c24, 0x4140, 0x4170, 0x4180, 0x41a
 MIRROR_ARGS[0x6500] = (6, (1,))          # actor animation: drawn mirrored
 for _c in (0x65b4, 0x65b5, 0x65b6, 0x65b8, 0x65b9, 0x65c1):
     MIRROR_ARGS[_c] = (6, (4,))          # sprite turn / offset
-for _c in (0x65ba, 0x65bb, 0x65bc):
+for _c in (0x65ba, 0x65bb, 0x65bc, 0x65bd):
     MIRROR_ARGS[_c] = (6, (2,))
 for _c in (0x6642, 0x6650, 0x6672, 0x6674, 0x6678, 0x6680, 0x66b0):
     MIRROR_ARGS[_c] = (11, (2,))         # unit moves, locators: x offset
 MIRROR_ARGS[0x66b8] = (11, (1,))
+MIRROR_ARGS[0x6c00] = (10, (2,))
+MIRROR_ARGS[0x6710] = (7, (2,))          # unit turns: degrees (0x140173ca0 reads switch 7)         # attach at an offset: x (0x140184470 reads switch 10)
 SIMULATED |= set(MIRROR_SET)
 
 

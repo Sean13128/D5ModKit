@@ -231,7 +231,8 @@ class ModManager:
                 order = json.load(f)
         else:
             order = []
-        snap = (metas, [m for m in order if m in metas])
+        # each mod once (an entry of a deleted mod came back when a new mod got its folder name: installed twice)
+        snap = (metas, list(dict.fromkeys(m for m in order if m in metas)))
         self._cache = (key, now, snap)
         return snap
 
@@ -277,7 +278,7 @@ class ModManager:
         EDITS[0] += 1
         os.makedirs(os.path.dirname(self.order_file), exist_ok=True)
         with open(self.order_file, "w", encoding="utf-8") as f:
-            json.dump(order, f, indent=2)
+            json.dump(list(dict.fromkeys(order)), f, indent=2)
 
     def enabled_mods(self):
         metas, order = self._snapshot()

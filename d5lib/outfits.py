@@ -610,6 +610,18 @@ def _finalize_characters(ctx, chars, rows, face_list, banners, owners):
                                 b.id = 10000 + cid
                         ctx.put(vp, a.to_bytes())
                         break
+        # the small standing picture by colour id (menus, the quest shop's 'has joined'), like an outfit's slot + 2:
+        # its own sprite's (sprite + 2), else the template's -- without one the game showed another picture
+        if _anm_data(ctx, cid + 2) is None:
+            for src in (r["sprite_id"] + 2, (tmpl if tmpl is not None else r["color_id"]) + 2):
+                data = _anm_data(ctx, src) if src != cid + 2 else None
+                if data is not None:
+                    a = anm.load(data)
+                    for b in a.blocks:
+                        if b.id == src:
+                            b.id = cid + 2
+                    ctx.put(f"Anime/ANM_HI_JP.dat/anm{cid + 2:05d}.lzs", a.to_bytes())
+                    break
         icon = img if img is not None else (_small_face_image(ctx, tmpl) if tmpl is not None else None)
         if icon is not None:
             owners.append((cid, [cid], icon))
@@ -665,6 +677,18 @@ def _all_mods(mod):
     from .modsys import Mod
     root = os.path.dirname(mod.folder)
     return [Mod(os.path.join(root, d)) for d in os.listdir(root) if os.path.isdir(os.path.join(root, d))]
+
+
+def put_row(table, row):
+    """a char.dat row into the table: over the row that has its id when there is one (the reserved dummy rows the
+    id pool hands out are filled in place -- an appended second row with that id stays behind the dummy, and the
+    game reads the dummy: its name, stats and description with the new sprites), else appended -> its index"""
+    si = next((i for i, r in enumerate(table.rows) if r["id"] == row["id"]), None)
+    if si is None:
+        table.rows.append(row)
+        return len(table.rows) - 1
+    table.rows[si] = row
+    return si
 
 
 def used_slots(mod):
@@ -936,6 +960,7 @@ def create_drpg_character(fs, mod, source_id, template, uid, name, title=None, s
             r.set(f"learn{k}_skill", sk)
             r.set(f"learn{k}_level", lv)
         r.set("learn_count", len(skills))
+    desc = [d for d in (desc or ()) if d] or dbpatch.default_help(name, title)
     if any(desc):
         hv, he = _table_pair(fs, mod, "charhelp.dat")
         si = next((i for i, h in enumerate(he.rows) if h["char_id"] == src["help_id"]), None)
@@ -943,16 +968,17 @@ def create_drpg_character(fs, mod, source_id, template, uid, name, title=None, s
         hid = _free_help_id(fs, mod)
         hr.set("id", hid)
         hr.set("char_id", hid)
+        lines = dbpatch.help_lines(desc)
         for k in range(3):
             for L in LANGS:
                 if f"line{k + 1}_{L}" in hr:
-                    hr.set(f"line{k + 1}_{L}", desc[k] if k < len(desc) else "")
+                    hr.set(f"line{k + 1}_{L}", lines[k], truncate=True)
         for fl in ("flag_off1", "flag_off2", "flag_off3"):
             if fl in hr:
                 hr.set(fl, 0)
         r.set("help_id", hid)
         mod.save_patch("db", "charhelp.dat.json", dbpatch.diff_table(hv, he))
-    ed.rows.append(r)
+    put_row(ed, r)                                   # a reserved dummy id: its row, in place
     mod.save_patch("db", "char.dat.json", dbpatch.diff_table(van, ed))
     qid = None
     if quest:
@@ -1304,6 +1330,7 @@ def regenerate_presets(fs, mod, slot, log=print):
     info = _load_parts(mod, N)
     if info and all(0 < int(k) < 256 for k in info.get("entries", {})):
         colorvariants.derive_parts(a, base, info, fs=fs, log=log)    # parts known: follow the current colours
+        _save_parts(mod, N, info)                                     # (her skin may have been split off)
     else:
         _save_parts(mod, N, colorvariants.repartition(a, base, fs=fs))
     mod.write_file(vp, a.to_bytes())
@@ -1373,9 +1400,10 @@ def remove_outfit(fs, mod, slot):
             mod.remove_file(f"Anime/ANM_HI_JP.dat/anm{n:05d}.lzs")
     if os.path.exists(face_path(mod, slot)):
         os.remove(face_path(mod, slot))
-    if N and not any(outfit_sprite(fs, mod, p[1]) == N for p in pairs if p[1] != slot) \
-            and os.path.exists(parts_path(mod, N)):
-        os.remove(parts_path(mod, N))
+    if N and not any(outfit_sprite(fs, mod, p[1]) == N for p in pairs if p[1] != slot):
+        for p in (parts_path(mod, N), source_path(mod, N)):
+            if os.path.exists(p):
+                os.remove(p)
     save(mod, [p for p in pairs if p[1] != slot],
          [x for x in load_own(mod) if not N or x not in (N, N + 1)])
 

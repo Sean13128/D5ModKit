@@ -641,6 +641,18 @@ class StagesPage(QWidget):
                 w.setParent(None)
                 w.deleteLater()
 
+    def _stage_twins(self, rec):
+        """[(name, map id)] of the other stages of the same place (its '(Demo)' version: the story's first visit)"""
+        base = rec.name().replace("(Demo)", "").strip()
+        out = []
+        for i, row in enumerate(self.svc.table(DUNGEON).rows):
+            if i == self.stage_row:
+                continue
+            r = mapfile.DungeonRecord(bytes(row.raw))
+            if r.name().replace("(Demo)", "").strip() == base and r.map_id != rec.map_id and "Stage" not in base:
+                out.append((r.name(), r.map_id))
+        return out
+
     def _inspect(self, idx):
         self._clear_inspector()
         if idx is None or not self.pkg:
@@ -654,6 +666,14 @@ class StagesPage(QWidget):
                 f.addRow("Stage name (EN)", name)
                 f.addRow("Map file", QLabel(f"map{rec.map_id:05d}"))
                 f.addRow("Base panel", QLabel(f"{rec.base_x}, {rec.base_y}  (use 🏁 tool)"))
+                twins = self._stage_twins(rec)
+                if twins:
+                    note = QLabel("The story also plays this place as " + ", ".join(
+                        f"<b>{n}</b> (map{m:05d})" for n, m in twins) + ": a stage of its own, with its own map, "
+                        "enemies and base panel. Change it there too if that's the battle you're testing.")
+                    note.setWordWrap(True)
+                    note.setObjectName("muted")
+                    f.addRow(note)
             else:
                 f.addRow(QLabel("This map isn't listed as a stage."))
             tip = QLabel("Select a unit on the map to edit it.\n\nLegend: red circle = enemy, blue = neutral, "

@@ -20,6 +20,7 @@ colours themselves.
 import math
 
 import numpy as np
+from scipy import ndimage
 
 from . import anm, colorvariants as cv
 
@@ -186,7 +187,9 @@ def groups_of(pal0, used, info=None):
         if used[i] <= 0 or pal0[i, 3] == 0:
             continue
         e = entries.get(i)
-        if e is not None:
+        if e is not None and e.get("skin"):
+            out[i] = ("k",)                            # her skin (refine_skin): decided apart, follows his skin
+        elif e is not None:
             out[i] = ("d", i) if e.get("detail") else ("p", int(e["part"]))
         else:
             out[i] = ("d", i) if i < 16 else ("p", i // 16)
@@ -405,6 +408,11 @@ def derive(new, base, M=None, info=None, log=None):
     A = adjacency(new)
     groups = merge_materials(groups, pal0, used, A, votes)
     part = assign_parts(pal0, used, M, rows, b[0], groups, A)
+    skin_row = (info or {}).get("skin_row")
+    if skin_row is not None and int(skin_row) in rows:
+        for i, g in groups.items():
+            if g == ("k",):
+                part[i] = int(skin_row)
     out = [pal0.copy() for _ in range(1, nv)]
     lab0 = cv._lab(pal0[:, :3])
     for i, r in part.items():
@@ -419,6 +427,7 @@ def derive(new, base, M=None, info=None, log=None):
             out[v - 1][i, :3] = cv._lab_inv(ramp_transfer(lab0[i], B0, Bk, w)[None])[0]
     # (the part info's "blend" entries are not used: every colour follows the part it lies over -- the old part
     # finder took a red demon's skin for a blend of his clothes and hair)
+    out = repair(new, out, part, skin=_skin_rows(rows, b[0]))
     if log:
         by_row = {}
         for i, r in part.items():
@@ -426,3 +435,294 @@ def derive(new, base, M=None, info=None, log=None):
         log(f"  colour variants follow the character's parts: {len(part)} colours, "
             f"{len(set(groups.values()))} materials over {len(by_row)} of its parts")
     return out, part
+
+
+# ------------------------------------------------------------------------------------------- her skin, texel by texel
+# A shade the DRPG artist used both on her skin and elsewhere (Pram's face highlight is the white of her hair) can't
+# follow two parts.  Every texel is decided skin or not -- her own skin colours (learned from where her drawing lies
+# over the character's skin), the character's skin under it, and patches enclosed by skin -- and a shade used both
+# ways gets a twin entry of the same colour for its skin texels.  The default look doesn't change.
+NOTHING = 16             # vote column: over nothing of the character
+SKIN_CONFIRM = 0.15      # a skin-toned colour with this share of its pixels over his skin (and SKIN_GLOB x the share of
+SKIN_GLOB = 1.5          # all her pixels there) ...
+SKIN_REF_DE = 15.0       # ... close to his main skin shades, is her skin
+SKIN_DE = 7.0            # colours this close to her skin colours are skin wherever they lie (bare legs where he wears
+                         # a coat)
+VOTE_BLUR = 3.0          # texels: the votes are blurred over the drawing (compression blocks don't decide alone)
+VOTE_SHARE = 0.55        # a texel lying this much over his skin ...
+VOTE_FIT = 0.6           # ... in a colour that fits his skin this well is skin
+TINY = 40                # texels: smaller patches added by the votes don't count
+ISLAND_MAX = 1500        # texels: a patch this small ...
+ISLAND_ENCLOSED = 0.7    # ... this much enclosed by skin ...
+ISLAND_FIT = 0.45        # ... in colours this close to skin is skin (a highlight on her cheek)
+MASK_WIN = 7             # texels: the mask is smoothed by the majority of this window
+MASK_FIT = 0.3           # (never a colour this unlike skin)
+MIN_SPLIT = 20           # texels: a shade used this much both ways gets its twin
+
+
+def texel_render(a, items, bounds):
+    """(texture index, flat texel index) of the topmost opaque texel at every pixel (-1: nothing), nearest sampling"""
+    x0, y0, x1, y1 = bounds
+    W, H = int(x1 - x0), int(y1 - y0)
+    T = np.full((H, W), -1, np.int16)
+    F = np.zeros((H, W), np.int64)
+    cache = {}
+    ys, xs = np.mgrid[0:H, 0:W]
+    for it in items:
+        c = it.cell
+        if not c.w or not c.h or (it.color[3] if len(it.color) > 3 else 255) == 0:
+            continue
+        t = it.tex_global
+        if t >= len(a.textures) or not a.textures[t].indexed:
+            continue
+        if t not in cache:
+            cache[t] = anm.texture_indices(a, t)
+        ix = cache[t]
+        q = it.quad - [x0, y0]
+        bx0, by0 = max(0, int(math.floor(q[:, 0].min()))), max(0, int(math.floor(q[:, 1].min())))
+        bx1, by1 = min(W, int(math.ceil(q[:, 0].max())) + 1), min(H, int(math.ceil(q[:, 1].max())) + 1)
+        if bx1 <= bx0 or by1 <= by0:
+            continue
+        try:
+            Hm = anm._homography(q, [(0, 0), (c.w, 0), (c.w, c.h), (0, c.h)])
+        except np.linalg.LinAlgError:
+            continue
+        px = xs[by0:by1, bx0:bx1] + 0.5
+        py = ys[by0:by1, bx0:bx1] + 0.5
+        den = Hm[2, 0] * px + Hm[2, 1] * py + Hm[2, 2]
+        sx = np.floor((Hm[0, 0] * px + Hm[0, 1] * py + Hm[0, 2]) / den).astype(np.int64)
+        sy = np.floor((Hm[1, 0] * px + Hm[1, 1] * py + Hm[1, 2]) / den).astype(np.int64)
+        gx, gy = sx + c.x, sy + c.y
+        ok = (sx >= 0) & (sx < c.w) & (sy >= 0) & (sy < c.h) & (gx < ix.shape[1]) & (gy < ix.shape[0])
+        v = np.zeros(sx.shape, np.uint8)
+        v[ok] = ix[gy[ok], gx[ok]]
+        m = v > 0
+        T[by0:by1, bx0:bx1][m] = t
+        F[by0:by1, bx0:bx1][m] = gy[m] * ix.shape[1] + gx[m]
+    return T, F
+
+
+def texel_votes(new, base):
+    """{texture: (texel indices (H, W), votes (H, W, 17))}: in every pose both sprites have (new, base: preview
+    files), the part (palette row) of the character under each texel of the new sprite; 16 = nothing"""
+    out = {}
+    for t, tex in enumerate(new.textures):
+        if tex.indexed:
+            ix = anm.texture_indices(new, t)
+            out[t] = (ix, np.zeros(ix.shape + (NOTHING + 1,), np.int32))
+    for info in anm.list_animations(new):
+        if not anm.has_animation(base, info["id"]):
+            continue
+        for tm in anm.frame_times(new, info["index"]):
+            try:
+                ia = anm.evaluate(new, ("id", info["id"]), tm)
+                ib = anm.evaluate(base, ("id", info["id"]), tm)
+            except Exception:
+                continue
+            if not ia or not ib:
+                continue
+            ba, bb = anm.item_bounds(ia), anm.item_bounds(ib)
+            bounds = (min(ba[0], bb[0]), min(ba[1], bb[1]), max(ba[2], bb[2]), max(ba[3], bb[3]))
+            T, F = texel_render(new, ia, bounds)
+            B = index_render(base, ib, bounds)
+            row = np.where(B > 0, B.astype(np.int64) // 16, NOTHING)
+            for t in np.unique(T[T >= 0]):
+                sel = T == t
+                V = out[int(t)][1]
+                np.add.at(V.reshape(-1, NOTHING + 1), (F[sel], row[sel]), 1)
+    return out
+
+
+def _fit(lab, ref):
+    """closeness (0..1) of colours (Lab) to reference colours, lightness at half weight"""
+    d = np.linalg.norm((lab[:, None] - ref[None]) * np.array([0.5, 1.0, 1.0]), axis=2).min(1)
+    return np.exp(-(d / COMPAT_TAU) ** 2)
+
+
+def skin_mask(new, base, votes, log=None):
+    """{texture: bool per texel: her skin}, the character's skin row it follows (None: no skin found)"""
+    pal = anm.get_palette(new, 0)
+    rows = base_rows(base)
+    b0 = anm.get_palette(base, 0)
+    skin = sorted(_skin_rows(rows, b0))
+    none = ({t: np.zeros(v[0].shape, bool) for t, v in votes.items()}, None)
+    if not skin:
+        return none
+    lab = cv._lab(pal[:, :3])
+    tone = _skin_tone(pal)
+    row_ids = sorted(rows)
+    Vcol = np.zeros((256, NOTHING + 1))
+    for ix, V in votes.values():
+        m = ix > 0
+        np.add.at(Vcol, ix[m], V[m])
+    tot = Vcol[:, row_ids].sum(1)
+    on_skin = Vcol[:, skin].sum(1)
+    glob = on_skin.sum() / max(tot.sum(), 1e-9)
+    bu = cv._used_indices(base)
+    refs = [j for r in skin for j in rows[r]]
+    ru = float(sum(bu[j] for j in refs)) or 1.0
+    refs = [j for j in refs if bu[j] >= 0.15 * ru] or refs          # his main skin shades, not the darkest shading
+    near = np.linalg.norm(lab[:, None] - cv._lab(b0[refs, :3])[None], axis=2).min(1) <= SKIN_REF_DE
+    conf = tone & (tot >= 200) & (on_skin >= max(SKIN_CONFIRM, SKIN_GLOB * glob) * tot) & near
+    if not conf.any():
+        return none
+    main = skin[int(np.argmax(Vcol[conf][:, skin].sum(0)))]
+    like = tone & (np.linalg.norm(lab[:, None] - lab[conf][None], axis=2).min(1) <= SKIN_DE)
+    like[0] = False
+    ref = cv._lab(b0[rows[main], :3])
+    fit = _fit(lab, ref)
+    exact = np.linalg.norm(lab[:, None] - ref[None], axis=2).min(1) < EXACT_DE
+    ok_col = tone | exact
+    cross = ndimage.generate_binary_structure(2, 1)
+    out = {}
+    for t, (ix, V) in votes.items():
+        op = ix > 0
+        S = op & like[ix]
+        # where his skin is (votes blurred over the drawing), in a colour that fits it
+        sv = ndimage.gaussian_filter(V[..., skin].sum(-1).astype(float), VOTE_BLUR)
+        tv = ndimage.gaussian_filter(V[..., row_ids].sum(-1).astype(float), VOTE_BLUR)
+        S2 = S | (op & (tv >= 3) & (sv >= VOTE_SHARE * np.maximum(tv, 1e-6)) & (fit[ix] >= VOTE_FIT))
+        comp, n = ndimage.label(S2 & ~S)
+        if n:
+            small = np.bincount(comp.reshape(-1)) < TINY
+            small[0] = False
+            S2[small[comp]] = False
+        # patches enclosed by skin in colours that fit it are skin; specks of skin amid something else aren't
+        for val in (False, True):
+            comp, n = ndimage.label(op & (S2 == val), structure=cross)
+            sizes = np.bincount(comp.reshape(-1))
+            for k, sl in enumerate(ndimage.find_objects(comp), 1):
+                if sl is None or sizes[k] > ISLAND_MAX:
+                    continue
+                y0, y1 = max(sl[0].start - 1, 0), sl[0].stop + 1
+                x0, x1 = max(sl[1].start - 1, 0), sl[1].stop + 1
+                m = comp[y0:y1, x0:x1] == k
+                ring = ndimage.binary_dilation(m, structure=cross) & ~m & op[y0:y1, x0:x1]
+                if ring.sum() < 4 or (S2[y0:y1, x0:x1][ring] != val).mean() < ISLAND_ENCLOSED:
+                    continue
+                cols = ix[y0:y1, x0:x1][m]
+                if not val and (fit[cols].mean() < ISLAND_FIT or ok_col[cols].mean() < 0.5):
+                    continue
+                if val and (like[cols].mean() >= 0.5 or sizes[k] > TINY):
+                    continue
+                S2[y0:y1, x0:x1][m] = not val
+        # smoothed over compression blocks
+        f = ndimage.uniform_filter(S2.astype(np.float32), MASK_WIN)
+        o = ndimage.uniform_filter(op.astype(np.float32), MASK_WIN)
+        S2 = op & (((f / np.maximum(o, 1e-6) >= 0.5) & (fit[ix] >= MASK_FIT)) | like[ix])
+        out[t] = S2
+    if log:
+        log(f"  skin: follows part {main} of the character, {int(like.sum())} skin colours")
+    return out, main
+
+
+def split_skin(new, mask, info):
+    """her skin texels of a shade also used elsewhere get a twin entry of the same colour (in every palette); info's
+    entries are updated in place (skin entries marked "skin") -> number of shades split"""
+    entries = info.setdefault("entries", {})
+
+    def get(i):
+        return entries.get(str(i), entries.get(i))
+    nsk = np.zeros(256, np.int64)
+    non = np.zeros(256, np.int64)
+    for t, m in mask.items():
+        ix = anm.texture_indices(new, t)
+        nsk += np.bincount(ix[m], minlength=256)[:256]
+        non += np.bincount(ix[(ix > 0) & ~m], minlength=256)[:256]
+    nsk[0] = non[0] = 0
+    pals = [anm.get_palette(new, v) for v in range(len(new.palettes))]
+    used = cv._used_indices(new)
+    free = [i for i in range(255, 0, -1) if used[i] == 0 and all(p[i, 3] == 0 for p in pals) and get(i) is None]
+    both = sorted((int(i) for i in np.nonzero((nsk >= MIN_SPLIT) & (non >= MIN_SPLIT))[0]),
+                  key=lambda i: -min(nsk[i], non[i]))
+    moved = {}
+    for i in both:
+        if not free:
+            break
+        j = free.pop(0)
+        moved[i] = j
+        for p in pals:
+            p[j] = p[i]
+        e = get(i)
+        if e is not None:
+            entries[str(j)] = dict(e)
+    for v, p in enumerate(pals):
+        anm.set_palette(new, v, p)
+    if moved:
+        lut = np.arange(256, dtype=np.uint8)
+        for i, j in moved.items():
+            lut[i] = j
+        for t, m in mask.items():
+            ix = anm.texture_indices(new, t)
+            new.textures[t].data = np.where(m, lut[ix], ix).astype(np.uint8).tobytes()
+    skin_e = {int(i) for i in np.nonzero((nsk > 0) & ((non == 0) | (nsk > non)))[0]} - set(moved)
+    skin_e |= set(moved.values())
+    for i in range(1, 256):
+        e = get(i)
+        if i in skin_e:
+            if e is None:
+                e = entries[str(i)] = {"part": 0}
+            e["skin"] = True
+        elif e is not None:
+            e.pop("skin", None)
+    return len(moved)
+
+
+def refine_skin(sprite, base, info, fs, log=None):
+    """split her skin from the shades it shares (sprite: changed in place; info: its part info, updated in place;
+    the character's skin row goes to info["skin_row"]).  base: the character's own sprite file."""
+    from . import sprites as _sprites
+    new_p = _sprites.preview_file(fs, sprite)
+    base_p = _sprites.preview_file(fs, base)
+    mask, main = skin_mask(new_p, base_p, texel_votes(new_p, base_p), log=log)
+    if main is None:
+        info.pop("skin_row", None)
+        for e in (info.get("entries") or {}).values():
+            e.pop("skin", None)
+        return 0
+    n = split_skin(sprite, mask, info)
+    info["skin_row"] = int(main)
+    if log:
+        log(f"  {n} shade(s) split into skin + the rest")
+    return n
+
+
+# ------------------------------------------------------------------------------------------- no blotches
+# Shades the DRPG compression scattered over one surface (blocks of slightly different colours) must change alike in
+# every variant, or the blocks show.  Each shade's change is pulled toward the changes of the shades it touches in the
+# drawing, as much as they touch and as alike as their default colours are; real edges (different colours) don't pull.
+# Her skin isn't pulled by what it touches unless it is a speck inside it.
+REPAIR_TAU = 14.0        # dE: touching shades this alike change alike
+REPAIR_SELF = 0.3        # a shade's own change, weighted per pixel
+REPAIR_ITERS = 15
+EMBED = 0.5              # a shade this much surrounded by another (and smaller) is a speck inside it
+
+
+def repair(new, pals, part=None, skin=()):
+    """variant palettes (1..) of `new` -> repaired copies; part: {index: character part it follows}"""
+    p0 = anm.get_palette(new, 0)
+    used = cv._used_indices(new).astype(float)
+    live = np.nonzero((p0[:, 3] > 0) & (used > 0))[0]
+    live = live[live > 0]
+    if len(live) < 2:
+        return pals
+    Al = adjacency(new).astype(float)[np.ix_(live, live)]
+    lab0 = cv._lab(p0[live, :3])
+    Wn = Al * np.exp(-(np.linalg.norm(lab0[:, None] - lab0[None], axis=2) / REPAIR_TAU) ** 2)
+    np.fill_diagonal(Wn, 0)
+    if part is not None and skin:
+        sk = np.isin(np.array([part.get(int(i), -1) for i in live]), list(skin))
+        inside = (Al / np.maximum(Al.sum(1, keepdims=True), 1e-9) >= EMBED) & (used[live][:, None] <= used[live][None])
+        Wn = Wn * ~(sk[:, None] & ~sk[None] & ~inside)
+    self_w = REPAIR_SELF * used[live]
+    norm = self_w + Wn.sum(1)
+    out = []
+    for p in pals:
+        d0 = cv._lab(p[live, :3]) - lab0
+        d = d0.copy()
+        for _ in range(REPAIR_ITERS):
+            d = (self_w[:, None] * d0 + Wn @ d) / norm[:, None]
+        q = p.copy()
+        q[live, :3] = cv._lab_inv(lab0 + d)
+        out.append(q)
+    return out

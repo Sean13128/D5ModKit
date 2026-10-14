@@ -220,7 +220,7 @@ def _copy_outfit_character(fs, mod, src, name, title, desc, quest, log):
     set_langs(r, "name", name)
     if title:
         set_langs(r, "title", title)
-    ed.rows.append(r)
+    outfits.put_row(ed, r)                           # a reserved dummy id: its row, in place
     mod.save_patch("db", "char.dat.json", dbpatch.diff_table(van, ed))
     copied = _copy_look(som, mod, N0, N)
     face = outfits.face_path(som, src["outfit"])
@@ -280,7 +280,7 @@ def copy_outfit(fs, mod, src, base_cid, name=None, log=print):
     r = base.copy()
     r.set("id", slot)
     r.set("sprite_id", N)
-    ed.rows.append(r)
+    outfits.put_row(ed, r)
     mod.save_patch("db", "char.dat.json", dbpatch.diff_table(van, ed))
     copied = _copy_look(som, mod, N0, N)
     face = outfits.face_path(som, src["outfit"])
@@ -311,6 +311,7 @@ def _desc_and_quest(fs, mod, cid, name, row, desc, quest):
     from . import outfits
     van, ed = outfits._char_tables(fs, mod)
     r = next(x for x in ed.rows if x["id"] == cid)
+    desc = [d for d in (desc or ()) if d] or dbpatch.default_help(name, r["title_EN"])
     if any(desc):
         hv, he = outfits._table_pair(fs, mod, "charhelp.dat")
         si = next((i for i, h in enumerate(he.rows) if h["char_id"] == r["help_id"]), None)
@@ -318,8 +319,9 @@ def _desc_and_quest(fs, mod, cid, name, row, desc, quest):
         hid = outfits._free_help_id(fs, mod)
         hr.set("id", hid)
         hr.set("char_id", hid)
+        lines = dbpatch.help_lines(desc)
         for k in range(3):
-            set_langs(hr, f"line{k + 1}", desc[k] if k < len(desc) else "")
+            set_langs(hr, f"line{k + 1}", lines[k])
         for fl in ("flag_off1", "flag_off2", "flag_off3"):
             if fl in hr.keys():
                 hr.set(fl, 0)

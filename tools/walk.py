@@ -14,17 +14,17 @@ import struct
 import sys
 import time
 
-from d5ctl import Ctl
+from d5ctl import Ctl, game_addr
 
-LEADER = 0x142349160
-LEADER_POS = LEADER + 8
+LEADER = 0x142349160                     # launch build; game_addr() gives it in the running build (Steam: 0x141e2cd60)
+POS = 8
 POS_COPIES = (0x8, 0x34, 0x90)
 SPOTS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hub_spots.json")
 SPOTS = {"Dimension Guide": [283.0, -135.0, 477.0], "Recruiter": [303.0, -75.0, 142.0]}
 
 
 def pos(c):
-    x, _, z = struct.unpack("<fff", bytes.fromhex(c.cmd(f"rd {LEADER_POS:#x} 12")["hex"]))
+    x, _, z = struct.unpack("<fff", bytes.fromhex(c.cmd(f"rd {game_addr(LEADER) + POS:#x} 12")["hex"]))
     return x, z
 
 
@@ -49,13 +49,13 @@ def walk(c, tx, tz, tol=15, steps=60):
 
 
 def pos3(c):
-    return struct.unpack("<fff", bytes.fromhex(c.cmd(f"rd {LEADER_POS:#x} 12")["hex"]))
+    return struct.unpack("<fff", bytes.fromhex(c.cmd(f"rd {game_addr(LEADER) + POS:#x} 12")["hex"]))
 
 
 def teleport(c, x, y, z):
     xyz = struct.pack("<fff", x, y, z).hex()
     for o in POS_COPIES:
-        c.cmd(f"wr {LEADER + o:#x} {xyz}")
+        c.cmd(f"wr {game_addr(LEADER) + o:#x} {xyz}")
 
 
 def spots():

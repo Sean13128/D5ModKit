@@ -3,13 +3,13 @@ import os
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor, QIcon
-from PyQt6.QtWidgets import (QMenu, QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QListWidget, QListWidgetItem,
+from PyQt6.QtWidgets import (QMenu, QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QTreeWidget, QTreeWidgetItem,
                              QPushButton, QLabel, QComboBox, QDialog, QDialogButtonBox, QRadioButton,
                              QFileDialog, QMessageBox, QTableWidget, QTableWidgetItem, QHeaderView, QFormLayout,
                              QLineEdit, QApplication, QAbstractItemView, QCheckBox)
 
 from d5lib import anm, framesheet, frameconvert, outfits, sprites
-from ..common import PageHeader, ImageView, Worker, error_box, info_box, pil_to_pixmap
+from ..common import PageHeader, ImageView, SearchBox, Worker, error_box, info_box, pil_to_pixmap
 from ..dbservice import get_service, char_names
 from .stages import SearchCombo, set_choice_tips
 
@@ -374,7 +374,12 @@ class OutfitsPage(QWidget):
         left = QWidget()
         ll = QVBoxLayout(left)
         ll.setContentsMargins(0, 0, 0, 0)
-        self.list = QListWidget()
+        self.search = SearchBox("Search outfits or characters…")
+        self.search.textChanged.connect(self._filter)
+        ll.addWidget(self.search)
+        self.list = QTreeWidget()                    # one group per character, its outfits inside
+        self.list.setHeaderHidden(True)
+        self.list.setIndentation(14)
         self.list.currentItemChanged.connect(self._pick)
         ll.addWidget(self.list, 1)
         bar = QHBoxLayout()
@@ -464,31 +469,72 @@ class OutfitsPage(QWidget):
     def refresh(self):
         self._shown_sig = self._sig()
         cur = self._cur()
+        opened = {self.list.topLevelItem(k).data(0, Qt.ItemDataRole.UserRole + 1)
+                  for k in range(self.list.topLevelItemCount()) if self.list.topLevelItem(k).isExpanded()}
         self.list.clear()
         mods = self._outfit_mods()
         if not mods:
-            self.list.addItem("(no outfits yet — press ✨ New outfit)")
+            it = QTreeWidgetItem(["(no outfits yet — press ✨ New outfit)"])
+            it.setFlags(Qt.ItemFlag.ItemIsEnabled)
+            self.list.addTopLevelItem(it)
             return
         # outfits a mod hides (kept only so saves using them still work, e.g. Girl Laharl's Thunderlady looks,
         # which are the Thunderlady character's own): not listed, like in the game's Outfit menu
         hidden = {int(h) for m in mods for h in outfits._data(m).get("hide", [])}
+        groups = {}
+        pick = None
+        bold = self.list.font()
+        bold.setBold(True)
         for mod in mods:
             sprites = outfits.outfit_sprites(self.ws.fs, mod)        # one table load per mod, not per outfit
             names = outfits.load_names(mod)
             for base, slot in outfits.load(mod):
                 if base >= 1000 or int(slot) in hidden:
                     continue  # compatibility entries / hidden
+                g = groups.get(base)
+                if g is None:
+                    g = groups[base] = QTreeWidgetItem([str(self.names().get(base, base))])
+                    g.setData(0, Qt.ItemDataRole.UserRole + 1, int(base))
+                    g.setFont(0, bold)
+                    g.setFlags(Qt.ItemFlag.ItemIsEnabled)
                 n = sprites.get(slot)
                 name = names.get(int(slot)) or "Outfit"
                 face = "  🙂" if os.path.exists(outfits.face_path(mod, slot)) else ""
-                it = QListWidgetItem(f"{self.names().get(base, base)}  —  “{name}”{face}")
-                it.setData(Qt.ItemDataRole.UserRole, (base, slot, n, mod.id))
-                it.setToolTip(self._outfit_tip(mod, base, slot, n, name) + f"<br><i>in mod {mod.name}</i>")
-                self.list.addItem(it)
+                it = QTreeWidgetItem([f"“{name}”{face}"])
+                it.setData(0, Qt.ItemDataRole.UserRole, (base, slot, n, mod.id))
+                it.setToolTip(0, self._outfit_tip(mod, base, slot, n, name) + f"<br><i>in mod {mod.name}</i>")
+                g.addChild(it)
                 if cur and cur[:2] == (base, slot):
-                    self.list.setCurrentItem(it)
-        if self.list.currentRow() < 0 and self.list.count():
-            self.list.setCurrentRow(0)
+                    pick = it
+        for base, g in sorted(groups.items(), key=lambda kv: kv[1].text(0).lower()):
+            n = g.childCount()
+            g.setToolTip(0, f"{g.text(0)}: {n} outfit{'s' if n != 1 else ''}")
+            g.setText(0, f"{g.text(0)}  ({n})")
+            self.list.addTopLevelItem(g)
+            g.setExpanded(base in opened)
+        if pick is None and groups:
+            g = self.list.topLevelItem(0)
+            pick = g.child(0) if g.childCount() else None
+        if pick is not None:
+            pick.parent().setExpanded(True)
+            self.list.setCurrentItem(pick)
+            self.list.scrollToItem(pick)
+        self._filter()
+
+    def _filter(self, *a):
+        t = self.search.text().lower().strip()
+        for k in range(self.list.topLevelItemCount()):
+            g = self.list.topLevelItem(k)
+            whole = bool(t) and t in g.text(0).lower()
+            any_ = False
+            for j in range(g.childCount()):
+                c = g.child(j)
+                ok = not t or whole or t in c.text(0).lower()
+                c.setHidden(not ok)
+                any_ |= ok
+            g.setHidden(not any_ and g.childCount() > 0)
+            if t and any_:
+                g.setExpanded(True)
 
     def _outfit_tip(self, mod, base, slot, n, name=None):
         who = self.svc.ref_tooltip("char.dat", base) or ""
@@ -508,13 +554,13 @@ class OutfitsPage(QWidget):
 
     def _cur(self):
         it = self.list.currentItem()
-        d = it.data(Qt.ItemDataRole.UserRole) if it else None
+        d = it.data(0, Qt.ItemDataRole.UserRole) if it else None
         return d[:3] if d else None
 
     def _mod(self):
         """the mod the selected outfit lives in"""
         it = self.list.currentItem()
-        d = it.data(Qt.ItemDataRole.UserRole) if it else None
+        d = it.data(0, Qt.ItemDataRole.UserRole) if it else None
         return self.ws.mods.get(d[3]) if d else None
 
     def _pick(self, it=None, prev=None):
@@ -581,6 +627,12 @@ class OutfitsPage(QWidget):
                           if k >= 1000 and k % 10 == 0 and k not in fam_taken and rows[k]["name_EN"])
         set_choice_tips(uniques, self.svc.ref_tooltips("char.dat"))
         dlg = NewOutfitDialog(uniques, self, ws=self.ws)
+        it = self.list.currentItem()                 # the character whose group is open
+        if it is not None:
+            g = it.parent() or it
+            base = g.data(0, Qt.ItemDataRole.UserRole + 1)
+            if base is not None and any(k == base for k, _ in uniques):
+                dlg.char.set_value(base)
         if not dlg.exec():
             return
         base = dlg.char.value()

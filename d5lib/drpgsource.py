@@ -134,8 +134,14 @@ class Unit:
         return f"{self.uid}  {self.name}" if self.name else f"Unit {self.uid}"
 
 
+# 'Units IDs.txt' names three units one place off: these are what their sprites show
+NAME_FIXES = {405: ("Netherworld President Axel", "Hero Rozalin"),
+              406: ("Yomawari Ao", "Netherworld President Axel"),
+              407: ("Hero Rozalin", "Yomawari Ao")}
+
+
 def unit_names(root):
-    """{uid: (name, group)} from the folder's 'Units IDs.txt'"""
+    """{uid: (name, group)} from the folder's 'Units IDs.txt' (NAME_FIXES applied)"""
     out = {}
     for p in (os.path.join(root, "Units IDs.txt"), os.path.join(os.path.dirname(root), "Units IDs.txt")):
         if not os.path.exists(p):
@@ -152,6 +158,9 @@ def unit_names(root):
                 if m:
                     out.setdefault(int(m.group(1)), (m.group(2).strip(), group))
         break
+    for uid, (listed, real) in NAME_FIXES.items():
+        if uid in out and out[uid][0] == listed:
+            out[uid] = (real, out[uid][1])
     return out
 
 

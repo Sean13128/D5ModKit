@@ -198,10 +198,24 @@ Automatic when a sheet or a Disgaea RPG unit is converted (`colorvariants.repart
   carry their new colour, the colour keeps its own offset: lightness added, saturation scaled, hue turned when it is
   of the part's colour family). Measured on the game's classes against their pixel-identical Disgaea RPG twins (the
   artist's presets are the answer): 3-4.6 dE from the real presets (the earlier hue matching: 12-16).
+* **Her skin, texel by texel** (`recolor.refine_skin`, 1.4): a shade used both on her skin and elsewhere (Pram's face
+  highlight is the white of her hair) can't follow two parts. Every texel is decided skin or not -- her own skin
+  colours (skin-toned colours lying over the character's skin, close to his main skin shades), the character's skin
+  under it (votes over every pose, blurred over the drawing so compression blocks don't decide alone), patches
+  enclosed by skin -- and a shade used both ways gets a twin palette entry of the same colour for its skin texels
+  (part info: entry `"skin": true`, `"skin_row"`, `"skin_checked"`). The default look doesn't change. Done once per
+  sprite (not for hand-painted parts); `rederive_colors.py --skin` checks again.
+* **No blotches** (`recolor.repair`, 1.4): Disgaea RPG's compressed art stores one colour as 4x4-ish blocks of
+  slightly different shades, and shades that took different parts showed as squares and patches in a preset. Each
+  shade's change is pulled toward the changes of the shades it touches in the textures, as much as they touch and as
+  alike as their default colours are (dE 14 scale); real edges don't pull, and her skin isn't pulled by what it
+  touches unless it's a speck inside it. A blotch score (variant edges the default look doesn't have, per pixel)
+  over all 198 of the kit's sprites went from 0.64 to 0.22 at about the same colour strength (mean dE from the
+  default look 26 -> 25).
 * *Re-derive color presets* uses the part info with the current colours, so recolouring a part in Sprites & Colors
-  and re-deriving keeps the new colours. `tools/rederive_colors.py [MOD ...]` re-derives every sprite with part info
-  (outfits, new characters and their outfits; the base of a new character is the game character whose animations it
-  plays). All the kit's own sprites were re-derived on 2026-10-13.
+  and re-deriving keeps the new colours. `tools/rederive_colors.py [MOD ...] [--skin]` re-derives every sprite with
+  part info (outfits, new characters and their outfits; the base of a new character is the game character whose
+  animations it plays). All the kit's own sprites were re-derived on 2026-10-13 (again with skin + repair for 1.4).
 
 ## Capacity (2026-10-06)
 * **Ids below 1000** (unique characters' outfits and new unique characters, shared): `slots.unique_pool` -- every id

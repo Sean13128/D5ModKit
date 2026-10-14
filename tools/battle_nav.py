@@ -165,7 +165,7 @@ def execute(c, shots_prefix=None, n=20, gap=0.3):
         if t and t[0].startswith(";044;"):
             break
         c.keys("L:1:10"); time.sleep(0.6)
-    c.keys("R:1:20"); time.sleep(1.0)
+    battle_menu(c)
     c.keys("K:1:10")
     files = []
     if shots_prefix:
@@ -189,16 +189,29 @@ def burst(c, prefix, n=40):
 
 
 def execute_burst(c, prefix, n=60):
-    c.keys("R:1:20"); time.sleep(1.0)
+    battle_menu(c)
     c.keys("K:1:10")
     files = burst(c, prefix, n)
     time.sleep(2)
     return files
 
 
+def battle_menu(c):
+    """open the battle menu (Execute / End Turn ...): R with the launch build's default keys, I with the Steam
+    build's -> True when it is open"""
+    for key in ("R", "I"):
+        c.keys(f"{key}:1:20"); time.sleep(1.0)
+        t = texts(c)
+        if t and t[0].startswith(("Commence", "End your turn")):
+            return True
+        if t and not t[0].startswith(";0"):            # something else opened (not the map's help bar): close it
+            c.keys("L:1:10"); time.sleep(0.5)
+    return False
+
+
 def end_turn(c):
     """battle menu -> End Turn (confirm) -> wait for the enemy turn to finish"""
-    c.keys("R:1:20"); time.sleep(1.0)
+    battle_menu(c)
     for _ in range(10):
         t = texts(c)
         if t and t[0].startswith("End your turn"):
@@ -258,7 +271,7 @@ def cast_self(c, name, skill):
 
 def run_actions(c, prefix=None, n=70):
     for _ in range(3):
-        c.keys("R:1:20"); time.sleep(1.0)
+        battle_menu(c)
         t = texts(c)
         if t and t[0].startswith("Commence"):
             break
@@ -270,7 +283,7 @@ def run_actions(c, prefix=None, n=70):
 
 def give_up(c):
     """battle menu -> Give Up -> Return to the pocket Netherworld -> YES"""
-    c.keys("R:1:20"); time.sleep(1.0)
+    battle_menu(c)
     for _ in range(10):
         t = texts(c)
         if t and t[0].startswith("Finish battle"):
