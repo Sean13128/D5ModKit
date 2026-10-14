@@ -16,3 +16,6 @@ partmaps/
 DRPG Assets/
 DRPG Assets (Updated)/
 d5lib/data/drpg_ref_humanoid.pickle
+
+# local RPG idle source exports (contain game-derived art)
+rpg-idle-sources/
