@@ -454,8 +454,6 @@ class OverloadPanel(QScrollArea):
         self._set_owner(int(it.data(Qt.ItemDataRole.UserRole)), 0)
 
     def _set_owner(self, cid, ovl):
-        if not self.ws.require_mod(self):
-            return
         rows = self.page._tier_rows(cid)
         if not rows:
             return
@@ -463,7 +461,7 @@ class OverloadPanel(QScrollArea):
             r.set("overload_id", int(ovl))
         self.svc.mark_dirty(CHAR)
         if self.svc.commit(CHAR, self):
-            self.ws.log(f"{rows[0]['name_EN']}: Overload {ovl or 'none'} (saved into {self.ws.active_mod.name})")
+            self.ws.log(f"{rows[0]['name_EN']}: Overload {ovl or 'none'} (saved into {self.svc.saved_text()})")
             self._fill_who()
 
     def delete(self):

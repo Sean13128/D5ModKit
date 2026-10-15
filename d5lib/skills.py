@@ -38,6 +38,7 @@ MOD_CHOREO_BASE = 15900000          # custom choreographies: blocks of 1000 even
 # ... then event ids no game event uses, below 16777216 (call_event / spawn_event store an event id in 3 bytes):
 # 14000000 .. 14999999, then 5000000 .. 10999999 -- 7 100 custom choreographies in all
 MOD_CHOREO_EXT = [(14000000, 15000000), (5000000, 11000000)]
+GAME_CHOREO_HIGH = (16000000, 16777216)    # the game's choreographies above 15xxxxxx (Macrocosm: 16133700)
 # Overloads aren't magic.dat skills to the script side: the game plays OverlordSkill.dat script_id (a wrapper like a
 # skill's) and script_id + 100000 when animations are cut short.  Their animations live in "skills" under the key
 # OVL_KEY + Overload id; a new Overload's wrapper is OVL_WRAPPER + id (13270300 ..; 13370300 .. the short one).
@@ -76,9 +77,10 @@ def wrapper_id(sid, ovl_scripts=None):
 
 
 def is_choreo(e):
-    """an event id of a skill choreography: the game's (15xxxxxx) or a mod's own"""
+    """an event id of a skill choreography: the game's (15xxxxxx, and 16xxxxxx: 66 skills keep theirs there --
+    Killia's own, item and some weapon skills) or a mod's own"""
     e = int(e)
-    return CHOREO_MIN <= e < CHOREO_MAX or any(lo <= e < hi for lo, hi in MOD_CHOREO_EXT)
+    return CHOREO_MIN <= e < CHOREO_MAX or any(lo <= e < hi for lo, hi in MOD_CHOREO_EXT + [GAME_CHOREO_HIGH])
 
 
 def is_custom_choreo(e):

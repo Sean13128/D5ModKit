@@ -6,7 +6,8 @@ import tempfile
 
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtGui import QDesktopServices
-from PyQt6.QtWidgets import (QFrame, QHBoxLayout, QLabel, QPushButton, QMessageBox, QProgressDialog, QApplication)
+from PyQt6.QtWidgets import (QFrame, QHBoxLayout, QLabel, QPushButton, QMessageBox, QProgressDialog, QApplication,
+                             QDialog, QDialogButtonBox, QTextBrowser, QVBoxLayout)
 
 from d5lib import updater
 from d5lib.version import VERSION
@@ -71,12 +72,27 @@ class UpdateBar(QFrame):
             QMessageBox.information(self.main, "Check for updates", f"You have the newest kit ({VERSION}).")
 
     def _notes(self):
+        """the release notes in a window of their own: scrollable, resizable, the whole text (a message box grew
+        taller than the screen with a long changelog and could not be scrolled, kit 1.3)"""
         if not self.info:
             return
-        box = QMessageBox(self.main)
-        box.setWindowTitle(f"D5 Mod Kit {self.info['version']}")
-        box.setText((self.info.get("notes") or "No notes.")[:6000])
-        box.exec()
+        dlg = QDialog(self.main)
+        dlg.setWindowTitle(f"What's new in D5 Mod Kit {self.info['version']}")
+        lay = QVBoxLayout(dlg)
+        view = QTextBrowser()
+        view.setOpenExternalLinks(True)
+        view.setMarkdown(self.info.get("notes") or "No notes.")
+        lay.addWidget(view, 1)
+        bb = QDialogButtonBox()
+        upd = bb.addButton(self.go.text(), QDialogButtonBox.ButtonRole.AcceptRole)
+        bb.addButton("Close", QDialogButtonBox.ButtonRole.RejectRole)
+        upd.clicked.connect(dlg.accept)
+        bb.rejected.connect(dlg.reject)
+        lay.addWidget(bb)
+        scr = self.main.screen().availableGeometry() if self.main.screen() else None
+        dlg.resize(min(820, scr.width() - 80) if scr else 820, min(700, scr.height() - 80) if scr else 640)
+        if dlg.exec() == QDialog.DialogCode.Accepted:
+            self.update_now()
 
     # ------------------------------------------------------------------ updating
     def update_now(self):

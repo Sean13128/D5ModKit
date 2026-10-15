@@ -48,6 +48,21 @@ GROUPS = {
     "overload": ["overload_id"],
     "skills": [f"learn{k}_{w}" for k in range(1, 17) for w in ("skill", "level")] + ["learn_count"],
 }
+FRESH_GROUPS = ("skills", "evilities", "overload")     # what a new character doesn't take from its template
+
+
+def start_fresh(row):
+    """a new character's own start: no learned skills, evilities or Overload (its template's are that character's;
+    give it its own on the Characters & Classes page) -> number of values cleared"""
+    n = 0
+    for g in FRESH_GROUPS:
+        for f in GROUPS[g]:
+            if f in row and row[f]:
+                row.set(f, 0)
+                n += 1
+    return n
+
+
 GROUP_LABELS = [("base", "Base stats"), ("apt", "Aptitudes"), ("move", "Movement & combat"),
                 ("mastery", "Weapon mastery"), ("res", "Resistances"), ("evilities", "Evilities"),
                 ("overload", "Overload"), ("skills", "Learned skills")]

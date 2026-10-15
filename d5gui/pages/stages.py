@@ -84,14 +84,29 @@ class SearchCombo(QComboBox):
         self.setCompleter(comp)
         self.setMinimumWidth(180)
         self.setMaxVisibleItems(20)
+        comp.popup().setMinimumWidth(320)
+        self._value = None                     # the entry chosen last (what a search left unfinished goes back to)
         # hovering the box shows the description of the chosen entry (the list shows each entry's own)
         self.currentIndexChanged.connect(self._update_tip)
+        self.currentIndexChanged.connect(self._index_changed)
         self.editTextChanged.connect(self._update_tip)
+        from ..common import type_to_search
+        type_to_search(self, lambda c: c._restore())
 
     def _update_tip(self, *_):
         i = self.findText(self.currentText())
         tip = self.itemData(i, Qt.ItemDataRole.ToolTipRole) if i >= 0 else None
         self.setToolTip(tip or "")
+
+    def _index_changed(self, i):
+        if i >= 0:
+            self._value = self.itemData(i)
+
+    def _restore(self):
+        """text naming no entry (a search not finished) -> the chosen entry is shown again"""
+        t = self.currentText().strip()
+        if self.findText(self.currentText()) < 0 and not t.lstrip("-").split(" ")[0].isdigit():
+            self.set_value(self._value if self._value is not None else 0)
 
     def value(self):
         i = self.findText(self.currentText())
@@ -99,10 +114,11 @@ class SearchCombo(QComboBox):
             return self.itemData(i)
         try:
             return int(self.currentText().split(" ")[0])
-        except ValueError:
-            return 0
+        except ValueError:                    # a search typed but not chosen: the entry stays as it was
+            return self._value if self._value is not None else 0
 
     def set_value(self, v):
+        self._value = v
         m = self.model()
         idx = getattr(m, "_d5_index", None)
         if idx is None:  # value -> row map, built once per shared model
@@ -113,6 +129,8 @@ class SearchCombo(QComboBox):
         i = idx.get(v, -1)
         if i >= 0:
             self.setCurrentIndex(i)
+            if self.currentText() != self.itemText(i):     # (same entry, a search typed over its name)
+                self.setEditText(self.itemText(i))
         else:
             self.setEditText(str(v))
 
@@ -374,7 +392,7 @@ class StagesPage(QWidget):
                                             "over from development (demo / dummy stages), or one whose map the game "
                                             "builds itself."))
             if not have:
-                it.setForeground(QBrush(QColor("#8e89a6")))
+                it.setForeground(QBrush(QColor("#8a90b8")))
             self.stages.addItem(it)
         hdr = QListWidgetItem("── maps without a stage entry ──")
         hdr.setFlags(Qt.ItemFlag.NoItemFlags)

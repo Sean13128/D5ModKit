@@ -142,6 +142,11 @@ class VoiceBox(QGroupBox):
     def is_class(self):
         return self.page._row()["id"] >= 1000
 
+    def _mod(self):
+        """the mod a new custom voice of this character goes into: the character's own mod, else the active one"""
+        fn = getattr(self.page, "_char_mod", None)
+        return fn() if fn else self.page.ws.require_mod(self)
+
     def load(self, row):
         self._loading = True
         try:
@@ -183,7 +188,7 @@ class VoiceBox(QGroupBox):
             self.load(r)
             return
         if self.is_class() and vid < voices.CUSTOM_FIRST and len(cat.personalities(vid)) < voices.PERSONALITIES:
-            mod = self.page.ws.require_mod(self)
+            mod = self._mod()
             if not mod:
                 self.load(r)
                 return
@@ -238,14 +243,9 @@ class VoiceBox(QGroupBox):
         cust = self.vs.custom().get(vid)
         if cust:
             v, m = cust
-            a = self.page.ws.active_mod
-            if not a or a.id != m.id:
-                info_box(self, "Custom voice", f"This custom voice belongs to the mod '{m.name}'. Make that mod the "
-                         "active one (top of the window) to edit it.")
-                return
-            self.edit(vid, m)
+            self.edit(vid, m)                          # (saved in the mod that has it)
             return
-        mod = self.page.ws.require_mod(self)
+        mod = self._mod()
         if not mod:
             return
         dlg = NewVoiceDialog(self, r, vid)

@@ -40,7 +40,7 @@ def gl_format():
     return fmt
 
 RING = 70.0
-ACCENT = QColor("#e0457b")
+ACCENT = QColor("#ff4f8b")
 GIZMO = QColor("#ffd166")
 AXES = {"x": (np.array([1.0, 0, 0]), QColor("#ff5c6c")), "y": (np.array([0, 1.0, 0]), QColor("#7ee36a")),
         "z": (np.array([0, 0, 1.0]), QColor("#5aa9ff"))}
@@ -107,9 +107,9 @@ class PreviewView(QOpenGLWidget):
     def _build_bar(self):
         self.bar = QFrame(self)
         self.bar.setObjectName("viewBar")
-        self.bar.setStyleSheet("#viewBar { background: rgba(23, 21, 31, 215); border: 1px solid #3a3553; "
+        self.bar.setStyleSheet("#viewBar { background: rgba(23, 21, 31, 215); border: 1px solid #3d4689; "
                                "border-radius: 8px; } QToolButton { min-width: 26px; padding: 3px 6px; } "
-                               "QLabel { color: #b9b4cc; }")
+                               "QLabel { color: #b8bde0; }")
         lay = QHBoxLayout(self.bar)
         lay.setContentsMargins(6, 4, 6, 4)
         lay.setSpacing(4)
@@ -423,8 +423,8 @@ class PreviewView(QOpenGLWidget):
         finally:
             qp.endNativePainting()
         if self.scene is None:
-            qp.fillRect(0, 0, w, h, QColor("#15131c"))
-            qp.setPen(QColor("#8e89a6"))
+            qp.fillRect(0, 0, w, h, QColor("#0b0d1d"))
+            qp.setPen(QColor("#8a90b8"))
             qp.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, err or "Pick a skill")
             qp.end()
             return
@@ -468,7 +468,7 @@ class PreviewView(QOpenGLWidget):
             qp.setPen(QColor("#ffd166"))
             qp.drawText(QRectF(10, h - 28, w - 20, 28), Qt.AlignmentFlag.AlignVCenter, self._hint[0])
         else:
-            qp.setPen(QColor("#9a95b0"))
+            qp.setPen(QColor("#8a90b8"))
             n = len(self.scene["slots"])
             qp.drawText(QRectF(10, h - 24, w - 20, 20), Qt.AlignmentFlag.AlignVCenter,
                         f"frame {self.frame} · {n} effect{'s' if n != 1 else ''} on screen · "
@@ -522,7 +522,7 @@ class PreviewView(QOpenGLWidget):
                 qp.drawPolygon(QPolygonF(pts))
                 qp.setPen(col)
                 qp.drawText(QPointF(tip.x() + d[0] * 16 - 4, tip.y() + d[1] * 16 + 4), k.upper())
-            qp.setPen(QPen(QColor("#1b1925"), 1))
+            qp.setPen(QPen(QColor("#12152c"), 1))
             qp.setBrush(GIZMO if hov == ("move", None) else QColor("#f0b84a"))
             qp.drawRect(QRectF(cx - 7, cy - 7, 14, 14))
         elif self.tool == "rotate":
@@ -537,7 +537,7 @@ class PreviewView(QOpenGLWidget):
             qp.setBrush(Qt.BrushStyle.NoBrush)
             qp.setPen(QPen(QColor(255, 209, 102, 120), 1, Qt.PenStyle.DashLine))
             qp.drawRect(QRectF(cx - 46, cy - 46, 92, 92))
-            qp.setPen(QPen(QColor("#1b1925"), 1))
+            qp.setPen(QPen(QColor("#12152c"), 1))
             qp.setBrush(GIZMO if hov == ("scale", None) else QColor("#f0b84a"))
             for sx in (-1, 1):
                 for sy in (-1, 1):

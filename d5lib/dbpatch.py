@@ -12,7 +12,7 @@ Values: ints/floats/strings as-is; `bytes` fields as hex strings.
 import json
 
 from . import database
-from .modsys import register_patch_handler
+from .modsys import register_finalizer, register_patch_handler
 
 DB_ARCHIVE = "Database/Database_0.dat"
 
@@ -63,8 +63,9 @@ def is_empty(patch) -> bool:
     return not patch or all(k == "table" for k in patch)
 
 
-def apply_patch(table, patch: dict, strict=False):
-    """Apply a patch dict to a Table in place. Returns list of warnings."""
+def apply_patch(table, patch: dict, strict=False, placed=None):
+    """Apply a patch dict to a Table in place. Returns list of warnings.  placed: a list that gets the row index of
+    each added row, in order (an added row can fill one of the game's reserved rows, _reserved_row)."""
     warn = []
     for idx, fields in (patch.get("rows") or {}).items():
         i = int(idx)
@@ -76,15 +77,24 @@ def apply_patch(table, patch: dict, strict=False):
             _set(row, name, v, warn, table.name)
     if "truncate" in patch:
         del table.rows[int(patch["truncate"]):]
+    first = None                                     # char.dat: id -> index of its first row (_reserved_row)
     for vals in patch.get("added") or []:
         row = table.new_row()
         for name, v in vals.items():
             _set(row, name, v, warn, table.name)
-        si = _reserved_row(table, row)
+        if first is None and str(getattr(table, "name", "")).startswith("char.dat"):
+            first = {}
+            for i, r in enumerate(table.rows):
+                first.setdefault(r["id"], i)
+        si = _reserved_row(table, row, first)
         if si is not None:
             table.rows[si] = row
         else:
             table.rows.append(row)
+            if first is not None and "id" in row:
+                first.setdefault(row["id"], len(table.rows) - 1)
+        if placed is not None:
+            placed.append(si if si is not None else len(table.rows) - 1)
     for k, sp in (patch.get("sections") or {}).items():
         if k in table.sections:
             warn += apply_patch(table.sections[k], sp, strict)
@@ -98,16 +108,23 @@ def apply_patch(table, patch: dict, strict=False):
 RESERVED_NAMES = {"Unique Dummy", "DLC Dummy", "Human Dummy", "Monster Dummy"}   # the game's empty char.dat rows
 
 
-def _reserved_row(table, row):
+def _reserved_row(table, row, first=None):
     """char.dat: an added row with the id of one of the game's empty reserved rows ('DLC Dummy' 970 ...) fills that
     row -> its index (None: append).  Kit versions before 1.4 appended new characters with such an id, and the game
-    reads the first row of an id: the dummy's name, stats and description with the new character's sprites."""
+    reads the first row of an id: the dummy's name, stats and description with the new character's sprites.
+    first: {id: index of its first row} (apply_patch keeps one: a scan of the table per added row was slow)."""
     if not str(getattr(table, "name", "")).startswith("char.dat") or "id" not in row or "name_EN" not in row:
         return None
     rid = row["id"]
-    for i, r in enumerate(table.rows):
-        if r["id"] == rid:
-            return i if r["name_EN"] in RESERVED_NAMES and row["name_EN"] not in RESERVED_NAMES else None
+    if first is not None:
+        i = first.get(rid)
+        idx = [] if i is None else [i]
+    else:
+        idx = [next((i for i, r in enumerate(table.rows) if r["id"] == rid), None)]
+        idx = [i for i in idx if i is not None]
+    for i in idx:
+        r = table.rows[i]
+        return i if r["name_EN"] in RESERVED_NAMES and row["name_EN"] not in RESERVED_NAMES else None
     return None
 
 
@@ -173,41 +190,107 @@ def default_help(name, title=None):
     return [f"{name}, {title}." if title and title != name else f"{name}.", "", ""]
 
 
-def free_quest_slot(table, exclude=None):
-    """Smallest Quest.dat sort_order no other row uses. Always below the row count, which the quest board requires."""
-    used = {r["sort_order"] for r in table.rows if r is not exclude}
+QUEST_SLOTS = 0x400                 # progress bytes per quest state in a save
+PLACEHOLDER_IDS = range(1999, 1899, -1)   # check_quest_slots' hidden rows; new quests take ids below them
+PLACEHOLDER_FIRST = 1900
+
+
+def is_placeholder_quest(row):
+    return row["id"] in PLACEHOLDER_IDS
+
+
+def free_quest_slot(table, exclude=None, reserved=()):
+    """Smallest Quest.dat sort_order no row uses (nor `reserved`: the slots of every mod's quests, switched on or not,
+    so a slot stays one quest's for good).  The board needs it below the row count; the install keeps it so with
+    hidden rows (check_quest_slots)."""
+    used = {r["sort_order"] for r in table.rows if r is not exclude and not is_placeholder_quest(r)} | set(reserved)
     n = 0
     while n in used:
         n += 1
     return n
 
 
-def check_quest_slots(table):
-    """Quest.dat sort_order is the quest's progress slot in the save (completed / accepted / seen bytes, 0x400 each),
-    and the Quest-shop board (ids < 2000) only scans slots 0 .. row count - 1 (0x1407f3300); request quests are listed
-    by another routine (vanilla 9501/9502 sit at 517/518). A shop quest outside that range never shows, two rows on one
-    slot share progress. Moves such rows to free slots (earlier rows keep theirs, so vanilla rows never move)."""
+def check_quest_slots(table, reserved=()):
+    """Quest.dat sort_order is the quest's progress slot in the save (completed / accepted / seen bytes, 0x400 each,
+    d5lib.savegame), and the Quest-shop board (ids < 2000) only scans slots 0 .. row count - 1 (0x1407f3300); request
+    quests are listed by another routine (vanilla 9501/9502 sit at 517/518).  A slot must therefore stay the same
+    whichever mods are installed, or saves show one quest's progress on another (a recruit quest done, its character
+    missing).  Run once on the finished table (every mod's rows in):
+      * two rows on one slot: the later one moves to a slot no other row and no mod (`reserved`) uses, with a warning
+        (vanilla rows come first and never move; mods made with the kit never share a slot);
+      * a shop quest on a slot >= the row count (mods with lower slots are switched off): it keeps its slot and hidden
+        rows are added until the board scans it.  They have ids PLACEHOLDER_IDS, slots above the row count (never
+        scanned) and themselves as prerequisite (never offered)."""
     warn = []
-    limit = min(len(table.rows), 0x400)
     seen = set()
     bad = []
-    for r in table.rows:
+    rows = [r for r in table.rows if not is_placeholder_quest(r)]
+    for r in rows:
         s = r["sort_order"]
-        if s >= 0x400 or s in seen or (r["id"] < 2000 and s >= limit):
+        if s >= QUEST_SLOTS or s in seen:
             bad.append(r)
         else:
             seen.add(s)
     for r in bad:
         old = r["sort_order"]
         n = 0
-        while n in seen:
+        while n in seen or n in reserved:
             n += 1
         r.set("sort_order", n)
         seen.add(n)
-        why = "is taken by another quest" if old < limit else f"is not below the number of quests ({len(table.rows)})"
-        warn.append(f"Quest.dat: quest {r['id']} sort_order {old} {why}, so the quest board would skip it; using {n}. "
-                    f"Set sort_order to {n} in your mod to keep it")
+        why = "is taken by another quest" if old < QUEST_SLOTS else "is not a progress slot (0-1023)"
+        warn.append(f"Quest.dat: quest {r['id']} sort_order {old} {why}; using {n}. Set sort_order to {n} in your mod "
+                    f"to keep it")
+    table.rows[:] = rows
+    need = max([r["sort_order"] + 1 for r in rows if r["id"] < 2000] + [0])
+    if need > len(rows):
+        ids = {r["id"] for r in rows}
+        free_ids = [i for i in PLACEHOLDER_IDS if i not in ids]
+        free_slots = (s for s in range(need, QUEST_SLOTS) if s not in seen)
+        for k in range(need - len(rows)):
+            if not free_ids:
+                warn.append("Quest.dat: no ids left for the hidden rows that keep quest slots; the board may skip "
+                            "quests on the highest slots")
+                break
+            qid, slot = free_ids.pop(0), next(free_slots, None)
+            if slot is None:
+                break
+            row = table.add_row(copy_from=0)
+            for f, v in (("id", qid), ("sort_order", slot), ("prereq_quest1", qid), ("prereq_quest2", 0),
+                         ("prereq_quest3", 0), ("prereq_quest4", 0), ("prereq_quest_count", 1), ("important", 0),
+                         ("reward_type", 1), ("reward_value", 0), ("reward_count", 0), ("unlock_stage", 0),
+                         ("unlock_stage2", 0)):
+                row.set(f, v)
+            for lang in ("JP", "EN", "FR", "CHN", "KOR"):
+                for f in [f"name_{lang}", f"client_{lang}"] + [f"desc{i}_{lang}" for i in range(1, 6)]:
+                    if f in row.keys():
+                        row.set(f, "")
+            seen.add(slot)
     return warn
+
+
+def new_quest_id(table, mods=()):
+    """an id for a new shop quest: above every id the table and these mods (all of them, switched on or not) use, below
+    the hidden rows' PLACEHOLDER_IDS"""
+    used = {r["id"] for r in table.rows}
+    for m in mods:
+        patch = m.load_patch("db", "Quest.dat.json") or {}
+        used |= {int(r["id"]) for r in patch.get("added") or [] if "id" in r}
+    return max(i for i in used | {0} if i < PLACEHOLDER_FIRST) + 1
+
+
+def mod_quest_slots(mods):
+    """{slot: [(mod id, quest id)]} of the quests these mods add (their Quest.dat patches as written)"""
+    out = {}
+    for m in mods:
+        patch = m.load_patch("db", "Quest.dat.json") or {}
+        for r in patch.get("added") or []:
+            if "sort_order" in r:
+                out.setdefault(int(r["sort_order"]), []).append((m.id, r.get("id")))
+        for r in (patch.get("rows") or {}).values():
+            if "sort_order" in r:
+                out.setdefault(int(r["sort_order"]), []).append((m.id, r.get("id")))
+    return out
 
 
 EVILITIES = [f"evility{k}" for k in range(1, 5)]
@@ -240,7 +323,7 @@ def _handler(ctx, mod, patch_dir):
         table = database.load_table(member, ctx.get(vpath))
         warns = apply_patch(table, patch)
         if member.lower() == "quest.dat":
-            warns += check_quest_slots(table)
+            ctx.quest_slots_check = True              # once every mod is in: _finalize_quests
         if member.lower() == "char.dat":
             for r in _patched_rows(table, patch):
                 if fix_evilities(r):
@@ -252,3 +335,31 @@ def _handler(ctx, mod, patch_dir):
 
 
 register_patch_handler("db", _handler, order=10)
+
+
+def _finalize_quests(ctx):
+    """check_quest_slots once on the finished Quest.dat.  Run after each mod it moved a quest whose slot only becomes
+    valid with a later mod's rows in (Thunderlady's 519 went to Henna's 396 and Henna to 519, 2026-10-14)."""
+    if not getattr(ctx, "quest_slots_check", False):
+        return
+    import os
+    from .modsys import Mod
+    vpath = f"{DB_ARCHIVE}/Quest.dat"
+    table = database.load_table("Quest.dat", ctx.get(vpath))
+    on = set(getattr(ctx, "mod_folders", []) or [])
+    others = []
+    for parent in {os.path.dirname(f) for f in on}:
+        for d in sorted(os.listdir(parent)):
+            full = os.path.join(parent, d)
+            if full not in on and os.path.isfile(os.path.join(full, "mod.json")):
+                others.append(Mod(full))
+    reserved = set(mod_quest_slots(others))           # switched-off mods' slots: a moved quest never takes them
+    n = len(table.rows)
+    for w in check_quest_slots(table, reserved):
+        ctx.log("  warning: " + w)
+    if len(table.rows) > n:
+        ctx.log(f"  quests: {len(table.rows) - n} hidden rows keep every quest on its own progress slot")
+    ctx.put(vpath, table.to_bytes())
+
+
+register_finalizer(_finalize_quests)

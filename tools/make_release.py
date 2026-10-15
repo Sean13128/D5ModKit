@@ -4,9 +4,10 @@ the kit needs, the guide -- one folder (and a .zip) that works on another PC.
     python tools/make_release.py OUT_DIR [--zip] [--profile outfits|all] [--mods A,B,...] [--drpg] [--no-runtime]
                                  [--previous OLD_RELEASE_FOLDER or its manifest.json]
 
-Every release gets manifest.json (every file with its SHA-1 and the version; d5lib.updater).  --previous also writes
-OUT_DIR/D5ModKit-update-<old>-to-<new>.zip: only what changed since that release, for the kit's in-place update
-(attach it to the GitHub release next to D5ModKit.zip).
+Every release gets manifest.json (every file with its SHA-1 and the version; d5lib.updater).  The GitHub release carries
+only D5ModKit.zip: kits update themselves from it in place (d5lib.updater.apply writes the files that differ), and
+players can copy it over their kit.  --previous also writes OUT_DIR/D5ModKit-update-<old>-to-<new>.zip (only what
+changed since that release); it isn't attached any more.
 
 OUT_DIR/D5ModKit is (re)made from scratch; --zip also writes OUT_DIR/D5ModKit.zip.
 

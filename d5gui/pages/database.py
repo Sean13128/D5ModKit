@@ -206,6 +206,8 @@ class RefDelegate(QStyledItemDelegate):
                         cb.setItemData(cb.count() - 1, tips[kv], Qt.ItemDataRole.ToolTipRole)
                 cb.completer().setFilterMode(Qt.MatchFlag.MatchContains)
                 cb.completer().setCompletionMode(QCompleter.CompletionMode.PopupCompletion)
+                from ..common import type_to_search
+                type_to_search(cb)
                 return cb
         return super().createEditor(parent, option, index)
 
@@ -224,7 +226,12 @@ class RefDelegate(QStyledItemDelegate):
         if isinstance(editor, QComboBox):
             txt = editor.currentText()
             i = editor.findText(txt)
-            val = editor.itemData(i) if i >= 0 else txt.split(" ")[0]
+            if i >= 0:
+                val = editor.itemData(i)
+            elif txt.strip().split(" ")[0].lstrip("-").isdigit():
+                val = txt.strip().split(" ")[0]
+            else:
+                return                                   # a search typed but nothing chosen: the value stays
             model.setData(index, val, Qt.ItemDataRole.EditRole)
             return
         super().setModelData(editor, model, index)
@@ -343,8 +350,10 @@ class DatabasePage(QWidget):
         split.setSizes([260, 1100])
         lay.addWidget(split, 1)
         self._populated = False
-        ws.active_mod_changed.connect(lambda _: self._reopen())
-        self.svc.table_changed.connect(lambda m: self.model and m == self.model.member and self._reopen())
+        from ..common import Refresher
+        self._reopen_later = Refresher(self, self._reopen)       # once, and only while the page shows
+        ws.active_mod_changed.connect(self._reopen_later)
+        self.svc.table_changed.connect(lambda m: self.model and m == self.model.member and self._reopen_later())
 
     def on_show(self):
         if not self._populated:
@@ -367,7 +376,7 @@ class DatabasePage(QWidget):
             if cat != last:
                 h = QListWidgetItem(cat.upper())
                 h.setFlags(Qt.ItemFlag.NoItemFlags)
-                h.setForeground(QBrush(QColor("#e0457b")))
+                h.setForeground(QBrush(QColor("#ff4f8b")))
                 self.tables.addItem(h)
                 last = cat
             ok = self.svc.has_schema(m)
@@ -429,7 +438,7 @@ class DatabasePage(QWidget):
         self.proxy.setSourceModel(self.model)
         cat, title = FRIENDLY.get(member, ("", member))
         self.title.setText(f"{title}  —  {len(self.model.table.rows)} rows, {len(sch.fields)} fields"
-                           + (f"<br><span style='color:#9a95b0;font-weight:400'>{sch.desc}</span>" if sch.desc else ""))
+                           + (f"<br><span style='color:#8a90b8;font-weight:400'>{sch.desc}</span>" if sch.desc else ""))
         self._apply_columns()
 
     def _reopen(self):
@@ -480,7 +489,7 @@ class DatabasePage(QWidget):
             error_box(self, "This table cannot be saved", e)
             return False
         if self.svc.commit(self.model.member, self):
-            self.ws.log(f"Saved {self.model.member} changes to mod '{self.ws.active_mod.name}'")
+            self.ws.log(f"Saved {self.model.member} changes into {self.svc.saved_text()}")
             return True
         return False
 

@@ -442,7 +442,7 @@ class SceneRenderer:
 
     # ---------------------------------------------------------------- drawing
     def draw(self, qp: QPainter, w, h, scene, cam, t):
-        qp.fillRect(0, 0, w, h, QColor("#15131c"))
+        qp.fillRect(0, 0, w, h, QColor("#0b0d1d"))
         if self.show_grid:
             self._grid(qp, w, h, cam)
         items = []
@@ -507,7 +507,7 @@ class SceneRenderer:
         qp.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceOver)
         if self.highlight is not None and self.highlight in scene["slots"]:
             p, _ = cam.project(self.slot_pos(scene, scene["slots"][self.highlight])[None], w, h)
-            self._marker(qp, p[0], QColor("#e0457b"))
+            self._marker(qp, p[0], QColor("#ff4f8b"))
         fade = scene.get("fade") or 0
         if fade:
             qp.fillRect(0, 0, w, h, QColor(0, 0, 0, int(max(0, min(255, fade * 2.55)))))
@@ -574,7 +574,7 @@ class SceneRenderer:
                             break
         s = cam.scale * SPRITE_SCALE
         if f is None:
-            qp.setBrush(QColor("#e0457b") if a == choreo.CASTER else QColor("#6d8bd8"))
+            qp.setBrush(QColor("#ff4f8b") if a == choreo.CASTER else QColor("#6d8bd8"))
             qp.drawRoundedRect(QRectF(x - 14 * s, y - 70 * s, 28 * s, 70 * s), 6, 6)
             qp.setPen(QColor("#fff"))
             qp.setFont(QFont("Segoe UI", 8))

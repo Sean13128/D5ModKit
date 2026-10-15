@@ -10,12 +10,20 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QTree
                              QCheckBox, QApplication, QTextEdit, QPlainTextEdit, QProgressDialog)
 
 from d5lib import anm, charstudio, dbpatch, sprites
-from ..common import PageHeader, SearchBox, ImageView, error_box, info_box
+from ..common import PageHeader, SearchBox, ImageView, error_box, info_box, ResponsiveGrid
 from ..dbservice import get_service, table_names
 from .stages import SearchCombo, set_choice_tips
 
 CHAR = "char.dat"
 STATS = ["HP", "SP", "ATK", "DEF", "INT", "RES", "HIT", "SPD"]
+# weapon mastery letters (0x14015b8b0: aptitude // 5 + 1, at most 6; 0 = can't use) and the value a letter sets
+RANKS = [("S", 25), ("A", 20), ("B", 15), ("C", 10), ("D", 5), ("E", 1), ("—  (can't use)", 0)]
+
+
+def rank_of(v):
+    return 0 if v <= 0 else min(6, int(v) // 5 + 1)
+
+
 WEAPONS = [("fist", "Fist"), ("sword", "Sword"), ("spear", "Spear"), ("bow", "Bow"), ("gun", "Gun"),
            ("axe", "Axe"), ("staff", "Staff"), ("monster_phys", "Monster (phys)"), ("monster_mag", "Monster (mag)"),
            ("armor", "Armor")]
@@ -40,8 +48,13 @@ HELP = {
     "counter": "Counter: how many times per enemy turn the unit strikes back when attacked.",
     "crit": "Critical %: base chance of a critical hit (extra damage).",
     "attack_range": "Attack range: reach of the normal Attack command without a weapon bonus.",
-    "mastery": "Starting weapon mastery level for this weapon type. Mastery grows by fighting with the "
-               "weapon and raises the stats gained from it.",
+    "mastery": "Weapon mastery rank: how fast this character's mastery of the weapon grows (S fastest .. E "
+               "slowest, — can't use it). The game shows the letter on the Status screen; the number behind it "
+               "(char.dat aptitude, 25+ = S, 20 = A, 15 = B, 10 = C, 5 = D, 1-4 = E) can be fine-tuned in the "
+               "Database editor. Every unit starts at weapon level 0 and gains levels by fighting.",
+    "wlevel": "Weapon level a new unit of this class starts with (0-100; the game's own units start at 0). It is "
+              "given when the unit is made: recruited, joining in the story or created at the registrar; a unit that "
+              "already has more keeps it. Saved in the mod you save edits to; Install to apply.",
     "res": "Elemental resistance (%): lowers damage of that element. Negative = weakness (more damage).",
     "wres": "Resistance (%) against attacks with this weapon type. Negative = weakness.",
     "exp_value": "EXP given to the unit that defeats this character (scaled by level).",
@@ -112,7 +125,15 @@ class CharactersPage(QWidget):
         self.kind.setToolTip("Which characters to list. Outfits are edited on the Outfits page; their copies of the "
                              "character are listed here only under 'Outfit copies'.")
         self.kind.currentIndexChanged.connect(self._filter)
-        ll.addWidget(self.kind)
+        row = QHBoxLayout()
+        row.addWidget(self.kind, 1)
+        b = QPushButton("⟳")
+        b.setFixedWidth(34)
+        b.setToolTip("Reload the list from the mods (it also reloads by itself when mods are switched on / off, "
+                     "deleted or imported; unsaved edits are kept)")
+        b.clicked.connect(self.refresh_list)
+        row.addWidget(b)
+        ll.addLayout(row)
         self.search = SearchBox("Search characters / classes…")
         self.search.textChanged.connect(self._filter)
         ll.addWidget(self.search)
@@ -128,13 +149,21 @@ class CharactersPage(QWidget):
         ll.addWidget(b)
         split.addWidget(left)
 
+        mid = QWidget()
+        mlay = QVBoxLayout(mid)
+        mlay.setContentsMargins(0, 0, 0, 0)
+        mlay.setSpacing(6)
+        self.nav = ResponsiveGrid(min_cell=92, max_cols=12, spacing=4)     # jump to a section (_build_nav)
+        mlay.addWidget(self.nav)
         self.scroll = QScrollArea()
         self.scroll.setWidgetResizable(True)
-        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.form = QWidget()
         self.scroll.setWidget(self.form)
         self.form_lay = QVBoxLayout(self.form)
-        split.addWidget(self.scroll)
+        self.form_lay.setSpacing(10)
+        mlay.addWidget(self.scroll, 1)
+        split.addWidget(mid)
 
         right = QWidget()
         rl = QVBoxLayout(right)
@@ -143,6 +172,10 @@ class CharactersPage(QWidget):
         self.title.setObjectName("cardTitle")
         self.title.setWordWrap(True)
         rl.addWidget(self.title)
+        self.saved_in = QLabel("")
+        self.saved_in.setObjectName("muted")
+        self.saved_in.setWordWrap(True)
+        rl.addWidget(self.saved_in)
         self.preview = ImageView(smooth=True)
         self.preview.setBackgroundBrush(QColor(40, 90, 60))
         rl.addWidget(self.preview, 1)
@@ -161,6 +194,11 @@ class CharactersPage(QWidget):
         b.setToolTip("New characters only: the big picture on the status screen and in the skill cut-in. A plain "
                      "white background is made transparent.")
         b.clicked.connect(self.set_portrait)
+        rl.addWidget(b)
+        b = QPushButton("🧽 Fix portrait background…")
+        b.setToolTip("New characters: choose what of the portrait is see-through. Click a white area or paint with "
+                     "the brush (left: transparent, right: keep); it is built again from the original picture.")
+        b.clicked.connect(self.fix_portrait)
         rl.addWidget(b)
         b = QPushButton("📤 Share this character…")
         b.setToolTip("Export the mod that holds this character as a .zip anyone with the D5 Mod Kit can import "
@@ -186,9 +224,12 @@ class CharactersPage(QWidget):
         split.setSizes([300, 820, 360])
         lay.addWidget(split, 1)
         self._loaded = False
-        self.svc.table_changed.connect(lambda m: m == CHAR and self._loaded and self._populate())
+        from ..common import Refresher
+        self._relist = Refresher(self, lambda: self._loaded and self._populate())
+        self.svc.table_changed.connect(lambda m: m == CHAR and self._relist())
         ws.file_changed.connect(lambda v: v.startswith("Anime/") and self.__dict__.pop("_pv_cache", None))
-        ws.active_mod_changed.connect(lambda _: self._loaded and self._populate())
+        ws.active_mod_changed.connect(self._relist)
+        ws.mods_changed.connect(lambda: self.__dict__.pop("_pv_cache", None))   # sprite files may be gone
 
     # ================================================================== list
     def on_show(self):
@@ -239,7 +280,9 @@ class CharactersPage(QWidget):
         """the list in sections: new characters & classes made with mods first, then the game's unique characters,
         generic and monster classes (one entry per class, its ranks inside), others.  Outfit copies (Outfits page)
         and the game's unused reserved rows are left out."""
-        cur = self.row_index
+        if getattr(self, "_relist", None) is not None:
+            self._relist.done()                       # (a refresh still queued for the same change is not needed)
+        cur = getattr(self, "_cur_key", None)        # (id, name) of the shown character: row numbers move
         opened = {n.data(0, ROLE + 1) for n in self._groups() if n.isExpanded()} if self.list.topLevelItemCount() \
             else None
         self.list.blockSignals(True)
@@ -293,7 +336,7 @@ class CharactersPage(QWidget):
             if added or (dummy and key == "new"):
                 it.setForeground(0, QBrush(QColor("#5fe0a0")))
             elif bytes(r.raw) != bytes(van[i].raw):
-                it.setForeground(0, QBrush(QColor("#e0457b")))
+                it.setForeground(0, QBrush(QColor("#ff4f8b")))
             if cid >= 1000 and key in ("human", "monster", "new", "outfit"):
                 fk = (key, cid // 10)                        # a class: its six ranks under one entry
                 fam = families.get(fk)
@@ -312,7 +355,12 @@ class CharactersPage(QWidget):
                 self.list.addTopLevelItem(sections[key])
         for (key, _), fam in families.items():
             n = fam.childCount()
-            fam.setText(0, f"{fam.text(0)}  ({n} rank{'s' if n != 1 else ''})" if n > 1 else fam.child(0).text(0))
+            if n == 1:                                       # one row (a character kept for older saves): no fold
+                sec, leaf = fam.parent(), fam.takeChild(0)
+                sec.insertChild(sec.indexOfChild(fam), leaf)
+                sec.removeChild(fam)
+                continue
+            fam.setText(0, f"{fam.text(0)}  ({n} ranks)")
         for key, s in sections.items():
             s.setText(0, f"{s.text(0)}  ({sum(1 for _ in self._leaves_of(s))})")
             s.setExpanded(opened is None and next(x[3] for x in SECTIONS if x[0] == key)
@@ -322,8 +370,12 @@ class CharactersPage(QWidget):
                 fam.setExpanded(fam.data(0, ROLE + 1) in opened)
         self.list.blockSignals(False)
         self._filter()
-        if cur is not None and self._select_row(cur):
-            return
+        if cur is not None:
+            rows = self.table().rows
+            want = [i for i, r in enumerate(rows) if r["id"] == cur[0]]
+            want.sort(key=lambda i: rows[i]["name_EN"] != cur[1])
+            if any(self._select_row(i) for i in want[:1]):
+                return
         for leaf in self._leaves():                   # never open on an empty editor
             if not leaf.isHidden() and not (leaf.parent() and leaf.parent().isHidden()):
                 self.list.setCurrentItem(leaf)
@@ -390,6 +442,8 @@ class CharactersPage(QWidget):
         if not it or it.data(0, ROLE) is None:
             return
         self.row_index = it.data(0, ROLE)
+        r = self.table().rows[self.row_index]
+        self._cur_key = (r["id"], r["name_EN"])
         self._build_form()
         # debounce: while scrolling quickly through the list only the final selection is rendered
         if not hasattr(self, "_pv_timer"):
@@ -424,6 +478,79 @@ class CharactersPage(QWidget):
         self.widgets[name] = ("spin", s)
         return s
 
+    def _weapon_levels(self, cid):
+        """the starting weapon levels of a class as the install gives them (the mods' tables in load order)"""
+        from d5lib import weaponlevels
+        return list(weaponlevels.merged(self.ws.mods.enabled_mods()).get(cid, [0] * len(WEAPONS)))
+
+    def _char_mod(self, ask=True):
+        """the mod this character's changes are saved in: the mod that made it or (last) changes it
+        (DBService.row_owner), else the active mod (asked for when there is none and `ask`)"""
+        m = self.svc.row_owner(CHAR, self.row_index) if self.row_index is not None else None
+        if m is not None:
+            return m
+        return self.ws.require_mod(self) if ask else self.ws.active_mod
+
+    def _show_saved_in(self):
+        if self.row_index is None:
+            self.saved_in.setText("")
+            return
+        o = self.svc.owner_map(CHAR).get(self.row_index)
+        m = self.ws.mods.get(o[0]) if o else None
+        if m is not None:
+            why = "it adds this character" if o[1] == "added" else "it changes this character"
+            self.saved_in.setText(f"💾 Saved in the mod “{m.name}” ({why})")
+            self.saved_in.setToolTip("Changes to a character a mod makes or changes are saved in that mod "
+                                     "automatically, whichever mod is chosen bottom left.")
+        else:
+            act = self.ws.active_mod
+            self.saved_in.setText(f"💾 Saved in “{act.name}” (bottom left): no mod changes this character yet"
+                                  if act else "💾 A game character no mod changes: saved in the mod chosen bottom "
+                                              "left (asked for on the first save)")
+            self.saved_in.setToolTip("The game's own characters no mod changes go into the mod chosen bottom left "
+                                     "(“New edits go to”). Once a mod changes a character, its changes go there.")
+
+    def _set_weapon_level(self, k, v):
+        from d5lib import weaponlevels
+        cid = self._row()["id"]
+        # the mod whose level the game gets (the last listing this class), else the character's own mod
+        mod = next((m for m in reversed(self.ws.mods.enabled_mods()) if cid in weaponlevels.load(m)), None) \
+            or self._char_mod()
+        if not mod:
+            return
+        table = weaponlevels.load(mod)
+        lv = table.get(cid) or self._weapon_levels(cid)
+        lv[k] = int(v)
+        table[cid] = lv
+        weaponlevels.save(mod, table)
+        self.status.setText(f"Weapon level saved in '{mod.name}': Install to give it to new units (units in your "
+                            "saves made earlier are offered the update after the install)")
+
+    def _rank(self, name):
+        """weapon mastery as the game shows it: a letter (the aptitude value // 5 + 1, S at 25+); choosing a letter
+        keeps a value already in its band, else sets the band's base value"""
+        c = QComboBox()
+        for lab, v in RANKS:
+            c.addItem(lab, v)
+        c.setMaximumWidth(130)
+        c.setToolTip(HELP["mastery"])
+        c.activated.connect(lambda _, n=name, c=c: self._loading or self._set_rank(n, c.currentData()))
+        self.widgets[name] = ("rank", c)
+        return c
+
+    def _set_rank(self, name, base):
+        cur = int(self._row()[name])
+        if rank_of(cur) != rank_of(base):
+            self._set(name, base)
+        self._show_rank(name)
+
+    def _show_rank(self, name):
+        kind, c = self.widgets[name]
+        v = int(self._row()[name])
+        i = c.findData(next(b for lab, b in RANKS if rank_of(b) == rank_of(v)))
+        c.setCurrentIndex(i if i >= 0 else 0)
+        c.setToolTip(HELP["mastery"] + f"\n\nNow: {c.currentText()} (aptitude {v})")
+
     def _text(self, name):
         e = QLineEdit()
         e.setMaxLength(self._row().field(name).size - 1)
@@ -450,8 +577,12 @@ class CharactersPage(QWidget):
                     w.setValue(int(v))
                 elif kind == "text":
                     w.setText(v)
+                elif kind == "rank":
+                    self._show_rank(name)
                 else:
                     w.set_value(v)
+            for w, v in zip(getattr(self, "wlevels", []), self._weapon_levels(r["id"])):
+                w.setValue(int(v))
         finally:
             self._loading = False
         if getattr(self, "voice_box", None) is not None:
@@ -466,7 +597,21 @@ class CharactersPage(QWidget):
             self._loading = False
         cid = r["id"]
         self.title.setText(f"{r['name_EN']} — {r['title_EN']}\nid {cid} · {kind_of(cid)}")
+        self._show_saved_in()
         self.id_label.setText(f"{cid}   (maps and quests refer to this id)")
+        self._show_recruit(r)
+
+    def _show_recruit(self, r):
+        """the quest that recruits this character (or unlocks this class), in words"""
+        from .. import questinfo
+        box = getattr(self, "recruit_box", None)
+        if box is None:
+            return
+        qs = questinfo.recruit_quests(self.svc, r["id"])
+        box.setVisible(bool(qs))
+        if qs:
+            box.setTitle("How to get this character" if qs[0]["reward_type"] == 5 else "How to unlock this class")
+            self.recruit_label.setText("<br><br>".join(questinfo.describe(self.svc, q) for q in qs))
 
     def _set(self, name, v):
         r = self._row()
@@ -535,6 +680,15 @@ class CharactersPage(QWidget):
         f.addRow("Description id", self._spin("help_id", tip="charhelp.dat entry the description above is kept in"))
         self.form_lay.addWidget(g)
 
+        self.recruit_box = QGroupBox("How to get this character")
+        rl = QVBoxLayout(self.recruit_box)
+        self.recruit_label = QLabel()
+        self.recruit_label.setWordWrap(True)
+        self.recruit_label.setTextFormat(Qt.TextFormat.RichText)
+        self.recruit_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        rl.addWidget(self.recruit_label)
+        self.form_lay.addWidget(self.recruit_box)
+
         g = QGroupBox("Sprite")
         f = QFormLayout(g)
         f.addRow("Sprite file (anm number)", self._spin("sprite_id", 0, 32767,
@@ -556,58 +710,79 @@ class CharactersPage(QWidget):
         self.form_lay.addWidget(self.voice_box)
 
         g = QGroupBox("Quick setup")
-        ql = QGridLayout(g)
-        ql.addWidget(_label("Start from", "Take the numbers of one of the game's playable characters: base stats, "
-                                          "aptitudes, movement. Fine-tune them below afterwards."), 0, 0)
+        ql = QVBoxLayout(g)
+        rg = ResponsiveGrid(min_cell=170, max_cols=3)
         self.preset = QComboBox()
         for key, label, desc, cid in charstudio.PRESETS:
             self.preset.addItem(label, key)
             self.preset.setItemData(self.preset.count() - 1, desc, Qt.ItemDataRole.ToolTipRole)
-        ql.addWidget(self.preset, 0, 1)
         b = QPushButton("Apply preset")
         b.setToolTip("Base stats, aptitudes and movement from the preset (this character's other settings stay)")
         b.clicked.connect(self.apply_preset)
-        ql.addWidget(b, 0, 2)
+        rg.add_cell("Start from", self.preset, b, tip="Take the numbers of one of the game's playable characters: "
+                    "base stats, aptitudes, movement. Fine-tune them below afterwards.")
         b = QPushButton("📋 Copy from another…")
         b.setToolTip("Copy chosen parts (stats, aptitudes, movement, mastery, resistances, evilities, Overload, "
                      "skills) of any character or class, with a power %")
         b.clicked.connect(self.copy_from)
-        ql.addWidget(b, 0, 3)
-        ql.setColumnStretch(4, 1)
+        rg.add_cell("Or take parts of another", b)
+        ql.addWidget(rg)
         self.form_lay.addWidget(g)
 
-        g = QGroupBox("Base stats  ·  aptitudes (%)")
-        gl = QGridLayout(g)
-        for k, s in enumerate(STATS):
-            gl.addWidget(_label(s, HELP[s]), 0, k)
-            gl.addWidget(self._spin(f"base_{s}", tip=f"{HELP[s]}\n\n{HELP['base']}"), 1, k)
-            gl.addWidget(self._spin(f"apt_{s}", tip=f"{HELP[s]}\n\n{HELP['apt']}"), 2, k)
-        gl.addWidget(QLabel("row 1 = base value, row 2 = aptitude %"), 3, 0, 1, 8)
+        g = QGroupBox("Base stats  ·  aptitudes")
+        gl = QVBoxLayout(g)
+        rg = ResponsiveGrid(min_cell=96, max_cols=8)
+        for s in STATS:
+            base = self._spin(f"base_{s}", tip=f"{HELP[s]}\n\n{HELP['base']}")
+            apt = self._spin(f"apt_{s}", tip=f"{HELP[s]}\n\n{HELP['apt']}")
+            apt.setSuffix(" %")
+            cell = rg.add_cell(s, base, apt, tip=HELP[s])
+            cell.findChild(QLabel).setObjectName("statLabel")
+        gl.addWidget(rg)
+        note = QLabel("Upper box: the base value · lower box: the aptitude (how much of it the unit gets, %)")
+        note.setObjectName("muted")
+        note.setWordWrap(True)
+        gl.addWidget(note)
         self.form_lay.addWidget(g)
 
         g = QGroupBox("Movement && combat")
-        gl = QGridLayout(g)
-        for k, (n, lab) in enumerate([("MOV", "Move"), ("JMP", "Jump"), ("throw", "Throw"), ("counter", "Counter"),
-                                      ("crit", "Critical %"), ("attack_range", "Attack range")]):
-            gl.addWidget(_label(lab, HELP[n]), 0, k)
-            gl.addWidget(self._spin(n, tip=HELP[n]), 1, k)
+        gl = QVBoxLayout(g)
+        rg = ResponsiveGrid(min_cell=96, max_cols=6)
+        for n, lab in [("MOV", "Move"), ("JMP", "Jump"), ("throw", "Throw"), ("counter", "Counter"),
+                       ("crit", "Critical %"), ("attack_range", "Attack range")]:
+            rg.add_cell(lab, self._spin(n, tip=HELP[n]), tip=HELP[n])
+        gl.addWidget(rg)
         self.form_lay.addWidget(g)
 
-        g = QGroupBox("Weapon mastery (starting rank)")
-        gl = QGridLayout(g)
+        g = QGroupBox("Weapon mastery  ·  rank and starting level")
+        gl = QVBoxLayout(g)
+        rg = ResponsiveGrid(min_cell=168, max_cols=5)
+        self.wlevels = []
         for k, (n, lab) in enumerate(WEAPONS):
-            gl.addWidget(_label(lab, HELP["mastery"]), (k // 5) * 2, k % 5)
-            gl.addWidget(self._spin(f"mastery_{n}", tip=HELP["mastery"]), (k // 5) * 2 + 1, k % 5)
+            cell = QHBoxLayout()
+            cell.setSpacing(4)
+            cell.addWidget(self._rank(f"mastery_{n}"), 1)
+            lv = QSpinBox()
+            lv.setRange(0, 100)
+            lv.setPrefix("Lv ")
+            lv.setMinimumWidth(78)
+            lv.setToolTip(HELP["wlevel"])
+            lv.valueChanged.connect(lambda v, k=k: self._loading or self._set_weapon_level(k, v))
+            self.wlevels.append(lv)
+            cell.addWidget(lv)
+            rg.add_cell(lab, cell, tip=HELP["mastery"])
+        gl.addWidget(rg)
         self.form_lay.addWidget(g)
 
         g = QGroupBox("Resistances (%)")
-        gl = QGridLayout(g)
+        gl = QVBoxLayout(g)
+        rg = ResponsiveGrid(min_cell=96, max_cols=6)
         res = [("res_fire", "Fire"), ("res_wind", "Wind"), ("res_ice", "Ice"), ("res_star", "Star")] + \
               [(f"wres_{n}", lab) for n, lab in WEAPONS[:7]] + [("wres_monster", "Monster")]
-        for k, (n, lab) in enumerate(res):
+        for n, lab in res:
             tip = HELP["res"] if n.startswith("res_") else HELP["wres"]
-            gl.addWidget(_label(lab, tip), (k // 6) * 2, k % 6)
-            gl.addWidget(self._spin(n, -100, 100, tip), (k // 6) * 2 + 1, k % 6)
+            rg.add_cell(lab, self._spin(n, -100, 100, tip), tip=tip)
+        gl.addWidget(rg)
         self.form_lay.addWidget(g)
 
         g = QGroupBox("Evilities && Overload")
@@ -622,13 +797,32 @@ class CharactersPage(QWidget):
         f.addRow("", b)
         self.form_lay.addWidget(g)
 
-        g = QGroupBox("Learned skills (skill · level learned)")
-        gl = QGridLayout(g)
+        g = QGroupBox("Learned skills  ·  skill and level learned")
+        gl = QVBoxLayout(g)
+        rg = ResponsiveGrid(min_cell=330, max_cols=2)
         for k in range(1, 17):
             c = self._combo(f"learn{k}_skill", lk["magic"], self._set_skill)
+            c.setMinimumWidth(150)
             lv = self._spin(f"learn{k}_level", 0, 9999, "Level at which the skill is learned")
-            gl.addWidget(c, (k - 1) // 2, ((k - 1) % 2) * 2)
-            gl.addWidget(lv, (k - 1) // 2, ((k - 1) % 2) * 2 + 1)
+            lv.setPrefix("Lv ")
+            lv.setMinimumWidth(78)
+            lv.setMaximumWidth(96)
+            cell = QHBoxLayout()
+            cell.setSpacing(4)
+            num = QLabel(f"{k}")
+            num.setObjectName("slotNumber")
+            num.setFixedWidth(18)
+            cell.addWidget(num)
+            cell.addWidget(c, 1)
+            pick = QPushButton("📂")
+            pick.setFixedWidth(34)
+            pick.setToolTip("Choose from the skills in groups: weapon skills by weapon, spells by element, each "
+                            "character's and class's own skills, the skills your mods add")
+            pick.clicked.connect(lambda _, n=f"learn{k}_skill", c=c: self._browse_skill(n, c))
+            cell.addWidget(pick)
+            cell.addWidget(lv)
+            rg.add_cell(cell)
+        gl.addWidget(rg)
         row = QHBoxLayout()
         b = QPushButton("✨ New skill of their own…")
         b.setToolTip("A new skill for this character: a copy of any skill (numbers and animation) with its own name "
@@ -641,22 +835,42 @@ class CharactersPage(QWidget):
         b.clicked.connect(self.edit_skill_animation)
         row.addWidget(b)
         row.addStretch(1)
-        gl.addLayout(row, 8, 0, 1, 4)
+        gl.addLayout(row)
         self.form_lay.addWidget(g)
 
         g = QGroupBox("Rewards when defeated")
-        gl = QGridLayout(g)
-        for k, (n, lab) in enumerate([("exp_value", "EXP"), ("hl_value", "HL"), ("mana_value", "Mana")]):
-            gl.addWidget(_label(lab, HELP[n]), 0, k)
-            gl.addWidget(self._spin(n, tip=HELP[n]), 1, k)
+        gl = QVBoxLayout(g)
+        rg = ResponsiveGrid(min_cell=110, max_cols=3)
+        for n, lab in [("exp_value", "EXP"), ("hl_value", "HL"), ("mana_value", "Mana")]:
+            rg.add_cell(lab, self._spin(n, tip=HELP[n]), tip=HELP[n])
+        gl.addWidget(rg)
         self.form_lay.addWidget(g)
         more = QLabel("Every other field of this character is available in Database Editor → Characters & Classes.")
         more.setObjectName("muted")
         more.setWordWrap(True)
         self.form_lay.addWidget(more)
         self.form_lay.addStretch(1)
+        self._build_nav()
         self._loading = False
         self._load_values()
+
+    NAV = [("Identity", "Identity"), ("How to get", "Recruit"), ("Sprite", "Sprite"), ("Voice", "Voice"),
+           ("Quick setup", "Setup"), ("Base stats", "Stats"), ("Movement", "Movement"), ("Weapon mastery", "Mastery"),
+           ("Resistances", "Resists"), ("Evilities", "Evilities"), ("Learned skills", "Skills"), ("Rewards", "Rewards")]
+
+    def _build_nav(self):
+        """the row of chips above the form: each jumps to its section"""
+        boxes = [self.form_lay.itemAt(i).widget() for i in range(self.form_lay.count())]
+        for start, label in self.NAV:
+            box = next((b for b in boxes if isinstance(b, QGroupBox) and b.title().replace("&&", "&").startswith(start)),
+                       None)
+            if box is None:
+                continue
+            b = QPushButton(label)
+            b.setObjectName("chip")
+            b.setToolTip(box.title().replace("&&", "&"))
+            b.clicked.connect(lambda _, box=box: self.scroll.verticalScrollBar().setValue(max(0, box.y() - 8)))
+            self.nav.add(b)
 
     # ================================================================== character studio
     def _refresh_row(self):
@@ -695,6 +909,14 @@ class CharactersPage(QWidget):
         self.ws.log(f"{self._row()['name_EN']}: copied {', '.join(groups)} from {src['name_EN']} "
                     f"({n} values{'' if power == 100 else f', base stats at {power}%'}; save to keep them)")
 
+    def _browse_skill(self, name, combo):
+        from ..skillbrowser import SkillBrowser
+        r = self._row()
+        dlg = SkillBrowser(self, self.svc, current=combo.value(), me=(r["id"], r["name_EN"]))
+        if dlg.exec() == QDialog.DialogCode.Accepted and dlg.value() is not None:
+            combo.set_value(dlg.value())
+            self._set_skill(name, dlg.value())
+
     def new_skill(self):
         if self.row_index is None:
             return
@@ -705,7 +927,7 @@ class CharactersPage(QWidget):
         v = dlg.values()
         if not v["copy_of"]:
             return QMessageBox.warning(self, "New skill", "Choose the skill to start from.")
-        mod = self.ws.require_mod(self)
+        mod = self._char_mod()                       # (a mod's character: its own mod)
         if not mod:
             return
         try:
@@ -713,8 +935,8 @@ class CharactersPage(QWidget):
                                        v["level"], v["sp"], mods=self.ws.mods.all_mods())
         except Exception as e:
             return error_box(self, "Could not make the skill", e)
-        self.svc.commit("magic.dat", self)
-        self.svc.commit(CHAR, self)
+        self.svc.commit("magic.dat", self, into=mod)
+        self.svc.commit(CHAR, self, into=mod)
         self._names = None                         # the skill lists know the new skill now
         self._built = False
         self._clear()
@@ -734,7 +956,7 @@ class CharactersPage(QWidget):
         v = dlg.values()
         if not v["like"]:
             return QMessageBox.warning(self, "New evility", "Choose the evility it works like.")
-        mod = self.ws.require_mod(self)
+        mod = self._char_mod()
         if not mod:
             return
         try:
@@ -742,8 +964,8 @@ class CharactersPage(QWidget):
                                          mods=self.ws.mods.all_mods())
         except Exception as e:
             return error_box(self, "Could not make the evility", e)
-        self.svc.commit("Skill.dat", self)
-        self.svc.commit(CHAR, self)
+        self.svc.commit("Skill.dat", self, into=mod)
+        self.svc.commit(CHAR, self, into=mod)
         self._names = None
         self._built = False
         self._clear()
@@ -912,32 +1134,70 @@ class CharactersPage(QWidget):
         van = self.svc.vanilla(CHAR).rows
         return i >= len(van) or (van[i]["name_EN"] in DUMMY_NAMES and r["name_EN"] not in DUMMY_NAMES)
 
+    def refresh_list(self):
+        self.__dict__.pop("_pv_cache", None)
+        self.svc.reload(keep_unsaved=True)              # (the page repopulates on the service's signal)
+        if self._loaded:
+            self._populate()
+        self._preview()
+
     def delete_character(self):
-        """remove a new character the active mod made: its row (a reserved row goes back to the game's), its own
+        """remove a new character a mod made -- in the mod that made it (picked for the deletion, then the mod
+        that was chosen in 'Saving edits to' again): its row (a reserved row goes back to the game's), its own
         description, its recruit quest, its sprite files and face picture"""
         if self.row_index is None:
             return
         r = self._row()
         cid, name = r["id"], r["name_EN"]
-        if cid >= 1000 or not self._is_new(self.row_index, r):
+        if 1000 <= cid < 3000 or not self._is_new(self.row_index, r):
             QMessageBox.information(self, "Delete character",
-                                    "Only unique characters your mods made can be deleted here. A game character "
-                                    "goes back to how the game has it with ↺ Revert; a new class is its own mod "
-                                    "(Home: switch it off or delete the mod).")
+                                    "Only characters your mods made can be deleted here. A game character goes back "
+                                    "to how the game has it with ↺ Revert; a new class is its own mod (Home: switch "
+                                    "it off or delete the mod).")
             return
         owners = self._owner_mods(cid)
+        if not owners:
+            QMessageBox.information(self, "Delete character", f"No enabled mod makes '{name}' (id {cid}).")
+            return
         act = self.ws.active_mod
-        if act is None or act.id not in {m.id for m in owners}:
-            where = ", ".join(m.name for m in owners) or "no enabled mod"
-            QMessageBox.information(self, "Delete character",
-                                    f"'{name}' is in {where}. Choose that mod in 'Saving edits to' (bottom left), "
-                                    "then delete it again.")
-            return
+        adders = [m for m in owners if any(isinstance(x, dict) and int(x.get("id", -1)) == cid
+                                           for x in (m.load_patch("db", "char.dat.json") or {}).get("added") or [])]
+        owner = (adders or [m for m in owners if act and m.id == act.id] or owners)[-1]   # the mod that made it
         if QMessageBox.question(self, "Delete character",
-                                f"Delete '{name}' (id {cid}) from the mod '{act.name}'?\n\nIts description, recruit "
-                                "quest, sprite files and face picture go too. Saves with this character need it: "
-                                "keep the mod as it is while you still play one.") != QMessageBox.StandardButton.Yes:
+                                f"Delete '{name}' (id {cid}) from the mod '{owner.name}'?\n\nIts description, recruit "
+                                "quest, sprite files and face picture go too. Saves that have this character can "
+                                "be cleaned next (you choose which).") != QMessageBox.StandardButton.Yes:
             return
+        from .. import savecleanup
+        try:                                             # what saves hold of it, read before its rows go
+            info = savecleanup.mod_info(self.ws, owner)
+            mine = {int(x["sort_order"]) for x in (owner.load_patch("db", "Quest.dat.json") or {}).get("added") or []
+                    if int(x.get("reward_value", -1)) == cid and "sort_order" in x}
+            held = ({cid: name}, {o: b for o, b in info["outfits"].items() if b == cid},
+                    {s: t for s, t in info["quests"].items() if s in mine}, info.get("guard"))
+        except Exception as e:
+            held = ({cid: name}, {}, {}, None)
+            self.ws.log(f"(recruit quest of '{name}' not looked up: {e})")
+        if self.svc.dirty_members():
+            self.save()                                  # (edits of the mod chosen now are kept, not lost)
+        back = act if (act is None or act.id != owner.id) else None
+        if back is not None or act is None:
+            self.ws.set_active_mod(owner)                # the page reloads: find the character again
+            rows = self.table().rows
+            i = next((k for k, x in enumerate(rows) if x["id"] == cid and x["name_EN"] == name), None)
+            if i is None:
+                self.ws.set_active_mod(back)
+                return
+            self.row_index = i
+            r = rows[i]
+        try:
+            self._delete_row(r, cid, name, owner)
+        finally:
+            if act is not None and act.id != owner.id:
+                self.ws.set_active_mod(act)
+        savecleanup.offer(self, self.ws, f"'{name}'", *held)
+
+    def _delete_row(self, r, cid, name, act):
         from d5lib import newchars
         chars = self.table()
         van = self.svc.vanilla(CHAR).rows
@@ -1046,8 +1306,10 @@ class CharactersPage(QWidget):
         """Face picture of a new unique character (d5lib.newchars): status panel, battle face, list icon."""
         from PyQt6.QtWidgets import QFileDialog
         from d5lib import newchars, outfits
-        mod = self.ws.active_mod
-        if self.row_index is None or not mod:
+        if self.row_index is None:
+            return
+        mod = self._char_mod()
+        if not mod:
             return
         r = self._row()
         van = {v["id"]: v for v in self.svc.vanilla(CHAR).rows}
@@ -1071,8 +1333,10 @@ class CharactersPage(QWidget):
         made from its template's portrait; a plain white background is made transparent)."""
         from PyQt6.QtWidgets import QFileDialog
         from d5lib import newchars, outfits
-        mod = self.ws.active_mod
-        if self.row_index is None or not mod:
+        if self.row_index is None:
+            return
+        mod = self._char_mod()
+        if not mod:
             return
         r = self._row()
         van = {v["id"]: v for v in self.svc.vanilla(CHAR).rows}
@@ -1101,12 +1365,34 @@ class CharactersPage(QWidget):
         info_box(self, "Portrait", "Portrait set (status screen and skill cut-in). A plain white background is made "
                  "transparent. Press Install to see it in game.")
 
+    def fix_portrait(self):
+        """the portrait of a new character (anm 10000 + id, else its sprite's anm sprite + 10000) in the portrait
+        fixer (d5gui/portraitfix.py), in the mod that has the file"""
+        if self.row_index is None:
+            return
+        r = self._row()
+        cid = r["id"]
+        mods = self._owner_mods(cid) + [m for m in self.ws.mods.enabled_mods() if m not in self._owner_mods(cid)]
+        for n in (10000 + cid, r["sprite_id"] + 10000):
+            vp = f"Anime/ANM_HI_JP.dat/anm{n:05d}.lzs"
+            mod = next((m for m in mods if m.has_file(vp)), None)
+            if mod is not None:
+                from ..portraitfix import fix_portrait
+                fix_portrait(self, self.ws, mod, n, r["name_EN"])
+                return
+        info_box(self, "Fix portrait background", "This character has no portrait of its own in a mod: the game's "
+                 "own portraits have no background to fix. (Outfits: Outfits page › Edit.)")
+
     # ================================================================== save
     def save(self):
         members = [m for m in (CHAR, "charhelp.dat", "Quest.dat", "JobRank.dat") if self.svc.is_dirty(m)] or [CHAR]
+        self.svc.saved_into = []
         if all(self.svc.commit(m, self) for m in members):      # (a description alone is saved too)
-            self.status.setText("")
-            self.ws.log(f"Saved characters into '{self.ws.active_mod.name}'. Install (bottom left) to see them in game.")
+            where = self.svc.saved_into
+            self.status.setText(("Saved in " + ", ".join(f"'{n}'" for n in where) + ".") if where else "")
+            self.ws.log((f"Saved characters into {', '.join(repr(n) for n in where)}. " if where else
+                         "Nothing to save. ") + "Install (bottom left) to see them in game.")
+            self._show_saved_in()
 
     def revert(self):
         if self.row_index is None:
@@ -1226,16 +1512,16 @@ class CharactersPage(QWidget):
         self.ws.file_changed.emit("Anime/")
         self._names = None
         self._populate()
-        if v.get("preset"):
-            self.select_character(res["id"])
-            self.apply_preset_key(v["preset"])
-            self.svc.commit(CHAR, self)
+        if v.get("preset") or v.get("fresh"):
+            self._after_create(res["id"], v)
         self.select_character(res["id"])
         msg = (f"'{v['name']}' (id {res['id']}) has the look of {src['who']}'s outfit '{src['name']}' "
                f"(sprite anm{res['sprite']:05d})" + (f" and the recruit quest #{res['quest']}" if res.get("quest") else "")
                + ".\n\n" + ("The outfit is hidden from the Outfit menu by this mod; switch the mod off to bring it "
                               "back. " if v["hide_outfit"] else "")
-               + "Stats, skills and evilities come from the outfit's character: change them on this page.\n\n"
+               + ("It starts with no learned skills, evilities or Overload: give it its own on this page.\n\n"
+                  if v.get("fresh") else
+                  "Stats, skills and evilities come from the outfit's character: change them on this page.\n\n")
                + "Everything is saved in your mod. Press Install to try it in game.")
         info_box(self, "Character created", msg)
 
@@ -1249,6 +1535,8 @@ class CharactersPage(QWidget):
             return
         chosen = self.ws.settings.get(drpgsource.SETTING)
         source_id = self._row()["id"]
+        made_mod = None                                  # a mod made for it: gone again when the build fails
+        prev_active = self.ws.active_mod
         if v["generic"]:
             mm = self.ws.mods
 
@@ -1265,6 +1553,7 @@ class CharactersPage(QWidget):
                                           f"New character {v['name']} (Disgaea RPG unit {unit.uid})")
                 mod.meta["category"] = "characters"
                 mod.save_meta()
+                made_mod = mod
                 self.ws.set_active_mod(mod)
                 self.ws.mods_changed.emit()
             else:
@@ -1304,10 +1593,8 @@ class CharactersPage(QWidget):
                        "Next: give it its stats, skills and evilities on this page, then press Install & Play. In "
                        "game it is hired at the Netherworld registrar.")
             else:
-                if v.get("preset"):
-                    self.select_character(res["id"])
-                    self.apply_preset_key(v["preset"])
-                    self.svc.commit(CHAR, self)
+                if v.get("preset") or v.get("fresh"):
+                    self._after_create(res["id"], v)
                 self.select_character(res["id"])
                 msg = (f"'{v['name']}' (id {res['id']}, sprite anm{res['sprite']:05d}) is drawn from Disgaea RPG unit "
                        f"{unit.uid} and moves like {self._label_of(anim)}"
@@ -1321,6 +1608,11 @@ class CharactersPage(QWidget):
 
         def failed(msg):
             prog.close()
+            if made_mod is not None and not any(f for f in made_mod.list_files()) and                     not any(os.scandir(made_mod.patches_dir) if os.path.isdir(made_mod.patches_dir) else ()):
+                # nothing was made: the empty mod made for it goes again (no 'Henna', 'Henna_2' ... left behind)
+                self.ws.set_active_mod(prev_active)
+                self.ws.mods.delete(made_mod.id)
+                self.ws.mods_changed.emit()
             QMessageBox.critical(self, f"New {what}", msg[:3000])
 
         w.done.connect(done)
@@ -1333,6 +1625,20 @@ class CharactersPage(QWidget):
             return rows[cid]["name_EN"] or str(cid)
         except Exception:
             return str(cid)
+
+    def _after_create(self, cid, v):
+        """the stats preset and the fresh start (no skills, evilities, Overload) chosen in the New dialog"""
+        self.select_character(cid)
+        if v.get("preset"):
+            self.apply_preset_key(v["preset"])
+        if v.get("fresh"):
+            fam = range(cid, cid + 6) if cid >= 1000 else (cid,)          # a class: every tier
+            for r in self.table().rows:
+                if r["id"] in fam:
+                    charstudio.start_fresh(r)
+            self.svc.mark_dirty(CHAR)
+        self.svc.commit(CHAR, self)
+        self._load_values()
 
     def apply_preset_key(self, key):
         i = self.preset.findData(key) if hasattr(self, "preset") else -1
@@ -1349,8 +1655,11 @@ class NewUnitDialog(QDialog):
         t = template_row
         generic = 1000 <= t["id"] < 3000
         f = QFormLayout(self)
-        f.addRow(QLabel(f"<b>Template:</b> {t['name_EN']} — {t['title_EN']} (id {t['id']})<br>"
-                        "Stats, skills and evilities are copied; change them afterwards on this page."))
+        tip = QLabel(f"<b>Template:</b> {t['name_EN']} — {t['title_EN']} (id {t['id']})<br>"
+                     "The new one starts as a copy of it (weapon ranks, resistances, movement, and the stats and "
+                     "skills you choose below); change anything afterwards on this page.")
+        tip.setWordWrap(True)
+        f.addRow(tip)
         self.unique = QRadioButton("Unique character (one unit, recruited once)")
         self.klass = QRadioButton("Generic class (6 tiers, created at the Netherworld registrar)")
         (self.klass if generic else self.unique).setChecked(True)
@@ -1413,9 +1722,12 @@ class NewUnitDialog(QDialog):
         drow.setContentsMargins(0, 0, 0, 0)
         f.addRow("Disgaea RPG unit", self.drpg_row)
         self.anim = QComboBox()
-        self.anim.setToolTip("The game character (or class) whose animations, weapon handling and special poses the "
-                             "new one uses: pick one with a similar build and fighting style.")
-        f.addRow("Moves like", self.anim)
+        self.anim.setToolTip("Disgaea 5 moves every character with the poses of a game character: walking, the "
+                             "attacks of each weapon, casting, getting hit, special poses. A Disgaea RPG unit brings "
+                             "its pictures but no moves, so its pictures are drawn into the poses of the character "
+                             "chosen here.\n\nOnly the movement comes from it — not stats, skills or evilities. Pick "
+                             "one with a similar build and fighting style (a sword fighter for a sword fighter).")
+        f.addRow("Animations from", self.anim)
         self.anim_note = QLabel()
         self.anim_note.setWordWrap(True)
         self.anim_note.setObjectName("muted")
@@ -1430,11 +1742,19 @@ class NewUnitDialog(QDialog):
         self.own_mod.setChecked(True)
         f.addRow(self.own_mod)
         self.preset_box = QComboBox()
-        self.preset_box.addItem("Same as the template", None)
+        self.preset_box.addItem(f"Same as {t['name_EN']}", None)
         for key, label, desc, cid in charstudio.PRESETS:
             self.preset_box.addItem(label, key)
             self.preset_box.setItemData(self.preset_box.count() - 1, desc, Qt.ItemDataRole.ToolTipRole)
-        f.addRow("Stats", self.preset_box)
+        self.preset_box.setToolTip("Base stats and aptitudes (how strong it grows); every unit starts at level 1")
+        f.addRow("Starting stats", self.preset_box)
+        self.fresh = QComboBox()
+        self.fresh.addItem("None — give it its own on this page (recommended)", True)
+        self.fresh.addItem(f"Copy {t['name_EN']}'s", False)
+        self.fresh.setToolTip(f"Learned skills, evilities and Overload. Copying gives it {t['name_EN']}'s own skills "
+                              "(their unique attacks included) and evilities; with None it starts with an empty list "
+                              "and you choose its skills on the Characters & Classes page (or the 📂 skill browser).")
+        f.addRow("Skills, evilities, Overload", self.fresh)
 
         def look_changed(*_):
             o = self.look.currentData()
@@ -1540,10 +1860,10 @@ class NewUnitDialog(QDialog):
         self.anim.setCurrentIndex(max(0, i))
         self.anim.blockSignals(False)
         self.anim_note.setText(
-            ("A new generic class: its own mod with 6 ranks, created at the Netherworld registrar. Stats, skills and "
-             "evilities start as this class's; change them on this page afterwards." if klass else
-             "Stats, skills and evilities come from the template above; the look and the animations from the unit "
-             "and this character.") + " Only characters and classes whose poses the kit has learned are listed.")
+            "Why: Disgaea RPG units have pictures but no Disgaea 5 animations, so the new " +
+            ("class" if klass else "character") + " moves like the one chosen here (walking, attacks, casting). "
+            "Only its movement is borrowed: stats, skills and evilities are set below and on this page. Only "
+            "characters and classes whose poses the kit has learned are listed.")
 
     def _ok(self):
         if self.look.currentData() == "drpg":
@@ -1567,6 +1887,7 @@ class NewUnitDialog(QDialog):
                 "hide_outfit": self.hide_outfit.isChecked() and self.look.currentData() is not None and not drpg
                 and not sheet,
                 "preset": self.preset_box.currentData(), "own_mod": self.own_mod.isChecked(),
+                "fresh": bool(self.fresh.currentData()),
                 "drpg": self.drpg_unit if drpg else None, "anim": self.anim.currentData() if drpg else None,
                 "sheet": self.sheet_seqs if sheet else None}
 
@@ -1857,9 +2178,9 @@ def create_unit(page, v):
         new_help = max(taken | {3999}) + 1
         hr.set("id", new_help)
         hr.set("char_id", new_help)
-        lines = dbpatch.help_lines(v["desc"])
+        help_text = dbpatch.help_lines(v["desc"])
         for k in range(3):
-            _set_all_langs(hr, f"line{k + 1}", lines[k])
+            _set_all_langs(hr, f"line{k + 1}", help_text[k])
         for fl in ("flag_off1", "flag_off2", "flag_off3"):
             if fl in hr:
                 hr.set(fl, 0)
@@ -1883,16 +2204,15 @@ def create_unit(page, v):
         q = svc.table("Quest.dat")
         src = q.index_of(1)  # 'Combat Lecture': simple, available from the start
         qr = q.add_row(copy_from=src if src >= 0 else 0)
-        qid = max(r["id"] for r in q.rows if r["id"] < 2000) + 1
-        if qid >= 2000:
-            qid = max(r["id"] for r in q.rows) + 1
+        every = page.ws.mods.all_mods()                 # ids and slots stay unique across all mods, on or off
+        qid = dbpatch.new_quest_id(q, every)
         qr.set("id", qid)
         _set_all_langs(qr, "name", v["quest_title"] or "A New Ally")
         _set_all_langs(qr, "client", v["quest_client"] or v["name"])
         for k, line in enumerate(dbpatch.quest_lines(v["quest_text"]), 1):      # wrapped like the game's own
             _set_all_langs(qr, f"desc{k}", line)
         # sort_order is the quest's progress slot in the save; the board only scans slots below the row count
-        qr.set("sort_order", dbpatch.free_quest_slot(q, exclude=qr))
+        qr.set("sort_order", dbpatch.free_quest_slot(q, exclude=qr, reserved=dbpatch.mod_quest_slots(every)))
         qr.set("reward_type", 6 if v["generic"] else 5)
         qr.set("reward_value", unit_id)
         qr.set("reward_count", 1)
@@ -1901,6 +2221,17 @@ def create_unit(page, v):
         lines.append(f"Added quest #{qid} '{v['quest_title']}' that {'unlocks the class' if v['generic'] else 'recruits the character'}. "
                      "Its objective is copied from 'Combat Lecture'; change it in Database Editor → Quests.")
 
+    if v.get("preset") and not v["generic"]:          # (a class's tiers keep their own growing numbers)
+        _, label, _, pcid = charstudio.preset(v["preset"])
+        src = next((x for x in svc.vanilla(CHAR).rows if x["id"] == pcid), None)
+        if src is not None:
+            for r in new_rows:
+                charstudio.copy_fields(r, src, ("base", "apt", "move"))
+            lines.append(f"Starting stats: {label}.")
+    if v.get("fresh"):
+        for r in new_rows:
+            charstudio.start_fresh(r)
+        lines.append("It starts with no learned skills, evilities or Overload: give it its own on this page.")
     svc.mark_dirty(CHAR)
     svc.commit(CHAR, page)
     for m in ("JobRank.dat", "charhelp.dat", "Quest.dat"):

@@ -47,7 +47,7 @@ LABELS_FILE = os.path.join(KIT_DIR, "state", "effect_labels.json")
 def _vline():
     f = QFrame()
     f.setFrameShape(QFrame.Shape.VLine)
-    f.setStyleSheet("color: #3a3553;")
+    f.setStyleSheet("color: #3d4689;")
     return f
 
 
@@ -82,9 +82,9 @@ class SkillTimelineEditor(QWidget):
 
         self.setObjectName("skillEditor")
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
-        self.setStyleSheet("#skillEditor { background: #17151f; }"
-                           "#editorBar { background: #1d1a29; border: 1px solid #2d2940; border-radius: 9px; }"
-                           "#editorBar QLabel { color: #b9b4cc; }")
+        self.setStyleSheet("#skillEditor { background: #0f1124; }"
+                           "#editorBar { background: #171a33; border: 1px solid #2b3160; border-radius: 9px; }"
+                           "#editorBar QLabel { color: #b8bde0; }")
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 6, 0, 0)
         lay.setSpacing(6)
@@ -395,6 +395,7 @@ class SkillTimelineEditor(QWidget):
             o = self.ws.owner(vp)
             return o.read_file(vp) if o else None
         self.renderer = StageRenderer(self.ws.fs, mods, owner_read, self.page.members)
+        self.renderer.class_sprites = dict(getattr(self, "class_sprite", {}))
         self.view.r = self.renderer
         from .hud import Hud
         self.view.hud = Hud(self.ws.fs)
@@ -442,6 +443,8 @@ class SkillTimelineEditor(QWidget):
         except Exception:
             rows = []
         self.class_sprite = {r["id"]: r["sprite_id"] for r in rows}
+        if self.renderer is not None:               # cmd_6402 gives an actor a class's look: its sprite (mods too)
+            self.renderer.class_sprites = dict(self.class_sprite)
         try:                                       # who learns each skill (magic.dat user1): the default caster
             mt = database.load_table("magic.dat", self.ws.fs.read(f"{dbpatch.DB_ARCHIVE}/magic.dat"))
             for mod in self.page.mods():
@@ -453,17 +456,34 @@ class SkillTimelineEditor(QWidget):
         except Exception:
             self.skill_users = {}
             self.skill_names = {}
-        seen, chars = set(), []
-        for r in rows:
+        # casters: the game's characters, then the ones the mods add (new characters, outfits: own sprites numbered
+        # 13000 and up -- 10000-12999 are portraits)
+        try:
+            from d5lib import newchars, outfits as _outfits
+            van = database.load_table("char.dat", self.ws.fs.read(f"{dbpatch.DB_ARCHIVE}/char.dat"))
+            outfit_ids = {int(b) for m in self.page.mods() for _, b in _outfits.load(m)}
+            new = newchars.find(t, van, outfit_ids)
+            van_n = len(van.rows)
+            self.vanilla_sprite = {r["id"]: r["sprite_id"] for r in van.rows}
+        except Exception:
+            new, van_n = {}, len(rows)
+        self.new_chars = {}                        # sprite -> class of the mods' new characters (standins)
+        seen, chars, modded = set(), [], []
+        for i, r in enumerate(rows):
             s, name = r["sprite_id"], r["name_EN"]
-            if not s or not name or s in seen or s >= 10000:
+            if not s or not name or s in seen or 10000 <= s < 13000:
                 continue
             seen.add(s)
-            chars.append((f"{name} — {r['title_EN']}" if r["title_EN"] else name, s))
+            label = f"{name} — {r['title_EN']}" if r["title_EN"] else name
+            if r["id"] in new:
+                self.new_chars.setdefault(s, r["id"])
+            (modded if i >= van_n or r["id"] in new else chars).append((label + ("  (mod)" if i >= van_n or
+                                                                                  r["id"] in new else ""), s))
             try:
                 self.voice_ids[s] = int(r["voice_id"])
             except (KeyError, TypeError, ValueError):
                 self.voice_ids[s] = 0
+        chars += modded
         self.chars = chars
         for cb, default in ((self.caster, 0), (self.target, 1)):
             cb.blockSignals(True)
@@ -511,6 +531,31 @@ class SkillTimelineEditor(QWidget):
     def events(self):
         return self.edit.events() if self.edit else (self.sc.ev if self.sc else {})
 
+    def _standin(self, events):
+        """anyone but its own character casting a character's own skill (Henna or Seraphina with Killia's
+        Macrocosm): the copy the install plays for them, in their own look (d5lib.standins) -> (events, its root,
+        the caster's name), or None"""
+        s = self._script_sprite()
+        if not s or not self.root:
+            return None
+        from d5lib import standins
+        try:
+            vals = standins.tested(events, standins.tree(events, self.root))
+            if not vals or s in vals:
+                return None
+            magic = {self.skill: {"user1": getattr(self, "skill_users", {}).get(self.skill, 0), "root": self.root}}
+            own = standins.owner_sprite(self.skill, self.root, vals, magic, getattr(self, "vanilla_sprite", {}))
+            if own is None:
+                return None
+            forks, root = standins.fork_events(events, self.root, own)
+        except Exception as e:
+            self.ws.log(f"stand-in preview: {e}")
+            return None
+        merged = dict(events)
+        merged.update(forks)
+        name = self.caster.currentText().split(" — ")[0].split("  ·")[0].replace("  (mod)", "")
+        return merged, root, name
+
     def resim(self, keep=None):
         if not self.root:
             self.tl = None
@@ -519,8 +564,13 @@ class SkillTimelineEditor(QWidget):
             self.status.setText("No choreography: this skill plays the default sequence.")
             return
         t0 = time.perf_counter()
+        events, root = self.events(), self.root
+        alt = self._standin(events)
+        self.standin = alt[2] if alt else None
+        if alt:
+            events, root = alt[0], alt[1]
         try:
-            self.tl = choreo.Simulator(self.events(), self.root, self.ctx).run()
+            self.tl = choreo.Simulator(events, root, self.ctx).run()
         except Exception as e:
             self.status.setText(f"simulation failed: {e}")
             return
@@ -542,6 +592,9 @@ class SkillTimelineEditor(QWidget):
         self.inspector.motions = self._motions()
         n_fx = sum(1 for r in rows if r.key[0] == "slot")
         mode = "editable copy" if self.edit else "read only — your first change makes an editable copy"
+        if self.standin:
+            mode = (f"shown in {self.standin}'s own look (another character's own skill: the install makes this "
+                    "version for every other caster) — read only: choose the skill's own character to edit")
         self.status.setText(f"{self.tl.length} frames ({self.tl.length / 60:.1f} s) · {n_fx} effect slots · "
                             f"{len(used)} effect models · {mode}" + ("  · unsaved" if self.dirty else "")
                             + f"  ({(time.perf_counter() - t0) * 1000:.0f} ms)")
@@ -852,8 +905,9 @@ class SkillTimelineEditor(QWidget):
         return fn(self.skill) if fn else (self.skill, True)
 
     def save_area(self):
-        """the Area tab's reach and panels -> the active mod (magic.dat / AttackMap.dat row changes)"""
-        if self.skill is None or not self.ws.require_mod(self):
+        """the Area tab's reach and panels -> the skill's mod, else the active mod (magic.dat / AttackMap.dat rows;
+        DBService.commit puts each row where it belongs)"""
+        if self.skill is None:
             return
         magic, own = self._area_skill()
         if not own:
@@ -872,7 +926,7 @@ class SkillTimelineEditor(QWidget):
             if not svc.commit(m, self):
                 return
         self.ws.log(f"{self.skill_names.get(self.skill, self.skill)}: area saved (shape {sid}, reach {area.range}) "
-                    f"into {self.ws.active_mod.name} — Install to use it in the game")
+                    f"into {svc.saved_text()} — Install to use it in the game")
         enemies = self.area_panel.grid.enemies
         self._load_area()
         if enemies is not None and self.renderer is not None:
@@ -937,6 +991,8 @@ class SkillTimelineEditor(QWidget):
 
     # ================================================================== editing
     def _can_edit(self, op, i):
+        if getattr(self, "standin", None):            # a stand-in version: made at install, not editable
+            return False
         if self.edit is None:
             # a vanilla skill: editable after the automatic copy unless the value is inside a shared helper
             return bool(op.src[i] if i < len(op.src) else None) and \
@@ -944,8 +1000,9 @@ class SkillTimelineEditor(QWidget):
         return self.edit.can_set(op, i)
 
     def _make_copy(self):
-        """first edit of a skill without an editable copy in the active mod: make one -> eid mapping or None"""
-        mod = self.ws.require_mod(self)
+        """first edit of a skill without an editable copy: make one (in the skill's mod, Skills page _mod_for_edit)
+        -> eid mapping or None"""
+        mod = self.page._mod_for_edit()
         if not mod:
             return None
         m, d, root, custom = self.page._data()

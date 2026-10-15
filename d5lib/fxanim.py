@@ -16,6 +16,7 @@ Examples: effect 1418 (magic circle) spins 0 -> 90 -> 120 degrees about y, grows
 out at 95-120 frames; effect 106 (fire puff) is 4 nodes whose alpha keys show its 4 flame pictures in turn.
 """
 import math
+import os
 import struct
 from dataclasses import dataclass, field
 from typing import List
@@ -164,14 +165,24 @@ class Anim:
         return s2, s3, s4, s5
 
 
+# A node's matrix as the game builds it (0x1402fdca0, row vectors): size, then turns about z, x, y, then the place --
+# in the game's y-down world (its places are the file's with y negated, x 10 / y -10 / z 10).  The kit draws in a y-up
+# world, the game's mirrored in y, where those turns about x and z go the other way (as the script's own turns,
+# glrender.FLIP_XZ).  Before 2026-10-14 the kit turned x, y, z the file's way: Hurricane Blow's tornado (504, stood up
+# by a 90-degree turn about z) pointed into the ground.  D5_FX_OLD_TRS=1: the old way (for comparisons).
+_OLD_TRS = os.environ.get("D5_FX_OLD_TRS", "0") == "1"
+
+
 def _trs(v):
     tx, ty, tz, rx, ry, rz, sx, sy, sz = v[:9]
+    if not _OLD_TRS:
+        rx, rz = -rx, -rz
     cx, snx, cy, sny, cz, snz = math.cos(rx), math.sin(rx), math.cos(ry), math.sin(ry), math.cos(rz), math.sin(rz)
     X = np.array([[1, 0, 0], [0, cx, -snx], [0, snx, cx]])
     Y = np.array([[cy, 0, sny], [0, 1, 0], [-sny, 0, cy]])
     Z = np.array([[cz, -snz, 0], [snz, cz, 0], [0, 0, 1]])
     m = np.eye(4)
-    m[:3, :3] = (Z @ Y @ X) * np.array([sx, sy, sz])
+    m[:3, :3] = ((Z @ Y @ X) if _OLD_TRS else (Y @ X @ Z)) * np.array([sx, sy, sz])
     m[:3, 3] = (tx, ty, tz)
     return m
 

@@ -9,7 +9,7 @@ from PyQt6.QtGui import QImage, QPixmap, QPainter, QColor, QPen, QPainterPath
 
 from d5lib import anm
 
-BG = QColor("#15131c")
+BG = QColor("#0b0d1d")
 
 
 def _compose(items, bounds, scale):
@@ -207,7 +207,7 @@ class Thumbs:
         return self._waves[key]
 
 
-def glyph(text, size=22, bg="#2a2639", fg="#ece9f6"):
+def glyph(text, size=22, bg="#1d2142", fg="#e6e9ff"):
     """a round icon with an emoji / letter (for things without a picture: camera, sound, hit…)"""
     pm = QPixmap(size, size)
     pm.fill(QColor(0, 0, 0, 0))

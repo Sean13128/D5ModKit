@@ -16,7 +16,7 @@ from ..skilledit.editor import SkillTimelineEditor
 from .stages import SearchCombo
 from .overloadpanel import OverloadPanel
 
-MODDED = QColor("#e0457b")
+MODDED = QColor("#ff4f8b")
 CHAR = "char.dat"
 LEARN_SLOTS = 16
 WEAPONS = {1: "Fist", 2: "Sword", 3: "Spear", 4: "Bow", 5: "Gun", 6: "Axe", 9: "Tower", 10: "Staff"}
@@ -262,7 +262,7 @@ class SkillsPage(QWidget):
         row = QHBoxLayout()
         for text, fn, tip in [("🎬 Use animation of…", self.use_other, "Play another skill's animation for this one"),
                               ("✏ Make editable copy", self.make_copy, "Your own copy of the animation to change"),
-                              ("↺ Back to vanilla", self.reset, "Remove the active mod's changes to this skill"),
+                              ("↺ Back to vanilla", self.reset, "Remove the changes a mod makes to this skill's animation"),
                               ("➕ Give to character…", self.give_skill,
                                "Add this skill to a character's or class's learned skills"),
                               ("➖ Remove from character", self.take_skill,
@@ -369,20 +369,26 @@ class SkillsPage(QWidget):
         split.addWidget(right)
         split.setSizes([300, 1100])
         lay.addWidget(split, 1)
-        ws.active_mod_changed.connect(lambda _: self._loaded and self.load())
-        ws.mods_changed.connect(lambda: self._loaded and self.load())
+        from ..common import Refresher
+        self._reload = Refresher(self, lambda: self._loaded and self.load())
+        ws.active_mod_changed.connect(self._reload)
+        ws.mods_changed.connect(self._reload)
+        self._changed_tables = set()
+        self._retable = Refresher(self, lambda: self._loaded and self._refresh_tables())
         self.svc.table_changed.connect(self._table_changed)
 
     def _table_changed(self, member):
         """char.dat / magic.dat changed (here, on the Characters page, in the Database editor): who learns what,
-        names -- refreshed after the current event (the level box that saved may still be in its signal)"""
+        names -- refreshed once after the current event (the level box that saved may still be in its signal; a
+        reload changes every table at once), or when the page is shown next"""
         if not self._loaded or member not in (CHAR, "magic.dat", "OverlordSkill.dat"):
             return
-        from PyQt6.QtCore import QTimer
-        QTimer.singleShot(0, lambda: self._refresh_tables(member))
+        self._changed_tables.add(member)
+        self._retable()
 
-    def _refresh_tables(self, member):
-        if member in ("magic.dat", "OverlordSkill.dat"):
+    def _refresh_tables(self, member=None):
+        changed, self._changed_tables = self._changed_tables | ({member} if member else set()), set()
+        if changed & {"magic.dat", "OverlordSkill.dat"}:
             self.names = self._all_names()
         self._load_categories()
         self._fill()
@@ -577,8 +583,6 @@ class SkillsPage(QWidget):
         rows = self._tier_rows(cid)
         if not rows:
             return QMessageBox.warning(self, "Skills", f"No character {cid}.")
-        if not self.ws.require_mod(self):
-            return
         lv = dlg.level.value()
         for r in rows:
             have = learnset(r)
@@ -597,7 +601,7 @@ class SkillsPage(QWidget):
         self.svc.mark_dirty(CHAR)
         if self.svc.commit(CHAR, self):
             self.ws.log(f"{rows[0]['name_EN']} learns {self.names.get(self.skill)} at level {lv} "
-                        f"(saved into {self.ws.active_mod.name})")
+                        f"(saved into {self.svc.saved_text()})")
             self._load_categories()
             self._fill()
             self._show(self.skill, editor=False)
@@ -614,8 +618,6 @@ class SkillsPage(QWidget):
             return info_box(self, "Skills", f"{who['name_EN']} doesn't learn this skill.")
         if QMessageBox.question(self, "Skills", f"Remove {self.names.get(self.skill)} from {who['name_EN']}'s "
                                                 "learned skills?") != QMessageBox.StandardButton.Yes:
-            return
-        if not self.ws.require_mod(self):
             return
         for r in rows:
             keep = [(sid, lv) for sid, lv in learnset(r) if sid != self.skill]
@@ -680,7 +682,7 @@ class SkillsPage(QWidget):
             for k in range(1, LEARN_SLOTS + 1):
                 if r[f"learn{k}_skill"] == self.skill and int(r[f"learn{k}_level"]) != int(lv):
                     changed = True
-        if not changed or not self.ws.require_mod(self):
+        if not changed:
             return
         for r in rows:
             for k in range(1, LEARN_SLOTS + 1):
@@ -689,14 +691,12 @@ class SkillsPage(QWidget):
         self.svc.mark_dirty(CHAR)
         if self.svc.commit(CHAR, self):
             self.ws.log(f"{self._family_name(fam)} learns {self.names.get(self.skill)} at level {lv} "
-                        f"(saved into {self.ws.active_mod.name})")
+                        f"(saved into {self.svc.saved_text()})")
 
     def _remove_from(self, fam):
         if QMessageBox.question(self, "Skills", f"Remove {self.names.get(self.skill)} from "
                                                 f"{self._family_name(fam)}'s learned skills?") \
                 != QMessageBox.StandardButton.Yes:
-            return
-        if not self.ws.require_mod(self):
             return
         for r in self._tier_rows(fam):
             keep = [(sid, lv) for sid, lv in learnset(r) if sid != self.skill]
@@ -813,9 +813,8 @@ class SkillsPage(QWidget):
         if fams:
             txt += "  Learned by: " + ", ".join(f"{n} (Lv {lv})" for _, n, lv in fams[:6]) + \
                    (f" +{len(fams) - 6}" if len(fams) > 6 else "") + "  (👥 Who learns it)."
-        active = self.ws.active_mod
-        if custom and active and m.id != active.id:
-            txt += f"  Edits go to the active mod '{active.name}' only for its own skills: make '{m.name}' active."
+        if custom and m is not None:
+            txt += f"  Edits are saved in the mod '{m.name}'."
         self.info.setText(txt)
         self.events.clear()
         self.tree = self.sc.tree(root) if root else []
@@ -839,8 +838,9 @@ class SkillsPage(QWidget):
             self.ws.log(f"timeline editor: {e}")
 
     def _editable(self):
+        """the skill has an editable copy (in the mod that holds it: edits are saved there)"""
         m, d, root, custom = self._data()
-        return custom and self.ws.active_mod is not None and m.id == self.ws.active_mod.id
+        return bool(custom and m is not None)
 
     def _pick_event(self, it, prev=None):
         if not it:
@@ -854,16 +854,21 @@ class SkillsPage(QWidget):
 
     # ------------------------------------------------------------------ actions
     def _mod_for_edit(self):
-        mod = self.ws.require_mod(self)
-        if not mod:
-            return None
+        """the mod this skill's changes are saved in: the mod that holds its animation setting or editable copy,
+        else the mod that makes or changes the skill (its magic.dat row: a mod's character's own skill goes into
+        that mod), else the active mod (asked for when there is none)"""
         m = self.owned.get(self.skill)
-        if m and m.id != mod.id:
-            if QMessageBox.question(self, "Skills", f"Mod '{m.name}' already changes this skill. Change it in the "
-                                                    f"active mod '{mod.name}' as well (the later mod wins)?") \
-                    != QMessageBox.StandardButton.Yes:
-                return None
-        return mod
+        if m is not None:
+            return m
+        try:
+            t = self.svc.table("magic.dat")
+            i = next((k for k, r in enumerate(t.rows) if r["id"] == self.skill), None)
+            o = self.svc.row_owner("magic.dat", i) if i is not None else None
+            if o is not None:
+                return o
+        except Exception:
+            pass
+        return self.ws.require_mod(self)
 
     def _changed(self):
         self.load()
@@ -905,11 +910,11 @@ class SkillsPage(QWidget):
                                      "then ▶ Preview in game.")
 
     def reset(self):
-        mod = self.ws.active_mod
-        if self.skill is None or not mod or str(self.skill) not in skills.load(mod)["skills"]:
-            return info_box(self, "Skills", "The active mod doesn't change this skill.")
-        if QMessageBox.question(self, "Skills", "Remove this skill's choreography and pictures from the active "
-                                                "mod?") != QMessageBox.StandardButton.Yes:
+        mod = self.owned.get(self.skill) if self.skill is not None else None
+        if mod is None or str(self.skill) not in skills.load(mod)["skills"]:
+            return info_box(self, "Skills", "No mod changes this skill's animation.")
+        if QMessageBox.question(self, "Skills", "Remove this skill's choreography and pictures from the mod "
+                                                f"'{mod.name}'?") != QMessageBox.StandardButton.Yes:
             return
         d = skills.load(mod)
         e = d["skills"].pop(str(self.skill))
@@ -926,7 +931,7 @@ class SkillsPage(QWidget):
         if not it or not self._editable():
             return
         try:
-            skills.set_event(self.ws.active_mod, int(it.text()), self.edit.toPlainText())
+            skills.set_event(self._data()[0], int(it.text()), self.edit.toPlainText())
         except Exception as e:
             return error_box(self, "Script error", e)
         self.ev_note.setText("saved — ▶ Preview in game to see it")
@@ -1025,7 +1030,7 @@ class SkillsPage(QWidget):
             return
         if skills.effect_info(self.ws.fs.read, new, self.members, self.mods()) is None:
             return QMessageBox.warning(self, "Skills", f"There is no effect {new}.")
-        mod = self.ws.active_mod
+        mod = self._data()[0]                          # (the mod holding the editable copy)
         d = skills.load(mod)
         lines = []
         for line in d["events"][str(e)].splitlines():

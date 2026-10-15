@@ -38,8 +38,8 @@ GROUP_H = 24
 DRAG_PX = 5                              # a press only becomes a drag after moving this far
 KIND_GLYPH = {"camera": "🎥", "sound": "🔊", "hit": "💥", "particle": "✦", "actor": "🧍", "extra": "👥",
               "other": "⋯", "slot": "✨"}
-COLORS = {"camera": "#4fb3d9", "actor": "#8b5cf6", "motion": "#8b5cf6", "slot": "#e0457b", "particle": "#f5a524",
-          "sound": "#3ecf8e", "hit": "#ff6b6b", "extra": "#a78bfa", "other": "#9a95b0"}
+COLORS = {"camera": "#4fb3d9", "actor": "#7c83ff", "motion": "#7c83ff", "slot": "#ff4f8b", "particle": "#f5a524",
+          "sound": "#3ecf8e", "hit": "#ff6b6b", "extra": "#a78bfa", "other": "#8a90b8"}
 GROUPS = [("camera", "🎥  Camera"), ("actor", "🧍  Caster & targets"), ("slot", "✨  Effects"),
           ("particle", "🌟  Particles"), ("sound", "🔊  Sounds"), ("hit", "💥  Hits & damage"),
           ("extra", "👥  Extra characters, copies & markers"), ("other", "⋯  Other commands")]
@@ -466,8 +466,8 @@ class TimelineView(QWidget):
         font = QFont("Segoe UI", 9)
         qp.setFont(font)
         # the frame readout and the playhead: the only things that change while it plays
-        qp.fillRect(QRectF(0, 0, HEAD_W, RULER_H), QColor("#110f18"))
-        qp.setPen(QColor("#9a95b0"))
+        qp.fillRect(QRectF(0, 0, HEAD_W, RULER_H), QColor("#0a0b1a"))
+        qp.setPen(QColor("#8a90b8"))
         n = len(self.multi)
         txt = f"frame {self.frame} / {self.length}  ·  {self.frame / 60:.2f} s" + (f"  ·  {n} selected" if n > 1 else "")
         if self.grab:
@@ -475,15 +475,15 @@ class TimelineView(QWidget):
         qp.drawText(QRectF(10, 0, HEAD_W, RULER_H), Qt.AlignmentFlag.AlignVCenter, txt)
         x = self._x(self.frame)
         if x >= HEAD_W:
-            qp.setPen(QPen(QColor("#e0457b"), 2))
+            qp.setPen(QPen(QColor("#ff4f8b"), 2))
             qp.drawLine(QPointF(x, 0), QPointF(x, h))
-            qp.setBrush(QColor("#e0457b"))
+            qp.setBrush(QColor("#ff4f8b"))
             qp.drawPolygon(QPolygonF([QPointF(x - 6, 0), QPointF(x + 6, 0), QPointF(x, 9)]))
         qp.end()
 
     def _paint_static(self, qp, w, h):
         qp.setRenderHint(QPainter.RenderHint.Antialiasing, True)
-        qp.fillRect(0, 0, w, h, QColor("#17151f"))
+        qp.fillRect(0, 0, w, h, QColor("#0f1124"))
         font = QFont("Segoe UI", 9)
         bold = QFont("Segoe UI", 9, QFont.Weight.DemiBold)
         qp.setFont(font)
@@ -495,7 +495,7 @@ class TimelineView(QWidget):
             if y + lh < RULER_H or y > h:
                 continue
             if ln[0] == "group":
-                qp.fillRect(QRectF(HEAD_W, y, w, lh), QColor("#221f30"))
+                qp.fillRect(QRectF(HEAD_W, y, w, lh), QColor("#1a1e3a"))
                 for r in ln[3]:                                  # summary
                     for it in r.items:
                         x0, x1 = self._x(it.start), self._x(max(it.end, it.start + 1))
@@ -504,7 +504,7 @@ class TimelineView(QWidget):
                         qp.fillRect(QRectF(x0, y + lh / 2 - 2, max(2.0, x1 - x0), 4), c)
                 continue
             r = ln[1]
-            qp.fillRect(QRectF(HEAD_W, y, w, lh), QColor("#1b1925" if k % 2 else "#1f1c2a"))
+            qp.fillRect(QRectF(HEAD_W, y, w, lh), QColor("#12152c" if k % 2 else "#151831"))
             if r.key in self.hidden_tracks:
                 qp.fillRect(QRectF(HEAD_W, y, w, lh), QColor(0, 0, 0, 70))
             starts = sorted(it.start for it in r.items)
@@ -528,16 +528,16 @@ class TimelineView(QWidget):
             qp.setBrush(QColor(255, 255, 255, 25))
             qp.drawRect(QRectF(min(x0, x1), min(y0, y1), abs(x1 - x0), abs(y1 - y0)))
         # headers
-        qp.fillRect(QRectF(0, RULER_H, HEAD_W, h), QColor("#211e2d"))
+        qp.fillRect(QRectF(0, RULER_H, HEAD_W, h), QColor("#141734"))
         for k, ln in enumerate(self.lines):
             y = self._line_y(k)
             lh = self._line_h(ln)
             if y + lh < RULER_H or y > h:
                 continue
             if ln[0] == "group":
-                qp.fillRect(QRectF(0, y, HEAD_W, lh), QColor("#2a2639"))
+                qp.fillRect(QRectF(0, y, HEAD_W, lh), QColor("#1d2142"))
                 qp.setFont(bold)
-                qp.setPen(QColor("#f2eff9"))
+                qp.setPen(QColor("#eef0ff"))
                 arrow = "▸" if ln[1] in self.collapsed else "▾"
                 n = sum(len([i for i in r.items if i.kind in ("clip", "motion")]) or len(r.items) for r in ln[3])
                 qp.drawText(QRectF(8, y, HEAD_W - 12, lh), Qt.AlignmentFlag.AlignVCenter,
@@ -547,25 +547,25 @@ class TimelineView(QWidget):
             r = ln[1]
             sel_row = any(self._is_selected(it) for it in r.items)
             if sel_row:
-                qp.fillRect(QRectF(0, y, HEAD_W, lh), QColor("#2f2944"))
+                qp.fillRect(QRectF(0, y, HEAD_W, lh), QColor("#262b55"))
             qp.fillRect(QRectF(14, y + 5, 3, lh - 10), QColor(r.color))
             hovered = self.hover_line == k
             right = HEAD_W - (60 if hovered else 10)
-            qp.setPen(QColor("#8e89a6") if r.key in self.hidden_tracks else QColor("#ece9f6"))
+            qp.setPen(QColor("#8a90b8") if r.key in self.hidden_tracks else QColor("#e6e9ff"))
             qp.drawText(QRectF(24, y, right - 24, lh), Qt.AlignmentFlag.AlignVCenter,
                         fm.elidedText(r.title, Qt.TextElideMode.ElideRight, int(right - 26)))
             if hovered or r.key in self.hidden_tracks:
                 eye, bin_ = self._header_buttons(y)
                 if r.key[0] == "slot":
-                    qp.setPen(QColor("#ffd166") if r.key in self.hidden_tracks else QColor("#c9c5da"))
+                    qp.setPen(QColor("#ffd166") if r.key in self.hidden_tracks else QColor("#c3c8e8"))
                     qp.drawText(eye, Qt.AlignmentFlag.AlignCenter, "◌" if r.key in self.hidden_tracks else "👁")
                 if hovered:
                     qp.setPen(QColor("#ff8a8a"))
                     qp.drawText(bin_, Qt.AlignmentFlag.AlignCenter, "🗑")
-        qp.setPen(QPen(QColor("#2d2940")))
+        qp.setPen(QPen(QColor("#2b3160")))
         qp.drawLine(HEAD_W, RULER_H, HEAD_W, h)
         # ruler
-        qp.fillRect(QRectF(0, 0, w, RULER_H), QColor("#110f18"))
+        qp.fillRect(QRectF(0, 0, w, RULER_H), QColor("#0a0b1a"))
         step = 1
         for s in (1, 2, 5, 10, 15, 30, 60, 120, 300):
             if s * self.ppf >= 44:
@@ -575,12 +575,12 @@ class TimelineView(QWidget):
         while self._x(f) < w:
             x = self._x(f)
             if x >= HEAD_W:
-                qp.setPen(QColor("#6f6a85"))
+                qp.setPen(QColor("#5f6590"))
                 qp.drawLine(QPointF(x, RULER_H - 8), QPointF(x, RULER_H))
                 qp.drawText(QPointF(x + 3, RULER_H - 11), f"{f}" + (f"  {f / 60:.1f}s" if step >= 30 else ""))
             f += step
         end_x = self._x(self.length)
-        qp.setPen(QPen(QColor("#6f6a85"), 1, Qt.PenStyle.DotLine))
+        qp.setPen(QPen(QColor("#5f6590"), 1, Qt.PenStyle.DotLine))
         qp.drawLine(QPointF(end_x, RULER_H), QPointF(end_x, h))
         self._ruler_span(qp, fm)
         self._drag_readout(qp, fm)
@@ -614,11 +614,11 @@ class TimelineView(QWidget):
         qp.setFont(b)
         if x0 >= HEAD_W:
             t = f"{s0}"
-            qp.fillRect(QRectF(x0 - fm.horizontalAdvance(t) - 7, 1, fm.horizontalAdvance(t) + 6, 13), QColor("#110f18"))
+            qp.fillRect(QRectF(x0 - fm.horizontalAdvance(t) - 7, 1, fm.horizontalAdvance(t) + 6, 13), QColor("#0a0b1a"))
             qp.drawText(QPointF(x0 - fm.horizontalAdvance(t) - 4, 12), t)
         if s1 > s0 and x1 >= HEAD_W:
             t = f"{s1}"
-            qp.fillRect(QRectF(x1 + 1, 1, fm.horizontalAdvance(t) + 6, 13), QColor("#110f18"))
+            qp.fillRect(QRectF(x1 + 1, 1, fm.horizontalAdvance(t) + 6, 13), QColor("#0a0b1a"))
             qp.drawText(QPointF(x1 + 4, 12), t)
         qp.setFont(f)
 
@@ -647,7 +647,7 @@ class TimelineView(QWidget):
         x = max(HEAD_W + 4, min(self.width() - w - 18, self._x(self._moved_span(it)[0]) if it else HEAD_W + 4))
         r = QRectF(x, RULER_H + 2, w, 20)
         qp.setPen(QPen(QColor("#ffd166"), 1))
-        qp.setBrush(QColor(30, 26, 44, 235))
+        qp.setBrush(QColor(20, 23, 48, 235))
         qp.drawRoundedRect(r, 4, 4)
         qp.setPen(QColor("#ffd166"))
         qp.drawText(r.adjusted(8, 0, -4, 0), Qt.AlignmentFlag.AlignVCenter, txt)
@@ -725,7 +725,7 @@ class TimelineView(QWidget):
             if pm is not None and not pm.isNull():
                 sz = rect.height() - 4
                 qp.setPen(Qt.PenStyle.NoPen)
-                qp.setBrush(QColor(15, 13, 22, 200))
+                qp.setBrush(QColor(10, 12, 28, 200))
                 qp.drawRoundedRect(QRectF(rect.left() + 5, rect.top() + 2, sz, sz), 3, 3)
                 qp.drawPixmap(QRectF(rect.left() + 5, rect.top() + 2, sz, sz), pm, QRectF(pm.rect()))
                 tx += sz + 2
@@ -759,7 +759,7 @@ class TimelineView(QWidget):
                 qp.setPen(Qt.PenStyle.NoPen)
                 qp.setBrush(c)
                 qp.drawRoundedRect(chip, 4, 4)
-                qp.setPen(QColor("#ffffff") if sel else QColor("#d9d5e8"))
+                qp.setPen(QColor("#ffffff") if sel else QColor("#dfe3ff"))
                 qp.drawText(chip.adjusted(6, 0, -4, 0), Qt.AlignmentFlag.AlignVCenter, txt)
 
     @staticmethod

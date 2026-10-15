@@ -19,7 +19,7 @@ def render_thumb(fx, eid, t=None, size=THUMB):
     if m is not None and t is None:
         t = m.best_frame()
     img = QImage(size, size, QImage.Format.Format_ARGB32_Premultiplied)
-    img.fill(QColor("#15131c"))
+    img.fill(QColor("#0b0d1d"))
     if m is None or not m.parts:
         return img
     cam = Camera()
@@ -115,7 +115,7 @@ class EffectLibrary(QFrame):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self._work)
         blank = QPixmap(THUMB, THUMB)
-        blank.fill(QColor("#15131c"))
+        blank.fill(QColor("#0b0d1d"))
         self.blank = QIcon(blank)
 
     def _text(self, e):

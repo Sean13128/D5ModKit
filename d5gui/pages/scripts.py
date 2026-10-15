@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QList
 from d5lib import script, scriptpatch
 from ..common import PageHeader, SearchBox, Worker, error_box, info_box
 
-EDITED = QColor("#e0457b")
+EDITED = QColor("#ff4f8b")
 
 
 class ScriptsPage(QWidget):

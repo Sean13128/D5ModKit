@@ -59,9 +59,14 @@ def update_name(old, new):
     return f"D5ModKit-update-{old}-to-{new}.zip"
 
 
+FULL = "D5ModKit.zip"       # the release's full kit: also an update (only the files that changed are written)
+FULL_ROOT = "D5ModKit/"
+
+
 def update_asset(info, current):
-    """(download url, size) of the update zip from `current` to the release, or None"""
-    return info["assets"].get(update_name(current, info["version"]))
+    """(download url, size) of what updates `current` to the release: its update zip when the release has one,
+    else the full kit zip (releases from 1.5 on ship only that), or None"""
+    return info["assets"].get(update_name(current, info["version"])) or info["assets"].get(FULL)
 
 
 def download(url, dest, progress=None, chunk=1 << 20):
@@ -104,12 +109,37 @@ def _kept(rel):
     return any(rel == k or (k.endswith("/") and rel.startswith(k)) for k in KEEP)
 
 
+def _full_info(z, kit_dir, old_files):
+    """an update made from the full kit zip: its files that differ from this kit's, the files it no longer has"""
+    new = json.loads(z.read(FULL_ROOT + MANIFEST).decode("utf-8"))
+    changed = []
+    for rel, h in new["files"].items():
+        path = os.path.join(kit_dir, *rel.split("/"))
+        if old_files.get(rel) == h and os.path.exists(path):
+            continue                                    # unchanged since the last update (checked by the manifest)
+        if os.path.exists(path) and sha1_file(path) == h:
+            continue
+        changed.append(rel)
+    removed = [r for r in old_files if r not in new["files"]]
+    return {"from": None, "to": new["version"], "files": changed, "removed": removed, "manifest": new,
+            "root": FULL_ROOT}
+
+
 def apply(zip_path, kit_dir, log=print):
-    """write an update zip over the kit -> dict(version, written, backed_up, pending)"""
+    """write an update zip -- or the release's full kit zip -- over the kit -> dict(version, written, backed_up,
+    pending).  The player's own files (KEEP: settings, state, profiles ...) are never touched; a kit file the player
+    changed is copied to state/update_backups/<version> first."""
     old = load_manifest(kit_dir)
     old_files = old.get("files", {})
     with zipfile.ZipFile(zip_path) as z:
-        info = json.loads(z.read("update.json").decode("utf-8"))
+        names = set(z.namelist())
+        if "update.json" in names:
+            info = json.loads(z.read("update.json").decode("utf-8"))
+        elif FULL_ROOT + MANIFEST in names:
+            info = _full_info(z, kit_dir, old_files)
+        else:
+            raise RuntimeError("this zip is neither a D5 Mod Kit release nor an update")
+        root = info.get("root", "files/")
         if old.get("version") and info.get("from") and old["version"] != info["from"]:
             raise RuntimeError(f"this update is for version {info['from']}; the kit is {old['version']}")
         to = info["to"]
@@ -128,7 +158,7 @@ def apply(zip_path, kit_dir, log=print):
             path = os.path.join(kit_dir, *rel.split("/"))
             keep_copy(rel, path)
             os.makedirs(os.path.dirname(path), exist_ok=True)
-            data = z.read("files/" + rel)
+            data = z.read(root + rel)
             tmp = path + ".upd"
             with open(tmp, "wb") as f:
                 f.write(data)

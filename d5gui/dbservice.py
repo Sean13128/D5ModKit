@@ -1,4 +1,16 @@
-"""Database access for editors: vanilla tables + the active mod's row patches."""
+"""Database access for editors: vanilla tables + the mods' row patches.
+
+Saving puts each change where it belongs: a row a mod made or changes (a new character, its recruit quest, its
+description, its skills ...) into that mod -- the last one in the load order when several change it -- and
+everything else (the game's own rows no mod changes, new rows) into the active mod (bottom left, "New edits go to").
+So editing a mod's character needs no switching of the active mod.
+
+A row a mod adds stays that mod's: kit versions before 1.5 saved changes to it into the active mod as a change of row
+number N, which hits another row when the load order changes (and travels with a shared mod).  adopt_strays() moves
+such changes into the mod that adds the row (the game gets the same table)."""
+import datetime
+import json
+import os
 from PyQt6.QtCore import QObject, pyqtSignal
 
 from d5lib import database, dbpatch
@@ -16,15 +28,36 @@ class DBService(QObject):
         self._base = {}
         self._work = {}
         self._dirty = set()
+        self._owners = {}
+        self._adopted = set()
+        self.saved_into = []                  # names of the mods the last commits wrote (the pages say where)
         ws.active_mod_changed.connect(lambda _: self.reload())
         ws.mods_changed.connect(lambda: self.reload(keep_unsaved=True))
 
     def reload(self, keep_unsaved=False):
-        """Forget the loaded tables (they are rebuilt from the mods on the next use)."""
-        keep = self._dirty if keep_unsaved else set()
-        self._work = {m: t for m, t in self._work.items() if m in keep}
-        self._base = {m: t for m, t in self._base.items() if m in keep}
-        self._dirty = set(keep)
+        """Forget the loaded tables (they are rebuilt from the mods on the next use) and tell the pages, whose row
+        numbers no longer hold (a mod switched off takes its added rows along: every later row moves up).
+        keep_unsaved: unsaved edits are carried over -- as the active mod's patch (what Save would write, made
+        against the tables they were edited on) applied to the new tables -- never kept as stale tables."""
+        pending = {}
+        if keep_unsaved:
+            for m in self._dirty:
+                if m in self._work:
+                    try:
+                        pending[m] = dbpatch.diff_table(self.base(m), self._work[m])
+                    except Exception:
+                        pass
+        loaded = set(self._work) | set(self._base)
+        self._work, self._base, self._dirty = {}, {}, set()
+        self._owners = {}
+        self._tipcache = {}
+        for m, patch in pending.items():
+            t = self._layered(m, False)
+            dbpatch.apply_patch(t, patch)
+            self._work[m] = t
+            self._dirty.add(m)
+        for m in sorted(loaded):
+            self.table_changed.emit(m)
 
     # ------------------------------------------------------------------
     def members(self):
@@ -44,23 +77,93 @@ class DBService(QObject):
             self._vanilla[member] = t
         return t
 
-    def _layered(self, member, with_active):
+    def _layered(self, member, with_active, owners=None):
         """the table as the game will get it: original (or a mod's full-file copy) + every enabled mod's row
-        patch in load order, the active mod last"""
+        patch in load order, the active mod last.  owners: a dict that gets {row index: (mod id, 'rows' or 'added',
+        index in the mod's added list)} of the last mod changing or adding each row."""
+        if member not in self._adopted:
+            try:
+                self.adopt_strays(member)
+            except Exception as e:
+                self.ws.log(f"(row changes of {member} not checked: {e})")
         t = database.load_table(member, self.ws.read(f"{DB}/{member}"))
         active = self.ws.active_mod
+
+        def put(mod, patch):
+            placed = [] if owners is not None else None
+            warn = dbpatch.apply_patch(t, patch, placed=placed)
+            if owners is not None:
+                for idx in patch.get("rows") or {}:
+                    if owners.get(int(idx), (None, None))[1] != "added":     # (a row a mod adds stays its own)
+                        owners[int(idx)] = (mod.id, "rows", None)
+                for k, i in enumerate(placed):
+                    owners[i] = (mod.id, "added", k)
+            return warn
+
         for mod in self.ws.mods.enabled_mods():
             if active and mod.id == active.id:
                 continue
             patch = mod.load_patch("db", member + ".json")
             if patch:
-                dbpatch.apply_patch(t, patch)
+                put(mod, patch)
         if with_active and active:
             patch = active.load_patch("db", member + ".json")
             if patch:
-                for w in dbpatch.apply_patch(t, patch):
+                for w in put(active, patch):
                     self.ws.log("warning: " + w)
         return t
+
+    def owner_map(self, member):
+        """{row index: (mod id, kind, k)} (_layered)"""
+        o = self._owners.get(member)
+        if o is None:
+            o = {}
+            self._layered(member, True, o)
+            self._owners[member] = o
+        return o
+
+    def row_owner(self, member, index):
+        """the enabled mod that made or (last) changes row `index` -- where its changes are saved; None: the game's
+        own row no mod changes (its changes go into the active mod)"""
+        o = self.owner_map(member).get(int(index))
+        return self.ws.mods.get(o[0]) if o else None
+
+    def _route(self, member, with_active=False):
+        """{mod id: [(row index, kind, k, {field: value})]}: rows changed since the last save that a mod other than
+        the active one (with_active: any mod) made or changes"""
+        work = self._work.get(member)
+        if work is None:
+            return {}
+        act = self.ws.active_mod
+        enabled = {m.id for m in self.ws.mods.enabled_mods()}
+        mine = {i: o for i, o in self.owner_map(member).items()
+                if o[0] in enabled and (with_active or not (act and o[0] == act.id))}
+        if not mine:
+            return {}
+        saved = self._layered(member, True)
+        if len(work.rows) < len(saved.rows):          # rows deleted: the numbers moved (all goes as before)
+            return {}
+        out = {}
+        for i, (mid, kind, k) in sorted(mine.items()):
+            if i >= len(saved.rows):
+                continue
+            a, b = saved.rows[i], work.rows[i]
+            if bytes(a.raw) == bytes(b.raw) and a.strs == b.strs:
+                continue
+            ch = {f.name: dbpatch._jsonable(b._get(f)) for f in saved.schema.fields if a._get(f) != b._get(f)}
+            if ch:
+                out.setdefault(mid, []).append((i, kind, k, ch))
+        return out
+
+    def _save_routed(self, mod, member, items):
+        p = mod.load_patch("db", member + ".json") or {"table": member}
+        added = p.get("added") or []
+        for i, kind, k, ch in items:
+            if kind == "added" and k is not None and k < len(added) and isinstance(added[k], dict):
+                added[k].update(ch)
+            else:
+                p.setdefault("rows", {}).setdefault(str(i), {}).update(ch)
+        mod.save_patch("db", member + ".json", p)
 
     def base(self, member) -> database.Table:
         """What the active mod's patch is applied on (= saved as differences against)."""
@@ -68,6 +171,55 @@ class DBService(QObject):
         if t is None:
             t = self._base[member] = self._layered(member, False)
         return t
+
+    def adopt_strays(self, member):
+        """move changes a mod makes to a row another mod adds (by row number, see the module text) into the mod that
+        adds it, in load order as the install has them -> number moved.  The patch files are copied to
+        state/mod_backups first."""
+        self._adopted.add(member)
+        mods = self.ws.mods.enabled_mods()
+        if not any(m.load_patch("db", member + ".json") for m in mods):
+            return 0
+        t = database.load_table(member, self.ws.read(f"{DB}/{member}"))
+        added_by, moves = {}, []
+        for m in mods:
+            p = m.load_patch("db", member + ".json")
+            if not p:
+                continue
+            for idx, fields in (p.get("rows") or {}).items():
+                a = added_by.get(int(idx))
+                if a is not None and a[0].id != m.id and fields:
+                    r = t.rows[int(idx)]
+                    moves.append((m, idx, a, dict(fields), r["name_EN"] if "name_EN" in r else f"row {idx}"))
+            placed = []
+            dbpatch.apply_patch(t, p, placed=placed)
+            for k, i in enumerate(placed):
+                added_by[i] = (m, k)
+        if not moves:
+            return 0
+        from .workspace import KIT_DIR
+        bdir = os.path.join(KIT_DIR, "state", "mod_backups",
+                            "row_changes_" + datetime.datetime.now().strftime("%Y%m%d_%H%M%S"))
+        for m, idx, (a, k), fields, name in moves:
+            for mod in (m, a):
+                src = mod.patch_path("db", member + ".json")
+                dst = os.path.join(bdir, mod.id, member + ".json")
+                if os.path.exists(src) and not os.path.exists(dst):
+                    os.makedirs(os.path.dirname(dst), exist_ok=True)
+                    with open(src, "rb") as f, open(dst, "wb") as g:
+                        g.write(f.read())
+            pa = a.load_patch("db", member + ".json")
+            pa["added"][k].update(fields)
+            a.save_patch("db", member + ".json", pa)
+            pm = m.load_patch("db", member + ".json")
+            pm["rows"].pop(idx, None)
+            if not pm["rows"]:
+                pm.pop("rows")
+            m.save_patch("db", member + ".json", None if dbpatch.is_empty(pm) else pm)
+            self.ws.log(f"{member.rsplit('.', 1)[0]}: the changes to {name} kept in the mod '{m.name}' moved into "
+                        f"'{a.name}', which adds {name} (a copy of both files: "
+                        f"{os.path.relpath(bdir, KIT_DIR)})")
+        return len(moves)
 
     def table(self, member) -> database.Table:
         """Working (editable) table: every enabled mod's changes, the active mod's on top."""
@@ -98,13 +250,80 @@ class DBService(QObject):
     def commit_all(self, parent=None):
         return all(self.commit(m, parent) is not False for m in list(self._dirty))
 
-    def commit(self, member, parent=None):
-        """Save working-table differences into the active mod as a patch."""
-        mod = self.ws.require_mod(parent)
-        if not mod:
+    def _note(self, mod):
+        for lst in (self.saved_into, self.last_saved):
+            if mod.name not in lst:
+                lst.append(mod.name)
+
+    def saved_text(self):
+        """where the last commit() saved: "'A'" / "'A', 'B'" (for log lines)"""
+        names = getattr(self, "last_saved", None) or []
+        return ", ".join(f"'{n}'" for n in names) if names else "no mod (nothing changed)"
+
+    def _done(self, member):
+        self._base.pop(member, None)
+        self._owners.pop(member, None)
+        self._dirty.discard(member)
+        self.ws.file_changed.emit(f"{DB}/{member}")
+        self.table_changed.emit(member)
+
+    def _commit_into(self, member, into):
+        """commit() with `into` instead of the active mod: rows a mod made or changes go into that mod, new rows and
+        changes to rows no mod changes into `into` -> False when it can't (rows were deleted)"""
+        work = self._work.get(member)
+        saved = self._layered(member, True)
+        if work is None or len(work.rows) < len(saved.rows):
             return False
-        old = mod.load_patch("db", member + ".json") or {}
+        routed = self._route(member, with_active=True)
+        ch = dbpatch.diff_table(saved, work)
+        for items in routed.values():
+            for i, *_ in items:
+                (ch.get("rows") or {}).pop(str(i), None)
+        for mid, items in routed.items():
+            m = self.ws.mods.get(mid)
+            self._save_routed(m, member, items)
+            self._note(m)
+        if ch.get("rows") or ch.get("added"):
+            p = into.load_patch("db", member + ".json") or {"table": member}
+            for idx, fields in (ch.get("rows") or {}).items():
+                p.setdefault("rows", {}).setdefault(idx, {}).update(fields)
+            if ch.get("added"):
+                p.setdefault("added", []).extend(ch["added"])
+            into.save_patch("db", member + ".json", p)
+            self._note(into)
+        self._done(member)
+        return True
+
+    def commit(self, member, parent=None, into=None):
+        """Save working-table differences: rows another mod made or changes into that mod (_route), the rest into
+        the active mod as a patch (or into the mod `into`: a new skill of a mod's character goes into its mod)."""
+        self.last_saved = []
+        act = self.ws.active_mod
+        if into is not None and (act is None or into.id != act.id) and self._commit_into(member, into):
+            return True
+        routed = self._route(member)
         patch = dbpatch.diff_table(self.base(member), self.table(member))
+        for items in routed.values():
+            for i, *_ in items:
+                (patch.get("rows") or {}).pop(str(i), None)
+        if "rows" in patch and not patch["rows"]:
+            patch.pop("rows")
+        act = self.ws.active_mod
+        mod = None
+        if act is not None or not dbpatch.is_empty(patch):
+            mod = self.ws.require_mod(parent)
+            if not mod:
+                return False
+        for mid, items in routed.items():
+            m = self.ws.mods.get(mid)
+            self._save_routed(m, member, items)
+            self._note(m)
+            self.ws.log(f"{member.rsplit('.', 1)[0]}: changes to {len(items)} row(s) made by the mod '{m.name}' "
+                        "saved in it")
+        if mod is None:
+            self._done(member)
+            return True
+        old = mod.load_patch("db", member + ".json") or {}
         # rows only another mod changed are not repeated here; fields the active mod set before and that equal the
         # other mods' value now are kept (so the mod still works when the other mod is switched off)
         for idx, fields in (old.get("rows") or {}).items():
@@ -119,11 +338,11 @@ class DBService(QObject):
                 patch["rows"].pop(idx)
         if "rows" in patch and not patch["rows"]:
             patch.pop("rows")
-        mod.save_patch("db", member + ".json", None if dbpatch.is_empty(patch) else patch)
-        self._base.pop(member, None)
-        self._dirty.discard(member)
-        self.ws.file_changed.emit(f"{DB}/{member}")
-        self.table_changed.emit(member)
+        new = None if dbpatch.is_empty(patch) else patch
+        if json.dumps(new, sort_keys=True) != json.dumps(old or None, sort_keys=True):   # (unchanged: not rewritten)
+            mod.save_patch("db", member + ".json", new)
+            self._note(mod)
+        self._done(member)
         return True
 
     def discard(self, member):

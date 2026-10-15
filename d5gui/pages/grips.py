@@ -322,7 +322,8 @@ class WeaponGripsPage(QWidget):
         self.redraw = QTimer(self)
         self.redraw.setSingleShot(True)
         self.redraw.timeout.connect(self._render)
-        ws.mods_changed.connect(lambda: self._populated and self._populate())
+        from ..common import Refresher
+        ws.mods_changed.connect(Refresher(self, lambda: self._populated and self._populate()))
         self._type_changed()
 
     # ================================================================== characters

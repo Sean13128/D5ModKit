@@ -45,7 +45,7 @@ class PoseGrid(QListWidget):
         self.clear()
         self.num = num
         self.todo = []
-        blank = QIcon(glyph("…", self.size, "#1d1a28", "#5f5a75"))
+        blank = QIcon(glyph("…", self.size, "#171a33", "#555b86"))
         rows = []
         for label, m in poses:
             aid = self.thumbs.aid_for(num, m) if num else None
@@ -78,7 +78,7 @@ class PoseGrid(QListWidget):
         for it in self.todo[:3]:
             m, aid = it.data(ROLE)
             fr = self.thumbs.pose_frames(self.num, aid, self.size) if aid is not None else []
-            it.setIcon(QIcon(fr[0] if fr else glyph("?", self.size, "#1d1a28", "#5f5a75")))
+            it.setIcon(QIcon(fr[0] if fr else glyph("?", self.size, "#171a33", "#555b86")))
         self.todo = self.todo[3:]
 
     def _step(self):
@@ -262,7 +262,7 @@ class CharacterPicker(QDialog):
         self.list.setWordWrap(True)
         self.list.setUniformItemSizes(True)
         self.size = size
-        blank = QIcon(glyph("…", size, "#1d1a28", "#5f5a75"))
+        blank = QIcon(glyph("…", size, "#171a33", "#555b86"))
         self.items = []
         for label, num in chars:
             it = QListWidgetItem(blank, label)
@@ -300,7 +300,7 @@ class CharacterPicker(QDialog):
                        else 1)
         it = self.todo.pop(0)
         pm = self.thumbs.char_icon(int(it.data(ROLE)), self.size)
-        it.setIcon(QIcon(pm if pm is not None else glyph("?", self.size, "#1d1a28", "#5f5a75")))
+        it.setIcon(QIcon(pm if pm is not None else glyph("?", self.size, "#171a33", "#555b86")))
 
     def _filter(self, text):
         t = text.strip().lower()

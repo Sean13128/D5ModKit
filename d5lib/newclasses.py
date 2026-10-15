@@ -332,15 +332,20 @@ def free_family(mods, monster=False, fs=None):
         except Exception:
             pass
     rx = re.compile(r"anm(\d{5})\.lzs$", re.I)
+    in_mods = set()
     for m in mods:
         for f in m.list_files():
             mm = rx.search(f)
             if mm:
-                taken.add(int(mm.group(1)))
+                in_mods.add(int(mm.group(1)))
+    taken |= in_mods
     for f in (MONSTER_FAMILIES if monster else HUMAN_FAMILIES):
         if f in used:
             continue
-        if f not in DUMMY_FAMILIES and ({f, f + 1, f + 2} | {10000 + f + j for j in range(COLOURS)}) & taken:
+        numbers = {f, f + 1, f + 2} | {10000 + f + j for j in range(COLOURS)}
+        # the game's own reserved families have its dummy files there (the class fills them); another mod's files
+        # there (an outfit sprite numbered 11290 = a portrait of family 1290) rule it out
+        if numbers & (in_mods if f in DUMMY_FAMILIES else taken):
             continue
         return f
     return None

@@ -202,6 +202,8 @@ BUTTON_TIPS = {
     "rename": "Change the name shown in the in-game Outfit list.",
     "face": "Set the square face picture (status panel, Status screen, battle, character list).",
     "cutin": "Set the tall cut-in portrait (special attacks, Status screen). White backgrounds are removed.",
+    "fix_cutin": "Choose what of the cut-in portrait is see-through: click a white area or paint (left: transparent, "
+                 "right: keep). It is built again from the original picture.",
     "edit": "Open the outfit's sprite in Sprites & Colors to recolour parts. Afterwards press 'Re-derive color "
             "presets' so the other colour presets follow your new colours.",
     "presets": "Rebuild colour presets 1-4 from the character's own presets (the hoodie follows the scarf, the "
@@ -391,6 +393,7 @@ class OutfitsPage(QWidget):
         for title, entries in [
                 ("Edit ▾", [("✏ Rename outfit…", self.rename, "rename"), ("🙂 Set face picture…", self.face, "face"),
                             ("🖼 Set cut-in portrait…", self.cutin, "cutin"),
+                            ("🧽 Fix cut-in background…", self.fix_cutin, "fix_cutin"),
                             ("Replace outfit sprite from sheet…", self.replace, "replace")]),
                 ("Colors ▾", [("🖌 Edit parts (part painter)…", self.paint_parts, "paint_parts"),
                               ("🎨 Edit outfit colors (Sprites & Colors)", self.edit, "edit"),
@@ -727,6 +730,19 @@ class OutfitsPage(QWidget):
         self.ws.log(f"cut-in portrait of outfit slot {d[1]} replaced")
         self._pick()
         info_box(self, "Outfits", "Cut-in portrait replaced. Press Install to see it in game.")
+
+    def fix_cutin(self):
+        d = self._cur()
+        mod = self._mod()
+        if not d or not mod:
+            return
+        if not mod.has_file(f"Anime/ANM_HI_JP.dat/anm{d[1] + 10000:05d}.lzs"):
+            QMessageBox.information(self, "Outfits", "This outfit has no cut-in portrait of its own yet (Edit › Set "
+                                    "cut-in portrait…).")
+            return
+        from ..portraitfix import fix_portrait
+        if fix_portrait(self, self.ws, mod, d[1] + 10000, self.names().get(d[0], str(d[0]))):
+            self._pick()
 
     def edit(self):
         d = self._cur()

@@ -1,7 +1,7 @@
 # Character studio
 
 Everything that makes a custom character, on the Characters & Classes page (`d5gui/pages/characters.py`), backed by
-`d5lib/charstudio.py`. Every change goes into the active mod; new ids are free ones, so saves keep working.
+`d5lib/charstudio.py`. Every change goes into the mod that makes or changes the character (the mod chosen bottom left for the game's own characters no mod changes); new ids are free ones, so saves keep working.
 
 ## New character / class (wizard)
 

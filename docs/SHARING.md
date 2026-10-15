@@ -45,9 +45,10 @@ Command line (for scripts, launchers, mod managers):
   Uninstall uses them and then removes the folder.
 * Big archives aren't copied whole. The package holds the new header plus instructions: copy this range from your own
   vanilla file, insert these new bytes. That is why a package is a fraction of the size of the files it produces.
-* Saves are never touched.
+* Saves are never touched by the installer.
   * A save that contains units the mods add (new characters, outfits worn) expects those mods to be installed.
-  * Keep a copy of your saves before playing with such mods, and before uninstalling them.
+  * Keep a copy of your saves before playing with such mods, and before uninstalling them. (Kit users can take a
+    deleted mod's units out of their saves: Home › More › Check saves, `d5lib/savegame.py`.)
 * A Steam update or *Verify integrity* replaces the modded files with vanilla ones. Run the installer again afterwards.
 * If the game is under `C:\Program Files`, Windows may require *Run as administrator* (the installer says so when it
   cannot write).
@@ -75,11 +76,12 @@ person uses Home › More › **Import / update from .zip…**.
 
     python tools/make_release.py D:\Release --zip
 
-* Every release folder gets `manifest.json` (each file's SHA-1 and the version). `--previous OLD_RELEASE` (its folder
-  or manifest.json) also writes `D5ModKit-update-<old>-to-<new>.zip` with only what changed: attach it to the GitHub
-  release next to D5ModKit.zip, and kits of the old version update themselves in place (`d5lib/updater.py`,
-  `d5gui/updates.py`: GitHub's latest release, the update zip for the kit's version, your edits to shipped files
-  backed up in state\update_backups, files in use swapped in at the next start by D5ModKit.pyw).
+* Every release folder gets `manifest.json` (each file's SHA-1 and the version). A GitHub release carries only
+  D5ModKit.zip: players update by copying it over their kit (Replace), and kits from 1.4 on update themselves from it
+  in place (`d5lib/updater.py` reads `D5ModKit/manifest.json` from the zip and writes only the files that differ;
+  `d5gui/updates.py`: GitHub's latest release, your edits to shipped files backed up in state\update_backups, files
+  in use swapped in at the next start by D5ModKit.pyw).  `--previous OLD_RELEASE` still writes a small
+  `D5ModKit-update-<old>-to-<new>.zip` (only what changed); it isn't attached any more.
 * Profiles: `--profile outfits` (default: the Outfit System and the outfit mods) or `--profile all`; `--mods A,B`
   adds mods by folder name (and stops when a mod's requirement is missing).
 * The Item World auto-battle never goes in (it stays on this PC): its mod, page, docs, Python modules and native

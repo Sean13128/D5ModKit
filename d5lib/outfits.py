@@ -585,9 +585,11 @@ def _finalize_characters(ctx, chars, rows, face_list, banners, owners):
     """New unique characters (d5lib.newchars): colour id = class id, with the template's colour-keyed graphics
     copied to it (the face picture, when the mod has one, in its faces and list icon).  -> char.dat changed"""
     from PIL import Image
+    from . import ownanim
     pics = getattr(ctx, "_char_faces", {})
     anims = face_anim_ids(ctx.fs)
     changed = False
+    laid = []
     for cid, tmpl in sorted(chars.items()):
         r = rows[cid]
         img = Image.open(pics[cid]).convert("RGBA") if cid in pics else None
@@ -622,11 +624,21 @@ def _finalize_characters(ctx, chars, rows, face_list, banners, owners):
                             b.id = cid + 2
                     ctx.put(f"Anime/ANM_HI_JP.dat/anm{cid + 2:05d}.lzs", a.to_bytes())
                     break
+        # the Quest Shop's 'has joined' banner draws sprite + 1 with the shared humanoid motion: the stand picture
+        # where that motion looks (ownanim.banner_layout; the mod's own files are only re-packed in the game's copy)
+        for n in (r["sprite_id"], r["sprite_id"] + 1):
+            vp = f"Anime/ANM_HI_JP.dat/anm{n:05d}.lzs"
+            if vp.lower() in ctx.outputs:
+                sa = anm.load(ctx.outputs[vp.lower()][1])
+                if ownanim.banner_layout(sa):
+                    ctx.put(vp, sa.to_bytes())
+                    laid.append(n)
         icon = img if img is not None else (_small_face_image(ctx, tmpl) if tmpl is not None else None)
         if icon is not None:
             owners.append((cid, [cid], icon))
     ctx.log(f"  new characters: own colour ids for {', '.join(map(str, sorted(chars)))} "
-            f"({sum(1 for c in chars if c in pics)} face picture(s))")
+            f"({sum(1 for c in chars if c in pics)} face picture(s))"
+            + (f"; 'has joined' picture laid out in anm {', '.join(map(str, laid))}" if laid else ""))
     return changed
 
 
@@ -669,6 +681,17 @@ def _char_tables(fs, mod):
     if patch:
         dbpatch.apply_patch(ed, patch)
     return van, ed
+
+
+def char_row_anywhere(fs, mod, cid):
+    """character `cid`'s row as the mods make it (every mod next to `mod`, last one wins), or None"""
+    t = database.load_table("char.dat", fs.read(CHAR))
+    for m in _all_mods(mod):
+        patch = m.load_patch("db", "char.dat.json")
+        if patch:
+            dbpatch.apply_patch(t, patch)
+    found = [r for r in t.rows if r["id"] == int(cid)]
+    return found[-1].copy() if found else None
 
 
 def _all_mods(mod):
@@ -716,9 +739,13 @@ def outfit_slots(mod):
 
 
 # sprite numbers for new looks, in groups of 10 (N, N+1, N+2 and portraits 10000+N, +1): 9500 .. 22760 first (the
-# portrait must stay below 32768: char.dat's sprite id is signed 16 bit), then the free groups between 2400 and 9500
-# (below: the game's generic class ranges 1000-1310 / 2010-2300 and the reserved class families)
-SPRITE_NUMBERS = list(range(9500, 22760, 10)) + list(range(2400, 9500, 10))
+# portrait must stay below 32768: char.dat's sprite id is signed 16 bit), then the free groups between 3000 and 9500.
+# Never 10000 .. 12999: those are the portraits of character ids 0 .. 2999 (10000 + id) -- an outfit sprite there was
+# drawn as another character's portrait (Etna's Lioness Princess at 10970 = id 970's).  Below 3000: the game's class
+# ranges and the class families new classes fill.
+PORTRAITS_OF_IDS = range(10000, 13000)
+SPRITE_NUMBERS = [n for n in range(9500, 22760, 10)
+                  if not any(n + k in PORTRAITS_OF_IDS for k in (0, 1, 2, 10000, 10001))] + list(range(3000, 9500, 10))
 
 
 def _free_sprite(fs, mod):
@@ -930,9 +957,14 @@ def create_drpg_character(fs, mod, source_id, template, uid, name, title=None, s
     from . import colorvariants, drpg, drpgmap, newchars, ownanim, slots
     van, ed = _char_tables(fs, mod)
     src = next((r for r in ed.rows if r["id"] == source_id), None)
+    if src is None:                                  # a character another mod makes (Thunderlady, Future Usalia ...)
+        src = char_row_anywhere(fs, mod, source_id)
     tpl = next((r for r in van.rows if r["id"] == template), None)
-    if src is None or tpl is None:
-        raise ValueError("source / template character not found")
+    if src is None:
+        raise ValueError(f"the character to copy (id {source_id}) isn't in the game or any mod: pick another one "
+                         f"in the list, then ✨ New character again")
+    if tpl is None:
+        raise ValueError(f"'Moves like' must be one of the game's characters (id {template} isn't)")
     if not os.path.exists(drpgmap.own_map_path(tpl["sprite_id"])):
         raise ValueError(f"the template's own poses are not mapped: tools/drpg_outfits.py learn {template}")
     ids = slots.free_unique_ids(fs, mod, extra_taken=used_slots(mod))
@@ -1045,7 +1077,7 @@ def _free_quest(fs, mod):
         patch = m.load_patch("db", "Quest.dat.json")
         if patch:
             dbpatch.apply_patch(allq, patch)
-    qid = max(q["id"] for q in allq.rows if q["id"] < 2000) + 1
+    qid = dbpatch.new_quest_id(allq)
     probe = allq.add_row(copy_from=0)
     probe.set("id", qid)
     slot = dbpatch.free_quest_slot(allq, exclude=probe)
@@ -1104,6 +1136,8 @@ def _set_portrait(mod, anm_id, image):
     img = fit_portrait(remove_white_background(img, threshold=246, spread=10, upper=0.25), (t.width, t.height))
     t.data = anm._rgba_to_argb(np.asarray(img)).tobytes()
     mod.write_file(vp, a.to_bytes())
+    from . import portraitfix
+    portraitfix.remember_source(mod, anm_id, image)
 
 
 def _create_hybrid_files(fs, mod, base_row, slot, N, uid, hybrid, log, roots=None):
@@ -1311,6 +1345,8 @@ def set_cutin(fs, mod, slot, image, drpg=False):
         raise ValueError("unexpected indexed portrait texture")
     t.data = anm._rgba_to_argb(np.asarray(img)).tobytes()
     mod.write_file(vp, a.to_bytes())
+    from . import portraitfix
+    portraitfix.remember_source(mod, slot + 10000, image, fit="cover" if drpg else "stretch")
     if N:                                      # the copy the game loads by sprite number
         for b in a.blocks:
             if b.id == slot + 10000:
@@ -2064,3 +2100,88 @@ def base_face_image(fs, colour):
         return None
     c = face.cell
     return anm.texture_to_image(f, face.tex_global, 0).crop((c.x, c.y, c.x + c.w, c.y + c.h)).convert("RGBA")
+
+
+# ------------------------------------------------------------------------------ moving a sprite to another number
+def sprite_group(mod, N):
+    """the files of the mod's own sprite N: N, its copy N+1, standing picture N+2, event-pose sheets (event_sheets.json)
+    and portraits 10000 + N, 10001 + N -- {number: vpath} of those the mod has"""
+    nums = {N, N + 1, N + 2, N + 10000, N + 10001}
+    for slot, sheets in (mod.load_patch("outfits", "event_sheets.json") or {}).items():
+        nums.update(int(v) for v in sheets.values() if N < int(v) < N + 10)
+    out = {}
+    for n in sorted(nums):
+        vp = f"Anime/ANM_HI_JP.dat/anm{n:05d}.lzs"
+        if mod.has_file(vp):
+            out[n] = vp
+    return out
+
+
+def renumber_sprite(fs, mod, old, new, all_mods=None, log=print):
+    """Move the mod's own sprite `old` (and its copy, standing picture, portraits, event sheets) to number `new`:
+    the files (block ids inside renamed), every character row using it (any mod), the own-sprite list, colour parts,
+    full-colour source, painted parts, weapon grips, event sheets and new-character records.  Saves refer to
+    characters by id, never by sprite number: nothing in them changes."""
+    import shutil
+    group = sprite_group(mod, old)
+    if old not in group:
+        raise ValueError(f"{mod.id} has no sprite anm{old:05d}")
+    slot_keyed = {int(s) + k for _, s in load(mod) for k in (2, 10000)}
+    clash = sorted(n for n in group if n in slot_keyed and n not in (old, old + 1))
+    if clash:
+        raise ValueError(f"anm{clash[0]:05d} is also a file of an outfit slot: rebuild that outfit instead")
+    d = new - old
+    for n, vp in group.items():
+        a = anm.load(mod.read_file(vp))
+        for b in a.blocks:
+            if b.id == n:
+                b.id = n + d
+        mod.write_file(f"Anime/ANM_HI_JP.dat/anm{n + d:05d}.lzs", a.to_bytes())
+    for n, vp in group.items():
+        if n + d not in group:
+            mod.remove_file(vp)
+    for m in (all_mods if all_mods is not None else _all_mods(mod)):
+        p = m.load_patch("db", "char.dat.json")
+        if not p:
+            continue
+        hit = False
+        for r in list(p.get("added") or []) + list((p.get("rows") or {}).values()):
+            if isinstance(r, dict) and int(r.get("sprite_id", -1)) == old:
+                r["sprite_id"] = new
+                hit = True
+        if hit:
+            m.save_patch("db", "char.dat.json", p)
+    data = _data(mod)
+    if data.get("own_sprites"):
+        data["own_sprites"] = [int(x) + d if int(x) in group else int(x) for x in data["own_sprites"]]
+        mod.save_patch("outfits", "outfits.json", data)
+    sheets = mod.load_patch("outfits", "event_sheets.json")
+    if sheets:
+        for s_ in sheets.values():
+            for k, v in list(s_.items()):
+                if int(v) in group:
+                    s_[k] = int(v) + d
+        mod.save_patch("outfits", "event_sheets.json", sheets)
+    rec = mod.load_patch("outfits", "drpg_character.json")
+    if rec and int(rec.get("sprite", -1)) == old:
+        rec["sprite"] = new
+        mod.save_patch("outfits", "drpg_character.json", rec)
+    for a_, b_ in ((parts_path(mod, old), parts_path(mod, new)), (partmap_dir(mod, old), partmap_dir(mod, new))):
+        if os.path.exists(a_):
+            shutil.move(a_, b_)
+    if os.path.exists(source_path(mod, old)):
+        src = anm.load(source_path(mod, old))
+        for b in src.blocks:
+            if b.id == old:
+                b.id = new
+        save_source(mod, new, src)
+        os.remove(source_path(mod, old))
+    from . import grips
+    for n in (old, old + 1):
+        p = mod.load_patch(grips.HANDLER, f"{n}.json")
+        if p is not None:
+            mod.save_patch(grips.HANDLER, f"{n + d}.json", p)
+            mod.save_patch(grips.HANDLER, f"{n}.json", None)
+    if log:
+        log(f"{mod.id}: sprite anm{old:05d} -> anm{new:05d} ({len(group)} files)")
+    return group

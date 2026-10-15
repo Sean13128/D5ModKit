@@ -340,7 +340,7 @@ class BuildContext:
 
 HANDLER_MODULES = ["d5lib.dbpatch", "d5lib.textpatch", "d5lib.scriptpatch", "d5lib.skills", "d5lib.newchars", "d5lib.outfits", "d5lib.newclasses", "d5lib.voices", "d5lib.overloads",
                    "d5lib.questpatch",
-                   "d5lib.unlockpatch", "d5lib.customcolors", "d5lib.fxpool",
+                   "d5lib.unlockpatch", "d5lib.weaponlevels", "d5lib.standins", "d5lib.customcolors", "d5lib.fxpool",
                    "d5lib.runtime", "d5lib.autobattle",     # the runtime DLL (auto-battle: only where it exists)
                    "d5lib.grips"]                           # grips last: its finalizer edits the final sprites
 
@@ -380,6 +380,7 @@ def build(fs: GameFS, mods, log=print):
         log(f"  (game build not read: {e})")
     ctx = BuildContext(fs, log)
     ctx.mod_ids = [m.id for m in mods]
+    ctx.mod_folders = [m.folder for m in mods]
     for mod, req in missing_requirements(mods):
         log(f"warning: mod '{mod.name}' requires '{req}', which is not enabled (or loads after it)")
     for mod in mods:

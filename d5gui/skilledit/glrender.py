@@ -51,6 +51,15 @@ BLEND_ALPHA, BLEND_ADD, BLEND_SUB, BLEND_OPAQUE = 1, 2, 3, 0
 BLEND_MUL, BLEND_SUBR = 4, 5
 MOTION_BASE = {109: 1050, 151: 7010}
 SWAP_SCALE_ON_SIDE_FACING = False
+# OPEN (2026-10-14, Hurricane Blow's recording): its tornado (504, parts stood up by their node transforms, shown with
+# a non-uniform size 1.6 / 0.3 / 1.6) is a tall column in the game but a flat ring in the kit, and its model points
+# down in the kit's model space while the swirl (501) rises as in the game.  Experiments, off by default until the
+# game's model matrix code is traced: D5_FX_LOCAL_SCALE=1 (the size scales the parts in their own space, before
+# their nodes), D5_FX_FLIP_MODEL_Y=1 (model space y-down).  Both together stand the tornado up but sink the swirl.
+import os as _os
+LOCAL_SCALE = _os.environ.get("D5_FX_LOCAL_SCALE", "0") == "1"
+FLIP_MODEL_Y = _os.environ.get("D5_FX_FLIP_MODEL_Y", "0") == "1"
+DEBUG_VERTS = None                  # dev: {slot: [vertex arrays]} of the last frames drawn when set to a dict
 # effects get the skill's turn from the script root's +0x68 (offsets use +0x60): 0 for skills, it seems (Macrocosm's
 # rays at frame ~1000 are seen end-on in the game)
 TURN_EFFECTS_WITH_FACING = True   # 0x14018d0a0 swaps x / z scale on an odd 0x14008a5d0() -- not this facing
@@ -1010,6 +1019,7 @@ class GLRenderer:
         S = np.diag(sc * MODEL_TO_SCRIPT)
         inst = R @ S
         nsc = sl.nscale.get()
+        local = LOCAL_SCALE and not np.allclose(np.abs(sc), abs(sc[0]), rtol=1e-4)
         right, up, back = cam
         bill_model = sl.billboard if sl.billboard >= 0 else m.billboard
         zb = float(sl.zbias)
@@ -1028,18 +1038,28 @@ class GLRenderer:
                 nm = np.eye(4)
             N3 = nm[:3, :3] * nsc[None, :]
             T = nm[:3, 3]
+            if local:                     # scaled in the part's space: N (S p) + S T, then turned and placed
+                N3 = (N3 * sc[None, :]) * MODEL_TO_SCRIPT
+                T = T * sc * MODEL_TO_SCRIPT
+            if FLIP_MODEL_Y:
+                N3 = N3 * np.array([[1.0], [-1.0], [1.0]])
+                T = T * np.array([1.0, -1.0, 1.0])
             for g in m.parts[pi]:
                 bill = (bill_model if bill_model else g.bill) if sl.face_cam else 0
                 if bill:
                     # facing the camera: the node's place goes through the instance, its shape doesn't turn
-                    centre = world_pos + inst @ T
+                    centre = world_pos + (R @ T if local else inst @ T)
                     shape = (g.pos @ N3.T) * (sc * MODEL_TO_SCRIPT)
                     if bill == 2:
                         pos = centre + np.outer(shape[:, 0], r_y) + np.outer(shape[:, 1], [0.0, 1.0, 0.0])                             + np.outer(shape[:, 2], b_y)
                     else:
                         pos = centre + np.outer(shape[:, 0], r_full) + np.outer(shape[:, 1], u_full)                             + np.outer(shape[:, 2], back)
+                elif local:
+                    pos = world_pos + (g.pos @ N3.T + T) @ R.T
                 else:
                     pos = world_pos + (g.pos @ N3.T + T) @ inst.T
+                if DEBUG_VERTS is not None:                 # dev: tools/_compare_recording.py --bbox
+                    DEBUG_VERTS.setdefault(k, []).append(np.asarray(pos, float))
                 ti = m.texture_at(g, frame)
                 if ti is None or ti < 0 or ti >= len(m.textures):
                     page, rect = self.atlas.white_rect()

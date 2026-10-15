@@ -30,11 +30,32 @@ OWN_ANIM_ROWS = {1: "stand", 7: "stand", 6001: "wait", 6007: "wait", 7001: "stan
 VARIANTS = [(0, 0, 0), (120, 0, 0), (200, 0.05, 0), (60, 0, 0.05), (0, -0.6, -0.05)]
 
 
-def _pack(sizes, page=PAGE, pad=PAD):
-    """Shelf packing, tallest first -> [(page, x, y)], page count."""
+# The Quest Shop's "... has joined!" banner draws the companion file (sprite + 1) with the shared humanoid motion
+# (anm_resident block 1, animation 1 at its first key), not with the sprite's own animations: two fixed rectangles of
+# texture 0, the body BANNER_BODY drawn with its top-left at BANNER_AT from the feet, and BANNER_BEHIND behind it.
+# A game sprite has its standing picture exactly there.  banner_layout puts an own-animation sprite's standing
+# picture in BANNER_BODY where that motion shows it, and keeps the rest of the CORNER_W x CORNER_H corner empty.
+BANNER_BODY = (0, 0, 120, 192)
+BANNER_AT = (-59, -172)
+BANNER_BEHIND = (0, 192, 56, 192)
+CORNER_W, CORNER_H = 256, 392
+CORNER = CORNER_W
+
+
+def _pack(sizes, page=PAGE, pad=PAD, corner=None):
+    """Shelf packing, tallest first -> [(page, x, y)], page count.  corner: the frame that goes to the top-left of
+    page 0 with nothing else in the CORNER_W x CORNER_H corner -- its index (placed at the very corner) or
+    (index, (x, y))."""
     order = sorted(range(len(sizes)), key=lambda i: (-sizes[i][1], -sizes[i][0]))
     pos = [None] * len(sizes)
     pages = []  # [x, y, shelf_h]
+    if corner is not None:
+        ci, (cx, cy) = corner if isinstance(corner, tuple) else (corner, (pad // 2, pad // 2))
+        w, h = sizes[ci]
+        if cx + w + pad <= page and cy + h + pad <= page:
+            pages.append([max(CORNER_W, cx + w + pad), 0, max(CORNER_H, cy + h + pad)])
+            pos[ci] = (0, cx, cy)
+            order = [i for i in order if i != ci]
     for i in order:
         w, h = sizes[i]
         if w + pad > page or h + pad > page:
@@ -265,6 +286,123 @@ def build(sequences, base_sprite: anm.AnmFile, motion_block, sprite_id, variants
     return out
 
 
+def _stand_cell(b):
+    """the cell the plain stand animation (id 1, front) draws first (the biggest of its first keys), or None"""
+    a = next((a for a in b.animations if a.id == 1), None)
+    if a is None:
+        return None
+    best = None
+    for ni, _, _ in b.walk(a.root):
+        ks = [k for k in b.node_keys(b.nodes[ni]) if 0 < k.cell < len(b.cells)]
+        if ks:
+            c = b.cells[ks[0].cell]
+            if best is None or c.w * c.h > best[0]:
+                best = (c.w * c.h, ks[0].cell)
+    return best[1] if best else None
+
+
+def _stand_item(a):
+    """(cell index, quad top-left x, y) of the biggest picture the stand animation (id 1, front) draws at its first
+    key, when it is drawn unscaled and unturned; else None"""
+    info = next((x for x in anm.list_animations(a) if x["id"] == 1), None)
+    if info is None:
+        return None
+    best = None
+    for it in anm.evaluate(a, info["index"], 0):
+        c, q = it.cell, np.asarray(it.quad, float)
+        if not it.key.cell or not c.w or not c.h:
+            continue
+        x0, y0 = q[:, 0].min(), q[:, 1].min()
+        if abs(q[1][0] - q[0][0] - c.w) > 0.5 or abs(q[3][1] - q[0][1] - c.h) > 0.5:
+            continue                                   # scaled, mirrored or turned
+        if best is None or c.w * c.h > best[0]:
+            best = (c.w * c.h, it.key.cell, int(round(x0)), int(round(y0)))
+    return best[1:] if best else None
+
+
+def banner_layout(a):
+    """An own-animation sprite (one block, 8-bit pages) packed again so the Quest Shop's 'has joined' banner shows
+    its stand picture (see BANNER_BODY): that picture in BANNER_BODY where the shared motion draws it, nothing else
+    in the CORNER_W x CORNER_H corner (BANNER_BEHIND stays empty).  Sprites built before kit 1.5 had other frames
+    there, and the banner showed pieces of them.  Pixels, palettes and animations stay; only where each cell's
+    picture sits changes.  -> True when the file changed"""
+    if len(a.blocks) != 1 or not a.textures or not all(t.indexed for t in a.textures):
+        return False
+    b = a.blocks[0]
+    if b.tex_base:
+        return False
+    W = a.textures[0].width
+    pages = [np.frombuffer(t.data, np.uint8).reshape(t.height, t.width) for t in a.textures]
+    rects = {}
+    for i, c in enumerate(b.cells):
+        if i and c.w and c.h and c.tex < len(pages) and c.y + c.h <= pages[c.tex].shape[0] \
+                and c.x + c.w <= pages[c.tex].shape[1]:
+            rects.setdefault((c.tex, c.x, c.y, c.w, c.h), []).append(i)
+    keys = list(rects)
+    st = _stand_item(a)
+    if st is None:
+        return False
+    sc, qx, qy = st
+    corner = next((k for k, r in enumerate(keys) if sc in rects[r]), None)
+    if corner is None:
+        return False
+    w0, h0 = keys[corner][3], keys[corner][4]
+    bx, by, bw, bh = BANNER_BODY
+    u = max(0, bx + qx - BANNER_AT[0])
+    v = max(0, by + qy - BANNER_AT[1])
+    if h0 <= bh and v + h0 > by + bh:                  # below the body rect it would show through BANNER_BEHIND
+        v = by + bh - h0
+    u, v = min(u, CORNER_W - w0 - PAD // 2) if w0 + PAD < CORNER_W else u, v
+    t0, x0, y0 = keys[corner][:3]
+    if (t0, x0, y0) == (0, u, v) and not any(r[0] == 0 and r[1] < CORNER_W and r[2] < CORNER_H
+                                              for k, r in enumerate(keys) if k != corner):
+        return False                                   # already there, alone
+    pos, n = _pack([(r[3], r[4]) for r in keys], page=W, corner=(corner, (u, v)))
+    new = [np.zeros((W, W), np.uint8) for _ in range(n)]
+    height = [0] * n
+    for r, (p, x, y) in zip(keys, pos):
+        t, sx, sy, w, h = r
+        new[p][y:y + h, x:x + w] = pages[t][sy:sy + h, sx:sx + w]
+        height[p] = max(height[p], y + h + PAD)
+        for i in rects[r]:
+            c = b.cells[i]
+            b.cells[i] = anm.Cell(p, c.pal, c.unk2, c.flags, x, y, w, h, c.unk8)
+    fmt = a.textures[0].fmt
+    textures = []
+    for p in range(n):
+        hh = min(W, max(16, 1 << (height[p] - 1).bit_length()))
+        textures.append(anm.Image8(fmt, W, hh, 1, new[p][:hh].tobytes()))
+    info = b.texture_infos[0] if b.texture_infos else anm.TextureInfo(0, W, W, 8, 0x10, 0x10, 0)
+    b.texture_infos = [anm.TextureInfo(0, t.width, t.height, info.bpp, info.unk1, info.unk2, info.unk3)
+                       for t in textures]
+    a.textures[:] = textures
+    return True
+
+
+repack_corner = banner_layout
+
+
+def _stand_frame(b, matches):
+    """the frame the plain stand animation (id 1, front) shows first: the biggest picture its keys draw at their first
+    time -> frame index, or None"""
+    a = next((a for a in b.animations if a.id == 1), None)
+    if a is None:
+        return None
+    best = None
+    for ni, _, _ in b.walk(a.root):
+        ks = [k for k in b.node_keys(b.nodes[ni]) if k.cell]
+        if not ks:
+            continue
+        m = matches.get(ks[0].cell)
+        if m is None:
+            continue
+        c = b.cells[ks[0].cell] if 0 < ks[0].cell < len(b.cells) else None
+        area = (c.w * c.h) if c is not None else 0
+        if best is None or area > best[0]:
+            best = (area, m["frame"])
+    return best[1] if best else None
+
+
 def assemble(b, motion_block, base_sprite, frames, matches, sprite_id, variants=None):
     """Merged block `b` (_merge) + frames [dict(rgba)] + matches {signed cell: dict(frame, dx, dy[, group])}
     (dx, dy: the frame's top-left in the original cell's space) -> AnmFile with its own atlas"""
@@ -279,7 +417,9 @@ def assemble(b, motion_block, base_sprite, frames, matches, sprite_id, variants=
         y0, x0 = ys.min(), xs.min()
         crops[i] = (a[y0:ys.max() + 1, x0:xs.max() + 1], int(y0), int(x0))
     pal0, idx = _palette([crops[i][0] for i in used])
-    pos, npages = _pack([(crops[i][0].shape[1], crops[i][0].shape[0]) for i in used])
+    stand = _stand_frame(b, matches)
+    pos, npages = _pack([(crops[i][0].shape[1], crops[i][0].shape[0]) for i in used],
+                        corner=used.index(stand) if stand in used else None)
     pages = [np.zeros((PAGE, PAGE), np.uint8) for _ in range(npages)]
     height = [0] * npages
     tmpl = next((c for c in motion_block.cells if c.w), anm.Cell(0, 0, 0, 0, 0, 0, 0, 0, 0))

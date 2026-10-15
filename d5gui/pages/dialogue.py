@@ -271,7 +271,7 @@ class DialoguePage(QWidget):
             it = QListWidgetItem(self._label(i, r))
             it.setData(Qt.ItemDataRole.UserRole, i)
             if self._is_edited(i):
-                it.setForeground(QBrush(QColor("#e0457b")))
+                it.setForeground(QBrush(QColor("#ff4f8b")))
             self.recs.addItem(it)
             shown += 1
             if shown > 3000:
@@ -346,7 +346,7 @@ class DialoguePage(QWidget):
         it = self.recs.currentItem()
         if it:
             it.setText(self._label(self.rec_index, self.tf.records[self.rec_index]))
-            it.setForeground(QBrush(QColor("#e0457b")))
+            it.setForeground(QBrush(QColor("#ff4f8b")))
 
     def _set_status(self):
         self.status.setText("● unsaved changes" if self.dirty else "")

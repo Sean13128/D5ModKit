@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QHBoxLayout, QV
                              QLabel, QStackedWidget, QButtonGroup, QComboBox, QPlainTextEdit, QSplitter,
                              QMessageBox, QToolButton)
 
-from .theme import QSS
+from .theme import QSS, install_tooltips
 from .workspace import Workspace
 from .status import GameStatus, StatusPanel
 
@@ -101,10 +101,12 @@ class MainWindow(QMainWindow):
         sv.addSpacing(6)
 
         # where edits go
-        ml = QLabel("SAVING EDITS TO")
+        ml = QLabel("NEW EDITS GO TO")
         ml.setObjectName("sectionLabel")
-        ml.setToolTip("The mod that Save buttons write into. Each mod is a folder of changes you can switch on/off "
-                      "on the Home page.")
+        ml.setToolTip("Changes to something a mod makes or changes (its characters, their recruit quests, skills, "
+                      "descriptions, sprites ...) are saved in that mod automatically.\n\nThis mod gets everything "
+                      "else:changes to the game's own characters, skills and data that no mod changes yet, and new "
+                      "things you make. Each mod is a folder of changes you can switch on/off on the Home page.")
         sv.addWidget(ml)
         self.mod_combo = QComboBox()
         self.mod_combo.setToolTip(ml.toolTip())
@@ -361,6 +363,7 @@ def main():
         sys.path.insert(0, kit)
     app = QApplication(sys.argv)
     app.setApplicationName("D5 Mod Kit")
+    install_tooltips(app)
     app.setStyleSheet(QSS.replace("'Segoe UI', 'Yu Gothic UI'", "'Helvetica Neue', 'Hiragino Sans'")
                       if sys.platform == "darwin" else QSS)
     ensure_game_dir()

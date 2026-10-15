@@ -69,7 +69,7 @@ class Panel(QFrame):
     def __init__(self, title, icon="", count=None):
         super().__init__()
         self.setObjectName("propPanel")
-        self.setStyleSheet("#propPanel { background: #1d1a28; border: 1px solid #2f2a42; border-radius: 6px; }")
+        self.setStyleSheet("#propPanel { background: #171a33; border: 1px solid #2b3160; border-radius: 6px; }")
         self.title = title
         v = QVBoxLayout(self)
         v.setContentsMargins(0, 0, 0, 0)
@@ -80,8 +80,8 @@ class Panel(QFrame):
         self.head.setCursor(Qt.CursorShape.PointingHandCursor)
         self.head.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         self.head.setStyleSheet("QPushButton { text-align: left; padding: 6px 10px; border: none; "
-                                "background: #26223a; color: #f2eff9; font-weight: 600; border-radius: 6px; }"
-                                "QPushButton:hover { background: #2e2946; } QPushButton:checked { background: #26223a; }")
+                                "background: #1f2342; color: #eef0ff; font-weight: 600; border-radius: 6px; }"
+                                "QPushButton:hover { background: #262b55; } QPushButton:checked { background: #1f2342; }")
         self._label = (f"{icon}  {title}" if icon else title).replace("&", "&&")   # '&' would be a shortcut
         if count is not None:
             self._label += f"   ({count})"
@@ -106,7 +106,7 @@ class Panel(QFrame):
 
     def row(self, label, widget, help=None, tip=None):
         lab = QLabel(label)
-        lab.setStyleSheet("color: #a9a4bd;")
+        lab.setStyleSheet("color: #c3c8e8;")
         lab.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         lab.setMinimumWidth(84)
         if tip:
@@ -118,7 +118,7 @@ class Panel(QFrame):
         if help:
             h = QLabel(help)
             h.setWordWrap(True)
-            h.setStyleSheet("color: #7f7a96; font-size: 8.5pt;")
+            h.setStyleSheet("color: #7a80a8; font-size: 8.5pt;")
             self.grid.addWidget(h, self.rows, 1)
             self.rows += 1
         return widget
@@ -131,7 +131,7 @@ class Panel(QFrame):
     def note(self, text):
         h = QLabel(text)
         h.setWordWrap(True)
-        h.setStyleSheet("color: #8e89a6;")
+        h.setStyleSheet("color: #8a90b8;")
         return self.full(h)
 
 
@@ -143,7 +143,7 @@ def _hbox(*widgets, stretch_last=False):
     for k, x in enumerate(widgets):
         if isinstance(x, str):
             l = QLabel(x)
-            l.setStyleSheet("color: #8e89a6;")
+            l.setStyleSheet("color: #8a90b8;")
             h.addWidget(l)
         else:
             h.addWidget(x, 1 if (stretch_last and k == len(widgets) - 1) else 0)
@@ -295,7 +295,7 @@ class PropertiesPanel(QScrollArea):
         p.note("The commands exactly as the script has them (for what the panels above don't cover).")
         for op in ops:
             t = QLabel(f"<b>frame {op.frame}</b> · {fxtools.describe(op, self.names)}"
-                       f"<span style='color:#8e89a6'>  ({op.name})</span>")
+                       f"<span style='color:#8a90b8'>  ({op.name})</span>")
             t.setWordWrap(True)
             p.full(t)
             for i, n in enumerate(choreo.arg_names(op.cid)):
@@ -306,7 +306,7 @@ class PropertiesPanel(QScrollArea):
     def _header(self, title, sub, pix=None, actions=()):
         box = QFrame()
         box.setObjectName("propHead")
-        box.setStyleSheet("#propHead { background: #211d2e; border: 1px solid #3a3553; border-radius: 8px; }")
+        box.setStyleSheet("#propHead { background: #1a1e3a; border: 1px solid #3d4689; border-radius: 8px; }")
         v = QVBoxLayout(box)
         v.setContentsMargins(10, 8, 10, 8)
         row = QHBoxLayout()
@@ -317,15 +317,15 @@ class PropertiesPanel(QScrollArea):
             img.setAlignment(Qt.AlignmentFlag.AlignCenter)
             img.setPixmap(pix.scaled(72, 72, Qt.AspectRatioMode.KeepAspectRatio,
                                      Qt.TransformationMode.SmoothTransformation))
-            img.setStyleSheet("background: #15131c; border: 1px solid #3a3553; border-radius: 6px;")
+            img.setStyleSheet("background: #0b0d1d; border: 1px solid #3d4689; border-radius: 6px;")
             row.addWidget(img)
         col = QVBoxLayout()
         t = QLabel(title)
-        t.setStyleSheet("font-size: 11pt; font-weight: 700; color: #f2eff9;")
+        t.setStyleSheet("font-size: 11pt; font-weight: 700; color: #eef0ff;")
         t.setWordWrap(True)
         col.addWidget(t)
         s = QLabel(sub)
-        s.setStyleSheet("color: #9a95b0;")
+        s.setStyleSheet("color: #8a90b8;")
         s.setWordWrap(True)
         col.addWidget(s)
         col.addStretch(1)
@@ -701,7 +701,7 @@ class PropertiesPanel(QScrollArea):
         if pix is not None:
             l = QLabel()
             l.setPixmap(pix)
-            l.setStyleSheet("border: 1px solid #3a3553; border-radius: 4px;")
+            l.setStyleSheet("border: 1px solid #3d4689; border-radius: 4px;")
             self.lay.addWidget(l)
         p = self._panel("Sound", "🔊")
         sb = QSpinBox()

@@ -65,10 +65,17 @@ def unique_pool(fs, vanilla=None):
 
 
 def free_unique_ids(fs, mod, vanilla=None, extra_taken=()):
-    """unique_pool minus every id a mod already uses (char.dat rows edited / added, outfit slots)"""
+    """unique_pool minus every id a mod already uses (char.dat rows edited / added, outfit slots) and every id whose
+    keyed files (anm <id> + 2, 10000 + <id>, ...) a mod's own files already sit on"""
     taken = used_dummy_ids(mod, vanilla) | set(extra_taken)
+    files = set()
     for m in _mods(mod):
         o = m.load_patch("outfits", "outfits.json") or {}
         for a, b in o.get("pairs", []):
             taken.update((int(a), int(b)))
-    return [i for i in unique_pool(fs, vanilla) if i not in taken]
+        for f in m.list_files():
+            n = f.split("/")[-1]
+            if n.startswith("anm") and n[3:8].isdigit():
+                files.add(int(n[3:8]))
+    return [i for i in unique_pool(fs, vanilla) if i not in taken
+            and not {i + 2, i + 10000, i + 10001} & files]

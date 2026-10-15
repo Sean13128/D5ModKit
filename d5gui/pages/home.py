@@ -50,9 +50,9 @@ class ModDialog(QDialog):
                 "category": self.category.currentData() or ""}
 
 
-STEPS = [("1", "Pick the mod you're working on",
-          "Your edits are saved into a mod: a folder of changes you can switch on and off. Choose it under "
-          "<b>Saving edits to</b> (bottom left), or create one here."),
+STEPS = [("1", "Pick a mod for new edits",
+          "Edits are saved into mods: folders of changes you can switch on and off. A change to something a mod "
+          "already makes goes into that mod by itself; everything else into <b>New edits go to</b> (bottom left)."),
          ("2", "Edit and press Save",
           "Use the editors on the left. <b>Save</b> (or Ctrl+S) stores the change in the mod — the game is not "
           "touched yet."),
@@ -204,6 +204,7 @@ class HomePage(QWidget):
                          ("Share (export as .zip)…", self.export_mod),
                          ("Import / update from .zip…", self.import_mod),
                          ("Make my own version…", self.derive_mod), (None, None),
+                         ("Check saves…", self.check_saves),
                          ("Delete mod…", self.delete_mod)]:
             if text is None:
                 menu.addSeparator()
@@ -683,27 +684,27 @@ class HomePage(QWidget):
         order = self.ws.mods.load_order()
         self.mod_title.setText(meta.get("name") or mod.id)
         state = "enabled — installed with the others" if mod.id in order else "disabled — not installed"
-        editing = " · <b>your edits are saved here</b>" if self.ws.active_mod and self.ws.active_mod.id == mod.id else ""
+        editing = " · <b>new edits go here</b>" if self.ws.active_mod and self.ws.active_mod.id == mod.id else ""
         req = meta.get("requires") or []
         req_txt = ("<br><span style='color:#c9a0ff'>Requires: " + ", ".join(
             (mods[r].name if r in mods else r) + ("" if r in order else " (not enabled!)")
             for r in req) + "</span>") if req else ""
         import html as _h
         based = meta.get("based_on") or []
-        lineage = ("<br><span style='color:#9a95b0'>Based on " + " › ".join(
+        lineage = ("<br><span style='color:#8a90b8'>Based on " + " › ".join(
             _h.escape(f"{b.get('name', '?')} v{b.get('version', '?')}" + (f" by {b['author']}" if b.get("author") else ""))
             for b in based) + "</span>") if based else ""
         moved = meta.get("local_ids") or {}
-        moved_txt = ("<br><span style='color:#9a95b0'>Ids moved on this PC (kept for its updates): " + ", ".join(
+        moved_txt = ("<br><span style='color:#8a90b8'>Ids moved on this PC (kept for its updates): " + ", ".join(
             f"{k} {len(v)}" for k, v in moved.items()) + "</span>") if moved else ""
-        self.mod_info.setText(f"<span style='color:#9a95b0'>by {meta.get('author') or '—'} · v{meta.get('version') or '?'}"
+        self.mod_info.setText(f"<span style='color:#8a90b8'>by {meta.get('author') or '—'} · v{meta.get('version') or '?'}"
                               f" · {state}{editing}</span><br>{meta.get('description') or ''}{req_txt}{lineage}"
                               f"{moved_txt}")
         import html as _html
         lines = modinfo.summary(mod, self._class_names(), self.ws.mods.all_mods())
         cat = modinfo.CATEGORY_LABELS.get(modinfo.category(mod), "")
         pack = modinfo.Packs(self.ws.mods.mods_dir).pack_of(mod.id)
-        head = f"<b>What it adds</b> <span style='color:#9a95b0'>· {cat.split('  ', 1)[-1]}" + \
+        head = f"<b>What it adds</b> <span style='color:#8a90b8'>· {cat.split('  ', 1)[-1]}" + \
             (f" · in the pack {_html.escape(pack['name'])}" if pack else "") + "</span>"
         self.mod_summary.setText(head + "<br>" + "<br>".join(_html.escape(x) for x in lines))
         for f in mod.list_files():
@@ -949,6 +950,10 @@ class HomePage(QWidget):
                                                                      "is kept, switched off)" if on else "") +
                     ". Your edits are saved into it.")
 
+    def check_saves(self):
+        from .. import savecleanup
+        savecleanup.check_saves(self, self.ws)
+
     def delete_mod(self):
         mod = self._selected_mod()
         if not mod:
@@ -956,11 +961,20 @@ class HomePage(QWidget):
         if QMessageBox.question(self, "Delete mod", f"Permanently delete the mod '{mod.name}' and all its files?") \
                 != QMessageBox.StandardButton.Yes:
             return
+        from .. import savecleanup
+        try:
+            held = savecleanup.mod_info(self.ws, mod)      # read before its files go: what saves can hold of it
+        except Exception as e:
+            held = None
+            self.ws.log(f"(saves not checked for '{mod.name}': {e})")
         if self.ws.active_mod and self.ws.active_mod.id == mod.id:
             self.ws.set_active_mod(None)
         self.ws.mods.delete(mod.id)
         modinfo.Packs(self.ws.mods.mods_dir).remove_member(mod.id)
         self.ws.mods_changed.emit()
+        if held:
+            savecleanup.offer(self, self.ws, f"the mod '{mod.name}'", held["classes"], held["outfits"], held["quests"],
+                              guard=held.get("guard"))
 
     def remove_change(self):
         it = self.mod_files.currentItem()

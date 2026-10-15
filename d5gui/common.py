@@ -109,6 +109,43 @@ class ImageView(QGraphicsView):
             self.clicked.emit(int(p.x()), int(p.y()))
 
 
+class Refresher(QObject):
+    """A page refresh that runs once after the current event, and only while the page shows: a hidden page refreshes
+    when it is shown next.  Pages listen to several signals that fire together (a mod made or deleted: mods_changed,
+    every table's table_changed, file_changed); refreshing every page at once froze the editor for about a second.
+    Call it (any arguments are ignored); `done()` from the refresh itself clears a pending call."""
+
+    def __init__(self, widget, fn):
+        super().__init__(widget)
+        self.w, self.fn = widget, fn
+        self.pending = self.queued = False
+        widget.installEventFilter(self)
+
+    def __call__(self, *_):
+        self.pending = True
+        self._queue()
+
+    def done(self):
+        self.pending = False
+
+    def _queue(self):
+        if self.pending and not self.queued and self.w.isVisible():
+            from PyQt6.QtCore import QTimer
+            self.queued = True
+            QTimer.singleShot(0, self._run)
+
+    def _run(self):
+        self.queued = False
+        if self.pending and self.w.isVisible():
+            self.pending = False
+            self.fn()
+
+    def eventFilter(self, obj, e):
+        if obj is self.w and e.type() == QEvent.Type.Show:
+            self._queue()
+        return False
+
+
 class Worker(QThread):
     """Run a function in a background thread; emits done(result) or failed(exc_text)."""
     done = pyqtSignal(object)
@@ -193,6 +230,162 @@ class SearchBox(QLineEdit):
         super().__init__(parent)
         self.setPlaceholderText(placeholder)
         self.setClearButtonEnabled(True)
+
+
+class ResponsiveGrid(QWidget):
+    """Cells (widgets) in as many equal columns as fit (each at least `min_cell` px, at most `max_cols`): a form
+    that reflows into more rows in a narrow window instead of being squeezed and cut off."""
+
+    def __init__(self, min_cell=110, max_cols=8, spacing=8, parent=None):
+        super().__init__(parent)
+        from PyQt6.QtWidgets import QGridLayout, QLayout
+        self.min_cell, self.max_cols, self.cols, self.cells = min_cell, max_cols, 0, []
+        self.grid = QGridLayout(self)
+        self.grid.setContentsMargins(0, 0, 0, 0)
+        self.grid.setHorizontalSpacing(spacing)
+        self.grid.setVerticalSpacing(spacing)
+        self.grid.setSizeConstraint(QLayout.SizeConstraint.SetNoConstraint)
+        self.setMinimumWidth(min_cell)
+        self.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+
+    def add(self, w):
+        self.cells.append(w)
+        self._place(force=True)
+        return w
+
+    def add_cell(self, *items, tip=None):
+        """a cell of widgets stacked top to bottom (a label text first: a caption) -> the cell"""
+        cell = QWidget()
+        v = QVBoxLayout(cell)
+        v.setContentsMargins(0, 0, 0, 0)
+        v.setSpacing(3)
+        for it in items:
+            if isinstance(it, str):
+                lab = QLabel(it)
+                lab.setObjectName("fieldLabel")
+                if tip:
+                    lab.setToolTip(tip)
+                v.addWidget(lab)
+            elif isinstance(it, QWidget):
+                v.addWidget(it)
+            else:
+                v.addLayout(it)
+        return self.add(cell)
+
+    def _columns(self, width):
+        return max(1, min(self.max_cols, len(self.cells) or 1, int(width + self.grid.horizontalSpacing())
+                          // (self.min_cell + self.grid.horizontalSpacing())))
+
+    def _place(self, force=False):
+        cols = self._columns(self.width() if self.width() > 0 else self.min_cell * self.max_cols)
+        if cols == self.cols and not force:
+            return
+        self.cols = cols
+        for w in self.cells:
+            self.grid.removeWidget(w)
+        for i, w in enumerate(self.cells):
+            self.grid.addWidget(w, i // cols, i % cols)
+        for c in range(self.max_cols):
+            self.grid.setColumnStretch(c, 1 if c < cols else 0)
+        # (scroll areas don't ask a widget its height for a width: the rows' height is set as the minimum)
+        self.setMinimumHeight(self._height(cols))
+        self.updateGeometry()
+
+    def _height(self, cols):
+        rows = (len(self.cells) + cols - 1) // cols
+        if not rows:
+            return 0
+        heights = [max(c.sizeHint().height(), c.minimumSizeHint().height()) for c in self.cells]
+        per_row = [max(heights[r * cols:(r + 1) * cols]) for r in range(rows)]
+        return sum(per_row) + self.grid.verticalSpacing() * (rows - 1)
+
+    def _refit(self):
+        h = self._height(max(1, self.cols))
+        if h != self.minimumHeight():
+            self.setMinimumHeight(h)
+            self.updateGeometry()
+
+    def resizeEvent(self, e):
+        super().resizeEvent(e)
+        self._place()
+        self._refit()
+
+    def showEvent(self, e):
+        super().showEvent(e)
+        self._refit()                        # (the style sheet can change the cells' height once shown)
+
+    def sizeHint(self):
+        return QSize(self.min_cell * min(self.max_cols, max(1, len(self.cells))), self.minimumHeight())
+
+    def minimumSizeHint(self):
+        return QSize(self.min_cell, self.minimumHeight())
+
+
+class _TypeToSearch(QObject):
+    """The text box of a searchable drop-down: clicking (or tabbing) into it selects the whole entry, so what is typed
+    replaces it and the list shows every entry containing the words (a click put the cursor inside the shown name:
+    'star' typed into 'Mega Fire' searched for 'Mega starFire' and found nothing).  A search left unfinished shows
+    the chosen entry again when the box is left (restore(combo))."""
+
+    def __init__(self, combo, restore=None):
+        super().__init__(combo)
+        self.combo, self.restore, self.armed = combo, restore, False
+        combo.installEventFilter(self)                # (the focus goes to the drop-down, which hands it on)
+        combo.lineEdit().installEventFilter(self)
+
+    def eventFilter(self, obj, ev):
+        from PyQt6.QtCore import QTimer
+        t = ev.type()
+        edit = self.combo.lineEdit()
+        if t == QEvent.Type.FocusIn and ev.reason() not in (Qt.FocusReason.PopupFocusReason,
+                                                            Qt.FocusReason.ActiveWindowFocusReason):
+            self.armed = True
+            QTimer.singleShot(0, edit.selectAll)
+        elif t == QEvent.Type.MouseButtonRelease and obj is edit and self.armed:
+            self.armed = False
+            edit.selectAll()
+        elif t == QEvent.Type.FocusOut:
+            self.armed = False
+        return False
+
+
+def _search_owner(w):
+    while w is not None:
+        if getattr(w, "_d5_search", None) is not None:
+            return w
+        w = w.parentWidget()
+    return None
+
+
+def _focus_moved(old, new):
+    """the focus left a searchable drop-down (its list of matches holds it for a moment, so the drop-down's own
+    focus-out comes too early or not at all): a search left unfinished shows the chosen entry again"""
+    combo = _search_owner(old)
+    if combo is None or combo is _search_owner(new) or combo._d5_search.restore is None:
+        return
+    from PyQt6.QtCore import QTimer
+
+    def later():
+        try:
+            if combo.hasFocus() or combo.lineEdit().hasFocus():
+                return
+            if combo.completer() is not None:
+                combo.completer().popup().hide()
+            combo._d5_search.restore(combo)
+        except RuntimeError:                          # (the drop-down is gone)
+            pass
+    QTimer.singleShot(0, later)
+
+
+def type_to_search(combo, restore=None):
+    """make an editable QComboBox searchable by typing (see _TypeToSearch)"""
+    app = QApplication.instance()
+    if app is not None and not getattr(app, "_d5_search_focus", False):
+        app._d5_search_focus = True
+        app.focusChanged.connect(_focus_moved)
+    combo.lineEdit().setPlaceholderText("type to search…")
+    combo._d5_search = _TypeToSearch(combo, restore)
+    return combo
 
 
 def human_size(n):

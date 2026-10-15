@@ -250,7 +250,8 @@ class SpritesPage(QWidget):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self._tick)
         self._populated = False
-        ws.mods_changed.connect(lambda: self._populated and self._populate())
+        from ..common import Refresher
+        ws.mods_changed.connect(Refresher(self, lambda: self._populated and self._populate()))
         ws.active_mod_changed.connect(lambda _: self._update_banner())
 
     # ================================================================== layout parts

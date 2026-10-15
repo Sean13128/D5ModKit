@@ -627,3 +627,34 @@ picture on a quad of w × h map units (base 1200: one alpha-blended DXT3 quad in
 backdrop pictures; the texture takes the picture's size),
 `fxbuild.static()` / `fxbuild.spin(axis, frames, turns)` make simple animations, `fxbuild.save(mod, id, model, from)`
 stores it. `tools/render_skill.py SKILL OUTDIR` renders a skill's frames + a contact sheet with the kit's preview.
+
+## Calibration against Steam recordings (2026-10-14)
+
+Ten skills recorded on the Steam build (`tools/_record_steam.py UNIT SKILL "NAME" FRAMES [--learn] [--fresh-turn]`,
+`cache/recordings/skill<id>/`): Killia's Triple Strike, Phantom Blow, Hurricane Blow, Purgatory Palm, Rising
+Domination, Big Bang, No Way Out; Girl Laharl's Blazing Knuckle, Overlord's Wrath, Meteor Impact.
+`tools/_compare_recording.py SKILL OUT.png [FRAMES] [--bbox]` puts the editor's frame N next to the game's frame N
+(`--bbox`: every effect's drawn extent per frame).
+
+* Fixed: `3c44` is 3c48 without easing: a percent OF the effect's current size (0x14017a220 multiplies by the
+  slot's size +0x2c8 and writes it to the render object +0x28), not an absolute size.
+* Purgatory Palm: timing, flash and shards match; the shard burst sits at the caster instead of the target, and the
+  red orbs at frame ~140 are missing.
+* OPEN, Hurricane Blow's tornado (504): a tall column in the game, a flat ring in the kit. Its parts are stood up by
+  their node transforms, and it is shown with a non-uniform size (3c40 1.6 / 0.3 / 1.6). In the kit's model space it
+  points down, while the swirl (501) rises as in the game. Applying the size in the parts' own space plus a y-down
+  model space stands the tornado up but sinks the swirl. The game's model matrix code (the render object's size
+  +0x28..+0x30, rotations +0x1c / +0x1ec / +0x1f8, written by 0x14018d0a0) has to be traced. Switches for the
+  experiments: `D5_FX_LOCAL_SCALE=1`, `D5_FX_FLIP_MODEL_Y=1` (glrender).
+* Traced 2026-10-14 (launch exe): an effect's render object is a C++ object (vtable 0x1409b74f0); its matrix method
+  0x1402ffca0 builds, for the general (not camera-facing) path, `local = S(+0x28..+0x30) x R(+0x18..+0x20, order
+  +0x208) x R2(+0x1f8..+0x200, order +0x209, only when +0x209 != 0xff) x ... x T(+0x8..+0x10)` (row vectors), stores
+  it at +0x38 and multiplies by the matrix at [+0x178] (the parent's) into +0xf8; the draw method 0x1402ffad0 walks
+  the pieces at +0x1b8 (next +0x8), times the view (global +0x2a4) and submits them (0x1402fd190).  cmd_3c40's three
+  sizes go straight to x, y, z (0x140179cc0 -> slot +0x2c8.. -> render object +0x28.., x negated when mirrored).
+  The kit composes in the same order (node, then the show's size, turn and place), so the tornado's difference lies
+  in how the size reaches the model's pieces.  504's chain of pieces runs along its nodes' -x and node 27 turns it
+  by 90 degrees about z: the column lies along the model's -y.  Compared with the recording (frames 130-200): both
+  switches on make it a standing column; the orange ribbons and the column's width still differ.  Next: read the
+  render objects of Hurricane Blow's slots 2 / 3 in the running game (root and pieces: +0x28 sizes, +0xf8 world
+  matrices) to see the pieces' real matrices.

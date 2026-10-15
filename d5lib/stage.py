@@ -1388,7 +1388,8 @@ _HANDLERS = {
     0x3c20: lambda s, a, f, m: _h_show(s, a, f, m, attached=True),
     0x3c22: lambda s, a, f, m: _h_show(s, a, f, m, attached=True, ranged=True),
     0x3c40: _h_fx_scale, 0x3c42: lambda s, a, f, m: _h_fx_scale(s, a, f, m, True),
-    0x3c44: _h_fx_scale, 0x3c48: _h_fx_scale_by,
+    # 3c44 = 3c48 without the easing: percent OF the current size (0x14017a220 reads the slot's size +0x2c8)
+    0x3c44: lambda s, a, f, m: _h_fx_scale_by(s, a, f, m, eased=False), 0x3c48: _h_fx_scale_by,
     0x3cb8: _h_fx_nscale, 0x3cba: lambda s, a, f, m: _h_fx_nscale(s, a, f, m, True),
     0x3c64: _h_fx_rot_to, 0x3c66: lambda s, a, f, m: _h_fx_rot_to(s, a, f, m, eased=True),
     0x3c68: _h_fx_rot_by, 0x3c6a: lambda s, a, f, m: _h_fx_rot_by(s, a, f, m, eased=True),

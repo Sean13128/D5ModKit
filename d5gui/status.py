@@ -13,10 +13,10 @@ STATES = {
     "pending": ("#f5a524", "Changes not in the game yet",
                 "You saved changes since the last install. Install them to see them in game."),
     "not_installed": ("#f5a524", "Mods not installed", "The game is still original. Install your mods to play them."),
-    "vanilla": ("#8e89a6", "Original game", "No mod is enabled. Enable or create a mod on the Home page."),
+    "vanilla": ("#8a90b8", "Original game", "No mod is enabled. Enable or create a mod on the Home page."),
     "other_profile": ("#f5a524", "Another profile is in the game",
                       "The game has the mods of another profile. Install to put this profile's mods in."),
-    "installing": ("#8b5cf6", "Installing…", "Building your mods and writing them into the game files."),
+    "installing": ("#7c83ff", "Installing…", "Building your mods and writing them into the game files."),
 }
 
 
@@ -114,6 +114,11 @@ class GameStatus(QObject):
             self.ws.log("✔ " + self.last_result + " The game is ready to play.")
             self.state = None
             self.refresh()
+            try:                                      # units made before a weapon mastery change (savecleanup)
+                from .savecleanup import after_install
+                after_install(self.main, self.ws)
+            except Exception as e:
+                self.ws.log(f"(saves not checked for weapon mastery: {e})")
             if play:
                 self.play()
 
