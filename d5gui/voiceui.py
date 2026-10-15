@@ -81,12 +81,15 @@ class VoiceService:
             m.play(pcm[0], pcm[1], volume)
 
     def play_line(self, line_id, lang="EN", volume=1.0):
-        self.play(self.bank(lang).get(line_id), volume)
+        try:
+            self.play(self.bank(lang).get(line_id), volume)
+        except Exception as e:                    # (a line the game's sound archives can't give: no sound)
+            self.ws.log(f"could not play voice line {line_id}: {e}")
 
     def play_file(self, path, volume=1.0):
         try:
             self.play(self.bank().get_file(path), volume)
-        except (OSError, ValueError) as e:
+        except Exception as e:
             self.ws.log(f"could not play {path}: {e}")
 
 
@@ -451,6 +454,8 @@ class VoiceEditor(QDialog):
         if it is None:
             return 0
         d = it.data(0, Qt.ItemDataRole.UserRole)
+        if not d:
+            return 0
         if d[0] == "kind":
             return d[1]
         return int(self.voice["lines"][d[1]].get("kind", 0))

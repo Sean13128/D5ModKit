@@ -1,5 +1,18 @@
 # D5 Mod Kit — changes
 
+## 1.5.1 (2026-10-15)
+
+**The kit no longer closes by itself**
+* 1.5 closed at once, with no message, when a window or panel with a search box went away: Save or Cancel in
+  🎤 Custom voice… (the "New custom voice" box), the New skill / New evility dialogs and the others with a search
+  box, choosing another unit on Stages & Maps, rebuilding the Characters form, and quitting the kit. The new search
+  boxes (1.5) still listened to such a box while it was being deleted; they no longer do.
+* Should anything else go wrong in a button, a timer or a list, the kit now keeps running: the error shows in the
+  log at the bottom and is written to `state/crash_log.txt` (send that file when reporting a problem). A crash of
+  Qt itself leaves a trace in `state/faulthandler.log`, and a kit that can't start says why.
+* Sound in the voice editor and the skill preview: an audio device that is unplugged or fails no longer stops the
+  sound for good (the next sound opens it again), and a recording that can't be played is reported in the log.
+
 ## 1.5 (2026-10-14)
 
 **Edits go into the mod they belong to**

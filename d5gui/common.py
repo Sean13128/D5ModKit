@@ -333,20 +333,39 @@ class _TypeToSearch(QObject):
         combo.installEventFilter(self)                # (the focus goes to the drop-down, which hands it on)
         combo.lineEdit().installEventFilter(self)
 
+    WATCHED = (QEvent.Type.FocusIn, QEvent.Type.MouseButtonRelease, QEvent.Type.FocusOut)
+
     def eventFilter(self, obj, ev):
-        from PyQt6.QtCore import QTimer
+        # The drop-down's events only: while a QComboBox is destroyed it still sends its filters an event (its list
+        # deleted: ChildRemoved) when its Python side is already gone -- touching self.combo then raised, and an
+        # error in a Qt callback closed the whole kit (1.5: deleting any searchable drop-down, e.g. closing a
+        # dialog or the kit, crashed it).
         t = ev.type()
-        edit = self.combo.lineEdit()
-        if t == QEvent.Type.FocusIn and ev.reason() not in (Qt.FocusReason.PopupFocusReason,
-                                                            Qt.FocusReason.ActiveWindowFocusReason):
-            self.armed = True
-            QTimer.singleShot(0, edit.selectAll)
-        elif t == QEvent.Type.MouseButtonRelease and obj is edit and self.armed:
-            self.armed = False
-            edit.selectAll()
-        elif t == QEvent.Type.FocusOut:
-            self.armed = False
+        if t not in self.WATCHED:
+            return False
+        try:
+            edit = self.combo.lineEdit()
+            if edit is None:
+                return False
+            if t == QEvent.Type.FocusIn and ev.reason() not in (Qt.FocusReason.PopupFocusReason,
+                                                                Qt.FocusReason.ActiveWindowFocusReason):
+                self.armed = True
+                from PyQt6.QtCore import QTimer
+                QTimer.singleShot(0, self._select_all)
+            elif t == QEvent.Type.MouseButtonRelease and obj is edit and self.armed:
+                self.armed = False
+                edit.selectAll()
+            elif t == QEvent.Type.FocusOut:
+                self.armed = False
+        except RuntimeError:                          # (the drop-down is being deleted)
+            pass
         return False
+
+    def _select_all(self):
+        try:
+            self.combo.lineEdit().selectAll()
+        except (RuntimeError, AttributeError):        # (gone, or no longer editable)
+            pass
 
 
 def _search_owner(w):
@@ -360,8 +379,11 @@ def _search_owner(w):
 def _focus_moved(old, new):
     """the focus left a searchable drop-down (its list of matches holds it for a moment, so the drop-down's own
     focus-out comes too early or not at all): a search left unfinished shows the chosen entry again"""
-    combo = _search_owner(old)
-    if combo is None or combo is _search_owner(new) or combo._d5_search.restore is None:
+    try:                                              # (the focus also moves when a widget is being deleted)
+        combo = _search_owner(old)
+        if combo is None or combo is _search_owner(new) or combo._d5_search.restore is None:
+            return
+    except RuntimeError:
         return
     from PyQt6.QtCore import QTimer
 

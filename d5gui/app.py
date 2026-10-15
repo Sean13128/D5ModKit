@@ -361,16 +361,26 @@ def main():
     kit = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     if kit not in sys.path:
         sys.path.insert(0, kit)
+    from . import crashguard
+    crashguard.install(kit)                    # an error in a click / timer is logged instead of closing the kit
     app = QApplication(sys.argv)
     app.setApplicationName("D5 Mod Kit")
     install_tooltips(app)
     app.setStyleSheet(QSS.replace("'Segoe UI', 'Yu Gothic UI'", "'Helvetica Neue', 'Hiragino Sans'")
                       if sys.platform == "darwin" else QSS)
     ensure_game_dir()
-    w = MainWindow()
+    try:
+        w = MainWindow()
+    except Exception as e:                     # (pythonw shows nothing: say it, the details are in the crash log)
+        crashguard.excepthook(*sys.exc_info())
+        QMessageBox.critical(None, "D5 Mod Kit", f"The kit could not start:\n\n{type(e).__name__}: {e}\n\n"
+                             f"The details are in {os.path.join(kit, 'state', 'crash_log.txt')}")
+        return
+    crashguard.set_sink(w.ws.log)
     w.show()
     from .common import Worker
     app.aboutToQuit.connect(Worker.wait_all)
+    app.aboutToQuit.connect(crashguard.at_quit)
     sys.exit(app.exec())
 
 

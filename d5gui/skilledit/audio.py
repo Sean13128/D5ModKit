@@ -21,6 +21,8 @@ class Mixer(QObject):
         self.error = None
 
     def _open(self):
+        if self.sink is not None and self.io is not None and self._stopped():
+            self._close()                                 # the device went away / failed: a new stream
         if self.sink is not None:
             return self.io is not None
         try:
@@ -41,6 +43,23 @@ class Mixer(QObject):
             self.io = None
         return self.io is not None
 
+    def _stopped(self):
+        """the stream ended by itself (an audio device unplugged or failing): writing to it is no use"""
+        try:
+            from PyQt6.QtMultimedia import QAudio
+            return self.sink.state() == QAudio.State.StoppedState
+        except Exception:
+            return True
+
+    def _close(self):
+        s, self.sink, self.io = self.sink, None, None
+        try:
+            if hasattr(s, "stop"):
+                s.stop()
+                s.deleteLater()
+        except Exception:
+            pass
+
     def play(self, pcm, rate, volume=1.0, speed=1.0):
         """pcm: mono float32 -1..1 at `rate`; speed: 1 = normal (also raises the pitch, as the game does)"""
         if not self.enabled or pcm is None or not len(pcm) or not self._open():
@@ -56,8 +75,20 @@ class Mixer(QObject):
         self.voices.clear()
 
     def _feed(self):
+        try:
+            self._feed_once()
+        except Exception as e:                            # a broken stream never stops the kit: quiet until a
+            self.error = str(e)                           # next sound opens a new one
+            self.voices.clear()
+            self.timer.stop()
+            self._close()
+
+    def _feed_once(self):
         if self.io is None:
+            self.timer.stop()
             return
+        if self._stopped():
+            raise RuntimeError("the audio stream stopped")
         free = self.sink.bytesFree() // 2
         if free < CHUNK:
             return
