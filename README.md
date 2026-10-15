@@ -21,7 +21,7 @@ The mods never change your saves, but a backup is always a good idea.
 
 ### Step 2 · Download the kit
 
-Download **[D5ModKit.zip](https://github.com/eraser4521/D5ModKit/releases/latest/download/D5ModKit.zip)** (556 MB)
+Download **[D5ModKit.zip](https://github.com/eraser4521/D5ModKit/releases/latest/download/D5ModKit.zip)** (520 MB)
 from the [latest release](https://github.com/eraser4521/D5ModKit/releases/latest).
 
 > ⚠️ Don't use the green **Code › Download ZIP** button on this page: that's only the source code, without the
@@ -104,7 +104,7 @@ done. Tutorial 5 in the guide shows the folder layout.
 
 ---
 
-> **About this repository.** It holds the kit's code and documentation (version 1.4). The mods (outfits,
+> **About this repository.** It holds the kit's code and documentation (version 1.5). The mods (outfits,
 > Thunderlady, classes …), the Disgaea RPG reference art the outfit builder matches against
 > (`d5lib/data/drpg_ref_humanoid.pickle`) and the bundled Python come with the release zip, not with this repository:
 > they are drawn from Disgaea 5 / Disgaea RPG art. To run from a clone: `pip install -r requirements.txt`, then
@@ -126,8 +126,9 @@ with a note). It warns about anything that would stop an install (another kit's 
 missing files) — `d5lib/gamecheck.py`. Each game folder keeps its own backups (`state/games/`).
 
 ## How it works (30-second version)
-1. **Pick the mod you're working on** — bottom left, *Saving edits to*. A mod is a folder of changes
-   (`D5ModKit/mods/<name>/`) you can switch on and off; with none chosen, your first save asks for a name.
+1. **Pick the mod for new edits** — bottom left, *New edits go to*. A mod is a folder of changes
+   (`D5ModKit/mods/<name>/`) you can switch on and off; with none chosen, your first save asks for a name. A change
+   to something a mod already makes or changes (its character, quest, skills …) is saved in that mod by itself.
 2. **Edit and press 💾 Save** (or Ctrl+S). The change goes into the mod — the game is not touched yet. A file another
    of your mods already provides is saved back into that mod (the kit tells you), so no edit gets lost.
 3. **Install & Play.** The status box (bottom left, also on Home) always says whether the game has your latest

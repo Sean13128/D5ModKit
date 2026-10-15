@@ -174,10 +174,12 @@ report back, and she joins (level 1). Her outfits are under <b>Outfit</b> like e
 <p><b>Back up your saves before playing with mods.</b> They are in
 <code>%APPDATA%\Nippon Ichi Software, Inc\Disgaea 5 Complete</code> (paste that into Explorer's address bar);
 copy the <code>SaveData</code> folder somewhere safe.</p>
-<p>The mods never change your saves, and you can load your existing saves with them. But a save that contains
+<p>Installing mods never changes your saves, and you can load your existing saves with them. But a save that contains
 something a mod added (a character wearing a mod outfit) needs that
-mod installed. Before you remove such a mod, switch the characters back to <i>Default</i> and dismiss the added
-units, or keep a save from before you used them.</p>
+mod installed. When you delete such a mod (or a character you made), the kit offers to take its units out of the
+saves that have them, as the game's own Dismiss would, and to put units in its outfits back into their own look;
+the saves are copied to <code>D5ModKit\state\save_backups</code> first. <b>Home › More › Check saves…</b> does the
+same for characters deleted earlier.</p>
 </div>
 
 <h2 id="basics">How the kit works</h2>
@@ -186,8 +188,10 @@ units, or keep a save from before you used them.</p>
 is saved into a <i>mod</i> under <code>D5ModKit\mods</code>. The game itself isn't touched while you edit.</div>
 <div class="card"><b>Install writes them into the game.</b> <b>Install &amp; Play</b> combines every enabled mod
 and writes the result into the game files. The originals are backed up first, into <code>D5ModKit\state</code>.</div>
-<div class="card"><b>"Saving edits to".</b> The box in the sidebar picks the mod your <b>💾 Save</b> buttons write
-into. If none is picked, the kit asks for a name the first time you save.</div>
+<div class="card"><b>Edits go into the mod they belong to.</b> Change something a mod makes or changes (its
+character, her quest, her skills …) and <b>💾 Save</b> writes into that mod by itself. The box in the sidebar,
+<b>"New edits go to"</b>, picks the mod for everything else: the game's own characters and data that no mod changes
+yet, and new things you make. If none is picked, the kit asks for a name the first time it needs one.</div>
 <div class="card"><b>The status box</b> (bottom left) always tells you whether the game has your latest changes:
 🟢 <i>Ready to play</i> or 🟠 <i>Changes not in the game yet</i>. Its button does the right thing.</div>
 </div>
@@ -565,12 +569,17 @@ cause. Check <code>d5auto.log</code> in the game folder: it records what the run
 <code>d5live_script.dat</code>. Delete them too if you like.</p>
 
 <h2 id="update">Updating the kit</h2>
-<p><b>In the kit (version 1.2 and later):</b> a few seconds after it starts, the kit asks GitHub whether there is a
-newer version. If there is, a bar appears over the pages: press <b>Update now</b>. Only the files that changed are
-downloaded, your own mods and settings stay, and a shipped file you edited yourself is backed up first (in
-<code>state\update_backups</code>). Then restart the kit. <b>Check for updates</b> on the Home page asks right away;
-untick <b>at start</b> to stop the automatic check.</p>
-<p>When an update needs the full download (or from an older kit), move to the new copy without losing anything:</p>
+<p><b>The simple way:</b> download <b>D5ModKit.zip</b> from the
+<a href="https://github.com/eraser4521/D5ModKit/releases/latest">latest release</a>, extract it, and copy its
+<code>D5ModKit</code> folder over your old one, choosing <b>Replace</b> for every file. Your own mods, profiles and
+settings stay (they aren't in the zip); the included outfit mods are replaced by their new versions. Then press
+<b>Install &amp; Play</b> once.</p>
+<p><b>In the kit (version 1.4 and later):</b> a few seconds after it starts, the kit asks GitHub whether there is a
+newer version. If there is, a bar appears over the pages: press <b>Update now</b>. It downloads the release and writes
+only the files that changed; your own mods and settings stay, and a shipped file you edited yourself is backed up
+first (in <code>state\update_backups</code>). Then restart the kit. <b>Check for updates</b> on the Home page asks
+right away; untick <b>at start</b> to stop the automatic check.</p>
+<p>To move to a fresh copy in another folder instead, without losing anything:</p>
 <ol class="steps">
 <li>In the old kit, press <b>Restore original game…</b>.</li>
 <li>Copy your own mods (any folder in <code>old\mods</code> you made) into the new kit's <code>mods</code> folder.</li>

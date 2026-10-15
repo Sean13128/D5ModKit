@@ -1,5 +1,155 @@
 # D5 Mod Kit — changes
 
+## 1.5 (2026-10-14)
+
+**Edits go into the mod they belong to**
+* No more picking the right mod bottom left before editing. A change to something a mod makes or changes is saved
+  in that mod by itself: edit Thunderlady and 💾 Save writes into the Thunderlady mod, whatever mod is chosen. That
+  covers her stats, ranks, starting weapon levels, learned skills, evilities, description, recruit quest, face and
+  portrait, her new skills and evilities (✨), her custom voice, and a mod's own skills on Skills & Animations (their
+  editable animation is edited in its mod: no more "make that mod active"). When several mods change a game
+  character, the last one in the load order gets it. Characters & Classes says where the shown character is saved.
+* The box bottom left is now **New edits go to**: the mod for everything no mod has yet (the game's own characters,
+  skills and data no mod changes, and new things you make). With none chosen, editing a mod's character no longer
+  asks for a new mod.
+* Earlier kits saved such changes into the mod chosen at the time, as a change of "row N" of the table, and row N
+  is someone else when the mods or their order change (and such a mod, shared, changes a random character on
+  another PC). Your mods are checked when the kit opens and these changes move into the mod that makes the
+  character, with a copy of the files in `state/mod_backups` first; the game gets exactly the same tables. Here:
+  Thunderlady's stats kept in the Henna mod, and Liezerota's kept in the Thunderlady mod.
+* Saving no longer rewrites a mod whose changes are the same (it marked the game as needing an install).
+
+**Search boxes find what you type**
+* Typing in a skill, evility, Overload or character box (Characters & Classes, Skills & Animations, Database Editor
+  and the other pages) now replaces the shown entry and lists everything containing the words: "star" lists Star,
+  Mega Star, Giga Star … Before, a click put the cursor inside the shown name, so the search ran on a mix of both and
+  found nothing; and a search left without choosing could set the slot to "nothing". Now it goes back to the entry
+  that was chosen.
+
+**Characters and outfits can't spoil each other**
+* Sprite numbers 10000-12999 are the portraits of characters 0-2999 (10000 + id), and earlier kits could give an
+  outfit or new character a sprite there. Etna's Lioness Princess (10970) was drawn as Killixia's portrait and over
+  its own and the Supreme outfit's portraits. New sprites never get those numbers, new characters skip ids whose
+  files a mod already uses, and new classes skip families whose portraits are taken.
+  `tools/fix_sprite_numbers.py` moved the 141 included sprites that sat there (saves are unaffected: they refer to
+  characters by id) and Etna's two outfits were rebuilt.
+* Characters & Classes reloads by itself when mods are switched on or off, deleted or imported (the list kept old
+  row numbers: other characters showed up under the wrong names, a deleted mod's character as "DLC Dummy"). Unsaved
+  edits are carried over, the shown character stays shown, and **⟳** reloads by hand.
+* **🗑 Delete this character…** works for a character of any mod: it is deleted in the mod that made it.
+* A class entry holding a single row (Killixia's row kept for older saves) is no longer a fold with itself inside.
+* ✨ New character from a character another mod makes (Thunderlady, Future Usalia …) no longer fails with "source /
+  template character not found", and a failed attempt removes the empty mod it made.
+
+**Saves: a deleted character leaves nothing behind**
+* Deleting a mod (Home) or a character (🗑 Delete this character…) now offers to take its units out of the saves
+  that have them: the game's save folder and the saves the kit keeps for profiles, each save ticked or not. It is
+  done the way the game's own Dismiss does it (squads, groups, the units walking the base, the army's order), units
+  in one of the mod's outfits go back to their own look, its recruit quests start fresh, and the game's own
+  characters are never touched. The saves are copied to `state/save_backups` first. Without this, the game showed
+  the unit as "DLC Dummy" or crashed at the next battle.
+* **Home › More › Check saves…** finds units whose character no mod makes any more (deleted before this existed)
+  and offers the same clean-up. `d5lib/savegame.py` reads and writes saves (the October 2018 and today's Steam build
+  use the same format).
+* **Recruit quests keep their progress slot.** A save stores a quest's progress by its slot (Quest.dat
+  sort_order). The install checked slots after each mod, before the later mods' quests were in, and moved quests
+  around depending on what was switched on, so a save could show one character's quest done for another one.
+  Slots are now checked once at the end and a quest keeps its slot whatever else is switched on (hidden placeholder
+  quests fill the quest board's count when needed). Thunderlady's quest is now written on slot 396, where every
+  earlier install put it, so saves that recruited her keep it. New quests take ids and slots no mod uses, switched
+  on or off.
+* **Check saves** also compares recruit quests with the army: a quest shown done while its character isn't in the
+  save (progress a deleted character's quest left on the slot) opens again, and a character whose quest isn't
+  marked done gets it marked done (so the Quest Shop can't recruit a second one). Deleting a mod clears its quests'
+  progress, unless a save has the character of another quest on the same slot.
+
+**New characters**
+* **A new character starts with its own skills, not the template's.** ✨ New character used to copy everything of
+  the character it starts from, unique skills, evilities and Overload included. Now *Skills, evilities, Overload*
+  is "None — give it its own on this page" unless you choose to copy them; its weapon ranks, resistances and
+  movement still come from the template, and **Starting stats** picks its stats (this choice was ignored unless
+  the new character wore a Disgaea RPG unit or an outfit).
+* "Moves like" is now **Animations from**, with the reason beside it: a Disgaea RPG unit has pictures but no
+  Disgaea 5 animations, so it borrows the moves (walking, attacks, casting) of the character chosen there, and
+  nothing else.
+* The message after making a character showed its description instead of what was made.
+* The Quest Shop's "… has joined!" banner showed pieces of other poses with a new character (a glove, a boot,
+  half a figure): it draws the character's sprite with the game's shared standing motion, which cuts two fixed
+  rectangles out of the texture, and a new character's texture had other frames there. Installing now puts the
+  standing picture exactly where that motion looks, with nothing else nearby, for every new character
+  (Thunderlady, Henna, Liezerota, Future Usalia and any you make; `ownanim.banner_layout`). The drawings and
+  animations don't change.
+* **Portraits keep their white clothes.** The background removal took white clothes that touch the picture's edge
+  for background (Henna's dress, Thunderlady's top, Groom Thunderlady's flowers); it no longer does, and those
+  portraits were built again from their Disgaea RPG originals (`tools/refit_portraits.py`, which only ever brings
+  pixels back).
+* **🧽 Fix portrait background…** (Characters & Classes; Outfits › Edit › Fix cut-in background…): the portrait on
+  a checkerboard or the Status screen's blue; left click makes a white area (or what the brush paints)
+  transparent, right click keeps it. It is built again from the original picture, every copy of it in the mod
+  follows, and the kit remembers the original and your marks for next time.
+* **Weapon mastery: rank and starting level.** Each weapon shows the rank letter the game shows (S, A, B, C, D, E,
+  or can't use; the number behind it is the class's aptitude, value ÷ 5 + 1: it was a number labelled "starting
+  level", which it isn't). Next to it, **Lv**: the weapon level a new unit of the class starts with (the game's
+  own units start at 0). The game keeps no such level per class, so the install adds it: right after a unit is made
+  (recruited, joining in the story, created at the registrar) the game's own "set weapon level" is called for each
+  listed weapon (`d5lib/weaponlevels.py`, mod file `patches/characters/weapon_levels.json`); a unit that already
+  has more keeps it.
+* **Units you already have get the new ranks and levels.** The game copies a class's ranks into a unit once, when
+  it is made, so a character recruited before you changed her ranks kept the old ones in game (Henna's staff stayed
+  C at Lv 0). After an install the kit lists such units in your saves (rank C → S, Staff Lv 0 → 5 …) and, if you
+  agree, updates them: ranks become the class's, and weapon levels below the starting level are raised (levels
+  earned in game stay). The saves are copied to `state/save_backups` first. Home › More › Check saves… does the same
+  any time.
+* Characters & Classes shows **how to get this character**: the recruit quest (or class unlock) in words, with its
+  objective and what has to happen before the Quest Shop offers it.
+* Learned skills have a **📂** button: the skills in groups (weapon skills by weapon, spells by element, each
+  character's and class's own, monsters', the ones your mods add) with a search box and the description beside.
+
+**Editor**
+* **A new look**, after Disgaea 5's own menus: deep indigo panels framed in blue, teal headers on every section,
+  gold stat names, Disgaea pink for each page's main button, cyan for what has the focus, larger text, clearer
+  lists and tabs. The skill editor and the other pages follow the same colours (`d5gui/theme.py`).
+* **Characters & Classes fits any window size**: stats, movement, weapon mastery, resistances and learned skills
+  rearrange into fewer columns in a narrow window instead of being cut off (a sideways scroll bar appears only if
+  something still doesn't fit), and a row of buttons above the form jumps to a section (Identity, Stats, Mastery,
+  Skills …).
+* Spin boxes have their own up / down buttons (stacked, as in other programs): on some Windows 11 setups the up
+  arrow did nothing.
+* Tooltips show after a quarter of a second and stay up 30 seconds (longer for long texts); a list entry's tooltip
+  no longer goes away when the mouse moves a little.
+* Making a character no longer freezes the editor for a moment: pages you aren't looking at catch up when you open
+  them, and a change reloads each page once instead of once per table.
+
+**Skill editor**
+* **Your mods' characters can be the caster** (and the target) in the preview: new characters, imported ones and
+  outfits are listed after the game's (marked "(mod)"). Their sprites are numbered from 13000, which the list left
+  out.
+* **Anyone using another character's own skill stays visible, in their own look.** Macrocosm hides its caster and
+  shows Killia through stand-ins (his event pose, his awakened form) that it picks by the caster's sprite; with any
+  other caster (Henna, Thunderlady, Seraphina …) none matched, so nothing was drawn for most of the skill. Such a
+  skill (Killia's and Seraphina's own skills) now has one more version, played by every caster but its own
+  character: the stand-ins show the caster, poses only the owner's sprites have become poses every sprite has (his
+  event poses: standing; his special poses: an attack or the cast pose), the owner's voice lines are left out (the
+  caster's own stay), and the timing is the same. The install adds it when someone other than the owner learns the
+  skill; Killia still gets the original. The preview shows it for any other caster (`d5lib/standins.py`). Checked
+  in game: Henna casting Macrocosm is seen through the whole skill.
+* The preview drew a character a skill calls up by class (`cmd_6402`) with the class number as a sprite number: a
+  mod's character came out invisible.
+* 66 skills keep their animation in event numbers the editor didn't count as a skill's (Killia's own skills, the
+  throwing items, some weapon skills): only their first line was shown, and an editable copy copied that line
+  alone. Their whole animation is shown and copied now.
+* Ten skills recorded from the game (Steam) and compared frame by frame with the preview. Fixed: effects resized with
+  command 3c44 grew to an absolute size instead of a percent of their size.
+* The parts of an effect model turn the way the game turns them (about z, then x, then y, in the game's upside-down
+  world): Hurricane Blow's tornado stands up in the preview instead of pointing into the ground. It is still drawn
+  flatter than in the game.
+
+**Updating**
+* A release carries one download, D5ModKit.zip: copy it over your kit (Replace), or press **Update now** in the kit,
+  which writes only the files that changed and keeps your mods, profiles and settings.
+* **What's new** opens the release notes in a window of their own that scrolls (in 1.3 and 1.4 a long changelog
+  grew taller than the screen and its end could not be read).
+
 ## 1.4 (2026-10-14)
 
 **Outfit colours without blotches**
