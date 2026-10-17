@@ -696,6 +696,41 @@ def list_animations(anm: AnmFile):
     return out
 
 
+def retime(anm: AnmFile, anim_ids, factor: float) -> int:
+    """Make animations slower (factor > 1) or faster (< 1): every key time of their node trees (control keys -- the
+    loop points -- included) times `factor`.  Each key is changed once even when several of the animations share a
+    node; a node's key times stay increasing.  -> number of keys changed"""
+    ids = {int(i) for i in anim_ids}
+    done = 0
+    for b in anm.blocks:
+        keys = set()
+        for a in b.animations:
+            if a.id not in ids:
+                continue
+            for ni, _, _ in b.walk(a.root):
+                n = b.nodes[ni]
+                if n.first_key >= 0 and n.num_keys:
+                    keys.add((n.first_key, n.num_keys))
+        scaled = set()
+        for first, num in sorted(keys):
+            last = -1
+            for idx in range(first, min(len(b.keys), first + num)):
+                k = b.keys[idx]
+                if idx in scaled:                      # (a key two nodes share: changed once)
+                    last = k.time
+                    continue
+                scaled.add(idx)
+                t = int(round(k.time * factor))
+                if t <= last and k.time > 0:
+                    t = last + 1
+                t = max(0, min(0xFFFF, t))
+                if t != k.time:
+                    done += 1
+                k.time = t
+                last = t
+    return done
+
+
 def animation_info(b: AnmBlock, a: Animation) -> dict:
     root = b.nodes[a.root]
     ctl = [(k.time, k.flags & 0xFF) for k in b.node_keys(root)]

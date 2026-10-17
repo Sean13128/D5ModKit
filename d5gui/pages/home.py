@@ -610,6 +610,36 @@ class HomePage(QWidget):
         if new != order:
             self.ws.mods.save_load_order(new)
             self.ws.mods_changed.emit()
+            self._quest_warning(order, new)
+
+    def _quest_warning(self, before, after):
+        """a mod switched off that a quest's stage lives in: say so now (the quest could never be finished)"""
+        off = [m for m in before if m not in after]
+        if not off:
+            return
+        try:
+            from d5lib import questcheck
+            mods = {m.id: m for m in self.ws.mods.all_mods()}
+            probs = questcheck.problems(self.ws.fs, [mods[i] for i in after if i in mods], list(mods.values()))
+            probs = [p for p in probs if p["mod"] is not None and p["mod"].id in off]
+        except Exception:
+            return
+        if not probs:
+            return
+        from PyQt6.QtWidgets import QMessageBox
+        text = "<br><br>".join(p["text"] for p in probs)
+        box = QMessageBox(self)
+        box.setWindowTitle("A quest needs that mod")
+        box.setTextFormat(Qt.TextFormat.RichText)
+        box.setText(text + "<br><br>Switch it back on, or change what the quest asks for (Characters → the "
+                           "character → <i>How to get this character</i>).")
+        on = box.addButton("Switch it back on", QMessageBox.ButtonRole.AcceptRole)
+        box.addButton("Leave it off", QMessageBox.ButtonRole.RejectRole)
+        box.exec()
+        if box.clickedButton() is on:
+            need = [p["mod"].id for p in probs]
+            self.ws.mods.save_load_order(after + [m for m in before if m in need and m not in after])
+            self.ws.mods_changed.emit()
 
     def _tree_double(self, item, col):
         if item.data(0, KIND) == "mod":
@@ -769,6 +799,14 @@ class HomePage(QWidget):
             found.append(("warning", "Your save has units from mods that are switched off in this profile: " + what +
                           ". The game crashes entering a battle with that save: switch those mods on (or pick a "
                           "profile that has them) and install."))
+        try:
+            from d5lib import questcheck
+            for t in questcheck.problem_texts(self.ws.fs, self.ws.mods.enabled_mods(), self.ws.mods.all_mods()) \
+                    if ok else []:
+                found.append(("warning", t + " Switch that mod on, or change what the quest asks for (Characters, "
+                                         "'How to get this character')."))
+        except Exception as e:
+            found.append(("warning", f"(quests not checked: {e})"))
         if not found:
             self.check_label.hide()
             return

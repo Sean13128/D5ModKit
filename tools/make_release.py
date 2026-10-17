@@ -47,7 +47,7 @@ SKIP_DIRS = {"__pycache__", ".git", ".idea"}
 SKIP_TOOLS = {"unlock_all_classes.py", "make_release.py.bak"}
 SKIP_EXT = {".pyc", ".pdb", ".tmp", ".log"}
 PACKAGES = ["PyQt6", "PyQt6-Qt6", "PyQt6_sip", "numpy", "pillow", "scipy", "pefile", "keystone-engine", "capstone",
-            "pip"]
+            "soundfile", "cffi", "pycparser", "pip"]
 PY_SKIP_LIB = {"site-packages", "test", "idlelib", "tkinter", "turtledemo", "ensurepip", "__pycache__", "lib2to3",
                }
 DRPG_UPDATED = "DRPG Assets (Updated)"

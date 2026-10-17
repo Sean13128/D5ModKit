@@ -1,5 +1,64 @@
 # D5 Mod Kit — changes
 
+## 1.5.2 (2026-10-17)
+
+**Stages & Maps**
+* **The stage in 3D.** A stage opens as the battle shows it: its terrain with its textures, every unit standing on
+  its panel as its own sprite (idling), the map's objects (boxes, barrels, cacti, pillars) as their 3D models, Geo
+  Panels, the base panel, through the game's battle camera. The mouse
+  turns, pans and zooms it (F fits the map, 1 the battle view, 7 from above); units and panels are clicked and
+  dragged as on the flat map, which 🧊 3D switches back to.
+* **🧱 Blocks: battlefields built out of blocks.** The game's Item World pieces (stone slabs, bars, steps, towers,
+  pyramids and 17 themed sets: cracked desert, cyan ruins, snow, a Japanese town, checkered floors, ice…) and
+  rectangles cut out of any map are placed on a grid, turned and lifted (a lifted block's walls grow down to the
+  ground), moved and deleted, with the result shown in 3D as you go. New stage › *Blocks* starts one; a stage of
+  yours made from a map can be built on too (its terrain as one block, or an empty grid). The blocks are saved with
+  the map, so building goes on later.
+* **First visit and revisits.** Many stages place other units once they are cleared: Dried Up Wasteland has Warriors
+  the first time and Prinnies on the same panels after, Final Trial 5 flame dragons and then Lucky Boards. The map
+  holds both sets (byte 0x17C of each unit: every visit / first visit / revisits). **Show** above the map switches
+  between them, and every unit has **Appears on**. Before, both sets were drawn on top of each other: deleting a unit
+  seemed to need two clicks, and new units were copied as "first visit only", so on a cleared stage nothing you added
+  appeared and a stage without its revisit enemies was won the moment it started.
+* Saving checks the stage: a visit with no enemy left, two units on one panel, a unit off the panels or on the base
+  panel.
+* **➕ New stage…**: pick the battlefield it starts from in pictures of every map (their own 3D terrain), name it,
+  choose what it starts with (its units, only its objects, or nothing).
+* **New stages in the game's stage list.** The game lists a stage in the episode of its map number once its story
+  flag is set. A new stage gets a number of the chosen episode and the flag of the stage it is listed with; saves
+  you already have get it when the game loads them. New stages also get the battle start of their base stage:
+  without it the stage played no battle start at all. Install adds a new stage to the table the stage list reads when
+  its cursor is on a stage (the game closed when the cursor reached a stage missing from it). Home › More › Check
+  saves takes stages of deleted mods off a save. Older kits gave new stages map 90001, which is the game's own
+  Unique Dungeon: **Move to another episode…** gives such a stage a proper number.
+* Maps of every enabled mod are found and saved into their own mod.
+* **Battle music** of a stage: every song of the game, or one of yours from Music & Sound (the song the stage's
+  start event plays).
+
+**Music & Sound**
+* **Export…** saves a track as a WAV any audio editor opens, its intro and loop as plain .ogg files and its loop
+  points (the game's file, two Ogg streams behind a small header, only opened in players like VLC).
+* **Replace with my song… / Add new track…**: one song file (WAV, FLAC, OGG or MP3, no ffmpeg needed), its loop start
+  and end set on the waveform, and **Hear the loop join** to check the jump. The kit cuts and converts it.
+
+**Characters & sprites**
+* **What a recruit quest asks for.** A new character's quest can ask to clear a stage (one of the game's or one of
+  your own) or to defeat enemies of a class (*To finish it* in the New character dialog; *Change what the quest asks
+  for…* under *How to get this character* later). A quest that needs a stage of a mod that is switched off can't be
+  finished in game: Home says so, switching that mod off asks, and Install asks before going on.
+* **Sprite sheets of any kind**: the kit finds every drawing on a sheet (fan sheets with drawings scattered on a
+  background colour, several characters and effects mixed in) and you choose which ones are each animation, in order,
+  with a live preview, flip, merge and hand-drawn boxes. Small sheets are scaled to the character's height. The
+  choices are kept for the next time.
+* **Monsters from a sprite sheet** move with their own animations. A monster drawn with the humanoid moves stood
+  invisible in battle and showed up for one frame when it dodged.
+* Animations of each game animation take the drawings you gave that animation (with free-size drawings a walk could
+  pick an attack pose).
+* **⏱ Speed…** (Sprites & Colors) makes an animation the sprite carries itself slower or faster, e.g. a Disgaea RPG
+  class's idle that plays too quickly.
+* New character: **Generic class** can always be chosen; with a unique character as template, pick the **class to
+  start from**.
+
 ## 1.5.1 (2026-10-15)
 
 **The kit no longer closes by itself**

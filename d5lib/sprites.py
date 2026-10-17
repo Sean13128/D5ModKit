@@ -110,6 +110,19 @@ def preview_file(fs: GameFS, a: anm.AnmFile, progress=None) -> anm.AnmFile:
     return a
 
 
+def stand_height(fs: GameFS, a: anm.AnmFile) -> int:
+    """how tall the sprite's standing drawing is in pixels (the visible part, not its cell): what a sprite sheet's
+    drawings are scaled to"""
+    try:
+        v = preview_file(fs, a)
+        info = next(x for x in anm.list_animations(v) if x["id"] == 1)
+        img, _ = anm.render_items(v, anm.evaluate(v, info["index"], 0), 0)
+        box = img.getchannel("A").point(lambda p: 255 if p > 40 else 0).getbbox()
+        return (box[3] - box[1]) if box else 0
+    except Exception:
+        return 0
+
+
 def companion(num: int) -> int:
     """anmNNNN0 <-> anmNNNN1 (the reduced copy that shares the same sheets & palettes)."""
     return num + 1 if num % 10 == 0 else num - 1 if num % 10 == 1 else None

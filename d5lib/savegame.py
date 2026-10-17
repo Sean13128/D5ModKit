@@ -63,6 +63,18 @@ BASE_WALKER = 0x878D48
 FOLLOWERS, FOLLOWER_SLOTS, FOLLOWER_COUNT = 0x879158, 5, 0x879184
 SERIAL_LISTS, LIST_LEN, LIST_COUNT = 0x880498, 128, 3
 QUEST_COMPLETED, QUEST_ACCEPTED, QUEST_SEEN, QUEST_SLOTS = 0x87CE22, 0x87D222, 0x87D622, 0x400
+# Stages (0x145471178 in the launch exe): 400 slots of 0x80, filled at a new game (0x1401b7970) with every
+# dungeon.dat row in order; when the game loads a save it adds the rows it has no slot for yet (a mod's new stage:
+# seen in game 2026-10-16), so the kit never has to add stages.  A slot of a stage no mod has any more (a deleted
+# mod) stays, and the stage list closes the game when its cursor reaches it: Check saves empties those.  A slot:
+#   +0x00 u32 map id   +0x04 u16 clears (0: the first visit places its 'first visit' units, 0x140525640)
+#   +0x22 u16 title id = the story flag that lists it (dungeon.dat +0x16)   +0x24 u8 kind (dungeon +0x1D: 0 story,
+#   1 extra, 2 Carnage list)   +0x26 u16 stage level shown (dungeon +0x18)   +0x28 u8 1 = in use
+#   +0x29 name (0x34 bytes, the language the game ran in)
+# The Dimension Guide (0x140647450) lists a slot in the tab map_id // 100 - 1 when its story flag is set.
+STAGES, STAGE_SIZE, STAGE_SLOTS = 0x4767D8, 0x80, 400
+S_MAP, S_CLEARS, S_FLAG, S_KIND, S_LEVEL, S_USED, S_NAME, S_NAME_LEN = 0x0, 0x4, 0x22, 0x24, 0x26, 0x28, 0x29, 0x34
+STORY_FLAGS = 0xE                   # bit n = story flag n (0x144FFA9AE)
 KILLIA = 10                         # the base walker when the one walking is dismissed (0x1401c2610)
 
 SAVE_GLOB = ("Save_*.sav", "AutoSave.sav")
@@ -209,6 +221,62 @@ class Save:
         for a in (QUEST_COMPLETED, QUEST_ACCEPTED, QUEST_SEEN):
             self.state[a + slot] = 0
         return was
+
+    # --- stages (the Dimension Guide's list)
+    def flag(self, n):
+        return bool(self.state[STORY_FLAGS + (n >> 3)] >> (n & 7) & 1)
+
+    def stage_slots(self):
+        """{map id: slot} of the stages this save knows"""
+        out = {}
+        for k in range(STAGE_SLOTS):
+            o = STAGES + STAGE_SIZE * k
+            mid = _u32(self.state, o + S_MAP)
+            if mid and self.state[o + S_USED]:
+                out.setdefault(mid, k)
+        return out
+
+    def stage_listed(self, map_id):
+        """would the stage list show it: a slot, and its story flag set"""
+        k = self.stage_slots().get(int(map_id))
+        if k is None:
+            return False
+        flag = _u16(self.state, STAGES + STAGE_SIZE * k + S_FLAG)
+        return bool(flag) and self.flag(flag)
+
+    def add_stage(self, map_id, flag, kind, level, name, prefer=None):
+        """a slot for a stage, as a new game makes it (or its fields updated) -> slot, or None when all 400 are
+        taken.  prefer: its dungeon.dat row (a new game puts row k in slot k; the game looks one stage up that way,
+        0x1401c2280)"""
+        k = self.stage_slots().get(int(map_id))
+        if k is None:
+            free = lambda i: not _u32(self.state, STAGES + STAGE_SIZE * i + S_MAP)  # noqa: E731
+            if prefer is not None and 0 <= prefer < STAGE_SLOTS and free(prefer):
+                k = prefer
+            else:
+                k = next((i for i in range(STAGE_SLOTS) if free(i)), None)
+            if k is None:
+                return None
+            o = STAGES + STAGE_SIZE * k
+            self.state[o:o + STAGE_SIZE] = bytes(STAGE_SIZE)
+        o = STAGES + STAGE_SIZE * k
+        struct.pack_into("<I", self.state, o + S_MAP, int(map_id))
+        struct.pack_into("<H", self.state, o + S_FLAG, int(flag) & 0xFFFF)
+        self.state[o + S_KIND] = int(kind) & 0xFF
+        struct.pack_into("<H", self.state, o + S_LEVEL, int(level) & 0xFFFF)
+        self.state[o + S_USED] = 1
+        raw = name.encode("utf-8")[:S_NAME_LEN - 1]
+        self.state[o + S_NAME:o + S_NAME + S_NAME_LEN] = raw.ljust(S_NAME_LEN, b"\0")
+        return k
+
+    def remove_stage(self, map_id):
+        """the stage's slot emptied -> True when it had one"""
+        k = self.stage_slots().get(int(map_id))
+        if k is None:
+            return False
+        o = STAGES + STAGE_SIZE * k
+        self.state[o:o + STAGE_SIZE] = bytes(STAGE_SIZE)
+        return True
 
     # --- taking units out (0x140654770)
     def _q(self, off):
@@ -500,6 +568,45 @@ def clean(save, class_ids, quest_slots=(), outfits=None, finish=(), guard=None):
     for q in finish:
         if save.finish_quest(q):
             lines.append(f"recruit quest (slot {q}) marked done")
+    return lines
+
+
+def stage_info(dungeon_rows, name_lang="EN"):
+    """{map id: (story flag, kind, level, name, dungeon row)} of dungeon.dat rows (d5lib.mapfile.DungeonRecord
+    raw bytes), the way a new game copies them into its stage slots (0x1401b7970)"""
+    out = {}
+    for i, raw in enumerate(dungeon_rows):
+        mid = _u32(raw, 0x04)
+        if mid and mid not in out:
+            lang = ("JP", "EN", "FR", "CHN", "KOR").index(name_lang) if name_lang in ("JP", "EN", "FR", "CHN",
+                                                                                      "KOR") else 1
+            o = 0x49 + lang * 0x34
+            name = bytes(raw[o:o + 0x34]).split(b"\0")[0].decode("utf-8", "replace")
+            out[mid] = (_u16(raw, 0x16), raw[0x1D], _u16(raw, 0x18), name, i)
+    return out
+
+
+def stage_mismatches(save, wanted, known):
+    """(add, drop) for one save: add [map id] of `wanted` stages ({map id: stage_info}) the save has no slot for;
+    drop [map id] of slots whose stage is in no dungeon.dat row any more (`known`: every map id of the table)"""
+    have = save.stage_slots()
+    add = [m for m in wanted if m not in have]
+    drop = [m for m in have if m not in known] if known is not None else []
+    return add, drop
+
+
+def fix_stages(save, add=None, drop=None):
+    """add: {map id: stage_info tuple} slots made; drop: [map id] slots emptied -> lines"""
+    lines = []
+    for mid, (flag, kind, level, name, row) in (add or {}).items():
+        if save.add_stage(mid, flag, kind, level, name, prefer=row) is None:
+            lines.append(f"stage '{name}' not added: all {STAGE_SLOTS} stage slots are used")
+        else:
+            lines.append(f"stage '{name}' added to the stage list"
+                         + ("" if save.flag(flag) else " (shown once its story flag is set)"))
+    for mid in drop or ():
+        if save.remove_stage(mid):
+            lines.append(f"stage map{int(mid):05d} (of a deleted mod) taken off the stage list")
     return lines
 
 

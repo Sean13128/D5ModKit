@@ -344,12 +344,13 @@ class NewOutfitDialog(QDialog):
             if not path:
                 QMessageBox.warning(self, "New outfit", "Choose the sprite sheet PNG (or start from a copy).")
                 return
-            dlg = SheetRowsDialog(path, self)
+            from ..sheetpicker import SheetPicker
+            dlg = SheetPicker(path, self, title="Sprite sheet for the new outfit")
             if not dlg.exec():
                 return
             self.seqs = dlg.sequences()
             if not self.seqs:
-                QMessageBox.warning(self, "New outfit", "No rows were assigned to an animation.")
+                QMessageBox.warning(self, "New outfit", "No drawings were given to an animation.")
                 return
         self.accept()
 
@@ -674,7 +675,8 @@ class OutfitsPage(QWidget):
         p, _ = QFileDialog.getOpenFileName(self, "Sprite sheet", "", "Images (*.png)")
         if not p:
             return
-        dlg = SheetRowsDialog(p, self)
+        from ..sheetpicker import SheetPicker
+        dlg = SheetPicker(p, self, title="Sprite sheet for the outfit")
         if not dlg.exec():
             return
         seqs = dlg.sequences()

@@ -213,7 +213,8 @@ UNIT_FIELDS = [
     ("team", 0x175, "B", 1),         # 1 = enemy army, 2 = neutral (objects, GS, some units), 3..5 other armies
     ("unk176", 0x176, "H", 1),
     ("ai", 0x178, "i", 1),           # AI pattern id (101..116 seen), -1 = none (objects)
-    ("ai_rules", 0x17C, "B", 200),   # 20 x 10-byte entries {u8 kind, u8 arg, u16 v[4]} (v often a map rect)
+    ("ai_rules", 0x17C, "B", 200),   # byte 0 = `appears` (below); then the unit's AI orders: kind 255 = none,
+                                     # 4 x u16 (often a map rectangle)
     ("unk244", 0x244, "B", 4),
     ("geo_color", 0x248, "I", 1),    # Geo Symbol colour (same codes as panels, 0 = clear/colourless)
     ("geo_effect", 0x24C, "I", 1),   # Geo Symbol effect = GE.dat id (1 Damage, 5 ATK+ ... 61 Game Over)
@@ -221,6 +222,15 @@ UNIT_FIELDS = [
 _FIELD_MAP = {f[0]: f for f in UNIT_FIELDS}
 RECORD_SIZE = 0x250
 OLD_RECORD_SIZE = 436                # 4 demo maps (map00121/00421/00721/00825): older layout
+
+# When a unit is placed (byte 0x17C; the game's spawn 0x140525f20 asks 0x140525640 "is this the first visit": the
+# stage's clear count in the save is 0).  Story stages keep two sets in one map this way: map00101 has 4 Warriors
+# for the first visit and 4 Prinnies on the same panels for the visits after it is cleared; Final Trial 5 flame
+# dragons, then Lucky Boards.  3347 of the game's units are 0, 423 are 1, 208 are 2.
+APPEARS_ALWAYS, APPEARS_FIRST, APPEARS_REVISIT = 0, 1, 2
+APPEARS = {APPEARS_ALWAYS: "Every visit", APPEARS_FIRST: "First visit (until the stage is cleared)",
+           APPEARS_REVISIT: "Revisits (after the stage is cleared)"}
+APPEARS_OFF = 0x17C
 
 
 class Unit:
@@ -250,6 +260,9 @@ class Unit:
     def __setattr__(self, name, value):
         f = _FIELD_MAP.get(name)
         if f is None:
+            if isinstance(getattr(type(self), name, None), property):     # (appears ...)
+                object.__setattr__(self, name, value)
+                return
             raise AttributeError(name)
         _, off, fmt, cnt = f
         self._check(off, fmt, cnt)
@@ -272,6 +285,33 @@ class Unit:
     @property
     def on_map(self):
         return self.x >= 0 and self.y >= 0
+
+    @property
+    def appears(self):
+        """APPEARS_ALWAYS / APPEARS_FIRST / APPEARS_REVISIT (old 436-byte records: always)"""
+        if len(self.raw) != RECORD_SIZE:
+            return APPEARS_ALWAYS
+        v = self.raw[APPEARS_OFF]
+        return v if v in APPEARS else APPEARS_ALWAYS
+
+    @appears.setter
+    def appears(self, v):
+        if len(self.raw) == RECORD_SIZE:
+            self.raw[APPEARS_OFF] = int(v)
+
+    def shown_in(self, visit):
+        """is this unit placed on the given visit (APPEARS_FIRST / APPEARS_REVISIT)?"""
+        return self.appears in (APPEARS_ALWAYS, visit)
+
+    @property
+    def repeat(self):
+        """how many copies the game spawns (u16 0x12; the spawn loop runs this many times; 0 = none)"""
+        return self.unk12
+
+    @property
+    def reinforcement(self):
+        """a numbered group (u8 0x10, 1-127) is kept off the field until an event calls it in"""
+        return 0 < self.spawn_group < 128
 
     def ai_rule_list(self):
         r = bytes(self.raw[0x17C:0x244])
@@ -324,17 +364,32 @@ class ChrFile:
         return (struct.pack("<HH", self.version, len(self.units)) + self.pad
                 + b"".join(bytes(u.raw) for u in self.units))
 
-    def add_unit(self, char_id, x, y, level=1, template: Unit = None, **fields) -> Unit:
-        """append a unit (copies `template` or the first non-object unit so all defaults are sane)."""
+    def add_unit(self, char_id, x, y, level=1, template: Unit = None, appears=APPEARS_ALWAYS, **fields) -> Unit:
+        """append a unit (copies `template` or the first non-object unit so all defaults are sane).  `appears`:
+        which visits place it (a copied template keeps its AI orders but not its visit: the editor's units used to
+        inherit "first visit only" from the stage's first enemy and never showed up on a cleared stage)."""
         if template is None:
             template = next((u for u in self.units if not u.is_object), None)
         u = template.copy() if template is not None else Unit.from_dict(DEFAULT_ENEMY)
         u.slot = max([v.slot for v in self.units] + [0]) + 1
         u.char_id, u.x, u.y, u.level = char_id, x, y, level
+        if u.size == RECORD_SIZE:
+            u.spawn_group = 255                  # on the field from the start (not a reinforcement group)
+            if u.unk12 < 1:
+                u.unk12 = 1                      # (the game spawns a unit this many times)
+        u.appears = appears
         for k, v in fields.items():
             setattr(u, k, v)
         self.units.append(u)
         return u
+
+    def visit_sets(self):
+        """does this map place different units on the first visit and on revisits?"""
+        return any(u.appears != APPEARS_ALWAYS for u in self.units)
+
+    def placed(self, visit):
+        """the units the game places on that visit (APPEARS_FIRST / APPEARS_REVISIT)"""
+        return [u for u in self.units if u.shown_in(visit)]
 
     def geo_symbols(self):
         return [u for u in self.units if u.is_geo_symbol]
@@ -348,8 +403,8 @@ DEFAULT_ENEMY = {
     "slot": 1, "char_id": 1010, "level": 1, "facing": 180, "x": 0, "y": 0, "spawn_group": 255,
     "unk12": 1, "color_variant": 0xFFFF, "equipment": [202, 0, 1202, 0, 0], "stat_mods": [-10] * 8,
     "weapon_mastery": [0, 1, 0, 0, 0, 0, 0, 0, 0, 1], "team": 1, "ai": 102,
-    # entry 0 = (1, 1); then entries alternate (255,0),(0,255)x3 as in every story enemy
-    "ai_rules": [1, 1] + [0] * 8 + [b for k in range(1, 20)
+    # byte 0 = appears (0: every visit); then AI orders as in the game's story enemies (kind 1 first)
+    "ai_rules": [0, 1] + [0] * 8 + [b for k in range(1, 20)
                                     for b in (([255, 0] if (k - 1) % 4 == 0 else [0, 255]) + [0] * 8)],
 }
 

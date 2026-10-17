@@ -74,6 +74,7 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
   <a href="#t-skill">7 · A skill's animation</a>
   <a href="#t-text">8 · Dialogue and text</a>
   <a href="#t-stage">9 · A stage's enemies</a>
+  <a href="#t-blocks">9b · A battlefield out of blocks</a>
   <a href="#t-music">10 · Music and sounds</a>
   <a href="#t-db">11 · Database (items, skills…)</a>
     <a href="#t-class">13 · New classes and monsters</a>
@@ -227,11 +228,15 @@ and find &amp; replace across the whole game.</p>
 <img class="shot" src="docs/guide/dialogue.png" alt="Dialogue page">
 <h3>🗺 Stages &amp; Maps</h3>
 <p>Battle maps: move, add or delete enemies and change their class, level, equipment and skills. Paint Geo
-Panels, place Geo Symbols, move the base panel, clone a stage.</p>
+Panels, place Geo Symbols, move the base panel. Many stages place other enemies once they are cleared (Dried Up
+Wasteland: Warriors the first time, Prinnies after): <b>Show</b> switches between the first visit and revisits, and
+every unit says which visits it <b>appears on</b>. <b>➕ New stage…</b> starts a stage of your own from any
+battlefield (pictures of every map) and puts it in the game's stage list.</p>
 <img class="shot" src="docs/guide/stages.png" alt="Stages page">
 <h3>🎨 Sprites &amp; Colors</h3>
 <p>Every character and monster sprite with a live animated preview. Click the character to select a part, then
-drag hue, saturation and brightness. Export sprite sheets, repaint them, import them again.</p>
+drag hue, saturation and brightness. Export sprite sheets, repaint them, import them again. <b>⏱ Speed…</b> makes an
+animation the sprite carries itself slower or faster (an idle that plays too quickly).</p>
 <img class="shot" src="docs/guide/sprites.png" alt="Sprites page">
 <h3>🗡 Weapon Grips</h3>
 <p>Where each character holds its weapon, per animation and frame: drag the weapon onto the hand.</p>
@@ -304,8 +309,8 @@ in the mod's file list (right side of Home) and press <b>Remove selected change<
 <ol class="steps">
 <li>Characters &amp; Classes: select the character to start from (for example Seraphina). The new one copies its
 stats, skills and evilities.</li>
-<li>Press <b>✨ New character / class…</b>. Choose <i>Unique character</i>, give it a name, title and up to three
-lines of description.</li>
+<li>Press <b>✨ New character / class…</b>. Choose <i>Unique character</i> (or <i>Generic class</i>: it starts from
+the class chosen under <b>Class to start from</b>), give it a name, title and up to three lines of description.</li>
 <li><b>Look</b>: <i>The template's look</i> (keep <b>Give it its own copy of the sprite</b> ticked to recolour or
 repaint it), or <b>any outfit</b> of your outfit mods — <i>Killia — Formal</i>, <i>Etna — …</i>. A Disgaea RPG outfit
 is drawn again as a complete character of its own (every animation, face, portrait, cut-in); another outfit's
@@ -316,7 +321,7 @@ Speedster, Gunner, Healer, Overlord — the numbers of one of the game's playabl
 <li>Keep <b>Save it in a new mod of its own</b> ticked: one character = one mod, easy to share, update or switch
 off.</li>
 <li>Keep <b>Make it recruitable with a new quest</b> ticked and write the quest title, client and text. Long text
-is split into the quest board's lines for you.</li>
+is split into the quest board's lines for you. <b>To finish it</b> says what the player has to do first: clear a stage (one of the game's, or one of your own stages from Stages &amp; Maps) or defeat enemies of a class; change it any time under <i>How to get this character</i>. A quest that asks for a stage of another mod needs that mod switched on: Home warns you when it isn't, and Install asks before going on.</li>
 <li>OK. Then shape it on the page and <b>💾 Save</b>:
 <ul>
 <li><b>Quick setup</b>: another preset, or <b>📋 Copy from another…</b> — any character's or class's base stats,
@@ -335,8 +340,21 @@ the game you choose.</li>
 Recruiter) instead.</p>
 
 <h2 id="t-outfit">Tutorial 3 · An outfit from a sprite sheet</h2>
-<p>A sprite sheet is a picture with one row of frames per animation (stand, walk, attack…), front and back views,
-like the Disgaea RPG frame dumps. <code>D5ModKit\SpriteSheet</code> contains examples.</p>
+<p>Any sprite sheet works: a fan sheet with the drawings scattered on one background colour (other characters and
+effects mixed in), or a frame dump with one labelled row per animation like the Disgaea RPG rips
+(<code>D5ModKit\SpriteSheet</code> has examples). The kit finds every drawing on it and you say which ones are each
+move:</p>
+<ol class="steps">
+<li>Pick an animation on the right (stand, wait = idle, walk, damage = getting hit, the attacks …).</li>
+<li>Click its drawings on the sheet in order (Ctrl+click, or drag a box around several), then <b>Add the
+selected</b>. The preview plays it. <b>⇆ Flip</b> mirrors drawings that face the other way.</li>
+<li>A pose the kit cut in two: select both boxes, <b>Merge selected</b>. One it missed: <b>✂ Draw a box</b> around it.
+Hair or weapons coming out as boxes of their own: raise <b>Join pieces closer than</b>.</li>
+<li><b>Size in game</b> scales small sheets up to the character's height, pixel by pixel. Your choices are kept for
+the next time you open the same sheet.</li>
+</ol>
+<p>The same picker opens for a new character made from a sheet (Characters &amp; Classes › New): with a
+<b>monster</b> as template, the drawings become the monster's own moves.</p>
 <ol class="steps">
 <li><b>👗 Outfits</b> › <b>✨ New outfit…</b>.</li>
 <li>Choose the <b>Character</b>, type the <b>Outfit name</b> shown in game, keep <i>Convert a sprite sheet</i> and
@@ -464,20 +482,63 @@ Mode, as always. More in <code>docs\OVERLOADS.md</code>.</p>
 <li><b>💾 Save</b> and install. For mass edits use <b>Find &amp; Replace…</b>.</li>
 </ol>
 
-<h2 id="t-stage">Tutorial 9 · A stage's enemies</h2>
+<h2 id="t-stage">Tutorial 9 · A stage's enemies, and stages of your own</h2>
 <ol class="steps">
-<li><b>🗺 Stages &amp; Maps</b>: pick a stage. The map shows enemies, Geo Panels and the base panel.</li>
-<li><b>Add enemy</b>, click a panel, then set its class, level, equipment and skills on the right.</li>
-<li><b>💾 Save</b>, install, and play the stage. <b>Clone as new stage…</b> copies a stage for your own level.</li>
+<li><b>🗺 Stages &amp; Maps</b>: pick a stage. It opens in <b>🧊 3D</b>, as the battle shows it: the terrain, every
+unit standing on its panel as its own sprite, the map's objects (boxes, barrels, cacti, pillars) as their 3D
+models, Geo Panels and the base panel. The middle mouse button (or Alt+drag)
+turns the camera, Shift+middle or the right button pans, the wheel zooms, <b>F</b> fits the map, <b>1</b> is the
+battle's own view, <b>7</b> from above. Click a unit or a panel just as on the flat map; switch 🧊 3D off for the
+top-down grid.</li>
+<li><b>Show</b> (above the map): <i>First visit</i> is what the stage places until you clear it, <i>Revisits</i>
+what it places after. Edit the visit you play: a stage you cleared long ago plays its revisit units.</li>
+<li><b>Add enemy</b>, click a panel, then set its class, level, equipment and skills on the right. A new unit joins
+the visit shown; <b>Appears on</b> moves it to the other one or to every visit.</li>
+<li><b>💾 Save</b>. The kit warns when a visit has no enemy left (the battle would be won the moment it starts) or two
+units share a panel. Install and play.</li>
 </ol>
+<p><b>A stage of your own:</b> <b>➕ New stage…</b> shows a picture of every battlefield. Pick one, name your stage,
+choose what it starts with (its enemies, only its objects, or nothing) and <b>In the stage list with</b>: the game
+lists your stage in that stage's episode, as soon as that stage is listed. Saves you already have get it by
+themselves: the game adds new stages to a save when it loads it.</p>
+<p><b>Battle music</b> (on the right, under <i>In the game's stage list</i>): the song a stage's battle starts with.
+Every song of the game is listed, and so are your own from Music &amp; Sound. A new stage starts with its base
+stage's song.</p>
+
+<h2 id="t-blocks">Tutorial 9b · Building a battlefield out of blocks</h2>
+<ol class="steps">
+<li><b>➕ New stage…</b>, and under <i>It starts with</i> choose <b>Blocks</b>: the stage opens with a stone slab on a
+12×12 grid and the <b>Blocks</b> panel on the right. (A stage of yours made from a map can be built on too: press
+<b>🧱 Blocks</b> above the map and start from its terrain as one block, or from an empty grid.)</li>
+<li>Pick a theme and a block: the game's own Item World pieces (stone slabs, bars, steps, towers, pyramids; cracked
+desert, cyan ruins, snow, a Japanese town, checkered floors, ice…). <b>✂ A piece of a map…</b> cuts a rectangle out of
+any map, rocks and walls included, to use as a block.</li>
+<li><b>🧱 Place</b>: move the mouse over the map (the block's panels show in gold) and click. <b>R</b> turns the block
+a quarter, <b>+</b> / <b>−</b> lift and lower it one height step (a lifted block's walls grow down to the ground).</li>
+<li><b>✥ Move</b>: click a block of the map to choose it (orange), drag it, turn or lift it with the same keys,
+<b>Delete</b> removes it; the right mouse button opens the same choices. <b>Grid</b> sets the size of the
+battlefield.</li>
+<li><b>Done building</b>, then place enemies, Geo Panels and the base panel with the usual tools, and <b>💾 Save</b>:
+the map is written as one file and the blocks are kept with it, so you can go on building later.</li>
+</ol>
+<div class="note">The battle's sky (the colours behind the map) can't be chosen yet: the kit hasn't found where the
+game keeps it.</div>
 
 <h2 id="t-music">Tutorial 10 · Music and sounds</h2>
+<p>The game plays a track's <b>intro</b> once, then its <b>loop</b> part over and over. When the music reaches the
+loop end it jumps back to the loop start, so both points have to fall on the same place of the music (the start of
+a bar, two bars apart) for the jump not to be heard.</p>
 <ol class="steps">
-<li><b>🎵 Music &amp; Sound</b>: pick a track. Play it, or <b>Replace with my song…</b>.</li>
-<li>WAV files work as they are. For MP3, OGG or FLAC, install <a href="https://ffmpeg.org/">ffmpeg</a> and make sure
-<code>ffmpeg.exe</code> is on your PATH.</li>
-<li>Install, then listen in game.</li>
+<li><b>🎵 Music &amp; Sound</b>: pick a track. <b>Export…</b> saves it as a WAV any audio editor opens (Audacity …),
+its intro and loop as plain .ogg files, and a text file with its loop points.</li>
+<li><b>Replace with my song…</b> (or <b>➕ Add new track…</b> for a song under a new number): choose your song (WAV,
+FLAC, OGG or MP3), then drag the green <b>loop start</b> and red <b>loop end</b> lines on the waveform, or type the
+times. <b>Hear the loop join</b> plays the seconds before the loop end and then the loop start, as the game will.</li>
+<li>OK: the kit cuts the song into intro and loop and converts both to the game's format. Install, then listen in
+game. A new track listed in the music list can be chosen in game as the music of your base or of battles.</li>
 </ol>
+<div class="note">To make a stage play your song, pick it as the stage's <b>Battle music</b> on 🗺 Stages &amp; Maps
+(Tutorial 9). Story scenes play their own music.</div>
 
 <h2 id="t-db">Tutorial 11 · Database (items, skills…)</h2>
 <ol class="steps">

@@ -1,0 +1,487 @@
+"""Building a battlefield out of blocks on the Stages page: the block library (the game's Item World pieces by
+theme, and cut-outs of any map), the tools (place, move, turn, lift, delete) and the build itself
+(d5lib.mapbuild: the list of placements the composed map is made from, saved with the map in its mod as
+patches/stages/build_<map>.json so it can be changed again later)."""
+import os
+
+from PyQt6.QtCore import Qt, pyqtSignal, QSize
+from PyQt6.QtGui import QIcon, QImage, QPixmap
+from PyQt6.QtWidgets import (QComboBox, QDialog, QDialogButtonBox, QFormLayout, QHBoxLayout, QLabel, QListWidget,
+                             QListWidgetItem, QListView, QPushButton, QSpinBox, QToolButton, QVBoxLayout, QWidget,
+                             QButtonGroup, QGroupBox, QMessageBox)
+
+from d5lib import mapbuild, mapfile
+from . import mapthumbs
+from .newstage import _Painter
+
+ROLE = Qt.ItemDataRole.UserRole
+ICON = (112, 78)
+TOOL_PLACE, TOOL_MOVE = 10, 11            # ids in the Stages page's tool group (0-4 are the unit tools)
+
+
+class CutoutDialog(QDialog):
+    """a rectangle of a map as a block"""
+
+    def __init__(self, parent, stages, current=None):
+        super().__init__(parent)
+        self.setWindowTitle("A piece of a map")
+        f = QFormLayout(self)
+        f.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+        intro = QLabel("Cut a rectangle out of any map: its terrain, rocks and walls come along as one block "
+                       "(panels x, y and the size, counted on the map's top-down grid).")
+        intro.setWordWrap(True)
+        f.addRow(intro)
+        self.map = QComboBox()
+        for label, mid, _ in stages:
+            self.map.addItem(f"{label}  (map{mid:05d})", mid)
+        if current is not None and self.map.findData(current) >= 0:
+            self.map.setCurrentIndex(self.map.findData(current))
+        f.addRow("Map", self.map)
+        self.x0, self.y0, self.w, self.h = QSpinBox(), QSpinBox(), QSpinBox(), QSpinBox()
+        for s, v in ((self.x0, 0), (self.y0, 0), (self.w, 5), (self.h, 5)):
+            s.setRange(0 if s in (self.x0, self.y0) else 1, 127)
+            s.setValue(v)
+        row = QWidget()
+        hl = QHBoxLayout(row)
+        hl.setContentsMargins(0, 0, 0, 0)
+        for lab, s in (("x", self.x0), ("y", self.y0), ("width", self.w), ("height", self.h)):
+            hl.addWidget(QLabel(lab))
+            hl.addWidget(s)
+        f.addRow("Rectangle", row)
+        self.whole = QPushButton("The whole map")
+        self.whole.clicked.connect(self._whole)
+        f.addRow("", self.whole)
+        bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        bb.accepted.connect(self.accept)
+        bb.rejected.connect(self.reject)
+        f.addRow(bb)
+        self.sizes = {}
+
+    def _whole(self):
+        mid = self.map.currentData()
+        size = self.sizes.get(mid)
+        if size:
+            self.x0.setValue(0)
+            self.y0.setValue(0)
+            self.w.setValue(size[0])
+            self.h.setValue(size[1])
+
+    def key(self):
+        return (int(self.map.currentData()), self.x0.value(), self.y0.value(),
+                self.x0.value() + self.w.value(), self.y0.value() + self.h.value())
+
+
+class BuilderPanel(QWidget):
+    """the block library and the tools; the page owns the build and recomposes the map"""
+    changed = pyqtSignal()                 # the build changed (recompose)
+    marks_changed = pyqtSignal()           # only the highlights changed (redraw)
+
+    def __init__(self, page):
+        super().__init__(page)
+        self.page = page
+        self.build = None
+        self.lib = None
+        self.sel = None                    # index of the chosen placement
+        self.rot = 0
+        self.lift = 0
+        self.hover = None
+        self._painter = None
+        self._thumbs = {}
+        lay = QVBoxLayout(self)
+        lay.setContentsMargins(0, 0, 0, 0)
+        box = QGroupBox("Blocks")
+        bl = QVBoxLayout(box)
+        top = QHBoxLayout()
+        top.addWidget(QLabel("Grid"))
+        self.w_spin, self.h_spin = QSpinBox(), QSpinBox()
+        for s in (self.w_spin, self.h_spin):
+            s.setRange(1, 64)
+            s.valueChanged.connect(self._size_changed)
+        top.addWidget(self.w_spin)
+        top.addWidget(QLabel("×"))
+        top.addWidget(self.h_spin)
+        top.addStretch(1)
+        self.b_done = QPushButton("Done building")
+        self.b_done.setToolTip("Back to the unit tools (the blocks stay; Save keeps them with the map)")
+        top.addWidget(self.b_done)
+        bl.addLayout(top)
+        self.theme = QComboBox()
+        self.theme.currentIndexChanged.connect(self._fill)
+        bl.addWidget(self.theme)
+        self.list = QListWidget()
+        self.list.setViewMode(QListView.ViewMode.IconMode)
+        self.list.setIconSize(QSize(*ICON))
+        self.list.setResizeMode(QListView.ResizeMode.Adjust)
+        self.list.setMovement(QListView.Movement.Static)
+        self.list.setSpacing(4)
+        self.list.setWordWrap(True)
+        self.list.setMinimumHeight(190)
+        self.list.setToolTip("Pick a block, then click a panel of the map with 🧱 Place to put it there")
+        self.list.currentItemChanged.connect(lambda *_: self._tool(TOOL_PLACE))
+        bl.addWidget(self.list, 1)
+        self.b_cut = QPushButton("✂ A piece of a map…")
+        self.b_cut.setToolTip("Cut a rectangle out of any map (its rocks and walls come along) and use it as a block")
+        self.b_cut.clicked.connect(self._cutout)
+        bl.addWidget(self.b_cut)
+        tools = QHBoxLayout()
+        self.b_place = QToolButton()
+        self.b_place.setText("🧱 Place")
+        self.b_place.setCheckable(True)
+        self.b_place.setToolTip("Click a panel: the chosen block's top-left corner goes there")
+        self.b_move = QToolButton()
+        self.b_move.setText("✥ Move")
+        self.b_move.setCheckable(True)
+        self.b_move.setToolTip("Click a block of the map to choose it, drag to move it")
+        for b, t in ((self.b_place, TOOL_PLACE), (self.b_move, TOOL_MOVE)):
+            b.clicked.connect(lambda _, t=t: self._tool(t))
+            tools.addWidget(b)
+        tools.addStretch(1)
+        bl.addLayout(tools)
+        row = QHBoxLayout()
+        self.b_turn = QToolButton()
+        self.b_turn.setText("↻ Turn")
+        self.b_turn.setToolTip("A quarter turn (R)")
+        self.b_turn.clicked.connect(self.turn)
+        self.b_up = QToolButton()
+        self.b_up.setText("▲ Lift")
+        self.b_up.setToolTip("One height step up (+ / Page Up); the block's walls grow down to the ground")
+        self.b_up.clicked.connect(lambda: self.raise_(1))
+        self.b_down = QToolButton()
+        self.b_down.setText("▼ Lower")
+        self.b_down.setToolTip("One height step down (- / Page Down)")
+        self.b_down.clicked.connect(lambda: self.raise_(-1))
+        self.b_dup = QToolButton()
+        self.b_dup.setText("⧉ Copy")
+        self.b_dup.setToolTip("A copy of the chosen block, one panel over")
+        self.b_dup.clicked.connect(self.duplicate)
+        self.b_del = QToolButton()
+        self.b_del.setText("🗑 Delete")
+        self.b_del.setToolTip("Delete the chosen block (Delete)")
+        self.b_del.clicked.connect(self.delete)
+        for b in (self.b_turn, self.b_up, self.b_down, self.b_dup, self.b_del):
+            row.addWidget(b)
+        row.addStretch(1)
+        bl.addLayout(row)
+        self.status = QLabel()
+        self.status.setWordWrap(True)
+        self.status.setObjectName("muted")
+        bl.addWidget(self.status)
+        lay.addWidget(box)
+        self._set_status()
+
+    # ---------------------------------------------------------------- the library
+    def set_build(self, build, lib, data_dir):
+        self.build, self.lib = build, lib
+        self.sel = None
+        self.data_dir = data_dir
+        self.w_spin.blockSignals(True)
+        self.h_spin.blockSignals(True)
+        self.w_spin.setValue(int(build["size"][0]))
+        self.h_spin.setValue(int(build["size"][1]))
+        self.w_spin.blockSignals(False)
+        self.h_spin.blockSignals(False)
+        if self.theme.count() == 0:
+            self._fill_themes()
+        self._set_status()
+
+    def _fill_themes(self):
+        try:
+            names = self.page.ws.fs.list_members("Map/Map_JP.dat")
+        except Exception:
+            names = []
+        self.ids = mapbuild.piece_ids(names)
+        themes = sorted({mapbuild.theme_of(i) for i in self.ids})
+        self.theme.blockSignals(True)
+        for t in themes:
+            n = sum(1 for i in self.ids if mapbuild.theme_of(i) == t)
+            self.theme.addItem(f"{mapbuild.THEMES.get(t, f'Theme {t}')}  ({n})", t)
+        self.theme.addItem("Pieces of maps (cut-outs)", "cut")
+        self.theme.blockSignals(False)
+        self._fill()
+
+    def _fill(self, *_):
+        self.list.clear()
+        t = self.theme.currentData()
+        blank = QPixmap(*ICON)
+        blank.fill(Qt.GlobalColor.transparent)
+        if t == "cut":
+            keys = [mapbuild.key_of(p["piece"]) for p in (self.build or {}).get("pieces", [])
+                    if isinstance(p["piece"], list)]
+            seen = []
+            for k in keys:
+                if k not in seen:
+                    seen.append(k)
+            for k in seen:
+                it = QListWidgetItem(QIcon(self._thumb(k) or blank), f"map{k[0]:05d}\n{k[1]},{k[2]} {k[3]-k[1]}×{k[4]-k[2]}")
+                it.setData(ROLE, k)
+                self.list.addItem(it)
+            return
+        ids = [i for i in self.ids if mapbuild.theme_of(i) == t]
+        for mid in ids:
+            size = ""
+            try:
+                pc = self.lib.get(mid)
+                size = f"{pc.w}×{pc.h}"
+            except Exception:
+                pass
+            it = QListWidgetItem(QIcon(self._thumb(mid) or blank), f"{mid}  {size}")
+            it.setData(ROLE, mid)
+            it.setToolTip(f"map{mid:05d}: {size} panels")
+            self.list.addItem(it)
+        missing = [i for i in ids if i not in self._thumbs]
+        if missing:
+            if self._painter is not None:
+                self._painter.stop = True
+            self._painter = _Painter(missing, self.data_dir)
+            self._painter.ready.connect(self._ready)
+            self._painter.start()
+
+    def _thumb(self, key):
+        img = self._thumbs.get(key)
+        if img is None and isinstance(key, tuple):
+            try:
+                pc = self.lib.get(key)
+                b = mapbuild.empty_build(pc.w, pc.h)
+                mapbuild.place(b, key, 0, 0)
+                pkg = mapbuild.compose(b, {key: pc}, self.lib.skeleton(), name="map00000")
+                from d5lib import battlemap
+                img = mapthumbs.render(battlemap.from_package(pkg), ICON)
+                self._thumbs[key] = img
+            except Exception:
+                return None
+        if img is None and isinstance(key, int) and os.path.exists(mapthumbs.thumb_path(key)):
+            img = QImage(mapthumbs.thumb_path(key))
+            self._thumbs[key] = img
+        return QPixmap.fromImage(img.scaled(*ICON, Qt.AspectRatioMode.KeepAspectRatio,
+                                            Qt.TransformationMode.SmoothTransformation)) if img is not None else None
+
+    def _ready(self, mid, img):
+        self._thumbs[mid] = img
+        for i in range(self.list.count()):
+            it = self.list.item(i)
+            if it.data(ROLE) == mid:
+                it.setIcon(QIcon(self._thumb(mid)))
+
+    def current_key(self):
+        it = self.list.currentItem()
+        return it.data(ROLE) if it else None
+
+    def _cutout(self):
+        stages = self.page._stage_choices()
+        dlg = CutoutDialog(self, stages, self.page.mid)
+        dlg.sizes = {mid: self.page._map_size(mid) for _, mid, _ in stages}
+        if not dlg.exec():
+            return
+        key = dlg.key()
+        try:
+            self.lib.get(key)
+        except Exception as e:
+            QMessageBox.warning(self, "A piece of a map", f"That piece can't be cut: {e}")
+            return
+        self.theme.setCurrentIndex(self.theme.findData("cut"))
+        self._pending_cut = key
+        self._fill()
+        for i in range(self.list.count()):
+            if self.list.item(i).data(ROLE) == key:
+                self.list.setCurrentRow(i)
+                return
+        it = QListWidgetItem(QIcon(self._thumb(key) or QPixmap()), f"map{key[0]:05d}\n{key[1]},{key[2]} "
+                                                                    f"{key[3]-key[1]}×{key[4]-key[2]}")
+        it.setData(ROLE, key)
+        self.list.addItem(it)
+        self.list.setCurrentItem(it)
+
+    # ---------------------------------------------------------------- tools
+    def _tool(self, t):
+        self.page.tool.button(t).setChecked(True)
+        self.b_place.setChecked(t == TOOL_PLACE)
+        self.b_move.setChecked(t == TOOL_MOVE)
+        self._set_status()
+        self.marks_changed.emit()
+
+    def tool(self):
+        return self.page.tool.checkedId()
+
+    def _set_status(self):
+        if self.build is None:
+            self.status.setText("")
+            return
+        n = len(self.build["pieces"])
+        if self.tool() == TOOL_PLACE:
+            k = self.current_key()
+            what = ("the chosen block" if k is None else f"block {k}" if isinstance(k, int) else "the cut-out")
+            self.status.setText(f"{n} block(s). Click a panel to put {what} there (turned {self.rot * 90}°, "
+                                f"{self.lift:+d} steps). R turns, + / - lift, Delete removes the chosen block.")
+        elif self.sel is not None and self.sel < n:
+            p = self.build["pieces"][self.sel]
+            self.status.setText(f"Block {self.sel + 1} of {n}: {p['piece']} at {p['x']}, {p['y']}, turned "
+                                f"{p.get('rot', 0) * 90}°, {p.get('lift', 0):+d} steps. Drag to move it.")
+        else:
+            self.status.setText(f"{n} block(s). Click a block of the map to choose it, drag to move it.")
+
+    def at(self, x, y):
+        """index of the topmost placement covering panel (x, y)"""
+        return mapbuild.covered(self.build, self.lib.for_build(self.build)).get((x, y))
+
+    def cells_of(self, idx):
+        p = self.build["pieces"][idx]
+        pc = self.lib.get(p["piece"])
+        cells, _ = pc.footprint(p.get("rot", 0))
+        return [(p["x"] + i, p["y"] + j) for i, j in cells]
+
+    def ghost_cells(self, x, y):
+        k = self.current_key()
+        if k is None:
+            return []
+        try:
+            cells, _ = self.lib.get(k).footprint(self.rot)
+        except Exception:
+            return []
+        return [(x + i, y + j) for i, j in cells]
+
+    def marks(self):
+        """highlights for the 3D view: the block being placed (at the hovered panel) and the chosen block"""
+        out = {}
+        if self.build is None:
+            return out
+        t = self.tool()
+        if t == TOOL_PLACE and self.hover is not None:
+            out["ghost"] = self.ghost_cells(*self.hover)
+        if self.sel is not None and self.sel < len(self.build["pieces"]):
+            try:
+                out["sel"] = self.cells_of(self.sel)
+            except Exception:
+                pass
+        return out
+
+    def set_hover(self, cell):
+        if cell != self.hover:
+            self.hover = cell
+            if self.tool() == TOOL_PLACE:
+                self.marks_changed.emit()
+
+    def click(self, x, y, button):
+        if self.build is None:
+            return
+        t = self.tool()
+        if button == Qt.MouseButton.RightButton:
+            idx = self.at(x, y)
+            if idx is not None:
+                self.sel = idx
+                self._menu(idx)
+            return
+        if t == TOOL_PLACE:
+            k = self.current_key()
+            if k is None:
+                self.status.setText("Pick a block in the list first.")
+                return
+            mapbuild.place(self.build, k, x, y, self.rot, self.lift)
+            self.sel = len(self.build["pieces"]) - 1
+            self._drag0 = None
+            self.changed.emit()
+        elif t == TOOL_MOVE:
+            self.sel = self.at(x, y)
+            self._drag0 = (x, y) if self.sel is not None else None
+            self._set_status()
+            self.marks_changed.emit()
+
+    def drag(self, x, y):
+        if self.build is None or self.tool() != TOOL_MOVE or self.sel is None or not getattr(self, "_drag0", None):
+            return
+        dx, dy = x - self._drag0[0], y - self._drag0[1]
+        if not dx and not dy:
+            return
+        p = self.build["pieces"][self.sel]
+        p["x"], p["y"] = p["x"] + dx, p["y"] + dy
+        self._drag0 = (x, y)
+        self.changed.emit()
+
+    def _menu(self, idx):
+        from PyQt6.QtGui import QCursor
+        from PyQt6.QtWidgets import QMenu
+        m = QMenu(self)
+        m.addAction("↻ Turn", self.turn)
+        m.addAction("▲ Lift one step", lambda: self.raise_(1))
+        m.addAction("▼ Lower one step", lambda: self.raise_(-1))
+        m.addAction("⧉ Copy", self.duplicate)
+        m.addAction("⬆ Bring to the top", self.to_top)
+        m.addSeparator()
+        m.addAction("🗑 Delete", self.delete)
+        m.exec(QCursor.pos())
+
+    def _selected(self):
+        if self.build is None or self.sel is None or self.sel >= len(self.build["pieces"]):
+            return None
+        return self.build["pieces"][self.sel]
+
+    def turn(self):
+        p = self._selected()
+        if self.tool() == TOOL_PLACE or p is None:
+            self.rot = (self.rot + 1) % 4
+            self._set_status()
+            self.marks_changed.emit()
+            return
+        p["rot"] = (int(p.get("rot", 0)) + 1) % 4
+        self.changed.emit()
+
+    def raise_(self, d):
+        p = self._selected()
+        if self.tool() == TOOL_PLACE or p is None:
+            self.lift = max(-30, min(60, self.lift + d))
+            self._set_status()
+            return
+        p["lift"] = max(-30, min(60, int(p.get("lift", 0)) + d))
+        self.changed.emit()
+
+    def duplicate(self):
+        p = self._selected()
+        if p is None:
+            return
+        q = dict(p)
+        q["x"] += 1
+        q["y"] += 1
+        self.build["pieces"].append(q)
+        self.sel = len(self.build["pieces"]) - 1
+        self.changed.emit()
+
+    def to_top(self):
+        p = self._selected()
+        if p is None:
+            return
+        self.build["pieces"].remove(p)
+        self.build["pieces"].append(p)
+        self.sel = len(self.build["pieces"]) - 1
+        self.changed.emit()
+
+    def delete(self):
+        p = self._selected()
+        if p is None:
+            return
+        self.build["pieces"].remove(p)
+        self.sel = None
+        self.changed.emit()
+
+    def key(self, e):
+        """a key in the map view: True when it was one of the builder's"""
+        k = e.key()
+        if self.build is None or self.tool() not in (TOOL_PLACE, TOOL_MOVE):
+            return False
+        if k == Qt.Key.Key_R:
+            self.turn()
+        elif k in (Qt.Key.Key_Plus, Qt.Key.Key_Equal, Qt.Key.Key_PageUp):
+            self.raise_(1)
+        elif k in (Qt.Key.Key_Minus, Qt.Key.Key_PageDown):
+            self.raise_(-1)
+        elif k in (Qt.Key.Key_Delete, Qt.Key.Key_Backspace):
+            self.delete()
+        elif k == Qt.Key.Key_D and e.modifiers() & Qt.KeyboardModifier.ControlModifier:
+            self.duplicate()
+        else:
+            return False
+        return True
+
+    def _size_changed(self, *_):
+        if self.build is None:
+            return
+        self.build["size"] = [self.w_spin.value(), self.h_spin.value()]
+        self.changed.emit()

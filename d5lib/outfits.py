@@ -1032,6 +1032,8 @@ def create_drpg_character(fs, mod, source_id, template, uid, name, title=None, s
         qr.set("reward_value", cid)
         qr.set("reward_count", 1)
         qr.set("important", 1)
+        from . import questcheck
+        questcheck.set_objective(qr, quest.get("cond"))
         mod.save_patch("db", "Quest.dat.json", dbpatch.diff_table(qv, qe))
     log(f"character '{name}': id {cid}, DRPG unit {uid} -> sprite anm{N:05d}" + (f", recruit quest {qid}" if qid else ""))
     tsprite = tpl["sprite_id"]
@@ -1230,10 +1232,16 @@ def write_sheet_sprite(fs, mod, base_sprite, N, sheet_sequences, log=print):
     """Convert a frame-dump sheet into outfit sprite N (and its companion N+1): a sprite with its own
     complete animation set (see ownanim), registered so the exe patch lets the game use it."""
     from . import ownanim
-    motion = sprites.motion_block(fs, 1, log)
+    from .frameconvert import HUMAN_ROWS, MONSTER_ROWS
     base = anm.parse(fs.read(sprites.sprite_vpath(fs, base_sprite, "EN")))
-    rep = {}
-    out = ownanim.build(sheet_sequences, base, motion, N, report=rep)
+    # a monster carries every animation itself (the game never gives it the shared humanoid motions): its own
+    # poses are redrawn.  Built with the humanoid motions, a monster showed nothing but the one pose whose
+    # animation number both sets share (a dodge), and stood invisible otherwise.
+    monster = not sprites.needs_motion_set(base)
+    motion = None if monster else sprites.motion_block(fs, 1, log)
+    rep = {"monster": monster}
+    out = ownanim.build(sheet_sequences, base, motion, N, report=rep,
+                        prefer=MONSTER_ROWS if monster else HUMAN_ROWS)
     save_source(mod, N, out)
     from . import colorvariants
     # every part (hair, hoodie, skin ...) gets its own palette colours, presets derived per part
@@ -1249,7 +1257,8 @@ def write_sheet_sprite(fs, mod, base_sprite, N, sheet_sequences, log=print):
             f = pickle.loads(pickle.dumps(icon))
             f.blocks[0].id = new_id
             mod.write_file(f"Anime/ANM_HI_JP.dat/anm{new_id:05d}.lzs", f.to_bytes())
-    save(mod, load(mod), set(load_own(mod)) | {N, N + 1})
+    if not monster:              # (the outfit hook gives listed humanoid sprites their own animations)
+        save(mod, load(mod), set(load_own(mod)) | {N, N + 1})
     log(f"converted the sprite sheet: {rep.get('matched')} of {rep.get('cells')} original poses matched, "
         f"{rep.get('frames')} sheet frames used")
     return rep

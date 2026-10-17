@@ -315,7 +315,7 @@ def _smooth_labels(lab, win=3, keep=0.4, rgb=None, cores=None):
     best = np.array(present)[np.argmax(counts, 0)]
     out = lab.copy()
     weak = (lab > 0) & (own / total < keep) & (best != lab)
-    if rgb is not None and cores:
+    if rgb is not None and cores and weak.any():         # (pixel art has no blended edges at all)
         ys, xs = np.nonzero(weak)
         c = rgb[ys, xs, :3].astype(np.int32)
         own_core = np.array([cores.get(int(g), (0, 0, 0)) for g in lab[ys, xs]], np.int32)

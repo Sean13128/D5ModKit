@@ -609,9 +609,33 @@ class CharactersPage(QWidget):
             return
         qs = questinfo.recruit_quests(self.svc, r["id"])
         box.setVisible(bool(qs))
+        self._recruit_quests = qs
         if qs:
             box.setTitle("How to get this character" if qs[0]["reward_type"] == 5 else "How to unlock this class")
             self.recruit_label.setText("<br><br>".join(questinfo.describe(self.svc, q) for q in qs))
+
+    def _edit_recruit(self):
+        """the objective of the recruit quest: a stage to clear (yours too) or enemies to defeat"""
+        from ..questgoal import ObjectiveDialog
+        from d5lib import questcheck
+        qs = getattr(self, "_recruit_quests", None) or []
+        if not qs:
+            return
+        row = qs[0]
+        dlg = ObjectiveDialog(self, self.svc, row)
+        if not dlg.exec():
+            return
+        cond = dlg.cond()
+        if cond is None:
+            return
+        questcheck.set_objective(row, cond)
+        self.svc.mark_dirty("Quest.dat")
+        if self.svc.commit("Quest.dat", self) is False:
+            return
+        from .. import questinfo
+        self.ws.log(f"Quest '{row['name_EN']}' now asks: {questinfo.objective(self.svc, row)} "
+                    f"({self.svc.saved_text()})")
+        self._show_recruit(self._row())
 
     def _set(self, name, v):
         r = self._row()
@@ -687,6 +711,11 @@ class CharactersPage(QWidget):
         self.recruit_label.setTextFormat(Qt.TextFormat.RichText)
         self.recruit_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         rl.addWidget(self.recruit_label)
+        self.recruit_btn = QPushButton("Change what the quest asks for…")
+        self.recruit_btn.setToolTip("The quest's objective: clear a stage (one of the game's or one of yours) or "
+                                    "defeat enemies of a class")
+        self.recruit_btn.clicked.connect(self._edit_recruit)
+        rl.addWidget(self.recruit_btn, 0, Qt.AlignmentFlag.AlignLeft)
         self.form_lay.addWidget(self.recruit_box)
 
         g = QGroupBox("Sprite")
@@ -1493,7 +1522,8 @@ class CharactersPage(QWidget):
         src = v["outfit"]
         if self.svc.dirty_members():
             self.svc.commit_all(self)
-        quest = dict(title=v["quest_title"], client=v["quest_client"], text=v["quest_text"]) if v["quest"] else None
+        quest = dict(title=v["quest_title"], client=v["quest_client"], text=v["quest_text"],
+                     cond=v.get("quest_cond")) if v["quest"] else None
         prog = QProgressDialog(f"Making {v['name']} with the look of {src['who']}'s outfit '{src['name']}'…",
                                None, 0, 0, self)
         prog.setWindowTitle("New character")
@@ -1560,7 +1590,8 @@ class CharactersPage(QWidget):
                 mod = self.ws.require_mod(self)
                 if not mod:
                     return
-            quest = dict(title=v["quest_title"], client=v["quest_client"], text=v["quest_text"]) if v["quest"] else None
+            quest = dict(title=v["quest_title"], client=v["quest_client"], text=v["quest_text"],
+                     cond=v.get("quest_cond")) if v["quest"] else None
 
             def work():
                 with drpgsource.using(chosen):
@@ -1663,11 +1694,38 @@ class NewUnitDialog(QDialog):
         self.unique = QRadioButton("Unique character (one unit, recruited once)")
         self.klass = QRadioButton("Generic class (6 tiers, created at the Netherworld registrar)")
         (self.klass if generic else self.unique).setChecked(True)
-        if not generic:
-            self.klass.setEnabled(False)
-            self.klass.setToolTip("Pick a generic class (e.g. Warrior) as template to create a new class")
         f.addRow(self.unique)
         f.addRow(self.klass)
+        # a class is made from a class (its 6 tiers and rank chain): the chosen template's, or one picked here
+        self.class_from = QComboBox()
+        rows = page.table().rows
+        for i, r in enumerate(rows):
+            if 1000 <= r["id"] < 3000 and r["id"] % 10 == 0 and r["name_EN"] and                     r["name_EN"] not in RESERVED_TEXTS and not r["name_EN"].startswith("Dummy"):
+                self.class_from.addItem(f"{r['name_EN']}  ({r['id']})", i)
+        fam = t["id"] // 10 * 10
+        want = next((k for k in range(self.class_from.count())
+                     if rows[self.class_from.itemData(k)]["id"] == (fam if generic else 1010)), 0)
+        self.class_from.setCurrentIndex(want)
+        self.class_from.setToolTip("A new class starts as a copy of a class: its 6 tiers, class ranks, weapon ranks "
+                                   "and resistances (and its look unless you choose another below).")
+        f.addRow("Class to start from", self.class_from)
+
+        def kind_changed(*_):
+            look = getattr(self, "look", None)          # (a Disgaea RPG class takes its moves from "Animations from")
+            show = self.klass.isChecked() and (look is None or look.currentData() != "drpg")
+            self.class_from.setVisible(show)
+            lab = f.labelForField(self.class_from)
+            if lab is not None:
+                lab.setVisible(show)
+            # the stats / skills it copies are the chosen class's when it is a class
+            src = (self.class_from.currentText().split("  (")[0] if show else t["name_EN"])
+            if getattr(self, "preset_box", None) is not None:
+                self.preset_box.setItemText(0, f"Same as {src}")
+                self.fresh.setItemText(1, f"Copy {src}'s")
+        self._kind_changed = kind_changed
+        self.klass.toggled.connect(kind_changed)
+        self.class_from.currentIndexChanged.connect(kind_changed)
+        kind_changed()
         self.name = QLineEdit(t["name_EN"] + " II")
         self.title = QLineEdit(t["title_EN"])
         f.addRow("Name (class name for classes)", self.name)
@@ -1688,10 +1746,11 @@ class NewUnitDialog(QDialog):
         self.look.setItemData(1, "A unit from your Disgaea RPG folder (or four sheet files of your own) becomes the "
                                  "new character's or class's complete sprite, face and cut-in.",
                               Qt.ItemDataRole.ToolTipRole)
-        self.look.addItem("A sprite sheet (frame dump: one labelled row per animation)…", "sheet")
-        self.look.setItemData(2, "A sprite sheet PNG with one row per animation (stand, wait, walk, attacks …), front "
-                                 "and back: every pose of the template's sprite is redrawn with the sheet's frames. "
-                                 "Unique characters only.", Qt.ItemDataRole.ToolTipRole)
+        self.look.addItem("A sprite sheet (any sheet: pick its drawings)…", "sheet")
+        self.look.setItemData(2, "A sprite sheet PNG: the kit finds every drawing on it and you choose which are "
+                                 "standing, idle, walking, hit, the attacks … Every pose of the template's sprite is "
+                                 "redrawn with them (a monster template: its own moves). Unique characters only.",
+                              Qt.ItemDataRole.ToolTipRole)
         self.sheet_seqs = None
         for o in sorted(self.outfits, key=lambda o: (o["who"].lower(), o["name"].lower())):
             label = f"{o['who']} — {o['name']}" + ("   (Disgaea RPG)" if o["drpg_uid"] is not None else "")
@@ -1765,9 +1824,9 @@ class NewUnitDialog(QDialog):
                 return
             self.hide_outfit.setEnabled(o is not None and not drpg and not sheet)
             self.clone_sprite.setEnabled(o is None)
-            self.klass.setEnabled((o is None and generic) or drpg)
-            if not self.klass.isEnabled():
-                self.klass.setToolTip("Pick a generic class (e.g. Warrior) as template to create a new class")
+            self.klass.setEnabled(o is None or drpg)
+            self.klass.setToolTip("" if self.klass.isEnabled() else
+                                  "An outfit's look or a sprite sheet makes a unique character (one unit).")
             if o is not None and not drpg:
                 self.unique.setChecked(True)
                 if not sheet and (self.name.text().endswith(" II") or not self.name.text().strip()):
@@ -1779,6 +1838,7 @@ class NewUnitDialog(QDialog):
                     lab.setVisible(drpg)
             for w in (self.clone_sprite, self.hide_outfit):      # nothing to do with a DRPG unit's / a sheet's look
                 w.setVisible(not drpg and not sheet)
+            self._kind_changed()
             if drpg:
                 self._fill_anims()
                 if self.drpg_unit is None:
@@ -1795,6 +1855,11 @@ class NewUnitDialog(QDialog):
         f.addRow("Quest title", self.quest_title)
         f.addRow("Quest client", self.quest_client)
         f.addRow("Quest text", self.quest_text)
+        from ..questgoal import ObjectiveWidget
+        self.objective = ObjectiveWidget(page.svc, self)
+        f.addRow("To finish it", self.objective)
+        self.quest.toggled.connect(lambda on: [w.setEnabled(on) for w in
+                                               (self.quest_title, self.quest_client, self.quest_text, self.objective)])
 
         def name_changed(text, last=[self.name.text()]):
             if self.quest_client.text() in ("", last[0]):           # the client follows the name until edited
@@ -1823,15 +1888,29 @@ class NewUnitDialog(QDialog):
             if dlg.unit.group == "generic" and self.klass.isEnabled():
                 self.klass.setChecked(True)
 
+    def _template_info(self):
+        """(monster, standing height in px) of the template's sprite: a monster carries its own moves (the sheet is
+        drawn onto those); the sheet's drawings are scaled to the height"""
+        try:
+            from d5lib import anm, sprites
+            r = next(x for x in self.page.table().rows if x["id"] == self._tid)
+            a = anm.parse(self.page.ws.read(sprites.sprite_vpath(self.page.ws.fs, r["sprite_id"],
+                                                                  self.page.ws.language)))
+            return not sprites.needs_motion_set(a), sprites.stand_height(self.page.ws.fs, a)
+        except Exception:
+            return False, 0
+
     def _choose_sheet(self):
-        """the sprite sheet PNG and its rows -> True when chosen"""
+        """the sprite sheet PNG and which of its drawings each animation uses -> True when chosen"""
         from PyQt6.QtWidgets import QFileDialog
-        from .outfits import SheetRowsDialog
-        p, _ = QFileDialog.getOpenFileName(self, "Sprite sheet (frame dump)", "", "Images (*.png)")
+        from ..sheetpicker import SheetPicker
+        p, _ = QFileDialog.getOpenFileName(self, "Sprite sheet", "", "Images (*.png *.gif *.webp *.bmp)")
         if not p:
             return False
+        monster, height = self._template_info()
         try:
-            dlg = SheetRowsDialog(p, self)
+            dlg = SheetPicker(p, self, monster=monster, target_height=height,
+                              title=f"Sprite sheet for the new {'monster' if monster else 'character'}")
         except Exception as e:
             QMessageBox.warning(self, "Sprite sheet", f"The sheet could not be read: {e}")
             return False
@@ -1839,10 +1918,10 @@ class NewUnitDialog(QDialog):
             return False
         seqs = dlg.sequences()
         if not seqs:
-            QMessageBox.warning(self, "Sprite sheet", "No row was set to an animation.")
+            QMessageBox.warning(self, "Sprite sheet", "No drawings were given to an animation.")
             return False
         self.sheet_seqs = seqs
-        self.look.setItemText(2, f"Sprite sheet: {os.path.basename(p)} ({len(seqs)} rows)")
+        self.look.setItemText(2, f"Sprite sheet: {os.path.basename(p)} ({len(seqs)} animations)")
         return True
 
     def _fill_anims(self):
@@ -1878,11 +1957,12 @@ class NewUnitDialog(QDialog):
     def values(self):
         drpg = self.look.currentData() == "drpg"
         sheet = self.look.currentData() == "sheet"
-        return {"generic": self.klass.isChecked(), "name": self.name.text().strip() or "New Unit",
+        return {"generic": self.klass.isChecked(), "class_from": self.class_from.currentData(),
+                "name": self.name.text().strip() or "New Unit",
                 "title": self.title.text().strip(), "desc": self.desc.toPlainText().strip().split("\n"),
                 "clone_sprite": self.clone_sprite.isChecked(), "quest": self.quest.isChecked(),
                 "quest_title": self.quest_title.text().strip(), "quest_client": self.quest_client.text().strip(),
-                "quest_text": self.quest_text.text().strip(),
+                "quest_text": self.quest_text.text().strip(), "quest_cond": self.objective.cond(),
                 "outfit": None if drpg or sheet else self.look.currentData(),
                 "hide_outfit": self.hide_outfit.isChecked() and self.look.currentData() is not None and not drpg
                 and not sheet,
@@ -2114,6 +2194,8 @@ def create_unit(page, v):
     svc = page.svc
     chars = svc.table(CHAR)
     t_index = page.row_index
+    if v["generic"] and v.get("class_from") is not None:
+        t_index = v["class_from"]                  # a class is made from a class (chosen in the dialog)
     tmpl = chars.rows[t_index]
     lines = []
     new_rows = []
@@ -2217,9 +2299,12 @@ def create_unit(page, v):
         qr.set("reward_value", unit_id)
         qr.set("reward_count", 1)
         qr.set("important", 1)
+        from d5lib import questcheck
+        questcheck.set_objective(qr, v.get("quest_cond"))
         svc.mark_dirty("Quest.dat")
+        from .. import questinfo
         lines.append(f"Added quest #{qid} '{v['quest_title']}' that {'unlocks the class' if v['generic'] else 'recruits the character'}. "
-                     "Its objective is copied from 'Combat Lecture'; change it in Database Editor → Quests.")
+                     f"Its objective: {questinfo.objective(svc, qr)} (change it under 'How to get this character').")
 
     if v.get("preset") and not v["generic"]:          # (a class's tiers keep their own growing numbers)
         _, label, _, pcid = charstudio.preset(v["preset"])

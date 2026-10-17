@@ -283,13 +283,13 @@ class MusicPage(QWidget):
                                       "number is used (a stage's music, an event script). Saved into the active mod.",
                 "▶ Play": "Play the selected track (double-click a row does the same).",
                 "■ Stop": "Stop playback.",
-                "Export .ogg…": "Save the selected track as an .ogg file.",
-                "Replace with my song…": "Use your own song for this track (optional intro + loop part). "
-                                         "MP3/WAV/FLAC are converted when ffmpeg is installed. Saved into the "
-                                         "active mod.",
+                "Export…": "Save the selected track as a WAV any audio editor opens, plus its intro and loop "
+                            "parts as .ogg files and its loop points.",
+                "Replace with my song…": "Use your own song for this track: WAV, FLAC, OGG or MP3. Set where its "
+                                         "loop starts and ends and listen to the join. Saved into the active mod.",
                 "Revert": "Undo your replacement: the original track plays again. On a new track: remove it."}
         for text, fn in [("➕ Add new track…", self.add_track), ("▶ Play", self.play), ("■ Stop", self.stop),
-                         ("Export .ogg…", self.export), ("Replace with my song…", self.replace),
+                         ("Export…", self.export), ("Replace with my song…", self.replace),
                          ("Revert", self.revert)]:
             b = QPushButton(text)
             b.setToolTip(tips[text])
@@ -460,24 +460,48 @@ class MusicPage(QWidget):
             self.player.stop()
 
     def export(self):
+        """the track as a WAV any audio editor opens, its intro and loop parts as plain .ogg files and a text file
+        with the loop points (the game's own file is two Ogg streams glued together behind a small header: only
+        players like VLC read that)"""
         v = self._cur()
         if not v:
             return
-        p, _ = QFileDialog.getSaveFileName(self, "Export", v.split("/")[-1], "Ogg (*.ogg)")
-        if p:
-            with open(p, "wb") as f:
-                f.write(sound.track_to_ogg(self.ws.read(v)))
+        num = v.split("/")[-1].split(".")[0]
+        p, _ = QFileDialog.getSaveFileName(self, "Export the track", f"BGM {num}.wav", "WAV (*.wav)")
+        if not p:
+            return
+        from d5lib import audiotools
+        from PyQt6.QtWidgets import QApplication
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        try:
+            out = audiotools.export_track(self.ws.read(v), p)
+        except Exception as e:
+            QApplication.restoreOverrideCursor()
+            error_box(self, "Export", e)
+            return
+        QApplication.restoreOverrideCursor()
+        files = [os.path.basename(out[k]) for k in ("wav", "intro", "loop", "notes") if k in out]
+        self.ws.log(f"Exported track {num}: " + ", ".join(files))
+        info_box(self, "Exported", "Saved next to each other:\n\n• " + "\n• ".join(files) +
+                 f"\n\nThe WAV opens in any audio editor (Audacity …). The loop starts at {out['loop_start']:.3f} s "
+                 f"and ends at {out['loop_end']:.3f} s; the text file has the numbers to use when you put an "
+                 "edited version back with 'Replace with my song'.")
 
     def add_track(self):
         mod = self.ws.require_mod(self)
         if not mod:
             return
-        dlg = ReplaceDialog(self, new=True)
-        if not dlg.exec() or not dlg.loop.text():
+        from ..songdialog import SongDialog
+        dlg = SongDialog(self, new=True)
+        if not dlg.exec():
             return
         try:
-            loop = to_ogg(dlg.loop.text())
-            intro = to_ogg(dlg.intro.text()) if dlg.intro.text() else b""
+            from PyQt6.QtWidgets import QApplication
+            QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+            try:
+                loop, intro = dlg.track_parts()
+            finally:
+                QApplication.restoreOverrideCursor()
             mods = self.ws.mods.all_mods()
             num = music.add_track(self.ws.fs, mod, mods, loop, intro, dlg.title.text().strip(),
                                   dlg.name.text().strip(), listed=dlg.listed.isChecked())
@@ -488,9 +512,9 @@ class MusicPage(QWidget):
         self.ws.log(f"New music track {num} in mod '{mod.name}'")
         info_box(self, "New track added",
                  f"Your song is track {num}." +
-                 (" It is in the game's music list once you install." if dlg.listed.isChecked() else "") +
-                 f"\n\nUse {num} wherever a music number is asked for: a stage's music (Stages & Maps), or "
-                 f"bgm_play {num} in an event script.")
+                 (" It is in the game's music list once you install: choose it there for your base or battles."
+                  if dlg.listed.isChecked() else "") +
+                 f"\n\nIt also plays wherever its number is used, e.g. bgm_play {num} in an event script.")
         self.load()
 
     def replace(self):
@@ -503,12 +527,17 @@ class MusicPage(QWidget):
                                     "would change nothing in game. Replace the other row with the same number "
                                     "instead: that's the track the game plays.")
             return
-        dlg = ReplaceDialog(self)
-        if not dlg.exec() or not dlg.loop.text():
+        from ..songdialog import SongDialog
+        dlg = SongDialog(self, title=f"Replace track {v.split('/')[-1].split('.')[0]} with my song")
+        if not dlg.exec():
             return
         try:
-            loop = to_ogg(dlg.loop.text())
-            intro = to_ogg(dlg.intro.text()) if dlg.intro.text() else b""
+            from PyQt6.QtWidgets import QApplication
+            QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+            try:
+                loop, intro = dlg.track_parts()
+            finally:
+                QApplication.restoreOverrideCursor()
             self.stop()
             if self.ws.write(v, sound.build_track(loop, intro), self):
                 self.ws.log(f"Replaced {v}")

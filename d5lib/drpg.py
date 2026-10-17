@@ -22,7 +22,8 @@ from scipy import ndimage
 
 from .modsys import KIT_DIR
 
-ROOTS = [os.path.join(KIT_DIR, "DRPG Assets (Updated)"), os.path.join(KIT_DIR, "DRPG Assets")]
+ROOTS = [os.path.join(KIT_DIR, "DRPG Assets (Updated)"), os.path.join(KIT_DIR, "DRPG Assets"),
+         os.path.join(KIT_DIR, "DRPG Assets (Generated)")]   # SpriteForge output (same layout as Updated)
 REF_PATH = os.path.join(os.path.dirname(__file__), "data", "drpg_ref_humanoid.pickle")
 MERGE_GAP = 3          # atlas pieces this close to a bigger piece belong to the same frame
 MIN_IOU = 0.2          # weaker matches are not used

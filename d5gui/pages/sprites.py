@@ -285,7 +285,16 @@ class SpritesPage(QWidget):
         self.anim_combo = QComboBox()
         self.anim_combo.setToolTip("Animation (id ending in 1 = facing front, 7 = facing back)")
         self.anim_combo.currentIndexChanged.connect(self._anim_changed)
-        v.addWidget(self.anim_combo)
+        arow = QHBoxLayout()
+        arow.addWidget(self.anim_combo, 1)
+        self.b_speed = QToolButton()
+        self.b_speed.setText("⏱ Speed…")
+        self.b_speed.setToolTip("Make this animation slower or faster in game (e.g. an idle that is too quick). "
+                                "Only animations this sprite carries itself; the game's shared moves are the "
+                                "same for everyone.")
+        self.b_speed.clicked.connect(self._anim_speed)
+        arow.addWidget(self.b_speed)
+        v.addLayout(arow)
         self.anim_view = ImageView(smooth=True)
         self.anim_view.setBackgroundBrush(BACKGROUNDS["Green"])
         self.anim_view.clicked.connect(self._pick_color)
@@ -698,6 +707,52 @@ class SpritesPage(QWidget):
         self._apply_zoom()
         if self.b_play.text() == "⏸" and self.isVisible():
             self.timer.start(33)
+
+    def _anim_speed(self):
+        """the selected animation (and its other view) slower or faster: its key times stretched (anm.retime)"""
+        if self._anim_index is None or not self.file:
+            return
+        info = anm.list_animations(self.preview)[self._anim_index]
+        aid = info["id"]
+        own = {a.id for b in self.file.blocks for a in b.animations}
+        if aid not in own:
+            QMessageBox.information(self, "Animation speed",
+                                    f"Animation {aid} is one of the game's shared moves (every character of this "
+                                    "body type uses it), not part of this sprite, so its speed can't change for "
+                                    "this character alone.\n\nIdles a character carries itself (6001 / 6007 and "
+                                    "the Disgaea RPG idles) can be changed.")
+            return
+        from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QCheckBox
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Animation speed")
+        f = QFormLayout(dlg)
+        twin = aid + 6 if aid % 10 == 1 else aid - 6 if aid % 10 == 7 else None
+        f.addRow(QLabel(f"Animation {aid} lasts {info['length']} frames ({info['length'] / 60:.2f} s)."))
+        pct = QSpinBox()
+        pct.setRange(25, 400)
+        pct.setSingleStep(5)
+        pct.setValue(100)
+        pct.setSuffix(" %")
+        pct.setToolTip("100 % = as now. 50 % = half as fast (twice as long), 200 % = twice as fast.")
+        f.addRow("Speed", pct)
+        both = QCheckBox(f"Its other view too (animation {twin})")
+        both.setChecked(twin in own)
+        both.setEnabled(twin in own)
+        f.addRow("", both)
+        bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        bb.accepted.connect(dlg.accept)
+        bb.rejected.connect(dlg.reject)
+        f.addRow(bb)
+        if not dlg.exec() or pct.value() == 100:
+            return
+        ids = [aid] + ([twin] if both.isChecked() and twin in own else [])
+        n = anm.retime(self.file, ids, 100.0 / pct.value())
+        self.ws.log(f"Animation {', '.join(map(str, ids))} of anm{self.num:05d}: speed {pct.value()} % "
+                    f"({n} keys); Save to keep it.")
+        row = self.anim_combo.currentIndex()
+        self._changed()
+        self._fill_anims()
+        self.anim_combo.setCurrentIndex(row)
 
     def _apply_zoom(self):
         z = self.zoom.value()
