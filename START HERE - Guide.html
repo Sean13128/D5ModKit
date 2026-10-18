@@ -67,6 +67,7 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
   <div class="grp">Tutorials</div>
   <a href="#t-first">1 · Your first edit</a>
   <a href="#t-char">2 · A new recruitable character</a>
+  <a href="#t-quests">2b · Quests</a>
   <a href="#t-outfit">3 · An outfit from a sprite sheet</a>
   <a href="#t-color">4 · Recolouring a sprite</a>
   <a href="#t-drpg">5 · Disgaea RPG sprites</a>
@@ -76,6 +77,7 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
   <a href="#t-stage">9 · A stage's enemies</a>
   <a href="#t-blocks">9b · A battlefield out of blocks</a>
   <a href="#t-music">10 · Music and sounds</a>
+  <a href="#t-area">10b · A skill's area, numbers and spells</a>
   <a href="#t-db">11 · Database (items, skills…)</a>
     <a href="#t-class">13 · New classes and monsters</a>
   <a href="#t-share">14 · Sharing your mods</a>
@@ -505,6 +507,16 @@ themselves: the game adds new stages to a save when it loads it.</p>
 Every song of the game is listed, and so are your own from Music &amp; Sound. A new stage starts with its base
 stage's song.</p>
 
+<h2 id="t-quests">Tutorial 2b · Quests</h2>
+<ol class="steps">
+<li><b>📜 Quests</b>: pick a quest of the Quest shop or a resident request. The top lines say in words what it asks
+for, what it gives and when it shows; change any of it below (title, client, text, the objective, the reward, the
+quest it comes after, the flag it needs, the stage it opens).</li>
+<li><b>➕ New quest</b> makes one of yours: a stage of yours to clear, or enemies to defeat; the prize can be HL, an
+item, a skill, an evility, a character (a recruit quest) or a class. <b>💾 Save</b> writes it into your mod (offered
+under the quest's name when none is active). 🗑 Delete takes a quest of yours away again.</li>
+</ol>
+
 <h2 id="t-blocks">Tutorial 9b · Building a battlefield out of blocks</h2>
 <ol class="steps">
 <li><b>➕ New stage…</b>, and under <i>It starts with</i> choose <b>Blocks</b>: the stage opens with a stone slab on a
@@ -518,6 +530,10 @@ a quarter, <b>+</b> / <b>−</b> lift and lower it one height step (a lifted blo
 <li><b>✥ Move</b>: click a block of the map to choose it (orange), drag it, turn or lift it with the same keys,
 <b>Delete</b> removes it; the right mouse button opens the same choices. <b>Grid</b> sets the size of the
 battlefield.</li>
+<li><b>🎨 Look…</b> tints the chosen block or puts your own pictures on its textures (a stone block: a 160×128 top
+picture, its left 128×128 tiled over the top, and a 128×32 wall strip; a themed block: one square picture).
+<b>Map size</b> at the top of the panel sets the grid; <b>🗑 Delete stage…</b> on the right takes a stage of yours
+out of its mod again.</li>
 <li><b>Done building</b>, then place enemies, Geo Panels and the base panel with the usual tools, and <b>💾 Save</b>:
 the map is written as one file and the blocks are kept with it, so you can go on building later.</li>
 </ol>
@@ -539,6 +555,18 @@ game. A new track listed in the music list can be chosen in game as the music of
 </ol>
 <div class="note">To make a stage play your song, pick it as the stage's <b>Battle music</b> on 🗺 Stages &amp; Maps
 (Tutorial 9). Story scenes play their own music.</div>
+
+<h2 id="t-area">Tutorial 10b · A skill's area, reach, numbers and spells</h2>
+<ol class="steps">
+<li><b>✨ Skills &amp; Animations</b>: pick the skill, open the <b>🟥 Area</b> tab on the right. Click panels to
+change where it hits, set its reach and height reach, its SP cost, the main effect's strength and the power of each
+skill level (<i>Preview at level</i> shows the result). <b>💾 Save</b> writes it all; with no mod active the kit
+offers a mod named after the skill.</li>
+<li><b>Spells</b> (Fire, Heal, Braveheart…) have no area of their own: their level sets a tier that is their reach
+and how many of the nine spell shapes the player may choose (1 panel up to 3×3). The Area tab previews any level,
+lets you edit the nine shapes (every spell shares them), move the tier levels for all spells, or give one spell a
+fixed reach and area (and take it back).</li>
+</ol>
 
 <h2 id="t-db">Tutorial 11 · Database (items, skills…)</h2>
 <ol class="steps">

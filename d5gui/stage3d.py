@@ -8,6 +8,7 @@ raises the same signals a click on the top-down map does (cell_clicked / cell_dr
 click lands on a unit's sprite, so the page's tools (select / move, add enemy, Geo Symbol, paint, base panel) work in
 both views.  Drawing is d5gui.skilledit.glrender (the skill preview's GPU renderer) with the map as its battlefield
 and the units as actors of a still stage."""
+import itertools
 import math
 import time
 
@@ -30,6 +31,8 @@ HOVER_RGB = (1.0, 1.0, 1.0)
 GRID_RGB = (0.75, 0.78, 1.0)
 BACKDROP = np.array([[0.16, 0.14, 0.30], [0.12, 0.13, 0.30], [0.05, 0.045, 0.09], [0.06, 0.05, 0.10]])
 LIFT = 1.6                                        # overlays this far over the ground (script units)
+GS_FLIP_Y = True                                  # the Geo Symbol models (chw0000N) are stored y down
+_REV = itertools.count(1)                         # every terrain loaded gets GPU buffers / atlas entries of its own
 FIT_DIST_MIN = 900.0
 
 
@@ -85,7 +88,13 @@ class _Assets(glrender.Assets):
                 try:
                     from d5lib import obf
                     data = self.get(f"Object/Object_JP.dat/{eid}.obf")
-                    self.models[eid] = glrender.ModelGPU(eid, obf.ObfFile(data))
+                    m = glrender.ModelGPU(eid, obf.ObfFile(data))
+                    if eid.startswith("chw") and GS_FLIP_Y:
+                        for part in m.parts:
+                            for g in part:
+                                g.pos = np.ascontiguousarray(g.pos * np.array([1.0, -1.0, 1.0], np.float32))
+                                g.centre = g.pos.mean(0)
+                    self.models[eid] = m
                 except Exception:
                     self.models[eid] = None
             return self.models[eid]
@@ -190,7 +199,7 @@ class Stage3DView(QOpenGLWidget):
         if key != self._bm_key:
             try:
                 self.bm = battlemap.from_package(pkg, getattr(self.model, "mid", 0) or 0)
-                self.bm.rev = int(getattr(pkg, "rev", 0))        # a rebuilt terrain gets new GPU buffers
+                self.bm.rev = next(_REV)          # a reloaded or rebuilt terrain never reuses old textures
             except Exception as e:
                 self.bm = None
                 self.message = f"terrain not drawn: {e}"
@@ -226,12 +235,25 @@ class Stage3DView(QOpenGLWidget):
                 ac.dir = np.array(d, float)
             else:
                 ac = stg.Actor(pos, num, pal, d)
+                ac.motion = self._idle_motion(num)
                 ac.mtime = float((i * 7) % 40)          # not every unit on the same frame of its idle
             actors[i] = ac
         self.state.actors = actors
         self.state.slots = slots
         self.placed = placed
         self.update()
+
+    def _idle_motion(self, num):
+        """the motion whose animation is the unit's idle: a humanoid's own 6001 / 6007, a monster's 1001 / 1007"""
+        try:
+            ids = self._renderer().assets.sprite(num)[1]
+        except Exception:
+            return 0
+        if 6001 in ids:
+            return 600
+        if 1001 in ids:
+            return 100
+        return 0
 
     # ---------------------------------------------------------------- geometry
     def ground_at(self, x, z):

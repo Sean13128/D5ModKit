@@ -12,6 +12,7 @@ Measures: a panel is 12 map units; a height step (one 'level' of the game's grid
 Corner heights are negative-up in the .hex (-13 = the top of a cube on the ground), mesh y is up.
 """
 import hashlib
+import os
 import struct
 
 import numpy as np
@@ -168,6 +169,26 @@ def place(build, key, x, y, rot=0, lift=0):
     return p
 
 
+PICTURES = "pictures"                # patches/stages/pictures/<file>: the pictures blocks are retextured with
+
+
+def look_of(pl):
+    """(tint rgb 0-255 or None, {texture index: picture file name}) of a placement"""
+    tint = pl.get("tint")
+    tint = tuple(int(v) for v in tint)[:3] if tint else None
+    tex = {int(k): str(v) for k, v in (pl.get("tex") or {}).items() if v}
+    return tint, tex
+
+
+def _retextured(entry, path):
+    """a texture entry (attr + TXF) with the picture at `path` in it (scaled to the texture's size, same format)"""
+    from PIL import Image
+    t = O.Texture(entry)
+    img = Image.open(path).convert("RGBA").resize((t.width, t.height), Image.Resampling.LANCZOS)
+    t.replace_image(img, keep_format=True)
+    return t.to_entry()
+
+
 def covered(build, pieces):
     """{(x, y): index of the topmost placement covering that panel}"""
     out = {}
@@ -181,10 +202,11 @@ def covered(build, pieces):
     return out
 
 
-def compose(build, pieces, skeleton, base_pkg=None, name="map00000"):
+def compose(build, pieces, skeleton, base_pkg=None, name="map00000", pictures_dir=None):
     """-> mapfile.MapPackage of the build.  pieces: {key: Piece} (every block the build uses); skeleton: the Piece
     whose obf sections 0-5 / .hex header are copied (piece 60001); base_pkg: the map being edited, whose .gop and
-    .chr (Geo Panels, units) the result keeps."""
+    .chr (Geo Panels, units) the result keeps; pictures_dir: where a placement's "tex" pictures are."""
+    retex_cache = {}
     W, H = int(build["size"][0]), int(build["size"][1])
     W, H = max(1, min(mapfile.GRID_MAX, W)), max(1, min(mapfile.GRID_MAX, H))
     corners = np.zeros((W + 1, H + 1, 4), np.float32)
@@ -213,10 +235,21 @@ def compose(build, pieces, skeleton, base_pkg=None, name="map00000"):
                     corners[X, Y] = c[i, j] - lift * STEP
                     no_panel[X, Y] = 0
         shift = np.array([px * PANEL, lift * STEP, py * PANEL], np.float32)
+        tint, tex_over = look_of(pl)
         tmap = {}
         for rows, t, head in meshes:
             if t not in tmap:
                 entry = pc.textures[t] if t < len(pc.textures) else b""
+                pic = tex_over.get(t)
+                if pic and pictures_dir:
+                    path = os.path.join(pictures_dir, os.path.basename(pic))
+                    ck = (hashlib.sha1(entry).hexdigest(), os.path.basename(pic))
+                    if ck not in retex_cache:
+                        try:
+                            retex_cache[ck] = _retextured(entry, path)
+                        except Exception:
+                            retex_cache[ck] = entry
+                    entry = retex_cache[ck]
                 hsh = hashlib.sha1(entry).hexdigest()
                 if hsh not in tex_index:
                     tex_index[hsh] = len(textures)
@@ -224,6 +257,8 @@ def compose(build, pieces, skeleton, base_pkg=None, name="map00000"):
                 tmap[t] = tex_index[hsh]
             rows = rows.copy()
             rows[:, 0:3] += shift
+            if tint is not None:
+                rows[:, 9:12] = np.clip(rows[:, 9:12] * (np.array(tint, np.float32) / 255.0), 0.0, 1.0)
             parts = [rows]
             if lift > 0:               # the block's walls go on down to the ground under it
                 n = _tri_normals(rows[:, 0:3])

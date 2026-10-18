@@ -1,5 +1,47 @@
 # D5 Mod Kit — changes
 
+## 1.5.3 (2026-10-18)
+
+**Quests**
+* **📜 Quests**, a page of its own: every quest of the Quest shop and every resident request, with its title, client
+  and text, what it asks for (a stage to clear -- yours too -- or enemies to defeat), what it gives (HL, an item, an
+  evility, a skill, a character, a class, a Chara World rank, a flag), when it shows (after another quest, a flag) and
+  the stage it opens. **New quest** makes one of your own; a quest of yours can be deleted. Saving with no mod
+  active offers a mod named after the quest.
+
+**Stages & Maps**
+* **🗑 Delete stage…** takes a stage of yours out of its mod: its map, its stage-list entry, its battle start and
+  music and its blocks (saves that listed it: Home › More › Check saves).
+* Monsters idle in the 3D view like humanoids do (they stood frozen in their first pose); **Geo Symbols** are drawn
+  as the game's Geo Symbol models in their colour (they showed as Zeroken, whose sprite number the Geo Symbol
+  entry carries).
+* **Textures no longer glitch after saving** a stage built out of blocks: the 3D view reused the pictures of the
+  earlier terrain for the new one.
+* **🎨 Look…** for a block: a tint, or your own pictures on its textures (the stone blocks: a 160×128 top picture
+  and a 128×32 wall strip; themed blocks one square picture). The game's files hold no other skins for the stone
+  shapes: all 151 share one texture pair.
+* **Map size** when a stage starts from blocks (New stage › Blocks), and the Blocks panel's grid is called that.
+
+**Sprites & Colors**
+* **⏱ Speed…** is a setting, not a stack: 50 % twice is still 50 % of the animation's original speed (the original
+  timing is kept with the sprite, so 100 % brings it back exactly).
+
+**Skills & Animations**
+* **Save saves the Area tab too.** Changes to a skill's area, reach and numbers no longer need the tab's own button:
+  💾 Save (and ▶ Preview in game) write them with the timeline. With no mod active, the first save offers a mod
+  named after the skill ("Skill: Heal", category Skills), so one skill's changes can live in a mod of their own and
+  be switched off or shared alone; the mod list says which skills a mod changes.
+* **Numbers** on the Area tab: SP cost, the main effect's strength (the damage / heal bonus, or a buff's amount) and
+  the power of each of the 10 skill levels, with a fill-in by step and a *Preview at level* line.
+* **Spells grow with their level, and the kit shows it.** Fire, Heal, Braveheart and the other generic spells take
+  no reach or area from the skill table: in battle the spell's level sets a tier (levels 1 / 5 / 10 / 20 / 40 /
+  60 / 80 / 90 end tiers 1-8, tier 9 after) that is the spell's reach in panels (+1 with a staff, some classes add
+  more) and how many of the nine spell shapes the player may choose (1 panel up to 3×3). The Area tab now says so,
+  previews the reach and shapes at any level, lets you **edit the nine spell shapes** (every spell shares them),
+  **move the tier levels** (one setting for all spells; the install patches the game for it), or **give one spell a
+  reach and an area of its own** (and take them away again). Before, editing a spell's area quietly did the last of
+  these without saying so.
+
 ## 1.5.2 (2026-10-17)
 
 **Stages & Maps**

@@ -139,3 +139,16 @@ def move_stage(mod, old_map, new_map):
     if old is not None:
         ev[str(start_event(new_map))] = re.sub(r"^event\s+\d+", f"event {start_event(new_map)}", old)
         mod.save_patch("script", "script.json", {"events": ev})
+
+
+def remove_stage(mod, map_id):
+    """a mod's stage deleted: its trigger records and its start event go"""
+    p = mod.load_patch("text", "talk.json") or {}
+    if p.get("added"):
+        keep = [t for t in p["added"]
+                if not (re.search(r"\btalk=0\b", t.partition("\n")[0]) and
+                        re.search(r"\bkey2=%d\b" % int(map_id), t.partition("\n")[0]))]
+        if len(keep) != len(p["added"]):
+            p["added"] = keep
+            mod.save_patch("text", "talk.json", p if (p.get("added") or p.get("records")) else None)
+    set_song(mod, map_id, None)

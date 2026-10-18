@@ -696,13 +696,45 @@ def list_animations(anm: AnmFile):
     return out
 
 
-def retime(anm: AnmFile, anim_ids, factor: float) -> int:
+def _timed_keys(anm: AnmFile, anim_ids):
+    """[(block, key index)] of the keys the animations' node trees use, each once, in a fixed order"""
+    ids = {int(i) for i in anim_ids}
+    out = []
+    for bi, b in enumerate(anm.blocks):
+        keys = set()
+        for a in b.animations:
+            if a.id not in ids:
+                continue
+            for ni, _, _ in b.walk(a.root):
+                n = b.nodes[ni]
+                if n.first_key >= 0 and n.num_keys:
+                    keys.add((n.first_key, n.num_keys))
+        seen = set()
+        for first, num in sorted(keys):
+            for idx in range(first, min(len(b.keys), first + num)):
+                if idx not in seen:
+                    seen.add(idx)
+                    out.append((bi, idx))
+    return out
+
+
+def key_times(anm: AnmFile, anim_ids):
+    """the key times retime() changes, in its order (kept to retime from the original again later)"""
+    return [anm.blocks[bi].keys[idx].time for bi, idx in _timed_keys(anm, anim_ids)]
+
+
+def retime(anm: AnmFile, anim_ids, factor: float, base=None) -> int:
     """Make animations slower (factor > 1) or faster (< 1): every key time of their node trees (control keys -- the
     loop points -- included) times `factor`.  Each key is changed once even when several of the animations share a
-    node; a node's key times stay increasing.  -> number of keys changed"""
+    node; a node's key times stay increasing.  base: the times to scale from (key_times() taken before an earlier
+    retime), so a second speed change doesn't stack on the first.  -> number of keys changed"""
     ids = {int(i) for i in anim_ids}
     done = 0
-    for b in anm.blocks:
+    order = _timed_keys(anm, anim_ids)
+    base_of = {}
+    if base is not None and len(base) == len(order):
+        base_of = {k: int(t) for k, t in zip(order, base)}
+    for bi, b in enumerate(anm.blocks):
         keys = set()
         for a in b.animations:
             if a.id not in ids:
@@ -720,7 +752,7 @@ def retime(anm: AnmFile, anim_ids, factor: float) -> int:
                     last = k.time
                     continue
                 scaled.add(idx)
-                t = int(round(k.time * factor))
+                t = int(round(base_of.get((bi, idx), k.time) * factor))
                 if t <= last and k.time > 0:
                     t = last + 1
                 t = max(0, min(0xFFFF, t))

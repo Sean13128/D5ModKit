@@ -340,7 +340,7 @@ class BuildContext:
 
 HANDLER_MODULES = ["d5lib.dbpatch", "d5lib.textpatch", "d5lib.scriptpatch", "d5lib.skills", "d5lib.newchars", "d5lib.outfits", "d5lib.newclasses", "d5lib.voices", "d5lib.overloads",
                    "d5lib.questpatch",
-                   "d5lib.unlockpatch", "d5lib.weaponlevels", "d5lib.standins", "d5lib.customcolors", "d5lib.fxpool",
+                   "d5lib.unlockpatch", "d5lib.weaponlevels", "d5lib.spellgrowth", "d5lib.standins", "d5lib.customcolors", "d5lib.fxpool",
                    "d5lib.runtime", "d5lib.autobattle",     # the runtime DLL (auto-battle: only where it exists)
                    "d5lib.grips"]                           # grips last: its finalizer edits the final sprites
 

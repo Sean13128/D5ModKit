@@ -708,6 +708,22 @@ class SpritesPage(QWidget):
         if self.b_play.text() == "⏸" and self.isVisible():
             self.timer.start(33)
 
+    def _speeds(self):
+        """{animation id: {"percent", "times"}} of this sprite: the speeds set so far and the original key times
+        (patches/sprites/speed_<N>.json of the mod that has the sprite)"""
+        if getattr(self, "_speed_num", None) != self.num or getattr(self, "_speed_cache", None) is None:
+            mod = self._target_mod()
+            d = (mod.load_patch("sprites", f"speed_{self.num:05d}.json") if mod else None) or {}
+            self._speed_cache = {k: v for k, v in d.items() if isinstance(v, dict)}
+            self._speed_num = self.num
+            self._speed_dirty = False
+        return self._speed_cache
+
+    def _save_speeds(self, mod):
+        if getattr(self, "_speed_dirty", False) and getattr(self, "_speed_num", None) == self.num:
+            mod.save_patch("sprites", f"speed_{self.num:05d}.json", self._speed_cache or None)
+            self._speed_dirty = False
+
     def _anim_speed(self):
         """the selected animation (and its other view) slower or faster: its key times stretched (anm.retime)"""
         if self._anim_index is None or not self.file:
@@ -727,13 +743,18 @@ class SpritesPage(QWidget):
         dlg.setWindowTitle("Animation speed")
         f = QFormLayout(dlg)
         twin = aid + 6 if aid % 10 == 1 else aid - 6 if aid % 10 == 7 else None
-        f.addRow(QLabel(f"Animation {aid} lasts {info['length']} frames ({info['length'] / 60:.2f} s)."))
+        speeds = self._speeds()
+        cur = int(speeds.get(str(aid), {}).get("percent", 100))
+        f.addRow(QLabel(f"Animation {aid} lasts {info['length']} frames ({info['length'] / 60:.2f} s)" +
+                        (f" at {cur} % of its original speed." if cur != 100 else ".")))
         pct = QSpinBox()
         pct.setRange(25, 400)
         pct.setSingleStep(5)
-        pct.setValue(100)
+        pct.setValue(cur)
         pct.setSuffix(" %")
-        pct.setToolTip("100 % = as now. 50 % = half as fast (twice as long), 200 % = twice as fast.")
+        pct.setToolTip("Of the animation's original speed: 100 % = as the game made it, 50 % = half as fast (twice "
+                       "as long), 200 % = twice as fast. Setting it again replaces the last setting (it doesn't "
+                       "stack).")
         f.addRow("Speed", pct)
         both = QCheckBox(f"Its other view too (animation {twin})")
         both.setChecked(twin in own)
@@ -743,12 +764,23 @@ class SpritesPage(QWidget):
         bb.accepted.connect(dlg.accept)
         bb.rejected.connect(dlg.reject)
         f.addRow(bb)
-        if not dlg.exec() or pct.value() == 100:
+        if not dlg.exec() or pct.value() == cur:
             return
         ids = [aid] + ([twin] if both.isChecked() and twin in own else [])
-        n = anm.retime(self.file, ids, 100.0 / pct.value())
-        self.ws.log(f"Animation {', '.join(map(str, ids))} of anm{self.num:05d}: speed {pct.value()} % "
-                    f"({n} keys); Save to keep it.")
+        n = 0
+        for one in ids:
+            rec = speeds.get(str(one))
+            base = rec.get("times") if rec else None
+            if base is None:
+                base = anm.key_times(self.file, [one])          # the original timing, kept with the sprite
+            n += anm.retime(self.file, [one], 100.0 / pct.value(), base=base)
+            speeds[str(one)] = {"percent": int(pct.value()), "times": [int(t) for t in base]}
+        if pct.value() == 100:
+            for one in ids:
+                speeds.pop(str(one), None)
+        self._speed_dirty = True
+        self.ws.log(f"Animation {', '.join(map(str, ids))} of anm{self.num:05d}: speed {pct.value()} % of the "
+                    f"original ({n} keys); Save to keep it.")
         row = self.anim_combo.currentIndex()
         self._changed()
         self._fill_anims()
@@ -1216,6 +1248,7 @@ class SpritesPage(QWidget):
             data = self.file.to_bytes()
             anm.parse(data)  # validate
             self.ws.write(self.vpath, data, self, mod=mod)
+            self._save_speeds(mod)
             comp = sprites.companion(self.num)
             extra = ""
             if comp is not None:

@@ -1,8 +1,10 @@
-"""Area: where the skill hits (magic.dat range / attack_map / height reach + AttackMap.dat shapes; d5lib/skillarea.py).
+"""Area: where the skill hits (magic.dat range / attack_map / height reach + AttackMap.dat shapes; d5lib/skillarea.py)
+and its numbers (SP cost, the main effect's strength, the power of each skill level).
 
 A grid of panels around the caster (forward = up, as the skill faces): click panels to change the area, or switch
 to "place enemies" and click hit panels to put enemies on them (the preview then plays the skill on all of them,
-in the game's target order).  Changes show in the preview at once; Save area writes them into the active mod."""
+in the game's target order).  Changes show in the preview at once; Save (or Save area) writes them into the skill's
+mod -- the active one, made on the spot when there is none."""
 import copy
 
 from PyQt6.QtCore import Qt, QRectF, QPointF, pyqtSignal
@@ -11,6 +13,7 @@ from PyQt6.QtWidgets import (QScrollArea, QWidget, QVBoxLayout, QHBoxLayout, QLa
                              QFormLayout, QSpinBox, QRadioButton, QButtonGroup, QComboBox, QSizePolicy)
 
 from d5lib import skillarea as sa
+from d5lib import spellgrowth as sg
 
 COLORS = {sa.HIT: QColor(235, 78, 60), sa.CURSOR: QColor(240, 150, 50), sa.USER_TO: QColor(70, 220, 150)}
 REACH = QColor(80, 140, 240)
@@ -263,7 +266,75 @@ class AreaPanel(QScrollArea):
         row.addStretch(1)
         lay.addLayout(row)
 
-        g = QGroupBox("Reach")
+        # ---- spells: reach and area from the level
+        self.spell_box = QGroupBox("A spell: reach and area grow with its level")
+        sv = QVBoxLayout(self.spell_box)
+        self.spell_text = QLabel()
+        self.spell_text.setWordWrap(True)
+        self.spell_text.setMinimumWidth(10)
+        self.spell_text.setObjectName("muted")
+        sv.addWidget(self.spell_text)
+        row = QHBoxLayout()
+        row.addWidget(QLabel("Area"))
+        self.spell_shape = QComboBox()
+        self.spell_shape.setToolTip("The area shapes the player may choose at the level shown (Preview at, below): "
+                                    "shape 1 to the level's tier. Every spell shares these nine shapes.")
+        self.spell_shape.currentIndexChanged.connect(lambda *_: self._spell_preview())
+        row.addWidget(self.spell_shape, 1)
+        sv.addLayout(row)
+        row = QHBoxLayout()
+        self.b_edit_shape = QPushButton("✎ Edit this shape (every spell)")
+        self.b_edit_shape.setToolTip("Change the shape's panels in the grid above; Save writes it into AttackMap.dat "
+                                     "for every spell that reaches its tier")
+        self.b_edit_shape.clicked.connect(self._edit_shape)
+        row.addWidget(self.b_edit_shape)
+        self.b_fixed = QPushButton("Give this spell an area of its own")
+        self.b_fixed.setToolTip("The spell stops growing with its level: it gets one reach and one area, like a "
+                                "weapon skill (set them above, then Save)")
+        self.b_fixed.clicked.connect(self._make_fixed)
+        row.addWidget(self.b_fixed)
+        self.b_grow = QPushButton("Back to growing with the level")
+        self.b_grow.setToolTip("Take the spell's own reach and area away: the level rules again (Save)")
+        self.b_grow.clicked.connect(self._make_growing)
+        row.addWidget(self.b_grow)
+        row.addStretch(1)
+        sv.addLayout(row)
+        gl = QFormLayout()
+        gl.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+        self.levels = []
+        for row_k in range(2):
+            hl = QHBoxLayout()
+            hl.setSpacing(3)
+            for k in range(row_k * 4, row_k * 4 + 4):
+                sb = QSpinBox()
+                sb.setRange(1, sg.MAX_LEVEL)
+                sb.setPrefix(f"tier {k + 1} to L")
+                sb.setToolTip(f"The last level with reach {k + 1} (and up to shape {k + 1}); one level more gives "
+                              f"reach {k + 2}")
+                sb.setMinimumWidth(96)
+                sb.valueChanged.connect(self._levels_edited)
+                self.levels.append(sb)
+                hl.addWidget(sb)
+            gl.addRow("Tiers end at" if row_k == 0 else "", hl)
+        row = QHBoxLayout()
+        self.b_levels_reset = QPushButton("The game's levels")
+        self.b_levels_reset.clicked.connect(lambda: self.set_levels(sg.DEFAULT_LEVELS))
+        row.addWidget(self.b_levels_reset)
+        self.levels_note = QLabel()
+        self.levels_note.setWordWrap(True)
+        self.levels_note.setObjectName("muted")
+        row.addWidget(self.levels_note, 1)
+        gl.addRow("", row)
+        sv.addLayout(gl)
+        lay.addWidget(self.spell_box)
+        self.spell_box.hide()
+        self.spell = False                    # a spell is shown (attack_map 0)
+        self.fixed = False                    # the user wants it to have an area of its own
+        self.edit_shape = None                # the spell shape being edited (1-9)
+        self.growing_back = False             # the user asked for the spell to grow again (Save clears its area)
+        self.levels0 = list(sg.DEFAULT_LEVELS)
+
+        self.reach_box = g = QGroupBox("Reach")
         f = QFormLayout(g)
         f.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
         self.range = QSpinBox()
@@ -295,7 +366,67 @@ class AreaPanel(QScrollArea):
             w.valueChanged.connect(self._heights)
         lay.addWidget(g)
 
-        g = QGroupBox("Start from a game shape")
+        g = QGroupBox("Numbers")
+        f = QFormLayout(g)
+        f.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+        self.sp = QSpinBox()
+        self.sp.setRange(0, 9999)
+        self.sp.setToolTip("SP the skill costs at level 1 (the game raises it with the skill's level)")
+        f.addRow("SP cost", self.sp)
+        self.effect = QSpinBox()
+        self.effect.setRange(-9999, 9999)
+        self.effect.setSuffix(" %")
+        self.effect.setToolTip("The main effect's strength: damage and heals = a bonus on the attack formula "
+                               "(Fire -10, Mega Fire 5, Giga 30, Omega 50, Tera 70; Big Bang 30); buffs and "
+                               "debuffs = the stat change")
+        self.effect_label = QLabel("Power")
+        f.addRow(self.effect_label, self.effect)
+        self.power = []
+        for row_k in range(2):
+            hl = QHBoxLayout()
+            hl.setSpacing(3)
+            for k in range(5):
+                lv = row_k * 5 + k + 1
+                sb = QSpinBox()
+                sb.setRange(-9999, 9999)
+                sb.setPrefix(f"L{lv} ")
+                sb.setToolTip(f"The skill's power at skill level {lv} (% of its level-1 power: 100, 107, 114 … "
+                              "for the game's attacks; buffs 30 … 75)")
+                sb.setMinimumWidth(72)
+                self.power.append(sb)
+                hl.addWidget(sb)
+            f.addRow("Per level" if row_k == 0 else "", hl)
+        hl = QHBoxLayout()
+        self.step = QSpinBox()
+        self.step.setRange(-500, 500)
+        self.step.setValue(7)
+        self.step.setPrefix("+")
+        self.step.setSuffix(" per level")
+        hl.addWidget(self.step)
+        b = QPushButton("Fill levels 2-10 from level 1")
+        b.setToolTip("Level 1's power plus the step for every level after it")
+        b.clicked.connect(self._fill_levels)
+        hl.addWidget(b)
+        hl.addStretch(1)
+        f.addRow("", hl)
+        self.at_level = QSpinBox()
+        self.at_level.setRange(1, sg.MAX_LEVEL)
+        self.at_level.setPrefix("level ")
+        self.at_level.setToolTip("The skill level to look at: its power, and for a spell its reach and areas")
+        self.at_level.valueChanged.connect(self._level_preview)
+        self.at_level.valueChanged.connect(lambda *_: self._spell_preview())
+        self.level_text = QLabel()
+        self.level_text.setObjectName("muted")
+        hl = QHBoxLayout()
+        hl.addWidget(self.at_level)
+        hl.addWidget(self.level_text, 1)
+        f.addRow("Preview at", hl)
+        for w in (self.sp, self.effect) + tuple(self.power):
+            w.valueChanged.connect(self._numbers_edited)
+        lay.addWidget(g)
+        self.numbers0 = None                  # the numbers as saved
+
+        self.start_box = g = QGroupBox("Start from a game shape")
         v = QVBoxLayout(g)
         self.shapes = QComboBox()
         self.shapes.setToolTip("Every area shape of the game (AttackMap.dat) and skills that use it")
@@ -358,6 +489,235 @@ class AreaPanel(QScrollArea):
         self.grid.update()
         self._sync_buttons()
 
+    # ---- numbers
+    NUMBERS = ("sp_cost", "effect1_value") + tuple(f"power_lv{k}" for k in range(1, 11))
+
+    def set_numbers(self, row):
+        """the skill's magic.dat row (None: no numbers to edit)"""
+        vals = None
+        if row is not None:
+            try:
+                vals = {f: int(row[f]) for f in self.NUMBERS}
+                vals["effect1_type"] = int(row["effect1_type"])
+            except Exception:
+                vals = None
+        self.numbers0 = dict(vals) if vals else None
+        on = vals is not None
+        for w in (self.sp, self.effect) + tuple(self.power):
+            w.setEnabled(on)
+            w.blockSignals(True)
+        if on:
+            self.sp.setValue(vals["sp_cost"])
+            self.effect.setValue(vals["effect1_value"])
+            for k, sb in enumerate(self.power):
+                sb.setValue(vals[f"power_lv{k + 1}"])
+            t = vals["effect1_type"]
+            self.effect_label.setText("Power bonus" if t == 1 else "Buff / debuff" if t in (11, 12) else
+                                      f"Effect {t} value")
+        for w in (self.sp, self.effect) + tuple(self.power):
+            w.blockSignals(False)
+        self._level_preview()
+
+    def numbers(self):
+        out = {"sp_cost": self.sp.value(), "effect1_value": self.effect.value()}
+        for k, sb in enumerate(self.power):
+            out[f"power_lv{k + 1}"] = sb.value()
+        return out
+
+    def numbers_changed(self):
+        n0 = self.numbers0
+        return n0 is not None and any(self.numbers()[f] != n0[f] for f in self.NUMBERS)
+
+    def apply_numbers(self, row):
+        """-> True when a field of the row changed"""
+        if self.numbers0 is None or row is None:
+            return False
+        changed = False
+        for f, v in self.numbers().items():
+            if int(row[f]) != int(v):
+                row.set(f, int(v))
+                changed = True
+        if changed:
+            self.numbers0 = dict(self.numbers0, **self.numbers())
+        return changed
+
+    def _numbers_edited(self, *_):
+        self._level_preview()
+        self._sync_buttons()
+        fn = getattr(self.ed, "_update_buttons", None)
+        if fn:
+            fn()
+
+    def _fill_levels(self):
+        base, step = self.power[0].value(), self.step.value()
+        for k, sb in enumerate(self.power[1:], 1):
+            sb.setValue(base + step * k)
+
+    def _level_preview(self, *_):
+        if self.numbers0 is None:
+            self.level_text.setText("")
+            return
+        lv = self.at_level.value()
+        pw = self.power[min(lv, 10) - 1].value()
+        sp = self.sp.value()
+        self.level_text.setText(f"power {pw} % of level 1" + (" (the table ends at level 10)" if lv > 10 else "") +
+                                f", bonus {self.effect.value():+d} %, {sp} SP at level 1 (the game raises SP with "
+                                "the level)")
+
+    # ---- spells
+    def set_spell(self, on, levels=None, owner=None, fixed=False):
+        """on: the skill is a spell (generic magic: its reach and area come from its level); fixed: it was given a
+        reach and an area of its own (magic.dat), which Save keeps editing like a weapon skill's -- 'Back to growing
+        with the level' takes them away.  levels: the thresholds in force (sg.effective), owner: their mod"""
+        self.spell = bool(on)
+        self.fixed = bool(on and fixed)
+        self.edit_shape = None
+        self.growing_back = False
+        self.spell_box.setVisible(self.spell)
+        self.levels0 = list(levels or sg.DEFAULT_LEVELS)
+        self.set_levels(self.levels0)
+        self.levels_note.setText(("The game's own levels." if owner is None else f"Set by the mod '{owner.name}'.") +
+                                 " One setting for every spell; the install patches the game for it.")
+        self._spell_buttons()
+        if self.spell and not self.fixed:
+            self._spell_preview()
+        elif self.spell:
+            self.spell_text.setText("This spell has a reach and an area of its own (set below, like a weapon "
+                                    "skill's): its level no longer grows them. 'Back to growing with the level' "
+                                    "takes them away again.")
+        else:
+            self.reach_box.setVisible(True)
+            self.start_box.setVisible(True)
+
+    def set_levels(self, levels):
+        for sb, v in zip(self.levels, sg.clean(levels)):
+            sb.blockSignals(True)
+            sb.setValue(int(v))
+            sb.blockSignals(False)
+        self._levels_edited()
+
+    def levels_now(self):
+        return sg.clean([sb.value() for sb in self.levels])
+
+    def levels_changed(self):
+        return self.spell and self.levels_now() != sg.clean(self.levels0)
+
+    def _levels_edited(self, *_):
+        self._spell_preview()
+        self._sync_buttons()
+        fn = getattr(self.ed, "_update_buttons", None)
+        if fn:
+            fn()
+
+    def _spell_buttons(self):
+        preview = self.spell and not self.fixed
+        self.b_edit_shape.setVisible(preview)
+        self.b_fixed.setVisible(preview)
+        self.b_grow.setVisible(self.spell and self.fixed)
+        self.spell_shape.setEnabled(preview)
+        for sb in self.levels:
+            sb.setEnabled(preview)
+        self.b_levels_reset.setEnabled(preview)
+        self.reach_box.setVisible(not preview)
+        self.start_box.setVisible(not preview or self.edit_shape is not None)
+
+    def _spell_preview(self):
+        """the grid shows the area the spell has at the level previewed: shape 1..tier, reach = tier"""
+        if not self.spell or self.fixed:
+            return
+        shape_map = getattr(self, "shape_map", {})
+        t = sg.tier(self.at_level.value(), self.levels_now())
+        cur = self.spell_shape.currentData() or t
+        self.spell_shape.blockSignals(True)
+        self.spell_shape.clear()
+        for sid in sg.SPELL_SHAPES:
+            sh = shape_map.get(sid)
+            n = len(sh.cells) if sh else 0
+            self.spell_shape.addItem(f"shape {sid} · {n} panel{'s' if n != 1 else ''}" +
+                                     ("" if sid <= t else f"  (from tier {sid})"), sid)
+            if sid > t:
+                self.spell_shape.model().item(self.spell_shape.count() - 1).setEnabled(False)
+        pick = self.edit_shape or min(int(cur), t)
+        self.spell_shape.setCurrentIndex(self.spell_shape.findData(pick))
+        self.spell_shape.blockSignals(False)
+        sid = self.spell_shape.currentData()
+        sh = shape_map.get(sid)
+        if self.edit_shape == sid and self.grid.area.shape == sid:
+            cells = self.grid.area.cells                      # being edited: keep the edits
+        else:
+            cells = list(sh.cells) if sh else [(0, 0, sa.CURSOR)]
+        skill = self.grid.area.skill
+        self.grid.area = sa.Area(skill=skill, range=t, shape=sid, cells=cells, height_up=self.up.value(),
+                                 height_down=self.down.value(), known=True)
+        self.grid.editable = self.edit_shape == sid
+        self.grid.update()
+        self.spell_text.setText(
+            f"In battle a spell takes nothing from the table: its level sets a tier -- {sg.reach_text(self.levels_now())}"
+            f" -- and the tier is its reach in panels (+1 with a staff, some classes add more) and how many of the "
+            f"nine spell shapes the player may pick (1 to the tier). Level {self.at_level.value()}: tier {t}, reach "
+            f"{t}, shapes 1-{t}. The grid shows the shape chosen above at that reach.")
+        self._spell_buttons()
+        self._sync_buttons()
+        self.ed.area_edited()
+
+    def _edit_shape(self):
+        sid = self.spell_shape.currentData()
+        if sid is None:
+            return
+        self.edit_shape = int(sid)
+        self._spell_preview()
+        self.summary.setText(f"Editing spell shape {sid}: click panels, then Save. Every spell that reaches tier "
+                             f"{sid} uses it.")
+
+    def _make_fixed(self):
+        """the spell gets a reach and an area of its own (saved like a weapon skill's)"""
+        self.fixed = True
+        self.edit_shape = None
+        a = self.grid.area
+        self.saved = sa.default_area(a.skill)
+        self.grid.area = sa.Area(skill=a.skill, range=a.range, shape=0, cells=list(a.cells), height_up=a.height_up,
+                                 height_down=a.height_down, known=True)
+        self.grid.editable = True
+        self.range.blockSignals(True)
+        self.range.setValue(a.range)
+        self.range.blockSignals(False)
+        self._spell_buttons()
+        self.spell_text.setText("This spell will have a reach and an area of its own, whatever its level: set them "
+                                "here and Save. 'Back to growing with the level' undoes it.")
+        self.grid.update()
+        self._edited()
+
+    def _make_growing(self):
+        self.growing_back = True
+        self.fixed = False
+        self._spell_buttons()
+        self._spell_preview()
+        self.summary.setText("Save takes the spell's own area away: its level rules again.")
+        fn = getattr(self.ed, "_update_buttons", None)
+        if fn:
+            fn()
+
+    def shape_edit_changed(self):
+        if not self.spell or self.edit_shape is None:
+            return False
+        sh = getattr(self, "shape_map", {}).get(self.edit_shape)
+        return sh is None or list(self.grid.area.cells) != list(sh.cells)
+
+    def pending(self):
+        """what Save has to write for a spell: ("shape", sid, cells) / ("fixed", area) / ("grow",) and the levels"""
+        out = {"levels": self.levels_now() if self.levels_changed() else None}
+        if not self.spell:
+            return out
+        if self.growing_back:
+            out["kind"] = "grow"
+        elif self.fixed and self.changed():
+            out["kind"] = "fixed"
+        elif self.shape_edit_changed():
+            out["kind"] = "shape"
+            out["sid"] = self.edit_shape
+            out["cells"] = list(self.grid.area.cells)
+        return out
+
     def set_cursor(self, n):
         self.grid.cursor = int(n)
         self.cursor.blockSignals(True)
@@ -369,23 +729,34 @@ class AreaPanel(QScrollArea):
         return self.grid.area
 
     def changed(self):
+        if self.spell and not self.fixed:
+            return self.shape_edit_changed() or self.growing_back
         a, s = self.grid.area, self.saved
         return s is not None and (a.cells != s.cells or a.range != s.range or a.height_up != s.height_up
                                   or a.height_down != s.height_down)
 
     # ---- edits
     def _sync_buttons(self):
-        ch = self.changed()
+        ch = self.changed() or self.numbers_changed() or self.levels_changed()
         self.save_btn.setEnabled(ch and self.grid.editable)
         self.revert_btn.setEnabled(ch)
         a = self.grid.area
-        self.summary.setText(sa.describe(a) + ("  · not saved" if ch else ""))
+        if self.spell and not self.fixed and self.edit_shape is None and not self.growing_back:
+            self.summary.setText(f"Spell at level {self.at_level.value()}: " + sa.describe(a) +
+                                 ("  · not saved" if ch else ""))
+        else:
+            self.summary.setText(sa.describe(a) + ("  · not saved" if ch else ""))
         self.cursor.setEnabled(a.centred)
         shared = [n for n in self.shape_users_of(a.shape) if n != a.skill] if a.shape else []
-        self.note.setText(
-            ("Changing it makes a new shape for this skill only (shape "
-             f"{a.shape} stays as it is for the other skills that use it). " if shared else "")
-            + "Saved into the active mod's database changes; Install to use it in the game.")
+        if self.spell and not self.fixed:
+            self.note.setText("Edit this shape changes it for every spell that reaches its tier; the tier levels "
+                              "are one setting for all spells (the install patches the game). Saved into the "
+                              "skill's mod; Install to use it in the game.")
+        else:
+            self.note.setText(
+                ("Changing it makes a new shape for this skill only (shape "
+                 f"{a.shape} stays as it is for the other skills that use it). " if shared else "")
+                + "Saved into the active mod's database changes; Install to use it in the game.")
 
     def shape_users_of(self, sid):
         return self.shape_users.get(sid, [])
@@ -393,6 +764,9 @@ class AreaPanel(QScrollArea):
     def _edited(self):
         self._sync_buttons()
         self.ed.area_edited()
+        fn = getattr(self.ed, "_update_buttons", None)
+        if fn:
+            fn()
 
     def _enemies(self):
         self.ed.area_enemies(self.grid.enemies)
@@ -431,6 +805,24 @@ class AreaPanel(QScrollArea):
         self._enemies()
 
     def revert(self):
+        if self.spell:
+            self.set_levels(self.levels0)
+            self.edit_shape = None
+            self.growing_back = False
+            if self.fixed:
+                self.fixed = False
+            self._spell_buttons()
+            self._spell_preview()
+        if self.numbers0 is not None:
+            for w, f in ((self.sp, "sp_cost"), (self.effect, "effect1_value")):
+                w.blockSignals(True)
+                w.setValue(self.numbers0[f])
+                w.blockSignals(False)
+            for k, sb in enumerate(self.power):
+                sb.blockSignals(True)
+                sb.setValue(self.numbers0[f"power_lv{k + 1}"])
+                sb.blockSignals(False)
+            self._level_preview()
         if self.saved is not None:
             self.grid.area = copy.deepcopy(self.saved)
             for w, v in ((self.range, self.saved.range), (self.up, self.saved.height_up),
@@ -440,3 +832,6 @@ class AreaPanel(QScrollArea):
                 w.blockSignals(False)
             self.grid.update()
             self._edited()
+        fn = getattr(self.ed, "_update_buttons", None)
+        if fn:
+            fn()

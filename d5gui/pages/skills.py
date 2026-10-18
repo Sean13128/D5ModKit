@@ -853,10 +853,11 @@ class SkillsPage(QWidget):
         self.ev_note.setText("" if self._editable() else "read only (vanilla) — Make editable copy to change it")
 
     # ------------------------------------------------------------------ actions
-    def _mod_for_edit(self):
+    def _mod_for_edit(self, suggest=None, category=None):
         """the mod this skill's changes are saved in: the mod that holds its animation setting or editable copy,
         else the mod that makes or changes the skill (its magic.dat row: a mod's character's own skill goes into
-        that mod), else the active mod (asked for when there is none)"""
+        that mod), else the active mod (asked for when there is none: suggest = the name offered, e.g. 'Skill:
+        Heal', so one skill's changes can live in a mod of their own)"""
         m = self.owned.get(self.skill)
         if m is not None:
             return m
@@ -868,7 +869,9 @@ class SkillsPage(QWidget):
                 return o
         except Exception:
             pass
-        return self.ws.require_mod(self)
+        if suggest is None and self.skill is not None:
+            suggest = f"Skill: {self.names.get(self.skill, self.skill)}"
+        return self.ws.require_mod(self, suggest=suggest, category=category or "skills")
 
     def _changed(self):
         self.load()

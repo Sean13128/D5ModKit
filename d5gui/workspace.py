@@ -161,17 +161,25 @@ class Workspace(QObject):
         self.save_settings()
         self.active_mod_changed.emit(mod)
 
-    def require_mod(self, parent=None):
-        """Return the active mod, asking the user to create one if needed."""
+    def require_mod(self, parent=None, suggest=None, category=None):
+        """Return the active mod, asking the user to create one if needed (suggest: the name offered, e.g.
+        'Skill: Heal'; category: the new mod's kind in the mod list)."""
         if self.active_mod:
             return self.active_mod
         from PyQt6.QtWidgets import QInputDialog
         name, ok = QInputDialog.getText(parent, "Create a mod",
-                                        "Your changes are saved into a mod.\nName for your new mod:",
-                                        text="My Mod")
+                                        "Your changes are saved into a mod (one per thing you change keeps them "
+                                        "easy to switch off or share later).\nName for your new mod:",
+                                        text=suggest or "My Mod")
         if not ok or not name.strip():
             return None
         mod = self.mods.create(name.strip())
+        if category:
+            try:
+                mod.meta["category"] = category
+                mod.save_meta()
+            except Exception:
+                pass
         self.mods_changed.emit()
         self.set_active_mod(mod)
         return mod

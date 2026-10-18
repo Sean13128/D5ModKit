@@ -3,7 +3,7 @@ d5gui.mapthumbs), name it, and choose what it starts with."""
 from PyQt6.QtCore import QSize, Qt, QThread, pyqtSignal
 from PyQt6.QtGui import QColor, QIcon, QImage, QPixmap
 from PyQt6.QtWidgets import (QCheckBox, QComboBox, QDialog, QDialogButtonBox, QFormLayout, QHBoxLayout, QLabel,
-                             QLineEdit, QListView, QListWidget, QListWidgetItem, QVBoxLayout)
+                             QLineEdit, QListView, QListWidget, QListWidgetItem, QSpinBox, QVBoxLayout, QWidget)
 
 from . import mapthumbs
 from .common import SearchBox
@@ -109,6 +109,21 @@ class NewStageDialog(QDialog):
         self.panels = QCheckBox("Keep its Geo Panels")
         self.panels.setChecked(True)
         f.addRow("", self.panels)
+        self.size_w, self.size_h = QSpinBox(), QSpinBox()
+        for sb in (self.size_w, self.size_h):
+            sb.setRange(1, 64)
+            sb.setValue(12)
+        self.size_row = QWidget()
+        sh = QHBoxLayout(self.size_row)
+        sh.setContentsMargins(0, 0, 0, 0)
+        sh.addWidget(self.size_w)
+        sh.addWidget(QLabel("×"))
+        sh.addWidget(self.size_h)
+        sh.addWidget(QLabel("panels (changed later under 🧱 Blocks › Map size)"))
+        sh.addStretch(1)
+        self.size_label = QLabel("Map size")
+        f.addRow(self.size_label, self.size_row)
+        self.start.currentIndexChanged.connect(lambda *_: self._start_changed())
         self.listed = QComboBox()
         self.listed.addItem("Not in the stage list (test it by pointing a stage at it)", None)
         for label, mid, row in listed:
@@ -127,6 +142,7 @@ class NewStageDialog(QDialog):
         bb.rejected.connect(self.reject)
         lay.addWidget(bb)
         self._filter("")
+        self._start_changed()
         if current is not None and current in self._items:
             self.grid.setCurrentItem(self._items[current][0])
             self.grid.scrollToItem(self._items[current][0])
@@ -180,11 +196,17 @@ class NewStageDialog(QDialog):
             return
         self.accept()
 
+    def _start_changed(self):
+        build = self.start.currentData() == "build"
+        self.size_row.setVisible(build)
+        self.size_label.setVisible(build)
+        self.panels.setEnabled(not build)
+
     def values(self):
         mid, row, label = self.grid.currentItem().data(ROLE)
         return {"map": mid, "row": row, "base_name": label, "name": self.name.text().strip() or "My New Stage",
                 "start": self.start.currentData(), "panels": self.panels.isChecked(),
-                "listed": self.listed.currentData()}
+                "listed": self.listed.currentData(), "size": (self.size_w.value(), self.size_h.value())}
 
     def done(self, r):
         self._painter.stop = True

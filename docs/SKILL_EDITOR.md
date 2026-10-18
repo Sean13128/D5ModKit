@@ -658,3 +658,24 @@ Domination, Big Bang, No Way Out; Girl Laharl's Blazing Knuckle, Overlord's Wrat
   switches on make it a standing column; the orange ribbons and the column's width still differ.  Next: read the
   render objects of Hurricane Blow's slots 2 / 3 in the running game (root and pieces: +0x28 sizes, +0xf8 world
   matrices) to see the pieces' real matrices.
+
+## Spell reach and area (2026-10-17, `d5lib/spellgrowth.py`)
+
+Generic spells (magic.dat `attack_map` 0: Fire, Heal, Braveheart, the character buffs of skill group 8) take no reach
+or area from magic.dat. In battle:
+
+* the spell's level (the unit's skill list, unit + 0xcc4 + 16 × i, level byte at +5) becomes a **tier**: level 1 →
+  1, 2-5 → 2, 6-10 → 3, 11-20 → 4, 21-40 → 5, 41-60 → 6, 61-80 → 7, 81-90 → 8, 91+ → 9 (inline in `0x140160650`;
+  a second copy, level → 0..8, is the small function `0x1401d7780`; no other copy exists in the exe);
+* the **reach** is the tier + 1 with a staff in hand (an equipped item of type 7 or 9 in the first two slots) + the
+  class's bonus byte (char row + 0x54b), + what `0x1401ebd80` and the evilities 0x2c / 0x2d add, clamped to 1..18 by
+  `0x1401d75e0` (which returns magic.dat `range` for every other skill, and 0 for skill 959);
+* the **area** is one of AttackMap.dat's shapes 1..tier, the player's choice (1 = one panel, 3 = a line of three,
+  5 = the cross, 9 = 3 × 3); the damage formula (`0x1401d6d30`) scales the power down for the bigger ones:
+  `(panels + 2) × 50 / 100`-ish of the base.
+
+The kit: the Area tab previews the reach and the shapes at any level; the nine shapes are edited like any shape (rows
+1-9 of AttackMap.dat, shared by every spell); the tier levels are a mod setting (`patches/spells/growth.json`,
+`{"levels": [1, 5, 10, 20, 40, 60, 80, 90]}`, the last enabled mod wins) applied at install as the `.d5sg` hooks at
+both copies (Steam build: manual map entries 0x1401606b4 → 0x140160044, 0x140160714 → 0x1401600a4, 0x1401d7780 →
+0x1401d8050); a spell given its own `attack_map` / `range` stops growing (`skillarea.clear_area` undoes it).

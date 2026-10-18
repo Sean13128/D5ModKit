@@ -199,7 +199,17 @@ def group_of(mod, class_names=None):
 
 
 # ------------------------------------------------------------------------------------------------ summary
-def summary(mod, class_names=None, all_mods=()):
+def skill_names(read):
+    """{magic.dat row index: name} of the game's skills (for summary: which skills a mod changes)"""
+    try:
+        from . import database
+        t = database.load_table("magic.dat", read())
+        return {i: (r["name_EN"] or str(r["id"])) for i, r in enumerate(t.rows)}
+    except Exception:
+        return {}
+
+
+def summary(mod, class_names=None, all_mods=(), skill_names=None):
     """readable lines about what the mod holds (the Home page's 'What's inside')"""
     cn = class_names or {}
     lines = []
@@ -233,6 +243,14 @@ def summary(mod, class_names=None, all_mods=()):
     if m and m[0]:
         lines.append("✨ New skills: " + ", ".join(r.get("name_EN") or str(r.get("id")) for r in m[2]
                                                    if isinstance(r, dict)))
+    if m and m[1]:
+        d = _json(os.path.join(mod.patches_dir, "db", "magic.dat.json")) or {}
+        idx = sorted(int(k) for k in (d.get("rows") or {}) if str(k).isdigit())
+        names = [(skill_names or {}).get(i, f"row {i}") for i in idx]
+        lines.append(f"✨ Skills changed ({len(idx)}): " + ", ".join(names[:8]) + (" …" if len(names) > 8 else ""))
+    g = _json(os.path.join(mod.patches_dir, "spells", "growth.json")) or {}
+    if g.get("levels"):
+        lines.append("🔮 Spells' reach and area tiers end at levels " + ", ".join(str(v) for v in g["levels"]))
     sk, ev, fx = skills_of(mod)
     if sk or ev or fx:
         parts = [f"{sk} skill animation{'s' if sk != 1 else ''}" if sk else "",

@@ -71,6 +71,115 @@ class CutoutDialog(QDialog):
                 self.x0.value() + self.w.value(), self.y0.value() + self.h.value())
 
 
+class LookDialog(QDialog):
+    """a block's tint and the pictures on its textures"""
+
+    def __init__(self, parent, pl, piece, pictures_dir):
+        super().__init__(parent)
+        self.setWindowTitle("The block's look")
+        self.pictures_dir = pictures_dir
+        tint, tex = mapbuild.look_of(pl)
+        self.tint = tint
+        self.tex = dict(tex)
+        f = QFormLayout(self)
+        f.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+        intro = QLabel("A tint darkens or colours the block (white = as it is). A picture file replaces one of "
+                       "the block's textures, scaled to its size: the stone blocks have a 160×128 top picture (the "
+                       "left 128×128 of it is the tiled top) and a 128×32 wall strip; themed blocks one square "
+                       "picture.")
+        intro.setWordWrap(True)
+        f.addRow(intro)
+        self.tint_btn = QPushButton()
+        self.tint_btn.clicked.connect(self._pick_tint)
+        self._show_tint()
+        row = QWidget()
+        hl = QHBoxLayout(row)
+        hl.setContentsMargins(0, 0, 0, 0)
+        hl.addWidget(self.tint_btn)
+        b = QPushButton("No tint")
+        b.clicked.connect(lambda: (setattr(self, "tint", None), self._show_tint()))
+        hl.addWidget(b)
+        hl.addStretch(1)
+        f.addRow("Tint", row)
+        self.tex_labels = {}
+        for i, entry in enumerate(piece.textures):
+            if not entry:
+                continue
+            try:
+                from d5lib import obf
+                t = obf.Texture(entry)
+                size = f"{t.width}×{t.height}"
+            except Exception:
+                size = "?"
+            row = QWidget()
+            hl = QHBoxLayout(row)
+            hl.setContentsMargins(0, 0, 0, 0)
+            lab = QLabel()
+            self.tex_labels[i] = lab
+            hl.addWidget(lab, 1)
+            b = QPushButton("Picture…")
+            b.clicked.connect(lambda _, k=i: self._pick_picture(k))
+            hl.addWidget(b)
+            b = QPushButton("The block's own")
+            b.clicked.connect(lambda _, k=i: (self.tex.pop(k, None), self._show_tex()))
+            hl.addWidget(b)
+            f.addRow(f"Texture {i} ({size})", row)
+        self._show_tex()
+        bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        bb.accepted.connect(self.accept)
+        bb.rejected.connect(self.reject)
+        f.addRow(bb)
+
+    def _show_tint(self):
+        t = self.tint
+        self.tint_btn.setText("white (as it is)" if t is None else f"rgb({t[0]}, {t[1]}, {t[2]})")
+        if t is not None:
+            self.tint_btn.setStyleSheet(f"background: rgb({t[0]}, {t[1]}, {t[2]}); color: "
+                                        f"{'black' if sum(t) > 380 else 'white'};")
+        else:
+            self.tint_btn.setStyleSheet("")
+
+    def _show_tex(self):
+        for i, lab in self.tex_labels.items():
+            lab.setText(self.tex.get(i) or "the block's own")
+
+    def _pick_tint(self):
+        from PyQt6.QtGui import QColor
+        from PyQt6.QtWidgets import QColorDialog
+        t = self.tint or (255, 255, 255)
+        c = QColorDialog.getColor(QColor(*t), self, "Tint")
+        if c.isValid():
+            self.tint = (c.red(), c.green(), c.blue())
+            self._show_tint()
+
+    def _pick_picture(self, k):
+        from PyQt6.QtWidgets import QFileDialog
+        import shutil
+        if not self.pictures_dir:
+            QMessageBox.information(self, "Picture", "Save the stage once first (the pictures go into its mod).")
+            return
+        path, _ = QFileDialog.getOpenFileName(self, "Picture", "", "Pictures (*.png *.jpg *.jpeg *.bmp *.webp)")
+        if not path:
+            return
+        os.makedirs(self.pictures_dir, exist_ok=True)
+        name = os.path.basename(path)
+        dst = os.path.join(self.pictures_dir, name)
+        if os.path.abspath(dst) != os.path.abspath(path):
+            shutil.copy2(path, dst)
+        self.tex[k] = name
+        self._show_tex()
+
+    def apply(self, pl):
+        if self.tint is None:
+            pl.pop("tint", None)
+        else:
+            pl["tint"] = [int(v) for v in self.tint]
+        if self.tex:
+            pl["tex"] = {str(k): v for k, v in self.tex.items()}
+        else:
+            pl.pop("tex", None)
+
+
 class BuilderPanel(QWidget):
     """the block library and the tools; the page owns the build and recomposes the map"""
     changed = pyqtSignal()                 # the build changed (recompose)
@@ -92,7 +201,9 @@ class BuilderPanel(QWidget):
         box = QGroupBox("Blocks")
         bl = QVBoxLayout(box)
         top = QHBoxLayout()
-        top.addWidget(QLabel("Grid"))
+        size_lab = QLabel("Map size")
+        size_lab.setToolTip("Panels across and down (the grid the blocks go on)")
+        top.addWidget(size_lab)
         self.w_spin, self.h_spin = QSpinBox(), QSpinBox()
         for s in (self.w_spin, self.h_spin):
             s.setRange(1, 64)
@@ -154,6 +265,12 @@ class BuilderPanel(QWidget):
         self.b_dup.setText("⧉ Copy")
         self.b_dup.setToolTip("A copy of the chosen block, one panel over")
         self.b_dup.clicked.connect(self.duplicate)
+        self.b_look = QToolButton()
+        self.b_look.setText("🎨 Look…")
+        self.b_look.setToolTip("Tint the chosen block, or put your own pictures on its textures (the stone blocks: "
+                               "a 160×128 top picture and a 128×32 wall strip)")
+        self.b_look.clicked.connect(self.look)
+        row.addWidget(self.b_look)
         self.b_del = QToolButton()
         self.b_del.setText("🗑 Delete")
         self.b_del.setToolTip("Delete the chosen block (Delete)")
@@ -460,6 +577,28 @@ class BuilderPanel(QWidget):
         self.build["pieces"].remove(p)
         self.sel = None
         self.changed.emit()
+
+    def pictures_dir(self):
+        mod = self.page._map_owner() if self.page.pkg else None
+        if mod is None:
+            return None
+        return os.path.join(mod.patches_dir, "stages", mapbuild.PICTURES)
+
+    def look(self):
+        """tint and pictures of the chosen block"""
+        p = self._selected()
+        if p is None:
+            QMessageBox.information(self, "Look", "Choose a block of the map first (✥ Move, then click it).")
+            return
+        try:
+            pc = self.lib.get(p["piece"])
+        except Exception as e:
+            QMessageBox.warning(self, "Look", str(e))
+            return
+        dlg = LookDialog(self, p, pc, self.pictures_dir())
+        if dlg.exec():
+            dlg.apply(p)
+            self.changed.emit()
 
     def key(self, e):
         """a key in the map view: True when it was one of the builder's"""

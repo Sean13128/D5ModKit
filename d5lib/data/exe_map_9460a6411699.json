@@ -30,7 +30,10 @@
 "0x14015d9e0": "0x14015e7a0",
 "0x14021ae0b": "0x14021b98b",
 "0x14021ae12": "0x14021b992",
-"0x14015b980": "0x14015c740"
+"0x14015b980": "0x14015c740",
+"0x1401606b4": "0x140160044",
+"0x140160714": "0x1401600a4",
+"0x1401d7780": "0x1401d8050"
 },
 "manual_notes": {
 "0x1402b0cb0": "same function recompiled (registers differ); found through its callers, checked side by side",
@@ -63,7 +66,10 @@
 "0x14015d9e0": "identity class checks: unique same-bytes instruction with the same neighbouring instructions",
 "0x14021ae0b": "weapon levels hook site: unit setup right after the weapon ranks are copied (mov byte [rbx+0x35be], 0xff); same bytes, found in the function's Steam twin 0x14021b510, checked side by side",
 "0x14021ae12": "weapon levels hook return (the instruction after the site)",
-"0x14015b980": "set weapon level (unit, weapon, level): identical body, unique byte match"
+"0x14015b980": "set weapon level (unit, weapon, level): identical body, unique byte match",
+"0x1401606b4": "spellgrowth: spell level tier table (reach / area) -- by function pattern (findfn) + same offset",
+"0x140160714": "spellgrowth: spell level tier table (reach / area) -- by function pattern (findfn) + same offset",
+"0x1401d7780": "spellgrowth: spell level tier table (reach / area) -- by function pattern (findfn) + same offset"
 },
 "from": "436eefd2a29466e2ecaa5a57fd65255009896581",
 "to": "9460a6411699a256faaf0daed6b90d903a7d6491",

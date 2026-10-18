@@ -182,7 +182,13 @@ cleared, set only on 4 stages (Dreaming Mushroom 3/90, Beating of the End and Ev
   `u32 n, 0, 0, 256, 0, 0, 0, mesh indices 0..n-1`. The `.gop` / `.chr` of the map being edited are kept.
 * A cut-out `(map, x0, y0, x1, y1)` is a block too: the panels of that rectangle and the triangles whose centroid
   lies over it, shifted to the origin. The kit's thumbnails (`d5gui/mapthumbs.py`) draw any block.
-* The build (grid size and placements) is saved with the map as `patches/stages/build_<map>.json` in its mod.
+* The build (grid size and placements) is saved with the map as `patches/stages/build_<map>.json` in its mod. A
+  placement may carry `"tint": [r, g, b]` (vertex colours multiplied) and `"tex": {"<texture index>": "file.png"}`
+  (the picture, from `patches/stages/pictures/`, scaled to the texture's size and encoded in its format). All 151
+  stone pieces (6xxxx) share one texture pair, 160×128 (the tiled top in its left 128×128, two small squares in the
+  right strip) + 128×32 (the walls, tiled); no other map file holds another skin for them.
+* Geo Symbols are drawn by the game as `Object_JP.dat/chw0000N.obf` (N = colour 1-6), stored y down; the GS rows
+  of char.dat carry sprite 100 (Zeroken's), which the game never draws for them.
 * **Open:** the battle's backdrop (the sky colours behind the map). No per-map field was found: the `.hex` env
   block is the same on every map, dungeon.dat +0x1A is 315 (the camera yaw) and +0x26 holds two colours (purple
   and green on every map), the script's `cmd_2835` (0x1401773d0) is not a plain copy. The 3D view uses a dark blue

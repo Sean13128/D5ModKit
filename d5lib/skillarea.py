@@ -187,6 +187,46 @@ def store(magic_table, attack_table, skill, area, base_rows=None, base_cells=Non
     return int(sid)
 
 
+def clear_area(magic_table, skill):
+    """a spell back to the game's rule: no shape, no reach of its own (they come from its level again)"""
+    row = next((r for r in magic_table.rows if int(r["id"]) == int(skill)), None)
+    if row is None:
+        raise KeyError(f"no skill {skill} in magic.dat")
+    row.set("attack_map", 0)
+    row.set("range", 0)
+    if "area_flag" in row:
+        row.set("area_flag", 0)
+
+
+def store_shape(attack_table, sid, cells):
+    """rewrite one shape of AttackMap.dat (the spell shapes 1-9, shared by every spell): in place when the new cells
+    fit the old count, else as new cells at the end (the old ones stay, unused)"""
+    if not cells:
+        raise ValueError("the area needs at least one panel")
+    if len(cells) > MAX_CELLS:
+        raise ValueError(f"an area has at most {MAX_CELLS} panels")
+    rec = next((r for r in attack_table.rows if int(r["id"]) == int(sid)), None)
+    if rec is None:
+        raise KeyError(f"no shape {sid}")
+    cells_t = attack_table.sections["cells"]
+    from .database import Row
+    if len(cells) <= int(rec["cell_num"]):
+        first = int(rec["first_cell"])
+    else:
+        first = len(cells_t.rows)
+        for _ in cells:
+            cells_t.rows.append(Row(cells_t.schema, bytes(cells_t.schema.record_size)))
+    for i, (x, y, k) in enumerate(cells):
+        c = cells_t.rows[first + i]
+        c.set("x", int(x))
+        c.set("y", int(y))
+        c.set("kind", int(k))
+    rec.set("first_cell", first)
+    rec.set("cell_num", len(cells))
+    rec.set("directional", 1 if is_directional(cells) else 0)
+    return int(sid)
+
+
 def _drop_unused(magic_table, attack_table, base_rows, base_cells):
     """kit-made shapes no skill uses any more, at the end of the file (only ones this mod added: past base_rows),
     and their cells at the end of the cells"""

@@ -452,6 +452,12 @@ class HomePage(QWidget):
         self.ws.mods_changed.emit()
 
     # ---- the category tree
+    def _skill_names(self):
+        if getattr(self, "_sknames", None) is None:
+            from d5lib.dbpatch import DB_ARCHIVE
+            self._sknames = modinfo.skill_names(lambda: self.ws.fs.read(f"{DB_ARCHIVE}/magic.dat"))
+        return self._sknames
+
     def _class_names(self):
         if getattr(self, "_names", None) is None:
             from d5lib.dbpatch import DB_ARCHIVE
@@ -731,7 +737,7 @@ class HomePage(QWidget):
                               f" · {state}{editing}</span><br>{meta.get('description') or ''}{req_txt}{lineage}"
                               f"{moved_txt}")
         import html as _html
-        lines = modinfo.summary(mod, self._class_names(), self.ws.mods.all_mods())
+        lines = modinfo.summary(mod, self._class_names(), self.ws.mods.all_mods(), self._skill_names())
         cat = modinfo.CATEGORY_LABELS.get(modinfo.category(mod), "")
         pack = modinfo.Packs(self.ws.mods.mods_dir).pack_of(mod.id)
         head = f"<b>What it adds</b> <span style='color:#8a90b8'>· {cat.split('  ', 1)[-1]}" + \

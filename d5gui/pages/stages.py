@@ -936,11 +936,15 @@ class StagesPage(QWidget):
 
     def recompose(self):
         """the map's terrain from the build (its units and Geo Panels stay)"""
+        import os
         if self.build is None or not self.pkg:
             return
         try:
             pieces = self.lib.for_build(self.build)
-            new = mapbuild.compose(self.build, pieces, self.lib.skeleton(), base_pkg=self.pkg, name=self.pkg.name)
+            owner = self._map_owner()
+            pics = os.path.join(owner.patches_dir, "stages", mapbuild.PICTURES) if owner else None
+            new = mapbuild.compose(self.build, pieces, self.lib.skeleton(), base_pkg=self.pkg, name=self.pkg.name,
+                                   pictures_dir=pics)
         except Exception as e:
             error_box(self, "Blocks", e)
             return
@@ -988,6 +992,9 @@ class StagesPage(QWidget):
         num, body = hit
         if not num:
             return None
+        if u.is_geo_symbol:                           # the six Geo Symbol models, one per colour (chw00001-6)
+            c = u.geo_color if u.size == mapfile.RECORD_SIZE else 1
+            return "model", f"chw{min(max(int(c), 1), 6):05d}"
         if body == 2 and num in cache["models"]:
             return "model", cache["models"][num]
         v = u.color_variant if u.size == mapfile.RECORD_SIZE else 0
@@ -1464,6 +1471,11 @@ class StagesPage(QWidget):
             b.setToolTip("Give the stage a map number of another episode: it is listed there")
             b.clicked.connect(self._move_episode)
             row.addWidget(b)
+            b = QPushButton("🗑 Delete stage…")
+            b.setToolTip("Take the stage out of its mod: its map, its stage-list entry, its battle start and music, "
+                         "its blocks. Saves that listed it: Home › More › Check saves takes it off them.")
+            b.clicked.connect(self._delete_stage)
+            row.addWidget(b)
         f.addRow(w)
         if not mine:
             n = QLabel("A stage of the game: it is in every save already.")
@@ -1541,6 +1553,72 @@ class StagesPage(QWidget):
                 self.stages.setCurrentRow(i)
                 break
 
+    def _delete_stage(self):
+        """a stage of a mod deleted: map file, stage-list row (the mod's dungeon.dat patch), triggers, music, build"""
+        from d5lib import stagemusic
+        if not self.pkg or self.stage_row is None or self._in_game(self.mid):
+            return
+        mod = self._map_owner()
+        rec = mapfile.DungeonRecord(bytes(self.svc.table(DUNGEON).rows[self.stage_row].raw))
+        if mod is None:
+            QMessageBox.information(self, "Delete stage", "This stage's map is in no mod of yours.")
+            return
+        who = []
+        try:
+            from d5lib import questcheck
+            q = self.svc.table("Quest.dat")
+            who = [r["name_EN"] for r in q.rows if int(r["cond_type"]) == questcheck.CLEAR_STAGE and
+                   int(r["cond_target1"]) == self.mid]
+        except Exception:
+            pass
+        text = (f"Delete the stage '{rec.name()}' (map{self.mid:05d}) from the mod '{mod.name}'?\n\nIts map, its "
+                "place in the stage list, its battle start and music and its blocks go. Saves that listed it keep a "
+                "slot for it until Home › More › Check saves takes it off (the game closes when the stage list's "
+                "cursor reaches a stage that is gone).")
+        if who:
+            text += "\n\nThe quest(s) " + ", ".join(f"“{n}”" for n in who) + " ask to clear it: change what they " \
+                    "ask for first (Characters › How to get this character), or they can't be finished."
+        if QMessageBox.question(self, "Delete stage", text,
+                                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.Cancel) \
+                != QMessageBox.StandardButton.Yes:
+            return
+        mid = self.mid
+        try:
+            # the stage-list row: this mod's added row with that map number
+            patch = mod.load_patch("db", "dungeon.dat.json") or {}
+            added = patch.get("added") or []
+            keep = [r for r in added if int(r.get("map_id", -1)) != mid]
+            if len(keep) != len(added):
+                patch["added"] = keep
+                mod.save_patch("db", "dungeon.dat.json", patch if (patch.get("added") or patch.get("rows")) else None)
+            for f in list(mod.list_files()):
+                if f == self.map_vpath or f.startswith(self.map_vpath + "/"):
+                    mod.remove_file(f)
+            mod.save_patch("stages", f"build_{mid:05d}.json", None)
+            stagemusic.remove_stage(mod, mid)
+        except Exception as e:
+            error_box(self, "Delete stage", e)
+            return
+        self.svc.discard(DUNGEON)
+        self.svc.reload(keep_unsaved=False)
+        self.__dict__.pop("_map_cache", None)
+        self.__dict__.pop("_maps_in_game", None)
+        vp = self.map_vpath
+        self.pkg = None
+        self.build = None
+        self.stage_row = None
+        self.mid = None
+        self.map_vpath = None
+        self.dirty = False
+        self._show_builder(False)
+        self.canvas.load(None, None, self.char_names)
+        self._populate()
+        self._clear_inspector()
+        self.title.setText("Pick a stage")
+        self.ws.log(f"Deleted stage '{rec.name()}' (map{mid:05d}) from '{mod.name}'. Saves that listed it: Home › "
+                    "More › Check saves.")
+        self.ws.file_changed.emit(vp)
+
     def _set_stage_name(self, text):
         if self.stage_row is None:
             return
@@ -1617,8 +1695,9 @@ class StagesPage(QWidget):
             build_json = None
             if v["start"] == "build":
                 lib = mapbuild.Library(self._read_pkg)
-                build_json = mapbuild.empty_build(12, 12)
-                mapbuild.place(build_json, 60030, 3, 2)
+                gw, gh = v.get("size", (12, 12))
+                build_json = mapbuild.empty_build(gw, gh)
+                mapbuild.place(build_json, 60030, max(0, (gw - 5) // 2), max(0, (gh - 8) // 2))
                 base = mapbuild.compose(build_json, lib.for_build(build_json), lib.skeleton(), name=base.name)
             t = self.svc.table(DUNGEON)
             with_ = None

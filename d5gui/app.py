@@ -18,6 +18,7 @@ PAGES = [
     # (section, key, label, module, class)
     ("", "home", "🏠  Home", "home", "HomePage"),
     ("CONTENT", "characters", "🧙  Characters && Classes", "characters", "CharactersPage"),
+    ("CONTENT", "quests", "📜  Quests", "quests", "QuestsPage"),
     ("CONTENT", "outfits", "👗  Outfits", "outfits", "OutfitsPage"),
     ("CONTENT", "database", "📊  Database Editor", "database", "DatabasePage"),
     ("CONTENT", "skills", "✨  Skills && Animations", "skills", "SkillsPage"),

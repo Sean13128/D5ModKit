@@ -857,11 +857,33 @@ class SkillTimelineEditor(QWidget):
         r.area = copy.deepcopy(area) if area is not None else None
         r.enemies = None
         self.dist.setEnabled(area is None or area.centred)
+        mrow = None
+        if area is not None:
+            try:
+                sid = int(self._area_skill()[0])
+                mrow = next((x for x in self.page.svc.table("magic.dat").rows if int(x["id"]) == sid), None)
+            except Exception:
+                mrow = None
+        self.area_panel.set_numbers(mrow)
         if area is not None:
             self.area_panel.set_area(area, True, r.cursor())
             self.area_panel.setEnabled(True)
+            spell = mrow is not None and (not area.known or (int(mrow["skill_group"] or 0) == 0 and
+                                                             int(mrow["skill_type"] or 0) != 4))
+            fixed_now = spell and area.known
+            try:
+                from d5lib import spellgrowth
+                mods = list(self.ws.mods.enabled_mods())
+                a = self.ws.active_mod
+                if a and all(m.id != a.id for m in mods):
+                    mods.append(a)
+                levels, owner = spellgrowth.effective(mods)
+            except Exception:
+                levels, owner = None, None
+            self.area_panel.set_spell(spell, levels, owner, fixed_now)
         else:
             self.area_panel.set_area(skillarea.default_area(), False, r.cursor())
+            self.area_panel.set_spell(False)
             self.area_panel.summary.setText("This choreography isn't a skill of magic.dat: one target, "
                                             "↔ panels away.")
             self.area_panel.setEnabled(False)
@@ -904,34 +926,77 @@ class SkillTimelineEditor(QWidget):
         fn = getattr(self.page, "area_skill", None)
         return fn(self.skill) if fn else (self.skill, True)
 
+    def area_dirty(self):
+        """the Area tab holds changes (panels, reach, numbers, a spell's shapes or levels) not saved yet"""
+        ap = self.area_panel
+        return bool(ap.isEnabled() and (ap.changed() or ap.numbers_changed() or ap.levels_changed()))
+
     def save_area(self):
-        """the Area tab's reach and panels -> the skill's mod, else the active mod (magic.dat / AttackMap.dat rows;
-        DBService.commit puts each row where it belongs)"""
+        """the Area tab's reach, panels and numbers -> the skill's mod, else the active mod (magic.dat /
+        AttackMap.dat rows; DBService.commit puts each row where it belongs).  No mod yet: one is made for it, named
+        after the skill.  -> True when saved"""
         if self.skill is None:
-            return
+            return False
         magic, own = self._area_skill()
         if not own:
-            return info_box(self, "Area", "This Overload uses the numbers of a game Overload: give it numbers of "
-                                          "its own (⚡ Overload tab) to change its area.")
+            info_box(self, "Area", "This Overload uses the numbers of a game Overload: give it numbers of "
+                                   "its own (⚡ Overload tab) to change its area.")
+            return False
+        name = self.skill_names.get(self.skill, str(self.skill))
+        if self.ws.active_mod is None and getattr(self.page, "_mod_for_edit", None) is not None:
+            if self.page._mod_for_edit(suggest=f"Skill: {name}", category="skills") is None:
+                return False
         svc = self.page.svc
-        area = self.area_panel.area()
+        ap = self.area_panel
+        area = ap.area()
+        pend = ap.pending()
+        what = []
+        gmod = None
+        if pend.get("levels") is not None:            # (asked for first: making a mod reloads the tables)
+            gmod = self.page._mod_for_edit(suggest="Spell reach and areas", category="skills")
+            if gmod is None:
+                return False
         try:
-            base = svc.base("AttackMap.dat")
-            sid = skillarea.store(svc.table("magic.dat"), svc.table("AttackMap.dat"), magic, area,
-                                  len(base.rows), len(base.sections["cells"].rows))
+            mt = svc.table("magic.dat")
+            at = svc.table("AttackMap.dat")
+            sid = None
+            kind = pend.get("kind")
+            if kind == "shape":
+                sid = skillarea.store_shape(at, pend["sid"], pend["cells"])
+                what.append(f"spell shape {sid} ({len(pend['cells'])} panels, every spell)")
+            elif kind == "grow":
+                skillarea.clear_area(mt, magic)
+                what.append("back to growing with the level")
+            elif (kind == "fixed" or not ap.spell) and ap.changed():
+                base = svc.base("AttackMap.dat")
+                sid = skillarea.store(mt, at, magic, area, len(base.rows), len(base.sections["cells"].rows))
+                what.append(f"area (shape {sid}, reach {area.range})" + (" of its own" if kind == "fixed" else ""))
+            row = next((x for x in mt.rows if int(x["id"]) == int(magic)), None)
+            nums = ap.apply_numbers(row)
+            if nums:
+                what.append("numbers")
+            if pend.get("levels") is not None:
+                from d5lib import spellgrowth
+                spellgrowth.save(gmod, pend["levels"])
+                what.append(f"spell tiers at levels {pend['levels']} (into {gmod.name})")
         except Exception as e:
-            return error_box(self, "Area", e)
-        for m in ("AttackMap.dat", "magic.dat"):
+            error_box(self, "Area", e)
+            return False
+        members = (("AttackMap.dat",) if sid is not None else ()) + \
+                  (("magic.dat",) if (kind in ("grow", "fixed") or (not ap.spell and ap.changed()) or nums) else ())
+        for m in members:
             svc.mark_dirty(m)
             if not svc.commit(m, self):
-                return
-        self.ws.log(f"{self.skill_names.get(self.skill, self.skill)}: area saved (shape {sid}, reach {area.range}) "
-                    f"into {svc.saved_text()} — Install to use it in the game")
+                return False
+        self.ws.log(f"{name}: {' and '.join(what) or 'nothing'} saved into {svc.saved_text()} — Install to use it "
+                    "in the game")
         enemies = self.area_panel.grid.enemies
         self._load_area()
         if enemies is not None and self.renderer is not None:
             self.renderer.enemies = self.area_panel.grid.enemies = enemies
         self._area_refresh()
+        self._update_buttons()
+        return True
 
     def _fill_stages(self):
         """battle maps for the Stage list: dungeon.dat's stages (named), the first Netherworld's first by default"""
@@ -1931,11 +1996,18 @@ class SkillTimelineEditor(QWidget):
         e = self.edit
         self.undo_btn.setEnabled(bool(e and e.history))
         self.redo_btn.setEnabled(bool(e and e.future))
-        self.save_btn.setEnabled(bool(e and self.dirty))
-        self.save_btn.setText("💾 Save*" if self.dirty else "💾 Save")
+        area = self.area_dirty()
+        self.save_btn.setEnabled(bool(e and self.dirty) or area)
+        self.save_btn.setText("💾 Save*" if (self.dirty or area) else "💾 Save")
+        self.save_btn.setToolTip("Save the timeline" + (" and the Area tab's changes" if area else "") +
+                                 " into the skill's mod")
 
     def save(self):
+        """the timeline (its events) and, when changed, the Area tab (panels, reach, numbers)"""
+        if self.area_dirty() and not self.save_area():
+            return False
         if not self.edit or not self.dirty:
+            self._update_buttons()
             return True
         mod = self.mod or self.ws.active_mod
         try:
