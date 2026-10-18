@@ -506,6 +506,13 @@ themselves: the game adds new stages to a save when it loads it.</p>
 <p><b>Battle music</b> (on the right, under <i>In the game's stage list</i>): the song a stage's battle starts with.
 Every song of the game is listed, and so are your own from Music &amp; Sound. A new stage starts with its base
 stage's song.</p>
+<p><b>Netherworld effect</b> (under it): what the whole battle has, as the game's Netherworlds do. <i>Snow</i> lowers
+Water resistance by 50 % (with falling snow), <i>Gale Force Winds</i> Wind resistance, <i>Fire Powder</i> Fire
+resistance; EXP Up, HL Up, Auto HP Recovery and others work on any stage. <b>Amount</b> changes the effect itself,
+so every stage with it changes too.</p>
+<p><b>Enemy equipment</b>: every slot has the item, its <b>level</b> (– = the item's own) and its <b>rarity</b>
+(Common 0-24, Rare 25-49, Legendary 50-99, 100; the item's stats rise by that %). <i>Random</i> keeps the game's
+roll. Install patches the game for the rarities you set.</p>
 
 <h2 id="t-quests">Tutorial 2b · Quests</h2>
 <ol class="steps">
@@ -526,17 +533,22 @@ under the quest's name when none is active). 🗑 Delete takes a quest of yours 
 desert, cyan ruins, snow, a Japanese town, checkered floors, ice…). <b>✂ A piece of a map…</b> cuts a rectangle out of
 any map, rocks and walls included, to use as a block.</li>
 <li><b>🧱 Place</b>: move the mouse over the map (the block's panels show in gold) and click. <b>R</b> turns the block
-a quarter, <b>+</b> / <b>−</b> lift and lower it one height step (a lifted block's walls grow down to the ground).</li>
+a quarter, <b>+</b> / <b>−</b> lift and lower it one height step. <b>Under a lifted block</b>: <i>Solid</i> (its walls
+go down to the ground, like a stack of blocks) or <i>Platform</i> (it floats, nothing under it).</li>
 <li><b>✥ Move</b>: click a block of the map to choose it (orange), drag it, turn or lift it with the same keys,
 <b>Delete</b> removes it; the right mouse button opens the same choices. <b>Grid</b> sets the size of the
 battlefield.</li>
 <li><b>🎨 Look…</b> tints the chosen block or puts your own pictures on its textures (a stone block: a 160×128 top
 picture, its left 128×128 tiled over the top, and a 128×32 wall strip; a themed block: one square picture).
-<b>Map size</b> at the top of the panel sets the grid; <b>🗑 Delete stage…</b> on the right takes a stage of yours
-out of its mod again.</li>
+<b>Map size</b> at the top of the panel sets the grid; <b>Light</b> under it is a story stage's (the Item World's
+own light comes out dark on a stage); <b>🗑 Delete stage…</b> on the right takes a stage of yours out of its mod
+again.</li>
 <li><b>Done building</b>, then place enemies, Geo Panels and the base panel with the usual tools, and <b>💾 Save</b>:
 the map is written as one file and the blocks are kept with it, so you can go on building later.</li>
 </ol>
+<div class="note">A stage built with kit 1.5.3 or older from "this terrain as one block" may show a block twice once it
+is rebuilt (that kit didn't keep the terrain it started from). The Blocks panel says so: <b>Original terrain…</b>,
+then pick the map you made the stage from, and it is rebuilt on that.</div>
 <div class="note">The battle's sky (the colours behind the map) can't be chosen yet: the kit hasn't found where the
 game keeps it.</div>
 
@@ -562,10 +574,10 @@ game. A new track listed in the music list can be chosen in game as the music of
 change where it hits, set its reach and height reach, its SP cost, the main effect's strength and the power of each
 skill level (<i>Preview at level</i> shows the result). <b>💾 Save</b> writes it all; with no mod active the kit
 offers a mod named after the skill.</li>
-<li><b>Spells</b> (Fire, Heal, Braveheart…) have no area of their own: their level sets a tier that is their reach
-and how many of the nine spell shapes the player may choose (1 panel up to 3×3). The Area tab previews any level,
-lets you edit the nine shapes (every spell shares them), move the tier levels for all spells, or give one spell a
-fixed reach and area (and take it back).</li>
+<li><b>Spells</b> (Fire, Heal, Braveheart…) have no area of their own: their level sets a tier that is their reach.
+Their area is one of nine spell shapes (1 panel up to 3×3); how many of them a unit may pick is kept with that unit's
+spell. The Area tab previews the reach at any level, lets you edit the nine shapes (every spell shares them), move
+the tier levels for all spells, or give one spell a fixed reach and area (and take it back).</li>
 </ol>
 
 <h2 id="t-db">Tutorial 11 · Database (items, skills…)</h2>

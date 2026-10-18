@@ -92,8 +92,8 @@ spawn-struct initialiser at `0x1404da2bf` **[H]**; the meanings are cross-checke
 | 0x012 | u16 | repeat | how many times the spawn loop places the unit (0x1404da160 loops `k < repeat`); 1 on 96% of units, **0 = never placed** **[H]** |
 | 0x014 | u16 | color_variant | 0xFFFF default, 0-8 on repeated generic units (palette?) **[L]** |
 | 0x016 | u8,u8 | unk16, unk17 | |
-| 0x018 | u32[5] | equipment | **item.dat ids** (id at item.dat+0x48); [0] weapon, [2] armour slot mostly; 0 = empty **[H]** |
-| 0x02C | 12 bytes | unk2c | only set in map05001 |
+| 0x018 | u32[5] | equipment | **item.dat ids** (id at item.dat+0x48); [0] weapon, [2] armour slot mostly; 0 = empty **[H]**. The kit keeps a chosen rarity + 1 in the high 16 bits (0 = the game's roll), read by its exe patch (`d5lib/enemyitems.py`) |
+| 0x02C | u16[5] + u16 | item levels | each slot's **item level**: the spawn's equipment loop (0x140526e62) writes it into the item it makes (+0x12c and +0x13e) **[H]**; 0 everywhere but the Test Map (map05001, level 1); the 6th u16 unused |
 | 0x038 | u32[20] | evilities | **Skill.dat ids** (5001 Theft Prevention, 2092 Poison Chance, …) **[H]** |
 | 0x088 | u32[20] | skills | **magic.dat ids** (1001 Fire, 1201 Ice, 1303 Giga Star, …) **[H]** |
 | 0x0D8 | u16[20] | skill_levels | parallel to `skills` **[M]** |
@@ -139,7 +139,7 @@ cleared, set only on 4 stages (Dreaming Mushroom 3/90, Beating of the End and Ev
 | 0x04 | u32 | **map_id** | → `map%05d` (101 → map00101 "Dried Up Wasteland") **[H]** |
 | 0x08 | u32 | ? | 3001 on the first stage of an episode, otherwise map-like ids / 0 |
 | 0x0C | u32 | ? | 14xxx / 22xxx on episode openers (event/talk id?) |
-| 0x10 | u16,u16 | ? | 0, 1000-2001 |
+| 0x10 | u32 | **Netherworld skill** | MakaiSkillDataBase id (0 none): 1003 Snow (Water res -50), 1004 Gale Force Winds (Wind), 1002 Fire Powder (Fire), 1000 Sandstorm, 1005, 2000 Sea of Poison, 2001 Mushroom Paradise, 2002 Bombing Run, 2003 Protection Beam, 2004 Reinforcements, 1025 Baal. The battle start (0x1401824ad: `[state+8]` = the stage's row, +0x10) switches it on with 0x1401c1df0 (record lookup 0x14008d380, 80-byte rows); its effects test the id (0x1401d8973: 1002 adds to fire +0x20, 1003 water +0x28, 1004 wind +0x24) and take the row's value (+0x40). The weather particles (0x1401dbd60) exist for 1000 / 1002 / 1003 / 1004 only **[H]** |
 | 0x14 | u16 | episode | 0-6 story, 16 postgame/DLC, 0xFFFF item-world rooms **[M]** |
 | 0x16 | u16 | title/flag id | 5000 + 10·ep + stage **[M]** |
 | 0x18 | u16 | stage level | the level the stage list shows (not the music: see Music below) **[H]** |
@@ -189,6 +189,17 @@ cleared, set only on 4 stages (Dreaming Mushroom 3/90, Beating of the End and Ev
   right strip) + 128×32 (the walls, tiled); no other map file holds another skin for them.
 * Geo Symbols are drawn by the game as `Object_JP.dat/chw0000N.obf` (N = colour 1-6), stored y down; the GS rows
   of char.dat carry sprite 100 (Zeroken's), which the game never draws for them.
+* **Light.** A mesh head's material (rgba at +8, five floats at +12): the story maps white, 1, 0, 0, 4, 1 on 55 000 of
+  57 000 meshes; the pieces mostly c8c8c8, 1, 0.5, 0, 4, 0.5 (made for the Item World's own light) -- dark on a stage
+  (seen in game). `compose` gives the pieces the story material (build `"light": "item_world"` keeps theirs);
+  `relight(pkg)` does it to a composed map in place. Builds of version 1 are relit when they are opened.
+* **A build that starts from its own map** ("this terrain as one block": the cut-out `(map, 0, 0, W, H)` of the map
+  being built, which keeps all its triangles, the scenery around the panels too) reads that block from
+  `patches/stages/terrain_<map>.pac`, the terrain it started from: the map file itself is the composed result and
+  would bring the placed blocks back a second time. Older builds have none (`Original terrain…` takes the map they
+  were made from).
+* A placement's `"under": "platform"` leaves nothing under a lifted block; solid ones repeat their walls down in
+  12-unit copies, the lowest cut at the block's foot.
 * **Open:** the battle's backdrop (the sky colours behind the map). No per-map field was found: the `.hex` env
   block is the same on every map, dungeon.dat +0x1A is 315 (the camera yaw) and +0x26 holds two colours (purple
   and green on every map), the script's `cmd_2835` (0x1401773d0) is not a plain copy. The 3D view uses a dark blue

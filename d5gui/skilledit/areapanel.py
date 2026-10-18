@@ -277,15 +277,15 @@ class AreaPanel(QScrollArea):
         row = QHBoxLayout()
         row.addWidget(QLabel("Area"))
         self.spell_shape = QComboBox()
-        self.spell_shape.setToolTip("The area shapes the player may choose at the level shown (Preview at, below): "
-                                    "shape 1 to the level's tier. Every spell shares these nine shapes.")
+        self.spell_shape.setToolTip("The nine area shapes every spell shares. Which of them a unit may pick is kept "
+                                    "with that unit's spell (one at first; the level doesn't change it).")
         self.spell_shape.currentIndexChanged.connect(lambda *_: self._spell_preview())
         row.addWidget(self.spell_shape, 1)
         sv.addLayout(row)
         row = QHBoxLayout()
         self.b_edit_shape = QPushButton("✎ Edit this shape (every spell)")
         self.b_edit_shape.setToolTip("Change the shape's panels in the grid above; Save writes it into AttackMap.dat "
-                                     "for every spell that reaches its tier")
+                                     "for every spell")
         self.b_edit_shape.clicked.connect(self._edit_shape)
         row.addWidget(self.b_edit_shape)
         self.b_fixed = QPushButton("Give this spell an area of its own")
@@ -309,8 +309,7 @@ class AreaPanel(QScrollArea):
                 sb = QSpinBox()
                 sb.setRange(1, sg.MAX_LEVEL)
                 sb.setPrefix(f"tier {k + 1} to L")
-                sb.setToolTip(f"The last level with reach {k + 1} (and up to shape {k + 1}); one level more gives "
-                              f"reach {k + 2}")
+                sb.setToolTip(f"The last level with reach {k + 1}; one level more gives reach {k + 2}")
                 sb.setMinimumWidth(96)
                 sb.valueChanged.connect(self._levels_edited)
                 self.levels.append(sb)
@@ -622,7 +621,7 @@ class AreaPanel(QScrollArea):
         self.start_box.setVisible(not preview or self.edit_shape is not None)
 
     def _spell_preview(self):
-        """the grid shows the area the spell has at the level previewed: shape 1..tier, reach = tier"""
+        """the grid shows the chosen shape at the reach of the level previewed (reach = tier)"""
         if not self.spell or self.fixed:
             return
         shape_map = getattr(self, "shape_map", {})
@@ -633,11 +632,8 @@ class AreaPanel(QScrollArea):
         for sid in sg.SPELL_SHAPES:
             sh = shape_map.get(sid)
             n = len(sh.cells) if sh else 0
-            self.spell_shape.addItem(f"shape {sid} · {n} panel{'s' if n != 1 else ''}" +
-                                     ("" if sid <= t else f"  (from tier {sid})"), sid)
-            if sid > t:
-                self.spell_shape.model().item(self.spell_shape.count() - 1).setEnabled(False)
-        pick = self.edit_shape or min(int(cur), t)
+            self.spell_shape.addItem(f"shape {sid} · {n} panel{'s' if n != 1 else ''}", sid)
+        pick = self.edit_shape or int(cur)
         self.spell_shape.setCurrentIndex(self.spell_shape.findData(pick))
         self.spell_shape.blockSignals(False)
         sid = self.spell_shape.currentData()
@@ -653,9 +649,10 @@ class AreaPanel(QScrollArea):
         self.grid.update()
         self.spell_text.setText(
             f"In battle a spell takes nothing from the table: its level sets a tier -- {sg.reach_text(self.levels_now())}"
-            f" -- and the tier is its reach in panels (+1 with a staff, some classes add more) and how many of the "
-            f"nine spell shapes the player may pick (1 to the tier). Level {self.at_level.value()}: tier {t}, reach "
-            f"{t}, shapes 1-{t}. The grid shows the shape chosen above at that reach.")
+            f" -- and the tier is its reach in panels (+1 with a staff, some classes add more). Level "
+            f"{self.at_level.value()}: reach {t}. Its area is one of the nine spell shapes; how many of them a unit may "
+            f"pick is kept with that unit's spell (one at first, more as the game unlocks them; the level doesn't "
+            f"change it). The grid shows the shape chosen above at that reach.")
         self._spell_buttons()
         self._sync_buttons()
         self.ed.area_edited()
@@ -666,8 +663,7 @@ class AreaPanel(QScrollArea):
             return
         self.edit_shape = int(sid)
         self._spell_preview()
-        self.summary.setText(f"Editing spell shape {sid}: click panels, then Save. Every spell that reaches tier "
-                             f"{sid} uses it.")
+        self.summary.setText(f"Editing spell shape {sid}: click panels, then Save. Every spell uses it.")
 
     def _make_fixed(self):
         """the spell gets a reach and an area of its own (saved like a weapon skill's)"""
@@ -749,9 +745,9 @@ class AreaPanel(QScrollArea):
         self.cursor.setEnabled(a.centred)
         shared = [n for n in self.shape_users_of(a.shape) if n != a.skill] if a.shape else []
         if self.spell and not self.fixed:
-            self.note.setText("Edit this shape changes it for every spell that reaches its tier; the tier levels "
-                              "are one setting for all spells (the install patches the game). Saved into the "
-                              "skill's mod; Install to use it in the game.")
+            self.note.setText("Edit this shape changes it for every spell; the tier levels (the reach) are one "
+                              "setting for all spells (the install patches the game). Saved into the skill's mod; "
+                              "Install to use it in the game.")
         else:
             self.note.setText(
                 ("Changing it makes a new shape for this skill only (shape "

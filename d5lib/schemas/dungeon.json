@@ -51,8 +51,8 @@
    "name": "weather_effect",
    "offset": 16,
    "type": "u32",
-   "ref": "EffectTableDataBase.dat",
-   "desc": "ambient map effect id = effect%04d.obf / EffectTableDataBase id (2000 poison (Poison Beach), 2001 spores (Demunshroom), 1003 snow (Icic-Hell), 1000/1002 heat, 1004 wind, 2002 ghosts ...); 0 = none",
+   "ref": "MakaiSkillDataBase.dat",
+   "desc": "the stage's Netherworld skill (MakaiSkillDataBase id; 0 = none), switched on when the battle starts (0x1401824ad -> 0x1401c1df0): 1003 Snow (Water resistance -50%), 1004 Gale Force Winds (Wind -50%), 1002 Fire Powder (Fire -50%), 1000 Sandstorm (accuracy -20%), 1005 Group Activity, 2000 Sea of Poison, 2001 Mushroom Paradise, 2002 Bombing Run, 2003 Protection Beam, 2004 Reinforcements, 1025 S. Overlord Baal. The weather particles follow the same id (only 1000/1002/1003/1004 have any, 0x1401dbd60). What a skill does is chosen by its id in the exe; its amount is the MakaiSkillDataBase row's value",
    "confidence": "high"
   },
   {

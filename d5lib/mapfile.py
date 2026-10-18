@@ -200,8 +200,10 @@ UNIT_FIELDS = [
     ("color_variant", 0x14, "H", 1),  # 0xFFFF default; 0..8 on colour-variant generic units (guess)
     ("unk16", 0x16, "B", 1),
     ("unk17", 0x17, "B", 1),         # 0/1
-    ("equipment", 0x18, "I", 5),     # item.dat ids, slot 0 = weapon, 0 = empty
-    ("unk2c", 0x2C, "H", 6),
+    ("equipment", 0x18, "I", 5),     # item.dat ids (low 16 bits), slot 0 = weapon, 0 = empty; high 16 bits: the
+                                     # kit's rarity + 1 (0 = the game's roll; read by the kit's exe patch, enemyitems)
+    ("unk2c", 0x2C, "H", 6),         # [0..4]: each slot's item level (the spawn sets item +0x12c / +0x13e from it,
+                                     # 0x140526eb3); [5] unused
     ("evilities", 0x38, "I", 20),    # Skill.dat ids (e.g. 5001 Theft Prevention)
     ("skills", 0x88, "I", 20),       # magic.dat ids (1001 Fire, 1201 Ice ...)
     ("skill_levels", 0xD8, "H", 20),
@@ -272,6 +274,34 @@ class Unit:
             value = list(value)[:cnt]
             value += [0] * (cnt - len(value))
             struct.pack_into(f"<{cnt}{fmt}", self.raw, off, *value)
+
+    # ---- equipment: item id, item level, rarity per slot
+    def item(self, k):
+        """(item.dat id, item level, rarity 0..100 or None = the game's roll) of equipment slot k"""
+        eq = self.equipment[k]
+        lv = self.unk2c[k] if len(self.raw) == RECORD_SIZE else 0
+        return eq & 0xFFFF, lv, ((eq >> 16) - 1 if eq >> 16 else None)
+
+    def set_item(self, k, item_id=None, level=None, rarity=False):
+        """change slot k: item id, level (0 = the item's own), rarity (None = the game's roll; False = keep)"""
+        cur_id, cur_lv, cur_r = self.item(k)
+        item_id = cur_id if item_id is None else int(item_id) & 0xFFFF
+        r = cur_r if rarity is False else rarity
+        eq = list(self.equipment)
+        eq[k] = item_id | ((int(r) + 1) << 16 if r is not None and item_id else 0)
+        self.equipment = eq
+        if level is not None:
+            lv = list(self.unk2c)
+            lv[k] = max(0, min(9999, int(level)))
+            self.unk2c = lv
+
+    @property
+    def item_ids(self):
+        return [e & 0xFFFF for e in self.equipment]
+
+    @property
+    def has_set_rarity(self):
+        return len(self.raw) == RECORD_SIZE and any(e >> 16 for e in self.equipment)
 
     # ---- helpers
     @property
@@ -553,6 +583,10 @@ class DungeonRecord:
     map_id = property(lambda s: s._u("<I", 0x04), lambda s, v: struct.pack_into("<I", s.raw, 0x04, v))
     episode = property(lambda s: s._u("<H", 0x14), lambda s, v: struct.pack_into("<H", s.raw, 0x14, v))
     title_id = property(lambda s: s._u("<H", 0x16), lambda s, v: struct.pack_into("<H", s.raw, 0x16, v))
+    # the stage's Netherworld skill (MakaiSkillDataBase id, 0 none): Snow 1003 = Water resistance -50 %, Gale Force
+    # Winds 1004, Fire Powder 1002, Sea of Poison 2000 ...  The battle start (0x1401824ad -> 0x1401c1df0) switches it
+    # on from this field; the weather particles go with it (only 1000 / 1002 / 1003 / 1004 have any, 0x1401dbd60)
+    netherworld_skill = property(lambda s: s._u("<I", 0x10), lambda s, v: struct.pack_into("<I", s.raw, 0x10, v))
     base_x = property(lambda s: s.raw[0x36], lambda s, v: s.raw.__setitem__(0x36, v))
     base_y = property(lambda s: s.raw[0x37], lambda s, v: s.raw.__setitem__(0x37, v))
 

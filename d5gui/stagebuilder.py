@@ -216,6 +216,31 @@ class BuilderPanel(QWidget):
         self.b_done.setToolTip("Back to the unit tools (the blocks stay; Save keeps them with the map)")
         top.addWidget(self.b_done)
         bl.addLayout(top)
+        light = QHBoxLayout()
+        light.addWidget(QLabel("Light"))
+        self.light = QComboBox()
+        for k, lab in mapbuild.LIGHTS.items():
+            self.light.addItem(lab, k)
+        self.light.setToolTip("How the game lights the blocks. The Item World's blocks carry the Item World's light, "
+                              "which comes out dark on a stage; 'Like a story stage' gives them the light of the "
+                              "story maps. (Pieces cut out of maps keep their own.)")
+        self.light.currentIndexChanged.connect(self._light_changed)
+        light.addWidget(self.light, 1)
+        bl.addLayout(light)
+        self.terrain_note = QWidget()
+        tn = QHBoxLayout(self.terrain_note)
+        tn.setContentsMargins(0, 0, 0, 0)
+        lab = QLabel("<span style='color:#ffb86b'>This build started from the map itself, and an older kit didn't "
+                     "keep that terrain: blocks placed before may show twice once it is rebuilt.</span>")
+        lab.setWordWrap(True)
+        tn.addWidget(lab, 1)
+        self.b_terrain = QPushButton("Original terrain…")
+        self.b_terrain.setToolTip("Pick the map this stage was made from (New stage › its map): the build is redone "
+                                  "on that terrain")
+        self.b_terrain.clicked.connect(lambda: self.page.pick_terrain())
+        tn.addWidget(self.b_terrain)
+        self.terrain_note.setVisible(False)
+        bl.addWidget(self.terrain_note)
         self.theme = QComboBox()
         self.theme.currentIndexChanged.connect(self._fill)
         bl.addWidget(self.theme)
@@ -279,6 +304,16 @@ class BuilderPanel(QWidget):
             row.addWidget(b)
         row.addStretch(1)
         bl.addLayout(row)
+        urow = QHBoxLayout()
+        urow.addWidget(QLabel("Under a lifted block"))
+        self.under = QComboBox()
+        for k, lab in mapbuild.UNDER.items():
+            self.under.addItem(lab, k)
+        self.under.setToolTip("Solid: the block's walls go on down to the ground, like a stack of blocks. Platform: "
+                              "it floats, nothing under it. For the chosen block, or (🧱 Place) the next ones.")
+        self.under.currentIndexChanged.connect(self._under_changed)
+        urow.addWidget(self.under, 1)
+        bl.addLayout(urow)
         self.status = QLabel()
         self.status.setWordWrap(True)
         self.status.setObjectName("muted")
@@ -297,9 +332,50 @@ class BuilderPanel(QWidget):
         self.h_spin.setValue(int(build["size"][1]))
         self.w_spin.blockSignals(False)
         self.h_spin.blockSignals(False)
+        self.light.blockSignals(True)
+        self.light.setCurrentIndex(max(0, self.light.findData(mapbuild.light_of(build))))
+        self.light.blockSignals(False)
         if self.theme.count() == 0:
             self._fill_themes()
         self._set_status()
+
+    def set_terrain_missing(self, on):
+        self.terrain_note.setVisible(bool(on))
+
+    def _light_changed(self, *_):
+        if self.build is None:
+            return
+        v = self.light.currentData()
+        if mapbuild.light_of(self.build) == v:
+            return
+        if v == "stage":
+            self.build.pop("light", None)
+        else:
+            self.build["light"] = v
+        self.changed.emit()
+
+    def _sync_under(self):
+        """the Under choice shows the chosen block's (Move) or the one new blocks get (Place)"""
+        p = self._selected() if self.tool() == TOOL_MOVE else None
+        v = mapbuild.under_of(p) if p is not None else getattr(self, "under_new", "solid")
+        self.under.blockSignals(True)
+        self.under.setCurrentIndex(max(0, self.under.findData(v)))
+        self.under.blockSignals(False)
+
+    def _under_changed(self, *_):
+        v = self.under.currentData()
+        p = self._selected() if self.tool() == TOOL_MOVE else None
+        if p is None:
+            self.under_new = v
+            self._set_status()
+            return
+        if mapbuild.under_of(p) == v:
+            return
+        if v == "solid":
+            p.pop("under", None)
+        else:
+            p["under"] = v
+        self.changed.emit()
 
     def _fill_themes(self):
         try:
@@ -423,16 +499,20 @@ class BuilderPanel(QWidget):
         if self.build is None:
             self.status.setText("")
             return
+        self._sync_under()
         n = len(self.build["pieces"])
         if self.tool() == TOOL_PLACE:
             k = self.current_key()
             what = ("the chosen block" if k is None else f"block {k}" if isinstance(k, int) else "the cut-out")
             self.status.setText(f"{n} block(s). Click a panel to put {what} there (turned {self.rot * 90}°, "
-                                f"{self.lift:+d} steps). R turns, + / - lift, Delete removes the chosen block.")
+                                f"{self.lift:+d} steps"
+                                f"{', a platform' if getattr(self, 'under_new', 'solid') == 'platform' else ''}). "
+                                "R turns, + / - lift, Delete removes the chosen block.")
         elif self.sel is not None and self.sel < n:
             p = self.build["pieces"][self.sel]
             self.status.setText(f"Block {self.sel + 1} of {n}: {p['piece']} at {p['x']}, {p['y']}, turned "
-                                f"{p.get('rot', 0) * 90}°, {p.get('lift', 0):+d} steps. Drag to move it.")
+                                f"{p.get('rot', 0) * 90}°, {p.get('lift', 0):+d} steps"
+                                f"{', a platform' if mapbuild.under_of(p) == 'platform' else ''}. Drag to move it.")
         else:
             self.status.setText(f"{n} block(s). Click a block of the map to choose it, drag to move it.")
 
@@ -492,7 +572,7 @@ class BuilderPanel(QWidget):
             if k is None:
                 self.status.setText("Pick a block in the list first.")
                 return
-            mapbuild.place(self.build, k, x, y, self.rot, self.lift)
+            mapbuild.place(self.build, k, x, y, self.rot, self.lift, getattr(self, "under_new", "solid"))
             self.sel = len(self.build["pieces"]) - 1
             self._drag0 = None
             self.changed.emit()
@@ -522,9 +602,21 @@ class BuilderPanel(QWidget):
         m.addAction("▼ Lower one step", lambda: self.raise_(-1))
         m.addAction("⧉ Copy", self.duplicate)
         m.addAction("⬆ Bring to the top", self.to_top)
+        pl = self.build["pieces"][idx]
+        other = "solid" if mapbuild.under_of(pl) == "platform" else "platform"
+        m.addAction("▣ Solid: walls down to the ground" if other == "solid" else "▭ Platform: nothing under it",
+                    lambda: self._set_under(idx, other))
         m.addSeparator()
         m.addAction("🗑 Delete", self.delete)
         m.exec(QCursor.pos())
+
+    def _set_under(self, idx, v):
+        p = self.build["pieces"][idx]
+        if v == "solid":
+            p.pop("under", None)
+        else:
+            p["under"] = v
+        self.changed.emit()
 
     def _selected(self):
         if self.build is None or self.sel is None or self.sel >= len(self.build["pieces"]):

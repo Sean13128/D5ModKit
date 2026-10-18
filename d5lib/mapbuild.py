@@ -10,6 +10,14 @@ the composed map with the usual tools).
 
 Measures: a panel is 12 map units; a height step (one 'level' of the game's grid) is 4; the stone cube is 12 tall.
 Corner heights are negative-up in the .hex (-13 = the top of a cube on the ground), mesh y is up.
+
+Light: every mesh head carries a material (rgba at +8, five floats at +12).  The story maps use white, 1, 0, 0, 4, 1
+(55 000 of 57 000 meshes); the Item World's pieces mostly c8c8c8, 1, 0.5, 0, 4, 0.5 -- lit for the Item World, they
+came out dark on a stage (reported in game).  `compose` gives the pieces the stage material (build "light": "stage",
+the default); "item_world" keeps theirs.  Cut-outs of maps keep their own.
+
+Under a lifted block: "under": "solid" (the default) repeats its walls down to the ground (the lowest copy cut at the
+ground), "platform" leaves nothing under it.
 """
 import hashlib
 import os
@@ -23,7 +31,10 @@ from . import obf as O
 PANEL = 12.0
 STEP = 4.0
 CUBE = 12.0
-VERSION = 1
+VERSION = 2                            # 2: the stage material on pieces (builds of 1 are recomposed when opened)
+STAGE_RGBA = b"\xff\xff\xff\xff"
+UNDER = {"solid": "Solid (walls down to the ground)", "platform": "Platform (nothing under it)"}
+LIGHTS = {"stage": "Like a story stage", "item_world": "The Item World's (darker)"}
 THEMES = {600: "Stone: slabs and bars", 610: "Stone: steps and shapes", 620: "Stone: stairs and towers",
           630: "Stone: pyramids", 701: "Cracked desert", 702: "Cyan ruins", 703: "Pink shore", 704: "Mushroom woods",
           705: "Snow", 706: "Japanese town", 707: "Sand garden", 708: "(unused)", 709: "Red lanterns",
@@ -85,13 +96,14 @@ class Piece:
         v = o.vertices()
         shift = np.array([x0 * PANEL, 0.0, y0 * PANEL], np.float32)
         self.meshes = []                 # (rows (n, 15), texture index in self.textures, head 48 bytes)
+        whole = bool(region) and (x0, y0, x1, y1) == (0, 0, hb.width, hb.height)   # the map as it is: all of it
         for m in o.meshes:
             ix = m.indices.astype(np.int64)
             ix = ix[:len(ix) // 3 * 3]
             if not len(ix) or ix.max() >= len(v):
                 continue
             rows = v[ix].astype(np.float32).copy()
-            if region:
+            if region and not whole:        # (the scenery around a map's panels comes along with the whole map)
                 tri = rows[:, 0:3].reshape(-1, 3, 3)
                 c = tri.mean(axis=1)
                 keep = ((c[:, 0] >= x0 * PANEL) & (c[:, 0] < x1 * PANEL) &
@@ -151,6 +163,21 @@ def _turn_mesh(rows, h_units):
     return out
 
 
+def stage_material(head):
+    """a mesh head with the story maps' material (white, ambient weight 0, light weight 1); the rest kept"""
+    h = bytearray(head)
+    if len(h) >= 32:
+        h[8:12] = STAGE_RGBA
+        struct.pack_into("<f", h, 16, 0.0)
+        struct.pack_into("<f", h, 28, 1.0)
+    return bytes(h)
+
+
+def material(head):
+    """(rgba hex, the five floats) of a mesh head"""
+    return bytes(head[8:12]).hex(), struct.unpack_from("<5f", bytes(head), 12)
+
+
 def _tri_normals(pos):
     t = pos.reshape(-1, 3, 3)
     n = np.cross(t[:, 1] - t[:, 0], t[:, 2] - t[:, 0])
@@ -163,10 +190,65 @@ def empty_build(w=10, h=10):
     return {"version": VERSION, "size": [int(w), int(h)], "pieces": []}
 
 
-def place(build, key, x, y, rot=0, lift=0):
+def place(build, key, x, y, rot=0, lift=0, under=None):
     p = {"piece": key_json(key), "x": int(x), "y": int(y), "rot": int(rot) % 4, "lift": int(lift)}
+    if under and under != "solid":
+        p["under"] = under
     build["pieces"].append(p)
     return p
+
+
+def under_of(pl):
+    return pl.get("under") if pl.get("under") in UNDER else "solid"
+
+
+def light_of(build):
+    return build.get("light") if build.get("light") in LIGHTS else "stage"
+
+
+def outdated(build):
+    """a build saved before the current way of composing (its map file is recomposed when it is opened)"""
+    return int(build.get("version", 1)) < VERSION
+
+
+# A build that starts from "this terrain as one block" cuts a block out of its own map.  The map file is rewritten
+# with every save, so the terrain it started from is kept beside the build (patches/stages/terrain_<map>.pac):
+# cut out of the saved file instead, the blocks placed earlier would come back a second time inside the cut-out
+# (a lifted block showed twice: at its old height and its new one).
+def terrain_name(mid):
+    return f"terrain_{int(mid):05d}.pac"
+
+
+def self_cut(build, mid):
+    """does the build cut a block out of map `mid` itself?"""
+    return any(isinstance(key_of(p["piece"]), tuple) and key_of(p["piece"])[0] == int(mid)
+               for p in build.get("pieces", []))
+
+
+def only_self(build, mid):
+    """is every block of the build a cut-out of map `mid` itself (nothing placed on it yet)?"""
+    return all(isinstance(key_of(p["piece"]), tuple) and key_of(p["piece"])[0] == int(mid)
+               for p in build.get("pieces", []))
+
+
+def item_world_material(head):
+    """is this mesh material one of the Item World's (lit by the Item World, dark on a stage)?"""
+    rgba, f = material(head)
+    return abs(f[1] - 0.5) < 1e-3 and f[4] < 0.75
+
+
+def relight(pkg):
+    """the stage material on every mesh of a composed map that has an Item World one -> number of meshes changed
+    (for maps whose build can't be recomposed)"""
+    o = pkg.obf
+    n = 0
+    for m in o.meshes:
+        if item_world_material(m.raw_head):
+            m.raw_head[:] = stage_material(m.raw_head)
+            n += 1
+    if n:
+        pkg.set("obf", o.to_bytes())
+    return n
 
 
 PICTURES = "pictures"                # patches/stages/pictures/<file>: the pictures blocks are retextured with
@@ -215,10 +297,13 @@ def compose(build, pieces, skeleton, base_pkg=None, name="map00000", pictures_di
     textures = []
     groups = {}                        # (texture, head without count / texture) -> [rows]
     order = []
+    stage_light = light_of(build) == "stage"
     for pl in build["pieces"]:
-        pc = pieces.get(key_of(pl["piece"]))
+        key = key_of(pl["piece"])
+        pc = pieces.get(key)
         if pc is None:
             continue
+        relight = stage_light and isinstance(key, int)       # the Item World's pieces (cut-outs keep theirs)
         rot, lift = int(pl.get("rot", 0)) % 4, int(pl.get("lift", 0))
         px, py = int(pl["x"]), int(pl["y"])
         c, nop = pc.corners, pc.no_panel
@@ -236,6 +321,8 @@ def compose(build, pieces, skeleton, base_pkg=None, name="map00000", pictures_di
                     no_panel[X, Y] = 0
         shift = np.array([px * PANEL, lift * STEP, py * PANEL], np.float32)
         tint, tex_over = look_of(pl)
+        solid = under_of(pl) == "solid"
+        ground = min((float(r[:, 1].min()) for r, _, _ in meshes if len(r)), default=0.0)   # the block's foot
         tmap = {}
         for rows, t, head in meshes:
             if t not in tmap:
@@ -260,7 +347,7 @@ def compose(build, pieces, skeleton, base_pkg=None, name="map00000", pictures_di
             if tint is not None:
                 rows[:, 9:12] = np.clip(rows[:, 9:12] * (np.array(tint, np.float32) / 255.0), 0.0, 1.0)
             parts = [rows]
-            if lift > 0:               # the block's walls go on down to the ground under it
+            if lift > 0 and solid:     # the block's walls go on down to the ground under it
                 n = _tri_normals(rows[:, 0:3])
                 side = np.repeat(np.abs(n[:, 1]) < 0.35, 3)
                 walls = rows[side]
@@ -269,8 +356,15 @@ def compose(build, pieces, skeleton, base_pkg=None, name="map00000", pictures_di
                     while k * CUBE < lift * STEP + CUBE:
                         w = walls.copy()
                         w[:, 1] -= k * CUBE
-                        parts.append(w)
+                        tri = w.reshape(-1, 3, 15)
+                        keep = tri[:, :, 1].max(axis=1) > ground + 1e-3        # copies wholly under the ground go
+                        w = tri[keep].reshape(-1, 15)
+                        w[:, 1] = np.maximum(w[:, 1], ground)                  # the lowest one ends at the ground
+                        if len(w):
+                            parts.append(w)
                         k += 1
+            if relight:
+                head = stage_material(head)
             gk = (tmap[t], head[8:])
             if gk not in groups:
                 groups[gk] = []

@@ -265,7 +265,7 @@ static void cc_tick(void) {
     static int key_was, pad_was;
     static int was[6];
     g_cc_focused = game_focused();
-    WORD pad = g_cc_focused ? pad_buttons() : 0;
+    WORD pad = g_cc_focused && (g_cc_in_editor || g_cc_open) ? pad_buttons() : 0;   /* only where it acts */
     if (!g_cc_open) {
         int key = cc_key_down(g_cc_key);
         int pb = g_cc_pad && (pad & g_cc_pad) == g_cc_pad;

@@ -670,9 +670,13 @@ or area from magic.dat. In battle:
 * the **reach** is the tier + 1 with a staff in hand (an equipped item of type 7 or 9 in the first two slots) + the
   class's bonus byte (char row + 0x54b), + what `0x1401ebd80` and the evilities 0x2c / 0x2d add, clamped to 1..18 by
   `0x1401d75e0` (which returns magic.dat `range` for every other skill, and 0 for skill 959);
-* the **area** is one of AttackMap.dat's shapes 1..tier, the player's choice (1 = one panel, 3 = a line of three,
+* the **area** is one of AttackMap.dat's shapes 1-9, the player's choice (1 = one panel, 3 = a line of three,
   5 = the cross, 9 = 3 × 3); the damage formula (`0x1401d6d30`) scales the power down for the bigger ones:
-  `(panels + 2) × 50 / 100`-ish of the base.
+  `(panels + 2) × 50 / 100`-ish of the base. **How many shapes a unit may pick is not the tier** (seen in game,
+  2026-10-18): it is 1 + byte +11 of the unit's skill entry (+ the evility 0x412, at most 9; Steam `0x1401601c8`),
+  kept with the unit's spell; the level-up (Steam `0x1401d6740`) never raises it (a level 9 Fire with it 0 offered one
+  shape; set to 8, all nine). Byte +10 is the shape last chosen (it multiplies the SP shown). The tier levels move
+  the reach only (a level 9 Fire with the levels 1..8 hit a unit 9 panels away).
 
 The kit: the Area tab previews the reach and the shapes at any level; the nine shapes are edited like any shape (rows
 1-9 of AttackMap.dat, shared by every spell); the tier levels are a mod setting (`patches/spells/growth.json`,

@@ -1,5 +1,47 @@
 # D5 Mod Kit — changes
 
+## 1.5.4 (2026-10-18)
+
+**Stages & Maps**
+* **Blocks are lit like a story stage.** The Item World's pieces carry the Item World's light (a grey material at
+  half strength), so a battlefield built from them came out very dark in game while the editor showed it bright.
+  The blocks now get the story maps' material (the Blocks panel's **Light** can keep the Item World's). A stage
+  built with 1.5.3 or older gets the new light when it is opened: Save keeps it.
+* **No more second layer of terrain.** A battlefield started from "this terrain as one block" cut that block out
+  of its own map file, which every save rewrites: once reopened, the blocks placed before came back inside the
+  cut-out (a lifted block showed twice, at its old height and its new one). The terrain it starts from is now kept
+  beside the build. A build made with an older kit says so and offers **Original terrain…** (the map it was made
+  from). The whole map's scenery around its panels comes along too (a third of it was cut away).
+* **Under a lifted block**: *Solid* (its walls go down to the ground, now cut at the ground instead of hanging below
+  it) or *Platform* (nothing under it). In the Blocks panel and the block's right-click menu.
+* **Netherworld effect** per stage (*In the game's stage list*): Snow (Water resistance -50 %), Gale Force Winds
+  (Wind), Fire Powder (Fire), Sandstorm, EXP / HL / Mana Up, Auto HP Recovery … -- dungeon.dat's "weather" field is
+  the stage's Netherworld skill (MakaiSkillDataBase), with its falling snow / wind / embers. Its **Amount** can be
+  changed (for every stage with that effect).
+* **Enemy equipment: item level and rarity.** Each slot of a unit's equipment has its item level (the stage file had
+  it all along) and a rarity (Common 0-24, Rare 25-49, Legendary 50-99, 100; or Random, as the game rolls it). The
+  rarity needs an exe patch, made at install when a mod's stage uses it.
+
+**Skills & Animations**
+* **Spell tiers set the reach, not the shapes** (corrected after testing in game). A level 9 Fire with the tier
+  levels moved to 1-8 hits 9 panels away, as the Area tab said. But how many of the nine spell shapes a unit may pick
+  is kept with that unit's spell (one at first; levelling up doesn't change it), not set by the tier: the Area tab
+  now shows every shape and says so.
+
+**Install**
+* **Exe patches no longer go missing.** The install's last steps ran in the order their code was first loaded, and
+  the outfit step starts again from the game's original exe: a page that loaded first (the Stages page loads the
+  enemy-rarity code at start-up) had its patch dropped. The install now runs them in its own fixed order (found
+  while testing: the spell tiers and enemy rarities weren't in the exe).
+
+**In game**
+* **Menus with many lines are smoother.** The kit's screen-text hook asked Windows whether every string a menu drew
+  was readable (two system calls per line, every frame: the Quest shop, the stage list and the character list draw
+  hundreds); it now remembers the memory it has checked. The custom-colour hotkey no longer polls the controllers
+  every frame outside the colour editor, and empty controller slots are asked only every 2 seconds.
+* d5auto.log notes slow frames (over 40 ms) with the screen they happened on, and the kit's own time per frame
+  (seen in game: the kit takes about 0.03 ms a frame).
+
 ## 1.5.3 (2026-10-18)
 
 **Quests**

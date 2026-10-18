@@ -7,10 +7,13 @@ In battle the game turns the spell's level (the unit's skill list, +0xcc4 + 16 x
     tier   1    2     3       4       5       6       7       8      9
 
 and the tier is the spell's reach in panels (0x140160650: + 1 with a staff in hand, + the class's bonus byte, char
-row + 0x54b; evilities add more; 0x1401d75e0 clamps the total to 1..18) and how many of the spell area shapes the
-player may choose from: AttackMap.dat shapes 1..tier (1 = one panel, 3 = a line of three, 5 = the cross, 9 = 3 x 3;
-the spell's power is scaled down for the bigger ones, 0x1401d6d30).  A second copy of the table, a small function
-at 0x1401d7780 (level -> 0..8), serves the same purpose elsewhere.
+row + 0x54b; evilities add more; 0x1401d75e0 clamps the total to 1..18).  Seen in game (2026-10-18, Steam): a level 9
+Fire with the levels 1..8 reached 9 panels.  The area is one of the spell shapes, AttackMap.dat rows 1-9 (1 = one
+panel ... 9 = 3 x 3; the power is scaled down for the bigger ones, 0x1401d6d30), but how many of them a unit may pick
+is NOT the tier: it is 1 + the skill entry's byte +11 (+ the evility 0x412 Magic Range, at most 9; read at Steam
+0x1401601c8), kept with the unit's spell; the level-up (Steam 0x1401d6740) never changes it, and a level 9 Fire with
+it 0 offered one shape.  (+10 is the shape last chosen.)  A second copy of the tier table, the small function at
+0x1401d7780 (level -> 0..8), has no caller found.
 
 A mod may move the thresholds (patches/spells/growth.json: {"levels": [1, 5, 10, 20, 40, 60, 80, 90]}, the level
 up to which each tier lasts): the install hooks both copies with a table of its own.  The last enabled mod with a

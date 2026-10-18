@@ -52,6 +52,15 @@ def register_finalizer(fn):
         FINALIZERS.append(fn)
 
 
+def ordered_finalizers():
+    """the finalizers in HANDLER_MODULES order, whatever imported their module first.  The order matters: the
+    outfit finalizer starts from the original exe (every exe patch made before it would be lost), the runtime's and
+    the grips' come last.  (A page importing d5lib.enemyitems at start-up registered it before the outfits.)"""
+    rank = {m: i for i, m in enumerate(HANDLER_MODULES)}
+    return sorted(FINALIZERS, key=lambda fn: (rank.get(getattr(fn, "__module__", ""), len(HANDLER_MODULES)),
+                                              FINALIZERS.index(fn)))
+
+
 # files a mod's runtime creates next to the exe (not written by the installer): removed with the mods
 # (the auto-battle loader runs a copy of d5core.dll)
 RUNTIME_FILES = ["d5core_live*.dll"]
@@ -340,7 +349,7 @@ class BuildContext:
 
 HANDLER_MODULES = ["d5lib.dbpatch", "d5lib.textpatch", "d5lib.scriptpatch", "d5lib.skills", "d5lib.newchars", "d5lib.outfits", "d5lib.newclasses", "d5lib.voices", "d5lib.overloads",
                    "d5lib.questpatch",
-                   "d5lib.unlockpatch", "d5lib.weaponlevels", "d5lib.spellgrowth", "d5lib.standins", "d5lib.customcolors", "d5lib.fxpool",
+                   "d5lib.unlockpatch", "d5lib.weaponlevels", "d5lib.spellgrowth", "d5lib.enemyitems", "d5lib.standins", "d5lib.customcolors", "d5lib.fxpool",
                    "d5lib.runtime", "d5lib.autobattle",     # the runtime DLL (auto-battle: only where it exists)
                    "d5lib.grips"]                           # grips last: its finalizer edits the final sprites
 
@@ -391,7 +400,7 @@ def build(fs: GameFS, mods, log=print):
             pdir = os.path.join(mod.patches_dir, name)
             if os.path.isdir(pdir) and os.listdir(pdir):
                 _tolerant(ctx, f"{mod.name}: {name}", fn, ctx, mod, pdir)
-    for fn in FINALIZERS:
+    for fn in ordered_finalizers():
         _tolerant(ctx, f"{fn.__module__.split('.')[-1]}", fn, ctx)
     skipped = getattr(ctx, "skipped_features", [])
     if skipped:

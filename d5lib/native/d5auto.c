@@ -288,10 +288,20 @@ static WORD pad_buttons(void) {
         if (x) pXInputGetState = (XInputGetState_t)GetProcAddress(x, "XInputGetState");
         if (!pXInputGetState) return 0;
     }
+    /* XInputGetState is slow for a slot with no controller (it looks for one each time): such a slot is asked
+       again only every 2 seconds */
+    static DWORD absent_until[4];
+    DWORD now = GetTickCount();
     WORD all = 0;
     for (DWORD i = 0; i < 4; i++) {
+        if (absent_until[i] && (LONG)(now - absent_until[i]) < 0) continue;
         PADSTATE s;
-        if (pXInputGetState(i, &s) == 0) all |= s.Gamepad.wButtons;
+        if (pXInputGetState(i, &s) == 0) {
+            all |= s.Gamepad.wButtons;
+            absent_until[i] = 0;
+        } else {
+            absent_until[i] = now + 2000;
+        }
     }
     return all;
 }
@@ -1395,9 +1405,62 @@ static void install_present_hook(void) {
     DestroyWindow(hw);
 }
 
+/* ------------------------------------------------------------------------------------- perf
+ * Slow frames, and what the kit itself spends: when a 10-second window had 3+ frames over 40 ms, one line in
+ * d5auto.log -- how many, the worst, the kit's own time per frame (its per-frame work; the hooks' work is counted
+ * as memory checks), and the screens that ran (state-machine vtables, as d5ui.inc.c sees them).  At most 60 lines a
+ * session.  For reports like 'the Quest shop is laggy': it tells the game's own slowness from the kit's. */
+static LARGE_INTEGER g_pf_freq, g_pf_prev;
+static double g_pf_kit, g_pf_worst;
+static int g_pf_frames, g_pf_slow, g_pf_lines;
+static DWORD g_pf_start;
+static unsigned long long g_pf_vq;
+
+static void perf_frame(LARGE_INTEGER t0) {
+    if (!g_pf_freq.QuadPart) { QueryPerformanceFrequency(&g_pf_freq); g_pf_prev = t0; g_pf_start = GetTickCount(); }
+    double ms = (double)(t0.QuadPart - g_pf_prev.QuadPart) * 1000.0 / (double)g_pf_freq.QuadPart;
+    g_pf_prev = t0;
+    g_pf_frames++;
+    if (ms > 40.0) { g_pf_slow++; if (ms > g_pf_worst) g_pf_worst = ms; }
+    if (!(g_pf_frames % 60)) text_readable_forget();
+    DWORD now = GetTickCount();
+    if (now - g_pf_start < 10000) return;
+    if (g_pf_slow >= 3 && g_pf_lines < 60) {
+        g_pf_lines++;
+        char scr[160];
+        size_t k = 0;
+        int n;
+        const SMREC *l = sm_list(&n);
+        scr[0] = 0;
+        for (int i = 0; i < n && i < 6 && k < sizeof scr - 24; i++)
+            if (l[i].state != -1) k += snprintf(scr + k, sizeof scr - k, " %llx:%d", l[i].vt, l[i].state);
+        logf_("perf: %d frames in %.0f s, %d over 40 ms (worst %.0f ms); the kit %.3f ms a frame, %.1f memory checks "
+              "a frame; screen%s", g_pf_frames, (now - g_pf_start) / 1000.0, g_pf_slow, g_pf_worst,
+              g_pf_kit / (g_pf_frames ? g_pf_frames : 1), (double)(g_rd_queries - g_pf_vq) / (g_pf_frames ? g_pf_frames : 1),
+              scr);
+    }
+    g_pf_vq = g_rd_queries;
+    g_pf_frames = g_pf_slow = 0;
+    g_pf_worst = g_pf_kit = 0;
+    g_pf_start = now;
+}
+
 /* ------------------------------------------------------------------------------------- entry */
 static void core_init_hooks(void);
+static int core_frame_body(void);
 __declspec(dllexport) int core_frame(void) {
+    LARGE_INTEGER t0, t1;
+    QueryPerformanceCounter(&t0);
+    int r = core_frame_body();
+    QueryPerformanceCounter(&t1);
+    if (r == 0) {
+        perf_frame(t0);
+        if (g_pf_freq.QuadPart) g_pf_kit += (double)(t1.QuadPart - t0.QuadPart) * 1000.0 / (double)g_pf_freq.QuadPart;
+    }
+    return r;
+}
+
+static int core_frame_body(void) {
     static int init;
     if (!init) {
         init = 1;

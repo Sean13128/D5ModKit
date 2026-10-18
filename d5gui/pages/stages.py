@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QList
                              QInputDialog, QCompleter, QGridLayout, QApplication, QCheckBox, QStackedWidget,
                              QToolButton, QMenu)
 
-from d5lib import mapfile, pac, mapbuild
+from d5lib import mapfile, pac, mapbuild, enemyitems
 from ..common import PageHeader, SearchBox, error_box, info_box
 from ..stagebuilder import BuilderPanel, TOOL_PLACE, TOOL_MOVE
 from ..dbservice import get_service, char_names, table_names
@@ -18,6 +18,14 @@ from ..dbservice import get_service, char_names, table_names
 ROLE = Qt.ItemDataRole.UserRole
 CELL = 34
 DUNGEON = "dungeon.dat"
+NETHER_SKILLS = "MakaiSkillDataBase.dat"
+# Netherworld skills that need things of the stage they were made for (its sea, mushroom objects, a laser target,
+# reinforcement units, Baal's battle)
+NETHER_OWN_STAGE = {1025, 1026, 1027, 1028, 1029, 1030, 2000, 2001, 2003, 2004, 2005, 2010, 2014, 2015, 2016, 2017,
+                    2018}
+# ... and the ones whose row value is an amount worth changing (%, panels, points)
+NETHER_AMOUNT = {1000, 1002, 1003, 1004, 1005, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014, 1015, 1018, 1019,
+                 1020, 1021, 1022, 1023, 1024, 2002, 2011, 2012, 2013}
 GEO_COLORS = {0: ("none", QColor(0, 0, 0, 0)), 1: ("Red", QColor(230, 40, 40)), 2: ("Green", QColor(40, 200, 60)),
               3: ("Blue", QColor(40, 90, 240)), 4: ("Yellow", QColor(240, 220, 40)),
               5: ("Purple", QColor(170, 60, 220)), 6: ("Cyan", QColor(40, 220, 230))}
@@ -648,6 +656,101 @@ class StagesPage(QWidget):
         self.canvas.selected = None
         self._inspect(None)
         self._set_status()
+        self.terrain_missing = False
+        if self.build is not None:
+            if self.lib is None:
+                self.lib = mapbuild.Library(self._read_pkg)
+            self._use_terrain(mid, owner)
+            self.builder.set_terrain_missing(self.terrain_missing)
+            if mapbuild.outdated(self.build):
+                # built with an older kit: the pieces were lit for the Item World (dark on a stage)
+                if self.terrain_missing:
+                    n = mapbuild.relight(self.pkg)
+                    self.build["version"] = mapbuild.VERSION
+                    if n:
+                        self.pkg.rev = getattr(self.pkg, "rev", 0) + 1
+                        self._set_dirty()
+                        self.canvas.load(self.pkg, self.base, self.char_names)
+                else:
+                    self.recompose()
+                self.ws.log(f"map{mid:05d}: its blocks now get a story stage's light (they came out dark in "
+                            "game). Save to keep it.")
+
+    # ---- the terrain a build started from ("this terrain as one block")
+    def _terrain_path(self, mod, mid):
+        import os
+        return os.path.join(mod.patches_dir, "stages", mapbuild.terrain_name(mid))
+
+    def _set_terrain(self, mid, pkg):
+        """the build of map `mid` cuts its own map's block out of `pkg` (in the library; the cut-out redone)"""
+        self.lib.pkgs[int(mid)] = pkg
+        for k in [k for k in self.lib.pieces if isinstance(k, tuple) and k[0] == int(mid)]:
+            del self.lib.pieces[k]
+
+    def _save_terrain(self, mod, mid, pkg):
+        import os
+        p = self._terrain_path(mod, mid)
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        with open(p, "wb") as f:
+            f.write(pkg.to_pac())
+
+    def _use_terrain(self, mid, owner):
+        """a build that cuts its own map: read the cut-out from the terrain kept beside the build.  Builds of older
+        kits have none: when nothing is placed on the cut-out yet the saved map is that terrain; otherwise it is
+        missing (the map it started from can be picked with 'Original terrain…')"""
+        self.terrain_missing = False
+        if self.build is None or owner is None or not mapbuild.self_cut(self.build, mid):
+            return
+        import os
+        p = self._terrain_path(owner, mid)
+        if os.path.exists(p):
+            with open(p, "rb") as f:
+                self._set_terrain(mid, mapfile.MapPackage(pac.read_pac(f.read()), f"map{mid:05d}"))
+            return
+        if mapbuild.only_self(self.build, mid):
+            snap = mapfile.MapPackage([(n, bytes(d)) for n, d in self.pkg.members], self.pkg.name)
+            self._save_terrain(owner, mid, snap)
+            self._set_terrain(mid, snap)
+            return
+        self.terrain_missing = True
+        self.ws.log(f"map{mid:05d}: this build started from the map itself, and the terrain it started from "
+                    "wasn't kept (older kit): blocks placed before may show twice when it is rebuilt. Blocks › "
+                    "'Original terrain…' picks the map it was made from.")
+
+    def pick_terrain(self):
+        """'Original terrain…': the map an older build started from (its own map's block is cut out of that)"""
+        if self.build is None or not self.pkg:
+            return
+        owner = self._map_owner()
+        if owner is None:
+            return
+        cut = next((mapbuild.key_of(p["piece"]) for p in self.build["pieces"]
+                    if isinstance(mapbuild.key_of(p["piece"]), tuple) and mapbuild.key_of(p["piece"])[0] == self.mid),
+                   None)
+        stages = [s for s in self._stage_choices() if self._in_game(s[1])]
+        labels = [f"{n}  (map{m:05d})" for n, m, _ in stages]
+        choice, ok = QInputDialog.getItem(
+            self, "Original terrain", "This stage was made from the terrain of (the map you picked in New stage):",
+            labels, 0, False)
+        if not ok:
+            return
+        mid = stages[labels.index(choice)][1]
+        try:
+            src = self._read_pkg(mid)
+            hb = src.hex.blocks[0]
+            if cut is not None and (cut[3] > hb.width or cut[4] > hb.height):
+                raise ValueError(f"map{mid:05d} is {hb.width}×{hb.height}: smaller than the cut-out "
+                                 f"({cut[3]}×{cut[4]})")
+            snap = mapfile.MapPackage([(n, bytes(d)) for n, d in src.members], f"map{self.mid:05d}")
+            self._save_terrain(owner, self.mid, snap)
+            self._set_terrain(self.mid, snap)
+        except Exception as e:
+            error_box(self, "Original terrain", e)
+            return
+        self.terrain_missing = False
+        self.builder.set_terrain_missing(False)
+        self.recompose()
+        self.ws.log(f"map{self.mid:05d}: rebuilt on the terrain of map{mid:05d}. Save to keep it.")
 
     def _map_owner(self):
         """the mod that has this map (a new map, or changed members of a game map); the active mod first"""
@@ -697,6 +800,8 @@ class StagesPage(QWidget):
         if self.pkg:
             self.dirty = False
             self.svc.discard(DUNGEON)
+            if self.svc.is_dirty(NETHER_SKILLS):
+                self.svc.discard(NETHER_SKILLS)
             self.open_map(self.mid, self.stage_row)
 
     def _set_dirty(self):
@@ -753,6 +858,8 @@ class StagesPage(QWidget):
             return
         try:
             self.pkg.commit()
+            # units wearing items of a set rarity: the install patches the game's spawn for them (enemyitems)
+            enemyitems.note_map(mod, self.mid, any(u.has_set_rarity for u in self.pkg.chr.units))
             if not self._in_game(self.mid):          # a map of a mod: its whole file, in its mod
                 for f in list(mod.list_files()):
                     if f.startswith(self.map_vpath + "/"):  # (members saved separately by older kits)
@@ -762,6 +869,8 @@ class StagesPage(QWidget):
                     mod.save_patch("stages", f"build_{self.mid:05d}.json", self.build)
                 if self.stage_row is not None and self.svc.is_dirty(DUNGEON):
                     self.svc.commit(DUNGEON, self)
+                if self.svc.is_dirty(NETHER_SKILLS):
+                    self.svc.commit(NETHER_SKILLS, self, into=mod)
                 self.dirty = False
                 self._set_status()
                 self.ws.log(f"Saved map{self.mid:05d} to mod '{mod.name}'")
@@ -783,6 +892,8 @@ class StagesPage(QWidget):
                     self.ws.write(vp, data, self, mod=mod)
             if self.stage_row is not None and self.svc.is_dirty(DUNGEON):
                 self.svc.commit(DUNGEON, self)
+            if self.svc.is_dirty(NETHER_SKILLS):
+                self.svc.commit(NETHER_SKILLS, self, into=mod)
             self.dirty = False
             self._set_status()
             self.ws.log(f"Saved map{self.mid:05d} to mod '{mod.name}'")
@@ -925,8 +1036,11 @@ class StagesPage(QWidget):
                     self.save()
                 if self.lib is None:
                     self.lib = mapbuild.Library(self._read_pkg)
-                self.lib.pkgs[int(self.mid)] = mapfile.MapPackage([(n, bytes(d)) for n, d in self.pkg.members],
-                                                                  self.pkg.name)
+                snap = mapfile.MapPackage([(n, bytes(d)) for n, d in self.pkg.members], self.pkg.name)
+                owner = self._map_owner()
+                if owner is not None:                   # kept beside the build: the map file changes with saves
+                    self._save_terrain(owner, self.mid, snap)
+                self._set_terrain(self.mid, snap)
             else:
                 self.build = mapbuild.empty_build(hb.width, hb.height)
             self.ws.log(f"map{self.mid:05d}: building out of blocks ({len(self.build['pieces'])} to start with)")
@@ -948,6 +1062,7 @@ class StagesPage(QWidget):
         except Exception as e:
             error_box(self, "Blocks", e)
             return
+        self.build["version"] = mapbuild.VERSION
         for ext in ("hex", "obf", "gop"):
             self.pkg.set(ext, new.get(ext))
         self.pkg.rev = getattr(self.pkg, "rev", 0) + 1
@@ -1216,14 +1331,37 @@ class StagesPage(QWidget):
                 f.addRow("Geo effect", ge)
             self.insp_lay.addWidget(box)
 
-            eq = QGroupBox("Equipment")
-            ef = QFormLayout(eq)
+            eq = QGroupBox("Equipment (item · level · rarity)")
+            eg = QGridLayout(eq)
             items = self.item_choices
             for k, lab in enumerate(["Weapon", "Armor 1", "Armor 2", "Armor 3", "Armor 4"]):
+                iid, ilv, ir = u.item(k)
                 c = SearchCombo(items)
-                c.set_value(u.equipment[k])
-                c.activated.connect(lambda _, k=k, c=c: self._set_list(u, "equipment", k, c.value()))
-                ef.addRow(lab, c)
+                c.set_value(iid)
+                c.activated.connect(lambda _, k=k, c=c: self._set_item(u, k, item_id=c.value()))
+                lv = QSpinBox()
+                lv.setRange(0, 9999)
+                lv.setSpecialValueText("Lv –")
+                lv.setPrefix("Lv ")
+                lv.setValue(ilv)
+                lv.setToolTip("The item's level (what the Item World raises; – = the item's own, as the game's "
+                              "stages have it)")
+                lv.valueChanged.connect(lambda v, k=k: self._set_item(u, k, level=v))
+                ra = QSpinBox()
+                ra.setRange(-1, enemyitems.RARITY_MAX)
+                ra.setSpecialValueText("Random")
+                ra.setValue(-1 if ir is None else ir)
+                ra.setToolTip("Rarity: Common 0-24, Rare 25-49, Legendary 50-99, 100 the best (the item's stats rise "
+                              "by that %). Random = as the game rolls it for its stages' enemies. Some special items "
+                              "keep their fixed rarity. Install patches the game for it.")
+                ra.valueChanged.connect(lambda v, k=k, ra=ra: (self._set_item(u, k, rarity=None if v < 0 else v),
+                                                              ra.setSuffix("" if v < 0 else
+                                                                           f"  {enemyitems.band(v)}")))
+                ra.setSuffix("" if ir is None else f"  {enemyitems.band(ir)}")
+                eg.addWidget(QLabel(lab), k * 2, 0)
+                eg.addWidget(c, k * 2, 1, 1, 2)
+                eg.addWidget(lv, k * 2 + 1, 1)
+                eg.addWidget(ra, k * 2 + 1, 2)
             self.insp_lay.addWidget(eq)
 
             sk = QGroupBox("Skills (id · level)")
@@ -1290,6 +1428,12 @@ class StagesPage(QWidget):
         self._set_dirty()
         if redraw:
             self.canvas.redraw()
+
+    def _set_item(self, u, k, **change):
+        before = u.item(k)
+        u.set_item(k, **change)
+        if u.item(k) != before:
+            self._set_dirty()
 
     def _set_list(self, u, name, k, v):
         lst = getattr(u, name)
@@ -1434,6 +1578,9 @@ class StagesPage(QWidget):
         bm.currentIndexChanged.connect(lambda _: bm.currentData() is not None and
                                        self._set_battle_song(rec.map_id, bm.currentData()))
         f.addRow("Battle music", bm)
+        ne = self._netherworld_box(rec)
+        if ne is not None:
+            f.addRow("Netherworld effect", ne)
         lw = QComboBox()
         lw.addItem("(never: no story flag)", 0)
         if not mine and rec.title_id:
@@ -1484,6 +1631,101 @@ class StagesPage(QWidget):
             f.addRow(n)
         return box
 
+    # ---- the stage's Netherworld effect (dungeon.dat +0x10 = a MakaiSkillDataBase id)
+    def _netherworld_skills(self):
+        """[(id, name, description, row)] of the Netherworld skills a stage can have (no dummies, no 'on call')"""
+        try:
+            t = self.svc.table(NETHER_SKILLS)
+        except Exception:
+            return []
+        out = []
+        for r in t.rows:
+            sid, desc = int(r["id"]), str(r["desc_EN"] or "")
+            if desc in ("ダミー", "") or int(r["trigger"]) == 4:
+                continue
+            out.append((sid, str(r["name_EN"]), desc, r))
+        return out
+
+    def _netherworld_box(self, rec):
+        skills = self._netherworld_skills()
+        if not skills:
+            return None
+        w = QWidget()
+        lay = QVBoxLayout(w)
+        lay.setContentsMargins(0, 0, 0, 0)
+        cb = QComboBox()
+        cb.addItem("(none)", 0)
+        cur = rec.netherworld_skill
+        for sid, name, desc, _ in skills:
+            special = sid in NETHER_OWN_STAGE
+            cb.addItem(f"{name}: {desc}" + ("  (made for its own stage)" if special else ""), sid)
+        k = cb.findData(cur)
+        if k < 0:
+            cb.addItem(f"#{cur}", cur)
+            k = cb.count() - 1
+        cb.setCurrentIndex(k)
+        cb.setSizeAdjustPolicy(QComboBox.SizeAdjustPolicy.AdjustToMinimumContentsLengthWithIcon)
+        cb.setMinimumContentsLength(14)
+        cb.setToolTip("What the whole battle has, as the game's Netherworlds do: Snow lowers Water resistance, Gale "
+                      "Force Winds Wind resistance, Fire Powder Fire resistance (with their falling snow / wind / "
+                      "embers), EXP Up, Auto HP Recovery … The ones marked 'made for its own stage' need things of "
+                      "their stage (Sea of Poison: its sea; Mushroom Paradise: mushroom objects; Baal's).")
+        lay.addWidget(cb)
+        amt = QWidget()
+        al = QHBoxLayout(amt)
+        al.setContentsMargins(0, 0, 0, 0)
+        sp = QSpinBox()
+        sp.setRange(-999, 999)
+        note = QLabel()
+        note.setObjectName("muted")
+        note.setWordWrap(True)
+        al.addWidget(QLabel("Amount"))
+        al.addWidget(sp)
+        al.addStretch(1)
+        lay.addWidget(amt)
+        lay.addWidget(note)
+        rows = {sid: r for sid, _, _, r in skills}
+
+        def show_amount():
+            sid = cb.currentData()
+            r = rows.get(sid)
+            on = r is not None and sid in NETHER_AMOUNT
+            amt.setVisible(bool(on))
+            note.setVisible(bool(on))
+            if not on:
+                return
+            sp.blockSignals(True)
+            sp.setValue(int(r["value"]))
+            sp.blockSignals(False)
+            users = [mapfile.DungeonRecord(bytes(x.raw)).name() for x in self.svc.table(DUNGEON).rows
+                     if mapfile.DungeonRecord(bytes(x.raw)).netherworld_skill == sid]
+            note.setText(f"In % (or panels / points). The same for every stage with {r['name_EN']}"
+                         + (f" ({len(users)} stages)" if len(users) > 1 else "") + ".")
+
+        def pick(_):
+            sid = int(cb.currentData() or 0)
+            row = self.svc.table(DUNGEON).rows[self.stage_row]
+            r2 = mapfile.DungeonRecord(bytes(row.raw))
+            if r2.netherworld_skill != sid:
+                r2.netherworld_skill = sid
+                row.raw[:] = r2.raw
+                self.svc.mark_dirty(DUNGEON)
+                self._set_dirty()
+            show_amount()
+
+        def amount(v):
+            r = rows.get(cb.currentData())
+            if r is None or int(r["value"]) == v:
+                return
+            r["value"] = int(v)
+            self.svc.mark_dirty(NETHER_SKILLS)
+            self._set_dirty()
+
+        cb.currentIndexChanged.connect(pick)
+        sp.valueChanged.connect(amount)
+        show_amount()
+        return w
+
     def _set_raw(self, off, v):
         row = self.svc.table(DUNGEON).rows[self.stage_row]
         if row.raw[off] != v:
@@ -1532,8 +1774,20 @@ class StagesPage(QWidget):
         stagemusic.move_stage(mod, self.mid, new)
         b = mod.load_patch("stages", f"build_{self.mid:05d}.json")
         if b:
+            # the cut-out of the map itself follows the map to its new number
+            for p in b.get("pieces", []):
+                k = mapbuild.key_of(p["piece"])
+                if isinstance(k, tuple) and k[0] == self.mid:
+                    p["piece"] = [new] + list(k[1:])
             mod.save_patch("stages", f"build_{new:05d}.json", b)
             mod.save_patch("stages", f"build_{self.mid:05d}.json", None)
+        import os
+        tp = self._terrain_path(mod, self.mid)
+        if os.path.exists(tp):
+            os.replace(tp, self._terrain_path(mod, new))
+        if self.mid in enemyitems.maps_of(mod):
+            enemyitems.note_map(mod, self.mid, False)
+            enemyitems.note_map(mod, new, True)
         for f in list(mod.list_files()):
             if f == old_vp or f.startswith(old_vp + "/"):
                 mod.remove_file(f)
@@ -1595,6 +1849,11 @@ class StagesPage(QWidget):
                 if f == self.map_vpath or f.startswith(self.map_vpath + "/"):
                     mod.remove_file(f)
             mod.save_patch("stages", f"build_{mid:05d}.json", None)
+            import os
+            tp = self._terrain_path(mod, mid)
+            if os.path.exists(tp):
+                os.remove(tp)
+            enemyitems.note_map(mod, mid, False)
             stagemusic.remove_stage(mod, mid)
         except Exception as e:
             error_box(self, "Delete stage", e)

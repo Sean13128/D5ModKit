@@ -84,21 +84,35 @@ static TXREC g_tx_buf[2][TX_MAX];
 static int g_tx_hooked;
 
 /* Some callers pass a string pointer the game never reads (e.g. the unit information tab of a character without
- * personal data), so every byte we copy must be in committed, readable memory.  The last readable region is cached:
- * nearly all strings live in the same few regions. */
-static const char *g_rd_lo, *g_rd_hi;
+ * personal data), so every byte we copy must be in committed, readable memory.  The readable regions seen last are
+ * cached (8 of them, the oldest replaced): the strings of a menu and their colour pointers live in a few regions
+ * (exe data, the DB arena, heaps, the stack); with one region cached they took turns, and a list screen (Quest shop,
+ * stage list, character list) paid two VirtualQuery system calls for every string it drew, every frame. */
+#define RD_SLOTS 8
+static const char *g_rd_lo[RD_SLOTS], *g_rd_hi[RD_SLOTS];
+static int g_rd_next;
+static unsigned long long g_rd_queries;        /* VirtualQuery calls (the perf line in d5auto.log) */
 
 static int text_readable(const void *p) {
     const char *c = (const char *)p;
     if ((unsigned long long)c < 0x10000ULL || (unsigned long long)c >= 0x7fffffff0000ULL) return 0;
-    if (c >= g_rd_lo && c < g_rd_hi) return 1;
+    for (int i = 0; i < RD_SLOTS; i++)
+        if (c >= g_rd_lo[i] && c < g_rd_hi[i]) return 1;
     MEMORY_BASIC_INFORMATION mi;
+    g_rd_queries++;
     if (!VirtualQuery(c, &mi, sizeof mi) || mi.State != MEM_COMMIT) return 0;
     DWORD pr = mi.Protect & 0xff;
     if (mi.Protect & (PAGE_GUARD | PAGE_NOACCESS) || pr == PAGE_EXECUTE) return 0;
-    g_rd_lo = (const char *)mi.BaseAddress;
-    g_rd_hi = g_rd_lo + mi.RegionSize;
+    int k = g_rd_next;
+    g_rd_next = (g_rd_next + 1) % RD_SLOTS;
+    g_rd_lo[k] = (const char *)mi.BaseAddress;
+    g_rd_hi[k] = g_rd_lo[k] + mi.RegionSize;
     return 1;
+}
+
+/* a region the game frees (heap blocks given back) must not stay cached as readable: forgotten every second */
+static void text_readable_forget(void) {
+    for (int i = 0; i < RD_SLOTS; i++) g_rd_lo[i] = g_rd_hi[i] = NULL;
 }
 
 static void text_note(int x, int y, int a3, void *a4, unsigned char *rsp0) {
