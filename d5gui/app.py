@@ -22,6 +22,7 @@ PAGES = [
     ("CONTENT", "outfits", "👗  Outfits", "outfits", "OutfitsPage"),
     ("CONTENT", "database", "📊  Database Editor", "database", "DatabasePage"),
     ("CONTENT", "skills", "✨  Skills && Animations", "skills", "SkillsPage"),
+    ("CONTENT", "shapes", "🟥  Area Shapes", "shapes", "AreaShapesPage"),
     ("CONTENT", "dialogue", "💬  Dialogue && Text", "dialogue", "DialoguePage"),
     ("CONTENT", "stages", "🗺  Stages && Maps", "stages", "StagesPage"),
     ("ART", "sprites", "🎨  Sprites && Colors", "sprites", "SpritesPage"),

@@ -129,6 +129,10 @@ class SearchCombo(QComboBox):
 
     def set_value(self, v):
         self._value = v
+        if v is None:                          # (several values: the box starts empty)
+            self.setCurrentIndex(-1)
+            self.setEditText("")
+            return
         m = self.model()
         idx = getattr(m, "_d5_index", None)
         if idx is None:  # value -> row map, built once per shared model
@@ -146,8 +150,10 @@ class SearchCombo(QComboBox):
 
 
 class MapCanvas(QGraphicsView):
-    cell_clicked = pyqtSignal(int, int, object)   # x, y, mouse button
+    cell_clicked = pyqtSignal(int, int, object)   # x, y, mouse button (keyboard modifiers: self.mods)
     cell_dragged = pyqtSignal(int, int)
+    band_selected = pyqtSignal(int, int, int, int, bool)   # x0, y0, x1, y1 panels, add to the selection (Shift+drag)
+    key_pressed = pyqtSignal(object)              # a key the page may use (the event; accept it to keep it)
     redrawn = pyqtSignal()                        # after every redraw (the 3D view shows the same map and selection)
 
     def __init__(self):
@@ -157,11 +163,31 @@ class MapCanvas(QGraphicsView):
         self.setBackgroundBrush(QColor(14, 12, 20))
         self.pkg = None
         self.base = None
-        self.selected = None
+        self.selected = None                    # the unit the inspector shows (the last one clicked)
+        self.multi = set()                      # every selected unit (selected among them); more than one: a group
+        self.mods = Qt.KeyboardModifier.NoModifier
+        self.band = None                        # (x0, y0, x1, y1) while Shift+dragging a selection box
         self.names = {}
         self.mid = 0
         self._drag = False
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.visit = mapfile.APPEARS_FIRST      # the visit shown (None = every unit of every visit)
+
+    @property
+    def selected(self):
+        return self._selected
+
+    @selected.setter
+    def selected(self, v):                      # one unit chosen the usual way: the group is that unit
+        self._selected = v
+        self.multi = {v} if v is not None else set()
+
+    def select_group(self, members, primary=None):
+        members = set(members)
+        if primary not in members:
+            primary = min(members) if members else None
+        self._selected = primary
+        self.multi = members
 
     def visible(self, u):
         return self.visit is None or u.shown_in(self.visit)
@@ -223,7 +249,11 @@ class MapCanvas(QGraphicsView):
             k = stacked[(u.x, u.y)] = stacked.get((u.x, u.y), -1) + 1     # (all visits shown: side by side)
             cx, cy = u.x * CELL + CELL / 2 + 7 * k, u.y * CELL + CELL / 2 + 5 * k
             sel = i == self.selected
-            pen = QPen(QColor("#ffffff") if sel else QColor(0, 0, 0), 3 if sel else 1)
+            grp = i in self.multi and len(self.multi) > 1
+            if grp:                                     # a group member: a gold frame around its panel
+                sc.addRect(QRectF(u.x * CELL + 2, u.y * CELL + 2, CELL - 4, CELL - 4), QPen(QColor("#ffd34f"), 2))
+            pen = QPen(QColor("#ffffff") if sel else QColor("#ffd34f") if grp else QColor(0, 0, 0),
+                       3 if sel or grp else 1)
             if u.is_geo_symbol:
                 col = GEO_COLORS.get(u.geo_color if u.size == mapfile.RECORD_SIZE else 0, ("", QColor(240, 240, 240)))[1]
                 if col.alpha() == 0:
@@ -248,6 +278,11 @@ class MapCanvas(QGraphicsView):
                                      QFont("Segoe UI", 8, QFont.Weight.Bold))
                 b.setBrush(QBrush(QColor("#ffd34f")))
                 b.setPos(cx + 6, cy - 16)
+        if self.band:
+            x0, y0, x1, y1 = self.band
+            sc.addRect(QRectF(min(x0, x1) * CELL, min(y0, y1) * CELL, (abs(x1 - x0) + 1) * CELL,
+                              (abs(y1 - y0) + 1) * CELL), QPen(QColor("#ffd34f"), 2, Qt.PenStyle.DashLine),
+                       QBrush(QColor(255, 211, 79, 40)))
         sc.setSceneRect(QRectF(-10, -10, W * CELL + 20, H * CELL + 20))
 
     def _cell(self, e):
@@ -257,17 +292,40 @@ class MapCanvas(QGraphicsView):
     def mousePressEvent(self, e):
         if not self.pkg:
             return
+        self.setFocus()
         x, y = self._cell(e)
+        self.mods = e.modifiers()
+        if e.button() == Qt.MouseButton.LeftButton and self.mods & Qt.KeyboardModifier.ShiftModifier:
+            self.band = (x, y, x, y)                # Shift+drag: a selection box
+            self.redraw()
+            return
         self._drag = e.button() == Qt.MouseButton.LeftButton
         self.cell_clicked.emit(x, y, e.button())
 
     def mouseMoveEvent(self, e):
+        if self.band and self.pkg:
+            x, y = self._cell(e)
+            if (x, y) != self.band[2:]:
+                self.band = self.band[:2] + (x, y)
+                self.redraw()
+            return
         if self._drag and self.pkg:
             x, y = self._cell(e)
             self.cell_dragged.emit(x, y)
 
     def mouseReleaseEvent(self, e):
         self._drag = False
+        if self.band:
+            x0, y0, x1, y1 = self.band
+            self.band = None
+            add = bool(e.modifiers() & Qt.KeyboardModifier.ControlModifier)
+            self.band_selected.emit(min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1), add)
+
+    def keyPressEvent(self, e):
+        e.setAccepted(False)
+        self.key_pressed.emit(e)
+        if not e.isAccepted():
+            super().keyPressEvent(e)
 
     def wheelEvent(self, e):
         f = 1.15 if e.angleDelta().y() > 0 else 1 / 1.15
@@ -391,6 +449,8 @@ class StagesPage(QWidget):
         self.canvas = MapCanvas()
         self.canvas.cell_clicked.connect(self._click)
         self.canvas.cell_dragged.connect(self._drag)
+        self.canvas.band_selected.connect(self._band)
+        self.canvas.key_pressed.connect(self._view_key)
         self.views = QStackedWidget()
         self.views.addWidget(self.canvas)
         self.view3d = None
@@ -656,6 +716,7 @@ class StagesPage(QWidget):
         self.canvas.selected = None
         self._inspect(None)
         self._set_status()
+        self._history_reset()
         self.terrain_missing = False
         if self.build is not None:
             if self.lib is None:
@@ -807,6 +868,7 @@ class StagesPage(QWidget):
     def _set_dirty(self):
         self.dirty = True
         self._set_status()
+        self._history_push()
 
     def _set_status(self):
         self.status.setText("● unsaved changes" if self.dirty else "")
@@ -1083,6 +1145,37 @@ class StagesPage(QWidget):
     def _view_key(self, e):
         if self.builder.isVisible() and self.builder.key(e):
             e.accept()
+            return
+        if self.pkg and self._selection_key(e):
+            e.accept()
+
+    def _selection_key(self, e):
+        """keys of the unit tools: Delete, Ctrl+A / D / Z / Y, Esc, the arrows (move the selection one panel)"""
+        k, mods = e.key(), e.modifiers()
+        ctrl = bool(mods & Qt.KeyboardModifier.ControlModifier)
+        if ctrl and k == Qt.Key.Key_Z:
+            self.undo()
+        elif ctrl and k == Qt.Key.Key_Y:
+            self.redo()
+        elif self.tool.checkedId() != 0:
+            return False
+        elif ctrl and k == Qt.Key.Key_A:
+            self.select_all()
+        elif k == Qt.Key.Key_Escape:
+            self.canvas.selected = None
+            self._after_selection()
+        elif k in (Qt.Key.Key_Delete, Qt.Key.Key_Backspace) and self.canvas.multi:
+            self._delete_selection()
+        elif ctrl and k == Qt.Key.Key_D and self.canvas.multi:
+            self._dup_selection()
+        elif k in (Qt.Key.Key_Left, Qt.Key.Key_Right, Qt.Key.Key_Up, Qt.Key.Key_Down) and self.canvas.multi:
+            dx, dy = {Qt.Key.Key_Left: (-1, 0), Qt.Key.Key_Right: (1, 0), Qt.Key.Key_Up: (0, -1),
+                      Qt.Key.Key_Down: (0, 1)}[k]
+            if not self._move_selection(dx, dy):
+                self.ws.log("Can't move the selection there (off the map, a hole, or another unit's panel).")
+        else:
+            return False
+        return True
 
     def _unit_look(self, u):
         """what a unit of the map is drawn with in the 3D view: (sprite number, palette), or ("model", obf name)
@@ -1121,12 +1214,193 @@ class StagesPage(QWidget):
             return
         u = self.pkg.chr.units[idx]
         if self.tool.checkedId() == 0:
-            self.canvas.selected = idx
+            self._pick_unit(idx)
             self._drag_from = idx
-            self._inspect(idx)
-            self.canvas.redraw()
+            self._drag_cell = (u.x, u.y)
+            self._after_selection()
         else:
             self._click(u.x, u.y, button)
+
+    # ---- the selection (one unit, or a group)
+    def _pick_unit(self, idx):
+        """a click on unit `idx` (None: an empty panel): Ctrl adds / takes it out, a click on a member of the
+        group keeps the group (to drag it), else it is the only one selected"""
+        ctrl = bool(self.canvas.mods & Qt.KeyboardModifier.ControlModifier)
+        group = set(self.canvas.multi)
+        if ctrl:
+            if idx is None:
+                return
+            if idx in group:
+                group.discard(idx)
+                self.canvas.select_group(group, self.canvas.selected if self.canvas.selected != idx else None)
+            else:
+                group.add(idx)
+                self.canvas.select_group(group, idx)
+        elif idx is not None and idx in group and len(group) > 1:
+            self.canvas.select_group(group, idx)
+        else:
+            self.canvas.selected = idx
+
+    def _after_selection(self):
+        self.canvas.redraw()
+        self._inspect(self.canvas.selected)
+
+    def _band(self, x0, y0, x1, y1, add):
+        if not self.pkg or self.tool.checkedId() != 0:
+            return
+        inside = {i for i, u in enumerate(self.pkg.chr.units)
+                  if u.on_map and self.canvas.visible(u) and x0 <= u.x <= x1 and y0 <= u.y <= y1}
+        group = (set(self.canvas.multi) | inside) if add else inside
+        self.canvas.select_group(group, self.canvas.selected if self.canvas.selected in group else None)
+        self._after_selection()
+        if len(group) > 1:
+            self.ws.log(f"{len(group)} units selected: drag one to move them all, the arrows nudge them, Delete "
+                        "removes them; the panel on the right edits them together.")
+
+    def select_all(self):
+        if not self.pkg:
+            return
+        group = {i for i, u in enumerate(self.pkg.chr.units) if u.on_map and self.canvas.visible(u)}
+        self.canvas.select_group(group)
+        self._after_selection()
+
+    def select_like(self, what):
+        """every unit shown like the inspected one: 'class' (same class / character), 'team', 'enemies'"""
+        units = self.pkg.chr.units
+        ref = units[self.canvas.selected] if self.canvas.selected is not None else None
+        shown = [i for i, u in enumerate(units) if u.on_map and self.canvas.visible(u)]
+        if what == "enemies":
+            group = {i for i in shown if not units[i].is_object and
+                     (units[i].size != mapfile.RECORD_SIZE or units[i].team == 1)}
+        elif ref is None:
+            return
+        elif what == "class":
+            group = {i for i in shown if units[i].char_id == ref.char_id}
+        else:
+            group = {i for i in shown if units[i].size == mapfile.RECORD_SIZE and ref.size == mapfile.RECORD_SIZE
+                     and units[i].team == ref.team}
+        self.canvas.select_group(group, self.canvas.selected)
+        self._after_selection()
+
+    def _move_selection(self, dx, dy):
+        """move every selected unit by (dx, dy) panels: all of them, or none (a hole, the edge, another unit)"""
+        units = self.pkg.chr.units
+        group = [i for i in self.canvas.multi if 0 <= i < len(units) and units[i].on_map]
+        if not group or (dx, dy) == (0, 0):
+            return False
+        hb = self.pkg.hex.blocks[0]
+        for i in group:
+            u = units[i]
+            x, y = u.x + dx, u.y + dy
+            if not self._in_grid(x, y) or not hb.has_panel(x, y):
+                return False
+            visits = ([mapfile.APPEARS_FIRST, mapfile.APPEARS_REVISIT] if u.appears == mapfile.APPEARS_ALWAYS
+                      else [u.appears])
+            for j, v in enumerate(units):
+                if j not in self.canvas.multi and v.x == x and v.y == y and any(v.shown_in(w) for w in visits):
+                    return False
+        for i in group:
+            units[i].x += dx
+            units[i].y += dy
+        self._set_dirty()
+        self.canvas.redraw()
+        self._inspect(self.canvas.selected)
+        return True
+
+    def _delete_selection(self):
+        idx = sorted(self.canvas.multi, reverse=True)
+        if len(idx) > 1 and QMessageBox.question(self, "Delete units", f"Delete the {len(idx)} selected units?") \
+                != QMessageBox.StandardButton.Yes:
+            return
+        for i in idx:
+            if 0 <= i < len(self.pkg.chr.units):
+                del self.pkg.chr.units[i]
+        self.canvas.selected = None
+        self._set_dirty()
+        self.canvas.redraw()
+        self._inspect(None)
+        self._title()
+
+    def _dup_selection(self):
+        """copies of the selected units, the whole group shifted to the nearest free place"""
+        units = self.pkg.chr.units
+        group = [i for i in sorted(self.canvas.multi) if 0 <= i < len(units) and units[i].on_map]
+        if not group:
+            return
+        if len(group) == 1:
+            self._dup(group[0])
+            return
+        hb = self.pkg.hex.blocks[0]
+        taken = {(u.x, u.y) for u in units}
+        for d in range(1, 12):
+            for dx, dy in [(d, 0), (0, d), (-d, 0), (0, -d), (d, d), (-d, -d), (d, -d), (-d, d)]:
+                spots = [(units[i].x + dx, units[i].y + dy) for i in group]
+                if all(self._in_grid(x, y) and hb.has_panel(x, y) and (x, y) not in taken for x, y in spots):
+                    n0 = len(units)
+                    for i, (x, y) in zip(group, spots):
+                        u = units[i]
+                        self.pkg.chr.add_unit(u.char_id, x, y, u.level, template=u, appears=u.appears)
+                    self.canvas.select_group(range(n0, len(self.pkg.chr.units)))
+                    self._set_dirty()
+                    self._after_selection()
+                    self._title()
+                    return
+        QMessageBox.information(self, "Duplicate", "No free place for a copy of the whole group nearby.")
+
+    # ---- undo / redo (units and Geo Panels of the open map)
+    def _snapshot(self):
+        try:
+            self.pkg.commit()
+            return (self.pkg.get("chr"), self.pkg.get("gop"))
+        except Exception:
+            return None
+
+    def _history_reset(self):
+        self._undo, self._redo = [], []
+        self._last_snap = self._snapshot() if self.pkg else None
+
+    def _history_push(self):
+        if not self.pkg or getattr(self, "_restoring", False):
+            return
+        snap = self._snapshot()
+        last = getattr(self, "_last_snap", None)
+        if snap is None or snap == last:
+            return
+        if last is not None:
+            self._undo.append(last)
+            del self._undo[:-100]
+        self._redo = []
+        self._last_snap = snap
+
+    def _restore(self, snap):
+        self._restoring = True
+        try:
+            chr_b, gop_b = snap
+            self.pkg.set("chr", chr_b)
+            self.pkg.set("gop", gop_b)
+            self._last_snap = snap
+            n = len(self.pkg.chr.units)
+            keep = {i for i in self.canvas.multi if i < n}
+            self.canvas.select_group(keep, self.canvas.selected if self.canvas.selected in keep else None)
+            self.dirty = True
+            self._set_status()
+            self.canvas.redraw()
+            self._inspect(self.canvas.selected)
+            self._title()
+        finally:
+            self._restoring = False
+
+    def undo(self):
+        if not self.pkg or not getattr(self, "_undo", None):
+            return
+        self._redo.append(self._last_snap)
+        self._restore(self._undo.pop())
+
+    def redo(self):
+        if not self.pkg or not getattr(self, "_redo", None):
+            return
+        self._undo.append(self._last_snap)
+        self._restore(self._redo.pop())
 
     def _click(self, x, y, button):
         if not self.pkg or not self._in_grid(x, y):
@@ -1136,8 +1410,9 @@ class StagesPage(QWidget):
             self.builder.click(x, y, button)
             return
         if tool == 0:
-            self.canvas.selected = self._unit_at(x, y)
+            self._pick_unit(self._unit_at(x, y))
             self._drag_from = self.canvas.selected
+            self._drag_cell = (x, y)
             self._inspect(self.canvas.selected)
         elif tool in (1, 2):
             appears = self._new_appears()
@@ -1183,6 +1458,10 @@ class StagesPage(QWidget):
         if tool == 3:
             self._paint(x, y)
             self.canvas.redraw()
+        elif tool == 0 and len(self.canvas.multi) > 1 and getattr(self, "_drag_from", None) in self.canvas.multi:
+            lx, ly = getattr(self, "_drag_cell", (x, y))      # the whole group follows the unit dragged
+            if (x, y) != (lx, ly) and self._move_selection(x - lx, y - ly):
+                self._drag_cell = (x, y)
         elif tool == 0 and self.canvas.selected is not None:
             u = self.pkg.chr.units[self.canvas.selected]
             if (u.x, u.y) != (x, y) and not self._occupied(x, y, u.appears, skip=self.canvas.selected):
@@ -1224,6 +1503,9 @@ class StagesPage(QWidget):
 
     def _inspect(self, idx):
         self._clear_inspector()
+        if self.pkg and len(self.canvas.multi) > 1:
+            self._inspect_group()
+            return
         if idx is None or not self.pkg:
             box = QGroupBox("Stage")
             f = QFormLayout(box)
@@ -1428,6 +1710,180 @@ class StagesPage(QWidget):
         self._set_dirty()
         if redraw:
             self.canvas.redraw()
+
+    # ---- several units at once
+    def _group_units(self):
+        units = self.pkg.chr.units
+        return [units[i] for i in sorted(self.canvas.multi) if 0 <= i < len(units)]
+
+    def _group_set(self, fn, what):
+        """fn(unit) on every selected unit that has the field (old 436-byte records lack most)"""
+        n = 0
+        for u in self._group_units():
+            try:
+                if fn(u) is not False:
+                    n += 1
+            except (AttributeError, struct.error, ValueError, OverflowError):
+                pass
+        if n:
+            self._set_dirty()
+            self.canvas.redraw()
+            self.ws.log(f"{what}: {n} unit(s)")
+        return n
+
+    def _inspect_group(self):
+        units = self._group_units()
+        full = [u for u in units if u.size == mapfile.RECORD_SIZE]
+        from collections import Counter
+        names = Counter(self.char_names.get(u.char_id, str(u.char_id)).split(" (")[0] for u in units)
+        box = QGroupBox(f"{len(units)} units selected")
+        f = QFormLayout(box)
+        f.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+        who = QLabel(", ".join(f"{n} ×{c}" if c > 1 else n for n, c in names.most_common(8)) +
+                     (" …" if len(names) > 8 else ""))
+        who.setWordWrap(True)
+        f.addRow("Who", who)
+        lv = [u.level for u in units]
+        f.addRow("Levels", QLabel(f"{min(lv)} – {max(lv)}" if min(lv) != max(lv) else str(lv[0])))
+        tip = QLabel("Drag one of them to move them all (or the arrow keys); Delete removes them, Ctrl+D copies "
+                     "them, Ctrl+Z undoes. Ctrl+click adds or takes out a unit, Shift+drag selects a box.")
+        tip.setWordWrap(True)
+        tip.setObjectName("muted")
+        f.addRow(tip)
+        self.insp_lay.addWidget(box)
+
+        ed = QGroupBox("Change them all")
+        ef = QFormLayout(ed)
+        ef.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+        cc = SearchCombo(self.char_choices)
+        cc.set_value(units[0].char_id if len({u.char_id for u in units}) == 1 else None)
+        b = QPushButton("Set")
+        b.clicked.connect(lambda: cc.currentText().strip() and cc.value() and self._group_set(
+            lambda u: setattr(u, "char_id", int(cc.value())), f"class / character {cc.value()}"))
+        ef.addRow("Class / character", self._row(cc, b))
+        # level: set, add, or scale
+        lvl = QSpinBox()
+        lvl.setRange(-9999, 9999)
+        lvl.setValue(max(lv))
+        mode = QComboBox()
+        for k, lab in (("set", "set to"), ("add", "add"), ("pct", "% of their own")):
+            mode.addItem(lab, k)
+        b = QPushButton("Apply")
+
+        def set_levels():
+            v, m = lvl.value(), mode.currentData()
+
+            def one(u):
+                new = v if m == "set" else u.level + v if m == "add" else round(u.level * v / 100)
+                u.level = max(1, min(9999, int(new)))
+            self._group_set(one, f"level {mode.currentText()} {v}")
+            self._inspect(self.canvas.selected)
+        b.clicked.connect(set_levels)
+        ef.addRow("Level", self._row(mode, lvl, b))
+        fc = QComboBox()
+        fc.addItem("—", None)
+        for k, v in FACING.items():
+            fc.addItem(v, k)
+        fc.activated.connect(lambda _: fc.currentData() is not None and self._group_set(
+            lambda u: setattr(u, "facing", fc.currentData()), f"facing {fc.currentText()}"))
+        ef.addRow("Facing", fc)
+        if full:
+            ap = QComboBox()
+            ap.addItem("—", None)
+            for k, v in mapfile.APPEARS.items():
+                ap.addItem(v, k)
+            ap.activated.connect(lambda _: ap.currentData() is not None and self._group_set(
+                lambda u: setattr(u, "appears", ap.currentData()), f"appears on: {ap.currentText()}"))
+            ef.addRow("Appears on", ap)
+            tc = QComboBox()
+            tc.addItem("—", None)
+            for k, v in TEAMS.items():
+                tc.addItem(v, k)
+            tc.activated.connect(lambda _: tc.currentData() is not None and self._group_set(
+                lambda u: setattr(u, "team", tc.currentData()), f"team {tc.currentText()}"))
+            ef.addRow("Team", tc)
+            ai = QSpinBox()
+            ai.setRange(-1, 999)
+            ai.setValue(full[0].ai)
+            b = QPushButton("Set")
+            b.clicked.connect(lambda: self._group_set(lambda u: setattr(u, "ai", ai.value()), f"AI {ai.value()}"))
+            ef.addRow("AI pattern", self._row(ai, b))
+        self.insp_lay.addWidget(ed)
+
+        if full:
+            eq = QGroupBox("Equipment of them all")
+            eg = QGridLayout(eq)
+            for k, lab in enumerate(["Weapon", "Armor 1", "Armor 2", "Armor 3", "Armor 4"]):
+                ids = {u.item(k)[0] for u in full}
+                c = SearchCombo(self.item_choices)
+                c.set_value(ids.pop() if len(ids) == 1 else None)
+                lvb = QSpinBox()
+                lvb.setRange(0, 9999)
+                lvb.setPrefix("Lv ")
+                lvb.setSpecialValueText("Lv –")
+                ra = QSpinBox()
+                ra.setRange(-1, enemyitems.RARITY_MAX)
+                ra.setSpecialValueText("Random")
+                ra.setValue(-1)
+                b = QPushButton("Set")
+                b.setToolTip("Every selected unit gets this item, level and rarity in this slot")
+                b.clicked.connect(lambda _, k=k, c=c, lvb=lvb, ra=ra: c.currentText().strip() and self._group_set(
+                    lambda u: u.set_item(k, item_id=int(c.value() or 0), level=lvb.value(),
+                                         rarity=None if ra.value() < 0 else ra.value()),
+                    f"{['weapon', 'armor 1', 'armor 2', 'armor 3', 'armor 4'][k]} {c.value()}"))
+                eg.addWidget(QLabel(lab), k * 2, 0)
+                eg.addWidget(c, k * 2, 1, 1, 3)
+                eg.addWidget(lvb, k * 2 + 1, 1)
+                eg.addWidget(ra, k * 2 + 1, 2)
+                eg.addWidget(b, k * 2 + 1, 3)
+            self.insp_lay.addWidget(eq)
+            sm = QGroupBox("Stat modifiers of them all (%)")
+            smg = QGridLayout(sm)
+            spins = []
+            for k, lab in enumerate(["HP", "SP", "ATK", "DEF", "INT", "RES", "HIT", "SPD"]):
+                sp = QSpinBox()
+                sp.setRange(-100, 32767)
+                vals = {u.stat_mods[k] for u in full}
+                sp.setValue(vals.pop() if len(vals) == 1 else 0)
+                spins.append(sp)
+                smg.addWidget(QLabel(lab), k // 4 * 2, k % 4)
+                smg.addWidget(sp, k // 4 * 2 + 1, k % 4)
+            b = QPushButton("Set them all")
+            b.clicked.connect(lambda: self._group_set(
+                lambda u: setattr(u, "stat_mods", [sp.value() for sp in spins]), "stat modifiers"))
+            smg.addWidget(b, 4, 0, 1, 4)
+            self.insp_lay.addWidget(sm)
+
+        sel = QGroupBox("Select")
+        sl = QHBoxLayout(sel)
+        for lab, what, tip in (("Same class", "class", "Every unit shown of the inspected unit's class"),
+                               ("Same team", "team", "Every unit shown of its team"),
+                               ("All enemies", "enemies", "Every enemy shown")):
+            b = QPushButton(lab)
+            b.setToolTip(tip)
+            b.clicked.connect(lambda _, w=what: self.select_like(w))
+            sl.addWidget(b)
+        self.insp_lay.addWidget(sel)
+        row = QHBoxLayout()
+        w = QWidget()
+        w.setLayout(row)
+        b = QPushButton("⧉ Duplicate them")
+        b.clicked.connect(self._dup_selection)
+        row.addWidget(b)
+        b = QPushButton(f"🗑 Delete {len(units)} units")
+        b.setObjectName("danger")
+        b.clicked.connect(self._delete_selection)
+        row.addWidget(b)
+        self.insp_lay.addWidget(w)
+        self.insp_lay.addStretch(1)
+
+    def _row(self, *widgets):
+        w = QWidget()
+        h = QHBoxLayout(w)
+        h.setContentsMargins(0, 0, 0, 0)
+        for x in widgets:
+            h.addWidget(x, 1 if isinstance(x, (QComboBox,)) else 0)
+        return w
 
     def _set_item(self, u, k, **change):
         before = u.item(k)

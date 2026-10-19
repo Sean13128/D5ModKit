@@ -20,6 +20,8 @@
  *   focus on|off                  the game believes it has focus (GetForegroundWindow) and ignores the real
  *                                 keyboard, so it can be driven while another window is in front
  *   set NAME VALUE                tweak a setting at run time (sp_saving, kill_margin, deploy, ...)
+ *   prof MS                       sample the game thread for MS ms: where its time goes (leaf / inclusive)
+ *   mem                           the process's memory, handles, heaps
  */
 #define CTL_PIPE "\\\\.\\pipe\\d5auto_ctl"
 
@@ -709,6 +711,8 @@ static void ctl_finish(void) {
     SetEvent(g_cmd_done);
 }
 
+static void fx_cmd(SB *o, int argc, char **argv);   /* d5fx.inc.c */
+
 /* runs on the game thread (d5_frame) */
 static void ctl_tick(void) {
     InterlockedIncrement(&g_frame);
@@ -808,6 +812,8 @@ static void ctl_tick(void) {
             sbf(o, ",\"%08x\"]", l[i].color);
         }
         sb_put(o, "]}", 2);
+    } else if (!strcmp(c, "fx")) {                 /* fx [stress N ROOM]: the on-demand effect models (d5fx.inc.c) */
+        fx_cmd(o, argc, argv);
     } else if (!strcmp(c, "hold") && argc > 2) {   /* hold KEY 1 / hold KEY 0 */
         int d = dik_of(argv[1]);
         if (d < 0) sbf(o, "{\"error\":\"unknown key\"}");
@@ -925,6 +931,134 @@ static const char *rest_after(const char *line, int n) {
     return p;
 }
 
+/* ------------------------------------------------------------------ sampling profiler (prof MS)
+ * The game thread is stopped about once a millisecond for MS milliseconds: where it is (the leaf: exe addresses as
+ * static VAs, others as module+offset) and which exe functions it is in (return addresses on its stack that
+ * follow a call, the first 8 counted once per sample: 'inclusive').  No unwinding (no loader locks): the stack
+ * scan can name a stale return address now and then, the leaf never lies. */
+typedef struct { unsigned long long a; unsigned n; } PFHIT;
+#define PF_CAP 8192
+static PFHIT g_pf_leaf[PF_CAP], g_pf_incl[PF_CAP];
+
+static void pf_count(PFHIT *t, unsigned long long a) {
+    unsigned h = (unsigned)((a * 0x9E3779B97F4A7C15ULL) >> 51) & (PF_CAP - 1);
+    for (int i = 0; i < PF_CAP; i++, h = (h + 1) & (PF_CAP - 1)) {
+        if (t[h].a == a) { t[h].n++; return; }
+        if (!t[h].a) { t[h].a = a; t[h].n = 1; return; }
+    }
+}
+static int pf_cmp(const void *x, const void *y) {
+    unsigned a = ((const PFHIT *)x)->n, b = ((const PFHIT *)y)->n;
+    return a < b ? 1 : a > b ? -1 : 0;
+}
+/* a return address in the exe: the bytes before it are a call */
+static int pf_after_call(const unsigned char *r) {
+    if (r < g_base + 0x1000 || r >= g_base + g_image_size) return 0;
+    if (r[-5] == 0xe8) return 1;                                   /* call rel32 */
+    if (r[-6] == 0xff && r[-5] == 0x15) return 1;                  /* call [rip + x] */
+    if (r[-2] == 0xff && (r[-1] & 0xf8) == 0xd0) return 1;         /* call reg */
+    if (r[-3] == 0x41 && r[-2] == 0xff && (r[-1] & 0xf8) == 0xd0) return 1;
+    if (r[-3] == 0xff && (r[-2] & 0x38) == 0x10 && (r[-2] & 0xc0) == 0x40) return 1;   /* call [reg + d8] */
+    if (r[-6] == 0xff && (r[-5] & 0x38) == 0x10 && (r[-5] & 0xc0) == 0x80) return 1;   /* call [reg + d32] */
+    return 0;
+}
+static void pf_put_addr(SB *o, unsigned long long a) {
+    if (a >= 0x140000000ULL && a < 0x140000000ULL + g_image_size) { sbf(o, "\"0x%llx\"", a); return; }
+    HMODULE m = NULL;
+    char name[MAX_PATH] = "?";
+    if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                           (LPCSTR)a, &m) && m) {
+        GetModuleFileNameA(m, name, sizeof name);
+        char *s = strrchr(name, '\\');
+        if (s) memmove(name, s + 1, strlen(s));
+        sbf(o, "\"%s+0x%llx\"", name, a - (unsigned long long)m);
+    } else sbf(o, "\"0x%llx\"", a);
+}
+static volatile DWORD g_game_tid;
+static volatile LONG g_pf_sampling;            /* a profile is being taken (harness or perf report) */
+
+static void ctl_prof(SB *o, int ms) {
+    if (!g_game_tid) { sbf(o, "{\"error\":\"no game frame yet\"}"); return; }
+    HANDLE th = OpenThread(THREAD_SUSPEND_RESUME | THREAD_GET_CONTEXT | THREAD_QUERY_INFORMATION, FALSE, g_game_tid);
+    if (!th) { sbf(o, "{\"error\":\"OpenThread %lu\"}", GetLastError()); return; }
+    memset(g_pf_leaf, 0, sizeof g_pf_leaf);
+    memset(g_pf_incl, 0, sizeof g_pf_incl);
+    LARGE_INTEGER f, t0, t;
+    QueryPerformanceFrequency(&f);
+    QueryPerformanceCounter(&t0);
+    LONG fr0 = g_frame;
+    int samples = 0, in_exe = 0;
+    for (;;) {
+        QueryPerformanceCounter(&t);
+        if ((t.QuadPart - t0.QuadPart) * 1000 / f.QuadPart >= ms) break;
+        if (SuspendThread(th) == (DWORD)-1) break;
+        CONTEXT cx;
+        memset(&cx, 0, sizeof cx);
+        cx.ContextFlags = CONTEXT_CONTROL | CONTEXT_INTEGER;
+        if (GetThreadContext(th, &cx)) {
+            samples++;
+            unsigned long long leaf = to_static(cx.Rip);
+            if (leaf != cx.Rip) in_exe++;
+            pf_count(g_pf_leaf, leaf);
+            unsigned long long seen[8];
+            int ns = 0;
+            if (leaf != cx.Rip) seen[ns++] = leaf;     /* the leaf counts as 'in' its own function too */
+            const unsigned long long *sp = (const unsigned long long *)cx.Rsp;
+            MEMORY_BASIC_INFORMATION mi;
+            if (VirtualQuery(sp, &mi, sizeof mi) && mi.State == MEM_COMMIT) {
+                const unsigned long long *end = (const unsigned long long *)((char *)mi.BaseAddress + mi.RegionSize);
+                for (int i = 0; sp + i < end && i < 2048 && ns < 8; i++) {
+                    const unsigned char *r = (const unsigned char *)sp[i];
+                    if (!pf_after_call(r)) continue;
+                    seen[ns++] = to_static((DWORD64)r);
+                }
+            }
+            for (int i = 0; i < ns; i++) {
+                int dup = 0;
+                for (int j = 0; j < i; j++) dup |= seen[j] == seen[i];
+                if (!dup) pf_count(g_pf_incl, seen[i]);
+            }
+        }
+        ResumeThread(th);
+        LARGE_INTEGER w0, w;                       /* ~1 ms to the next sample (Sleep(1) may be 15 ms) */
+        QueryPerformanceCounter(&w0);
+        do { YieldProcessor(); QueryPerformanceCounter(&w); } while ((w.QuadPart - w0.QuadPart) * 1000 < f.QuadPart);
+    }
+    CloseHandle(th);
+    LONG frames = g_frame - fr0;
+    qsort(g_pf_leaf, PF_CAP, sizeof(PFHIT), pf_cmp);
+    qsort(g_pf_incl, PF_CAP, sizeof(PFHIT), pf_cmp);
+    sbf(o, "{\"ok\":1,\"ms\":%d,\"frames\":%ld,\"samples\":%d,\"in_exe\":%d,\"leaf\":[", ms, (long)frames, samples, in_exe);
+    for (int i = 0; i < 60 && g_pf_leaf[i].n; i++) {
+        sbf(o, "%s[", i ? "," : "");
+        pf_put_addr(o, g_pf_leaf[i].a);
+        sbf(o, ",%u]", g_pf_leaf[i].n);
+    }
+    sb_put(o, "],\"incl\":[", 10);
+    for (int i = 0; i < 80 && g_pf_incl[i].n; i++)
+        sbf(o, "%s[\"0x%llx\",%u]", i ? "," : "", g_pf_incl[i].a, g_pf_incl[i].n);
+    sb_put(o, "]}", 2);
+}
+
+/* the process's memory (Task Manager's numbers) */
+typedef struct { DWORD cb, PageFaultCount; SIZE_T PeakWorkingSetSize, WorkingSetSize, QuotaPeakPagedPoolUsage,
+    QuotaPagedPoolUsage, QuotaPeakNonPagedPoolUsage, QuotaNonPagedPoolUsage, PagefileUsage, PeakPagefileUsage,
+    PrivateUsage; } PF_PMC;
+__declspec(dllimport) BOOL WINAPI K32GetProcessMemoryInfo(HANDLE, void *, DWORD);
+static void ctl_mem(SB *o) {
+    PF_PMC pm;
+    memset(&pm, 0, sizeof pm);
+    pm.cb = sizeof pm;
+    K32GetProcessMemoryInfo(GetCurrentProcess(), &pm, sizeof pm);
+    DWORD handles = 0;
+    GetProcessHandleCount(GetCurrentProcess(), &handles);
+    HANDLE heaps[256];
+    DWORD nh = GetProcessHeaps(256, heaps);
+    sbf(o, "{\"ok\":1,\"private_mb\":%.1f,\"working_mb\":%.1f,\"handles\":%lu,\"heaps\":%lu,\"gdi\":%lu,\"user\":%lu}",
+        pm.PrivateUsage / 1048576.0, pm.WorkingSetSize / 1048576.0, handles, nh,
+        GetGuiResources(GetCurrentProcess(), 0), GetGuiResources(GetCurrentProcess(), 1));
+}
+
 /* commands that the pipe thread answers itself (no game-thread work) */
 static int ctl_direct(const char *line, SB *o) {
     char buf[4096], *argv[16];
@@ -934,6 +1068,14 @@ static int ctl_direct(const char *line, SB *o) {
     for (char *t = strtok(buf, " \t\r\n"); t && argc < 16; t = strtok(NULL, " \t\r\n")) argv[argc++] = t;
     if (!argc) return 0;
     if (!strcmp(argv[0], "ping")) { sbf(o, "{\"ok\":1,\"frame\":%ld}", (long)g_frame); return 1; }
+    if (!strcmp(argv[0], "prof")) {
+        int ms = argc > 1 ? atoi(argv[1]) : 2000;
+        if (InterlockedExchange(&g_pf_sampling, 1)) { sbf(o, "{\"error\":\"a profile is running\"}"); return 1; }
+        ctl_prof(o, ms < 50 ? 50 : ms > 20000 ? 20000 : ms);
+        InterlockedExchange(&g_pf_sampling, 0);
+        return 1;
+    }
+    if (!strcmp(argv[0], "mem")) { ctl_mem(o); return 1; }
     if (!strcmp(argv[0], "rd") && argc > 2) {
         unsigned char *a = ctl_addr(strtoull(argv[1], NULL, 16));
         int n = atoi(argv[2]);

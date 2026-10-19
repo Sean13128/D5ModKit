@@ -147,6 +147,11 @@ class CharactersPage(QWidget):
         b.setObjectName("primary")
         b.clicked.connect(self.new_unit)
         ll.addWidget(b)
+        b = QPushButton("🐉 New monster class…")
+        b.setToolTip("A recruitable monster class drawn from a Disgaea RPG monster (ten of them D5 doesn't have), "
+                     "moving like a D5 monster: pick it, check its poses, create")
+        b.clicked.connect(self.new_monster)
+        ll.addWidget(b)
         split.addWidget(left)
 
         mid = QWidget()
@@ -1649,6 +1654,33 @@ class CharactersPage(QWidget):
         w.done.connect(done)
         w.failed.connect(failed)
         w.start()
+
+    def new_monster(self):
+        """the monster wizard (d5gui/monsterwizard.py): a monster class from a Disgaea RPG monster"""
+        if self.svc.dirty_members() and not self.svc.commit_all(self):
+            return
+        from ..monsterwizard import MonsterWizard
+        try:
+            t = self.svc.table("char.dat")
+            names = {int(r["id"]): str(r["name_EN"] or "") for r in t.rows}
+        except Exception:
+            names = {}
+        dlg = MonsterWizard(self, names)
+        if not dlg.exec() or dlg.result_mod is None:
+            return
+        mod, fam = dlg.result_mod, dlg.result_family
+        self.svc.reload()
+        self.ws.file_changed.emit("Anime/")
+        self.ws.mods_changed.emit()
+        self.ws.set_active_mod(mod)
+        self._names = None
+        self._populate()
+        self.select_character(fam)
+        info_box(self, "New monster class",
+                 f"The monster class '{dlg.name.text()}' (class ids {fam}-{fam + 5}) is in its own mod, "
+                 f"'{mod.name}', switched on." + "\n\n" + "Next: give it stats, resistances, skills and evilities on this "
+                 "page, then Install & Play: it is hired at the Netherworld registrar. Check its moves in Sprites & "
+                 "Colors (or tools/qa_sprite.py); if a pose looks wrong, make it again with other roles.")
 
     def _label_of(self, cid):
         try:

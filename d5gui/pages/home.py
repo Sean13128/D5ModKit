@@ -806,6 +806,19 @@ class HomePage(QWidget):
                           ". The game crashes entering a battle with that save: switch those mods on (or pick a "
                           "profile that has them) and install."))
         try:
+            slow = gamecheck.slow_session(self.ws.game_dir) if ok else None
+        except Exception:
+            slow = None
+        if slow:
+            grow = (f" Its memory went from {slow['mem'][0]:.0f} to {slow['mem'][1]:.0f} MB." if slow["mem"] and
+                    slow["mem"][1] - slow["mem"][0] > 300 else "")
+            found.append(("warning", f"The game ran slowly in your last session ({slow['stretches']} stretch"
+                          f"{'es' if slow['stretches'] != 1 else ''} of 10 seconds, frames up to {slow['worst']} ms)."
+                          f"{grow} 'Copy lag report' copies where its time went: send it with your report."))
+        self._lag = slow
+        if not slow and hasattr(self, "lag_btn"):
+            self.lag_btn.hide()
+        try:
             from d5lib import questcheck
             for t in questcheck.problem_texts(self.ws.fs, self.ws.mods.enabled_mods(), self.ws.mods.all_mods()) \
                     if ok else []:
@@ -832,6 +845,25 @@ class HomePage(QWidget):
             lay.insertWidget(lay.indexOf(self.check_label) + 1, self.report_btn)
         if hasattr(self, "report_btn"):
             self.report_btn.setVisible(bool(unknown))
+        if self._lag and not hasattr(self, "lag_btn"):
+            from PyQt6.QtWidgets import QPushButton
+            self.lag_btn = QPushButton("📋  Copy lag report")
+            self.lag_btn.setToolTip("The lines of the game's d5auto.log about slow frames: how slow, the memory, and "
+                                    "where the game spent its time (nothing personal). Send them with your report.")
+            self.lag_btn.clicked.connect(self._copy_lag)
+            lay = self.check_label.parentWidget().layout()
+            lay.insertWidget(lay.indexOf(self.check_label) + 1, self.lag_btn)
+        if hasattr(self, "lag_btn"):
+            self.lag_btn.setVisible(bool(self._lag))
+
+    def _copy_lag(self):
+        from PyQt6.QtWidgets import QApplication
+        from d5lib import version
+        text = f"D5 Mod Kit {version.VERSION} lag report\n" + (getattr(self, "_lag", None) or {}).get("report", "")
+        QApplication.clipboard().setText(text)
+        QMessageBox.information(self, "Lag report copied",
+                                "The report is on the clipboard. Paste it into an issue at "
+                                "github.com/eraser4521/D5ModKit/issues (or send it to the kit's author).")
 
     def _copy_report(self):
         from PyQt6.QtWidgets import QApplication

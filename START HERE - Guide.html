@@ -78,6 +78,7 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
   <a href="#t-blocks">9b · A battlefield out of blocks</a>
   <a href="#t-music">10 · Music and sounds</a>
   <a href="#t-area">10b · A skill's area, numbers and spells</a>
+  <a href="#t-shapes">10c · Area shapes</a>
   <a href="#t-db">11 · Database (items, skills…)</a>
     <a href="#t-class">13 · New classes and monsters</a>
   <a href="#t-share">14 · Sharing your mods</a>
@@ -203,7 +204,8 @@ yet, and new things you make. If none is picked, the kit asks for a name the fir
 <h2 id="pages">The pages, one by one</h2>
 <h3>🧙 Characters &amp; Classes</h3>
 <p>Every character and class: names, stats, aptitudes, movement, weapon mastery, resistances, evilities, learned
-skills, sprite, voice and face picture. <b>✨ New character / class…</b> makes a new unit from any template.</p>
+skills, sprite, voice and face picture. <b>✨ New character / class…</b> makes a new unit from any template,
+<b>🐉 New monster class…</b> a recruitable monster from a Disgaea RPG monster.</p>
 <img class="shot" src="docs/guide/characters.png" alt="Characters page">
 <h3>👗 Outfits</h3>
 <p>All outfits of all mods. <b>✨ New outfit…</b> makes one from a sprite sheet (or from a copy of the character's
@@ -212,7 +214,9 @@ parts.</p>
 <img class="shot" src="docs/guide/outfits.png" alt="Outfits page">
 <h3>📊 Database Editor</h3>
 <p>All 90 game tables as spreadsheets: items, skills, evilities, classes, stages, quests, shops, Dark Assembly…
-Column headers explain each field when you hover them. You can export to CSV and import back.</p>
+Column headers explain each field when you hover them; the record panel shows the selected row as a form, with
+what points at it. <b>⌕ Go to</b> (Ctrl+P) finds any record, <b>✔ Check table</b> finds what would crash the game.
+You can export to CSV and import back.</p>
 <img class="shot" src="docs/guide/database.png" alt="Database page">
 <h3>✨ Skills &amp; Animations</h3>
 <p>What a skill looks like in battle. The <b>🎬 Timeline editor</b> plays the whole skill inside the kit, the
@@ -224,6 +228,9 @@ Characters &amp; Classes page). Give a skill another skill's animation, or put y
 <b>Preview in game</b> sends your edit to the running game without a reinstall. <b>Overloads</b> are here too (the
 Overloads category, <b>⚡ New Overload…</b>): see below.</p>
 <img class="shot" src="docs/guide/skills.png" alt="Skills page">
+<h3>🟥 Area Shapes</h3>
+<p>Every area shape of the game (where skills hit), with the skills that use it, painted panel by panel and numbered
+in the order the targets are hit. Make shapes of your own, give a game shape its panels back.</p>
 <h3>💬 Dialogue &amp; Text</h3>
 <p>Search all 7,000 conversations, edit lines in every language, change speakers, add or remove message boxes,
 and find &amp; replace across the whole game.</p>
@@ -232,7 +239,8 @@ and find &amp; replace across the whole game.</p>
 <p>Battle maps: move, add or delete enemies and change their class, level, equipment and skills. Paint Geo
 Panels, place Geo Symbols, move the base panel. Many stages place other enemies once they are cleared (Dried Up
 Wasteland: Warriors the first time, Prinnies after): <b>Show</b> switches between the first visit and revisits, and
-every unit says which visits it <b>appears on</b>. <b>➕ New stage…</b> starts a stage of your own from any
+every unit says which visits it <b>appears on</b>. Ctrl+click or Shift+drag selects several units to move or change
+together. <b>➕ New stage…</b> starts a stage of your own from any
 battlefield (pictures of every map) and puts it in the game's stage list.</p>
 <img class="shot" src="docs/guide/stages.png" alt="Stages page">
 <h3>🎨 Sprites &amp; Colors</h3>
@@ -496,6 +504,9 @@ top-down grid.</li>
 what it places after. Edit the visit you play: a stage you cleared long ago plays its revisit units.</li>
 <li><b>Add enemy</b>, click a panel, then set its class, level, equipment and skills on the right. A new unit joins
 the visit shown; <b>Appears on</b> moves it to the other one or to every visit.</li>
+<li><b>Several units at once</b>: Ctrl+click adds a unit, Shift+drag draws a box, Ctrl+A takes every unit shown. Drag
+one of them and the group moves, the arrow keys nudge it, Delete removes it, Ctrl+D copies it; the panel on the right
+changes their class, level, team, AI, equipment and stat modifiers together. Ctrl+Z undoes.</li>
 <li><b>💾 Save</b>. The kit warns when a visit has no enemy left (the battle would be won the moment it starts) or two
 units share a panel. Install and play.</li>
 </ol>
@@ -580,10 +591,26 @@ spell. The Area tab previews the reach at any level, lets you edit the nine shap
 the tier levels for all spells, or give one spell a fixed reach and area (and take it back).</li>
 </ol>
 
+<h2 id="t-shapes">Tutorial 10c · Area shapes</h2>
+<ol class="steps">
+<li><b>🟥 Area Shapes</b>: every area of the game, with the skills that use it. Pick one, or <b>➕ New</b> /
+<b>⧉ Clone</b> for one of your own.</li>
+<li>Paint with <b>🖌 Paint</b>: the panels are numbered in the order the game hits the units on them (1 = the main
+target). <b># Number</b> renumbers (click panels in the order you want), <b>Renumber</b> tidies the order,
+<b>◆ Cursor</b> marks the panel the player points at, <b>➜ Caster ends</b> where a moving skill puts the caster.
+Right-click erases, Shift+drag paints a straight line, Ctrl+Z undoes.</li>
+<li><b>💾 Save</b>. A skill takes a shape on its Area tab (Skills &amp; Animations), which paints with the same
+brushes.</li>
+</ol>
+
 <h2 id="t-db">Tutorial 11 · Database (items, skills…)</h2>
 <ol class="steps">
 <li><b>📊 Database Editor</b>: choose a table (for example <i>item</i>), search for the row and change the value.
-Hover a column header to see what it means.</li>
+Hover a column header to see what it means. The <b>record panel</b> on the right shows the selected row as a form:
+click a field for what it means, references are pickers, texts show their byte limit; <b>Used by</b> lists the rows
+pointing at it. <b>⌕ Go to</b> (Ctrl+P) finds any record of any table, <b>←</b> / <b>→</b> go back and forth.</li>
+<li><b>✔ Check table</b> before saving: it finds what would crash the game (an evility of the wrong kind, a missing
+row …). On Skill.dat, <b>Evility presets</b> set the fields a character's or a class's evility needs.</li>
 <li><b>💾 Save</b>, then install. <i>Changed rows only</i> shows what your mods change. CSV export and import let
 you work in Excel.</li>
 </ol>
@@ -591,9 +618,17 @@ you work in Excel.</li>
 gives new things ids above the existing ones.</div>
 
 
-<h2 id="t-class">Tutorial 13 · New classes and monsters <span class="tag">command line</span></h2>
-<p>Make a generic class or monster from a Disgaea RPG unit, animated like a vanilla class or monster (it
-needs the Disgaea RPG sprites: see Tutorial 5):</p>
+<h2 id="t-class">Tutorial 13 · New classes and monsters</h2>
+<ol class="steps">
+<li><b>🐉 New monster class…</b> (Characters &amp; Classes, under New character): pick a Disgaea RPG monster (it needs the Disgaea RPG sprites: see Tutorial 5). The kit proposes whose moves it uses (the closest build
+first) and guesses its poses.</li>
+<li>Check the poses: click one, choose what it is (stand, walk, hit, crouch, jump, attack, other, not used); for a
+walk or an attack its step. <b>🔍 Preview</b> shows every template pose next to the drawing it gets.</li>
+<li>Name it (and its six ranks), <b>Create</b>: a mod of its own with the class, hired at the Netherworld registrar.
+Give it its stats, skills and evilities on the Characters page, then Install &amp; Play.</li>
+</ol>
+<p>Human classes from Disgaea RPG units: <b>✨ New character / class…</b> › Look: <i>Disgaea RPG sprites</i>. The command
+line does both too:</p>
 <pre><code>python tools\new_drpg_class.py UNIT TEMPLATE "Name" --titles "T1,T2,T3,T4,T5,T6" --desc "one line for Hire Character"
 python tools\new_drpg_monster.py --help</code></pre>
 <p>Run them in <code>D5 Mod Kit Console.bat</code>. <code>docs\CLASSES.md</code> and <code>docs\MONSTERS.md</code>

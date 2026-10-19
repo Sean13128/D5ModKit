@@ -156,3 +156,25 @@ def save_needs_mods(game_dir, mods, enabled):
             continue                          # switched on since: the next install has it
         out.append((c, name, mod))
     return out
+
+
+def slow_session(game_dir):
+    """The last game session's slow stretches, as the kit's runtime logs them in d5auto.log: a 'perf:' line for every
+    10 seconds with 3+ frames over 40 ms (with the memory then), a 'perf profile' line (where the game thread's
+    time went) for long ones, a 'mem:' line every 5 minutes.  -> None when nothing was slow for long, else
+    {"stretches": N, "worst": ms, "mem": (first MB, last MB), "report": the lines to send}"""
+    import re
+    try:
+        with open(os.path.join(game_dir, "d5auto.log"), encoding="utf-8", errors="replace") as f:
+            lines = f.read().splitlines()
+    except OSError:
+        return None
+    perf = [l for l in lines if " perf: " in l]
+    slow = [l for l in perf if int((re.search(r"(\d+) over 40 ms", l) or [0, 0])[1]) >= 20]
+    if not slow:
+        return None
+    worst = max(int((re.search(r"worst (\d+) ms", l) or [0, 0])[1]) for l in slow)
+    mem = [float(m) for l in lines for m in re.findall(r"mem: (\d+) MB private", l)]
+    keep = [l for l in lines if any(k in l for k in (" d5auto loaded", " perf", " mem: ", " fx: ", " rows: MISSING"))]
+    return {"stretches": len(slow), "worst": worst, "mem": (mem[0], mem[-1]) if mem else None,
+            "report": "\n".join(keep[-120:])}

@@ -227,6 +227,56 @@ def store_shape(attack_table, sid, cells):
     return int(sid)
 
 
+def _check_cells(cells):
+    if not cells:
+        raise ValueError("a shape needs at least one panel")
+    if len(cells) > MAX_CELLS:
+        raise ValueError(f"a shape has at most {MAX_CELLS} panels")
+    for x, y, k in cells:
+        if not (-128 <= x <= 127 and -128 <= y <= 127) or k not in KIND_NAMES:
+            raise ValueError(f"bad panel {(x, y, k)}")
+
+
+def free_shape_id(attack_table, start=NEW_SHAPE_BASE):
+    have = {int(r["id"]) for r in attack_table.rows}
+    sid = max(int(start), NEW_SHAPE_BASE)
+    while sid in have:
+        sid += 1
+    if sid > MAX_SHAPE_ID:
+        raise ValueError("no free shape id left")
+    return sid
+
+
+def new_shape(attack_table, cells, sid=None):
+    """a new shape (its cells appended) -> its id (NEW_SHAPE_BASE + ... unless given)"""
+    from .database import Row
+    _check_cells(cells)
+    sid = free_shape_id(attack_table) if sid is None else int(sid)
+    if any(int(r["id"]) == sid for r in attack_table.rows):
+        raise ValueError(f"shape {sid} exists already")
+    if not 0 < sid <= MAX_SHAPE_ID:
+        raise ValueError(f"a shape id is 1..{MAX_SHAPE_ID}")
+    rec = Row(attack_table.schema, bytes(attack_table.schema.record_size))
+    rec.set("id", sid)
+    rec.set("first_cell", 0)
+    rec.set("cell_num", 0)
+    attack_table.rows.append(rec)
+    store_shape(attack_table, sid, cells)
+    return sid
+
+
+def delete_shape(attack_table, sid):
+    """take a shape out (its cells stay unless they are the last ones of the file)"""
+    rec = next((r for r in attack_table.rows if int(r["id"]) == int(sid)), None)
+    if rec is None:
+        raise KeyError(f"no shape {sid}")
+    attack_table.rows.remove(rec)
+    cells_t = attack_table.sections["cells"]
+    keep = max([0] + [int(r["first_cell"]) + int(r["cell_num"]) for r in attack_table.rows])
+    if keep < len(cells_t.rows):
+        del cells_t.rows[keep:]
+
+
 def _drop_unused(magic_table, attack_table, base_rows, base_cells):
     """kit-made shapes no skill uses any more, at the end of the file (only ones this mod added: past base_rows),
     and their cells at the end of the cells"""

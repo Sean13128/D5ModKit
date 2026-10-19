@@ -390,11 +390,27 @@ class Stage3DView(QOpenGLWidget):
             quad(cs, BASE_RGB, 0.16)
             frame(cs, BASE_RGB, 0.95, PANEL * 0.1)
         sel = self.model.selected
+        group = set(getattr(self.model, "multi", ()) or ())
+        if pkg is not None and len(group) > 1:            # the other units of a selected group: gold frames
+            for i in group:
+                if i == sel or not 0 <= i < len(pkg.chr.units):
+                    continue
+                u = pkg.chr.units[i]
+                if u.on_map and bm.has_panel(u.x, u.y):
+                    frame(self._panel_corners(u.x, u.y, LIFT * 1.4), (1.0, 0.83, 0.31), 0.9, PANEL * 0.08)
         if sel is not None and pkg is not None and 0 <= sel < len(pkg.chr.units):
             u = pkg.chr.units[sel]
             if u.on_map and bm.has_panel(u.x, u.y):
                 cs = self._panel_corners(u.x, u.y, LIFT * 1.4)
                 frame(cs, SELECT_RGB, 0.9 + 0.1 * math.sin(time.perf_counter() * 4), PANEL * 0.1)
+        band = getattr(self.model, "band", None)
+        if band:                                          # Shift+drag: the selection box
+            x0, y0, x1, y1 = band
+            for x in range(min(x0, x1), max(x0, x1) + 1):
+                for y in range(min(y0, y1), max(y0, y1) + 1):
+                    if bm.has_panel(x, y):
+                        cs = self._panel_corners(x, y, LIFT * 1.7)
+                        quad(cs, (1.0, 0.83, 0.31), 0.16)
         if self.hover is not None and bm.has_panel(*self.hover):
             frame(self._panel_corners(self.hover[0], self.hover[1], LIFT * 1.6), HOVER_RGB, 0.8, PANEL * 0.06)
         for x, y in self.marks.get("sel") or []:
@@ -565,9 +581,11 @@ class Stage3DView(QOpenGLWidget):
                 if sets and self.model.visit is None and u.appears != mapfile.APPEARS_ALWAYS:
                     label += " ①" if u.appears == mapfile.APPEARS_FIRST else " ②"
                 sel = i == self.model.selected
+                grp = i in (getattr(self.model, "multi", ()) or ()) and len(self.model.multi) > 1
                 tw = qp.fontMetrics().horizontalAdvance(label) + 8
                 qp.setPen(Qt.PenStyle.NoPen)
-                qp.setBrush(QColor(255, 79, 139, 210) if sel else QColor(12, 10, 20, 170))
+                qp.setBrush(QColor(255, 79, 139, 210) if sel else QColor(200, 150, 30, 210) if grp
+                            else QColor(12, 10, 20, 170))
                 qp.drawRoundedRect(QRectF(x - tw / 2, y, tw, 15), 4, 4)
                 qp.setPen(QColor("#ffffff"))
                 qp.drawText(QRectF(x - tw / 2, y, tw, 15), Qt.AlignmentFlag.AlignCenter, label)
@@ -621,6 +639,14 @@ class Stage3DView(QOpenGLWidget):
             return
         if btn != Qt.MouseButton.LeftButton or self.bm is None:
             return
+        self.model.mods = mods
+        if shift:                                         # Shift+drag: a selection box over the panels
+            cell = self.panel_at(p.x(), p.y())
+            if cell is not None:
+                self.model.band = (cell[0], cell[1], cell[0], cell[1])
+                self.drag = dict(mode="band", x=p.x(), y=p.y())
+                self.update()
+            return
         u = self.unit_at(p.x(), p.y())
         if u is not None:
             self.drag = dict(mode="cell", x=p.x(), y=p.y(), last=None)
@@ -654,6 +680,11 @@ class Stage3DView(QOpenGLWidget):
             if abs(p.x() - d["x0"]) + abs(p.y() - d["y0"]) > 3:
                 d["mode"] = "pan"
                 self.pan(dx, dy, self.width(), self.height())
+        elif m == "band":
+            cell = self.panel_at(p.x(), p.y())
+            if cell is not None and self.model.band and cell != tuple(self.model.band[2:]):
+                self.model.band = tuple(self.model.band[:2]) + tuple(cell)
+                self.update()
         elif m == "cell":
             cell = self.panel_at(p.x(), p.y())
             if cell is not None and cell != d["last"]:
@@ -664,6 +695,13 @@ class Stage3DView(QOpenGLWidget):
     def mouseReleaseEvent(self, e):
         d = self.drag
         self.drag = None
+        if d and d["mode"] == "band" and getattr(self.model, "band", None):
+            x0, y0, x1, y1 = self.model.band
+            self.model.band = None
+            add = bool(e.modifiers() & Qt.KeyboardModifier.ControlModifier)
+            self.model.band_selected.emit(min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1), add)
+            self.update()
+            return
         if d and d["mode"] == "rpress":
             p = e.position()
             cell = self.panel_at(p.x(), p.y()) if self.bm is not None else None

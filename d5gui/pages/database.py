@@ -1,4 +1,6 @@
-"""Spreadsheet-style editor for every database table."""
+"""Spreadsheet-style editor for every database table, with a record panel (the selected row as a form: what each
+field means, references as pickers, texts with their byte limits, what points at the row, its bytes), Go to any
+record (Ctrl+P), back / forward, a check of the table (dbcheck: what would crash the game) and Skill.dat presets."""
 import os
 
 from PyQt6.QtCore import Qt, QAbstractTableModel, QModelIndex, QSortFilterProxyModel, QTimer
@@ -7,9 +9,13 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QList
                              QTableView, QPushButton, QLabel, QCheckBox, QComboBox, QStyledItemDelegate,
                              QMessageBox, QFileDialog, QHeaderView, QAbstractItemView, QLineEdit, QCompleter)
 
-from d5lib import database
+from PyQt6.QtGui import QKeySequence, QShortcut
+from PyQt6.QtWidgets import QToolButton, QMenu, QDialog, QListWidget as _QList, QInputDialog
+
+from d5lib import database, dbcheck
 from ..common import PageHeader, SearchBox, error_box
 from ..dbservice import get_service, describe_row, _esc
+from ..dbrecord import RecordPanel, GotoDialog
 
 MODIFIED = QColor(90, 45, 110)
 ADDED = QColor(30, 80, 55)
@@ -161,6 +167,7 @@ class TableModel(QAbstractTableModel):
             return False
         row = self.table.rows[idx.row()]
         f = self.fields[idx.column()]
+        before = row.copy()
         try:
             if f.type in ("str", "strptr"):
                 row.set(f.name, str(value))
@@ -174,6 +181,10 @@ class TableModel(QAbstractTableModel):
         except Exception as e:
             QMessageBox.warning(None, "Invalid value", str(e))
             return False
+        if before.raw != row.raw or before.strs != row.strs:
+            cb = getattr(self, "on_edit", None)
+            if cb:
+                cb(self.member, idx.row(), before)
         self.svc.mark_dirty(self.member)
         self.dataChanged.emit(idx, idx)
         return True
@@ -316,6 +327,59 @@ class DatabasePage(QWidget):
         bar.addWidget(self.only_mod)
         rl.addLayout(bar)
 
+        nav = QHBoxLayout()
+        self.b_back = QToolButton()
+        self.b_back.setText("←")
+        self.b_back.setToolTip("Back to the record before (Alt+Left)")
+        self.b_back.clicked.connect(lambda: self._history_go(-1))
+        nav.addWidget(self.b_back)
+        self.b_fwd = QToolButton()
+        self.b_fwd.setText("→")
+        self.b_fwd.setToolTip("Forward (Alt+Right)")
+        self.b_fwd.clicked.connect(lambda: self._history_go(1))
+        nav.addWidget(self.b_fwd)
+        b = QPushButton("⌕ Go to any record…  (Ctrl+P)")
+        b.setToolTip("Find a record of any table by its name or id")
+        b.clicked.connect(self.goto)
+        nav.addWidget(b)
+        b = QPushButton("✔ Check table")
+        b.setToolTip("Look for what would crash the game or look wrong: rows with the same id, references to rows "
+                     "that don't exist, texts too long, evility kinds the Skill Shop can't take …")
+        b.clicked.connect(self.check)
+        nav.addWidget(b)
+        self.b_presets = QToolButton()
+        self.b_presets.setText("Evility presets ▾")
+        self.b_presets.setToolTip("Set the fields an evility of one kind needs (Skill.dat)")
+        self.b_presets.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        pm = QMenu(self.b_presets)
+        for k, (lab, _) in dbcheck.SKILL_PRESETS.items():
+            pm.addAction(lab, lambda k=k: self.preset(k))
+        self.b_presets.setMenu(pm)
+        nav.addWidget(self.b_presets)
+        b = QPushButton("Sort new rows")
+        b.setToolTip("Put the rows you added in the order of their ids (the game's rows stay where they are)")
+        b.clicked.connect(self.sort_new)
+        nav.addWidget(b)
+        self.b_rec = QToolButton()
+        self.b_rec.setText("Record panel")
+        self.b_rec.setCheckable(True)
+        self.b_rec.setChecked(True)
+        self.b_rec.toggled.connect(lambda on: self.record.setVisible(on))
+        nav.addWidget(self.b_rec)
+        for lab, fn, tip in (("↶", self.undo, "Undo the last change of a row (Ctrl+Z)"),
+                             ("↷", self.redo, "Redo (Ctrl+Y)")):
+            b = QToolButton()
+            b.setText(lab)
+            b.setToolTip(tip)
+            b.clicked.connect(fn)
+            nav.addWidget(b)
+        nav.addStretch(1)
+        b = QPushButton("💾 Save all")
+        b.setToolTip("Save the changes of every table with unsaved edits")
+        b.clicked.connect(self.save_all)
+        nav.addWidget(b)
+        rl.addLayout(nav)
+
         self.view = QTableView()
         self.view.setAlternatingRowColors(True)
         self.view.setSortingEnabled(False)
@@ -325,7 +389,22 @@ class DatabasePage(QWidget):
         self.view.setItemDelegate(RefDelegate(self.svc, lambda: self.model, self.view))
         self.proxy = FilterProxy()
         self.view.setModel(self.proxy)
-        rl.addWidget(self.view, 1)
+        self.record = RecordPanel(self.svc, self)
+        self.record.navigate.connect(self.open_record)
+        self.record.edited.connect(self._record_edited)
+        self.record.before_edit.connect(self._remember)
+        self._undo, self._redo = [], []
+        grid_split = QSplitter()
+        grid_split.addWidget(self.view)
+        grid_split.addWidget(self.record)
+        grid_split.setSizes([760, 440])
+        rl.addWidget(grid_split, 1)
+        self._hist, self._hpos = [], -1
+        QShortcut(QKeySequence("Ctrl+P"), self, activated=self.goto)
+        QShortcut(QKeySequence("Ctrl+Z"), self.view, activated=self.undo)
+        QShortcut(QKeySequence("Ctrl+Y"), self.view, activated=self.redo)
+        QShortcut(QKeySequence("Alt+Left"), self, activated=lambda: self._history_go(-1))
+        QShortcut(QKeySequence("Alt+Right"), self, activated=lambda: self._history_go(1))
 
         btns = QHBoxLayout()
         self.b_save = QPushButton("💾 Save")
@@ -435,7 +514,11 @@ class DatabasePage(QWidget):
             self.title.setText(f"{member}: cannot open ({e})")
             return
         sch = self.model.table.schema
+        self.model.on_edit = self._remember
         self.proxy.setSourceModel(self.model)
+        self.view.selectionModel().currentRowChanged.connect(self._row_changed)
+        self.b_presets.setVisible(member == "Skill.dat")
+        self.record.show_row(self.model, None)
         cat, title = FRIENDLY.get(member, ("", member))
         self.title.setText(f"{title}  —  {len(self.model.table.rows)} rows, {len(sch.fields)} fields"
                            + (f"<br><span style='color:#8a90b8;font-weight:400'>{sch.desc}</span>" if sch.desc else ""))
@@ -471,6 +554,145 @@ class DatabasePage(QWidget):
             else:
                 self.view.setColumnWidth(i, 90)
 
+    # ------------------------------------------------------------------ records
+    def _row_changed(self, cur, prev=None):
+        if not self.model or not cur.isValid():
+            return
+        r = self.proxy.mapToSource(cur).row()
+        if self.record.r != r or self.record.model is not self.model:
+            self.record.show_row(self.model, r)
+            self._history_add(self.model.member, r)
+
+    def _record_edited(self, r):
+        if not self.model:
+            return
+        a, b = self.model.index(r, 0), self.model.index(r, max(0, self.model.columnCount() - 1))
+        self.model.dataChanged.emit(a, b)
+
+    def open_record(self, member, r, remember=True):
+        """show row r of a table (opens the table, selects the row)"""
+        if not self.model or self.model.member != member:
+            self.select_table(member)
+            if not self.model or self.model.member != member:
+                return
+        if self.only_mod.isChecked() or self.search.text():
+            self.search.clear()
+            self.only_mod.setChecked(False)
+        idx = self.proxy.mapFromSource(self.model.index(r, 0))
+        if idx.isValid():
+            self.view.setCurrentIndex(idx)
+            self.view.scrollTo(idx, QAbstractItemView.ScrollHint.PositionAtCenter)
+        self.record.show_row(self.model, r)
+        if remember:
+            self._history_add(member, r)
+
+    def _history_add(self, member, r):
+        if self._hpos >= 0 and self._hist[self._hpos] == (member, r):
+            return
+        del self._hist[self._hpos + 1:]
+        self._hist.append((member, r))
+        del self._hist[:-200]
+        self._hpos = len(self._hist) - 1
+
+    def _history_go(self, d):
+        k = self._hpos + d
+        if 0 <= k < len(self._hist):
+            self._hpos = k
+            self.open_record(*self._hist[k], remember=False)
+
+    def goto(self):
+        dlg = GotoDialog(self.svc, self)
+        if dlg.exec() and dlg.choice:
+            self.open_record(*dlg.choice)
+
+    def _valid_keys(self, ref):
+        t, f, by_index = database.parse_ref(ref)
+        m = self.svc.find_table(t) if t else None
+        if not m or not self.svc.has_schema(m):
+            return None
+        tb = self.svc.table(m)
+        if by_index:
+            return set(range(len(tb.rows)))
+        k = f or tb.schema.key
+        return {r.get(k) for r in tb.rows} if k else None
+
+    def check(self):
+        if not self.model:
+            return
+        from PyQt6.QtWidgets import QApplication
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        try:
+            issues = dbcheck.check(self.model.member, self.model.table, self._valid_keys, self.model.vanilla)
+        finally:
+            QApplication.restoreOverrideCursor()
+        dlg = QDialog(self)
+        dlg.setWindowTitle(f"Check: {self.model.member}")
+        dlg.resize(760, 460)
+        lay = QVBoxLayout(dlg)
+        from collections import Counter
+        c = Counter(i.severity for i in issues)
+        lay.addWidget(QLabel(f"{c.get(dbcheck.CRASH, 0)} crash risk(s) · {c.get(dbcheck.WARN, 0)} warning(s) · "
+                             f"{c.get(dbcheck.NOTE, 0)} note(s)" + ("" if issues else " — nothing found")))
+        lst = _QList()
+        for i in issues:
+            it = QListWidgetItem(f"[{i.severity}] " + (f"row {i.row}: " if i.row is not None else "") + i.text)
+            if i.severity == dbcheck.CRASH:
+                it.setForeground(QBrush(QColor("#ff6b6b")))
+            elif i.severity == dbcheck.WARN:
+                it.setForeground(QBrush(QColor("#ffc46b")))
+            it.setData(Qt.ItemDataRole.UserRole, i.row)
+            lst.addItem(it)
+        lst.itemDoubleClicked.connect(lambda it: it.data(Qt.ItemDataRole.UserRole) is not None and
+                                      self.open_record(self.model.member, it.data(Qt.ItemDataRole.UserRole)))
+        lay.addWidget(lst, 1)
+        tip = QLabel("Double-click an entry to open its row.")
+        tip.setObjectName("muted")
+        lay.addWidget(tip)
+        dlg.show()
+        self._check_dlg = dlg
+
+    def preset(self, key):
+        if not self.model or self.model.member != "Skill.dat":
+            return
+        rows = self._sel_rows() or ([self.record.r] if self.record.r is not None else [])
+        if not rows:
+            QMessageBox.information(self, "Presets", "Select the evility's row first.")
+            return
+        r0 = self.model.table.rows[rows[0]]
+        owner, ok = QInputDialog.getInt(self, dbcheck.SKILL_PRESETS[key][0], "Owner (char.dat id: a character, or "
+                                        "a class family such as 1010):", int(r0["owner"]), 0, 2 ** 31 - 1)
+        if not ok:
+            return
+        if key.startswith("class") and not dbcheck.is_class_id(owner):
+            if QMessageBox.question(self, "Presets", f"{owner} isn't a class family id (1000+, a multiple of 10): "
+                                    "a generic class's evility owned by anything else crashes the Skill Shop. "
+                                    "Set it anyway?") != QMessageBox.StandardButton.Yes:
+                return
+        n = 0
+        for r in rows:
+            n += bool(dbcheck.apply_preset(self.model.table.rows[r], key, owner=owner))
+        if n:
+            self.svc.mark_dirty(self.model.member)
+            self.model.layoutChanged.emit()
+            self.record.refresh()
+        self.ws.log(f"Skill.dat: {dbcheck.SKILL_PRESETS[key][0]} set on {n} row(s) (Save to keep it)")
+
+    def sort_new(self):
+        if not self.model:
+            return
+        t, base = self.model.table, len(self.model.vanilla.rows)
+        k = t.schema.key
+        if not k or len(t.rows) <= base + 1:
+            return
+        new = sorted(t.rows[base:], key=lambda r: r.get(k))
+        if new == t.rows[base:]:
+            return
+        self.model.beginResetModel()
+        t.rows[base:] = new
+        self.model.endResetModel()
+        self.svc.mark_dirty(self.model.member)
+        self.ws.log(f"{self.model.member}: the {len(new)} new rows sorted by {k}")
+
     def _only_mod(self, on):
         self.proxy.only_modified = on
         self.proxy.invalidateFilter()
@@ -492,6 +714,43 @@ class DatabasePage(QWidget):
             self.ws.log(f"Saved {self.model.member} changes into {self.svc.saved_text()}")
             return True
         return False
+
+    # ---- undo / redo of row changes (grid and record panel)
+    def _remember(self, member, r, before):
+        self._undo.append((member, r, before))
+        del self._undo[:-300]
+        self._redo = []
+
+    def _swap(self, src, dst):
+        if not src:
+            return
+        member, r, row = src.pop()
+        if not self.model or self.model.member != member:
+            self.open_record(member, r)
+            if not self.model or self.model.member != member:
+                return
+        t = self.model.table
+        if not 0 <= r < len(t.rows):
+            return
+        dst.append((member, r, t.rows[r].copy()))
+        t.rows[r] = row
+        self.svc.mark_dirty(member)
+        self._record_edited(r)
+        self.open_record(member, r, remember=False)
+
+    def undo(self):
+        self._swap(self._undo, self._redo)
+
+    def redo(self):
+        self._swap(self._redo, self._undo)
+
+    def save_all(self):
+        dirty = self.svc.dirty_members()
+        if not dirty:
+            self.ws.log("Nothing to save")
+            return
+        if self.svc.commit_all(self):
+            self.ws.log(f"Saved {', '.join(sorted(dirty))} into {self.svc.saved_text()}")
 
     def dup_row(self):
         rows = self._sel_rows()

@@ -20,10 +20,24 @@ REACH = QColor(80, 140, 240)
 ENEMY = QColor(52, 72, 170)
 
 
+BRUSHES = {
+    "paint": ("🖌 Paint", "Left-click / drag adds panels, numbered in the order you paint them (the game's target "
+                          "order); right-click / drag erases. Shift+drag paints a straight line."),
+    "number": ("# Number", "Click panels to give them hit order # (then the next number): reorders the targets"),
+    "cursor": ("◆ Cursor", "The cursor's panel (hit too): the panel the player points at"),
+    "user_to": ("➜ Caster ends", "Where the caster ends up (skills that move the caster); click again to take it off"),
+    "erase": ("✖ Erase", "Click / drag takes panels away"),
+}
+RENUMBER = {"near": "Nearest first (rings around the cursor)", "front": "Front row first, left to right",
+            "back": "Back row first, left to right", "left": "Left column first, front to back"}
+
+
 class AreaGrid(QWidget):
-    """the panels around the caster; emits edited() after a change of the area, enemiesEdited() of the enemies"""
+    """the panels around the caster; emits edited() after a change of the area, enemiesEdited() of the enemies.
+    Painting: `brush` (BRUSHES), `number` (the next hit order of the # brush), undo() / redo(), transforms."""
     edited = pyqtSignal()
     enemiesEdited = pyqtSignal()
+    brushChanged = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -32,8 +46,14 @@ class AreaGrid(QWidget):
         self.enemies = None                  # None: the first hit panel
         self.mode = "area"
         self.editable = True
-        self._drag = None                    # (adding, visited) while painting
+        self.brush = "paint"
+        self.number = 1                      # the # brush's next hit order (1-based)
+        self.show_order = True               # hit order numbers on the panels
+        self.diff = set()                    # cells (x, y) that differ from the game's shape (outlined)
+        self._drag = None                    # (adding, visited, start, before) while painting
+        self._undo, self._redo = [], []
         self.setMouseTracking(True)
+        self.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
         self.setMinimumSize(200, 200)
         self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
 
@@ -90,6 +110,26 @@ class AreaGrid(QWidget):
             col = QColor(COLORS.get(k, COLORS[sa.HIT]))
             col.setAlpha(170)
             qp.fillRect(self._rect(x, y).adjusted(1, 1, -1, -1), col)
+        if self.diff:                                # panels that differ from the game's own shape
+            sh = self._shift()
+            qp.setPen(QPen(QColor(110, 170, 255), max(1.5, c * 0.07)))
+            qp.setBrush(Qt.BrushStyle.NoBrush)
+            for x, y in self.diff:
+                qp.drawRect(self._rect(x, y + sh).adjusted(2, 2, -2, -2))
+        if self.show_order and self.mode == "area" and c >= 14:
+            qp.setFont(QFont("Segoe UI", max(6, int(c * 0.26)), QFont.Weight.Bold))
+            order = 0
+            for x, y, k in panels:
+                rc = self._rect(x, y).adjusted(3, 1, -2, -1)
+                if k == sa.USER_TO:
+                    txt = "➜"
+                else:
+                    order += 1
+                    txt = str(order) + ("◆" if k == sa.CURSOR else "")
+                qp.setPen(QColor(0, 0, 0, 150))
+                qp.drawText(rc.translated(1, 1), Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop, txt)
+                qp.setPen(QColor(255, 255, 255))
+                qp.drawText(rc, Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop, txt)
         qp.setPen(QPen(QColor(60, 56, 78), 1))
         for i in range(n + 1):
             qp.drawLine(QPointF(ox + i * c, oy), QPointF(ox + i * c, oy + n * c))
@@ -109,7 +149,7 @@ class AreaGrid(QWidget):
         qp.drawText(rc, Qt.AlignmentFlag.AlignCenter, "★")
         # enemies, numbered in the game's target order
         hits = [(x, y) for x, y, k in panels if k != sa.USER_TO]
-        tg = self.area.target_panels(self.cursor, self.enemies)
+        tg = self.area.target_panels(self.cursor, self.enemies) if self.mode == "enemies" or self.enemies else []
         qp.setFont(QFont("Segoe UI", max(6, int(c * 0.32)), QFont.Weight.Bold))
         for i, (x, y) in enumerate(tg):
             rc = self._rect(x, y).adjusted(c * 0.2, c * 0.2, -c * 0.2, -c * 0.2)
@@ -132,49 +172,79 @@ class AreaGrid(QWidget):
         """grid panel (relative to the caster) -> shape cell (relative to the cursor when centred)"""
         return p[0], p[1] - self._shift()
 
+    def set_brush(self, b):
+        if b in BRUSHES and b != self.brush:
+            self.brush = b
+            self.brushChanged.emit()
+
     def mousePressEvent(self, e):
         p = self._at(e.position())
         if p is None or not self.editable:
             return
+        self.setFocus()
         if self.mode == "enemies":
             self._toggle_enemy(p)
             return
         cx, cy = self._cell_of(p)
-        cells = list(self.area.cells)
-        idx = next((i for i, (x, y, _) in enumerate(cells) if (x, y) == (cx, cy)), None)
-        if e.button() == Qt.MouseButton.RightButton:
-            order = [sa.HIT, sa.CURSOR, sa.USER_TO]
-            if idx is None:
-                cells.append((cx, cy, sa.HIT))
-            else:
-                k = cells[idx][2]
-                cells[idx] = (cx, cy, order[(order.index(k) + 1) % 3] if k in order else sa.HIT)
-            self._set_cells(cells)
+        right = e.button() == Qt.MouseButton.RightButton
+        before = list(self.area.cells)
+        if not right and self.brush in ("number", "cursor", "user_to"):
+            self._remember(before)
+            getattr(self, f"_click_{self.brush}")(cx, cy)
             return
-        adding = idx is None
-        self._drag = (adding, {(cx, cy)})
-        self._apply(cx, cy, adding)
+        adding = not right and self.brush == "paint"
+        self._drag = (adding, {(cx, cy)}, (cx, cy), before)
+        self._apply(cx, cy, adding, record=False)
 
     def mouseMoveEvent(self, e):
         p = self._at(e.position())
         if p is not None:
             cx, cy = self._cell_of(p)
-            k = next((k for x, y, k in self.area.cells if (x, y) == (cx, cy)), None)
+            cells = self.area.cells
+            i = next((i for i, (x, y, _) in enumerate(cells) if (x, y) == (cx, cy)), None)
             where = f"{abs(p[0])} {'right' if p[0] > 0 else 'left'}, " if p[0] else ""
             where += f"{abs(p[1])} {'ahead' if p[1] >= 0 else 'behind'}"
-            self.setToolTip(f"Panel {where} of the caster" + (f" — {sa.KIND_NAMES[k]}" if k else ""))
+            extra = ""
+            if i is not None:
+                k = cells[i][2]
+                n = sum(1 for x, y, kk in cells[:i + 1] if kk != sa.USER_TO)
+                extra = f" — {sa.KIND_NAMES[k]}" + (f", hit #{n}" if k != sa.USER_TO else "")
+            self.setToolTip(f"Panel {where} of the caster{extra}")
         if self._drag is None or p is None:
             return
         cx, cy = self._cell_of(p)
-        adding, seen = self._drag
+        adding, seen, start, before = self._drag
+        if e.modifiers() & Qt.KeyboardModifier.ShiftModifier:      # a straight line from where the drag began
+            line = _line(start, (cx, cy))
+            cells = [c for c in before]
+            have = {(x, y) for x, y, _ in cells}
+            if adding:
+                cells += [(x, y, sa.HIT) for x, y in line if (x, y) not in have]
+            else:
+                cells = [c for c in cells if (c[0], c[1]) not in set(line)]
+            self._set_cells(cells, record=False)
+            return
         if (cx, cy) not in seen:
             seen.add((cx, cy))
-            self._apply(cx, cy, adding)
+            self._apply(cx, cy, adding, record=False)
 
     def mouseReleaseEvent(self, e):
+        if self._drag is not None:
+            before = self._drag[3]
+            if before != self.area.cells:
+                self._remember(before)
         self._drag = None
 
-    def _apply(self, cx, cy, adding):
+    def keyPressEvent(self, e):
+        ctrl = bool(e.modifiers() & Qt.KeyboardModifier.ControlModifier)
+        if ctrl and e.key() == Qt.Key.Key_Z:
+            self.undo()
+        elif ctrl and e.key() == Qt.Key.Key_Y:
+            self.redo()
+        else:
+            super().keyPressEvent(e)
+
+    def _apply(self, cx, cy, adding, record=True):
         cells = list(self.area.cells)
         have = any((x, y) == (cx, cy) for x, y, _ in cells)
         if adding and not have:
@@ -183,11 +253,100 @@ class AreaGrid(QWidget):
             cells = [c for c in cells if (c[0], c[1]) != (cx, cy)]
         else:
             return
+        self._set_cells(cells, record=record)
+
+    def _click_number(self, cx, cy):
+        """the panel gets hit order self.number (the others keep their order around it); then the next number"""
+        cells = list(self.area.cells)
+        i = next((i for i, (x, y, _) in enumerate(cells) if (x, y) == (cx, cy)), None)
+        cell = cells.pop(i) if i is not None else (cx, cy, sa.HIT)
+        if cell[2] == sa.USER_TO:
+            cell = (cx, cy, sa.HIT)
+        hits = [c for c in cells if c[2] != sa.USER_TO]
+        rest = [c for c in cells if c[2] == sa.USER_TO]
+        k = max(0, min(len(hits), self.number - 1))
+        hits.insert(k, cell)
+        self.number = k + 2
+        self.brushChanged.emit()
+        self._set_cells(hits + rest, record=False)
+
+    def _click_cursor(self, cx, cy):
+        cells = [(x, y, sa.HIT if k == sa.CURSOR else k) for x, y, k in self.area.cells]
+        i = next((i for i, (x, y, _) in enumerate(cells) if (x, y) == (cx, cy)), None)
+        if i is None:
+            cells.insert(0, (cx, cy, sa.CURSOR))
+        else:
+            cells[i] = (cx, cy, sa.CURSOR)
+        self._set_cells(cells, record=False)
+
+    def _click_user_to(self, cx, cy):
+        cells = list(self.area.cells)
+        i = next((i for i, (x, y, _) in enumerate(cells) if (x, y) == (cx, cy)), None)
+        if i is None:
+            cells.append((cx, cy, sa.USER_TO))
+        elif cells[i][2] == sa.USER_TO:
+            del cells[i]
+        else:
+            cells[i] = (cx, cy, sa.USER_TO)
+        self._set_cells(cells, record=False)
+
+    # ---- whole-shape tools
+    def transform(self, how):
+        """'flip' (left / right), 'rot' (a quarter turn), 'up' / 'down' / 'left' / 'right' (one panel), 'clear'"""
+        cells = list(self.area.cells)
+        if how == "flip":
+            cells = [(-x, y, k) for x, y, k in cells]
+        elif how == "rot":
+            cells = [(y, -x, k) for x, y, k in cells]
+        elif how in ("up", "down", "left", "right"):
+            dx, dy = {"up": (0, 1), "down": (0, -1), "left": (-1, 0), "right": (1, 0)}[how]
+            cells = [(x + dx, y + dy, k) for x, y, k in cells]
+        elif how == "clear":
+            cells = [(0, 0, sa.CURSOR)] if self.area.centred else [(0, 1, sa.HIT)]
         self._set_cells(cells)
 
-    def _set_cells(self, cells):
-        if len(cells) > sa.MAX_CELLS:
+    def renumber(self, how):
+        """the hit order (the game's target order) from the panels' places (RENUMBER)"""
+        hits = [c for c in self.area.cells if c[2] != sa.USER_TO]
+        rest = [c for c in self.area.cells if c[2] == sa.USER_TO]
+        if how == "near":
+            key = lambda c: (c[2] != sa.CURSOR, abs(c[0]) + abs(c[1]), -c[1], c[0])
+        elif how == "front":
+            key = lambda c: (-c[1], c[0])
+        elif how == "back":
+            key = lambda c: (c[1], c[0])
+        else:
+            key = lambda c: (c[0], -c[1])
+        self._set_cells(sorted(hits, key=key) + rest)
+
+    def set_cells_from(self, cells):
+        """replace the whole shape (undoable)"""
+        self._set_cells([tuple(int(v) for v in c) for c in cells])
+
+    # ---- history
+    def _remember(self, before):
+        self._undo.append(list(before))
+        del self._undo[:-200]
+        self._redo = []
+
+    def reset_history(self):
+        self._undo, self._redo = [], []
+
+    def undo(self):
+        if self._undo:
+            self._redo.append(list(self.area.cells))
+            self._set_cells(self._undo.pop(), record=False)
+
+    def redo(self):
+        if self._redo:
+            self._undo.append(list(self.area.cells))
+            self._set_cells(self._redo.pop(), record=False)
+
+    def _set_cells(self, cells, record=True):
+        if len(cells) > sa.MAX_CELLS or not cells:
             return
+        if record and list(cells) != list(self.area.cells):
+            self._remember(self.area.cells)
         self.area.cells = cells
         self.area.known = True
         if self.enemies is not None:
@@ -212,6 +371,114 @@ class AreaGrid(QWidget):
         self.enemiesEdited.emit()
 
 
+def _line(a, b):
+    (x0, y0), (x1, y1) = a, b
+    dx, dy = abs(x1 - x0), -abs(y1 - y0)
+    sx, sy = (1 if x1 > x0 else -1), (1 if y1 > y0 else -1)
+    err, out = dx + dy, []
+    while True:
+        out.append((x0, y0))
+        if (x0, y0) == (x1, y1) or len(out) > 400:
+            return out
+        e2 = 2 * err
+        if e2 >= dy:
+            err += dy
+            x0 += sx
+        if e2 <= dx:
+            err += dx
+            y0 += sy
+
+
+class BrushBar(QWidget):
+    """the painting tools of an AreaGrid: brushes, the # brush's number, renumber, turn / flip / shift, undo"""
+
+    def __init__(self, grid, parent=None):
+        super().__init__(parent)
+        from PyQt6.QtWidgets import QToolButton, QMenu
+        self.grid = grid
+        lay = QVBoxLayout(self)
+        lay.setContentsMargins(0, 0, 0, 0)
+        lay.setSpacing(4)
+        row = QHBoxLayout()
+        row.setSpacing(4)
+        self.buttons = {}
+        grp = QButtonGroup(self)
+        for k, (lab, tip) in BRUSHES.items():
+            b = QToolButton()
+            b.setText(lab)
+            b.setToolTip(tip)
+            b.setCheckable(True)
+            b.setChecked(k == grid.brush)
+            b.clicked.connect(lambda _, k=k: grid.set_brush(k))
+            grp.addButton(b)
+            self.buttons[k] = b
+            row.addWidget(b)
+        self.num = QSpinBox()
+        self.num.setRange(1, sa.MAX_CELLS)
+        self.num.setPrefix("#")
+        self.num.setToolTip("The hit order the # brush gives next")
+        self.num.valueChanged.connect(lambda v: setattr(grid, "number", v))
+        row.addWidget(self.num)
+        row.addStretch(1)
+        lay.addLayout(row)
+        row = QHBoxLayout()
+        row.setSpacing(4)
+        rn = QToolButton()
+        rn.setText("Renumber ▾")
+        rn.setToolTip("Put the hit order (the game's target order: 1 = the main target) in a tidy order")
+        rn.setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        m = QMenu(rn)
+        for k, lab in RENUMBER.items():
+            m.addAction(lab, lambda k=k: grid.renumber(k))
+        rn.setMenu(m)
+        row.addWidget(rn)
+        for how, lab, tip in (("rot", "↻", "A quarter turn"), ("flip", "⇋", "Mirror left / right"),
+                              ("up", "↑", "One panel forward"), ("down", "↓", "One panel back"),
+                              ("left", "←", "One panel left"), ("right", "→", "One panel right"),
+                              ("clear", "Clear", "Start again from one panel")):
+            b = QToolButton()
+            b.setText(lab)
+            b.setToolTip(tip)
+            b.clicked.connect(lambda _, h=how: grid.transform(h))
+            row.addWidget(b)
+        self.order = QToolButton()
+        self.order.setText("1 2 3")
+        self.order.setCheckable(True)
+        self.order.setChecked(grid.show_order)
+        self.order.setToolTip("Show the hit order on the panels")
+        self.order.toggled.connect(lambda on: (setattr(grid, "show_order", on), grid.update()))
+        row.addWidget(self.order)
+        b = QToolButton()
+        b.setText("↶")
+        b.setToolTip("Undo (Ctrl+Z on the grid)")
+        b.clicked.connect(grid.undo)
+        row.addWidget(b)
+        b = QToolButton()
+        b.setText("↷")
+        b.setToolTip("Redo (Ctrl+Y)")
+        b.clicked.connect(grid.redo)
+        row.addWidget(b)
+        row.addStretch(1)
+        lay.addLayout(row)
+        self.count = QLabel()
+        self.count.setObjectName("muted")
+        lay.addWidget(self.count)
+        grid.brushChanged.connect(self.sync)
+        grid.edited.connect(self.sync)
+        self.sync()
+
+    def sync(self):
+        g = self.grid
+        for k, b in self.buttons.items():
+            b.setChecked(k == g.brush)
+        self.num.blockSignals(True)
+        self.num.setValue(max(1, g.number))
+        self.num.blockSignals(False)
+        hits = sum(1 for _, _, k in g.area.cells if k != sa.USER_TO)
+        self.count.setText(f"{hits} hit panel{'s' if hits != 1 else ''} · next # {min(g.number, hits + 1)} · "
+                           f"{sa.MAX_CELLS - len(g.area.cells)} more possible")
+
+
 class AreaPanel(QScrollArea):
     def __init__(self, editor):
         super().__init__()
@@ -231,8 +498,9 @@ class AreaPanel(QScrollArea):
         self.summary.setObjectName("cardTitle")
         lay.addWidget(self.summary)
         help_ = QLabel("The caster (★) faces up. Red panels are hit, orange is the cursor's panel (hit too), green is "
-                       "where the caster ends up, blue is where the player can put the cursor. Click or drag to "
-                       "add / remove panels, right-click a panel to change its kind.")
+                       "where the caster ends up, blue is where the player can put the cursor. Paint with the "
+                       "brushes below: the numbers are the order the targets are hit in (1 = the main target); "
+                       "right-click erases, Shift+drag paints a line, Ctrl+Z undoes.")
         help_.setWordWrap(True)
         help_.setMinimumWidth(10)
         help_.setObjectName("muted")
@@ -255,6 +523,8 @@ class AreaPanel(QScrollArea):
         self.grid = AreaGrid()
         self.grid.edited.connect(self._edited)
         self.grid.enemiesEdited.connect(self._enemies)
+        self.brushes = BrushBar(self.grid)
+        lay.addWidget(self.brushes)
         lay.addWidget(self.grid, 1)
         row = QHBoxLayout()
         b = QPushButton("Enemies on every hit panel")
@@ -476,6 +746,11 @@ class AreaPanel(QScrollArea):
         self.grid.area = copy.deepcopy(area)
         self.grid.enemies = None
         self.grid.editable = editable
+        self.grid.reset_history()
+        self.grid.number = sum(1 for _, _, k in area.cells if k != sa.USER_TO) + 1
+        if hasattr(self, "brushes"):
+            self.brushes.sync()
+            self.brushes.setEnabled(editable)
         self.grid.cursor = cursor
         for w, v in ((self.range, area.range), (self.up, area.height_up), (self.down, area.height_down),
                      (self.cursor, cursor)):

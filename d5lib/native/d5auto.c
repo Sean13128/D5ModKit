@@ -1416,6 +1416,54 @@ static int g_pf_frames, g_pf_slow, g_pf_lines;
 static DWORD g_pf_start;
 static unsigned long long g_pf_vq;
 
+/* where the game thread spends a slow stretch: a 2-second sample (ctl_prof, d5ctl.inc.c) on a thread of its own,
+   logged as one line -- the exe's addresses (static VAs of the running build) and the modules.  At most 6 a session,
+   a minute apart. */
+static int g_pf_reports;
+static DWORD g_pf_last_report;
+
+static DWORD WINAPI perf_sample_thread(LPVOID p) {
+    (void)p;
+    SB o = {0};
+    ctl_prof(&o, 2000);
+    int total = 0;
+    for (int i = 0; i < PF_CAP && g_pf_leaf[i].n; i++) total += g_pf_leaf[i].n;
+    char line[2048];
+    size_t k = 0;
+    k += snprintf(line + k, sizeof line - k, "perf profile (2 s, %d samples): leaf", total);
+    for (int i = 0; i < 12 && g_pf_leaf[i].n && k < sizeof line - 96; i++) {
+        unsigned long long a = g_pf_leaf[i].a;
+        if (a >= 0x140000000ULL && a < 0x140000000ULL + g_image_size)
+            k += snprintf(line + k, sizeof line - k, " %llx %.0f%%", a, 100.0 * g_pf_leaf[i].n / (total ? total : 1));
+        else {
+            HMODULE m = NULL;
+            char name[MAX_PATH] = "?";
+            if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                                   (LPCSTR)a, &m) && m) {
+                GetModuleFileNameA(m, name, sizeof name);
+                char *b = strrchr(name, '\\');
+                if (b) memmove(name, b + 1, strlen(b));
+            }
+            k += snprintf(line + k, sizeof line - k, " %s+%llx %.0f%%", name, m ? a - (unsigned long long)m : a,
+                          100.0 * g_pf_leaf[i].n / (total ? total : 1));
+        }
+    }
+    k += snprintf(line + k, sizeof line - k, " | in");
+    for (int i = 0; i < 16 && g_pf_incl[i].n && k < sizeof line - 32; i++)
+        k += snprintf(line + k, sizeof line - k, " %llx %.0f%%", g_pf_incl[i].a, 100.0 * g_pf_incl[i].n / (total ? total : 1));
+    logf_("%s", line);
+    free(o.p);
+    InterlockedExchange(&g_pf_sampling, 0);
+    return 0;
+}
+
+static double mem_private_mb(void) {
+    PF_PMC pm;
+    memset(&pm, 0, sizeof pm);
+    pm.cb = sizeof pm;
+    return K32GetProcessMemoryInfo(GetCurrentProcess(), &pm, sizeof pm) ? pm.PrivateUsage / 1048576.0 : 0;
+}
+
 static void perf_frame(LARGE_INTEGER t0) {
     if (!g_pf_freq.QuadPart) { QueryPerformanceFrequency(&g_pf_freq); g_pf_prev = t0; g_pf_start = GetTickCount(); }
     double ms = (double)(t0.QuadPart - g_pf_prev.QuadPart) * 1000.0 / (double)g_pf_freq.QuadPart;
@@ -1424,6 +1472,15 @@ static void perf_frame(LARGE_INTEGER t0) {
     if (ms > 40.0) { g_pf_slow++; if (ms > g_pf_worst) g_pf_worst = ms; }
     if (!(g_pf_frames % 60)) text_readable_forget();
     DWORD now = GetTickCount();
+    {   /* the memory now and then: a session that grows shows it (Task Manager's 'memory' = private bytes) */
+        static DWORD last_mem;
+        if (!last_mem || now - last_mem >= 300000) {
+            last_mem = now;
+            DWORD h = 0;
+            GetProcessHandleCount(GetCurrentProcess(), &h);
+            logf_("mem: %.0f MB private, %lu handles", mem_private_mb(), h);
+        }
+    }
     if (now - g_pf_start < 10000) return;
     if (g_pf_slow >= 3 && g_pf_lines < 60) {
         g_pf_lines++;
@@ -1435,9 +1492,16 @@ static void perf_frame(LARGE_INTEGER t0) {
         for (int i = 0; i < n && i < 6 && k < sizeof scr - 24; i++)
             if (l[i].state != -1) k += snprintf(scr + k, sizeof scr - k, " %llx:%d", l[i].vt, l[i].state);
         logf_("perf: %d frames in %.0f s, %d over 40 ms (worst %.0f ms); the kit %.3f ms a frame, %.1f memory checks "
-              "a frame; screen%s", g_pf_frames, (now - g_pf_start) / 1000.0, g_pf_slow, g_pf_worst,
+              "a frame; %.0f MB; screen%s", g_pf_frames, (now - g_pf_start) / 1000.0, g_pf_slow, g_pf_worst,
               g_pf_kit / (g_pf_frames ? g_pf_frames : 1), (double)(g_rd_queries - g_pf_vq) / (g_pf_frames ? g_pf_frames : 1),
-              scr);
+              mem_private_mb(), scr);
+        if (g_pf_slow >= 20 && g_pf_reports < 6 && (!g_pf_last_report || now - g_pf_last_report > 60000) &&
+            !InterlockedExchange(&g_pf_sampling, 1)) {
+            g_pf_reports++;
+            g_pf_last_report = now;
+            HANDLE th = CreateThread(NULL, 0, perf_sample_thread, NULL, 0, NULL);
+            if (th) CloseHandle(th); else InterlockedExchange(&g_pf_sampling, 0);
+        }
     }
     g_pf_vq = g_rd_queries;
     g_pf_frames = g_pf_slow = 0;
@@ -1451,6 +1515,7 @@ static int core_frame_body(void);
 __declspec(dllexport) int core_frame(void) {
     LARGE_INTEGER t0, t1;
     QueryPerformanceCounter(&t0);
+    g_game_tid = GetCurrentThreadId();
     int r = core_frame_body();
     QueryPerformanceCounter(&t1);
     if (r == 0) {

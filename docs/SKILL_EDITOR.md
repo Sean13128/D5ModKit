@@ -659,6 +659,18 @@ Domination, Big Bang, No Way Out; Girl Laharl's Blazing Knuckle, Overlord's Wrat
   render objects of Hurricane Blow's slots 2 / 3 in the running game (root and pieces: +0x28 sizes, +0xf8 world
   matrices) to see the pieces' real matrices.
 
+## Painting areas (`AreaGrid` / `BrushBar`, d5gui/skilledit/areapanel.py)
+
+The Area tab and the 🟥 Area Shapes page (d5gui/pages/shapes.py) paint shapes the same way. A shape's cells are
+kept in the game's target order (the order of AttackMap.dat's cells: target i = actor 3000 + i), shown as numbers on
+the panels. Brushes: paint (adds at the end of the order; right-click / drag erases; Shift+drag = a straight line,
+Bresenham, from where the drag began), number (the clicked panel gets hit order #N, the others keep theirs around
+it), cursor (kind 3; one per shape, the old one becomes a hit panel), caster ends (kind 2, toggles), erase. Renumber:
+nearest first (the cursor first, then by Manhattan distance), front row first, back row first, left column first.
+Turn (x, y) -> (y, -x), mirror, shift by a panel, clear. Undo / redo keep 200 steps. The Area Shapes page writes a
+shape with `skillarea.store_shape`, makes new ones with `new_shape` (ids 40000+), deletes the mod's own ones with
+`delete_shape`; names and notes go into the mod as `patches/skills/shape_names.json`.
+
 ## Spell reach and area (2026-10-17, `d5lib/spellgrowth.py`)
 
 Generic spells (magic.dat `attack_map` 0: Fire, Heal, Braveheart, the character buffs of skill group 8) take no reach

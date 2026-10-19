@@ -1,5 +1,59 @@
 # D5 Mod Kit — changes
 
+## 1.5.5 (2026-10-19)
+
+**Stages & Maps**
+* **Several units at once.** Ctrl+click adds a unit to the selection (or takes it out), Shift+drag draws a box,
+  Ctrl+A takes every unit shown; on the flat map and in 3D. Drag one of them and they all move (only where every one
+  of them finds a free panel), the arrow keys nudge them, Delete removes them, Ctrl+D copies them. The panel on the
+  right edits them together: class, level (set, add, or a % of their own), facing, team, AI, the visit they appear
+  on, equipment (item, level, rarity) and stat modifiers; *Same class / Same team / All enemies* select more.
+* **Undo / redo** (Ctrl+Z / Ctrl+Y) of unit and Geo Panel edits.
+* Tested in the game: a stage's enemies changed together (class and level) fight that way.
+
+**Skills & Animations**
+* **🟥 Area Shapes**, a page of its own for AttackMap.dat: every area shape with the skills that use it, painted
+  panel by panel. The panels are numbered in the order the game hits the units on them (1 = the main target): paint
+  them in that order, or renumber with the **#** brush (click panels in the order you want) or **Renumber** (nearest
+  first, front row first …). Brushes for the cursor's panel and where the caster ends up, right-click erases,
+  Shift+drag paints a straight line, turn / mirror / shift the whole shape, undo / redo. **New** and **Clone** make
+  shapes of your own, **Revert** gives a game shape its panels back (changed panels are outlined), **Used by** opens
+  the skills, the JSON tab shows / takes the panels as text, shapes get names and notes.
+* The Area tab of a skill paints with the same brushes and numbers.
+* Tested in the game: Triple Strike given a new painted shape aims and hits with it.
+
+**Database Editor** (ideas from the Disgaea 5 *Overlord Edition* table editors)
+* **A record panel** next to the grid: the selected row as a form, every field with what it means, references as
+  searchable pickers, texts with their byte count and limit; **Used by** (the rows of other tables that point at
+  it, double-click to go there), **Raw** (its bytes) and **JSON**.
+* **⌕ Go to any record (Ctrl+P)** across every table by name or id, **← →** back and forward, **undo / redo** of row
+  changes, **💾 Save all**.
+* **✔ Check table**: what would crash the game or look wrong -- rows with the same id, references to rows that
+  don't exist, texts too long for their field, tables the game binary-searches out of order, and Skill.dat's
+  evility rules (a generic class's evility owned by a character crashes the Skill Shop; unique evilities with a
+  slot cost …).
+* **Evility presets** (Skill.dat): a character's unique / learnable, a class's unique / learned evility, with its
+  owner, in one click. **Sort new rows** puts your added rows in id order.
+
+**Characters & Classes**
+* **🐉 New monster class…**: a recruitable monster class drawn from a Disgaea RPG monster (the ten D5 doesn't have, or
+  any of the 21 it has, in their Disgaea RPG look), without the command line. Pick the monster; the kit proposes
+  whose moves it uses (its D5 twin, then the monster closest in height), guesses which drawing is its stand, walk,
+  hit, crouch, jump and attack from the template's own poses, and lets you fix each one; **Preview** shows every
+  template pose next to the drawing it gets. Made again later, it redraws the same class. Only monster classes are
+  offered as templates (Usalia, a story character, was in the list).
+* Tested in the game: a Gargoyle made with the wizard on Dragon King's moves stands, walks, attacks, takes hits and
+  counters as an enemy, with its own portrait on the status screen.
+
+**Game performance** (report: menus such as the Quest shop getting slower after some stages)
+* Measured on the Steam game with 33 mods: the Quest shop stays at 60 fps after a series of stages, the game's memory
+  stays flat (about 2.47 GB) and the kit's runtime costs about 0.03 ms a frame; the slowdown didn't show on the test
+  PC. To find it where it happens, the runtime now writes to d5auto.log: the memory every 5 minutes and with every
+  slow stretch, and during a long one (20+ frames over 40 ms in 10 seconds) a 2-second sample of where the game's
+  time goes (at most 6 a session).
+* **Home page**: after a session that ran slowly, a note (how slow, and whether the memory grew) and **📋 Copy lag
+  report**, the lines to send with a report.
+
 ## 1.5.4 (2026-10-18)
 
 **Stages & Maps**

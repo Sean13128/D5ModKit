@@ -183,6 +183,108 @@ def suggest(fs, cls, uid, roots=None):
     return out
 
 
+FRONT_ROLES = ("stand", "walk", "hit", "crouch", "jump", "attack")
+SEQ_ROLES = ("walk", "jump", "attack")
+
+
+def auto_roles(fs, cls, uid, roots=None):
+    """a first role file for a new monster, guessed: the new front poses are paired with the template twin's by
+    shape (suggest), and each takes the role its twin pose plays (stand, walk, hit, crouch, jump, attack); flash
+    frames are left out, the rest are 'other'.  The back and wait sheets are taken as packed like the front ('grid').
+    A guess to check: the monster wizard shows it pose by pose."""
+    pairs = suggest(fs, cls, uid, roots)
+    troles = twin_roles(fs, cls)
+    new = regions(uid, roots)
+    front = [k for k in new if k[0] == "front"]
+    ws = {k: white_share(new[k]["img"]) for k in front}
+    med = float(np.median(list(ws.values()))) if ws else 0.0
+    flash = {k for k in front if ws[k] >= max(FLASH, 10 * med)}
+    seq = {r: [] for r in SEQ_ROLES}
+    single = {}
+    for tk, nk in sorted(pairs.items(), key=lambda kv: kv[0][2]):
+        if tk[0] != "front" or nk in flash:
+            continue
+        for view, role, step in troles.get(tk, []):
+            if view != "f" or role not in FRONT_ROLES:
+                continue
+            if role in SEQ_ROLES:
+                seq[role].append((step, nk))
+            elif role not in single or step < single[role][0]:
+                single[role] = (step, nk)
+            break
+    out = {}
+    for role in FRONT_ROLES:
+        if role in SEQ_ROLES:
+            keys = []
+            for _, k in sorted(seq[role]):
+                if k[2] not in keys:
+                    keys.append(k[2])
+            if keys:
+                out[role] = keys
+        elif role in single:
+            out[role] = single[role][1][2]
+    named = {v for x in out.values() for v in (x if isinstance(x, list) else [x])}
+    out["other"] = [k[2] for k in grid_order(front) if k[2] not in named and k not in flash]
+    return {"_about": f"guessed by shape on template {cls} (d5lib.monstermap.auto_roles)", "front": out,
+            "back": "grid", "wait_front": "grid", "wait_back": "grid", "_flash": sorted(k[2] for k in flash)}
+
+
+def stand_height(img):
+    a = img[..., 3] > 0
+    rows = np.nonzero(a.any(axis=1))[0]
+    return int(rows[-1] - rows[0] + 1) if len(rows) else 0
+
+
+def template_heights(fs, roots=None):
+    """{template class: its twin's front stand height in px} (cached per run)"""
+    global _HEIGHTS
+    try:
+        return _HEIGHTS
+    except NameError:
+        pass
+    out = {}
+    for cls in templates():
+        try:
+            tr = twin_roles(fs, cls)
+            twin = regions(twin_data(cls)["uid"], roots)
+            k = next((k for k, rs in tr.items() if any(v == "f" and r == "stand" for v, r, _ in rs)), None)
+            if k is not None and k in twin:
+                out[cls] = stand_height(twin[k]["img"])
+        except Exception:
+            continue
+    _HEIGHTS = out
+    return out
+
+
+def recommend_templates(fs, uid, stand_key=None, roots=None):
+    """the templates for a new monster, best first: its D5 twin, then by how close the twin's stand height is"""
+    twin_of = {v: k for k, v in TWINS.items()}
+    first = twin_of.get(int(uid) // 4 * 4 + 1)
+    new = regions(uid, roots)
+    front = [k for k in new if k[0] == "front"]
+    key = (("front", drpgmap.LOOSE, int(stand_key)) if stand_key is not None else
+           (grid_order(front)[0] if front else None))
+    h = stand_height(new[key]["img"]) if key in new else 0
+    hs = template_heights(fs, roots)
+    mons = [c for c in templates() if 2000 <= c < 3000]       # (70.json is Usalia, a story character: no monster)
+    order = sorted(mons, key=lambda c: (c != first, abs(hs.get(c, 0) - h) if h else 0))
+    return [(c, hs.get(c, 0)) for c in order], h
+
+
+def drpg_monsters(roots=None):
+    """[(uid, name, D5 twin class or None)]: the Disgaea RPG generic monsters whose sheets are on this PC"""
+    twin_of = {v: k for k, v in TWINS.items()}
+    out = []
+    for uid in sorted(set(TWINS.values()) | set(NEW)):
+        try:
+            if not regions(uid, roots):
+                continue
+        except Exception:
+            continue
+        out.append((uid, NEW.get(uid), twin_of.get(uid)))
+    return out
+
+
 def grid_order(keys):
     """region keys of one sheet in reading order (rows = centres less than ~64 px apart)"""
     ks = sorted(keys, key=lambda k: k[2] % 1000)
