@@ -1396,6 +1396,13 @@ class CharactersPage(QWidget):
             error_box(self, "Portrait", e)
             return
         self.ws.log(f"portrait of {r['name_EN']} ({cid}) set: anm{dst:05d}")
+        s = r["sprite_id"]
+        shared = [x["name_EN"] for x in self.table().rows if x["sprite_id"] == s and x["id"] != cid]
+        if shared and s != cid:
+            info_box(self, "Portrait", f"Portrait set. But the Status screen and the skill cut-ins draw the portrait "
+                     f"of the character's sprite ({s}), which {shared[0]} uses too: they keep showing that one. "
+                     "Give the character a look of its own (✨ New character › Look) to see this picture there.")
+            return
         info_box(self, "Portrait", "Portrait set (status screen and skill cut-in). A plain white background is made "
                  "transparent. Press Install to see it in game.")
 

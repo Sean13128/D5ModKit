@@ -107,7 +107,7 @@ done. Tutorial 5 in the guide shows the folder layout.
 
 ---
 
-> **About this repository.** It holds the kit's code and documentation (version 1.5.5). The mods (outfits,
+> **About this repository.** It holds the kit's code and documentation (version 1.5.6). The mods (outfits,
 > Thunderlady, classes …), the Disgaea RPG reference art the outfit builder matches against
 > (`d5lib/data/drpg_ref_humanoid.pickle`) and the bundled Python come with the release zip, not with this repository:
 > they are drawn from Disgaea 5 / Disgaea RPG art. To run from a clone: `pip install -r requirements.txt`, then

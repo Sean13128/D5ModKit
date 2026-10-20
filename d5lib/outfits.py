@@ -363,6 +363,7 @@ def _finalize(ctx):
         return
     t = database.load_table("char.dat", ctx.get(CHAR))
     rows = {r["id"]: r for r in t.rows}
+    vanilla_chars = database.load_table("char.dat", ctx.fs.read(CHAR))
     synced = _follow_base(rows, pairs)
     if synced:
         ctx.log(f"  outfits: {synced} outfit row(s) follow their character's changes (stats, skills, evilities ...)")
@@ -370,6 +371,11 @@ def _finalize(ctx):
         if OWN_COLOUR_IDS else {}
     classes = getattr(ctx, "_class_specs", {})
     if not pairs and not chars and not classes:
+        filled = [n for n in _portraits_for_sprites(ctx, t, vanilla_chars) if n >= 10000]
+        if filled:                  # sprites numbered 10000+ (and their portraits 20000+) at the game's sizes
+            from . import scalepatch
+            ctx.put(EXE_FILE, scalepatch.patch(ctx.get(EXE_FILE), {m for n in filled for m in (n, n + 1)},
+                                               log=ctx.log))
         return
     class_sprites = {n for fam in classes for n in (fam, fam + 1)}
     exe, face_list, banners, icon_owners, changed = None, [], [], [], False
@@ -380,6 +386,7 @@ def _finalize(ctx):
         changed |= _finalize_characters(ctx, chars, rows, face_list, banners, icon_owners)
     if classes:
         _finalize_classes(ctx, classes, face_list, icon_owners)
+    filled = [n for n in _portraits_for_sprites(ctx, t, vanilla_chars) if n >= 10000]
     if changed or synced:
         ctx.put(CHAR, t.to_bytes())
     if exe is None:
@@ -396,7 +403,7 @@ def _finalize(ctx):
         exe = identitypatch.patch(exe, identitypatch.class_map(records, bases), log=ctx.log)
     # own animation blocks numbered 10000+ would be drawn at the portraits' 0.67 size
     from . import scalepatch
-    own_all = set(getattr(ctx, "_outfit_own", set())) | class_sprites
+    own_all = set(getattr(ctx, "_outfit_own", set())) | class_sprites | {m for n in filled for m in (n, n + 1)}
     exe = scalepatch.patch(exe, own_all, log=ctx.log)
     # humanoid own sprites numbered above 2000 must not count as monsters (monster families keep their companion file)
     monsters = {n for fam, spec in classes.items() if 2000 <= int(spec.get("template", 0)) < 3000 for n in (fam, fam + 1)}
@@ -564,6 +571,44 @@ def _anm_data(ctx, n):
         return None
 
 
+def _copy_anm(ctx, src, dst):
+    """anm `src` (as the build has it) written as anm `dst` (its block renumbered) -> done"""
+    data = _anm_data(ctx, src)
+    if data is None:
+        return False
+    a = anm.load(data)
+    hit = [b for b in a.blocks if b.id == src] or a.blocks[:1]     # (a portrait file has one block)
+    for b in hit:
+        b.id = dst
+    ctx.put(f"Anime/ANM_HI_JP.dat/anm{dst:05d}.lzs", a.to_bytes())
+    return True
+
+
+def _portraits_for_sprites(ctx, t, vanilla):
+    """Every unique character a mod adds or changes needs anm (sprite number + 10000): the Status screen and the
+    skill cut-ins draw it, and the Status screen crashes when it is missing (a look picked from a sprite that has no
+    portrait).  A missing one is copied from the character's colour portrait (anm 10000 + colour id), else from its
+    vanilla row's.  -> the sprite numbers given a portrait"""
+    van = {r["id"]: r for r in vanilla.rows}
+    done = []
+    for r in t.rows:
+        cid, s = r["id"], r["sprite_id"]
+        if cid >= 1000 or s <= 0 or s + 10000 > 32767:
+            continue
+        v = van.get(cid)
+        if v is not None and v["sprite_id"] == s:
+            continue
+        if _anm_data(ctx, s + 10000) is not None:
+            continue
+        for src in (r["color_id"] + 10000, 10000 + cid, (v["sprite_id"] + 10000) if v is not None else None, 10010):
+            if src and src != s + 10000 and _copy_anm(ctx, src, s + 10000):
+                ctx.log(f"  portrait: {r['name_EN']} ({cid}) uses sprite {s}, which had no portrait "
+                        f"(anm{s + 10000:05d}: the Status screen would crash); copied from anm{src:05d}")
+                done.append(s)
+                break
+    return done
+
+
 def _finalize_classes(ctx, classes, face_list, owners):
     """New generic classes (d5lib.newclasses): faces of colours family .. family+9 copied from the template class's
     (with the face picture), and one list icon for them."""
@@ -593,6 +638,12 @@ def _finalize_characters(ctx, chars, rows, face_list, banners, owners):
     for cid, tmpl in sorted(chars.items()):
         r = rows[cid]
         img = Image.open(pics[cid]).convert("RGBA") if cid in pics else None
+        if f"anime/anm_hi_jp.dat/anm{10000 + cid:05d}.lzs" in ctx.outputs:
+            # a portrait of its own (Characters › Portrait…): the Status screen and the cut-ins draw anm
+            # sprite + 10000, so a sprite only this character has gets the same picture there
+            s = r["sprite_id"]
+            if s != cid and sum(1 for x in rows.values() if x["sprite_id"] == s) == 1 and s + 10000 <= 32767:
+                _copy_anm(ctx, 10000 + cid, s + 10000)
         if tmpl is not None:
             r.set("color_id", cid)
             changed = True

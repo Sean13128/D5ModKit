@@ -1,5 +1,30 @@
 # D5 Mod Kit — changes
 
+## 1.5.6 (2026-10-20)
+
+**Music**
+* **New tracks show up in the in-game music list.** The list shows a track only when the save has it unlocked, and
+  the game copies a track's "always available" setting into the save only when a new game starts: a track a mod
+  added stayed out of every existing save's list (until something played it). The install now patches the list
+  (code section `.d5ml`, only when a mod adds tracks) so a track marked always available is listed in every save.
+  Tested in the game: an added track shows in the Data Shop's Music Records of an old save and plays.
+
+**Characters**
+* **Portraits of new characters show on the Status screen.** The Status screen and the skill cut-ins draw the
+  portrait of the character's *sprite* (anm sprite + 10000), and **🖼 Portrait…** wrote the one of its id (anm
+  10000 + id): a new character with a look of its own kept its old portrait there. The install now gives the sprite
+  the same picture (when no other character shares that sprite; if one does, Portrait… says so).
+* **No Status screen crash for a look without a portrait.** A character given a sprite that has no portrait file
+  (a look copied from an outfit without one, a sprite number typed in) crashed the game on its Status screen. The
+  install now gives every such sprite a portrait (the character's own, else its colour's) and says so in the log,
+  drawn at the game's portrait size.
+* Tested in the game: a new character's own portrait shows on its Status screen; a character on a sprite without a
+  portrait opens its Status screen without a crash.
+
+**macOS** (contributed by Sean13128, pull request #5)
+* The 3D Stages & Maps view is no longer blank (a shared OpenGL 4.1 context), and the kit uses the system's font
+  sizes, so text isn't tiny. Windows is unchanged.
+
 ## 1.5.5 (2026-10-19)
 
 **Stages & Maps**

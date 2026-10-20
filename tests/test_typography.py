@@ -72,7 +72,7 @@ class TypographyTests(unittest.TestCase):
         # Load only this UI function's AST, not side-effectful app imports.
         import ast
         from PyQt6.QtWidgets import QWidget, QVBoxLayout
-        tree = ast.parse((ROOT / "d5gui/app.py").read_text())
+        tree = ast.parse((ROOT / "d5gui/app.py").read_text(encoding="utf-8"))
         nodes = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "fit_sidebar"]
         namespace = {"QLabel": QLabel, "QPushButton": QPushButton}
         exec(compile(ast.Module(body=nodes, type_ignores=[]), "sidebar-only", "exec"), namespace)
