@@ -17,6 +17,7 @@ from .status import GameStatus, StatusPanel
 PAGES = [
     # (section, key, label, module, class)
     ("", "home", "🏠  Home", "home", "HomePage"),
+    ("", "browse", "🛍  Browse Mods", "browse", "BrowsePage"),
     ("CONTENT", "characters", "🧙  Characters && Classes", "characters", "CharactersPage"),
     ("CONTENT", "quests", "📜  Quests", "quests", "QuestsPage"),
     ("CONTENT", "outfits", "👗  Outfits", "outfits", "OutfitsPage"),

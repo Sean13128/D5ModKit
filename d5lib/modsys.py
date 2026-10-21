@@ -354,6 +354,14 @@ HANDLER_MODULES = ["d5lib.dbpatch", "d5lib.textpatch", "d5lib.scriptpatch", "d5l
                    "d5lib.grips"]                           # grips last: its finalizer edits the final sprites
 
 
+def mod_file_allowed(rel):
+    """may a mod's own file go into the game?  Only files inside the game's data archives: the exe ("EXE/") and
+    loose files next to it ("GAME/": DLLs, the runtime's settings) are written by the kit's own finalizers alone, so
+    a shared mod can never bring code that runs when the game starts."""
+    top = rel.replace("\\", "/").lstrip("/").split("/", 1)[0].upper()
+    return top not in ("EXE", "GAME") and ".." not in rel.replace("\\", "/").split("/")
+
+
 def load_handlers(log=print):
     import importlib
     for m in HANDLER_MODULES:
@@ -395,6 +403,10 @@ def build(fs: GameFS, mods, log=print):
     for mod in mods:
         log(f"Building mod: {mod.name}")
         for rel in mod.list_files():
+            if not mod_file_allowed(rel):
+                log(f"warning: mod '{mod.name}': {rel} left out (a mod can't put the game's program or files next to "
+                    "it: those are made by the kit itself)")
+                continue
             ctx.put(rel, mod.read_file(rel))
         for name, (order, fn) in sorted(PATCH_HANDLERS.items(), key=lambda kv: kv[1][0]):
             pdir = os.path.join(mod.patches_dir, name)

@@ -187,8 +187,12 @@ cleared, set only on 4 stages (Dreaming Mushroom 3/90, Beating of the End and Ev
   (the picture, from `patches/stages/pictures/`, scaled to the texture's size and encoded in its format). All 151
   stone pieces (6xxxx) share one texture pair, 160×128 (the tiled top in its left 128×128, two small squares in the
   right strip) + 128×32 (the walls, tiled); no other map file holds another skin for them.
-* Geo Symbols are drawn by the game as `Object_JP.dat/chw0000N.obf` (N = colour 1-6), stored y down; the GS rows
-  of char.dat carry sprite 100 (Zeroken's), which the game never draws for them.
+* Geo Symbols, treasure chests, bombs, barrels, boxes and the tombstone are the objects of
+  `Object_JP.dat/mapobj_RESIDENT.obf`, the models the game keeps loaded: its section 1 maps a char.dat sprite number
+  to an animation of section 2 (100 white, 101-107 the Geo colours red, green, blue, yellow, purple, cyan, clear;
+  108, 110-142; chests 150-152; bomb 160, barrels 170-180, boxes 190-210, tombstone 220), whose nodes (section 3)
+  draw parts of section 6 (mesh lists). A Geo Symbol of colour c is object 100 + c. (`chw0000N` are Chara World
+  objects, and the loose anm files with those numbers are characters: 100 Zeroken, 150 Void Dark.)
 * **Light.** A mesh head's material (rgba at +8, five floats at +12): the story maps white, 1, 0, 0, 4, 1 on 55 000 of
   57 000 meshes; the pieces mostly c8c8c8, 1, 0.5, 0, 4, 0.5 (made for the Item World's own light) -- dark on a stage
   (seen in game). `compose` gives the pieces the story material (build `"light": "item_world"` keeps theirs);
@@ -238,8 +242,8 @@ Where the data for a stage comes from:
   A char.dat object (body_type 2) whose `sprite_id` is in the table (450-529 mapobj_001xx/002xx, 300-305
   chw0000N) is drawn as that `Object/Object_JP.dat` .obf (Blood Parched Cactus 5102: sprite 450 →
   mapobj_00101); the others (Geo Symbols 100, Treasure 150, Bomb 160, Barrel 170-180, boxes 190-210, Tombstone
-  220) are ordinary anm sprites **[H, the kit's 3D view]**. The models are plain obf (same layout as maps, y up,
-  map units).
+  220) are objects of mapobj_RESIDENT.obf (see the Geo Symbols note above) **[H, the kit's 3D view; users' report
+  of the game]**. The models are plain obf (same layout as maps, y up, map units).
 
 ### Modder recipes
 **(a) Change the enemies on an existing stage**

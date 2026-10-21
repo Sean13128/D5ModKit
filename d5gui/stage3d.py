@@ -79,10 +79,64 @@ class _State:
         return sl.pos.get()
 
 
+RESIDENT_OBJECTS = "Object/Object_JP.dat/mapobj_RESIDENT.obf"
+
+
+class _ObjectView:
+    """one object of mapobj_RESIDENT.obf, the models the game keeps loaded (Geo Symbols, treasure chests, bombs,
+    barrels, boxes, tombstone): section 1 maps a char.dat sprite number to an animation of section 2, whose nodes
+    (section 3) draw parts of section 6 (lists of meshes).  The view keeps that one animation and empties the parts
+    the other objects use, so the model renderer draws (and animates) only this object."""
+
+    def __init__(self, o, anim):
+        import struct
+        from d5lib import obf
+        self.textures, self.meshes, self.trailer = o.textures, o.meshes, o.trailer
+        self.vertices = o.vertices
+        s2 = obf.read_table(o.sections[2])
+        s3 = obf.read_table(o.sections[3])
+        s6 = obf.read_table(o.sections[6])
+        e = s2[anim]
+        n = struct.unpack_from("<I", e, 0)[0]
+        mine = {struct.unpack_from("<i", s3[k], 0)[0] for k in struct.unpack_from(f"<{n}I", e, 28) if k < len(s3)}
+        empty = struct.pack("<I", 0) + bytes(28)
+        s6 = [p if i in mine else empty for i, p in enumerate(s6)]
+        self.sections = list(o.sections)
+        self.sections[2] = obf.build_table([e])
+        self.sections[6] = obf.build_table(s6)
+
+
+def resident_objects(o):
+    """{char.dat sprite number: animation index} of mapobj_RESIDENT.obf (its section 1)"""
+    import struct
+    s = o.sections[1]
+    n = struct.unpack_from("<I", s, 0)[0]
+    return dict(struct.unpack_from("<HH", s, 4 + 4 * i) for i in range(n))
+
+
 class _Assets(glrender.Assets):
-    """the skill preview's loaders plus the map objects' models (Object/Object_JP.dat: mapobj_*.obf)"""
+    """the skill preview's loaders plus the map objects' models (Object/Object_JP.dat: mapobj_*.obf, and the
+    always-loaded objects of mapobj_RESIDENT.obf as "res:<sprite number>")"""
+
+    def resident(self):
+        if not hasattr(self, "_res"):
+            try:
+                from d5lib import obf
+                self._res = obf.ObfFile(self.get(RESIDENT_OBJECTS))
+                self._res_map = resident_objects(self._res)
+            except Exception:
+                self._res, self._res_map = None, {}
+        return self._res, self._res_map
 
     def model(self, eid):
+        if isinstance(eid, str) and eid.startswith("res:"):
+            if eid not in self.models:
+                o, m = self.resident()
+                try:
+                    self.models[eid] = glrender.ModelGPU(eid, _ObjectView(o, m[int(eid[4:])]))
+                except Exception:
+                    self.models[eid] = None
+            return self.models[eid]
         if isinstance(eid, str):
             if eid not in self.models:
                 try:

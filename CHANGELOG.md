@@ -1,5 +1,38 @@
 # D5 Mod Kit — changes
 
+## 1.5.7 (2026-10-21)
+
+**Stages & Maps**
+* **Geo Symbols, treasure chests and the other objects look like the game's in the 3D view.** They are the models
+  the game keeps loaded (`Object_JP.dat/mapobj_RESIDENT.obf`): Geo Symbols are pyramids in their colour, chests,
+  bombs, barrels, boxes and the tombstone their own models. The view drew Chara World objects for Geo Symbols, and
+  for the rest the character sprite of the same number (Void Dark for chests, Liezerota for bombs and barrels).
+
+**Sprites & Colors**
+* **Delete this color variant…** removes a color variant you added (the ones after it move up). The variants the
+  game reads from the sprite can't be removed: a missing one crashes its color editor.
+
+**Sharing**
+* **🛍 Browse Mods**: the mods other players share, listed in the public repository
+  [eraser4521/D5ModKit-Mods](https://github.com/eraser4521/D5ModKit-Mods): pictures, descriptions, search and kinds,
+  **Install** / **Update** in one click (mods it needs come with it). Every download must have the size and SHA-256
+  the list gives and passes the package checks before the normal import (updates by identity, moved ids, a backup
+  of the old version). Entries come by pull request and are reviewed; an automatic check downloads every new or
+  changed mod and runs the same rules.
+* **📤 Post my mod…**: put a mod on the list from the kit. Sign in with GitHub once (a free account: the kit shows
+  a code to paste on github.com, nothing else); pick the mod, fill in what it is, choose a picture, **Post**. The
+  kit uploads it, adds it to the list and sends it for review. **📬 My posts** shows each post waiting, published
+  or declined (with the reviewer's reason). An update is the same mod posted again with a higher version; only the
+  account that posted a mod can post its updates.
+* **🛡 Review posts** (the list's maintainers): the waiting posts with the automatic check's result and warnings,
+  **Install to try**, **Publish** or **Decline…** with a reason; **Take off the list…** on Browse Mods. Setup and a
+  test plan: `docs/MOD_LIST.md`.
+* **Package checks on every import** (Browse Mods and Home › Import): one mod folder, plain paths, only the file
+  types mods use (game data, pictures, sound, text), size limits against zip bombs, no encrypted files.
+* **A mod can no longer bring program files.** The install used to copy a mod's files for the exe (`files/EXE/`) or
+  for the game folder (`files/GAME/`: DLLs) like any other: a shared mod could have replaced the game's program.
+  The install now leaves them out (they are made by the kit itself) and the import refuses a package that has them.
+
 ## 1.5.6 (2026-10-20)
 
 **Music**

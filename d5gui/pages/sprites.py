@@ -399,6 +399,9 @@ class SpritesPage(QWidget):
         for text, fn, tip in [("Copy from another color…", self._copy_variant,
                                "Copy the selected entries (or all) from another color variant"),
                               ("Add a new color variant", self._add_variant, "Append a copy of this palette"),
+                              ("Delete this color variant…", self._delete_variant,
+                               "Remove the color variant shown (the ones after it move up one). The colors the game "
+                               "lists for this sprite can't be removed: the game would read a missing palette"),
                               ("Export palette (PNG)…", self._export_pal, "16×16 swatch image"),
                               ("Import palette (PNG)…", self._import_pal, "16×16, 256×256 or 256×1 image")]:
             b = QPushButton(text)
@@ -1185,6 +1188,45 @@ class SpritesPage(QWidget):
         info_box(self, "New color variant", "A new color variant was added (copied from the current one). "
                                            "Whether the game uses more variants than the original count hasn't "
                                            "been verified — test in game.")
+
+    def _min_variants(self):
+        """how many colour variants the game reads from this sprite: the game's own count for a sprite it has, else 4
+        (a unique character: Normal + Extra Color 1-3) or 9 (a generic class: its tier colours and Extra Color 1-3).
+        Reading a palette that isn't there crashed the game's color editor."""
+        try:
+            v = anm.load(self.ws.fs.read(sprites.sprite_vpath(self.ws.fs, self.num, "EN")))
+            return max(1, len(v.blocks[0].palette_infos))
+        except Exception:
+            return 9 if self.generic else 4
+
+    def _delete_variant(self):
+        if not self.file:
+            return
+        n = len(self.file.blocks[0].palette_infos)
+        cur = self._global_pal()
+        keep = self._min_variants()
+        name = self.variant.currentText()
+        if n <= keep or cur < keep:
+            info_box(self, "Delete color variant",
+                     f"'{name}' can't be deleted: the game reads {keep} color variant(s) from this sprite "
+                     f"({', '.join(variant_names(keep, self.generic))}), and a missing one crashes its color "
+                     "editor. Only variants added after those can be deleted." if cur < keep else
+                     f"This sprite has only the {n} color variant(s) the game reads: none can be deleted.")
+            return
+        if QMessageBox.question(self, "Delete color variant",
+                                f"Delete '{name}' (variant {cur} of {n})? The variants after it move up one. "
+                                "Save the sprite to keep the change.") != QMessageBox.StandardButton.Yes:
+            return
+        anm.remove_palette(self.file, cur)
+        self.preview = sprites.preview_file(self.ws.fs, self.file, self.ws.log)
+        self.variant.blockSignals(True)
+        self.variant.clear()
+        for i, nm in enumerate(variant_names(len(self.file.palettes), self.generic)):
+            self.variant.addItem(nm, i)
+        self.variant.setCurrentIndex(min(cur, len(self.file.palettes) - 1))
+        self.variant.blockSignals(False)
+        self._changed()
+        self._variant_changed(self.variant.currentIndex())
 
     def _export_pal(self):
         if not self.file:

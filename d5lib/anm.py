@@ -546,6 +546,19 @@ def add_palette(anm: AnmFile, rgba=None, copy_from: int = 0, block_index: int = 
     return gi
 
 
+def remove_palette(anm: AnmFile, palette_index: int, block_index: int = 0) -> None:
+    """Remove a palette (colour variant) of a block: `palette_index` is file-global and must be one of the block's
+    own.  The later palettes move down by one (variant k + 1 becomes k); later blocks are shifted."""
+    b = anm.blocks[block_index]
+    k = palette_index - b.pal_base
+    if not 0 <= k < len(b.palette_infos) or len(b.palette_infos) < 2:
+        raise ValueError("not a removable colour variant of this block")
+    del anm.palettes[palette_index]
+    del b.palette_infos[k]
+    for ob in anm.blocks[block_index + 1:]:
+        ob.pal_base -= 1
+
+
 def add_texture(anm: AnmFile, width: int, height: int, indexed: bool = True, block_index: int = 0) -> int:
     """Append an empty texture to a block, returns its block-local index (for Cell.tex)."""
     b = anm.blocks[block_index]

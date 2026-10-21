@@ -76,6 +76,10 @@ def choice_model(choices):
     return model
 
 
+# sprite numbers of the objects in mapobj_RESIDENT.obf (its section 1)
+RESIDENT_OBJECT_SPRITES = {100, 101, 102, 103, 104, 105, 106, 107, 108, 110, 120, 130, 140, 141, 142, 150, 151,
+                           152, 160, 170, 180, 190, 200, 210, 220}
+
 class SearchCombo(QComboBox):
     """Editable combo of (id, label) with contains-search. Pass the SAME list object for combos that
     share choices: the item model is built once and shared."""
@@ -1200,9 +1204,13 @@ class StagesPage(QWidget):
         num, body = hit
         if not num:
             return None
-        if u.is_geo_symbol:                           # the six Geo Symbol models, one per colour (chw00001-6)
-            c = u.geo_color if u.size == mapfile.RECORD_SIZE else 1
-            return "model", f"chw{min(max(int(c), 1), 6):05d}"
+        # the game's always-loaded objects (Object_JP.dat/mapobj_RESIDENT.obf): a Geo Symbol of colour c is its
+        # object 100 + c (101 red ... 106 cyan, 107 clear), treasure chests 150, bombs, barrels, boxes 160-220
+        if u.is_geo_symbol:
+            c = u.geo_color if u.size == mapfile.RECORD_SIZE else 0
+            return "model", f"res:{100 + int(c) if 1 <= c <= 7 else 100}"
+        if body == 2 and num in RESIDENT_OBJECT_SPRITES:
+            return "model", f"res:{num}"
         if body == 2 and num in cache["models"]:
             return "model", cache["models"][num]
         v = u.color_variant if u.size == mapfile.RECORD_SIZE else 0
