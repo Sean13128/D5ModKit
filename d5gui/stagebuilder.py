@@ -78,15 +78,17 @@ class LookDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("The block's look")
         self.pictures_dir = pictures_dir
+        self.piece = piece
         tint, tex = mapbuild.look_of(pl)
         self.tint = tint
         self.tex = dict(tex)
         f = QFormLayout(self)
         f.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
-        intro = QLabel("A tint darkens or colours the block (white = as it is). A picture file replaces one of "
-                       "the block's textures, scaled to its size: the stone blocks have a 160×128 top picture (the "
-                       "left 128×128 of it is the tiled top) and a 128×32 wall strip; themed blocks one square "
-                       "picture.")
+        intro = QLabel("A tint darkens or colours the block (white = as it is). A picture replaces one of the "
+                       "block's textures: <b>From the game…</b> takes a Netherworld ground or a stage's own texture "
+                       "(fitted: on a stone top it becomes the tiled part, a wall strip is cut from it), "
+                       "<b>Picture…</b> a file of yours, scaled to the texture's size (the stone blocks have a "
+                       "160×128 top picture, the left 128×128 of it tiled, and a 128×32 wall strip).")
         intro.setWordWrap(True)
         f.addRow(intro)
         self.tint_btn = QPushButton()
@@ -117,6 +119,10 @@ class LookDialog(QDialog):
             lab = QLabel()
             self.tex_labels[i] = lab
             hl.addWidget(lab, 1)
+            b = QPushButton("From the game…")
+            b.setToolTip("A Netherworld ground tile or a texture of one of the game's stages")
+            b.clicked.connect(lambda _, k=i: self._from_game(k))
+            hl.addWidget(b)
             b = QPushButton("Picture…")
             b.clicked.connect(lambda _, k=i: self._pick_picture(k))
             hl.addWidget(b)
@@ -166,6 +172,37 @@ class LookDialog(QDialog):
         dst = os.path.join(self.pictures_dir, name)
         if os.path.abspath(dst) != os.path.abspath(path):
             shutil.copy2(path, dst)
+        self.tex[k] = name
+        self._show_tex()
+
+    def _from_game(self, k):
+        from .gametex import GameTextureDialog, fit
+        if not self.pictures_dir:
+            QMessageBox.information(self, "Picture", "Save the stage once first (the pictures go into its mod).")
+            return
+        page = getattr(self.parent(), "page", None)
+        stages = []
+        try:
+            seen = set()
+            for r in page.svc.table("dungeon.dat").rows:
+                rec = mapfile.DungeonRecord(bytes(r.raw))
+                if rec.map_id and rec.map_id not in seen and rec.name():
+                    seen.add(rec.map_id)
+                    stages.append((rec.map_id, f"{rec.name()} (map {rec.map_id})"))
+        except Exception:
+            pass
+        dlg = GameTextureDialog(self, page.ws, stages)
+        if dlg.exec() != QDialog.DialogCode.Accepted or not dlg.choice:
+            return
+        label, img = dlg.choice
+        try:
+            pic = fit(img, self.piece.textures[k])
+        except Exception as e:
+            QMessageBox.warning(self, "Picture", f"That picture can't be used here: {e}")
+            return
+        os.makedirs(self.pictures_dir, exist_ok=True)
+        name = "game_" + "".join(c if c.isalnum() else "_" for c in label).strip("_")[:60] + f"_t{k}.png"
+        pic.save(os.path.join(self.pictures_dir, name))
         self.tex[k] = name
         self._show_tex()
 

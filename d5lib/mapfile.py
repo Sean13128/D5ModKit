@@ -22,6 +22,13 @@ PANEL_COLORS = {0: "none", 1: "red", 2: "green", 3: "blue", 4: "yellow", 5: "pur
 PANEL_RGB = {1: (230, 40, 40), 2: (40, 200, 60), 3: (40, 90, 240), 4: (240, 220, 40),
              5: (170, 60, 220), 6: (40, 220, 230)}
 GEO_SYMBOL_IDS = (4810, 4811)        # char.dat ids named "GS"
+
+
+def is_object_id(char_id):
+    """a map object (chests, boxes, barrels, pillars ... and Geo Symbols): objects stack on one panel in the game"""
+    return 5000 <= int(char_id) < 5300 or int(char_id) in GEO_SYMBOL_IDS
+
+
 ITEM_SYMBOL_IDS = (5260, 5261)
 TEAM_NAMES = {1: "enemy", 2: "neutral/object", 3: "team3", 4: "team4", 5: "team5"}
 
@@ -310,7 +317,7 @@ class Unit:
 
     @property
     def is_object(self):
-        return 5000 <= self.char_id < 5300 or self.char_id in GEO_SYMBOL_IDS
+        return is_object_id(self.char_id)
 
     @property
     def on_map(self):

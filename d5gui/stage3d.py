@@ -182,6 +182,7 @@ class Stage3DView(QOpenGLWidget):
         self.ws = ws
         self.model = model                        # the MapCanvas: pkg, base, names, selected, visit, visible(u)
         self.lookup = None                        # unit -> (sprite number, palette) or None (set by the page)
+        self.lift = None                          # (unit index, units) -> height above its panel (a stack; the page)
         self.setFormat(gl_format())
         self.gl = None
         self.gl_error = None
@@ -272,6 +273,8 @@ class Stage3DView(QOpenGLWidget):
                 continue
             num, pal = look
             pos = self.panel_pos(u.x, u.y)
+            if self.lift:
+                pos = pos + np.array([0.0, float(self.lift(i, pkg.chr.units)) * MAP, 0.0])
             placed[i] = pos
             if num == "model":                        # a map object: its 3D model, turned as it faces
                 sl = stg.Slot()

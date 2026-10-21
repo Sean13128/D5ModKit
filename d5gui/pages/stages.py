@@ -462,6 +462,7 @@ class StagesPage(QWidget):
             from ..stage3d import Stage3DView
             self.view3d = Stage3DView(ws, self.canvas)
             self.view3d.lookup = self._unit_look
+            self.view3d.lift = self.stack_below
             self.view3d.cell_clicked.connect(self._click)
             self.view3d.cell_dragged.connect(self._drag)
             self.view3d.unit_clicked.connect(self._unit_click)
@@ -899,9 +900,11 @@ class StagesPage(QWidget):
                                f"{u.x}, {u.y}: there is no panel there, the game leaves it out.")
                 spots.setdefault((u.x, u.y), []).append(u)
             for (x, y), us in spots.items():
-                if len(us) > 1:
-                    out.append(f"On {label}, {len(us)} units share the panel {x}, {y} "
-                               f"({', '.join(str(self.char_names.get(u.char_id, u.char_id)) for u in us)}).")
+                chars = [u for u in us if not u.is_object]
+                if len(chars) > 1:
+                    out.append(f"On {label}, {len(chars)} characters share the panel {x}, {y} "
+                               f"({', '.join(str(self.char_names.get(u.char_id, u.char_id)) for u in chars)}): "
+                               "only objects stack (with one character on top).")
             if self.base and self.base in spots:
                 out.append(f"On {label}, a unit stands on the base panel {self.base[0]}, {self.base[1]}: your "
                            "army can't come out.")
@@ -1004,6 +1007,63 @@ class StagesPage(QWidget):
                   else [appears])
         return any(i != skip and u.x == x and u.y == y and any(u.shown_in(v) for v in visits)
                    for i, u in enumerate(self.pkg.chr.units))
+
+    def _stack_ok(self, x, y, appears, char_id, skip=None):
+        """may a unit of `char_id` go on this panel?  An empty panel, or a stack: the game piles objects up (crates,
+        barrels ... as many as you like) and puts a character on top of them, whatever their order in the map; two
+        characters on one panel aren't supported."""
+        visits = ([mapfile.APPEARS_FIRST, mapfile.APPEARS_REVISIT] if appears == mapfile.APPEARS_ALWAYS
+                  else [appears])
+        here = [u for i, u in enumerate(self.pkg.chr.units)
+                if i != skip and u.x == x and u.y == y and any(u.shown_in(v) for v in visits)]
+        if not here:
+            return True
+        chars = sum(1 for u in here if not u.is_object)
+        if mapfile.is_object_id(char_id):
+            return chars <= 1
+        return chars == 0
+
+    def stack_below(self, idx, units=None):
+        """how high unit `idx` stands above its panel: the char.dat heights of the objects under it (objects in the
+        map's order, a character above every object).  units: the list it is in (default: the map edited)"""
+        units = self.pkg.chr.units if units is None else units
+        if not 0 <= idx < len(units):
+            return 0
+        u = units[idx]
+        if not u.on_map:
+            return 0
+        heights = self._heights()
+        below = 0
+        for i, v in enumerate(units):
+            if i == idx or (v.x, v.y) != (u.x, u.y) or not v.is_object or not self.canvas.visible(v):
+                continue
+            if not u.is_object or i < idx:
+                below += heights.get(v.char_id, 12)
+        return below
+
+    def _heights(self):
+        h = getattr(self, "_height_cache", None)
+        if h is None:
+            h = {}
+            try:
+                for r in self.svc.table("char.dat").rows:
+                    h[int(r["id"])] = int(r["height"] or 0)
+            except Exception:
+                pass
+            self._height_cache = h
+        return h
+
+    def stack_on(self, idx):
+        """one more of this object on top of its stack"""
+        u = self.pkg.chr.units[idx]
+        if not u.is_object or not self._stack_ok(u.x, u.y, u.appears, u.char_id):
+            return
+        units = self.pkg.chr.units
+        self.pkg.chr.add_unit(u.char_id, u.x, u.y, u.level, template=u, appears=u.appears)
+        self.canvas.selected = len(units) - 1
+        self._set_dirty()
+        self.canvas.redraw()
+        self._inspect(self.canvas.selected)
 
     def _new_appears(self):
         """the visit a new unit joins: the one shown on a map with sets of its own, else every visit"""
@@ -1424,7 +1484,7 @@ class StagesPage(QWidget):
             self._inspect(self.canvas.selected)
         elif tool in (1, 2):
             appears = self._new_appears()
-            if self._occupied(x, y, appears):
+            if not self._stack_ok(x, y, appears, 4810 if tool == 2 else 1010):
                 return
             if tool == 1:
                 tmpl = next((u for u in self.pkg.chr.units if not u.is_object and u.size == mapfile.RECORD_SIZE
@@ -1472,7 +1532,7 @@ class StagesPage(QWidget):
                 self._drag_cell = (x, y)
         elif tool == 0 and self.canvas.selected is not None:
             u = self.pkg.chr.units[self.canvas.selected]
-            if (u.x, u.y) != (x, y) and not self._occupied(x, y, u.appears, skip=self.canvas.selected):
+            if (u.x, u.y) != (x, y) and self._stack_ok(x, y, u.appears, u.char_id, skip=self.canvas.selected):
                 u.x, u.y = x, y
                 self._set_dirty()
                 self.canvas.redraw()
@@ -1700,6 +1760,12 @@ class StagesPage(QWidget):
         b = QPushButton("Duplicate")
         b.clicked.connect(lambda: self._dup(idx))
         row.addWidget(b)
+        if self.pkg.chr.units[idx].is_object:
+            b = QPushButton("⬆ Stack one more")
+            b.setToolTip("Put another of this object on top of it (crates, barrels, ice blocks … pile up in the "
+                         "game; a character on the panel stands on top of the pile)")
+            b.clicked.connect(lambda: self.stack_on(idx))
+            row.addWidget(b)
         b = QPushButton("🗑 Delete unit")
         b.setObjectName("danger")
         b.clicked.connect(lambda: self._delete(idx))

@@ -1,5 +1,18 @@
 # D5 Mod Kit — changes
 
+## 1.5.8 (2026-10-21)
+
+**Stages & Maps**
+* **Stack objects.** Crates, barrels, ice blocks, pillars … pile up on one panel, and a character on that panel
+  stands on top of the pile (seen in the game: two- and three-crate towers, a Prinny on a crate whichever comes
+  first in the map; the game's own maps do it too, e.g. the stacked bombs of map 1103). **⬆ Stack one more** on an
+  object puts another on top; placing or dragging a unit onto a pile puts it on top. Two characters on one panel
+  stay refused (and Save warns about them); a pile alone no longer counts as units sharing a panel. The 3D view
+  draws the pile at its height (each object's char.dat height: a crate is 12, two steps).
+* **Blocks › Look… › From the game…**: put one of the game's pictures on a block: the 33 Netherworld grounds of
+  Textures & UI (the "block textures" there: cracked earth, snow, bricks, metal …) or any stage's own textures. On
+  a stone top it becomes the tiled part (the block's edge strip is kept); a wall strip is cut from it, not squashed.
+
 ## 1.5.7 (2026-10-21)
 
 **Stages & Maps**

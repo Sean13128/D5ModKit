@@ -231,6 +231,11 @@ Where the data for a stage comes from:
 * **Terrain, geo panels, enemies, objects, Geo Symbols and their effects** all come from the map
   files (.hex/.gop/.chr). A story stage has no enemy list in the DB.
 * **Base panel**: dungeon.dat 0x36/0x37 (not in the map).
+* **Stacks**: units on the same panel (on the same visit) stack in the game. Objects pile up; a character stands on
+  top of the objects whatever the order in the .chr (seen in game 2026-10-21: two / three Wooden Boxes, a Prinny
+  listed before and after a box, both on top, its height -30 against the ground's -18 = the box's char.dat height
+  12). The game's maps have 130 such panels (map01103: 18 panels of two bombs; map00103: a monster on a Lost Army
+  Box). Two characters on one panel exist in a few maps (map00806) but weren't tried.
 * `Enemy_Create_TableDataBase.dat` (356 × 7 u32: id, kind 1 humanoid / 2 monster, char_id, ?, ?,
   weight, 100) and `Enemy_Parameters_TableDataBase` (203 × {u32 idx, u32 value}: 1→3 … 202→800000,
   a level/scale curve) are pools for **randomly generated** units: Item World floors built from
