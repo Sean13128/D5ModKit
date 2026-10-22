@@ -85,7 +85,9 @@ class DrpgScanTests(unittest.TestCase):
         self.assertTrue(p.startswith(drpgscan.CACHE_DIR) and os.path.exists(p))
 
     def test_the_builders_and_the_picker_see_scanned_units(self):
-        sheets = drpg.unit_sheets(7, roots=[self.base])
+        kit_rip = os.path.join(self.tmp, "DRPG Assets (Updated)")       # a fixed-layout folder after the chosen one
+        png(os.path.join(kit_rip, "Characters", "Sprites", "front", "front7.png"))
+        sheets = drpg.unit_sheets(7, roots=[self.base, kit_rip])
         self.assertIn(os.path.join("Client", "tex"), sheets["front"])
         self.assertEqual(drpgsource.looks_like_drpg_root(self.base), self.base)
         units = drpgsource.scan(self.base)
