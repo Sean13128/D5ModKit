@@ -20,7 +20,8 @@ The sheets of one folder holding the four role folders are one "set" (Characters
 numbers don't always match the game's.  Suffixed names (front20105_non_eff, front20082_1) are the same unit; the plain
 name wins.  Names: any "Units IDs.txt" in the tree; unique / generic from the game's masters/character if UnityPy can
 read it.  Story characters (atlas/chara/story), the decoded dump's cut poses (sprite/.../front1/) and the
-*_inversion folders are left out.
+*_inversion folders are left out, but those cut poses tell a unit's body: their names are the poses of a humanoid
+(walk, attack_sword ...) or of a monster (attack, magic, lift ...), so a decoded dump's monsters are marked as such.
 """
 import hashlib
 import os
@@ -41,6 +42,7 @@ _SHEET = re.compile(r"^(front|back)(\d+)(?:_([0-9a-z_]+))?(\.png)?$", re.I)
 _EXTRA = re.compile(r"^(\d+)\.png$", re.I)
 _POSE_DIR = re.compile(r"^(front|back)\d+", re.I)        # a decoded dump's folder of cut poses: not a sheet
 UNITYFS = b"UnityFS"
+HUMANOID_POSES = {"stand", "walk", "damage", "attack_sword"}    # a monster-shaped unit has none of the attack_* poses
 NAMES_FILE = "units ids.txt"
 
 
@@ -137,6 +139,7 @@ class Found:
         self.names = {}        # uid -> (name, group)
         self.masters = []      # rels of masters/character bundles
         self.best = {}         # uid -> set folder
+        self.monsters = set()  # uids whose cut poses (a decoded dump) are not a humanoid's
         self.source = None
 
     @property
@@ -216,6 +219,8 @@ def scan_root(root):
             cur = found.best.get(uid)
             if cur is None or _rank(sheets) > _rank(found.sets[cur][uid]):
                 found.best[uid] = s
+    if isinstance(src, _Dir):
+        _body_kinds(src, found)
     for rel in names_files:
         for uid, v in _read_names(src.local(rel)).items():
             found.names.setdefault(uid, v)
@@ -224,6 +229,22 @@ def scan_root(root):
             name, g = found.names.get(uid, ("", ""))
             found.names[uid] = (name, g or group)
     return found
+
+
+def _body_kinds(src, found):
+    """a decoded dump keeps every unit's poses cut out under sprite/ next to tex/: their names tell its body"""
+    for uid, s in found.best.items():
+        parts = s.split("/")
+        if "tex" not in parts:
+            continue
+        i = parts.index("tex")
+        d = os.path.join(src.root, *parts[:i], "sprite", *parts[i + 1:], "front", f"front{uid}")
+        try:
+            poses = {re.sub(r"\d+_?$", "", os.path.splitext(f)[0]) for f in os.listdir(d)}
+        except OSError:
+            continue
+        if poses and not HUMANOID_POSES <= poses:
+            found.monsters.add(uid)
 
 
 def _rank(sheets):

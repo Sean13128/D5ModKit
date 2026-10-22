@@ -218,6 +218,8 @@ def _scan_any(root, units):
             continue
         u = Unit(uid, root, None, found.sheet_entries(uid))
         u.name, u.group = found.names.get(uid, ("", ""))
+        if uid in found.monsters and "monster" not in u.group:
+            u.group = f"{u.group} monster".strip()
         units[uid] = u
 
 
