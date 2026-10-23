@@ -3,6 +3,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
@@ -10,6 +11,7 @@ from d5lib import modsys, paths
 from d5lib.gamefs import GameFS
 
 KIT_DIR = modsys.KIT_DIR
+SIG_MAX_AGE = 10.0   # seconds a kept mods signature is trusted (edits deep inside a mod made outside the kit)
 
 
 def game_running(exe="disgaea5.exe"):
@@ -76,6 +78,7 @@ class Workspace(QObject):
         self.mods = modsys.ModManager(KIT_DIR, self.settings.get("profile"))
         self._open_game()
         self.active_mod = self.mods.get(self.settings.get("active_mod") or "") if self.settings.get("active_mod") else None
+        self._sig_cache = None   # (key, time, signature) of the last full mods_signature scan
 
     # ------------------------------------------------------------------ setup
     def _open_game(self):
@@ -228,12 +231,28 @@ class Workspace(QObject):
         return True
 
     # ------------------------------------------------------------------ install state
-    def mods_signature(self):
+    def mods_signature(self, fresh=False):
         """Fingerprint of everything an install would read: load order, each enabled mod's files and patches
-        (paths, sizes, times) and the kit's own code.  Equal to the stored one = the game has these mods."""
+        (paths, sizes, times) and the kit's own code.  Equal to the stored one = the game has these mods.
+        The status bar asks every few seconds, so the last scan is kept while modsys.change_token (the kit's own
+        writes, files added / removed, mod.json, load orders) and the enabled mods stay the same, for at most
+        SIG_MAX_AGE seconds: a file edited in place deep inside a mod outside the kit changes no folder time, the
+        timed rescan still finds it.  fresh=True always scans (an install stores this, it must be exact)."""
+        mods = self.mods.enabled_mods()
+        key = (modsys.change_token(self.mods.mods_dir), tuple(m.id for m in mods))  # taken before the scan
+        c = self._sig_cache
+        if not fresh and c is not None and c[0] == key and time.monotonic() - c[1] < SIG_MAX_AGE:
+            return c[2]
+        now = time.monotonic()
+        sig = self._scan_signature(mods)
+        self._sig_cache = (key, now, sig)
+        return sig
+
+    @staticmethod
+    def _scan_signature(mods):
         import hashlib
         h = hashlib.sha1()
-        for mod in self.mods.enabled_mods():
+        for mod in mods:
             h.update(mod.id.encode())
             for root, _, files in os.walk(mod.folder):
                 for fn in sorted(files):
@@ -264,7 +283,7 @@ class Workspace(QObject):
 
     def mark_installed(self, installed=True):
         p = self.mods.profile
-        self.installer.set_installed({"signature": self.mods_signature(), "profile": p.id, "profile_name": p.name,
+        self.installer.set_installed({"signature": self.mods_signature(fresh=True), "profile": p.id, "profile_name": p.name,
                                       "mods": self.mods.load_order()} if installed else None)
 
     def revert(self, vpath, mod=None):
@@ -284,7 +303,7 @@ class Workspace(QObject):
         problems = gamecheck.errors(self.installer)
         if problems:
             raise RuntimeError("The mods were not installed:\n\n" + "\n\n".join(problems))
-        sig = self.mods_signature()              # taken first: edits made during the install count as new
+        sig = self.mods_signature(fresh=True)    # taken first: edits made during the install count as new
         prof = self.mods.profile
         mods = self.mods.enabled_mods()
         self.log(f"Installing {len(mods)} mod(s) of the profile '{prof.name}': " + ", ".join(m.name for m in mods))

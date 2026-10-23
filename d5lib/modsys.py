@@ -20,6 +20,7 @@ Install strategy (fast and fully reversible):
   * Flat files (script.dat / talk.dat) are backed up whole and rewritten.
   * The voice archive (FAFULLFS, d5lib.fafs) gets new packs + a new index appended; its backup is the header.
 """
+import bisect
 import json
 import os
 import shutil
@@ -498,6 +499,21 @@ def _assemble_member(fs: GameFS, archive, member, changes):
 
 
 # =============================================================================== install
+# bumped when the installer writes the same output differently: archives written by an older kit are rewritten
+INSTALL_FORMAT = b"1"
+
+
+def _fingerprint(changes):
+    """sha1 of one archive's changes ({member path tuple: logical bytes}): equal = the install would write the same"""
+    import hashlib
+    h = hashlib.sha1(INSTALL_FORMAT)
+    for parts in sorted(changes):
+        data = changes[parts]
+        h.update("/".join(parts).lower().encode("utf-8") + b"\0" + len(data).to_bytes(8, "little"))
+        h.update(data)
+    return h.hexdigest()
+
+
 def _same_file(a, b, chunk=1 << 20):
     with open(a, "rb") as fa, open(b, "rb") as fb:
         while True:
@@ -685,6 +701,8 @@ class Installer:
         else:
             shutil.copyfile(self._bfile(archive, ".full"), path)
         rec["modified"] = False
+        rec.pop("output", None)
+        rec.pop("written", None)
         self._save_index()
         self.log(f"  restored {archive}")
 
@@ -706,6 +724,9 @@ class Installer:
         self.ensure_unlocked(self.modified_archives())
         for a in list(self.modified_archives()):
             self.restore(a)
+        self._remove_runtime_files()
+
+    def _remove_runtime_files(self):
         import glob
         for pattern in RUNTIME_FILES:
             for path in glob.glob(os.path.join(self.game_dir, pattern)):
@@ -715,13 +736,35 @@ class Installer:
                     pass                    # in use: the game is running (the loader tidies up itself)
 
     # ---------------------------------------------------------------- install
+    def _unchanged(self, archive, fp):
+        """the archive already holds exactly this output (written by the last install, untouched since)"""
+        rec = self.index.get(archive)
+        if not rec or not rec.get("modified") or rec.get("output") != fp:
+            return False
+        try:
+            st = os.stat(self.apath(archive))
+        except OSError:
+            return False
+        return [st.st_size, st.st_mtime_ns] == rec.get("written")
+
     def install(self, fs: GameFS, ctx: BuildContext):
         groups = _group_outputs(ctx)
-        self.ensure_unlocked(list(self.modified_archives()) + list(groups))
+        prints = {a: _fingerprint(ch) for a, ch in groups.items()}
+        # archives the last install already wrote with the same content are left as they are: no restore, no
+        # re-assembly, no rewrite (before, every install restored and rewrote every modded archive)
+        same = {a for a in groups if self._unchanged(a, prints[a])}
+        stale = [a for a in self.modified_archives() if a not in same]
+        self.ensure_unlocked(stale + [a for a in groups if a not in same])
         self.log("Restoring vanilla archives...")
-        self.restore_all()
+        for a in stale:
+            self.restore(a)
+        self._remove_runtime_files()
         fs.reset()
+        if same:
+            self.log(f"  {len(same)} archive(s) unchanged since the last install: kept as they are")
         for archive, changes in sorted(groups.items()):
+            if archive in same:
+                continue
             t = time.time()
             if archive.startswith(GAME_PREFIX):
                 path = self.apath(archive)
@@ -767,7 +810,8 @@ class Installer:
                 else:
                     self._ensure_backup(archive, "append")
                     self._append_patch(archive, raw_members)
-            self.index[archive]["modified"] = True
+            st = os.stat(self.apath(archive))
+            self.index[archive].update(modified=True, output=prints[archive], written=[st.st_size, st.st_mtime_ns])
             self._save_index()
             self.log(f"  patched {archive}: {len(changes)} change(s) in {time.time() - t:.1f}s")
         fs.reset()
@@ -794,8 +838,8 @@ class Installer:
                 e = [name, 0, 0, stamp]
                 if was_sorted:
                     # keep sorted archives sorted (the anime loader may rely on name order)
-                    import bisect
-                    k = bisect.bisect_left([x[0].lower() for x in entries], name.lower())
+                    k = bisect.bisect_left(names_l, name.lower())
+                    names_l.insert(k, name.lower())
                     entries.insert(k, e)
                 else:
                     entries.append(e)
