@@ -288,10 +288,20 @@ static WORD pad_buttons(void) {
         if (x) pXInputGetState = (XInputGetState_t)GetProcAddress(x, "XInputGetState");
         if (!pXInputGetState) return 0;
     }
+    /* XInputGetState is slow for a slot with no controller (it looks for one each time): such a slot is asked
+       again only every 2 seconds */
+    static DWORD absent_until[4];
+    DWORD now = GetTickCount();
     WORD all = 0;
     for (DWORD i = 0; i < 4; i++) {
+        if (absent_until[i] && (LONG)(now - absent_until[i]) < 0) continue;
         PADSTATE s;
-        if (pXInputGetState(i, &s) == 0) all |= s.Gamepad.wButtons;
+        if (pXInputGetState(i, &s) == 0) {
+            all |= s.Gamepad.wButtons;
+            absent_until[i] = 0;
+        } else {
+            absent_until[i] = now + 2000;
+        }
     }
     return all;
 }
@@ -1395,9 +1405,127 @@ static void install_present_hook(void) {
     DestroyWindow(hw);
 }
 
+/* ------------------------------------------------------------------------------------- perf
+ * Slow frames, and what the kit itself spends: when a 10-second window had 3+ frames over 40 ms, one line in
+ * d5auto.log -- how many, the worst, the kit's own time per frame (its per-frame work; the hooks' work is counted
+ * as memory checks), and the screens that ran (state-machine vtables, as d5ui.inc.c sees them).  At most 60 lines a
+ * session.  For reports like 'the Quest shop is laggy': it tells the game's own slowness from the kit's. */
+static LARGE_INTEGER g_pf_freq, g_pf_prev;
+static double g_pf_kit, g_pf_worst;
+static int g_pf_frames, g_pf_slow, g_pf_lines;
+static DWORD g_pf_start;
+static unsigned long long g_pf_vq;
+
+/* where the game thread spends a slow stretch: a 2-second sample (ctl_prof, d5ctl.inc.c) on a thread of its own,
+   logged as one line -- the exe's addresses (static VAs of the running build) and the modules.  At most 6 a session,
+   a minute apart. */
+static int g_pf_reports;
+static DWORD g_pf_last_report;
+
+static DWORD WINAPI perf_sample_thread(LPVOID p) {
+    (void)p;
+    SB o = {0};
+    ctl_prof(&o, 2000);
+    int total = 0;
+    for (int i = 0; i < PF_CAP && g_pf_leaf[i].n; i++) total += g_pf_leaf[i].n;
+    char line[2048];
+    size_t k = 0;
+    k += snprintf(line + k, sizeof line - k, "perf profile (2 s, %d samples): leaf", total);
+    for (int i = 0; i < 12 && g_pf_leaf[i].n && k < sizeof line - 96; i++) {
+        unsigned long long a = g_pf_leaf[i].a;
+        if (a >= 0x140000000ULL && a < 0x140000000ULL + g_image_size)
+            k += snprintf(line + k, sizeof line - k, " %llx %.0f%%", a, 100.0 * g_pf_leaf[i].n / (total ? total : 1));
+        else {
+            HMODULE m = NULL;
+            char name[MAX_PATH] = "?";
+            if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                                   (LPCSTR)a, &m) && m) {
+                GetModuleFileNameA(m, name, sizeof name);
+                char *b = strrchr(name, '\\');
+                if (b) memmove(name, b + 1, strlen(b));
+            }
+            k += snprintf(line + k, sizeof line - k, " %s+%llx %.0f%%", name, m ? a - (unsigned long long)m : a,
+                          100.0 * g_pf_leaf[i].n / (total ? total : 1));
+        }
+    }
+    k += snprintf(line + k, sizeof line - k, " | in");
+    for (int i = 0; i < 16 && g_pf_incl[i].n && k < sizeof line - 32; i++)
+        k += snprintf(line + k, sizeof line - k, " %llx %.0f%%", g_pf_incl[i].a, 100.0 * g_pf_incl[i].n / (total ? total : 1));
+    logf_("%s", line);
+    free(o.p);
+    InterlockedExchange(&g_pf_sampling, 0);
+    return 0;
+}
+
+static double mem_private_mb(void) {
+    PF_PMC pm;
+    memset(&pm, 0, sizeof pm);
+    pm.cb = sizeof pm;
+    return K32GetProcessMemoryInfo(GetCurrentProcess(), &pm, sizeof pm) ? pm.PrivateUsage / 1048576.0 : 0;
+}
+
+static void perf_frame(LARGE_INTEGER t0) {
+    if (!g_pf_freq.QuadPart) { QueryPerformanceFrequency(&g_pf_freq); g_pf_prev = t0; g_pf_start = GetTickCount(); }
+    double ms = (double)(t0.QuadPart - g_pf_prev.QuadPart) * 1000.0 / (double)g_pf_freq.QuadPart;
+    g_pf_prev = t0;
+    g_pf_frames++;
+    if (ms > 40.0) { g_pf_slow++; if (ms > g_pf_worst) g_pf_worst = ms; }
+    if (!(g_pf_frames % 60)) text_readable_forget();
+    DWORD now = GetTickCount();
+    {   /* the memory now and then: a session that grows shows it (Task Manager's 'memory' = private bytes) */
+        static DWORD last_mem;
+        if (!last_mem || now - last_mem >= 300000) {
+            last_mem = now;
+            DWORD h = 0;
+            GetProcessHandleCount(GetCurrentProcess(), &h);
+            logf_("mem: %.0f MB private, %lu handles", mem_private_mb(), h);
+        }
+    }
+    if (now - g_pf_start < 10000) return;
+    if (g_pf_slow >= 3 && g_pf_lines < 60) {
+        g_pf_lines++;
+        char scr[160];
+        size_t k = 0;
+        int n;
+        const SMREC *l = sm_list(&n);
+        scr[0] = 0;
+        for (int i = 0; i < n && i < 6 && k < sizeof scr - 24; i++)
+            if (l[i].state != -1) k += snprintf(scr + k, sizeof scr - k, " %llx:%d", l[i].vt, l[i].state);
+        logf_("perf: %d frames in %.0f s, %d over 40 ms (worst %.0f ms); the kit %.3f ms a frame, %.1f memory checks "
+              "a frame; %.0f MB; screen%s", g_pf_frames, (now - g_pf_start) / 1000.0, g_pf_slow, g_pf_worst,
+              g_pf_kit / (g_pf_frames ? g_pf_frames : 1), (double)(g_rd_queries - g_pf_vq) / (g_pf_frames ? g_pf_frames : 1),
+              mem_private_mb(), scr);
+        if (g_pf_slow >= 20 && g_pf_reports < 6 && (!g_pf_last_report || now - g_pf_last_report > 60000) &&
+            !InterlockedExchange(&g_pf_sampling, 1)) {
+            g_pf_reports++;
+            g_pf_last_report = now;
+            HANDLE th = CreateThread(NULL, 0, perf_sample_thread, NULL, 0, NULL);
+            if (th) CloseHandle(th); else InterlockedExchange(&g_pf_sampling, 0);
+        }
+    }
+    g_pf_vq = g_rd_queries;
+    g_pf_frames = g_pf_slow = 0;
+    g_pf_worst = g_pf_kit = 0;
+    g_pf_start = now;
+}
+
 /* ------------------------------------------------------------------------------------- entry */
 static void core_init_hooks(void);
+static int core_frame_body(void);
 __declspec(dllexport) int core_frame(void) {
+    LARGE_INTEGER t0, t1;
+    QueryPerformanceCounter(&t0);
+    g_game_tid = GetCurrentThreadId();
+    int r = core_frame_body();
+    QueryPerformanceCounter(&t1);
+    if (r == 0) {
+        perf_frame(t0);
+        if (g_pf_freq.QuadPart) g_pf_kit += (double)(t1.QuadPart - t0.QuadPart) * 1000.0 / (double)g_pf_freq.QuadPart;
+    }
+    return r;
+}
+
+static int core_frame_body(void) {
     static int init;
     if (!init) {
         init = 1;

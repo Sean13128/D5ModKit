@@ -452,6 +452,12 @@ class HomePage(QWidget):
         self.ws.mods_changed.emit()
 
     # ---- the category tree
+    def _skill_names(self):
+        if getattr(self, "_sknames", None) is None:
+            from d5lib.dbpatch import DB_ARCHIVE
+            self._sknames = modinfo.skill_names(lambda: self.ws.fs.read(f"{DB_ARCHIVE}/magic.dat"))
+        return self._sknames
+
     def _class_names(self):
         if getattr(self, "_names", None) is None:
             from d5lib.dbpatch import DB_ARCHIVE
@@ -610,6 +616,36 @@ class HomePage(QWidget):
         if new != order:
             self.ws.mods.save_load_order(new)
             self.ws.mods_changed.emit()
+            self._quest_warning(order, new)
+
+    def _quest_warning(self, before, after):
+        """a mod switched off that a quest's stage lives in: say so now (the quest could never be finished)"""
+        off = [m for m in before if m not in after]
+        if not off:
+            return
+        try:
+            from d5lib import questcheck
+            mods = {m.id: m for m in self.ws.mods.all_mods()}
+            probs = questcheck.problems(self.ws.fs, [mods[i] for i in after if i in mods], list(mods.values()))
+            probs = [p for p in probs if p["mod"] is not None and p["mod"].id in off]
+        except Exception:
+            return
+        if not probs:
+            return
+        from PyQt6.QtWidgets import QMessageBox
+        text = "<br><br>".join(p["text"] for p in probs)
+        box = QMessageBox(self)
+        box.setWindowTitle("A quest needs that mod")
+        box.setTextFormat(Qt.TextFormat.RichText)
+        box.setText(text + "<br><br>Switch it back on, or change what the quest asks for (Characters → the "
+                           "character → <i>How to get this character</i>).")
+        on = box.addButton("Switch it back on", QMessageBox.ButtonRole.AcceptRole)
+        box.addButton("Leave it off", QMessageBox.ButtonRole.RejectRole)
+        box.exec()
+        if box.clickedButton() is on:
+            need = [p["mod"].id for p in probs]
+            self.ws.mods.save_load_order(after + [m for m in before if m in need and m not in after])
+            self.ws.mods_changed.emit()
 
     def _tree_double(self, item, col):
         if item.data(0, KIND) == "mod":
@@ -701,7 +737,7 @@ class HomePage(QWidget):
                               f" · {state}{editing}</span><br>{meta.get('description') or ''}{req_txt}{lineage}"
                               f"{moved_txt}")
         import html as _html
-        lines = modinfo.summary(mod, self._class_names(), self.ws.mods.all_mods())
+        lines = modinfo.summary(mod, self._class_names(), self.ws.mods.all_mods(), self._skill_names())
         cat = modinfo.CATEGORY_LABELS.get(modinfo.category(mod), "")
         pack = modinfo.Packs(self.ws.mods.mods_dir).pack_of(mod.id)
         head = f"<b>What it adds</b> <span style='color:#8a90b8'>· {cat.split('  ', 1)[-1]}" + \
@@ -769,6 +805,27 @@ class HomePage(QWidget):
             found.append(("warning", "Your save has units from mods that are switched off in this profile: " + what +
                           ". The game crashes entering a battle with that save: switch those mods on (or pick a "
                           "profile that has them) and install."))
+        try:
+            slow = gamecheck.slow_session(self.ws.game_dir) if ok else None
+        except Exception:
+            slow = None
+        if slow:
+            grow = (f" Its memory went from {slow['mem'][0]:.0f} to {slow['mem'][1]:.0f} MB." if slow["mem"] and
+                    slow["mem"][1] - slow["mem"][0] > 300 else "")
+            found.append(("warning", f"The game ran slowly in your last session ({slow['stretches']} stretch"
+                          f"{'es' if slow['stretches'] != 1 else ''} of 10 seconds, frames up to {slow['worst']} ms)."
+                          f"{grow} 'Copy lag report' copies where its time went: send it with your report."))
+        self._lag = slow
+        if not slow and hasattr(self, "lag_btn"):
+            self.lag_btn.hide()
+        try:
+            from d5lib import questcheck
+            for t in questcheck.problem_texts(self.ws.fs, self.ws.mods.enabled_mods(), self.ws.mods.all_mods()) \
+                    if ok else []:
+                found.append(("warning", t + " Switch that mod on, or change what the quest asks for (Characters, "
+                                         "'How to get this character')."))
+        except Exception as e:
+            found.append(("warning", f"(quests not checked: {e})"))
         if not found:
             self.check_label.hide()
             return
@@ -788,6 +845,25 @@ class HomePage(QWidget):
             lay.insertWidget(lay.indexOf(self.check_label) + 1, self.report_btn)
         if hasattr(self, "report_btn"):
             self.report_btn.setVisible(bool(unknown))
+        if self._lag and not hasattr(self, "lag_btn"):
+            from PyQt6.QtWidgets import QPushButton
+            self.lag_btn = QPushButton("📋  Copy lag report")
+            self.lag_btn.setToolTip("The lines of the game's d5auto.log about slow frames: how slow, the memory, and "
+                                    "where the game spent its time (nothing personal). Send them with your report.")
+            self.lag_btn.clicked.connect(self._copy_lag)
+            lay = self.check_label.parentWidget().layout()
+            lay.insertWidget(lay.indexOf(self.check_label) + 1, self.lag_btn)
+        if hasattr(self, "lag_btn"):
+            self.lag_btn.setVisible(bool(self._lag))
+
+    def _copy_lag(self):
+        from PyQt6.QtWidgets import QApplication
+        from d5lib import version
+        text = f"D5 Mod Kit {version.VERSION} lag report\n" + (getattr(self, "_lag", None) or {}).get("report", "")
+        QApplication.clipboard().setText(text)
+        QMessageBox.information(self, "Lag report copied",
+                                "The report is on the clipboard. Paste it into an issue at "
+                                "github.com/eraser4521/D5ModKit/issues (or send it to the kit's author).")
 
     def _copy_report(self):
         from PyQt6.QtWidgets import QApplication

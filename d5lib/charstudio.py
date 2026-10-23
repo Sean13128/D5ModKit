@@ -358,6 +358,8 @@ def _desc_and_quest(fs, mod, cid, name, row, desc, quest):
         qr.set("reward_value", cid)
         qr.set("reward_count", 1)
         qr.set("important", 1)
+        from . import questcheck
+        questcheck.set_objective(qr, quest.get("cond"))
         mod.save_patch("db", "Quest.dat.json", dbpatch.diff_table(qv, qe))
         return qid
     return None

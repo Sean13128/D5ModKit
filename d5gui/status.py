@@ -92,6 +92,25 @@ class GameStatus(QObject):
                 self.changed.emit()
 
     # ------------------------------------------------------------------ actions
+    def _quests_ok(self):
+        """quests pointing at stages of switched-off mods: the player could never finish them -- ask"""
+        try:
+            from d5lib import questcheck
+            probs = questcheck.problems(self.ws.fs, self.ws.mods.enabled_mods(), self.ws.mods.all_mods())
+        except Exception:
+            return True
+        if not probs:
+            return True
+        box = QMessageBox(self.main)
+        box.setWindowTitle("Install anyway?")
+        box.setText("\n\n".join(p["text"] for p in probs) +
+                    "\n\nSwitch those mods on (Home), or change what the quest asks for (Characters → the "
+                    "character → How to get this character).")
+        go = box.addButton("Install anyway", QMessageBox.ButtonRole.AcceptRole)
+        box.addButton("Cancel", QMessageBox.ButtonRole.RejectRole)
+        box.exec()
+        return box.clickedButton() is go
+
     def _blocked(self, what):
         if self.running:
             QMessageBox.information(self.main, "Close the game first",
@@ -103,6 +122,8 @@ class GameStatus(QObject):
         if self.busy or self._blocked("install the mods"):
             return
         if not self.main.confirm_unsaved("install"):
+            return
+        if not self._quests_ok():
             return
         self.busy, self.step = "installing", ""
         self.changed.emit()

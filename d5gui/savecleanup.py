@@ -14,6 +14,10 @@
   given to new units only, so such units get their class's ranks now, and weapon levels below the class's starting
   level are raised (levels earned in game stay).  Only the game's save folder: the saves kept for other profiles go
   with other mods.
+* Stages (stage_targets, Check saves): a save keeps a slot for every stage it knew; the game adds a mod's new
+  stages to a save by itself when it loads it (seen in game, 2026-10-16).  A slot whose stage no mod has any more (a
+  deleted mod) is emptied: the stage list would still show it, and the game closes when its cursor reaches a stage
+  it can't find.  Switched-off mods keep theirs.
 The saves are copied to state/save_backups first.  The game's own characters and quests are never touched.
 """
 import os
@@ -138,14 +142,14 @@ def after_install(parent, ws):
         targets = weapon_targets(ws)
     except Exception as e:
         ws.log(f"(saves not checked for weapon mastery: {e})")
-        return
+        targets = {}
     rows = []
     for path in savegame.save_files(savegame.save_root()):
         try:
             s = savegame.Save(path)
         except (OSError, ValueError):
             continue
-        bits, plan = weapon_plans(ws, path, s, targets)
+        bits, plan = weapon_plans(ws, path, s, targets) if targets else ([], {})
         if bits:
             rows.append(("", path, s, bits, dict(weapons=plan)))
     if not rows:
@@ -156,6 +160,38 @@ def after_install(parent, ws):
              "level are raised (levels earned in game stay).")
     if not _run(parent, ws, intro, rows, title="Update saves", ok="Update the checked saves"):
         ws.log("Saves left as they are: units made earlier keep their weapon ranks and levels.")
+
+
+def stage_targets(ws):
+    """(wanted {map id: savegame.stage_info}, known {map id}): the stages the switched-on mods add (dungeon.dat rows
+    after the game's), and every stage of the game and of any mod (a switched-off mod keeps its slots)"""
+    from .dbservice import get_service
+    from d5lib import mapfile
+    svc = get_service(ws)
+    van = svc.vanilla("dungeon.dat").rows
+    rows = svc.table("dungeon.dat").rows
+    lang = ws.settings.get("language", "EN")
+    info = savegame.stage_info([bytes(r.raw) for r in rows], lang)
+    van_ids = {mapfile.DungeonRecord(bytes(r.raw)).map_id for r in van}
+    wanted = {m: v for m, v in info.items() if v[4] >= len(van) and m not in van_ids}
+    known = set(van_ids) | set(info)
+    for m in ws.mods.all_mods():
+        p = m.load_patch("db", "dungeon.dat.json") or {}
+        for r in p.get("added") or []:
+            if "map_id" in r:
+                known.add(int(r["map_id"]))
+        for fields in (p.get("rows") or {}).values():
+            if "map_id" in fields:
+                known.add(int(fields["map_id"]))
+    return wanted, known
+
+
+def stage_plans(s, targets):
+    """([text], {}, drop [map id]) for one save: slots of stages of deleted mods (new stages the game adds itself)"""
+    wanted, known = targets
+    _, drop = savegame.stage_mismatches(s, {}, known)
+    bits = [f"stage map{m:05d} of a deleted mod: taken off the stage list" for m in drop]
+    return bits, {}, drop
 
 
 def save_plans(ws):
@@ -185,6 +221,10 @@ def save_plans(ws):
         targets = weapon_targets(ws)
     except Exception:
         targets = {}
+    try:
+        stages = stage_targets(ws)
+    except Exception:
+        stages = None
     rows = []
     for label, root in savegame.save_roots(KIT_DIR):
         for path in savegame.save_files(root):
@@ -194,9 +234,13 @@ def save_plans(ws):
                 continue
             classes, outfits, bits = {}, {}, []
             weapons = {}
+            add, drop = {}, []
             if not label:                          # (the saves kept for other profiles go with other mods)
                 wbits, weapons = weapon_plans(ws, path, s, targets)
                 bits += [b + " (made before its weapon mastery changed: updated)" for b in wbits]
+                if stages:
+                    sbits, add, drop = stage_plans(s, stages)
+                    bits += sbits
             for u in s.units():
                 c = u.cls
                 if c in known or (c in have_rows and have_rows[c] not in savegame.RESERVED_NAMES):
@@ -217,7 +261,8 @@ def save_plans(ws):
                     bits.append(f"{name} is here but quest “{title}” isn't done: marked done")
             if bits:
                 rows.append((label, path, s, bits, dict(classes=classes, outfits=outfits, quests=reset,
-                                                       finish=finish, weapons=weapons)))
+                                                       finish=finish, weapons=weapons, stages=add,
+                                                       drop_stages=drop)))
     return rows
 
 
@@ -244,6 +289,7 @@ def apply_plans(ws, rows, paths=None, why="before_cleanup"):
             lines = savegame.clean(s, p.get("classes") or {}, p.get("quests") or (), p.get("outfits") or {},
                                    finish=p.get("finish") or (), guard=p.get("guard"))
             lines += savegame.fix_weapons(s, p.get("weapons"))
+            lines += savegame.fix_stages(s, p.get("stages"), p.get("drop_stages"))
             if lines:
                 s.write()
             ws.log(f"{_name(path)}: " + ("; ".join(lines) if lines else "nothing to change"))

@@ -326,3 +326,29 @@ static void fx_uninstall(void) {
     if (g_fx_file) { fclose(g_fx_file); g_fx_file = NULL; }
     logf_("fx: %d model(s) loaded on demand, %d released", g_fx_loaded, g_fx_released);
 }
+
+/* harness: fx  -> the counts;  fx stress N ROOM -> N loads of on-demand models with only ROOM cache entries (every
+   load past ROOM releases one: the release path a long session takes) */
+static void fx_cmd(SB *o, int argc, char **argv) {
+    fx_entry *fc = fx_cache();
+    if (argc > 3 && !strcmp(argv[1], "stress") && fc && g_fx_models && g_fx_file) {
+        int n = atoi(argv[2]), room = g_fx_room, ok = 0;
+        g_fx_room = atoi(argv[3]);
+        if (g_fx_room < 1 || g_fx_room > FX_SLOT_END - FX_SLOT_BASE) g_fx_room = room;
+        for (int i = 0; i < n; i++) {
+            fx_model *m = &g_fx_models[(unsigned)(i * 7919) % g_fx_nmodels];
+            int k;
+            for (k = 0; k < FX_CACHE_N; k++)
+                if (fc[k].used && fc[k].id == (int)m->id) break;
+            if (k < FX_CACHE_N) continue;
+            memset(g_fx_stamp, 0, sizeof g_fx_stamp);     /* nothing counts as asked for just now */
+            ok += fx_load(fc, m);
+        }
+        g_fx_room = room;
+        sbf(o, "{\"ok\":1,\"loads\":%d,", ok);
+    } else sb_put(o, "{", 1);
+    int used = 0;
+    for (int k = 0; fc && k < FX_CACHE_N; k++) used += fc[k].used != 0;
+    sbf(o, "\"loaded\":%d,\"released\":%d,\"failed\":%d,\"cache_used\":%d,\"room\":%d}", g_fx_loaded,
+        g_fx_released, g_fx_failed, used, g_fx_room);
+}

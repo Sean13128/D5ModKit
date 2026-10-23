@@ -1,5 +1,8 @@
 # D5 Mod Kit — Disgaea 5 Complete modding studio
 
+D5 Mod Kit is a free, unofficial modding studio for Disgaea 5 Complete on PC that lets players change the game without touching a hex editor or a line of code. It reads the game’s own files (characters, classes, skills, items, stages, sprites, music, dialogue and scripts), shows them in a friendly interface, and saves every change into self-contained mods that install into the game with one click and come out again just as cleanly. With it you can create new recruitable characters and classes from the game’s own cast, from Disgaea RPG sprites or from any fan-made sprite sheet; give characters outfits with their own faces and colours; design new skills and edit their animations, areas and numbers in a 3D preview; build and populate battle stages in 3D, from existing maps or out of blocks; put your own music in the game with proper loops; and tweak the database behind all of it. Its purpose is to make deep, shareable Disgaea 5 modding accessible to anyone who loves the game, while keeping their saves and original files safe.
+
+
 **175 outfits for 26 characters, a new playable character (Thunderlady) and an all-in-one mod editor for
 Disgaea 5 Complete on PC.**
 
@@ -21,7 +24,7 @@ The mods never change your saves, but a backup is always a good idea.
 
 ### Step 2 · Download the kit
 
-Download **[D5ModKit.zip](https://github.com/eraser4521/D5ModKit/releases/latest/download/D5ModKit.zip)** (520 MB)
+Download **[D5ModKit.zip](https://github.com/eraser4521/D5ModKit/releases/latest/download/D5ModKit.zip)** (547 MB)
 from the [latest release](https://github.com/eraser4521/D5ModKit/releases/latest).
 
 > ⚠️ Don't use the green **Code › Download ZIP** button on this page: that's only the source code, without the
@@ -104,7 +107,7 @@ done. Tutorial 5 in the guide shows the folder layout.
 
 ---
 
-> **About this repository.** It holds the kit's code and documentation (version 1.5.1). The mods (outfits,
+> **About this repository.** It holds the kit's code and documentation (version 1.5.8). The mods (outfits,
 > Thunderlady, classes …), the Disgaea RPG reference art the outfit builder matches against
 > (`d5lib/data/drpg_ref_humanoid.pickle`) and the bundled Python come with the release zip, not with this repository:
 > they are drawn from Disgaea 5 / Disgaea RPG art. To run from a clone: `pip install -r requirements.txt`, then

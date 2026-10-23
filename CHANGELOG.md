@@ -1,5 +1,273 @@
 # D5 Mod Kit — changes
 
+## 1.5.8 (2026-10-21)
+
+**Stages & Maps**
+* **Stack objects.** Crates, barrels, ice blocks, pillars … pile up on one panel, and a character on that panel
+  stands on top of the pile (seen in the game: two- and three-crate towers, a Prinny on a crate whichever comes
+  first in the map; the game's own maps do it too, e.g. the stacked bombs of map 1103). **⬆ Stack one more** on an
+  object puts another on top; placing or dragging a unit onto a pile puts it on top. Two characters on one panel
+  stay refused (and Save warns about them); a pile alone no longer counts as units sharing a panel. The 3D view
+  draws the pile at its height (each object's char.dat height: a crate is 12, two steps).
+* **Blocks › Look… › From the game…**: put one of the game's pictures on a block: the 33 Netherworld grounds of
+  Textures & UI (the "block textures" there: cracked earth, snow, bricks, metal …) or any stage's own textures. On
+  a stone top it becomes the tiled part (the block's edge strip is kept); a wall strip is cut from it, not squashed.
+
+## 1.5.7 (2026-10-21)
+
+**Stages & Maps**
+* **Geo Symbols, treasure chests and the other objects look like the game's in the 3D view.** They are the models
+  the game keeps loaded (`Object_JP.dat/mapobj_RESIDENT.obf`): Geo Symbols are pyramids in their colour, chests,
+  bombs, barrels, boxes and the tombstone their own models. The view drew Chara World objects for Geo Symbols, and
+  for the rest the character sprite of the same number (Void Dark for chests, Liezerota for bombs and barrels).
+
+**Sprites & Colors**
+* **Delete this color variant…** removes a color variant you added (the ones after it move up). The variants the
+  game reads from the sprite can't be removed: a missing one crashes its color editor.
+
+**Sharing**
+* **🛍 Browse Mods**: the mods other players share, listed in the public repository
+  [eraser4521/D5ModKit-Mods](https://github.com/eraser4521/D5ModKit-Mods): pictures, descriptions, search and kinds,
+  **Install** / **Update** in one click (mods it needs come with it). Every download must have the size and SHA-256
+  the list gives and passes the package checks before the normal import (updates by identity, moved ids, a backup
+  of the old version). Entries come by pull request and are reviewed; an automatic check downloads every new or
+  changed mod and runs the same rules.
+* **📤 Post my mod…**: put a mod on the list from the kit. Sign in with GitHub once (a free account: the kit shows
+  a code to paste on github.com, nothing else); pick the mod, fill in what it is, choose a picture, **Post**. The
+  kit uploads it, adds it to the list and sends it for review. **📬 My posts** shows each post waiting, published
+  or declined (with the reviewer's reason). An update is the same mod posted again with a higher version; only the
+  account that posted a mod can post its updates.
+* **🛡 Review posts** (the list's maintainers): the waiting posts with the automatic check's result and warnings,
+  **Install to try**, **Publish** or **Decline…** with a reason; **Take off the list…** on Browse Mods. Setup and a
+  test plan: `docs/MOD_LIST.md`.
+* **Package checks on every import** (Browse Mods and Home › Import): one mod folder, plain paths, only the file
+  types mods use (game data, pictures, sound, text), size limits against zip bombs, no encrypted files.
+* **A mod can no longer bring program files.** The install used to copy a mod's files for the exe (`files/EXE/`) or
+  for the game folder (`files/GAME/`: DLLs) like any other: a shared mod could have replaced the game's program.
+  The install now leaves them out (they are made by the kit itself) and the import refuses a package that has them.
+
+## 1.5.6 (2026-10-20)
+
+**Music**
+* **New tracks show up in the in-game music list.** The list shows a track only when the save has it unlocked, and
+  the game copies a track's "always available" setting into the save only when a new game starts: a track a mod
+  added stayed out of every existing save's list (until something played it). The install now patches the list
+  (code section `.d5ml`, only when a mod adds tracks) so a track marked always available is listed in every save.
+  Tested in the game: an added track shows in the Data Shop's Music Records of an old save and plays.
+
+**Characters**
+* **Portraits of new characters show on the Status screen.** The Status screen and the skill cut-ins draw the
+  portrait of the character's *sprite* (anm sprite + 10000), and **🖼 Portrait…** wrote the one of its id (anm
+  10000 + id): a new character with a look of its own kept its old portrait there. The install now gives the sprite
+  the same picture (when no other character shares that sprite; if one does, Portrait… says so).
+* **No Status screen crash for a look without a portrait.** A character given a sprite that has no portrait file
+  (a look copied from an outfit without one, a sprite number typed in) crashed the game on its Status screen. The
+  install now gives every such sprite a portrait (the character's own, else its colour's) and says so in the log,
+  drawn at the game's portrait size.
+* Tested in the game: a new character's own portrait shows on its Status screen; a character on a sprite without a
+  portrait opens its Status screen without a crash.
+
+**macOS** (contributed by Sean13128, pull request #5)
+* The 3D Stages & Maps view is no longer blank (a shared OpenGL 4.1 context), and the kit uses the system's font
+  sizes, so text isn't tiny. Windows is unchanged.
+
+## 1.5.5 (2026-10-19)
+
+**Stages & Maps**
+* **Several units at once.** Ctrl+click adds a unit to the selection (or takes it out), Shift+drag draws a box,
+  Ctrl+A takes every unit shown; on the flat map and in 3D. Drag one of them and they all move (only where every one
+  of them finds a free panel), the arrow keys nudge them, Delete removes them, Ctrl+D copies them. The panel on the
+  right edits them together: class, level (set, add, or a % of their own), facing, team, AI, the visit they appear
+  on, equipment (item, level, rarity) and stat modifiers; *Same class / Same team / All enemies* select more.
+* **Undo / redo** (Ctrl+Z / Ctrl+Y) of unit and Geo Panel edits.
+* Tested in the game: a stage's enemies changed together (class and level) fight that way.
+
+**Skills & Animations**
+* **🟥 Area Shapes**, a page of its own for AttackMap.dat: every area shape with the skills that use it, painted
+  panel by panel. The panels are numbered in the order the game hits the units on them (1 = the main target): paint
+  them in that order, or renumber with the **#** brush (click panels in the order you want) or **Renumber** (nearest
+  first, front row first …). Brushes for the cursor's panel and where the caster ends up, right-click erases,
+  Shift+drag paints a straight line, turn / mirror / shift the whole shape, undo / redo. **New** and **Clone** make
+  shapes of your own, **Revert** gives a game shape its panels back (changed panels are outlined), **Used by** opens
+  the skills, the JSON tab shows / takes the panels as text, shapes get names and notes.
+* The Area tab of a skill paints with the same brushes and numbers.
+* Tested in the game: Triple Strike given a new painted shape aims and hits with it.
+
+**Database Editor** (ideas from the Disgaea 5 *Overlord Edition* table editors)
+* **A record panel** next to the grid: the selected row as a form, every field with what it means, references as
+  searchable pickers, texts with their byte count and limit; **Used by** (the rows of other tables that point at
+  it, double-click to go there), **Raw** (its bytes) and **JSON**.
+* **⌕ Go to any record (Ctrl+P)** across every table by name or id, **← →** back and forward, **undo / redo** of row
+  changes, **💾 Save all**.
+* **✔ Check table**: what would crash the game or look wrong -- rows with the same id, references to rows that
+  don't exist, texts too long for their field, tables the game binary-searches out of order, and Skill.dat's
+  evility rules (a generic class's evility owned by a character crashes the Skill Shop; unique evilities with a
+  slot cost …).
+* **Evility presets** (Skill.dat): a character's unique / learnable, a class's unique / learned evility, with its
+  owner, in one click. **Sort new rows** puts your added rows in id order.
+
+**Characters & Classes**
+* **🐉 New monster class…**: a recruitable monster class drawn from a Disgaea RPG monster (the ten D5 doesn't have, or
+  any of the 21 it has, in their Disgaea RPG look), without the command line. Pick the monster; the kit proposes
+  whose moves it uses (its D5 twin, then the monster closest in height), guesses which drawing is its stand, walk,
+  hit, crouch, jump and attack from the template's own poses, and lets you fix each one; **Preview** shows every
+  template pose next to the drawing it gets. Made again later, it redraws the same class. Only monster classes are
+  offered as templates (Usalia, a story character, was in the list).
+* Tested in the game: a Gargoyle made with the wizard on Dragon King's moves stands, walks, attacks, takes hits and
+  counters as an enemy, with its own portrait on the status screen.
+
+**Game performance** (report: menus such as the Quest shop getting slower after some stages)
+* Measured on the Steam game with 33 mods: the Quest shop stays at 60 fps after a series of stages, the game's memory
+  stays flat (about 2.47 GB) and the kit's runtime costs about 0.03 ms a frame; the slowdown didn't show on the test
+  PC. To find it where it happens, the runtime now writes to d5auto.log: the memory every 5 minutes and with every
+  slow stretch, and during a long one (20+ frames over 40 ms in 10 seconds) a 2-second sample of where the game's
+  time goes (at most 6 a session).
+* **Home page**: after a session that ran slowly, a note (how slow, and whether the memory grew) and **📋 Copy lag
+  report**, the lines to send with a report.
+
+## 1.5.4 (2026-10-18)
+
+**Stages & Maps**
+* **Blocks are lit like a story stage.** The Item World's pieces carry the Item World's light (a grey material at
+  half strength), so a battlefield built from them came out very dark in game while the editor showed it bright.
+  The blocks now get the story maps' material (the Blocks panel's **Light** can keep the Item World's). A stage
+  built with 1.5.3 or older gets the new light when it is opened: Save keeps it.
+* **No more second layer of terrain.** A battlefield started from "this terrain as one block" cut that block out
+  of its own map file, which every save rewrites: once reopened, the blocks placed before came back inside the
+  cut-out (a lifted block showed twice, at its old height and its new one). The terrain it starts from is now kept
+  beside the build. A build made with an older kit says so and offers **Original terrain…** (the map it was made
+  from). The whole map's scenery around its panels comes along too (a third of it was cut away).
+* **Under a lifted block**: *Solid* (its walls go down to the ground, now cut at the ground instead of hanging below
+  it) or *Platform* (nothing under it). In the Blocks panel and the block's right-click menu.
+* **Netherworld effect** per stage (*In the game's stage list*): Snow (Water resistance -50 %), Gale Force Winds
+  (Wind), Fire Powder (Fire), Sandstorm, EXP / HL / Mana Up, Auto HP Recovery … -- dungeon.dat's "weather" field is
+  the stage's Netherworld skill (MakaiSkillDataBase), with its falling snow / wind / embers. Its **Amount** can be
+  changed (for every stage with that effect).
+* **Enemy equipment: item level and rarity.** Each slot of a unit's equipment has its item level (the stage file had
+  it all along) and a rarity (Common 0-24, Rare 25-49, Legendary 50-99, 100; or Random, as the game rolls it). The
+  rarity needs an exe patch, made at install when a mod's stage uses it.
+
+**Skills & Animations**
+* **Spell tiers set the reach, not the shapes** (corrected after testing in game). A level 9 Fire with the tier
+  levels moved to 1-8 hits 9 panels away, as the Area tab said. But how many of the nine spell shapes a unit may pick
+  is kept with that unit's spell (one at first; levelling up doesn't change it), not set by the tier: the Area tab
+  now shows every shape and says so.
+
+**Install**
+* **Exe patches no longer go missing.** The install's last steps ran in the order their code was first loaded, and
+  the outfit step starts again from the game's original exe: a page that loaded first (the Stages page loads the
+  enemy-rarity code at start-up) had its patch dropped. The install now runs them in its own fixed order (found
+  while testing: the spell tiers and enemy rarities weren't in the exe).
+
+**In game**
+* **Menus with many lines are smoother.** The kit's screen-text hook asked Windows whether every string a menu drew
+  was readable (two system calls per line, every frame: the Quest shop, the stage list and the character list draw
+  hundreds); it now remembers the memory it has checked. The custom-colour hotkey no longer polls the controllers
+  every frame outside the colour editor, and empty controller slots are asked only every 2 seconds.
+* d5auto.log notes slow frames (over 40 ms) with the screen they happened on, and the kit's own time per frame
+  (seen in game: the kit takes about 0.03 ms a frame).
+
+## 1.5.3 (2026-10-18)
+
+**Quests**
+* **📜 Quests**, a page of its own: every quest of the Quest shop and every resident request, with its title, client
+  and text, what it asks for (a stage to clear -- yours too -- or enemies to defeat), what it gives (HL, an item, an
+  evility, a skill, a character, a class, a Chara World rank, a flag), when it shows (after another quest, a flag) and
+  the stage it opens. **New quest** makes one of your own; a quest of yours can be deleted. Saving with no mod
+  active offers a mod named after the quest.
+
+**Stages & Maps**
+* **🗑 Delete stage…** takes a stage of yours out of its mod: its map, its stage-list entry, its battle start and
+  music and its blocks (saves that listed it: Home › More › Check saves).
+* Monsters idle in the 3D view like humanoids do (they stood frozen in their first pose); **Geo Symbols** are drawn
+  as the game's Geo Symbol models in their colour (they showed as Zeroken, whose sprite number the Geo Symbol
+  entry carries).
+* **Textures no longer glitch after saving** a stage built out of blocks: the 3D view reused the pictures of the
+  earlier terrain for the new one.
+* **🎨 Look…** for a block: a tint, or your own pictures on its textures (the stone blocks: a 160×128 top picture
+  and a 128×32 wall strip; themed blocks one square picture). The game's files hold no other skins for the stone
+  shapes: all 151 share one texture pair.
+* **Map size** when a stage starts from blocks (New stage › Blocks), and the Blocks panel's grid is called that.
+
+**Sprites & Colors**
+* **⏱ Speed…** is a setting, not a stack: 50 % twice is still 50 % of the animation's original speed (the original
+  timing is kept with the sprite, so 100 % brings it back exactly).
+
+**Skills & Animations**
+* **Save saves the Area tab too.** Changes to a skill's area, reach and numbers no longer need the tab's own button:
+  💾 Save (and ▶ Preview in game) write them with the timeline. With no mod active, the first save offers a mod
+  named after the skill ("Skill: Heal", category Skills), so one skill's changes can live in a mod of their own and
+  be switched off or shared alone; the mod list says which skills a mod changes.
+* **Numbers** on the Area tab: SP cost, the main effect's strength (the damage / heal bonus, or a buff's amount) and
+  the power of each of the 10 skill levels, with a fill-in by step and a *Preview at level* line.
+* **Spells grow with their level, and the kit shows it.** Fire, Heal, Braveheart and the other generic spells take
+  no reach or area from the skill table: in battle the spell's level sets a tier (levels 1 / 5 / 10 / 20 / 40 /
+  60 / 80 / 90 end tiers 1-8, tier 9 after) that is the spell's reach in panels (+1 with a staff, some classes add
+  more) and how many of the nine spell shapes the player may choose (1 panel up to 3×3). The Area tab now says so,
+  previews the reach and shapes at any level, lets you **edit the nine spell shapes** (every spell shares them),
+  **move the tier levels** (one setting for all spells; the install patches the game for it), or **give one spell a
+  reach and an area of its own** (and take them away again). Before, editing a spell's area quietly did the last of
+  these without saying so.
+
+## 1.5.2 (2026-10-17)
+
+**Stages & Maps**
+* **The stage in 3D.** A stage opens as the battle shows it: its terrain with its textures, every unit standing on
+  its panel as its own sprite (idling), the map's objects (boxes, barrels, cacti, pillars) as their 3D models, Geo
+  Panels, the base panel, through the game's battle camera. The mouse
+  turns, pans and zooms it (F fits the map, 1 the battle view, 7 from above); units and panels are clicked and
+  dragged as on the flat map, which 🧊 3D switches back to.
+* **🧱 Blocks: battlefields built out of blocks.** The game's Item World pieces (stone slabs, bars, steps, towers,
+  pyramids and 17 themed sets: cracked desert, cyan ruins, snow, a Japanese town, checkered floors, ice…) and
+  rectangles cut out of any map are placed on a grid, turned and lifted (a lifted block's walls grow down to the
+  ground), moved and deleted, with the result shown in 3D as you go. New stage › *Blocks* starts one; a stage of
+  yours made from a map can be built on too (its terrain as one block, or an empty grid). The blocks are saved with
+  the map, so building goes on later.
+* **First visit and revisits.** Many stages place other units once they are cleared: Dried Up Wasteland has Warriors
+  the first time and Prinnies on the same panels after, Final Trial 5 flame dragons and then Lucky Boards. The map
+  holds both sets (byte 0x17C of each unit: every visit / first visit / revisits). **Show** above the map switches
+  between them, and every unit has **Appears on**. Before, both sets were drawn on top of each other: deleting a unit
+  seemed to need two clicks, and new units were copied as "first visit only", so on a cleared stage nothing you added
+  appeared and a stage without its revisit enemies was won the moment it started.
+* Saving checks the stage: a visit with no enemy left, two units on one panel, a unit off the panels or on the base
+  panel.
+* **➕ New stage…**: pick the battlefield it starts from in pictures of every map (their own 3D terrain), name it,
+  choose what it starts with (its units, only its objects, or nothing).
+* **New stages in the game's stage list.** The game lists a stage in the episode of its map number once its story
+  flag is set. A new stage gets a number of the chosen episode and the flag of the stage it is listed with; saves
+  you already have get it when the game loads them. New stages also get the battle start of their base stage:
+  without it the stage played no battle start at all. Install adds a new stage to the table the stage list reads when
+  its cursor is on a stage (the game closed when the cursor reached a stage missing from it). Home › More › Check
+  saves takes stages of deleted mods off a save. Older kits gave new stages map 90001, which is the game's own
+  Unique Dungeon: **Move to another episode…** gives such a stage a proper number.
+* Maps of every enabled mod are found and saved into their own mod.
+* **Battle music** of a stage: every song of the game, or one of yours from Music & Sound (the song the stage's
+  start event plays).
+
+**Music & Sound**
+* **Export…** saves a track as a WAV any audio editor opens, its intro and loop as plain .ogg files and its loop
+  points (the game's file, two Ogg streams behind a small header, only opened in players like VLC).
+* **Replace with my song… / Add new track…**: one song file (WAV, FLAC, OGG or MP3, no ffmpeg needed), its loop start
+  and end set on the waveform, and **Hear the loop join** to check the jump. The kit cuts and converts it.
+
+**Characters & sprites**
+* **What a recruit quest asks for.** A new character's quest can ask to clear a stage (one of the game's or one of
+  your own) or to defeat enemies of a class (*To finish it* in the New character dialog; *Change what the quest asks
+  for…* under *How to get this character* later). A quest that needs a stage of a mod that is switched off can't be
+  finished in game: Home says so, switching that mod off asks, and Install asks before going on.
+* **Sprite sheets of any kind**: the kit finds every drawing on a sheet (fan sheets with drawings scattered on a
+  background colour, several characters and effects mixed in) and you choose which ones are each animation, in order,
+  with a live preview, flip, merge and hand-drawn boxes. Small sheets are scaled to the character's height. The
+  choices are kept for the next time.
+* **Monsters from a sprite sheet** move with their own animations. A monster drawn with the humanoid moves stood
+  invisible in battle and showed up for one frame when it dodged.
+* Animations of each game animation take the drawings you gave that animation (with free-size drawings a walk could
+  pick an attack pose).
+* **⏱ Speed…** (Sprites & Colors) makes an animation the sprite carries itself slower or faster, e.g. a Disgaea RPG
+  class's idle that plays too quickly.
+* New character: **Generic class** can always be chosen; with a unique character as template, pick the **class to
+  start from**.
+
 ## 1.5.1 (2026-10-15)
 
 **The kit no longer closes by itself**

@@ -627,7 +627,7 @@ class GLRenderer:
     def _map_buffers(self, gl):
         """the map's triangles (editor frame) in a static buffer of their own, uploaded once per map / place"""
         bm = self.map
-        key = (bm.id, tuple(np.round(self.map_origin, 3)))
+        key = (bm.id, getattr(bm, "rev", 0), tuple(np.round(self.map_origin, 3)))
         if self._map_gpu is not None and self._map_gpu[0] == key:
             return self._map_gpu
         from PyQt6.QtOpenGL import QOpenGLVertexArrayObject, QOpenGLBuffer
@@ -643,7 +643,7 @@ class GLRenderer:
         for m in bm.meshes:
             world = m["pos"] * np.array([1.0, -1.0, 1.0])          # the terrain is stored y up, the world is y down
             e = (world - o) * np.array([stg.MAP, -stg.MAP, stg.MAP])
-            page, rect = self.atlas.add(("map", bm.id, m["tex"]), _MapLazy(bm, m["tex"]))
+            page, rect = self.atlas.add(("map", bm.id, getattr(bm, "rev", 0), m["tex"]), _MapLazy(bm, m["tex"]))
             n = len(e)
             parts.append(self._verts(e, m["uv"], np.tile((rect[0], rect[1], -rect[2], rect[3]), (n, 1)),
                                      m["vcol"] * m["color"]))

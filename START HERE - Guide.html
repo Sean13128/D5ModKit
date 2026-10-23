@@ -67,6 +67,7 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
   <div class="grp">Tutorials</div>
   <a href="#t-first">1 · Your first edit</a>
   <a href="#t-char">2 · A new recruitable character</a>
+  <a href="#t-quests">2b · Quests</a>
   <a href="#t-outfit">3 · An outfit from a sprite sheet</a>
   <a href="#t-color">4 · Recolouring a sprite</a>
   <a href="#t-drpg">5 · Disgaea RPG sprites</a>
@@ -74,7 +75,10 @@ th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;le
   <a href="#t-skill">7 · A skill's animation</a>
   <a href="#t-text">8 · Dialogue and text</a>
   <a href="#t-stage">9 · A stage's enemies</a>
+  <a href="#t-blocks">9b · A battlefield out of blocks</a>
   <a href="#t-music">10 · Music and sounds</a>
+  <a href="#t-area">10b · A skill's area, numbers and spells</a>
+  <a href="#t-shapes">10c · Area shapes</a>
   <a href="#t-db">11 · Database (items, skills…)</a>
     <a href="#t-class">13 · New classes and monsters</a>
   <a href="#t-share">14 · Sharing your mods</a>
@@ -200,7 +204,8 @@ yet, and new things you make. If none is picked, the kit asks for a name the fir
 <h2 id="pages">The pages, one by one</h2>
 <h3>🧙 Characters &amp; Classes</h3>
 <p>Every character and class: names, stats, aptitudes, movement, weapon mastery, resistances, evilities, learned
-skills, sprite, voice and face picture. <b>✨ New character / class…</b> makes a new unit from any template.</p>
+skills, sprite, voice and face picture. <b>✨ New character / class…</b> makes a new unit from any template,
+<b>🐉 New monster class…</b> a recruitable monster from a Disgaea RPG monster.</p>
 <img class="shot" src="docs/guide/characters.png" alt="Characters page">
 <h3>👗 Outfits</h3>
 <p>All outfits of all mods. <b>✨ New outfit…</b> makes one from a sprite sheet (or from a copy of the character's
@@ -209,7 +214,9 @@ parts.</p>
 <img class="shot" src="docs/guide/outfits.png" alt="Outfits page">
 <h3>📊 Database Editor</h3>
 <p>All 90 game tables as spreadsheets: items, skills, evilities, classes, stages, quests, shops, Dark Assembly…
-Column headers explain each field when you hover them. You can export to CSV and import back.</p>
+Column headers explain each field when you hover them; the record panel shows the selected row as a form, with
+what points at it. <b>⌕ Go to</b> (Ctrl+P) finds any record, <b>✔ Check table</b> finds what would crash the game.
+You can export to CSV and import back.</p>
 <img class="shot" src="docs/guide/database.png" alt="Database page">
 <h3>✨ Skills &amp; Animations</h3>
 <p>What a skill looks like in battle. The <b>🎬 Timeline editor</b> plays the whole skill inside the kit, the
@@ -221,17 +228,25 @@ Characters &amp; Classes page). Give a skill another skill's animation, or put y
 <b>Preview in game</b> sends your edit to the running game without a reinstall. <b>Overloads</b> are here too (the
 Overloads category, <b>⚡ New Overload…</b>): see below.</p>
 <img class="shot" src="docs/guide/skills.png" alt="Skills page">
+<h3>🟥 Area Shapes</h3>
+<p>Every area shape of the game (where skills hit), with the skills that use it, painted panel by panel and numbered
+in the order the targets are hit. Make shapes of your own, give a game shape its panels back.</p>
 <h3>💬 Dialogue &amp; Text</h3>
 <p>Search all 7,000 conversations, edit lines in every language, change speakers, add or remove message boxes,
 and find &amp; replace across the whole game.</p>
 <img class="shot" src="docs/guide/dialogue.png" alt="Dialogue page">
 <h3>🗺 Stages &amp; Maps</h3>
 <p>Battle maps: move, add or delete enemies and change their class, level, equipment and skills. Paint Geo
-Panels, place Geo Symbols, move the base panel, clone a stage.</p>
+Panels, place Geo Symbols, move the base panel. Many stages place other enemies once they are cleared (Dried Up
+Wasteland: Warriors the first time, Prinnies after): <b>Show</b> switches between the first visit and revisits, and
+every unit says which visits it <b>appears on</b>. Ctrl+click or Shift+drag selects several units to move or change
+together. <b>➕ New stage…</b> starts a stage of your own from any
+battlefield (pictures of every map) and puts it in the game's stage list.</p>
 <img class="shot" src="docs/guide/stages.png" alt="Stages page">
 <h3>🎨 Sprites &amp; Colors</h3>
 <p>Every character and monster sprite with a live animated preview. Click the character to select a part, then
-drag hue, saturation and brightness. Export sprite sheets, repaint them, import them again.</p>
+drag hue, saturation and brightness. Export sprite sheets, repaint them, import them again. <b>⏱ Speed…</b> makes an
+animation the sprite carries itself slower or faster (an idle that plays too quickly).</p>
 <img class="shot" src="docs/guide/sprites.png" alt="Sprites page">
 <h3>🗡 Weapon Grips</h3>
 <p>Where each character holds its weapon, per animation and frame: drag the weapon onto the hand.</p>
@@ -304,8 +319,8 @@ in the mod's file list (right side of Home) and press <b>Remove selected change<
 <ol class="steps">
 <li>Characters &amp; Classes: select the character to start from (for example Seraphina). The new one copies its
 stats, skills and evilities.</li>
-<li>Press <b>✨ New character / class…</b>. Choose <i>Unique character</i>, give it a name, title and up to three
-lines of description.</li>
+<li>Press <b>✨ New character / class…</b>. Choose <i>Unique character</i> (or <i>Generic class</i>: it starts from
+the class chosen under <b>Class to start from</b>), give it a name, title and up to three lines of description.</li>
 <li><b>Look</b>: <i>The template's look</i> (keep <b>Give it its own copy of the sprite</b> ticked to recolour or
 repaint it), or <b>any outfit</b> of your outfit mods — <i>Killia — Formal</i>, <i>Etna — …</i>. A Disgaea RPG outfit
 is drawn again as a complete character of its own (every animation, face, portrait, cut-in); another outfit's
@@ -316,7 +331,7 @@ Speedster, Gunner, Healer, Overlord — the numbers of one of the game's playabl
 <li>Keep <b>Save it in a new mod of its own</b> ticked: one character = one mod, easy to share, update or switch
 off.</li>
 <li>Keep <b>Make it recruitable with a new quest</b> ticked and write the quest title, client and text. Long text
-is split into the quest board's lines for you.</li>
+is split into the quest board's lines for you. <b>To finish it</b> says what the player has to do first: clear a stage (one of the game's, or one of your own stages from Stages &amp; Maps) or defeat enemies of a class; change it any time under <i>How to get this character</i>. A quest that asks for a stage of another mod needs that mod switched on: Home warns you when it isn't, and Install asks before going on.</li>
 <li>OK. Then shape it on the page and <b>💾 Save</b>:
 <ul>
 <li><b>Quick setup</b>: another preset, or <b>📋 Copy from another…</b> — any character's or class's base stats,
@@ -335,8 +350,21 @@ the game you choose.</li>
 Recruiter) instead.</p>
 
 <h2 id="t-outfit">Tutorial 3 · An outfit from a sprite sheet</h2>
-<p>A sprite sheet is a picture with one row of frames per animation (stand, walk, attack…), front and back views,
-like the Disgaea RPG frame dumps. <code>D5ModKit\SpriteSheet</code> contains examples.</p>
+<p>Any sprite sheet works: a fan sheet with the drawings scattered on one background colour (other characters and
+effects mixed in), or a frame dump with one labelled row per animation like the Disgaea RPG rips
+(<code>D5ModKit\SpriteSheet</code> has examples). The kit finds every drawing on it and you say which ones are each
+move:</p>
+<ol class="steps">
+<li>Pick an animation on the right (stand, wait = idle, walk, damage = getting hit, the attacks …).</li>
+<li>Click its drawings on the sheet in order (Ctrl+click, or drag a box around several), then <b>Add the
+selected</b>. The preview plays it. <b>⇆ Flip</b> mirrors drawings that face the other way.</li>
+<li>A pose the kit cut in two: select both boxes, <b>Merge selected</b>. One it missed: <b>✂ Draw a box</b> around it.
+Hair or weapons coming out as boxes of their own: raise <b>Join pieces closer than</b>.</li>
+<li><b>Size in game</b> scales small sheets up to the character's height, pixel by pixel. Your choices are kept for
+the next time you open the same sheet.</li>
+</ol>
+<p>The same picker opens for a new character made from a sheet (Characters &amp; Classes › New): with a
+<b>monster</b> as template, the drawings become the monster's own moves.</p>
 <ol class="steps">
 <li><b>👗 Outfits</b> › <b>✨ New outfit…</b>.</li>
 <li>Choose the <b>Character</b>, type the <b>Outfit name</b> shown in game, keep <i>Convert a sprite sheet</i> and
@@ -464,25 +492,125 @@ Mode, as always. More in <code>docs\OVERLOADS.md</code>.</p>
 <li><b>💾 Save</b> and install. For mass edits use <b>Find &amp; Replace…</b>.</li>
 </ol>
 
-<h2 id="t-stage">Tutorial 9 · A stage's enemies</h2>
+<h2 id="t-stage">Tutorial 9 · A stage's enemies, and stages of your own</h2>
 <ol class="steps">
-<li><b>🗺 Stages &amp; Maps</b>: pick a stage. The map shows enemies, Geo Panels and the base panel.</li>
-<li><b>Add enemy</b>, click a panel, then set its class, level, equipment and skills on the right.</li>
-<li><b>💾 Save</b>, install, and play the stage. <b>Clone as new stage…</b> copies a stage for your own level.</li>
+<li><b>🗺 Stages &amp; Maps</b>: pick a stage. It opens in <b>🧊 3D</b>, as the battle shows it: the terrain, every
+unit standing on its panel as its own sprite, the map's objects (boxes, barrels, cacti, pillars) as their 3D
+models, Geo Panels and the base panel. The middle mouse button (or Alt+drag)
+turns the camera, Shift+middle or the right button pans, the wheel zooms, <b>F</b> fits the map, <b>1</b> is the
+battle's own view, <b>7</b> from above. Click a unit or a panel just as on the flat map; switch 🧊 3D off for the
+top-down grid.</li>
+<li><b>Show</b> (above the map): <i>First visit</i> is what the stage places until you clear it, <i>Revisits</i>
+what it places after. Edit the visit you play: a stage you cleared long ago plays its revisit units.</li>
+<li><b>Add enemy</b>, click a panel, then set its class, level, equipment and skills on the right. A new unit joins
+the visit shown; <b>Appears on</b> moves it to the other one or to every visit.</li>
+<li><b>Several units at once</b>: Ctrl+click adds a unit, Shift+drag draws a box, Ctrl+A takes every unit shown. Drag
+one of them and the group moves, the arrow keys nudge it, Delete removes it, Ctrl+D copies it; the panel on the right
+changes their class, level, team, AI, equipment and stat modifiers together. Ctrl+Z undoes.</li>
+<li><b>💾 Save</b>. The kit warns when a visit has no enemy left (the battle would be won the moment it starts) or two
+units share a panel. Install and play.</li>
+</ol>
+<p><b>A stage of your own:</b> <b>➕ New stage…</b> shows a picture of every battlefield. Pick one, name your stage,
+choose what it starts with (its enemies, only its objects, or nothing) and <b>In the stage list with</b>: the game
+lists your stage in that stage's episode, as soon as that stage is listed. Saves you already have get it by
+themselves: the game adds new stages to a save when it loads it.</p>
+<p><b>Battle music</b> (on the right, under <i>In the game's stage list</i>): the song a stage's battle starts with.
+Every song of the game is listed, and so are your own from Music &amp; Sound. A new stage starts with its base
+stage's song.</p>
+<p><b>Netherworld effect</b> (under it): what the whole battle has, as the game's Netherworlds do. <i>Snow</i> lowers
+Water resistance by 50 % (with falling snow), <i>Gale Force Winds</i> Wind resistance, <i>Fire Powder</i> Fire
+resistance; EXP Up, HL Up, Auto HP Recovery and others work on any stage. <b>Amount</b> changes the effect itself,
+so every stage with it changes too.</p>
+<p><b>Enemy equipment</b>: every slot has the item, its <b>level</b> (– = the item's own) and its <b>rarity</b>
+(Common 0-24, Rare 25-49, Legendary 50-99, 100; the item's stats rise by that %). <i>Random</i> keeps the game's
+roll. Install patches the game for the rarities you set.</p>
+
+<h2 id="t-quests">Tutorial 2b · Quests</h2>
+<ol class="steps">
+<li><b>📜 Quests</b>: pick a quest of the Quest shop or a resident request. The top lines say in words what it asks
+for, what it gives and when it shows; change any of it below (title, client, text, the objective, the reward, the
+quest it comes after, the flag it needs, the stage it opens).</li>
+<li><b>➕ New quest</b> makes one of yours: a stage of yours to clear, or enemies to defeat; the prize can be HL, an
+item, a skill, an evility, a character (a recruit quest) or a class. <b>💾 Save</b> writes it into your mod (offered
+under the quest's name when none is active). 🗑 Delete takes a quest of yours away again.</li>
 </ol>
 
-<h2 id="t-music">Tutorial 10 · Music and sounds</h2>
+<h2 id="t-blocks">Tutorial 9b · Building a battlefield out of blocks</h2>
 <ol class="steps">
-<li><b>🎵 Music &amp; Sound</b>: pick a track. Play it, or <b>Replace with my song…</b>.</li>
-<li>WAV files work as they are. For MP3, OGG or FLAC, install <a href="https://ffmpeg.org/">ffmpeg</a> and make sure
-<code>ffmpeg.exe</code> is on your PATH.</li>
-<li>Install, then listen in game.</li>
+<li><b>➕ New stage…</b>, and under <i>It starts with</i> choose <b>Blocks</b>: the stage opens with a stone slab on a
+12×12 grid and the <b>Blocks</b> panel on the right. (A stage of yours made from a map can be built on too: press
+<b>🧱 Blocks</b> above the map and start from its terrain as one block, or from an empty grid.)</li>
+<li>Pick a theme and a block: the game's own Item World pieces (stone slabs, bars, steps, towers, pyramids; cracked
+desert, cyan ruins, snow, a Japanese town, checkered floors, ice…). <b>✂ A piece of a map…</b> cuts a rectangle out of
+any map, rocks and walls included, to use as a block.</li>
+<li><b>🧱 Place</b>: move the mouse over the map (the block's panels show in gold) and click. <b>R</b> turns the block
+a quarter, <b>+</b> / <b>−</b> lift and lower it one height step. <b>Under a lifted block</b>: <i>Solid</i> (its walls
+go down to the ground, like a stack of blocks) or <i>Platform</i> (it floats, nothing under it).</li>
+<li><b>✥ Move</b>: click a block of the map to choose it (orange), drag it, turn or lift it with the same keys,
+<b>Delete</b> removes it; the right mouse button opens the same choices. <b>Grid</b> sets the size of the
+battlefield.</li>
+<li><b>🎨 Look…</b> tints the chosen block or puts your own pictures on its textures (a stone block: a 160×128 top
+picture, its left 128×128 tiled over the top, and a 128×32 wall strip; a themed block: one square picture).
+<b>Map size</b> at the top of the panel sets the grid; <b>Light</b> under it is a story stage's (the Item World's
+own light comes out dark on a stage); <b>🗑 Delete stage…</b> on the right takes a stage of yours out of its mod
+again.</li>
+<li><b>Done building</b>, then place enemies, Geo Panels and the base panel with the usual tools, and <b>💾 Save</b>:
+the map is written as one file and the blocks are kept with it, so you can go on building later.</li>
+</ol>
+<div class="note">A stage built with kit 1.5.3 or older from "this terrain as one block" may show a block twice once it
+is rebuilt (that kit didn't keep the terrain it started from). The Blocks panel says so: <b>Original terrain…</b>,
+then pick the map you made the stage from, and it is rebuilt on that.</div>
+<div class="note">The battle's sky (the colours behind the map) can't be chosen yet: the kit hasn't found where the
+game keeps it.</div>
+
+<h2 id="t-music">Tutorial 10 · Music and sounds</h2>
+<p>The game plays a track's <b>intro</b> once, then its <b>loop</b> part over and over. When the music reaches the
+loop end it jumps back to the loop start, so both points have to fall on the same place of the music (the start of
+a bar, two bars apart) for the jump not to be heard.</p>
+<ol class="steps">
+<li><b>🎵 Music &amp; Sound</b>: pick a track. <b>Export…</b> saves it as a WAV any audio editor opens (Audacity …),
+its intro and loop as plain .ogg files, and a text file with its loop points.</li>
+<li><b>Replace with my song…</b> (or <b>➕ Add new track…</b> for a song under a new number): choose your song (WAV,
+FLAC, OGG or MP3), then drag the green <b>loop start</b> and red <b>loop end</b> lines on the waveform, or type the
+times. <b>Hear the loop join</b> plays the seconds before the loop end and then the loop start, as the game will.</li>
+<li>OK: the kit cuts the song into intro and loop and converts both to the game's format. Install, then listen in
+game. A new track listed in the music list can be chosen in game as the music of your base or of battles.</li>
+</ol>
+<div class="note">To make a stage play your song, pick it as the stage's <b>Battle music</b> on 🗺 Stages &amp; Maps
+(Tutorial 9). Story scenes play their own music.</div>
+
+<h2 id="t-area">Tutorial 10b · A skill's area, reach, numbers and spells</h2>
+<ol class="steps">
+<li><b>✨ Skills &amp; Animations</b>: pick the skill, open the <b>🟥 Area</b> tab on the right. Click panels to
+change where it hits, set its reach and height reach, its SP cost, the main effect's strength and the power of each
+skill level (<i>Preview at level</i> shows the result). <b>💾 Save</b> writes it all; with no mod active the kit
+offers a mod named after the skill.</li>
+<li><b>Spells</b> (Fire, Heal, Braveheart…) have no area of their own: their level sets a tier that is their reach.
+Their area is one of nine spell shapes (1 panel up to 3×3); how many of them a unit may pick is kept with that unit's
+spell. The Area tab previews the reach at any level, lets you edit the nine shapes (every spell shares them), move
+the tier levels for all spells, or give one spell a fixed reach and area (and take it back).</li>
+</ol>
+
+<h2 id="t-shapes">Tutorial 10c · Area shapes</h2>
+<ol class="steps">
+<li><b>🟥 Area Shapes</b>: every area of the game, with the skills that use it. Pick one, or <b>➕ New</b> /
+<b>⧉ Clone</b> for one of your own.</li>
+<li>Paint with <b>🖌 Paint</b>: the panels are numbered in the order the game hits the units on them (1 = the main
+target). <b># Number</b> renumbers (click panels in the order you want), <b>Renumber</b> tidies the order,
+<b>◆ Cursor</b> marks the panel the player points at, <b>➜ Caster ends</b> where a moving skill puts the caster.
+Right-click erases, Shift+drag paints a straight line, Ctrl+Z undoes.</li>
+<li><b>💾 Save</b>. A skill takes a shape on its Area tab (Skills &amp; Animations), which paints with the same
+brushes.</li>
 </ol>
 
 <h2 id="t-db">Tutorial 11 · Database (items, skills…)</h2>
 <ol class="steps">
 <li><b>📊 Database Editor</b>: choose a table (for example <i>item</i>), search for the row and change the value.
-Hover a column header to see what it means.</li>
+Hover a column header to see what it means. The <b>record panel</b> on the right shows the selected row as a form:
+click a field for what it means, references are pickers, texts show their byte limit; <b>Used by</b> lists the rows
+pointing at it. <b>⌕ Go to</b> (Ctrl+P) finds any record of any table, <b>←</b> / <b>→</b> go back and forth.</li>
+<li><b>✔ Check table</b> before saving: it finds what would crash the game (an evility of the wrong kind, a missing
+row …). On Skill.dat, <b>Evility presets</b> set the fields a character's or a class's evility needs.</li>
 <li><b>💾 Save</b>, then install. <i>Changed rows only</i> shows what your mods change. CSV export and import let
 you work in Excel.</li>
 </ol>
@@ -490,15 +618,33 @@ you work in Excel.</li>
 gives new things ids above the existing ones.</div>
 
 
-<h2 id="t-class">Tutorial 13 · New classes and monsters <span class="tag">command line</span></h2>
-<p>Make a generic class or monster from a Disgaea RPG unit, animated like a vanilla class or monster (it
-needs the Disgaea RPG sprites: see Tutorial 5):</p>
+<h2 id="t-class">Tutorial 13 · New classes and monsters</h2>
+<ol class="steps">
+<li><b>🐉 New monster class…</b> (Characters &amp; Classes, under New character): pick a Disgaea RPG monster (it needs the Disgaea RPG sprites: see Tutorial 5). The kit proposes whose moves it uses (the closest build
+first) and guesses its poses.</li>
+<li>Check the poses: click one, choose what it is (stand, walk, hit, crouch, jump, attack, other, not used); for a
+walk or an attack its step. <b>🔍 Preview</b> shows every template pose next to the drawing it gets.</li>
+<li>Name it (and its six ranks), <b>Create</b>: a mod of its own with the class, hired at the Netherworld registrar.
+Give it its stats, skills and evilities on the Characters page, then Install &amp; Play.</li>
+</ol>
+<p>Human classes from Disgaea RPG units: <b>✨ New character / class…</b> › Look: <i>Disgaea RPG sprites</i>. The command
+line does both too:</p>
 <pre><code>python tools\new_drpg_class.py UNIT TEMPLATE "Name" --titles "T1,T2,T3,T4,T5,T6" --desc "one line for Hire Character"
 python tools\new_drpg_monster.py --help</code></pre>
 <p>Run them in <code>D5 Mod Kit Console.bat</code>. <code>docs\CLASSES.md</code> and <code>docs\MONSTERS.md</code>
 explain every step.</p>
 
 <h2 id="t-share">Tutorial 14 · Sharing your mods</h2>
+<ol class="steps">
+<li><b>🛍 Browse Mods</b> lists the mods other players share: pick one for its picture and description, then
+<b>⬇ Install</b> (or <b>⬆ Update</b> when a newer version is out). The mods it needs come with it. Press Install
+(bottom left) to put it into the game. Every download is checked against the list before it is imported.</li>
+<li>To put yours on the list: <b>Browse Mods › 📤 Post my mod…</b>. The first time, sign in with GitHub (a free
+account): the kit shows a code, <b>Open GitHub</b>, paste it and press Authorize. Then pick your mod, give it a
+version, your name, a summary, a description and a picture, and press <b>📤 Post</b>. It shows up for everyone once
+it has been reviewed; <b>📬 My posts</b> shows where it is. To post an update, post it again with a higher
+version.</li>
+</ol>
 <div class="grid2">
 <div class="card"><b>With other kit users</b><br>Home › right-click a mod › <b>Share (export as .zip)…</b> (or
 <b>📤 Share this character…</b> on the Characters page). Give it a version. They use Home › <b>More ▾</b> ›

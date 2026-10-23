@@ -546,6 +546,19 @@ def add_palette(anm: AnmFile, rgba=None, copy_from: int = 0, block_index: int = 
     return gi
 
 
+def remove_palette(anm: AnmFile, palette_index: int, block_index: int = 0) -> None:
+    """Remove a palette (colour variant) of a block: `palette_index` is file-global and must be one of the block's
+    own.  The later palettes move down by one (variant k + 1 becomes k); later blocks are shifted."""
+    b = anm.blocks[block_index]
+    k = palette_index - b.pal_base
+    if not 0 <= k < len(b.palette_infos) or len(b.palette_infos) < 2:
+        raise ValueError("not a removable colour variant of this block")
+    del anm.palettes[palette_index]
+    del b.palette_infos[k]
+    for ob in anm.blocks[block_index + 1:]:
+        ob.pal_base -= 1
+
+
 def add_texture(anm: AnmFile, width: int, height: int, indexed: bool = True, block_index: int = 0) -> int:
     """Append an empty texture to a block, returns its block-local index (for Cell.tex)."""
     b = anm.blocks[block_index]
@@ -694,6 +707,73 @@ def list_animations(anm: AnmFile):
         info.update(index=flat, block=bi, anim=ai, id=a.id, root=a.root)
         out.append(info)
     return out
+
+
+def _timed_keys(anm: AnmFile, anim_ids):
+    """[(block, key index)] of the keys the animations' node trees use, each once, in a fixed order"""
+    ids = {int(i) for i in anim_ids}
+    out = []
+    for bi, b in enumerate(anm.blocks):
+        keys = set()
+        for a in b.animations:
+            if a.id not in ids:
+                continue
+            for ni, _, _ in b.walk(a.root):
+                n = b.nodes[ni]
+                if n.first_key >= 0 and n.num_keys:
+                    keys.add((n.first_key, n.num_keys))
+        seen = set()
+        for first, num in sorted(keys):
+            for idx in range(first, min(len(b.keys), first + num)):
+                if idx not in seen:
+                    seen.add(idx)
+                    out.append((bi, idx))
+    return out
+
+
+def key_times(anm: AnmFile, anim_ids):
+    """the key times retime() changes, in its order (kept to retime from the original again later)"""
+    return [anm.blocks[bi].keys[idx].time for bi, idx in _timed_keys(anm, anim_ids)]
+
+
+def retime(anm: AnmFile, anim_ids, factor: float, base=None) -> int:
+    """Make animations slower (factor > 1) or faster (< 1): every key time of their node trees (control keys -- the
+    loop points -- included) times `factor`.  Each key is changed once even when several of the animations share a
+    node; a node's key times stay increasing.  base: the times to scale from (key_times() taken before an earlier
+    retime), so a second speed change doesn't stack on the first.  -> number of keys changed"""
+    ids = {int(i) for i in anim_ids}
+    done = 0
+    order = _timed_keys(anm, anim_ids)
+    base_of = {}
+    if base is not None and len(base) == len(order):
+        base_of = {k: int(t) for k, t in zip(order, base)}
+    for bi, b in enumerate(anm.blocks):
+        keys = set()
+        for a in b.animations:
+            if a.id not in ids:
+                continue
+            for ni, _, _ in b.walk(a.root):
+                n = b.nodes[ni]
+                if n.first_key >= 0 and n.num_keys:
+                    keys.add((n.first_key, n.num_keys))
+        scaled = set()
+        for first, num in sorted(keys):
+            last = -1
+            for idx in range(first, min(len(b.keys), first + num)):
+                k = b.keys[idx]
+                if idx in scaled:                      # (a key two nodes share: changed once)
+                    last = k.time
+                    continue
+                scaled.add(idx)
+                t = int(round(base_of.get((bi, idx), k.time) * factor))
+                if t <= last and k.time > 0:
+                    t = last + 1
+                t = max(0, min(0xFFFF, t))
+                if t != k.time:
+                    done += 1
+                k.time = t
+                last = t
+    return done
 
 
 def animation_info(b: AnmBlock, a: Animation) -> dict:

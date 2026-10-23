@@ -188,6 +188,35 @@ QMenu::separator {{ height: 1px; background: {LINE}; margin: 4px 8px; }}
 """
 
 
+def system_typography_qss(native_font):
+    """Return the theme with sizes derived from a pre-stylesheet QApplication font.
+
+    Pure generation: no application/widget mutation. QSS stays the original policy
+    for reversal. Ordinary widgets inherit the application family and size instead
+    of a universal rule that would mask explicitly chosen code fonts.
+    """
+    import re
+
+    baseline = native_font.pointSizeF()
+    if baseline <= 0:
+        from PyQt6.QtGui import QFontInfo
+        baseline = QFontInfo(native_font).pointSizeF()
+    if baseline <= 0:
+        raise ValueError("Native font must resolve to a positive point size")
+    qss = re.sub(r"\*\s*\{[^}]*\}", "", QSS, count=1)
+    # Retain headings; supporting text never falls below 90% of native size.
+    qss = re.sub(r"font-size:\s*([\d.]+)pt;",
+                 lambda m: f"font-size: {baseline * max(.9, float(m[1]) / 10):g}pt;", qss)
+    from PyQt6.QtGui import QFontDatabase
+    fixed = QFontDatabase.systemFont(QFontDatabase.SystemFont.FixedFont)
+    # These existing editors declare NoWrap for scripts/hex; wrapped dialogue
+    # stays proportional. Narrow selectors leave other explicit widget fonts alone.
+    def quoted(family):
+        return "'" + family.replace("\\", "\\\\").replace("'", "\\'") + "'"
+    qss += f"\nQPlainTextEdit {{ font-family: {quoted(native_font.family())}; font-size: {baseline:g}pt; }}"
+    qss += f"\nQPlainTextEdit[lineWrapMode=\"0\"] {{ font-family: {quoted(fixed.family())}; }}"
+    return qss
+
 
 TOOLTIP_DELAY_MS = 250      # hover time before a tooltip shows (Qt's default: 700)
 TOOLTIP_MIN_MS = 30000      # how long it stays up at least (Qt's: 10 s); +60 ms per character of longer texts

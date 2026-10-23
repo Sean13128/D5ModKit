@@ -88,12 +88,12 @@ spawn-struct initialiser at `0x1404da2bf` **[H]**; the meanings are cross-checke
 | 0x00A | u16 | facing | degrees: 0 = +y, 90 = +x, 180 = −y, 270 = −x (spectator rings face the centre) **[M/H]** |
 | 0x00C | i16 | x | panel x, −1 = not on the map at start **[H]** |
 | 0x00E | i16 | y | panel y **[H]** |
-| 0x010 | u8 | spawn_group | 255 normally; 1/2 only on off-map (−1,−1) units → reinforcement wave? **[L]** |
-| 0x012 | u16 | unk12 | 1 on 96% of units |
+| 0x010 | u8 | spawn_group | 255 (or 0) = on the field at the start; 1-127 = a reinforcement group, kept off the field (the spawn copies the record into a table per group, 0x140525f20) until an event calls it in **[H]** |
+| 0x012 | u16 | repeat | how many times the spawn loop places the unit (0x1404da160 loops `k < repeat`); 1 on 96% of units, **0 = never placed** **[H]** |
 | 0x014 | u16 | color_variant | 0xFFFF default, 0-8 on repeated generic units (palette?) **[L]** |
 | 0x016 | u8,u8 | unk16, unk17 | |
-| 0x018 | u32[5] | equipment | **item.dat ids** (id at item.dat+0x48); [0] weapon, [2] armour slot mostly; 0 = empty **[H]** |
-| 0x02C | 12 bytes | unk2c | only set in map05001 |
+| 0x018 | u32[5] | equipment | **item.dat ids** (id at item.dat+0x48); [0] weapon, [2] armour slot mostly; 0 = empty **[H]**. The kit keeps a chosen rarity + 1 in the high 16 bits (0 = the game's roll), read by its exe patch (`d5lib/enemyitems.py`) |
+| 0x02C | u16[5] + u16 | item levels | each slot's **item level**: the spawn's equipment loop (0x140526e62) writes it into the item it makes (+0x12c and +0x13e) **[H]**; 0 everywhere but the Test Map (map05001, level 1); the 6th u16 unused |
 | 0x038 | u32[20] | evilities | **Skill.dat ids** (5001 Theft Prevention, 2092 Poison Chance, …) **[H]** |
 | 0x088 | u32[20] | skills | **magic.dat ids** (1001 Fire, 1201 Ice, 1303 Giga Star, …) **[H]** |
 | 0x0D8 | u16[20] | skill_levels | parallel to `skills` **[M]** |
@@ -104,13 +104,19 @@ spawn-struct initialiser at `0x1404da2bf` **[H]**; the meanings are cross-checke
 | 0x174 | u8 | flags | bit values 1,2,4,8,16 **[L]** |
 | 0x175 | u8 | team | 1 enemy army; 2 neutral (all objects, GS, spectators); 3-5 extra armies **[M]** |
 | 0x178 | i32 | ai | AI pattern 101-116, −1 for objects **[M]** |
-| 0x17C | 20×10 bytes | ai_rules | {u8 kind, u8 arg, u16 v[4]}; v is often a map rectangle (x0,y0,x1,y1) that acts as a trigger zone **[L]** |
+| 0x17C | u8 | **appears** | which visits place the unit (0x140525f20): 0 every visit, 1 only while the stage isn't cleared (its clear count in the save is 0, 0x140525640), 2 only once it is cleared. The game's maps: 3347 units 0, 423 units 1, 208 units 2 **[H]** |
+| 0x17D | 199 bytes | ai_rules | the unit's AI orders, copied into the unit by the spawn: kind byte (255 = none) + 4 × u16, often a map rectangle (x0,y0,x1,y1) that acts as a trigger zone **[M]** |
 | 0x244 | u8[4] | unk244 | |
 | 0x248 | u32 | geo_color | Geo Symbol colour (panel codes, 0 = clear) **[M]** |
 | 0x24C | u32 | geo_effect | Geo Symbol effect = **GE.dat id** (1 Damage, 2 Recovery, 3 EXP, 12 Enemy Boost, 16 No Entry, 20 Invincible, 21 Move …, 61 Game Over) **[H]** |
 
-The same slot numbers can appear twice. map00101 lists Warriors, then Prinnies at the same squares
-(variant/phase sets chosen by the event script) **[L]**.
+**First visit and revisits.** One map holds both sets, told apart by `appears`: map00101 (Dried Up Wasteland) has 4
+Warriors / Martial Artists with `appears` 1 and 4 Prinnies with 2 on the same panels, plus 3 objects with 0. Final
+Trial (map02105) has 5 flame dragons (1) and, after it is cleared, Lucky Boards and others (2); its two Geo Symbol
+pairs differ in effect. Slot numbers may repeat between the sets. An editor that shows both sets at once puts two
+units on one panel (deleting "one" seems to need two clicks); a unit copied from a first-visit enemy keeps
+`appears` 1 and never shows up on a cleared stage. The Stages page shows one visit at a time and gives new units
+the visit shown (`ChrFile.add_unit(appears=...)`, `Unit.appears`, `ChrFile.placed(visit)`).
 
 API: `ChrFile(bytes)`: `.units` (list of `Unit`), `.add_unit(char_id,x,y,level,template=None,**fields)`,
 `.enemies()`, `.geo_symbols()`, `.to_bytes()`. `Unit` exposes every field above as an attribute, plus
@@ -120,7 +126,12 @@ Deleting a unit = removing it from `.units`. Adding one = `add_unit` (copies a t
 ## 5. Stage ↔ map ↔ enemies
 
 `dungeon.dat` has 223 records of 336 bytes. The loader is at `0x1400c3a00`. The table sits in a
-shared DB arena, and no fixed capacity was found.
+shared DB arena, and no fixed capacity was found. Fields read by the game, besides the map id and the base panel:
+0x08 / 0x0C story event / talk ids played around the stage (0 on the Challenge and Carnage stages; a new stage gets
+0), 0x16 the **story flag** that lists the stage (5000 + 10·ep + n), 0x18 the stage level the stage list shows
+(scaled on post-game stages), 0x1D which list it is in (0 story, 1 extra: hidden in Carnage mode, 2 Carnage list
+only), 0x1E / 0x22 4 more deployment points (−1 = none), 0x38-0x47 two (u8 kind, u32 value) pairs, first visit /
+cleared, set only on 4 stages (Dreaming Mushroom 3/90, Beating of the End and Evil God of Tyranny 2/170 and 2/380).
 
 | off | type | field | |
 |---|---|---|---|
@@ -128,19 +139,103 @@ shared DB arena, and no fixed capacity was found.
 | 0x04 | u32 | **map_id** | → `map%05d` (101 → map00101 "Dried Up Wasteland") **[H]** |
 | 0x08 | u32 | ? | 3001 on the first stage of an episode, otherwise map-like ids / 0 |
 | 0x0C | u32 | ? | 14xxx / 22xxx on episode openers (event/talk id?) |
-| 0x10 | u16,u16 | ? | 0, 1000-2001 |
+| 0x10 | u32 | **Netherworld skill** | MakaiSkillDataBase id (0 none): 1003 Snow (Water res -50), 1004 Gale Force Winds (Wind), 1002 Fire Powder (Fire), 1000 Sandstorm, 1005, 2000 Sea of Poison, 2001 Mushroom Paradise, 2002 Bombing Run, 2003 Protection Beam, 2004 Reinforcements, 1025 Baal. The battle start (0x1401824ad: `[state+8]` = the stage's row, +0x10) switches it on with 0x1401c1df0 (record lookup 0x14008d380, 80-byte rows); its effects test the id (0x1401d8973: 1002 adds to fire +0x20, 1003 water +0x28, 1004 wind +0x24) and take the row's value (+0x40). The weather particles (0x1401dbd60) exist for 1000 / 1002 / 1003 / 1004 only **[H]** |
 | 0x14 | u16 | episode | 0-6 story, 16 postgame/DLC, 0xFFFF item-world rooms **[M]** |
 | 0x16 | u16 | title/flag id | 5000 + 10·ep + stage **[M]** |
-| 0x18 | u16 | ? | 1-37 (BGM?) **[L]** |
+| 0x18 | u16 | stage level | the level the stage list shows (not the music: see Music below) **[H]** |
 | 0x1A.. | | | 59, 1, 1, flags; 0x1E 8 bytes; 0x26 3×RGBA (fog/light colours?) |
 | 0x36 | u8 | **base_x** | base panel **[H]**: in 194 of 214 battle maps it lands on an existing, unoccupied panel. The misses are hubs and demos |
 | 0x37 | u8 | **base_y** | |
 | 0x49 | 5×0x34 | names | JP, EN, FR, CHN, KOR (UTF-8) **[H]** |
 
+### The game's stage list (Dimension Guide)
+
+* A save holds **400 stage slots** of 0x80 bytes (state 0x4767D8 = 0x145471178): u32 map id, u16 clear count (+4),
+  u16 story flag (+0x22, copy of dungeon +0x16), u8 list (+0x24, copy of +0x1D), u16 stage level (+0x26, copy of
+  +0x18), u8 in use (+0x28), the name (+0x29, 0x34 bytes, the game's language). A **new game** (0x1401b7970)
+  fills slot k from dungeon.dat row k, and **loading a save adds the rows it has no slot for** (seen in game: a
+  mod's new stage was listed in a save made before it, without the kit touching the save). A slot whose stage is
+  gone (a deleted mod) stays.
+* The list (0x140647450) walks the 400 slots and shows a slot in the tab **map id // 100 − 1** (map 101-199:
+  episode 1's tab) when its story flag is set (state bit array at 0xE, 0x144FFA9AE), the list mode allows its kind
+  and the map isn't of a DLC the player lacks (0x140141710).
+* The stage panel (Steam 0x14063ca4b) binary-searches `DemoCheckDataBase.dat` (rows of map id, has a link, linked
+  event; sorted by map id) for the stage under the cursor and reads the result without a check: a stage missing
+  from it closes the game the moment the cursor reaches it. Install adds a row (map, 0, 0) for every stage of the
+  final dungeon.dat that has none (`dbpatch._finalize_stages`).
+* So a new stage needs: a map number of the episode (xx30-xx99 are free in every episode; the game uses xx01-xx09
+  and xx21-xx25), the story flag of a stage it is listed with, its DemoCheck row, and its stage triggers (below).
+  Map 90001 is the game's Unique Dungeon (no file in the archive; 0x1401c2280 looks it up by number): never a new
+  map's number.
+
+### Building maps out of pieces (`d5lib/mapbuild.py`)
+
+* Maps 60001-63011 (grey stone: slabs and bars 600xx, steps and shapes 610xx, stairs and towers 620xx, pyramids
+  630xx) and 70101-71705 (17 themed sets, 5 pieces each, `mapbuild.THEMES`) are the Item World's building blocks:
+  1-3 meshes, 1-2 textures, no units, `.hex` corners -13 for a cube on the ground (a height step is 4 map units, a
+  cube 12), `flag_a` 0, `no_panel` padding 1 (6xxxx) or 0 (7xxxx).
+* `compose(build, pieces, skeleton, base_pkg)` makes one map package: the `.hex` grid from the pieces' corner
+  heights (turned, lifted), one `.obf` with every piece's triangles moved into place (vertex rows copied, 60 bytes
+  each; textures shared by hash; one mesh per (texture, mesh flags); a lifted piece's wall triangles -- normals
+  nearly horizontal -- repeated down in 12-unit copies), obf sections 0-5 copied from piece 60001 (they are
+  identical on every map: one root, one group, the same motion ints) and section 6 rebuilt as
+  `u32 n, 0, 0, 256, 0, 0, 0, mesh indices 0..n-1`. The `.gop` / `.chr` of the map being edited are kept.
+* A cut-out `(map, x0, y0, x1, y1)` is a block too: the panels of that rectangle and the triangles whose centroid
+  lies over it, shifted to the origin. The kit's thumbnails (`d5gui/mapthumbs.py`) draw any block.
+* The build (grid size and placements) is saved with the map as `patches/stages/build_<map>.json` in its mod. A
+  placement may carry `"tint": [r, g, b]` (vertex colours multiplied) and `"tex": {"<texture index>": "file.png"}`
+  (the picture, from `patches/stages/pictures/`, scaled to the texture's size and encoded in its format). All 151
+  stone pieces (6xxxx) share one texture pair, 160×128 (the tiled top in its left 128×128, two small squares in the
+  right strip) + 128×32 (the walls, tiled); no other map file holds another skin for them.
+* Geo Symbols, treasure chests, bombs, barrels, boxes and the tombstone are the objects of
+  `Object_JP.dat/mapobj_RESIDENT.obf`, the models the game keeps loaded: its section 1 maps a char.dat sprite number
+  to an animation of section 2 (100 white, 101-107 the Geo colours red, green, blue, yellow, purple, cyan, clear;
+  108, 110-142; chests 150-152; bomb 160, barrels 170-180, boxes 190-210, tombstone 220), whose nodes (section 3)
+  draw parts of section 6 (mesh lists). A Geo Symbol of colour c is object 100 + c. (`chw0000N` are Chara World
+  objects, and the loose anm files with those numbers are characters: 100 Zeroken, 150 Void Dark.)
+* **Light.** A mesh head's material (rgba at +8, five floats at +12): the story maps white, 1, 0, 0, 4, 1 on 55 000 of
+  57 000 meshes; the pieces mostly c8c8c8, 1, 0.5, 0, 4, 0.5 (made for the Item World's own light) -- dark on a stage
+  (seen in game). `compose` gives the pieces the story material (build `"light": "item_world"` keeps theirs);
+  `relight(pkg)` does it to a composed map in place. Builds of version 1 are relit when they are opened.
+* **A build that starts from its own map** ("this terrain as one block": the cut-out `(map, 0, 0, W, H)` of the map
+  being built, which keeps all its triangles, the scenery around the panels too) reads that block from
+  `patches/stages/terrain_<map>.pac`, the terrain it started from: the map file itself is the composed result and
+  would bring the placed blocks back a second time. Older builds have none (`Original terrain…` takes the map they
+  were made from).
+* A placement's `"under": "platform"` leaves nothing under a lifted block; solid ones repeat their walls down in
+  12-unit copies, the lowest cut at the block's foot.
+* **Open:** the battle's backdrop (the sky colours behind the map). No per-map field was found: the `.hex` env
+  block is the same on every map, dungeon.dat +0x1A is 315 (the camera yaw) and +0x26 holds two colours (purple
+  and green on every map), the script's `cmd_2835` (0x1401773d0) is not a plain copy. The 3D view uses a dark blue
+  gradient.
+
+### Music
+
+No dungeon.dat field picks the music (+0x08 / +0x0C / +0x18 aren't it). A battle's music comes from its **stage
+triggers** in talk.dat **[H, seen in game]**:
+
+* When a battle starts, event 11 enters the map and runs `talk_b 0, -1, 1`: the first record with talk id 0, key2 =
+  the map number and key3 = the phase (1 battle start, 3 back from the battle) whose flag conditions hold. The plain
+  record (no flags_on) is what every visit after the story uses; story visits have records with flags_on of their
+  own.
+* Phase 1 runs `script 300000 + map`, the stage's start event: one `call_event 300010, <song × 10>`. Event 300010
+  sets the battle up and plays `bgm_play_b $20001, 100` (Dried Up Wasteland's 120 plays track 12; 0 stops the music).
+* Phase 3 runs `script 14` (the stage list's music) and may set the next stage's story flag (5000-5999).
+* A map with no records gets no battle start at all: the music of the stage list goes on.
+
+So the battle music of a stage = its start event's argument / 10 (`d5lib.stagemusic`), and a new stage gets copies
+of its base stage's plain records, moved to its map number and its own start event, without story flags. The music
+list choices the save keeps at state 0x878C74 (e.g. 22, 20, 206) are the base's and the menus' music.
+
 Where the data for a stage comes from:
 * **Terrain, geo panels, enemies, objects, Geo Symbols and their effects** all come from the map
   files (.hex/.gop/.chr). A story stage has no enemy list in the DB.
 * **Base panel**: dungeon.dat 0x36/0x37 (not in the map).
+* **Stacks**: units on the same panel (on the same visit) stack in the game. Objects pile up; a character stands on
+  top of the objects whatever the order in the .chr (seen in game 2026-10-21: two / three Wooden Boxes, a Prinny
+  listed before and after a box, both on top, its height -30 against the ground's -18 = the box's char.dat height
+  12). The game's maps have 130 such panels (map01103: 18 panels of two bombs; map00103: a monster on a Lost Army
+  Box). Two characters on one panel exist in a few maps (map00806) but weren't tried.
 * `Enemy_Create_TableDataBase.dat` (356 × 7 u32: id, kind 1 humanoid / 2 monster, char_id, ?, ?,
   weight, 100) and `Enemy_Parameters_TableDataBase` (203 × {u32 idx, u32 value}: 1→3 … 202→800000,
   a level/scale curve) are pools for **randomly generated** units: Item World floors built from
@@ -148,8 +243,12 @@ Where the data for a stage comes from:
   have empty .chr files **[M]**.
 * `QuestEnemy.dat` (107 named quest targets) and scripted reinforcements (off-map `(-1,-1)` units)
   are run by quests and event scripts, not by the map **[L]**.
-* `MapObjectTableDataBase.dat`: 60 × {u32 id 1000+, u32, u32}. Probably maps object ids to
-  `mapobj_*.obf` models **[L]**.
+* `MapObjectTableDataBase.dat`: 60 × {u32 id 1000+, name, u32 sprite number}: the 3D models of map objects.
+  A char.dat object (body_type 2) whose `sprite_id` is in the table (450-529 mapobj_001xx/002xx, 300-305
+  chw0000N) is drawn as that `Object/Object_JP.dat` .obf (Blood Parched Cactus 5102: sprite 450 →
+  mapobj_00101); the others (Geo Symbols 100, Treasure 150, Bomb 160, Barrel 170-180, boxes 190-210, Tombstone
+  220) are objects of mapobj_RESIDENT.obf (see the Geo Symbols note above) **[H, the kit's 3D view; users' report
+  of the game]**. The models are plain obf (same layout as maps, y up, map units).
 
 ### Modder recipes
 **(a) Change the enemies on an existing stage**
@@ -234,8 +333,7 @@ file length − 4, as in the originals.
 
 ## 9. Unknowns / todo
 * `.hex` flag_a meaning, the env-block fields, and the exact corner order.
-* `.chr`: spawn_group, color_variant, skill_unk1/2, ai_rules semantics, flags bits, team 3-5,
-  why slots repeat (phases?).
-* dungeon.dat fields 0x08-0x35 other than episode/base; stage-select/unlock logic.
+* `.chr`: color_variant, skill_unk1/2, the AI order kinds, flags bits, team 3-5.
+* dungeon.dat 0x10, 0x1A-0x1C, the colour block 0x26; which events 0x08 / 0x0C run.
 * obf sections 2-6 (hierarchy, motions); texture attr word; formats 0x0b/0x0c/0x0d.
 * Geo colour names are inferred from the exe texture order, not confirmed in game.

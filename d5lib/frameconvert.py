@@ -34,6 +34,25 @@ DEFAULT_MAP = {
     4001: "two_arm_up_jump", 4011: "kabutowari",
     4021: "landing", 4031: "landing", 4041: "rolling", 4051: "rolling", 4081: "rolling",
 }
+
+def _both_views(m):
+    """{front id: row} -> the same with the back-view ids (front + 6)"""
+    out = dict(m)
+    out.update({k + 6: v for k, v in m.items() if k % 10 == 1})
+    return out
+
+
+# which sheet row each game animation takes its frames from (ownanim.build's `prefer`): with frames of free sizes
+# (a fan sheet, not a rip of the game's cells) every animation then shows the row you gave it, not whatever
+# silhouette happens to look closest
+HUMAN_ROWS = _both_views(DEFAULT_MAP)
+# monsters carry their own animations (the shared humanoid motions don't apply): Imp's set, the same ids for all 21
+MONSTER_ROWS = _both_views({
+    1: "stand", 11: "walk", 1001: "wait", 1011: "wait", 1051: "wait", 1021: "damage", 1031: "damage",
+    1061: "damage", 1141: "damage", 1091: "two_arm_up_jump", 1121: "squat", 1111: "squat", 1501: "squat",
+    1511: "squat", 2071: "attack_fist", 3071: "attack_fist", 4001: "one_arm_up", 4011: "one_arm_up",
+    4021: "one_arm_up", 1261: "stand"})
+
 # names a sheet row can be assigned to (anything else is ignored)
 ANIM_NAMES = ["stand", "wait", "walk", "dash", "damage", "squat", "two_arm_up_jump", "launch", "one_arm_up",
               "take_out", "attack_fist", "attack_sword", "attack_lance", "attack_arrow", "attack_gun", "attack_ax",

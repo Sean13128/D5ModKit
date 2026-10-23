@@ -97,6 +97,17 @@ def _palette(frames, colors=255, iters=16, power=0.55):
         key = np.ascontiguousarray(flat[vis]).view(np.uint32).ravel()
         uk, inv, cnt = np.unique(key, return_inverse=True, return_counts=True)
         uc = uk.view(np.uint8).reshape(-1, 4)
+        if len(uc) <= colors:                           # (pixel art: its own colours fit as they are)
+            pal = np.zeros((256, 4), np.uint8)
+            pal[1:1 + len(uc)] = uc
+            idx = np.zeros(len(flat), np.int32)
+            idx[vis] = inv.ravel() + 1
+            out, pos = [], 0
+            for f in frames:
+                h, w_ = f.shape[:2]
+                out.append(idx[pos:pos + h * w_].reshape(h, w_).astype(np.uint8))
+                pos += h * w_
+            return pal, out
         X = feat(uc)
         w = cnt.astype(np.float64) ** power
         C = feat(qp)
@@ -109,7 +120,8 @@ def _palette(frames, colors=255, iters=16, power=0.55):
                 C[ok, j] = s_[ok] / sw[ok]
             empty = np.nonzero(~ok)[0]
             if len(empty):                              # re-seed at the worst-served colours
-                C[empty] = X[np.argsort(-(d ** 2) * w)[:len(empty)]]
+                k = min(len(empty), len(X))
+                C[empty[:k]] = X[np.argsort(-(d ** 2) * w)[:k]]
         _, a = cKDTree(C).query(X)
         # palette colour = the pixel-weighted mean of its real colours
         sw = np.bincount(a, cnt, len(C))
@@ -215,9 +227,14 @@ def _cell_usage(b, own_ids, src_cell):
     return usage, groups
 
 
-def build(sequences, base_sprite: anm.AnmFile, motion_block, sprite_id, variants=None, report=None, log=None):
+def build(sequences, base_sprite: anm.AnmFile, motion_block, sprite_id, variants=None, report=None, log=None,
+          prefer=None):
     """sequences: {(row name, 'front'|'back'): [PIL frames, full sheet canvases]} -> AnmFile
-    (block id = sprite_id).  Row names: frameconvert.ANIM_NAMES / HAND_NAMES."""
+    (block id = sprite_id).  Row names: frameconvert.ANIM_NAMES / HAND_NAMES.  prefer: {animation id: row} the
+    animations take their frames from (frameconvert.HUMAN_ROWS / MONSTER_ROWS; the own idle rows always).
+    motion_block None: the base sprite carries all its animations itself (a monster)."""
+    if motion_block is None:
+        motion_block = anm.AnmBlock(base_sprite.blocks[0].id)
     variants = variants or VARIANTS
     base_blk = base_sprite.blocks[0]
     ntex = len(base_sprite.textures)
@@ -272,7 +289,9 @@ def build(sequences, base_sprite: anm.AnmFile, motion_block, sprite_id, variants
                 v = votes.setdefault(bc, {})
                 v[fc] = v.get(fc, 0) + 1
     twins = {bc: max(v, key=v.get) for bc, v in votes.items()}
-    matches = cellmatch.match(cells, frames, log, locked, groups, prefer=OWN_ANIM_ROWS, twins=twins)
+    rows = dict(prefer or {})
+    rows.update(OWN_ANIM_ROWS)
+    matches = cellmatch.match(cells, frames, log, locked, groups, prefer=rows, twins=twins)
     out = assemble(b, motion_block, base_sprite, frames, matches, sprite_id, variants)
     # the stub animations' attachment keys (1001 / 1501 ...: the character's own poses) keep their empty cells
     restore_attachment_cells(out.blocks[0], [motion_block, base_sprite.blocks[0]])

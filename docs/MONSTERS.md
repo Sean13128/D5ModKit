@@ -88,6 +88,20 @@ New recruitable monsters from Disgaea RPG generic monsters go into the reserved 
   few idle drawings, doubled bodies, collapsed animations, detached pieces and flash frames. It ends with
   `RESULT: OK` or the number of findings; the flagged frames go to `_research/qa/`.
 
+## The monster wizard (`d5gui/monsterwizard.py`)
+
+Characters & Classes › **🐉 New monster class…** does the steps below without the command line:
+
+* the Disgaea RPG monsters whose sheets are on the PC (`monstermap.drpg_monsters`: the 21 twins and the 10 new);
+* the templates best first (`recommend_templates`: the D5 twin, then the twin's front stand height closest to the
+  new monster's);
+* a first role file guessed (`auto_roles`: the new front poses paired with the twin's by shape (`suggest`), each
+  taking the role its twin pose plays in the engine's animations; flash frames out, the rest 'other'; back and wait
+  sheets 'grid'), which the user fixes pose by pose (a guess: on the Dragon it got the attack right but not the
+  stand);
+* Preview = `pose_sheet` of `pairs_from_roles`; Create = `newclasses.create_monster` (a class of the same Disgaea RPG
+  unit made before is redrawn in its family), the role file kept in the mod as `patches/monsters/roles_<uid>.json`.
+
 ## Tools
 
 ```

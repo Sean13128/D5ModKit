@@ -12,6 +12,7 @@ import time
 from d5ctl import Ctl, launch
 
 TITLE_VT = "0x1409bcef0"
+TITLE_VTS = {"0x1409bcef0", "0x14098e7e0"}      # the title screen's vtable: launch build, Steam build
 
 
 def sm_states(c):
@@ -24,11 +25,11 @@ def boot(slot=None, log=print):
     t0 = time.time()
     while True:
         st = sm_states(c)
-        if (TITLE_VT, 1) in st:
+        if any((v, 1) in st for v in TITLE_VTS):
             break
         if time.time() - t0 > 120:
             raise RuntimeError("the title menu did not come up")
-        if not any(v == TITLE_VT for v, s in st):
+        if not any(v in TITLE_VTS for v, s in st):
             c.keys("L:4:30")
         c.wait(30)
     c.wait(200)                               # the menu settles on CONTINUE

@@ -261,6 +261,9 @@ class DBService(QObject):
         return ", ".join(f"'{n}'" for n in names) if names else "no mod (nothing changed)"
 
     def _done(self, member):
+        # the working table goes too: a mod made during the commit (require_mod) rebuilt it before the patch was
+        # written, so it would be missing the rows just saved; the next table() layers everything afresh
+        self._work.pop(member, None)
         self._base.pop(member, None)
         self._owners.pop(member, None)
         self._dirty.discard(member)
@@ -294,9 +297,10 @@ class DBService(QObject):
         self._done(member)
         return True
 
-    def commit(self, member, parent=None, into=None):
+    def commit(self, member, parent=None, into=None, suggest=None, category=None):
         """Save working-table differences: rows another mod made or changes into that mod (_route), the rest into
-        the active mod as a patch (or into the mod `into`: a new skill of a mod's character goes into its mod)."""
+        the active mod as a patch (or into the mod `into`: a new skill of a mod's character goes into its mod).
+        suggest / category: for the mod asked for when there is none (its name offered, its kind)."""
         self.last_saved = []
         act = self.ws.active_mod
         if into is not None and (act is None or into.id != act.id) and self._commit_into(member, into):
@@ -311,7 +315,7 @@ class DBService(QObject):
         act = self.ws.active_mod
         mod = None
         if act is not None or not dbpatch.is_empty(patch):
-            mod = self.ws.require_mod(parent)
+            mod = self.ws.require_mod(parent, suggest=suggest, category=category)
             if not mod:
                 return False
         for mid, items in routed.items():

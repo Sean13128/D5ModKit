@@ -500,21 +500,10 @@ def _rename(mod, handler, pattern, fn, group=2):
 
 # ------------------------------------------------------------------------------------------------ import
 def read_package(path):
-    """(top folder name, mod.json dict) of a package zip, checking its layout"""
-    with zipfile.ZipFile(path) as z:
-        names = [n for n in z.namelist() if n and not n.endswith("/")]
-        top = {n.split("/")[0] for n in names}
-        if len(top) != 1:
-            raise ValueError("the zip must hold exactly one mod folder")
-        t = top.pop()
-        for n in names:
-            if n.startswith("/") or ".." in n.split("/") or ":" in n:
-                raise ValueError(f"unsafe path in the zip: {n}")
-        try:
-            meta = json.loads(z.read(f"{t}/mod.json").decode("utf-8"))
-        except KeyError:
-            meta = {}
-    return t, meta
+    """(top folder name, mod.json dict) of a package zip, after every safety check (modindex.check_zip: one mod
+    folder, plain paths, only the file types mods use, no program files for the game folder, size limits)"""
+    from .modindex import check_zip
+    return check_zip(path)
 
 
 def import_package(path, mods_dir, fs, state_dir, log=print):

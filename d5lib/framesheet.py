@@ -40,6 +40,89 @@ def parse_sheet(path, bg=None, min_cell=24):
     return im, rows
 
 
+def background_colors(im, share=0.04, most=4):
+    """the colours that fill the sheet's background: every colour covering more than `share` of the image (a
+    sheet often has a frame colour around its main background), at most `most`; fully transparent counts as one"""
+    flat = im.reshape(-1, 4)[::7]
+    vals, counts = np.unique(flat, axis=0, return_counts=True)
+    order = np.argsort(-counts)
+    out = [tuple(int(x) for x in vals[i]) for i in order[:most] if counts[i] / len(flat) >= share]
+    if not out:
+        out = [tuple(int(x) for x in vals[order[0]])]
+    return out
+
+
+def foreground(im, bg=None):
+    """bool mask of the sprite pixels (not one of the background colours, not transparent)"""
+    bg = bg or background_colors(im)
+    m = im[:, :, 3] > 8
+    for c in bg:
+        m &= np.any(im != np.array(c, np.uint8), axis=2)
+    return m
+
+
+def _drop_lines(m, run=20):
+    """the straight 1-2 px lines of boxes a ripper drew around groups (else a box joins every sprite inside)"""
+    out = m.copy()
+    h_run = ndimage.uniform_filter1d(m.astype(np.float32), run, axis=1) > 0.999
+    v_run = ndimage.uniform_filter1d(m.astype(np.float32), run, axis=0) > 0.999
+    lines = ndimage.binary_dilation(h_run, np.ones((1, run))) | ndimage.binary_dilation(v_run, np.ones((run, 1)))
+    thin = lines & ~ndimage.binary_erosion(m, np.ones((5, 5)))
+    out[thin] = False
+    return out
+
+
+def detect_sprites(im, bg=None, gap=2, min_size=10):
+    """every separate drawing on a sheet -> [(x0, y0, x1, y1)] in reading order (rows top to bottom, then left to
+    right).  Pieces closer than `gap` px are one drawing (a separate strand of hair, a weapon); drawings smaller
+    than min_size px both ways are left out (specks, the little markers between rows)."""
+    fg = _drop_lines(foreground(im, bg))
+    joined = ndimage.binary_dilation(fg, np.ones((2 * gap + 1, 2 * gap + 1))) if gap > 0 else fg
+    lab, n = ndimage.label(joined)
+    boxes = []
+    for k, sl in enumerate(ndimage.find_objects(lab), 1):
+        if sl is None:
+            continue
+        sub = fg[sl] & (lab[sl] == k)
+        if not sub.any():
+            continue
+        ys, xs = np.nonzero(sub)
+        y0, y1 = sl[0].start + ys.min(), sl[0].start + ys.max() + 1
+        x0, x1 = sl[1].start + xs.min(), sl[1].start + xs.max() + 1
+        if (x1 - x0) < min_size and (y1 - y0) < min_size:
+            continue
+        boxes.append((int(x0), int(y0), int(x1), int(y1)))
+    return reading_order(boxes)
+
+
+def reading_order(boxes):
+    """rows (boxes whose vertical middles are inside each other's span) top to bottom, each left to right"""
+    rows = []
+    for b in sorted(boxes, key=lambda b: (b[1] + b[3]) / 2):
+        mid = (b[1] + b[3]) / 2
+        for r in rows:
+            if r["y0"] <= mid <= r["y1"]:
+                r["boxes"].append(b)
+                r["y0"], r["y1"] = min(r["y0"], b[1]), max(r["y1"], b[3])
+                break
+        else:
+            rows.append({"y0": b[1], "y1": b[3], "boxes": [b]})
+    out = []
+    for r in sorted(rows, key=lambda r: r["y0"]):
+        out += sorted(r["boxes"])
+    return out
+
+
+def cutout(im, box, bg=None, flip=False):
+    """a drawing of the sheet as a PIL RGBA picture, its background transparent"""
+    x0, y0, x1, y1 = box
+    c = im[y0:y1, x0:x1].copy()
+    m = foreground(c, bg or background_colors(im))
+    c[~m, 3] = 0
+    img = Image.fromarray(c, "RGBA")
+    return img.transpose(Image.FLIP_LEFT_RIGHT) if flip else img
+
+
 def frame_image(im, box):
     x0, y0, x1, y1 = box
     return Image.fromarray(im[y0:y1, x0:x1].copy(), "RGBA")

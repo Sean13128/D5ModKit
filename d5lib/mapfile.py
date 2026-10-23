@@ -22,6 +22,13 @@ PANEL_COLORS = {0: "none", 1: "red", 2: "green", 3: "blue", 4: "yellow", 5: "pur
 PANEL_RGB = {1: (230, 40, 40), 2: (40, 200, 60), 3: (40, 90, 240), 4: (240, 220, 40),
              5: (170, 60, 220), 6: (40, 220, 230)}
 GEO_SYMBOL_IDS = (4810, 4811)        # char.dat ids named "GS"
+
+
+def is_object_id(char_id):
+    """a map object (chests, boxes, barrels, pillars ... and Geo Symbols): objects stack on one panel in the game"""
+    return 5000 <= int(char_id) < 5300 or int(char_id) in GEO_SYMBOL_IDS
+
+
 ITEM_SYMBOL_IDS = (5260, 5261)
 TEAM_NAMES = {1: "enemy", 2: "neutral/object", 3: "team3", 4: "team4", 5: "team5"}
 
@@ -200,8 +207,10 @@ UNIT_FIELDS = [
     ("color_variant", 0x14, "H", 1),  # 0xFFFF default; 0..8 on colour-variant generic units (guess)
     ("unk16", 0x16, "B", 1),
     ("unk17", 0x17, "B", 1),         # 0/1
-    ("equipment", 0x18, "I", 5),     # item.dat ids, slot 0 = weapon, 0 = empty
-    ("unk2c", 0x2C, "H", 6),
+    ("equipment", 0x18, "I", 5),     # item.dat ids (low 16 bits), slot 0 = weapon, 0 = empty; high 16 bits: the
+                                     # kit's rarity + 1 (0 = the game's roll; read by the kit's exe patch, enemyitems)
+    ("unk2c", 0x2C, "H", 6),         # [0..4]: each slot's item level (the spawn sets item +0x12c / +0x13e from it,
+                                     # 0x140526eb3); [5] unused
     ("evilities", 0x38, "I", 20),    # Skill.dat ids (e.g. 5001 Theft Prevention)
     ("skills", 0x88, "I", 20),       # magic.dat ids (1001 Fire, 1201 Ice ...)
     ("skill_levels", 0xD8, "H", 20),
@@ -213,7 +222,8 @@ UNIT_FIELDS = [
     ("team", 0x175, "B", 1),         # 1 = enemy army, 2 = neutral (objects, GS, some units), 3..5 other armies
     ("unk176", 0x176, "H", 1),
     ("ai", 0x178, "i", 1),           # AI pattern id (101..116 seen), -1 = none (objects)
-    ("ai_rules", 0x17C, "B", 200),   # 20 x 10-byte entries {u8 kind, u8 arg, u16 v[4]} (v often a map rect)
+    ("ai_rules", 0x17C, "B", 200),   # byte 0 = `appears` (below); then the unit's AI orders: kind 255 = none,
+                                     # 4 x u16 (often a map rectangle)
     ("unk244", 0x244, "B", 4),
     ("geo_color", 0x248, "I", 1),    # Geo Symbol colour (same codes as panels, 0 = clear/colourless)
     ("geo_effect", 0x24C, "I", 1),   # Geo Symbol effect = GE.dat id (1 Damage, 5 ATK+ ... 61 Game Over)
@@ -221,6 +231,15 @@ UNIT_FIELDS = [
 _FIELD_MAP = {f[0]: f for f in UNIT_FIELDS}
 RECORD_SIZE = 0x250
 OLD_RECORD_SIZE = 436                # 4 demo maps (map00121/00421/00721/00825): older layout
+
+# When a unit is placed (byte 0x17C; the game's spawn 0x140525f20 asks 0x140525640 "is this the first visit": the
+# stage's clear count in the save is 0).  Story stages keep two sets in one map this way: map00101 has 4 Warriors
+# for the first visit and 4 Prinnies on the same panels for the visits after it is cleared; Final Trial 5 flame
+# dragons, then Lucky Boards.  3347 of the game's units are 0, 423 are 1, 208 are 2.
+APPEARS_ALWAYS, APPEARS_FIRST, APPEARS_REVISIT = 0, 1, 2
+APPEARS = {APPEARS_ALWAYS: "Every visit", APPEARS_FIRST: "First visit (until the stage is cleared)",
+           APPEARS_REVISIT: "Revisits (after the stage is cleared)"}
+APPEARS_OFF = 0x17C
 
 
 class Unit:
@@ -250,6 +269,9 @@ class Unit:
     def __setattr__(self, name, value):
         f = _FIELD_MAP.get(name)
         if f is None:
+            if isinstance(getattr(type(self), name, None), property):     # (appears ...)
+                object.__setattr__(self, name, value)
+                return
             raise AttributeError(name)
         _, off, fmt, cnt = f
         self._check(off, fmt, cnt)
@@ -260,6 +282,34 @@ class Unit:
             value += [0] * (cnt - len(value))
             struct.pack_into(f"<{cnt}{fmt}", self.raw, off, *value)
 
+    # ---- equipment: item id, item level, rarity per slot
+    def item(self, k):
+        """(item.dat id, item level, rarity 0..100 or None = the game's roll) of equipment slot k"""
+        eq = self.equipment[k]
+        lv = self.unk2c[k] if len(self.raw) == RECORD_SIZE else 0
+        return eq & 0xFFFF, lv, ((eq >> 16) - 1 if eq >> 16 else None)
+
+    def set_item(self, k, item_id=None, level=None, rarity=False):
+        """change slot k: item id, level (0 = the item's own), rarity (None = the game's roll; False = keep)"""
+        cur_id, cur_lv, cur_r = self.item(k)
+        item_id = cur_id if item_id is None else int(item_id) & 0xFFFF
+        r = cur_r if rarity is False else rarity
+        eq = list(self.equipment)
+        eq[k] = item_id | ((int(r) + 1) << 16 if r is not None and item_id else 0)
+        self.equipment = eq
+        if level is not None:
+            lv = list(self.unk2c)
+            lv[k] = max(0, min(9999, int(level)))
+            self.unk2c = lv
+
+    @property
+    def item_ids(self):
+        return [e & 0xFFFF for e in self.equipment]
+
+    @property
+    def has_set_rarity(self):
+        return len(self.raw) == RECORD_SIZE and any(e >> 16 for e in self.equipment)
+
     # ---- helpers
     @property
     def is_geo_symbol(self):
@@ -267,11 +317,38 @@ class Unit:
 
     @property
     def is_object(self):
-        return 5000 <= self.char_id < 5300 or self.char_id in GEO_SYMBOL_IDS
+        return is_object_id(self.char_id)
 
     @property
     def on_map(self):
         return self.x >= 0 and self.y >= 0
+
+    @property
+    def appears(self):
+        """APPEARS_ALWAYS / APPEARS_FIRST / APPEARS_REVISIT (old 436-byte records: always)"""
+        if len(self.raw) != RECORD_SIZE:
+            return APPEARS_ALWAYS
+        v = self.raw[APPEARS_OFF]
+        return v if v in APPEARS else APPEARS_ALWAYS
+
+    @appears.setter
+    def appears(self, v):
+        if len(self.raw) == RECORD_SIZE:
+            self.raw[APPEARS_OFF] = int(v)
+
+    def shown_in(self, visit):
+        """is this unit placed on the given visit (APPEARS_FIRST / APPEARS_REVISIT)?"""
+        return self.appears in (APPEARS_ALWAYS, visit)
+
+    @property
+    def repeat(self):
+        """how many copies the game spawns (u16 0x12; the spawn loop runs this many times; 0 = none)"""
+        return self.unk12
+
+    @property
+    def reinforcement(self):
+        """a numbered group (u8 0x10, 1-127) is kept off the field until an event calls it in"""
+        return 0 < self.spawn_group < 128
 
     def ai_rule_list(self):
         r = bytes(self.raw[0x17C:0x244])
@@ -324,17 +401,32 @@ class ChrFile:
         return (struct.pack("<HH", self.version, len(self.units)) + self.pad
                 + b"".join(bytes(u.raw) for u in self.units))
 
-    def add_unit(self, char_id, x, y, level=1, template: Unit = None, **fields) -> Unit:
-        """append a unit (copies `template` or the first non-object unit so all defaults are sane)."""
+    def add_unit(self, char_id, x, y, level=1, template: Unit = None, appears=APPEARS_ALWAYS, **fields) -> Unit:
+        """append a unit (copies `template` or the first non-object unit so all defaults are sane).  `appears`:
+        which visits place it (a copied template keeps its AI orders but not its visit: the editor's units used to
+        inherit "first visit only" from the stage's first enemy and never showed up on a cleared stage)."""
         if template is None:
             template = next((u for u in self.units if not u.is_object), None)
         u = template.copy() if template is not None else Unit.from_dict(DEFAULT_ENEMY)
         u.slot = max([v.slot for v in self.units] + [0]) + 1
         u.char_id, u.x, u.y, u.level = char_id, x, y, level
+        if u.size == RECORD_SIZE:
+            u.spawn_group = 255                  # on the field from the start (not a reinforcement group)
+            if u.unk12 < 1:
+                u.unk12 = 1                      # (the game spawns a unit this many times)
+        u.appears = appears
         for k, v in fields.items():
             setattr(u, k, v)
         self.units.append(u)
         return u
+
+    def visit_sets(self):
+        """does this map place different units on the first visit and on revisits?"""
+        return any(u.appears != APPEARS_ALWAYS for u in self.units)
+
+    def placed(self, visit):
+        """the units the game places on that visit (APPEARS_FIRST / APPEARS_REVISIT)"""
+        return [u for u in self.units if u.shown_in(visit)]
 
     def geo_symbols(self):
         return [u for u in self.units if u.is_geo_symbol]
@@ -348,8 +440,8 @@ DEFAULT_ENEMY = {
     "slot": 1, "char_id": 1010, "level": 1, "facing": 180, "x": 0, "y": 0, "spawn_group": 255,
     "unk12": 1, "color_variant": 0xFFFF, "equipment": [202, 0, 1202, 0, 0], "stat_mods": [-10] * 8,
     "weapon_mastery": [0, 1, 0, 0, 0, 0, 0, 0, 0, 1], "team": 1, "ai": 102,
-    # entry 0 = (1, 1); then entries alternate (255,0),(0,255)x3 as in every story enemy
-    "ai_rules": [1, 1] + [0] * 8 + [b for k in range(1, 20)
+    # byte 0 = appears (0: every visit); then AI orders as in the game's story enemies (kind 1 first)
+    "ai_rules": [0, 1] + [0] * 8 + [b for k in range(1, 20)
                                     for b in (([255, 0] if (k - 1) % 4 == 0 else [0, 255]) + [0] * 8)],
 }
 
@@ -498,6 +590,10 @@ class DungeonRecord:
     map_id = property(lambda s: s._u("<I", 0x04), lambda s, v: struct.pack_into("<I", s.raw, 0x04, v))
     episode = property(lambda s: s._u("<H", 0x14), lambda s, v: struct.pack_into("<H", s.raw, 0x14, v))
     title_id = property(lambda s: s._u("<H", 0x16), lambda s, v: struct.pack_into("<H", s.raw, 0x16, v))
+    # the stage's Netherworld skill (MakaiSkillDataBase id, 0 none): Snow 1003 = Water resistance -50 %, Gale Force
+    # Winds 1004, Fire Powder 1002, Sea of Poison 2000 ...  The battle start (0x1401824ad -> 0x1401c1df0) switches it
+    # on from this field; the weather particles go with it (only 1000 / 1002 / 1003 / 1004 have any, 0x1401dbd60)
+    netherworld_skill = property(lambda s: s._u("<I", 0x10), lambda s, v: struct.pack_into("<I", s.raw, 0x10, v))
     base_x = property(lambda s: s.raw[0x36], lambda s, v: s.raw.__setitem__(0x36, v))
     base_y = property(lambda s: s.raw[0x37], lambda s, v: s.raw.__setitem__(0x37, v))
 

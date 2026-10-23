@@ -8,19 +8,22 @@ from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QFont, QKeySequence, QShortcut
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QHBoxLayout, QVBoxLayout, QPushButton,
                              QLabel, QStackedWidget, QButtonGroup, QComboBox, QPlainTextEdit, QSplitter,
-                             QMessageBox, QToolButton)
+                             QMessageBox, QToolButton, QScrollArea)
 
-from .theme import QSS, install_tooltips
+from .theme import QSS, install_tooltips, system_typography_qss
 from .workspace import Workspace
 from .status import GameStatus, StatusPanel
 
 PAGES = [
     # (section, key, label, module, class)
     ("", "home", "🏠  Home", "home", "HomePage"),
+    ("", "browse", "🛍  Browse Mods", "browse", "BrowsePage"),
     ("CONTENT", "characters", "🧙  Characters && Classes", "characters", "CharactersPage"),
+    ("CONTENT", "quests", "📜  Quests", "quests", "QuestsPage"),
     ("CONTENT", "outfits", "👗  Outfits", "outfits", "OutfitsPage"),
     ("CONTENT", "database", "📊  Database Editor", "database", "DatabasePage"),
     ("CONTENT", "skills", "✨  Skills && Animations", "skills", "SkillsPage"),
+    ("CONTENT", "shapes", "🟥  Area Shapes", "shapes", "AreaShapesPage"),
     ("CONTENT", "dialogue", "💬  Dialogue && Text", "dialogue", "DialoguePage"),
     ("CONTENT", "stages", "🗺  Stages && Maps", "stages", "StagesPage"),
     ("ART", "sprites", "🎨  Sprites && Colors", "sprites", "SpritesPage"),
@@ -34,6 +37,18 @@ PAGES = [
 # a page whose module isn't in this copy of the kit is left out (the shareable kit has no auto-battle page)
 PAGES = [p for p in PAGES if os.path.exists(os.path.join(os.path.dirname(__file__), "pages", p[3] + ".py"))]
 LABELS = {key: label.split("  ", 1)[-1].replace("&&", "&") for _, key, label, _, _ in PAGES}
+
+
+def fit_sidebar(side):
+    """Fit native-sized navigation; allow brand/support labels to wrap."""
+    for label in side.findChildren(QLabel):
+        label.setWordWrap(True)
+    buttons = side.findChildren(QPushButton)
+    for button in buttons:
+        button.ensurePolished()
+    margins = side.layout().contentsMargins()
+    side.setFixedWidth(max(232, max((b.sizeHint().width() for b in buttons), default=0)
+                           + margins.left() + margins.right()))
 
 
 class MainWindow(QMainWindow):
@@ -65,7 +80,8 @@ class MainWindow(QMainWindow):
         # ---------------- sidebar
         side = QWidget()
         side.setObjectName("sidebar")
-        side.setFixedWidth(232)
+        if sys.platform != "darwin":
+            side.setFixedWidth(232)
         sv = QVBoxLayout(side)
         sv.setContentsMargins(8, 8, 8, 10)
         sv.setSpacing(1)
@@ -117,7 +133,19 @@ class MainWindow(QMainWindow):
         # game status: one place that says whether the game has your changes, and one button
         self.status = GameStatus(self.ws, self)
         sv.addWidget(StatusPanel(self.status))
-        h.addWidget(side)
+        if sys.platform == "darwin":
+            # macOS system-sized text: fit the navigation to its labels and let it scroll on short screens
+            fit_sidebar(side)
+            side_scroll = QScrollArea()
+            side_scroll.setFrameShape(QScrollArea.Shape.NoFrame)
+            side_scroll.setWidgetResizable(True)
+            side_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            side_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+            side_scroll.setWidget(side)
+            side_scroll.setFixedWidth(side.width() + side_scroll.verticalScrollBar().sizeHint().width())
+            h.addWidget(side_scroll)
+        else:
+            h.addWidget(side)
 
         # ---------------- content + log
         self.right = QSplitter(Qt.Orientation.Vertical)
@@ -153,6 +181,8 @@ class MainWindow(QMainWindow):
         self.logview.setReadOnly(True)
         self.logview.setMaximumBlockCount(5000)
         self.logview.setFont(QFont("Menlo" if sys.platform == "darwin" else "Consolas", 9))
+        if sys.platform == "darwin":                # system typography gives no-wrap editors the native fixed font
+            self.logview.setLineWrapMode(QPlainTextEdit.LineWrapMode.NoWrap)
         ll.addWidget(self.logview, 1)
         self.logview.setVisible(False)
         self.right.addWidget(logbox)
@@ -363,11 +393,27 @@ def main():
         sys.path.insert(0, kit)
     from . import crashguard
     crashguard.install(kit)                    # an error in a click / timer is logged instead of closing the kit
+    if sys.platform == "darwin":
+        # The 3D stage/skill views use OpenGL 4.1 core. On macOS the window compositor's context must
+        # match and be shared, or Qt falls back to an unshared context and the view composites blank.
+        from PyQt6.QtCore import QCoreApplication
+        from PyQt6.QtGui import QSurfaceFormat
+        fmt = QSurfaceFormat()
+        fmt.setVersion(4, 1)
+        fmt.setProfile(QSurfaceFormat.OpenGLContextProfile.CoreProfile)
+        fmt.setDepthBufferSize(24)
+        fmt.setSamples(4)
+        QSurfaceFormat.setDefaultFormat(fmt)
+        QCoreApplication.setAttribute(Qt.ApplicationAttribute.AA_ShareOpenGLContexts)
     app = QApplication(sys.argv)
+    native_font = QFont(app.font())             # the system font, before any stylesheet overrides it
     app.setApplicationName("D5 Mod Kit")
     install_tooltips(app)
-    app.setStyleSheet(QSS.replace("'Segoe UI', 'Yu Gothic UI'", "'Helvetica Neue', 'Hiragino Sans'")
-                      if sys.platform == "darwin" else QSS)
+    if sys.platform == "darwin":
+        # macOS: size the theme from the native system font instead of a fixed Windows-sized 10pt
+        app.setStyleSheet(system_typography_qss(native_font))
+    else:
+        app.setStyleSheet(QSS)
     ensure_game_dir()
     try:
         w = MainWindow()

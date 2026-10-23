@@ -22,7 +22,8 @@ from scipy import ndimage
 
 from .modsys import KIT_DIR
 
-ROOTS = [os.path.join(KIT_DIR, "DRPG Assets (Updated)"), os.path.join(KIT_DIR, "DRPG Assets")]
+ROOTS = [os.path.join(KIT_DIR, "DRPG Assets (Updated)"), os.path.join(KIT_DIR, "DRPG Assets"),
+         os.path.join(KIT_DIR, "DRPG Assets (Generated)")]   # SpriteForge output (same layout as Updated)
 REF_PATH = os.path.join(os.path.dirname(__file__), "data", "drpg_ref_humanoid.pickle")
 MERGE_GAP = 3          # atlas pieces this close to a bigger piece belong to the same frame
 MIN_IOU = 0.2          # weaker matches are not used
@@ -46,7 +47,8 @@ def unit_sheets(uid, roots=None):
 
 
 def _unit_sheets(uid, roots=None):
-    for root in roots or ROOTS:
+    from . import drpgscan
+    for root in roots or ROOTS:                      # in order: the chosen folder wins over the kit's own
         a = os.path.join(root, "Characters", "Sprites")
         if os.path.exists(os.path.join(a, "front", f"front{uid}.png")):
             return {"front": os.path.join(a, "front", f"front{uid}.png"),
@@ -59,6 +61,10 @@ def _unit_sheets(uid, roots=None):
                     "back": os.path.join(b, "BattleBack", f"back{uid}.png"),
                     "wait_front": os.path.join(b, "WaitFront", f"front{uid}.png"),
                     "wait_back": os.path.join(b, "WaitBack", f"back{uid}.png")}
+        if not os.path.isdir(os.path.join(a, "front")) and not os.path.isdir(os.path.join(b, "BattleFront")):
+            got = drpgscan.unit_sheets(root, uid)   # a folder in neither layout: searched all the way down
+            if got:
+                return got
     if not any(os.path.isdir(r) for r in roots or ROOTS):
         raise FileNotFoundError(f"the Disgaea RPG sprites are not in the kit (the release zip leaves them out): put "
                                 f"them in {os.path.join(ROOTS[0], 'Characters', 'Sprites')} (front, back, wait_front, "
@@ -75,6 +81,11 @@ def unit_extras(uid, roots=None):
             p = os.path.join(root, *sub, f"{uid}.png")
             if key not in out and os.path.exists(p):
                 out[key] = p
+    if len(out) < 2:
+        from . import drpgscan
+        for root in roots or ROOTS:
+            for key, p in drpgscan.unit_extras(root, uid).items():
+                out.setdefault(key, p)
     return out
 
 

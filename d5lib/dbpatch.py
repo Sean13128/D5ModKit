@@ -324,6 +324,8 @@ def _handler(ctx, mod, patch_dir):
         warns = apply_patch(table, patch)
         if member.lower() == "quest.dat":
             ctx.quest_slots_check = True              # once every mod is in: _finalize_quests
+        if member.lower() == "dungeon.dat":
+            ctx.stage_check = True                    # once every mod is in: _finalize_stages
         if member.lower() == "char.dat":
             for r in _patched_rows(table, patch):
                 if fix_evilities(r):
@@ -363,3 +365,34 @@ def _finalize_quests(ctx):
 
 
 register_finalizer(_finalize_quests)
+
+
+def _finalize_stages(ctx):
+    """Every stage the stage list can show needs a row in DemoCheckDataBase.dat (map id, has a story scene, its
+    flag): the list's stage panel looks the highlighted stage up there by binary search (Steam build 0x14063ca4b) and
+    reads the row it finds -- for a stage with no row it read address 0 and the game closed the moment the cursor
+    reached the new stage (2026-10-16, in game).  Mods' stages get (map id, 0, 0): no scene; the table stays
+    sorted."""
+    if not getattr(ctx, "stage_check", False):
+        return
+    import struct
+    dvp = f"{DB_ARCHIVE}/dungeon.dat"
+    cvp = f"{DB_ARCHIVE}/DemoCheckDataBase.dat"
+    stages = ctx.get(dvp)
+    n = struct.unpack_from("<I", stages, 0)[0]
+    listed = sorted({struct.unpack_from("<I", stages, 4 + 336 * i + 4)[0] for i in range(n)
+                     if struct.unpack_from("<H", stages, 4 + 336 * i + 0x16)[0]})
+    raw = ctx.get(cvp)
+    m = struct.unpack_from("<I", raw, 0)[0]
+    rows = [struct.unpack_from("<3I", raw, 4 + 12 * i) for i in range(m)]
+    have = {r[0] for r in rows}
+    new = [(mid, 0, 0) for mid in listed if mid not in have]
+    if not new:
+        return
+    rows = sorted(rows + new, key=lambda r: r[0])
+    ctx.put(cvp, struct.pack("<I", len(rows)) + b"".join(struct.pack("<3I", *r) for r in rows))
+    ctx.log(f"  stages: {len(new)} new stage(s) in the stage list's check table "
+            f"({', '.join(f'map{r[0]:05d}' for r in new)})")
+
+
+register_finalizer(_finalize_stages)

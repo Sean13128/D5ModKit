@@ -18,9 +18,11 @@ _cache = {}
 
 
 class BattleMap:
-    def __init__(self, map_id, data_dir):
-        pkg = mapfile.MapPackage.from_archive(int(map_id), data_dir=data_dir)
+    def __init__(self, map_id, data_dir=None, pkg=None):
+        if pkg is None:
+            pkg = mapfile.MapPackage.from_archive(int(map_id), data_dir=data_dir)
         self.id = int(map_id)
+        self.rev = 0                     # bumped by an editor when the terrain changes (GPU buffers are keyed on it)
         blk = pkg.hex.blocks[0]
         self.width, self.height = blk.width, blk.height
         self.ground = -blk.corners[:blk.width, :blk.height].mean(axis=2)       # height of each panel (up = +)
@@ -72,6 +74,11 @@ class BattleMap:
                 if s > score:
                     best, score = (i, j), s
         return best
+
+
+def from_package(pkg, map_id=0):
+    """a BattleMap of a map package being edited (not cached)"""
+    return BattleMap(map_id, pkg=pkg)
 
 
 def load(map_id, data_dir):
