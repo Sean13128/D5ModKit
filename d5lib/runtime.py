@@ -69,7 +69,7 @@ def build_exe_hook(exe: bytes) -> bytes:
     if is_hooked(exe):
         return exe
     from . import exemap
-    pe = pefile.PE(data=exe)
+    pe = pefile.PE(data=exe, fast_load=True)   # headers and sections only: a full parse takes ~1 s
     frame_va = exemap.site(pe, FRAME_VA, FRAME_ORIG, "the runtime's hook site")
     sec_align = pe.OPTIONAL_HEADER.SectionAlignment
     file_align = pe.OPTIONAL_HEADER.FileAlignment

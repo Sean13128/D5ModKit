@@ -306,11 +306,20 @@ class Workspace(QObject):
         sig = self.mods_signature(fresh=True)    # taken first: edits made during the install count as new
         prof = self.mods.profile
         mods = self.mods.enabled_mods()
+        info = self.installer.installed_info()
+        # same mods, same kit code (both in the signature) and an untouched game: the build would write the same
+        # files again, so it isn't run (it re-reads and re-assembles every mod: tens of seconds)
+        if (self.installer.modified_archives() and info.get("signature") == sig and info.get("profile") == prof.id
+                and info.get("game") == self.installer.game_stamp()):
+            self.log(f"Nothing changed since the last install: the game already has the {len(mods)} mod(s) of "
+                     f"the profile '{prof.name}'.")
+            self.sync_saves(prof)
+            return 0
         self.log(f"Installing {len(mods)} mod(s) of the profile '{prof.name}': " + ", ".join(m.name for m in mods))
         ctx = modsys.build(self.fs, mods, log=self.log)
         self.installer.install(self.fs, ctx)
         self.installer.set_installed({"signature": sig, "profile": prof.id, "profile_name": prof.name,
-                                      "mods": [m.id for m in mods]})
+                                      "mods": [m.id for m in mods], "game": self.installer.game_stamp()})
         self.sync_saves(prof)                    # a profile with its own saves: they go with its mods
         return len(ctx.outputs)
 

@@ -98,7 +98,7 @@ def add_hook_section(exe: bytes, name: bytes, hooks, shared_src="", writable=Fal
     only need to be unique within one source.  shared_bytes: raw data placed first instead (e.g. a zeroed buffer;
     writable=True makes the section writable)."""
     from . import exemap
-    pe = pefile.PE(data=exe)
+    pe = pefile.PE(data=exe, fast_load=True)   # headers and sections only: a full parse takes ~1 s
     hooks = [(exemap.site(pe, va, orig, "hook site"), orig, body, op) for va, orig, body, op in hooks]
     sec_align = pe.OPTIONAL_HEADER.SectionAlignment
     file_align = pe.OPTIONAL_HEADER.FileAlignment
@@ -228,7 +228,7 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
     looks: {class id: (look index, looks in the group)} -- each look keeps its own custom colours
     (Strategy Assembly precise colours) in one of the unit's three colour sets; 0 looks = shared."""
     from . import exemap
-    pe = pefile.PE(data=exe)
+    pe = pefile.PE(data=exe, fast_load=True)   # headers and sections only: a full parse takes ~1 s
     if is_patched(exe):
         raise ValueError("exe already contains the .d5mod section (patch the vanilla exe)")
     at = {}

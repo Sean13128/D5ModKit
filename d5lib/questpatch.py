@@ -170,7 +170,7 @@ def build_newchar_hook(exe: bytes, recruit_ids=(), class_map=None, palette_map=N
     pal_pairs = sorted((int(c), int(s)) for c, s in (palette_map or {}).items())
     if (not ids and not cls_pairs and not pal_pairs) or is_hooked(exe):
         return exe
-    pe = pefile.PE(data=exe)
+    pe = pefile.PE(data=exe, fast_load=True)   # headers and sections only: a full parse takes ~1 s
     pal_orig = b"\xE8" + struct.pack("<i", PAL_LOOKUP - (PAL_CALL_VA + 5))
     sites = [(HOOK_VA, HOOK_ORIG, ids, _recruit_src, 0xE9), (ANM_OF_VA, ANM_OF_ORIG, cls_pairs, _class_src, 0xE9),
              (PAL_CALL_VA, pal_orig, pal_pairs, _palette_src, 0xE8)]

@@ -643,6 +643,24 @@ class Installer:
     def modified_archives(self):
         return [a for a, r in self.index.items() if r.get("modified")]
 
+    def game_stamp(self):
+        """sizes and times of the game's archives, its exe and every file the last install wrote: equal to the one
+        stored at the install = nothing (Steam, the kit, a restore) has touched the game since"""
+        import hashlib
+        paths = {os.path.join(self.game_dir, "disgaea5.exe")}
+        paths.update(self.apath(a) for a in self.modified_archives())
+        for root, dirs, files in os.walk(self.data_dir):
+            dirs[:] = [d for d in dirs if not d.startswith(".")]
+            paths.update(os.path.join(root, fn) for fn in files if not fn.startswith("."))
+        h = hashlib.sha1()
+        for p in sorted(paths):
+            try:
+                st = os.stat(p)
+                h.update(f"{os.path.relpath(p, self.game_dir)}|{st.st_size}|{st.st_mtime_ns}\n".encode())
+            except OSError:
+                h.update(f"{p}|missing\n".encode())
+        return h.hexdigest()
+
     def _ensure_backup(self, archive, mode):
         rec = self.index.get(archive)
         path = self.apath(archive)
