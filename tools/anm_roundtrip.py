@@ -294,8 +294,14 @@ def main(argv=None):
         with open(a.baseline, "w") as f:
             json.dump(dict(sorted(keep.items())), f, indent=0)
         print(f"baseline: {len(keep)} identical banks -> {a.baseline}")
-    if bad:
+    missing = [] if a.only else [k for k in base if k not in now]    # a full run must still see every baseline bank
+    if missing:
+        print(f"MISSING {len(missing)} baseline banks not found (wrong --game?), first {missing[0]}")
+    if bad or missing:
         return 1
+    if not results:
+        print("no banks found: check --game and --kit")
+        return 2
     if by.get("unreadable"):
         return 2
     return 0
