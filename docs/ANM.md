@@ -143,13 +143,13 @@ image header when resizing (`image_to_texture` does this).
 |---|---|---|
 | 0 | u16 | texture (block-local) |
 | 2 | u16 | palette (block-local); final palette = this + colour variant |
-| 4 | u16 | **UNKNOWN** (0; 512, 768, 1024, 1280, 7, 8, 15 seen) |
-| 6 | u16 | **UNKNOWN** flags (0/1/257) |
+| 4 | u16 | byte +4 draw attribute, byte +5 blend mode (512/768/1024/1280 = blend 2/3/4/5); see §8.1 |
+| 6 | u16 | byte +6 flip X, byte +7 flip Y (1 = flip X, 257 = both); see §8.1 |
 | 8 | u16 | x |
 | 10 | u16 | y |
 | 12 | u16 | width |
 | 14 | u16 | height |
-| 16 | u16 | **UNKNOWN** (0/1, up to ~200 in anm02611) |
+| 16 | u16 | low byte = draw-depth group (0/1, up to ~200 in anm02611); see §8.1 |
 
 Cell 0 is always the empty cell. Some cells are stored rotated 90° on the sheet and rotated back by
 their transform.
@@ -263,12 +263,35 @@ by the format), and extra palettes.
 `python _research/anm/roundtrip.py EN|SAMPLE|JPALL`: parse → to_bytes byte-identical for
 **2006/2006 JP** (including anm_resident 415 MB and all anm_startup_*), **97/97 EN**, **89/89 FR**.
 
+`tools/anm_roundtrip.py` repeats this as a gate on any game folder: all **2,347** banks of Steam build 3528766
+(JP, EN, FR, HN, CH) round-trip byte-identical, and every byte is claimed except 3,566 bytes of non-zero
+filler in 10 banks (block tail padding in `anm_resident`/`anm_startup_*`, one image gap in `anm08225`).
+It exits non-zero when a bank in its baseline stops round-tripping or goes missing.
+
+## 8.1 How the game reads each field
+
+Read from the loader, record builder and renderer of `disgaea5.exe` build 3528766 (image addresses).
+The kit's u16 fields keep the stored values, but several are really two bytes or half of a u32.
+A writer that treats them as one number can change what the game does.
+
+| Kit field | The game reads | Evidence |
+|---|---|---|
+| `Key.flags` (+2) | byte +2: control command on the root node (1 loop mark, 2 loop, 3 conditional loop, 4 wait, 5 hold); on layers 0 = step, else interpolate. Byte +3: 1 spawn / 2 despawn attachment (params[key.param]), 3/4/5 Hermite position/rotation/scale (tangents from params), 6 morph the cell rectangle toward the next key's cell | 0x1402f5002, 0x1402f91ac, 0x1402f5750, 0x1402f8251 |
+| `Cell` +4 (`unk2`) | byte +4: per-draw attribute default; byte +5: blend mode (2/3/4 as is, else 1) | 0x1402f8d39, 0x1402f8d48 |
+| `Cell.flags` (+6) | byte +6 flip X, byte +7 flip Y | 0x1402f89a5, 0x1402f89fa |
+| `Cell` +16 (`unk8`) | low byte = draw-depth group the game sorts by | 0x1402f8edc, sort 0x1400a31a0 |
+| `Node.id` + `Node.flags` | one u32: bits 0–23 asset id (or binding key when bits 24–27 ≠ 0), bits 28–31 draw mode. Kit flags 0x100 = bit 24, 0x1000 = bit 28 | 0x1402f688e, 0x1402f8dce |
+| `Node.mesh` + `unk5` (+8) | one i32: 1 = 10-point mesh | 0x1402f8722 |
+| `Transform.pivot` + `unk` (+4) | one i32 pivot index | 0x1402f5a38 |
+| `TextureInfo` width/height | used for buffer size and UV scale (not legacy) | 0x140301514, 0x1402f8dd4 |
+
+Attachment params are a triple (motion id, start, duration). `PaletteInfo` rows and node +4/+6 were not read
+by any function checked. Key cell/colour/param indexes are signed (-1 = none).
+
 ## 9. Remaining unknowns
 
-* Key flags high byte (0x01/0x02/0x03/0x05/0x06) – blend mode / attachment visibility?
-* Node flags 0x1000, node +4; cell +4, +6, +16.
-* Mesh groups points 5–9.
-* Control command 3; semantics of params on control nodes.
-* Exact blend modes (all rendering done with normal alpha blending; effects in-game may be additive).
+* Node +4/+6; mesh points 5–9 semantics beyond "second vertex set".
+* Semantics of params on control nodes.
+* Cell byte +4 (per-draw attribute) meaning.
 * Which of char.dat 0xD0/0xD4/0xDC/0xDE is used in which context; `Anime_TableDataBase` linkage.
 * anm00002's user; resident x2 blocks' purpose.
