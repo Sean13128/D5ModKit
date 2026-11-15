@@ -1,5 +1,5 @@
 """BANKPR1: failure injection on synthetic saves (no game data), the duplicate guards, Dismiss's guest flag, and the
-opt-in unequip-to-bag export."""
+export always unequips (to the bag on a move)."""
 import glob
 import hashlib
 import os
@@ -192,15 +192,14 @@ class GuestFlag(Base):
 
 
 class Unequip(Base):
-    def test_default_keeps_items_in_the_record(self):
+    def test_export_never_carries_items(self):
         give_items(self.copy, 1, [101, 102])
         out, e = unit_bank.export(self.copy, "Keke", self.bank, VANILLA)
-        rec = unitbank.entry_record(unit_bank.read_entry(out))
-        self.assertEqual([unitbank._u32(b, unitbank.ITEM_ID) for _, b in unitbank.equipped(rec)], [101, 102])
+        self.assertEqual(unitbank.equipped(unitbank.entry_record(unit_bank.read_entry(out))), [])
 
     def test_move_puts_items_in_the_bag(self):
         give_items(self.copy, 1, [101, 102], bag=[7, 8, 9])
-        out, e = unit_bank.export(self.copy, "Keke", self.bank, VANILLA, move=True, unequip=True)
+        out, e = unit_bank.export(self.copy, "Keke", self.bank, VANILLA, move=True)
         self.assertEqual(e["unequipped"], 2)
         self.assertEqual(unitbank.equipped(unitbank.entry_record(unit_bank.read_entry(out))), [])
         s = savegame.Save(self.copy)
@@ -212,7 +211,7 @@ class Unequip(Base):
     def test_copy_strips_the_bank_copy_and_keeps_the_save(self):
         give_items(self.copy, 1, [101])
         before = sha(self.copy)
-        out, e = unit_bank.export(self.copy, "Keke", self.bank, VANILLA, unequip=True)
+        out, e = unit_bank.export(self.copy, "Keke", self.bank, VANILLA)
         self.assertEqual(sha(self.copy), before)
         rec = unitbank.entry_record(unit_bank.read_entry(out))
         self.assertEqual(rec[unitbank.ITEMS:unitbank.ITEMS + unitbank.ITEM], unitbank.EMPTY_ITEM)
@@ -221,7 +220,7 @@ class Unequip(Base):
         give_items(self.copy, 1, [101, 102], bag=[5] * (unitbank.BAG_SLOTS - 1))
         before = sha(self.copy)
         with self.assertRaises(unit_bank.Refused) as cm:
-            unit_bank.export(self.copy, "Keke", self.bank, VANILLA, move=True, unequip=True)
+            unit_bank.export(self.copy, "Keke", self.bank, VANILLA, move=True)
         self.assertIn("room for 1", str(cm.exception))
         self.assertEqual(sha(self.copy), before)
         self.assertFalse(os.path.exists(self.bank) and os.listdir(self.bank))

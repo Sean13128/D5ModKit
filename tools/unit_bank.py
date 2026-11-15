@@ -219,17 +219,16 @@ def write_companion(save_path, doc):
     learned.sidecar_write(str(save_path) + SIDECAR_SUFFIX, doc)
 
 
-def export(save_path, want, bank_dir, vanilla, move=False, live=False, kit_dir=None, unequip=False, serial=None):
+def export(save_path, want, bank_dir, vanilla, move=False, live=False, kit_dir=None, serial=None):
     """the unit -> a bank file.  move: then take it out of the save copy, as the game's Dismiss does (the bank file
     is written first, so a failed removal never loses the unit; when the removal fails and the save still holds the
     unit, the bank file is taken back so the unit is not in both).
-    unequip: the bank file carries no items.  With move the items go into the source save's bag (refused when the
-    bag has no room); without move the source keeps them.  Default (False): the items travel inside the record, so a
-    copy-export duplicates them.  serial: refuse unless the unit at `want` has this serial (a stale page card)"""
+    The bank file never carries items (no duplicated gear): with move the unit's equipped items go into the source
+    save's bag (refused when the bag has no room); without move the source keeps them.  serial: refuse unless the unit at `want` has this serial (a stale page card)"""
     written = []
     try:
         with protected(save_path, live, kit_dir, write=move) as backup:
-            return _export(save_path, want, bank_dir, vanilla, move, backup, unequip, serial, written)
+            return _export(save_path, want, bank_dir, vanilla, move, backup, serial, written)
     except BaseException:
         if move and written and _holds(save_path, written[1]):
             os.remove(written[0])
@@ -263,7 +262,7 @@ def _write_new(folder, stem, text):
     return out
 
 
-def _export(save_path, want, bank_dir, vanilla, move, backup, unequip=False, serial=None, written=None):
+def _export(save_path, want, bank_dir, vanilla, move, backup, serial=None, written=None):
     save = savegame.Save(str(save_path))
     slot = find_unit(save, want)
     unit = savegame.Unit(save, slot)
@@ -276,16 +275,15 @@ def _export(save_path, want, bank_dir, vanilla, move, backup, unequip=False, ser
     key = f"{unit.serial:016x}"
     extra = {unit.serial: ((comp or {}).get("units", {}).get(key) or {}).get("learned") or []}
     gear = 0
-    if unequip and move:
+    if move:
         try:
             gear = unitbank.unequip_to_bag(save, slot)
         except ValueError as ex:
             raise Refused(str(ex))
     entry = unitbank.export_unit(save, slot, extra_learned=extra, sha=unitbank.sha256(str(save_path)))
-    if unequip:
-        record = bytes.fromhex(entry["record"])
-        gear = gear or len(unitbank.equipped(record))
-        entry["record"] = unitbank.strip_items(record).hex()
+    record = bytes.fromhex(entry["record"])
+    gear = gear or len(unitbank.equipped(record))
+    entry["record"] = unitbank.strip_items(record).hex()
     entry["unequipped"] = gear
     safe = re.sub(r"[^A-Za-z0-9]+", "_", entry["name"]).strip("_") or "unit"
     out = _write_new(bank_dir, f"{safe}-{entry['class']}-{entry['serial']}", json.dumps(unitbank.bank_doc([entry]), ensure_ascii=False))
@@ -424,8 +422,6 @@ def main(argv=None, installed=None, vanilla=None):
     e = sub.add_parser("export")
     e.add_argument("save"), e.add_argument("unit"), e.add_argument("bank_dir")
     e.add_argument("--move", action="store_true", help="also take the unit out of the save copy")
-    e.add_argument("--unequip", action="store_true", help="the bank file carries no items: with --move they go into the "
-                   "save's item bag, without it the save keeps them")
     i = sub.add_parser("import")
     i.add_argument("bank_file"), i.add_argument("save")
     i.add_argument("--move", action="store_true", help="also move the bank file into the bank folder's imported/ subfolder")
@@ -457,8 +453,7 @@ def main(argv=None, installed=None, vanilla=None):
         if a.cmd == "import" and not a.db and a.game:
             a.db = os.path.join(a.game, "Data", "Database", "Database_0.dat")
         if a.cmd == "export":
-            out, entry = export(a.save, a.unit, a.bank_dir, vanilla, move=a.move, live=a.live, kit_dir=a.kit_dir,
-                                unequip=a.unequip)
+            out, entry = export(a.save, a.unit, a.bank_dir, vanilla, move=a.move, live=a.live, kit_dir=a.kit_dir)
             print(f"{'moved' if a.move else 'exported'} {entry['name']} (class {entry['class']}, Lv{entry['level']}) -> {out}")
             if entry.get("unequipped"):
                 print(f"  {entry['unequipped']} equipped items " + ("went into the save's item bag" if a.move else

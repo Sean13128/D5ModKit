@@ -162,14 +162,14 @@ def backup_note(folder):
     return f" The save was backed up first: {folder}." if folder else ""
 
 
-def do_export(save_path, card, bank_dir, vanilla, move=True, live=False, kit_dir=None, unequip=False):
+def do_export(save_path, card, bank_dir, vanilla, move=True, live=False, kit_dir=None):
     """-> (message, ok).  move: the unit leaves the save copy (the bank holds it now).  Refusals come back as
     sentences, never raised.  live: the page opened a real save (backed up first, see unit_bank.protected)"""
     try:
         if not live:
             refuse_live(save_path)
         out, entry = unit_bank.export(save_path, card.key, bank_dir, vanilla, move=move, live=live, kit_dir=kit_dir,
-                                        unequip=unequip, serial=card.serial)
+                                        serial=card.serial)
         gear = (f" Its {entry['unequipped']} equipped items went into the save's item bag." if move else
                 f" Its {entry['unequipped']} equipped items stayed in the save.") if entry.get("unequipped") else ""
         where = "; it is no longer in the save" if move else ""

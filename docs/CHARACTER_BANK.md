@@ -6,7 +6,7 @@ The game has loaded bank-written saves and played the imported units (BANKLIVE1,
 
 ## Tool
 
-    tools/unit_bank.py export <save> <unit> <bank dir> [--move] [--unequip] [--live]    unit = roster slot or unique name
+    tools/unit_bank.py export <save> <unit> <bank dir> [--move] [--live]    unit = roster slot or unique name
     tools/unit_bank.py import <bank file> <save> [--live] [--move] [--allow-duplicate] --db <installed Database_0.dat>
     tools/unit_bank.py list   <bank dir>
 
@@ -84,9 +84,8 @@ resident pack itself (`_face_file(fs, fresh=True)`, cache untouched). The 245 im
 (45 D4, 45 D1C, 9 DD2, 146 DRPG) all resolve, as do the 58 Disgaea 5 classes.
 
 ## BANKPR1 (2026-11-14): safety guards, gear, Dismiss's guest flag
-- **Gear.** By default the five equipped items travel inside the record: a copy export puts the same items in the bank AND
-  leaves them in the save (duplicated), a move takes them along. `--unequip` (page: the Unequip box) makes the bank file carry
-  no items: with a move they go into the source save's item bag the way the Equip menu's remove does (0x14027bc80 ->
+- **Gear (always unequipped, Sean 2026-11-14).** A bank file never carries items, so gear is never duplicated: with a move
+  the unit's five equipped items go into the source save's item bag the way the Equip menu's remove does (0x14027bc80 ->
   `data_inventory_add_item` 0x1401c9ba0, then 0x1401c9b70 empties the slot); without a move the save keeps them. D5 has one
   item store (bag = warehouse): 2000 blocks of 0x258 at state+0x482FD8, u16 count at state+0x5A7F58. A block carries its
   innocents and Item World index and names no owner, so it is copied verbatim. If the bag cannot take every item the

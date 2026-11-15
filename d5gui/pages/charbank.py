@@ -7,7 +7,7 @@ every change, and not changed while the game runs.
 import os
 
 from PyQt6.QtCore import Qt, QSize
-from PyQt6.QtWidgets import (QAbstractItemView, QCheckBox, QFileDialog, QFrame, QHBoxLayout, QLabel, QLineEdit, QListWidget,
+from PyQt6.QtWidgets import (QAbstractItemView, QFileDialog, QFrame, QHBoxLayout, QLabel, QLineEdit, QListWidget,
                              QListWidgetItem, QPlainTextEdit, QPushButton, QVBoxLayout, QWidget)
 
 from d5lib import savegame
@@ -102,9 +102,7 @@ class CharBankPage(QWidget):
         self.b_import.setToolTip("Import the selected bank units into the save")
         self.b_export.clicked.connect(self.export_selected)
         self.b_import.clicked.connect(self.import_selected)
-        self.c_unequip = QCheckBox("Unequip")
-        self.c_unequip.setToolTip("Export without items: the unit's equipped items go into the save's item bag")
-        mid.addStretch(1), mid.addWidget(self.b_export), mid.addWidget(self.c_unequip), mid.addWidget(self.b_import)
+        mid.addStretch(1), mid.addWidget(self.b_export), mid.addWidget(self.b_import)
         mid.addStretch(1)
         for lw in (self.left, self.right):
             lw.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
@@ -215,8 +213,7 @@ class CharBankPage(QWidget):
             self.status.setText("Choose a save and a bank folder first.")
             return
         cards = sorted(self._selected(self.left), key=lambda c: -int(c.key))   # last slot first: a move shifts later slots
-        out = [bankview.do_export(self.save_path, c, self.bank_dir, self.vanilla, live=True, kit_dir=KIT_DIR,
-                                   unequip=self.c_unequip.isChecked())[0] for c in cards] or ["Select units in the save copy first."]
+        out = [bankview.do_export(self.save_path, c, self.bank_dir, self.vanilla, live=True, kit_dir=KIT_DIR)[0] for c in cards] or ["Select units in the save copy first."]
         self.refresh()
         self.status.setText("\n".join(out))
 
