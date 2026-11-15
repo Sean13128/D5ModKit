@@ -2127,10 +2127,11 @@ def create_generic_outfit(fs, mod, base_id, sheet_sequences=None, log=print, nam
     return {"slot": T, "sprite": N}
 
 
-def _face_file(fs=None):
-    """the game's face block 9017 as an AnmFile (cached)"""
+def _face_file(fs=None, fresh=False):
+    """the game's face block 9017 as an AnmFile (cached).  fresh: read it from `fs` as it is NOW (an installed game's
+    resident pack holds the imported characters' faces; the cache holds the clean game's block) and leave the cache alone"""
     path = os.path.join(sprites.CACHE_DIR, "face_block_9017.pickle")
-    if os.path.exists(path):
+    if not fresh and os.path.exists(path):
         with open(path, "rb") as f:
             return pickle.load(f)
     res = anm.parse(fs.read("Anime/ANM_HI_JP.dat/anm_resident.lzs"))
@@ -2139,6 +2140,8 @@ def _face_file(fs=None):
     nb = pickle.loads(pickle.dumps(b))
     nb.tex_base = nb.pal_base = 0
     out = anm.AnmFile([nb], tex, [])
+    if fresh:
+        return out
     with open(path, "wb") as f:
         pickle.dump(out, f)
     return out
@@ -2148,10 +2151,11 @@ def face_anim_ids(fs=None):
     return {a.id for a in _face_file(fs).blocks[0].animations}
 
 
-def base_face_image(fs, colour):
-    """the game's 204 px face picture of a colour id (status panel), or None"""
+def base_face_image(fs, colour, fresh=False):
+    """the game's 204 px face picture of a colour id (status panel), or None.  fresh: see `_face_file` (or an AnmFile
+    already read with it)"""
     try:
-        f = _face_file(fs)
+        f = fresh if hasattr(fresh, "blocks") else _face_file(fs, fresh)
         items = anm.evaluate(f, ("id", 10000 + int(colour)), 0)
     except Exception:
         return None

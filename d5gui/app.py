@@ -20,6 +20,7 @@ PAGES = [
     ("", "browse", "🛍  Browse Mods", "browse", "BrowsePage"),
     ("CONTENT", "characters", "🧙  Characters && Classes", "characters", "CharactersPage"),
     ("CONTENT", "quests", "📜  Quests", "quests", "QuestsPage"),
+    ("CONTENT", "charbank", "🗃  Character Bank", "charbank", "CharBankPage"),
     ("CONTENT", "outfits", "👗  Outfits", "outfits", "OutfitsPage"),
     ("CONTENT", "database", "📊  Database Editor", "database", "DatabasePage"),
     ("CONTENT", "skills", "✨  Skills && Animations", "skills", "SkillsPage"),
