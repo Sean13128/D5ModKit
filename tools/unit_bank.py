@@ -290,8 +290,7 @@ def _export(save_path, want, bank_dir, vanilla, move, backup, serial=None, writt
     if written is not None:
         written[:] = [out, bytes.fromhex(entry["record"])]
     if move:
-        save.remove_units([slot])
-        unitbank.clear_guest_flag(save, entry["class"])   # what Dismiss does next to the lists (0x140652580)
+        save.remove_units([slot])                          # also clears a DLC guest's flag, as Dismiss does
         bad = unitbank.verify(save)
         if bad:
             raise Refused(f"the save would not verify without the unit, so it stays in the save: " + "; ".join(bad))

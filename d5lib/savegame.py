@@ -161,6 +161,32 @@ class Unit:
         return f"<unit {self.slot}: {self.name!r} class {self.cls} Lv{self.level}>"
 
 
+# --- what Dismiss does outside the roster besides the lists (BANKPR1, decomp of the Steam exe)
+GAME_FLAGS = 0xE                           # game_flags: bit n at state[0xE + n // 8]
+# The exe table 0x140A0D960 (39 rows of 20 bytes: u32 flag at +4, s16 class id at +8), looked up by 0x140142250.
+# Dismiss (0x140652580, the clear after the three serial lists) clears the class's flag when the id is below 1000
+# (or 2460): the DLC guests' "recruited" flag, read by the guest room (0x140142580) before it offers the character
+# again.  Ids >= 1000 in the table (1240/1250/1260) are never cleared.  590 and 800 share flag 18312 (as in the game).
+GUEST_FLAGS = {510: 18300, 520: 18301, 530: 18302, 540: 18303, 550: 18304, 560: 18305, 570: 18310, 580: 18311,
+               590: 18312, 600: 18313, 610: 18314, 620: 18315, 630: 18316, 640: 18320, 650: 18321, 660: 18322,
+               670: 18323, 680: 18324, 690: 18325, 700: 18330, 710: 18331, 720: 18332, 730: 18340, 740: 18341,
+               750: 18342, 760: 18343, 800: 18312, 860: 18345, 870: 18346, 880: 18347, 890: 18348, 900: 18349,
+               910: 18350, 920: 18351, 930: 18352, 940: 18353}
+
+
+def guest_flag(save, cls, on=False):
+    """the guest-room flag Dismiss clears for a DLC character leaving the army (on=True sets it for one arriving: in the
+    four test saves every DLC character in the army has it set, 46 of 46) -> the flag, or None"""
+    flag = GUEST_FLAGS.get(int(cls))
+    if flag is None:
+        return None
+    if on:
+        save.state[GAME_FLAGS + flag // 8] |= 1 << (flag & 7)
+    else:
+        save.state[GAME_FLAGS + flag // 8] &= ~(1 << (flag & 7)) & 0xFF
+    return flag
+
+
 class Save:
     """one save file: its header and the game state (a bytearray you can change, then write())"""
 
@@ -383,6 +409,7 @@ class Save:
             self._drop_from_lists(serial)
             self._drop_group(u)
             self._drop_squad(u)
+            guest_flag(self, u.cls)                          # Dismiss clears a DLC guest's flag (0x140652580)
             n = self.army_count
             for j in range(slot, n - 1):                    # 0x1402e8260 (j, j + 1), repeated
                 a, b = ROSTER + j * UNIT, ROSTER + (j + 1) * UNIT

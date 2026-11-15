@@ -178,6 +178,12 @@ class GuestFlag(Base):
         bit = lambda f: st[unitbank.GAME_FLAGS + f // 8] >> (f & 7) & 1   # noqa: E731
         self.assertEqual((bit(18310), bit(18300)), (0, 1))
 
+    def test_save_cleaner_remove_units_clears_it_too(self):
+        s = savegame.Save(self.copy)
+        s.state[unitbank.GAME_FLAGS + 18310 // 8] |= 1 << (18310 & 7)
+        s.remove_units([u.slot for u in s.army() if u.name == "Valvatorez"])
+        self.assertEqual(s.state[unitbank.GAME_FLAGS + 18310 // 8] >> (18310 & 7) & 1, 0)
+
     def test_import_sets_it_again(self):
         out, _ = unit_bank.export(self.copy, "Valvatorez", self.bank, VANILLA, move=True)
         tgt = write_save(os.path.join(self.d, "t.sav"), army=1, uid=40, slots=[(0, dict(name="Killia", cls=10, serial=1))])
