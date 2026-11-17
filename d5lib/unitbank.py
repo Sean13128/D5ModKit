@@ -21,8 +21,8 @@ nothing about the source save is needed to read a unit back.
 
 The ids that must be re-addressed on import (everything else is copied verbatim):
 
-  serial (+0x3060)  the game's unit id.  A save's serials are 1.. (Save1's highest is 6607 with the next
-                    id at 12033), so the *same* number names a different unit in every save.  The import
+  serial (+0x3060)  the game's unit id.  A save's serials count up from 1 and the counter sits well
+                    above the highest one in use, so the *same* number names a different unit in every save.  The import
                     therefore takes a fresh one from the save's own counter at state+0x5A7F60 — the same
                     dword the game increments in `roster_create_unit` 0x1402ea3e0 (that global,
                     0x145574a60, is state+0x5A7F60) — and leaves the counter above it.  Keeping the old
@@ -62,6 +62,7 @@ UID_NEXT = 0x5A7F60                        # state+0x5A7F60 = the exe's serial d
                                            # issued; roster_create_unit pre-increments it and gives the unit the new value
 ITEMS = 0x10
 ITEMS_END = 0xBC8                          # 0x10 + 5 * 0x258 = the name
+SUBCLASS = 0x35AC                          # the subclass id (0 = none)
 NO_SQUAD = -1
 NO_GROUP = 0xFF
 
@@ -192,6 +193,10 @@ def import_unit(save, entry, *, rows=None, slot=None, keep_ids=False):
         struct.pack_into("<h", raw, savegame.U_ROW, row)
     elif rows is not None:
         warnings.append(f"class {cls} is not in this save's char.dat (the unit needs its mod installed)")
+
+    sub = struct.unpack_from("<I", raw, SUBCLASS)[0]
+    if rows is not None and sub and sub not in {int(r) for r in rows}:
+        warnings.append(f"the unit's subclass {sub} is not in this save's char.dat (it needs its mod installed)")
 
     squad = struct.unpack_from("<h", raw, savegame.U_SQUAD)[0]
     group = raw[savegame.U_GROUP]

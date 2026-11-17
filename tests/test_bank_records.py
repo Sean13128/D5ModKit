@@ -1,7 +1,7 @@
 """The character bank: export / import one unit on two synthetic saves (no game, no real save).
 
-The saves are bytearrays with the real offsets, so the test runs the same code the proof script runs on
-copies of Save1: the record at ROSTER + slot * UNIT, the serial at +0x3060, the roster index at +0x2E31,
+The saves are bytearrays with the real offsets, so the test runs the same code that runs on
+a real save: the record at ROSTER + slot * UNIT, the serial at +0x3060, the roster index at +0x2E31,
 the class and its row at +0x2E04 / +0x2E0A, the five items at +0x10, the mastery counters, the learned
 bitmap at +0x2E70, and the game's next-serial dword at 0x5A7F60.
 """
@@ -176,6 +176,18 @@ class ImportTest(unittest.TestCase):
         out = unitbank.import_unit(b, e, rows=[c for c in ROWS if c != 570])
         self.assertIsNone(out["row"])
         self.assertTrue(any("not in this save's char.dat" in w for w in out["warnings"]))
+
+    def test_missing_subclass_is_warned(self):
+        a, b = two_saves()
+        base = savegame.ROSTER + 1 * savegame.UNIT
+        struct.pack_into("<I", a.state, base + unitbank.SUBCLASS, 4000)
+        e = unitbank.export_unit(a, 1)
+        out = unitbank.import_unit(b, e, rows=ROWS)
+        self.assertTrue(any("subclass 4000" in w for w in out["warnings"]))
+        a2, b2 = two_saves()
+        struct.pack_into("<I", a2.state, base + unitbank.SUBCLASS, 10)           # a subclass the target has: no warning
+        out = unitbank.import_unit(b2, unitbank.export_unit(a2, 1), rows=ROWS)
+        self.assertFalse(any("subclass" in w for w in out["warnings"]))
 
     def test_index_bytes_stay_in_slot_order(self):
         a, b = two_saves()

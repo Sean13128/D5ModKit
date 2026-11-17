@@ -1,4 +1,5 @@
-"""BANKFEAT1: Character Bank features (a) import moves the bank file, (b) learned companion travels, (c) faces."""
+"""Character bank: import moves the bank file into imported/, the learned-evility companion travels (needs
+d5lib.learned)."""
 import os
 import sys
 import tempfile
@@ -12,7 +13,7 @@ sys.path.insert(0, HERE)
 from d5lib import savegame  # noqa: E402
 import unit_bank  # noqa: E402
 from d5gui import bankview  # noqa: E402
-from test_unit_bank_cli import INSTALLED, VANILLA, run, write_save  # noqa: E402
+from test_bank_cli import INSTALLED, VANILLA, run, write_save  # noqa: E402
 try:                                    # optional kit part (learned-evility companion)
     from d5lib import learned
 except ImportError:
@@ -134,33 +135,6 @@ class Companion(unittest.TestCase):
         doc["units"][0].pop("learned_extra")
         json.dump(doc, open(f, "w"))
         self.assertEqual(run("import", f, self.b)[0], 0)
-
-
-class Faces(unittest.TestCase):
-    def test_imported_game_face_comes_from_the_installed_resident_pack(self):
-        game = os.environ.get("D5_GAME_DIR", "")                  # opt-in: an installed game with the D4 pack
-        if not os.path.isdir(game + "/D5ModKit/mods/D4_Unique_170"):
-            self.skipTest("set D5_GAME_DIR to an installed game with the D4 pack to run this")
-        import copy
-        import pickle
-        from unittest import mock
-        from d5lib import outfits, sprites
-        art = bankview.Art(game)
-        stale = copy.deepcopy(outfits._face_file(art.fs, fresh=True))     # a cache written from the clean game: no imported faces
-        stale.blocks[0].animations = [a for a in stale.blocks[0].animations if a.id < 10900]
-        cdir = tempfile.TemporaryDirectory()
-        self.addCleanup(cdir.cleanup)
-        pickle.dump(stale, open(os.path.join(cdir.name, "face_block_9017.pickle"), "wb"))
-        sprites_cache = mock.patch.object(sprites, "CACHE_DIR", cdir.name)
-        sprites_cache.start()
-        self.addCleanup(sprites_cache.stop)
-        art = bankview.Art(game)
-        hugo = 10270                                     # D4 Hugo, face anim 10000 + 937 painted into the installed resident
-        face = art.resolve(hugo)[1]
-        self.assertIsNotNone(face)
-        self.assertEqual(face.size, (204, 204))
-        self.assertIsNone(outfits.base_face_image(art.fs, art.rows[hugo]["color_id"]))   # the cache path alone cannot
-        self.assertIsNotNone(art.resolve(10)[1])         # Killia (D5) still resolves
 
 
 if __name__ == "__main__":

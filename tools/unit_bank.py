@@ -1,4 +1,4 @@
-"""BANK1: the character bank on the command line (d5lib/unitbank.py), for save copies (the real save with --live).
+"""The character bank on the command line (d5lib/unitbank.py), for save copies (the real save with --live).
 
     unit_bank.py export <save copy> <unit> <bank dir>      unit = roster slot number, or the unit's name
     unit_bank.py import <bank file> <save copy> --db <installed Database_0.dat>
@@ -14,9 +14,9 @@ save copy in place; it refuses, changing nothing, when
     in 0x140655030; text 10650 "unique characters cannot be dismissed"): character id 2460 or below 1000 is
     locked unless it is one of the 36 DLC characters in the exe table 0x140A0D968 (DISMISSABLE below), which
     the game lets you dismiss like a generic.  Dummy rows below 1000 that a mod fills are not locked here (the
-    game itself would refuse to dismiss them; not our story cast).  A unit of the guest tail / reserve is also
-    refused: that part is ours, not the game's (Sorrow states/data.md: the default roster 0x1401B75B0 pushes
-    later story characters there).  Export refuses the same units.
+    game itself would refuse to dismiss them, but they are not story characters).  A unit of the guest tail /
+    reserve is also refused: that rule is the kit's own, not the game's (the default roster pushes later story
+    characters there).  Export refuses the same units.
 
 A path under the game's live save folder is refused unless --live is given.  With --live (or for a save in a kit
 profile's saves) the save and its .d5learn.json companion are first copied to <kit>/state/save_backups
@@ -148,6 +148,13 @@ def char_names(db_path):
     return {r["id"]: r["name_EN"] for r in database.load_database(str(db_path))["char.dat"].rows}
 
 
+def need_vanilla(vanilla):
+    """the story lock reads the unmodded char.dat; with no table every story character would pass, so refuse instead"""
+    if not vanilla:
+        raise Refused("the unmodded char.dat could not be read, so story characters cannot be told apart: "
+                      "set the game folder (or --vanilla-db / --game on the command line). Nothing was changed.")
+
+
 def story_locked(cls, vanilla, in_reserve=False):
     """why this unit may not move between saves, or None.  vanilla: {id: name} of the game's own char.dat"""
     if in_reserve:
@@ -225,6 +232,7 @@ def export(save_path, want, bank_dir, vanilla, move=False, live=False, kit_dir=N
     unit, the bank file is taken back so the unit is not in both).
     The bank file never carries items (no duplicated gear): with move the unit's equipped items go into the source
     save's bag (refused when the bag has no room); without move the source keeps them.  serial: refuse unless the unit at `want` has this serial (a stale page card)"""
+    need_vanilla(vanilla)
     written = []
     try:
         with protected(save_path, live, kit_dir, write=move) as backup:
@@ -361,6 +369,7 @@ def import_(bank_file, save_path, installed, vanilla, move=False, skill_ids=None
     into a save that has none; an existing valid companion is extended and re-bound to the written save either way.
     live / kit_dir: see `protected` (a real save is backed up first and put back if it does not verify)
     allow_duplicate: import even when the save already holds this very unit (a bank file imported twice)"""
+    need_vanilla(vanilla)
     entry = read_entry(bank_file)
     cls = int(entry["class"])
     if cls not in installed:

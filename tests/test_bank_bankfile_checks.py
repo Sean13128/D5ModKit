@@ -1,4 +1,5 @@
-"""BANKTEST1: bugs found by testing the character bank on save copies (each test fails without its fix)."""
+"""Character bank: live-folder detection, damaged or doctored bank files, a real-save round trip (opt-in) and the references
+a move leaves behind in the source save."""
 import os
 import sys
 import unittest
@@ -30,7 +31,7 @@ class BankFile(unittest.TestCase):
     def setUp(self):
         import json
         import tempfile
-        from test_unit_bank_cli import INSTALLED, VANILLA, write_save
+        from test_bank_cli import INSTALLED, VANILLA, write_save
         self.tmp = tempfile.TemporaryDirectory()
         d = self.tmp.name
         self.save = write_save(os.path.join(d, "a.sav"), army=2, uid=9, slots=[
@@ -139,7 +140,7 @@ class MoveOutLeavesNoReference(unittest.TestCase):
     def test_references_are_removed(self):
         import struct
         import tempfile
-        from test_unit_bank_cli import VANILLA, write_save
+        from test_bank_cli import VANILLA, write_save
         from d5lib import savegame
         with tempfile.TemporaryDirectory() as d:
             p = write_save(os.path.join(d, "a.sav"), army=3, uid=600, slots=[

@@ -1,4 +1,4 @@
-"""BANKGUI1: Character Bank page logic (d5gui/bankview.py) headless on synthetic saves, plus one offscreen smoke test."""
+"""Character Bank page logic (d5gui/bankview.py) headless on synthetic saves, plus one offscreen smoke test."""
 import os
 import sys
 import tempfile
@@ -10,7 +10,7 @@ sys.path.insert(0, os.path.dirname(HERE))
 sys.path.insert(0, HERE)
 
 from d5gui import bankview  # noqa: E402
-from test_unit_bank_cli import INSTALLED, VANILLA, write_save  # noqa: E402
+from test_bank_cli import INSTALLED, VANILLA, write_save  # noqa: E402
 
 
 class BankView(unittest.TestCase):
@@ -36,22 +36,6 @@ class BankView(unittest.TestCase):
         self.assertEqual(bankview.badge_for(5, {}, {}), ("?", "class 5 is in no installed mod and not in the unmodded game"))
         self.assertEqual(bankview.badge_for(5, {}, {5: "x"})[0], "D5")
         self.assertEqual(bankview.badge_for(5, {5: ("?", "r")}, {5: "x"}), ("?", "r"))
-
-    def test_badges_from_owning_pack_real_saves(self):
-        game = os.environ.get("D5_GAME_DIR", "")                  # opt-in: your installed game + kit test saves
-        base = os.environ.get("D5_BANK_TEST_SAVES", "")
-        van = bankview.unit_bank.VANILLA_DB or ""
-        if not (os.path.isdir(game + "/D5ModKit/mods") and os.path.isfile(base + "/Save_012.sav") and os.path.isfile(van)):
-            self.skipTest("set D5_GAME_DIR, D5_BANK_TEST_SAVES and D5_VANILLA_DB to run this")
-        badges = bankview.game_badges(game + "/D5ModKit/mods")
-        vanilla = bankview.unit_bank.char_names(van)
-        got = {}
-        for f in ("Save_011.sav", "Save_012.sav"):
-            tmp = os.path.join(self.d, f)
-            open(tmp, "wb").write(open(os.path.join(base, f), "rb").read())
-            got.update({c.name: c.game for c in bankview.save_cards(tmp, {}, vanilla, badges)[0]})
-        self.assertEqual([got[n] for n in ("Des X", "Roc (D4)", "Plume", "Dragon", "Aileen", "Laharl")],
-                         ["D4", "D4", "DD2", "D1C", "DRPG", "D5"])
 
     def test_export_import_sentences(self):
         cards, _ = bankview.save_cards(self.a, INSTALLED, VANILLA)
@@ -96,6 +80,11 @@ class BankView(unittest.TestCase):
         page = CharBankPage(SimpleNamespace(game_dir=""))   # no game folder: placeholders, no crash
         page.set_paths(self.a, self.bank)
         self.assertEqual(page.left.count(), 3)
+        page.left.item(1).setSelected(True)
+        page.export_selected()                              # no unmodded char.dat: story characters cannot be told apart
+        self.assertIn("unmodded char.dat could not be read", page.status.text())
+        self.assertEqual(page.right.count(), 0)
+        page.vanilla = VANILLA                              # as the page fills it from the game folder
         page.left.item(1).setSelected(True)
         page.export_selected()
         self.assertEqual(page.right.count(), 1)

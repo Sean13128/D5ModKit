@@ -1,4 +1,4 @@
-"""BANK1: tools/unit_bank.py on synthetic save files (real container, no game data): a round trip and one
+"""tools/unit_bank.py on synthetic save files (real container, no game data): a round trip and one
 test per refusal."""
 import contextlib
 import io
@@ -16,7 +16,7 @@ sys.path.insert(0, HERE)
 
 from d5lib import savegame  # noqa: E402
 import unit_bank  # noqa: E402
-from test_unitbank import FakeSave  # noqa: E402
+from test_bank_records import FakeSave  # noqa: E402
 
 VANILLA = {10: "Killia", 40: "Seraphina", 190: "Unique Dummy", 570: "Valvatorez"}
 INSTALLED = {**VANILLA, 190: "Keke", 150: "Imported", 1010: "Warrior"}
@@ -76,6 +76,14 @@ class UnitBankCli(unittest.TestCase):
         for off, n in ((savegame.U_SERIAL, 8), (savegame.U_ROW, 2)):       # re-addressed: serial, char.dat row
             ra[off:off + n] = rb[off:off + n] = bytes(n)
         self.assertEqual(ra, rb)                                           # the rest byte for byte
+
+    def test_refuses_without_the_unmodded_char_dat(self):
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            code = unit_bank.main(["export", self.a, "Keke", self.bank, "--move"], installed=INSTALLED, vanilla={})
+        self.assertEqual(code, 2)
+        self.assertIn("unmodded char.dat", out.getvalue())
+        self.assertFalse(os.path.exists(self.bank))
 
     def test_refuses_class_not_installed(self):
         f = self.export("Ghost")                                           # class 77: no installed row

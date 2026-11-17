@@ -1,4 +1,4 @@
-"""BANKLIVESAVE1: the bank works on a real save (a folder named like the game's save folder, in a temp dir; the real
+"""The bank works on a real save (a folder named like the game's save folder, in a temp dir; the real
 folder is never touched) after a backup, and not while the game runs; a save elsewhere behaves as before."""
 import glob
 import hashlib
@@ -16,8 +16,8 @@ sys.path.insert(0, HERE)
 from d5gui import bankview  # noqa: E402
 from d5lib import savegame, unitbank  # noqa: E402
 import unit_bank  # noqa: E402
-from test_bankfeat1 import NEEDS_LEARNED, TABLE, learned  # noqa: E402
-from test_unit_bank_cli import INSTALLED, VANILLA, run, write_save  # noqa: E402
+from test_bank_import_companion import NEEDS_LEARNED, TABLE, learned  # noqa: E402
+from test_bank_cli import INSTALLED, VANILLA, run, write_save  # noqa: E402
 
 
 def sha(p):

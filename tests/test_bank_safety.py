@@ -1,4 +1,4 @@
-"""BANKPR1: failure injection on synthetic saves (no game data), the duplicate guards, Dismiss's guest flag, and the
+"""Failure injection on synthetic saves (no game data), the duplicate guards, Dismiss's guest flag, and the
 export always unequips (to the bag on a move)."""
 import glob
 import hashlib
@@ -16,8 +16,8 @@ sys.path.insert(0, HERE)
 
 from d5lib import savegame, unitbank  # noqa: E402
 import unit_bank  # noqa: E402
-from test_bankfeat1 import NEEDS_LEARNED, TABLE, learned  # noqa: E402
-from test_unit_bank_cli import INSTALLED, VANILLA, run, write_save  # noqa: E402
+from test_bank_import_companion import NEEDS_LEARNED, TABLE, learned  # noqa: E402
+from test_bank_cli import INSTALLED, VANILLA, run, write_save  # noqa: E402
 
 
 def sha(p):

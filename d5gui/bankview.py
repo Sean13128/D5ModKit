@@ -1,11 +1,10 @@
-"""BANKGUI1: the logic behind the Character Bank page (no widgets: tested headless).
+"""The logic behind the Character Bank page (no widgets: tested headless).
 
 Everything with a save format is `tools/unit_bank.py` (which calls `d5lib/unitbank.py`); this module only
 turns its answers into cards and plain sentences.  Art goes through the editor's own calls
 (`d5lib.sprites`, `d5lib.anm`), reading the installed game's archives read-only.
 
-Ideas credited to Cryswar's Overlord source (Unlicense) for unit storage: none were needed; the bank design is ours
-(docs/CHARACTER_BANK.md).
+See docs/CHARACTER_BANK.md.
 """
 from __future__ import annotations
 
@@ -186,7 +185,7 @@ def do_import(save_path, card, installed, vanilla, skill_ids=None, live=False, k
                                        live=live, kit_dir=kit_dir)
         extra = f" {res['companion']} evilities past the game's bitmap went into the save's companion file." if res.get("companion") else ""
         moved = " The bank file moved to the imported folder." if res.get("moved_to") else ""
-        lost = "".join(f" Note: {w}." for w in res["warnings"] if "not carried" in w)
+        lost = "".join(f" Note: {w}." for w in res["warnings"])
         return (f"Imported {entry['name']} into roster slot {res['slot']}.{extra}{moved}{lost}"
                 f"{backup_note(res.get('backup'))}"), True
     except (unit_bank.Refused, ValueError, OSError) as ex:
