@@ -1,10 +1,11 @@
-"""Disgaea RPG unit names from the game's own masters/charactername, added to a "Units IDs.txt".
+"""Disgaea RPG unit names from the game's own masters/character, added to a "Units IDs.txt".
 
     python tools/drpg_names.py MASTERS --dump                     what the table holds (its fields, a few rows)
     python tools/drpg_names.py MASTERS --names "Units IDs.txt"    add the units the file doesn't name yet
 
-MASTERS: the install's masters folder (or the file masters/charactername itself).  The names are the game's, so
-Japanese for the JP edition: each added line ends in "[JP]".  Names the file already has are kept.  The old file is
+MASTERS: the install's masters folder (or the file masters/character itself).  The names are the game's, so
+Japanese for the JP edition: each added line ends in "[JP]".  (masters/charactername is not it: that is the
+pool of names given to generic units.)  Names the file already has are kept.  The old file is
 kept as "Units IDs.txt.bak".  Needs UnityPy (pip install UnityPy).
 """
 import argparse
@@ -50,7 +51,7 @@ def main():
     a = ap.parse_args()
     path = a.masters
     if os.path.isdir(path):
-        path = os.path.join(path, "charactername")
+        path = os.path.join(path, "character")
     table = rows(path)
     if a.dump or not a.names:
         print(f"{len(table)} rows; fields: {list(table[0])}")
