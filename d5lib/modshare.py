@@ -241,9 +241,14 @@ def _free(kind, i, taken, fs, van, limit=None):
                 return c
         raise RuntimeError("no free character id below 1000")
     if kind == "sprite":
+        # a sprite number and its portrait (number + 10000) share one file name space, so a moved sprite must stay
+        # below 10000: above it, its files would take the names of other characters' portraits
         n = 9000
-        while n in taken or n + 10000 > 32767:
+        while n in taken:
             n += 10
+        if n > 9990:
+            raise RuntimeError("no free sprite numbers left for this mod (9000-9990 are all in use): "
+                               "switch off or remove a mod that brings its own sprites, then import again")
         return n
     if kind == "event":
         b = MOD_CHOREO_BASE
