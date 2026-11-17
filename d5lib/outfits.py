@@ -2139,6 +2139,7 @@ def _face_file(fs=None):
     nb = pickle.loads(pickle.dumps(b))
     nb.tex_base = nb.pal_base = 0
     out = anm.AnmFile([nb], tex, [])
+    os.makedirs(os.path.dirname(path), exist_ok=True)   # a fresh kit has no cache/ yet
     with open(path, "wb") as f:
         pickle.dump(out, f)
     return out
