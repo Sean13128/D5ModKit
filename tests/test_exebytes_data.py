@@ -186,9 +186,9 @@ def test_setting_value_is_strict_int(tmp_path, bad):
 
 
 def test_skipped_tuple_carries_display_name_and_id(tmp_path, stub_apply):
-    ctx = Ctx([mod(tmp_path, "Ally_Steal", [dict(OK, orig="zz")], name="Ally Steal").folder])
+    ctx = Ctx([mod(tmp_path, "Example_Mod", [dict(OK, orig="zz")], name="Example Mod").folder])
     exebytes._finalize(ctx)
-    assert [n for n, _ in ctx.skipped_features] == ["mod Ally Steal (Ally_Steal)"]
+    assert [n for n, _ in ctx.skipped_features] == ["mod Example Mod (Example_Mod)"]
 
 
 # ---------------------------------------------------------------------------------------- notice before import
