@@ -385,11 +385,21 @@ def apply(mod, mapping, log=print, vanilla_char=None):
                 moves.append((f, n, new, (m.group(1) or "")))
         tmp = []
         for f, n, new, folder in moves:
-            a = anm.parse(mod.read_file(f))
+            raw = mod.read_file(f)
+            # a mod may store its sprite files LZS-compressed (the game's own packing): unpack to renumber, pack again
+            packed = raw[:4] in (b"dat\0", b"pac\0") and int.from_bytes(raw[4:8], "little") != len(raw)
+            if packed:
+                from . import lzs
+                a = anm.parse(lzs.decompress(raw))
+            else:
+                a = anm.parse(raw)
             for blk in a.blocks:
                 if blk.id == n or _spr(S, blk.id) != blk.id:
                     blk.id = _spr(S, blk.id)
-            tmp.append((f"{folder}anm{new:05d}.lzs", a.to_bytes()))
+            out = a.to_bytes()
+            if packed:
+                out = anm.lzs_compress(out, raw[:4])
+            tmp.append((f"{folder}anm{new:05d}.lzs", out))
             mod.remove_file(f)
         for vp, data in tmp:
             mod.write_file(vp, data)
