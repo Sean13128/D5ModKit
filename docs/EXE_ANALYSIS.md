@@ -299,3 +299,49 @@ Known or likely names. The category comes from the high byte and from what each 
 | `script_validate.py` | decode every script in `_extracted/Script/script.dat` with that table (19053/19053 OK) |
 | `save_decode.py <sav> [out]` | decode a save to the raw 0x89B8C8 state |
 | `save_roster.py <sav> [char.dat]` | list unit records and flag stale char.dat row indices, to check whether a modified char.dat is safe for existing saves |
+
+## Mods carrying exe byte patches (`patches/exe/*.json`, `d5lib/exebytes.py`)
+**This changes the game's code.** A mod with `patches/exe` writes machine code into the game's exe (same length,
+every original byte checked first). It can't add files to the exe, but what it writes runs when the game does.
+The patches are not hidden: the import of a shared mod asks first (Home › More › Import, and Browse Mods) and says how
+many sites and bytes it changes, the import log repeats it, and the install log has one line per applied mod
+(`<mod>: patches the game's code at 1 sites (6 bytes)`). Restore vanilla puts the original exe back from the kit's
+backup like every other kit exe patch.
+
+A patch file is data only (hex strings and whole numbers; nothing a mod carries is ever run):
+```json
+{"build": "9460a64", "patches": [{"va": "0x1401AF645", "orig": "0F84DE010000", "new": "660F1F440000",
+  "what": "steal on kill from allies"}]}
+```
+* `build` is the start of the sha1 of the exe the addresses are for. A different build leaves the mod out; nothing is
+  translated. Without `build` the address is read as an address of whatever exe is being patched, and the `orig` check
+  is all that protects a build that differs: name the build.
+* `va` is a hex string or an int. `orig` is compared with the exe before anything is written and `new` must have the
+  same length. An entry that is inside a section the kit added (`.d5*`), or not wholly inside one section of the
+  original image, is rejected: `patches/exe` targets the game's own code, not the kit's.
+* `values` (optional) writes `mod.json` `settings[setting]` (or `default`) little-endian into `new` at `offset`, signed
+  when negative; a value that doesn't fit `size` leaves the mod out. Illustration with an imaginary instruction
+  `B8 64000000` (`mov eax, 100`), whose operand is the 4 bytes at offset 1:
+  `{"va": "0x140123456", "orig": "B864000000", "new": "B864000000", "values": [{"offset": 1, "size": 4, "setting": "cost", "default": 100}]}`
+* A mod is applied whole or not at all. A malformed file, a wrong `orig`, another build, or an overlap with another
+  owner's bytes leaves that mod out with a note naming the file and entry, and the other mods still go in. The patched exe is
+  built in memory and written only when the install runs, so a rejected mod never leaves part of its bytes in it.
+
+### Site ledger
+Every exe range a kit patch writes is recorded with its owner (`d5lib/exemap.py`: `LEDGER`, `claim()`, `owner()`,
+`SiteClash`; `site()` claims the bytes it writes, `claim=False` only checks). An owner is the kit feature, or
+`<mod folder id>:<patch folder>` for a mod's handler, or `mod <folder id>` for `patches/exe` (folder ids are unique,
+display names are not). A range already held by another owner raises `SiteClash` (a `ValueError`), the later feature is
+left out whole with a note naming both owners, and its other claims are released. `reserve(start, length, owner)` holds a
+range for a program that patches the exe itself; nothing is reserved by default. The finalizer for `patches/exe` runs
+after every kit exe patch, so a mod that overlaps a kit feature is the one refused. The claims of the last install are
+written to `exe_sites.json` in the game's state folder (removed by Restore vanilla).
+
+### Worked example: Ally Steal
+`damage_after_hit_evaluate` (0x1401AEB10, Steam build) rolls "steal on defeat" only when the killer is player side
+(`cmp byte [rbx+0x2E32], r13b / jne` at 0x1401AF625; team byte 0 = player) and the victim is not
+(`cmp byte [rax+0x2E32], r13b` at 0x1401AF63E, then `0F 84 DE 01 00 00 je 0x1401AF829` at 0x1401AF645). Replacing that
+`je` with a 6-byte no-op (`66 0F 1F 44 00 00`, file offset 0x1AEA45) lets a player-side victim roll the same chance. The
+steal copies one random non-empty equipped slot to the pending loot and never clears the victim's slot, so the ally
+keeps its item. As a mod it is just `patches/exe/ally_steal.json` with the JSON shown above (one entry, 6 bytes) and
+a `mod.json`; no kit code. On a build where those 6 bytes differ the mod is left out.

@@ -72,6 +72,14 @@ person uses Home › More › **Import / update from .zip…**.
 * Rows of the game a mod edits (by index) are the same on every PC and are not moved; two mods editing the same
   row simply layer in load order.
 
+### Mods that change the game's program (`patches/exe`)
+
+A mod may carry `patches/exe/*.json`: checked byte patches to the game's exe (see `docs/EXE_ANALYSIS.md`). Unlike
+the rest of a mod, these change code that runs when the game starts, so Import (and Browse Mods) show a warning first,
+with the number of sites and bytes, and import only on Yes. Only import such a mod from someone you trust. Each patch
+is compared with the original bytes at install and left out if they differ (another game build, or another mod already
+patches the same bytes, which is named in the install log); Restore vanilla puts the original exe back.
+
 ## Sharing the whole kit (for other modders)
 
     python tools/make_release.py D:\Release --zip
