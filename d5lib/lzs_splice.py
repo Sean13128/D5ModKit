@@ -15,7 +15,7 @@ import os
 import struct
 
 WINDOW = 255
-CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "cache", "lzs_splice")
+CACHE_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "cache", "lzs_splice"))
 CACHE_MIN = 16 << 20         # smaller files splice in well under a second: not worth a cache file
 CACHE_KEEP = 4               # plans kept (the EN and JP packs, now and one edit ago); older ones are deleted
 _MAGIC = b"LZSP1\0"
@@ -107,10 +107,18 @@ def _cache_store(key, plan, out):
         head = json.dumps({"sha1": hashlib.sha1(out).hexdigest(),
                            "plan": [list(p) if type(p) is tuple else len(p) for p in plan]}).encode()
         path = os.path.join(CACHE_DIR, key + ".bin")
-        with open(path + ".tmp", "wb") as f:
-            f.write(_MAGIC + len(head).to_bytes(4, "little") + head)
-            f.writelines(lits)
-        os.replace(path + ".tmp", path)
+        tmp = "%s.%d.tmp" % (path, os.getpid())      # one name per process: two installs never share a half-written file
+        try:
+            with open(tmp, "wb") as f:
+                f.write(_MAGIC + len(head).to_bytes(4, "little") + head)
+                f.writelines(lits)
+            os.replace(tmp, path)
+        except OSError:
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+            raise
         old = sorted((e for e in os.scandir(CACHE_DIR) if e.name.endswith(".bin")),
                      key=lambda e: e.stat().st_mtime, reverse=True)[CACHE_KEEP:]
         for e in old:

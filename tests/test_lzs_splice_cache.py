@@ -43,6 +43,16 @@ class SpliceCacheTests(unittest.TestCase):
             lzs_splice.splice(old_raw, new, runs)
             self.assertEqual(os.listdir(d), [])
 
+    def test_unwritable_cache_dir_still_splices(self):
+        old_raw, new, runs = self._case()
+        with tempfile.TemporaryDirectory() as d:
+            blocker = os.path.join(d, "file")
+            open(blocker, "w").close()                 # a file where the cache directory should be
+            with patch.object(lzs_splice, "CACHE_DIR", os.path.join(blocker, "sub")), \
+                    patch.object(lzs_splice, "CACHE_MIN", 0):
+                out = lzs_splice.splice(old_raw, new, runs)
+        self.assertEqual(lzs.decompress(out, native=False), new)
+
 
 if __name__ == "__main__":
     unittest.main()
