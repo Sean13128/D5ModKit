@@ -320,6 +320,9 @@ class AnmFile:
     palettes: List[Image8]
     hdr_unk: bytes = b"\0" * 12        # bytes 0x14..0x20 of the file header (always 0)
     trailing: bytes = b""              # bytes after the image data (never seen)
+    # is_stub() answers, per (block, animation); belongs to this object so two files can never share an
+    # answer (a module cache keyed by id() did: CPython reuses ids - see is_stub)
+    _stub_cache: dict = field(default_factory=dict, init=False, repr=False, compare=False)
 
     # ---------------------------------------------------------------- parse / write
     @classmethod
@@ -865,19 +868,21 @@ def is_nested(k) -> bool:
     return (k.flags & 0xFF00) == NESTED and not k.cell
 
 
-_STUBS = {}
-
-
 def is_stub(anm: AnmFile, bi: int, ai: int) -> bool:
     """an animation that draws no picture of its own (the shared poses that show another animation through a
-    0x100 key); in ordinary animations 0x100 keys mean something else (weapon / part references)"""
-    key = (id(anm), bi, ai)
-    hit = _STUBS.get(key)
+    0x100 key); in ordinary animations 0x100 keys mean something else (weapon / part references).
+
+    The answer is cached on the AnmFile object itself.  A module-level cache keyed by `id(anm)` served a
+    freed file's answer for a different file - CPython reuses object ids after collection - which showed up
+    as flaky pixel mismatches between two identical runs."""
+    cache = getattr(anm, "_stub_cache", None)
+    if cache is None:
+        cache = anm._stub_cache = {}
+    key = (bi, ai)
+    hit = cache.get(key)
     if hit is None:
         b = anm.blocks[bi]
-        hit = _STUBS[key] = animation_info(b, b.animations[ai])["layers"] == 0
-        if len(_STUBS) > 50000:
-            _STUBS.clear()
+        hit = cache[key] = animation_info(b, b.animations[ai])["layers"] == 0
     return hit
 
 
