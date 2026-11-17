@@ -143,13 +143,13 @@ image header when resizing (`image_to_texture` does this).
 |---|---|---|
 | 0 | u16 | texture (block-local) |
 | 2 | u16 | palette (block-local); final palette = this + colour variant |
-| 4 | u16 | **UNKNOWN** (0; 512, 768, 1024, 1280, 7, 8, 15 seen) |
-| 6 | u16 | **UNKNOWN** flags (0/1/257) |
+| 4 | u16 | byte +4 draw attribute, byte +5 blend mode (512/768/1024/1280 = 2/3/4/5; see §8.1) |
+| 6 | u16 | byte +6 flip X, byte +7 flip Y (1 = flip X, 257 = both; see §8.1) |
 | 8 | u16 | x |
 | 10 | u16 | y |
 | 12 | u16 | width |
 | 14 | u16 | height |
-| 16 | u16 | **UNKNOWN** (0/1, up to ~200 in anm02611) |
+| 16 | u16 | low byte = draw-depth group (0/1, up to ~200 in anm02611; see §8.1) |
 
 Cell 0 is always the empty cell. Some cells are stored rotated 90° on the sheet and rotated back by
 their transform.
@@ -228,9 +228,26 @@ full motion set in their own file. `find_character_anm` flags files with < 20 an
 `motion_set='resident:1'` (heuristic). Consequence for modders: a humanoid's sheets must keep the
 standard layout (cell rectangles live in anm_resident, shared by everyone).
 
-Other resident blocks: ids x2 (12, 22, …, 2612: 1 anim, 1 texture, 5/10 palettes – small icons/portraits
-per character, **UNKNOWN** use), 9000–9802 UI/effects. `anm00002` (block id 2, 128 anims, cells
+Other resident blocks: ids x2 (12, 22, …, 2612: 1 anim, 1 texture, 5/10 palettes – the per-character
+standing picture / placeholder, see 5a), 9000–9802 UI/effects. `anm00002` (block id 2, 128 anims, cells
 referencing textures it does not contain) is another template (**UNKNOWN** user).
+
+## 5a. The N+2 placeholder of a monster
+
+For a class row with `sprite_id` N the game binds a unit in two steps:
+
+1. The sprite is bound with body = N + off and placeholder = **N + 2**. `off` is 1 in battle when `sprite_id > 2000`,
+   so the vanilla Imp 2020 draws from 2021; below 2000 the body is N itself (Desco 610).
+2. The body bank `anm%05d.lzs` loads asynchronously. Until it arrives the unit is bound to the placeholder, and that
+   bind only finds records that are **already loaded** (a lookup miss leaves the unit without an animation record).
+
+| unit kind (char.dat `body_type`) | owner anim while loading |
+|---|---|
+| 0 humanoid | block 1 (the shared resident humanoid motion set); N+2 is part slot 0 |
+| 1 monster | N+2 itself, so N+2 must be a block of `anm_resident` |
+
+Every one of the 355 vanilla monster rows with art keeps its N+2 in `anm_resident`. The bytes of that block do not
+matter, only that a block with that id is loaded.
 
 ## 6. Anime_TableDataBase.dat
 
@@ -263,12 +280,45 @@ by the format), and extra palettes.
 `python _research/anm/roundtrip.py EN|SAMPLE|JPALL`: parse → to_bytes byte-identical for
 **2006/2006 JP** (including anm_resident 415 MB and all anm_startup_*), **97/97 EN**, **89/89 FR**.
 
+## 8.1 How the game reads each field
+
+Read from the loader, record builder and renderer of `disgaea5.exe` Steam build 3528766 (image addresses); static
+reading, not every row was also confirmed by changing a value in game. The kit's u16 fields keep the stored values,
+but several are really two bytes or half of a u32. A writer that treats them as one number can change what the game
+does.
+
+| Kit field | The game reads | Address |
+|---|---|---|
+| `Key.flags` (+2) | byte +2: control command on the root node (1 loop mark, 2 loop, 3 conditional loop, 4 wait, 5 hold); on layers 0 = step, else interpolate. Byte +3: 1 spawn / 2 despawn attachment (params[key.param]), 3/4/5 Hermite position/rotation/scale (tangents from params), 6 morph the cell rectangle toward the next key's cell | 0x1402f5002, 0x1402f91ac, 0x1402f5750, 0x1402f8251 |
+| `Cell` +4 (`unk2`) | byte +4: per-draw attribute default; byte +5: blend mode (2/3/4 as is, any other value draws as 1) | 0x1402f8d39, 0x1402f8d48 |
+| `Cell.flags` (+6) | byte +6 flip X, byte +7 flip Y | 0x1402f89a5, 0x1402f89fa |
+| `Cell` +16 (`unk8`) | low byte = draw-depth group the game sorts by | 0x1402f8edc, sort 0x1400a31a0 |
+| `Node.id` + `Node.flags` | one u32: bits 0–23 asset id (or binding key when bits 24–27 ≠ 0), bits 28–31 draw mode. Kit flags 0x100 = bit 24, 0x1000 = bit 28 | 0x1402f688e, 0x1402f8dce |
+| `Node.mesh` + `unk5` (+8) | one i32: 1 = 10-point mesh | 0x1402f8722 |
+| `Transform.pivot` + `unk` (+4) | one i32 pivot index | 0x1402f5a38 |
+| `TextureInfo` width/height | used for buffer size and UV scale (not legacy) | 0x140301514, 0x1402f8dd4 |
+
+Attachment params are a triple (motion id, start, duration). `PaletteInfo` rows and node +4/+6 were not read
+by any function checked. Key cell/colour/param indexes are signed (-1 = none).
+
+Draw gate (0x1402f7c60, static reading): a node whose u32 has bits 0–23 ≠ 0 draws its own cell only when that id
+resolves (the lookup compares it with a loaded block's u16 id, so a value ≥ 0x10000, e.g. kit `flags` low byte ≠ 0,
+never resolves); with bits 24–27 ≠ 0 it needs a binding entry instead. Its children are drawn either way. An actor
+attached to a node draws with that node's current cell depth byte added to its own. The draw-mode nibble becomes
+byte 0 of the node's draw packet; reading 1 there as "linear filter" only matters when a global force-linear flag is
+0, which it never is, so it changes nothing visible.
+On nodes with a drawn cell D5 stores id/flags (0, 0) 68,019 times, (0, 0x1000) 4,089, a binding (id, 0x100/0x1100)
+1,803, and never an asset id ≥ 0x10000 (all JP banks + resident). Monster anm02070 has (99, 0x1100) on node 99.
+Across all 2,006 JP banks the node `flags` low byte and cell +17 are always 0, and layer keys' +2 is 0 or 1.
+
+**Render root.** An animation's drawing is node `root+1` and its children (0x1402f5450 builds the tree); the root
+node itself is only read for its control keys (loop/end) and its `child`/`next` are ignored. Lay an animation out as
+control root, then the drawing at `root+1`.
+
 ## 9. Remaining unknowns
 
-* Key flags high byte (0x01/0x02/0x03/0x05/0x06) – blend mode / attachment visibility?
-* Node flags 0x1000, node +4; cell +4, +6, +16.
-* Mesh groups points 5–9.
-* Control command 3; semantics of params on control nodes.
-* Exact blend modes (all rendering done with normal alpha blending; effects in-game may be additive).
+* Node +4/+6; mesh points 5–9 semantics beyond "second vertex set".
+* Semantics of params on control nodes.
+* Cell byte +4 (per-draw attribute) meaning.
 * Which of char.dat 0xD0/0xD4/0xDC/0xDE is used in which context; `Anime_TableDataBase` linkage.
-* anm00002's user; resident x2 blocks' purpose.
+* anm00002's user.

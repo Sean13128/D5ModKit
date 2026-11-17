@@ -130,6 +130,21 @@ Learning the map again: `_research/drpg_learn_map.py` (about 5 min per twin), th
 All absolute addresses in the hook asm are RIP-relative symbols defined after use, because the exe runs with ASLR.
 An absolute `movabs 0x140...` crashes.
 
+## How many ranks the Recruiter and Reincarnation offer
+
+Only the unlock flags decide it (checked against the Steam exe; the list builder is the one at `0x1406673b0` above):
+
+* The builder walks the 47 hireable families. A family whose first rank is locked is skipped; otherwise it writes one
+  8-byte entry `{class, highest unlocked rank}`; the second word is the number of offered ranks, 1 to 6.
+* The Hire Character rank row stops at that count and previews `class + option`; a count below 1 shows no row.
+* The Reincarnation window reads the same word, so both screens offer the same ranks.
+* Nothing else gates them: `JobRank.dat` holds the mastery threshold and the per-rank stat bonuses only (rank 6's
+  `next_id` wraps to rank 1 as it does for vanilla families), and the class's mastery level is not consulted.
+
+So six unlocked flags show six ranks on both screens. Colours follow the rank, not a picker: char.dat `color_id` is
+`sprite_family + rank`, so rank *k* is drawn with sprite palette *k*; a class whose palettes are copies of palette 0
+shows the same colour at every rank.
+
 ## Skills and evilities
 
 Skills copied with `add_skill(copy_of=...)` play the source skill's choreography: the wrapper event is

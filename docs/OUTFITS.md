@@ -361,3 +361,9 @@ Killia's stats, DRPG 163 "Great Demon Fist", quest 190 "The Demon Fist's Daughte
 2026-10-09 for both: Characters list (name, class title, DRPG face and list icon), Outfit menu and switching, fist
 attack (charge, punch), enemy phase.  The monster-type Santa Usalia (`hybridanim`, `monster_outfits_experimental`) is
 not built: its layers doubled.
+
+## Animation ids above 32767 never draw
+The game's sprite-motion call takes the animation id as a **signed short**, and the Characters panel builds the face id
+as `(short)(unit record word at +0x2E36) + 10000`. A face id above 32767 (a class or look number in the 30000s plus 10000)
+is therefore never found and the panel face stays blank, while the list icon and the Status bust still draw. Key faces
+and banners on the look's art number N (10000 + N, well under 32767).
