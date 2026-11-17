@@ -235,7 +235,8 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
     for va, orig in ((OPEN_VA, OPEN_ORIG), (DISPATCH_VA, DISPATCH_ORIG), (HUB_VA, HUB_ORIG),
                      (LAYER_VA, LAYER_ORIG), (FACE_A_VA, FACE_A_ORIG), (FACE_B_VA, FACE_B_ORIG),
                      (GFX_VA, GFX_ORIG)):
-        at[va] = exemap.site(pe, va, orig, "outfit menu patch site")
+        # checked here, claimed where written (below): the face, layer and gfx hooks are only written when needed
+        at[va] = exemap.site(pe, va, orig, "outfit menu patch site", claim=False)
 
     sec_align = pe.OPTIONAL_HEADER.SectionAlignment
     file_align = pe.OPTIONAL_HEADER.FileAlignment
@@ -750,6 +751,7 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
         out[off:off + len(b)] = b
 
     def hook(va, label, orig):
+        exemap.claim(at[va], len(orig), "outfit menu patch site")
         put(at[va], _jmp(at[va], labels[label], len(orig)))
 
     hook(DISPATCH_VA, "dispatch", DISPATCH_ORIG)

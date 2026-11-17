@@ -935,9 +935,10 @@ def generic_patch(exe, taken=()):
     from .exepatch import IMAGE_BASE
     mon, hum_reg, hum_imm = _generic_sites(exe)
     out = bytearray(exe)
-    for off in hum_imm:
-        out[off:off + 4] = GEN_HUM_SPAN.to_bytes(4, "little")
     pe = pefile.PE(data=exe, fast_load=True)
+    for off in hum_imm:
+        exemap.claim(IMAGE_BASE + pe.get_rva_from_offset(off), 4, "human test immediate")   # written in place
+        out[off:off + 4] = GEN_HUM_SPAN.to_bytes(4, "little")
     here = [(int(va) if isinstance(va, exemap.Native) else exemap.ACTIVE(va), n) for va, n in taken]   # this build's
     busy = [(va, va + n) for va, n in here]
     hooks = []

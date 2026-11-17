@@ -435,6 +435,7 @@ def build(fs: GameFS, mods, log=print):
     ctx = BuildContext(fs, log)
     ctx.mod_ids = [m.id for m in mods]
     ctx.mod_folders = [m.folder for m in mods]
+    exemap.reset_ledger()                   # the exe patch sites claimed in this build (d5lib.exemap.LEDGER)
     for mod, req in missing_requirements(mods):
         log(f"warning: mod '{mod.name}' requires '{req}', which is not enabled (or loads after it)")
     for mod in mods:
@@ -448,12 +449,18 @@ def build(fs: GameFS, mods, log=print):
         for name, (order, fn) in sorted(PATCH_HANDLERS.items(), key=lambda kv: kv[1][0]):
             pdir = os.path.join(mod.patches_dir, name)
             if os.path.isdir(pdir) and os.listdir(pdir):
-                _tolerant(ctx, f"{mod.name}: {name}", fn, ctx, mod, pdir)
+                with exemap.owner(f"{mod.id}:{name}"):
+                    _tolerant(ctx, f"{mod.name}: {name}", fn, ctx, mod, pdir)
     for fn in ordered_finalizers():
-        _tolerant(ctx, f"{fn.__module__.split('.')[-1]}", fn, ctx)
+        with exemap.owner(fn.__module__.split('.')[-1]):
+            _tolerant(ctx, f"{fn.__module__.split('.')[-1]}", fn, ctx)
+    ctx.exe_sites = list(exemap.LEDGER)     # Installer.install writes it to <game state>/exe_sites.json
+    exemap.reset_ledger()                   # a later direct call of a patch builder starts clean, not against this build
+    if ctx.exe_sites:
+        log(f"exe sites: {len(ctx.exe_sites)} claimed by {len({e['owner'] for e in ctx.exe_sites})} features")
     skipped = getattr(ctx, "skipped_features", [])
     if skipped:
-        log("Not installed, as this build of the game differs where they change it: "
+        log("Not installed (the game build differs there, or another mod or kit feature already patches those bytes): "
             + "; ".join(f"{what} ({why})" for what, why in skipped))
     ctx._flush()
     return ctx
@@ -465,14 +472,19 @@ def _tolerant(ctx, what, fn, *args):
     from . import exemap
     try:
         fn(*args)
-    except exemap.Unmapped as e:
-        ctx.skipped_features = getattr(ctx, "skipped_features", []) + [(what, str(e).strip("'\""))]
-        ctx.log(f"  warning: {what} left out: {e}")
+    except (exemap.Unmapped, exemap.SiteClash) as e:
+        _left_out(ctx, what, str(e).strip("'\""), e, exemap)
     except ValueError as e:
         if "unexpected exe version" not in str(e):
             raise
-        ctx.skipped_features = getattr(ctx, "skipped_features", []) + [(what, str(e))]
-        ctx.log(f"  warning: {what} left out: {e}")
+        _left_out(ctx, what, str(e), e, exemap)
+
+
+def _left_out(ctx, what, why, e, exemap):
+    """a feature left out whole leaves none of its exe site claims behind"""
+    exemap.release(exemap._owner[0])
+    ctx.skipped_features = getattr(ctx, "skipped_features", []) + [(what, why)]
+    ctx.log(f"  warning: {what} left out: {e}")
 
 
 def _group_outputs(ctx: BuildContext):
@@ -743,6 +755,10 @@ class Installer:
         self.ensure_unlocked(self.modified_archives())
         for a in list(self.modified_archives()):
             self.restore(a)
+        try:
+            os.remove(os.path.join(self.game_state, "exe_sites.json"))      # vanilla again: no sites to list
+        except OSError:
+            pass
         import glob
         for pattern in RUNTIME_FILES:
             for path in glob.glob(os.path.join(self.game_dir, pattern)):
@@ -808,6 +824,11 @@ class Installer:
             self._save_index()
             self.log(f"  patched {archive}: {len(changes)} change(s) in {time.time() - t:.1f}s")
         fs.reset()
+        sites = getattr(ctx, "exe_sites", None)
+        if sites is not None:
+            os.makedirs(self.game_state, exist_ok=True)
+            with open(os.path.join(self.game_state, "exe_sites.json"), "w") as f:
+                json.dump(sites, f, indent=1)
         self.log("Install complete.")
 
     def _append_patch(self, archive, raw_members):
