@@ -28,7 +28,13 @@ def fixture(base):
     png(os.path.join(battle, "front_inversion", "front12.png"))
     png(os.path.join(client, "tex", "images", "chara", "face", "7.png"))
     png(os.path.join(client, "tex", "images", "chara", "ci", "7.png"))
-    png(os.path.join(client, "sprite", "atlas", "chara", "battle", "front", "front7", "walk01.png"))
+    cut = os.path.join(client, "sprite", "atlas", "chara", "battle", "front")
+    for pose in ("stand", "walk01", "damage", "attack_sword02"):
+        png(os.path.join(cut, "front7", pose + ".png"))
+    for role, side in (("front", "front"), ("back", "back"), ("wait_front", "front"), ("wait_back", "back")):
+        png(os.path.join(battle, role, f"{side}21.png"))                    # a monster-shaped unit
+    for pose in ("stand", "attack01", "magic01", "damage"):
+        png(os.path.join(cut, "front21", pose + ".png"))
     png(os.path.join(client, "tex", "atlas", "chara", "story", "front", "front3.png"))
     jp = os.path.join(base, "JP", "atlas", "chara", "battle", "front")
     os.makedirs(jp)
@@ -56,9 +62,10 @@ class DrpgScanTests(unittest.TestCase):
 
     def test_finds_every_layout_and_leaves_out_the_rest(self):
         found = drpgscan.get(self.base)
-        self.assertEqual(found.uids, [7, 8, 9])            # not story (3), *_inversion (12) or a non-bundle (99)
+        self.assertEqual(found.uids, [7, 8, 9, 21])        # not story (3), *_inversion (12) or a non-bundle (99)
         self.assertEqual(found.names[7], ("Test Unit", "unique"))
         self.assertTrue(found.sheet_entries(8)["front"].bundle)
+        self.assertEqual(found.monsters, {21})                 # told by its cut poses
 
     def test_a_unit_takes_its_sheets_from_its_fullest_set_and_the_plain_name(self):
         found = drpgscan.get(self.base)
@@ -80,7 +87,7 @@ class DrpgScanTests(unittest.TestCase):
                     p = os.path.join(d, f)
                     zf.write(p, os.path.relpath(p, self.tmp).replace(os.sep, "/"))
         found = drpgscan.get(z)
-        self.assertEqual(found.uids, [7, 8, 9])
+        self.assertEqual(found.uids, [7, 8, 9, 21])
         p = drpgscan.unit_sheets(z, 7)["wait_back"]
         self.assertTrue(p.startswith(drpgscan.CACHE_DIR) and os.path.exists(p))
 
@@ -93,6 +100,8 @@ class DrpgScanTests(unittest.TestCase):
         units = drpgsource.scan(self.base)
         self.assertEqual(units[7].missing(), [])
         self.assertEqual(units[7].name, "Test Unit")
+        self.assertFalse(units[7].monster)
+        self.assertTrue(units[21].monster)
         self.assertEqual(units[9].missing(), ["front", "wait_front", "wait_back"])
         self.assertEqual(units[7].sheets()["back"], sheets["back"])
 

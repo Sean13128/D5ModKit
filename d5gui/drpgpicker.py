@@ -322,7 +322,7 @@ class DrpgPicker(QDialog):
         self.unit = u
         self.name.setText(u.name or f"Unit {u.uid}")
         kind = {"unique": "Unique character", "generic": "Generic class", "unique monster": "Unique monster",
-                "generic monster": "Monster class"}.get(u.group, "Unit")
+                "generic monster": "Monster class", "monster": "Monster"}.get(u.group, "Unit")
         self.kind.setText(f"{kind} · unit {u.uid}" + (" · your own sheets" if u.custom else "")
                           + f"\n{os.path.dirname(os.path.dirname(u.sheets()['front'] or u.root))}")
         self.check.setText(_checklist(u))
