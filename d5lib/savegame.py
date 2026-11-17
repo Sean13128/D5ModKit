@@ -161,7 +161,7 @@ class Unit:
         return f"<unit {self.slot}: {self.name!r} class {self.cls} Lv{self.level}>"
 
 
-# --- what Dismiss does outside the roster besides the lists (BANKPR1, decomp of the Steam exe)
+# --- what Dismiss does outside the roster besides the lists (read from the Steam exe)
 GAME_FLAGS = 0xE                           # game_flags: bit n at state[0xE + n // 8]
 # The exe table 0x140A0D960 (39 rows of 20 bytes: u32 flag at +4, s16 class id at +8), looked up by 0x140142250.
 # Dismiss (0x140652580, the clear after the three serial lists) clears the class's flag when the id is below 1000
