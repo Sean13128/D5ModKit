@@ -388,13 +388,15 @@ HANDLER_MODULES = ["d5lib.dbpatch", "d5lib.textpatch", "d5lib.scriptpatch", "d5l
                    "d5lib.questpatch",
                    "d5lib.unlockpatch", "d5lib.weaponlevels", "d5lib.spellgrowth", "d5lib.enemyitems", "d5lib.musiclist", "d5lib.standins", "d5lib.customcolors", "d5lib.fxpool",
                    "d5lib.runtime", "d5lib.autobattle",     # the runtime DLL (auto-battle: only where it exists)
+                   "d5lib.exebytes",       # mods' own exe bytes after every kit exe patch: the mod is the one refused on an overlap
                    "d5lib.grips"]                           # grips last: its finalizer edits the final sprites
 
 
 def mod_file_allowed(rel):
     """may a mod's own file go into the game?  Only files inside the game's data archives: the exe ("EXE/") and
     loose files next to it ("GAME/": DLLs, the runtime's settings) are written by the kit's own finalizers alone, so
-    a shared mod can never bring code that runs when the game starts."""
+    a shared mod can't bring files into the exe.  (A mod's patches/exe can still change the game's code bytes: those
+    are same-length patches checked against their original bytes, listed at import and at install.)"""
     top = rel.replace("\\", "/").lstrip("/").split("/", 1)[0].upper()
     return top not in ("EXE", "GAME") and ".." not in rel.replace("\\", "/").split("/")
 

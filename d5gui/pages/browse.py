@@ -344,6 +344,21 @@ class BrowsePage(QWidget):
         w.start()
 
     def _import(self, e, path):
+        from d5lib import exebytes
+        try:
+            note = exebytes.describe_package(path)
+        except Exception:
+            note = ""                # not a readable zip: the import below reports it
+        if note and QMessageBox.warning(
+                self, "This mod changes the game's program", exebytes.warning_text(e["name"], note),
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No) != QMessageBox.StandardButton.Yes:
+            self._chain = []
+            try:
+                os.remove(path)
+            except OSError:
+                pass
+            return
         lines = []
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         try:

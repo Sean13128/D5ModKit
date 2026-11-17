@@ -520,6 +520,7 @@ def read_package(path):
 def import_package(path, mods_dir, fs, state_dir, log=print):
     """install a shared mod (see the module doc) -> dict(mod_id, update, moved, backup)"""
     from .modsys import Mod, ModManager
+    from . import exebytes
     top, meta = read_package(path)
     mm = ModManager(os.path.dirname(mods_dir.rstrip("/\\")))
     allmods = [m for m in mm.all_mods()]
@@ -560,6 +561,8 @@ def import_package(path, mods_dir, fs, state_dir, log=print):
             shutil.copytree(pkg.folder, os.path.join(mods_dir, mod_id))
             if mod_id not in enabled:
                 mm.set_enabled(mod_id, True)
+        if exebytes.describe(pkg):
+            log(f"  {exebytes.describe(pkg)}")
         log(f"{'updated' if old else 'imported'} {meta.get('name', mod_id)} v{meta.get('version', '?')}"
             + (f" (the old version is kept in {backup})" if backup else ""))
         return {"mod_id": mod_id, "update": old is not None, "moved": local, "backup": backup}

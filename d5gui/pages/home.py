@@ -1094,6 +1094,13 @@ class HomePage(QWidget):
             top, meta = modshare.read_package(path)
         except Exception as e:
             return QMessageBox.warning(self, "Import", f"Not a mod package: {e}")
+        from d5lib import exebytes
+        note = exebytes.describe_package(path)
+        if note and QMessageBox.warning(
+                self, "This mod changes the game's program", exebytes.warning_text(meta.get("name", "This mod"), note),
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No) != QMessageBox.StandardButton.Yes:
+            return
         mine = next((m for m in self.ws.mods.all_mods() if meta.get("uid") and m.meta.get("uid") == meta.get("uid")),
                     None)
         if mine is not None:
