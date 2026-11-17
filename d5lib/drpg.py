@@ -60,6 +60,11 @@ def _unit_sheets(uid, roots=None):
                     "back": os.path.join(b, "BattleBack", f"back{uid}.png"),
                     "wait_front": os.path.join(b, "WaitFront", f"front{uid}.png"),
                     "wait_back": os.path.join(b, "WaitBack", f"back{uid}.png")}
+    from . import drpgscan
+    for root in roots or ROOTS:                      # a folder in neither layout: searched all the way down
+        got = drpgscan.unit_sheets(root, uid)
+        if got:
+            return got
     if not any(os.path.isdir(r) for r in roots or ROOTS):
         raise FileNotFoundError(f"the Disgaea RPG sprites are not in the kit (the release zip leaves them out): put "
                                 f"them in {os.path.join(ROOTS[0], 'Characters', 'Sprites')} (front, back, wait_front, "
@@ -76,6 +81,11 @@ def unit_extras(uid, roots=None):
             p = os.path.join(root, *sub, f"{uid}.png")
             if key not in out and os.path.exists(p):
                 out[key] = p
+    if len(out) < 2:
+        from . import drpgscan
+        for root in roots or ROOTS:
+            for key, p in drpgscan.unit_extras(root, uid).items():
+                out.setdefault(key, p)
     return out
 
 

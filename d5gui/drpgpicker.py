@@ -41,8 +41,9 @@ FOLDER_HELP = (
     "  Cutins\\          1234.png  (optional)</pre></td></tr></table>"
     "<b>Battle sprites</b> hold every battle pose (walk, attacks, damage …), <b>Idle</b> the standing loop; each "
     "comes seen from the front and from the back. The face and cut-in are optional. A <i>Units IDs.txt</i> in the "
-    "folder gives the units their names. Choose the folder that contains <i>Characters</i> (or <i>Sprites</i>); "
-    "a folder called <i>DRPG Assets (Updated)</i> inside the D5ModKit folder is found by itself.")
+    "folder gives the units their names. Choose the folder that contains <i>Characters</i> (or <i>Sprites</i>), "
+    "or any folder above your rips, a decoded client dump or the game's own files: it is searched all the way down "
+    "(the game's asset bundles need UnityPy). A folder called <i>DRPG Assets (Updated)</i> inside the D5ModKit folder is found by itself.")
 
 PURPOSE = {
     "outfit": "an outfit",
@@ -246,14 +247,15 @@ class DrpgPicker(QDialog):
 
     def choose_folder(self):
         start = self.ws.settings.get(ds.SETTING) or os.path.expanduser("~")
-        d = QFileDialog.getExistingDirectory(self, "Disgaea RPG folder (the one with Characters or Sprites)", start)
+        d = QFileDialog.getExistingDirectory(self, "Disgaea RPG folder (the one with Characters or Sprites, or any folder above it)", start)
         if not d:
             return
         root = ds.looks_like_drpg_root(d)
         if not root:
             QMessageBox.warning(self, "Disgaea RPG folder",
-                                f"{d}\n\nhas no sprite sheets in a layout the kit knows. Choose the folder that "
-                                "contains Characters\\Sprites\\front (or Sprites\\Standard\\BattleFront).")
+                                f"{d}\n\nhas no Disgaea RPG sprite sheets anywhere inside. Choose a folder that "
+                                "contains Characters\\Sprites\\front, Sprites\\Standard\\BattleFront or "
+                                "atlas\\chara\\battle\\front, or a folder above them.")
             self.help_btn.setChecked(True)
             return
         self.ws.settings[ds.SETTING] = root

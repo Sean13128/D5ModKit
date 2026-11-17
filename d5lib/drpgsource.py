@@ -12,6 +12,9 @@ D5ModKit/DRPG Assets (Updated) and D5ModKit/DRPG Assets, in either of the two la
     Characters/Icons/<unit>.png  (face)           Chara Icons/<unit>.png
     Characters/Cut-Ins/<unit>.png (cut-in)        Cutins/<unit>.png
 
+A folder in neither layout is searched all the way down (d5lib.drpgscan): the rips, a decoded client dump and the
+game's own asset bundles, at any depth, in a folder or a zip.
+
 Sheets from anywhere else (four files picked by hand) are copied to state/drpg_custom/<unit>/ under a unit number
 of their own (900001 and up) and used like any other unit.  "Units IDs.txt" in the folder names the units.
 """
@@ -21,7 +24,7 @@ import re
 import shutil
 from contextlib import contextmanager
 
-from . import drpg
+from . import drpg, drpgscan
 from .modsys import KIT_DIR
 
 SETTING = "drpg_folder"
@@ -91,22 +94,27 @@ def using(chosen=None):
         drpg.ROOTS[:] = old
 
 
+def _fixed_layout(root):
+    return any(os.path.isdir(os.path.join(root, *sub, dirs["front"])) for sub, dirs in LAYOUTS)
+
+
 def looks_like_drpg_root(path):
-    """does `path` hold DRPG sprites in one of the known layouts (or is it one level above such a folder)?
-    -> the root to use, or None"""
+    """does `path` hold DRPG sprites in one of the known layouts (or is it one level above such a folder), or
+    anywhere further down (drpgscan)?  -> the root to use, or None"""
     for cand in (path, os.path.join(path, "DRPG Assets (Updated)"), os.path.join(path, "DRPG Assets")):
-        for sub, dirs in LAYOUTS:
-            if os.path.isdir(os.path.join(cand, *sub, dirs["front"])):
-                return cand
-    return None
+        if _fixed_layout(cand):
+            return cand
+    found = drpgscan.get(path, refresh=True)
+    return path if found and found.best else None
 
 
 # ------------------------------------------------------------------------------------------------ the units
 class Unit:
-    def __init__(self, uid, root, layout):
+    def __init__(self, uid, root, layout, present=()):
         self.uid = uid
         self.root = root
-        self.layout = layout          # index into LAYOUTS
+        self.layout = layout          # index into LAYOUTS, None: found by drpgscan
+        self.present = set(present)   # drpgscan: the sheets it has (sheets() unpacks them, this doesn't)
         self.name = ""
         self.group = ""               # unique / generic / unique monster / generic monster / "" (unknown)
         self.custom = root.startswith(CUSTOM_DIR)
@@ -122,12 +130,17 @@ class Unit:
 
     def sheets(self):
         """{key: path or None}"""
+        if self.layout is None:
+            got = drpgscan.unit_sheets(self.root, self.uid) or {}
+            return {k: got.get(k) for k, *_ in SHEETS}
         return {k: (p if os.path.exists(p) else None) for k, p in self.sheet_paths().items()}
 
     def extras(self):
         return drpg.unit_extras(self.uid, roots=[self.root])
 
     def missing(self):
+        if self.layout is None:
+            return [k for k, *_ in SHEETS if k not in self.present]
         return [k for k, p in self.sheets().items() if not p]
 
     def label(self):
@@ -140,34 +153,41 @@ NAME_FIXES = {405: ("Netherworld President Axel", "Hero Rozalin"),
               407: ("Hero Rozalin", "Yomawari Ao")}
 
 
-def unit_names(root):
-    """{uid: (name, group)} from the folder's 'Units IDs.txt' (NAME_FIXES applied)"""
+def parse_unit_names(path):
+    """{uid: (name, group)} of one 'Units IDs.txt' (NAME_FIXES applied)"""
     out = {}
-    for p in (os.path.join(root, "Units IDs.txt"), os.path.join(os.path.dirname(root), "Units IDs.txt")):
-        if not os.path.exists(p):
-            continue
-        group = ""
-        with open(p, encoding="utf-8", errors="replace") as f:
-            for line in f:
-                s = line.strip()
-                m = re.match(r"^-+\s*(.+?)\s*-+$", s)
-                if m:
-                    group = GROUPS.get(m.group(1), group)
-                    continue
-                m = re.match(r"^(\d+)\s+(.+)$", s)
-                if m:
-                    out.setdefault(int(m.group(1)), (m.group(2).strip(), group))
-        break
+    group = ""
+    with open(path, encoding="utf-8", errors="replace") as f:
+        for line in f:
+            s = line.strip()
+            m = re.match(r"^-+\s*(.+?)\s*-+$", s)
+            if m:
+                group = GROUPS.get(m.group(1), group)
+                continue
+            m = re.match(r"^(\d+)\s+(.+)$", s)
+            if m:
+                out.setdefault(int(m.group(1)), (m.group(2).strip(), group))
     for uid, (listed, real) in NAME_FIXES.items():
         if uid in out and out[uid][0] == listed:
             out[uid] = (real, out[uid][1])
     return out
 
 
+def unit_names(root):
+    """{uid: (name, group)} from the folder's 'Units IDs.txt'"""
+    for p in (os.path.join(root, "Units IDs.txt"), os.path.join(os.path.dirname(root), "Units IDs.txt")):
+        if os.path.exists(p):
+            return parse_unit_names(p)
+    return {}
+
+
 def scan(chosen=None):
     """{uid: Unit} of every unit with at least its front battle sheet in folders()"""
     units = {}
     for root in folders(chosen):
+        if not root.startswith(CUSTOM_DIR) and not _fixed_layout(root):
+            _scan_any(root, units)
+            continue
         names = unit_names(root)
         for li, (sub, dirs) in enumerate(LAYOUTS):
             d = os.path.join(root, *sub, dirs["front"])
@@ -186,6 +206,19 @@ def scan(chosen=None):
                     u.name, u.group = _custom_meta(root)
                 units[uid] = u
     return units
+
+
+def _scan_any(root, units):
+    """units drpgscan finds anywhere under `root`"""
+    found = drpgscan.get(root, refresh=True)
+    if not found:
+        return
+    for uid in found.uids:
+        if uid in units:
+            continue
+        u = Unit(uid, root, None, found.sheet_entries(uid))
+        u.name, u.group = found.names.get(uid, ("", ""))
+        units[uid] = u
 
 
 def layouts(unit):
