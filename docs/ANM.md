@@ -249,6 +249,9 @@ For a class row with `sprite_id` N the game binds a unit in two steps:
 Every one of the 355 vanilla monster rows with art keeps its N+2 in `anm_resident`. The bytes of that block do not
 matter, only that a block with that id is loaded.
 
+Credit: Cryswar's Overlord mod (The Unlicense) was the first to keep a monster's placeholder in the resident pack;
+this section follows that finding.
+
 ## 6. Anime_TableDataBase.dat
 
 `u32 count (284)`, then `{u32 index, i32 anim_id_base, i32 param}`; lists separated by
@@ -306,7 +309,7 @@ resolves (the lookup compares it with a loaded block's u16 id, so a value ≥ 0x
 never resolves); with bits 24–27 ≠ 0 it needs a binding entry instead. Its children are drawn either way. An actor
 attached to a node draws with that node's current cell depth byte added to its own. The draw-mode nibble becomes
 byte 0 of the node's draw packet; reading 1 there as "linear filter" only matters when a global force-linear flag is
-0, which it never is, so it changes nothing visible.
+0, which it never is (credit: Sorrow's research), so it changes nothing visible.
 On nodes with a drawn cell D5 stores id/flags (0, 0) 68,019 times, (0, 0x1000) 4,089, a binding (id, 0x100/0x1100)
 1,803, and never an asset id ≥ 0x10000 (all JP banks + resident). Monster anm02070 has (99, 0x1100) on node 99.
 Across all 2,006 JP banks the node `flags` low byte and cell +17 are always 0, and layer keys' +2 is 0 or 1.
