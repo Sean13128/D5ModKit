@@ -13,6 +13,9 @@ import_package():
     replaces it, ids moved for the old version are moved the same way again (units in saves keep their class, their
     skills ...), new ids that clash are moved too.  The update keeps whether the mod is switched on.
   * else a NEW mod: its folder gets a free name; it is switched on.
+  * a package with game-program patches (patches/exe) is the exception: it comes in OFF unless the player approves it
+    (exe_consent), and a decline switches an installed update off; the approval is bound to the patch bytes and
+    settings and kept outside the mod (d5lib.exebytes).
   * other mods are never changed.
 
 Kinds of ids (what can clash between two mods made on different PCs):
@@ -517,8 +520,11 @@ def read_package(path):
     return check_zip(path)
 
 
-def import_package(path, mods_dir, fs, state_dir, log=print):
-    """install a shared mod (see the module doc) -> dict(mod_id, update, moved, backup)"""
+def import_package(path, mods_dir, fs, state_dir, log=print, exe_consent=None):
+    """install a shared mod (see the module doc) -> dict(mod_id, update, moved, backup, exe, exe_approved, enabled).
+    A package with game-program patches (patches/exe) comes in OFF and unapproved unless exe_consent(summary line)
+    returns True (asked after the package passed its checks, before anything is copied); a declined update of an
+    installed mod is switched off too."""
     from .modsys import Mod, ModManager
     from . import exebytes
     top, meta = read_package(path)
@@ -534,6 +540,8 @@ def import_package(path, mods_dir, fs, state_dir, log=print):
         pkg = Mod(os.path.join(work, top))
         keep = (old.meta.get("local_ids") if old else None) or {}
         mapping = plan(pkg, others, fs, keep)
+        exe_line = exebytes.describe(pkg) or (f"{pkg.name}: {exebytes.LABEL}" if exebytes.carries(pkg) else "")
+        approved = bool(exe_consent and exe_consent(exe_line)) if exebytes.carries(pkg) else False
         from . import database
         apply(pkg, mapping, log, vanilla_char=database.load_table("char.dat", fs.read(DB + "char.dat")))
         local = {k: {str(a): b for a, b in v.items()} for k, v in mapping.items() if v}
@@ -559,12 +567,21 @@ def import_package(path, mods_dir, fs, state_dir, log=print):
         else:
             mod_id = _free_folder(mods_dir, top)
             shutil.copytree(pkg.folder, os.path.join(mods_dir, mod_id))
-            if mod_id not in enabled:
-                mm.set_enabled(mod_id, True)
-        if exebytes.describe(pkg):
-            log(f"  {exebytes.describe(pkg)}")
+        if exe_line:                            # the approval is on file before the mod can be switched on
+            final = Mod(os.path.join(mods_dir, mod_id))
+            if approved:
+                exebytes.approve(final)
+            else:
+                exebytes.revoke(final)
+            log(f"  {exe_line} ({'approved' if approved else 'NOT approved: the mod stays off until you approve it'})")
+            mm.set_enabled(mod_id, approved)    # Yes turns it on (also after an earlier No), No turns it off
+        elif old is None and mod_id not in enabled:
+            mm.set_enabled(mod_id, True)
+        is_on = mod_id in mm.load_order()
         log(f"{'updated' if old else 'imported'} {meta.get('name', mod_id)} v{meta.get('version', '?')}"
-            + (f" (the old version is kept in {backup})" if backup else ""))
-        return {"mod_id": mod_id, "update": old is not None, "moved": local, "backup": backup}
+            + (f" (the old version is kept in {backup})" if backup else "")
+            + ("" if is_on or not exe_line else " (switched off: its game-program patches are not approved)"))
+        return {"mod_id": mod_id, "update": old is not None, "moved": local, "backup": backup,
+                "exe": exe_line, "exe_approved": approved, "enabled": is_on}
     finally:
         shutil.rmtree(work, ignore_errors=True)

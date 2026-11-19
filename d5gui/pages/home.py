@@ -16,6 +16,13 @@ ROLE = Qt.ItemDataRole.UserRole
 KIND = Qt.ItemDataRole.UserRole + 1        # tree items: "mod" / "pack" / "group"
 
 
+def mod_subtitle(line, missing_names=()):
+    """a mod row's second column: the description (which starts with the program-change label for a patches/exe mod)
+    and, beside it, the unmet-dependency warning.  Neither may hide the other."""
+    dep = ("⚠ needs " + ", ".join(missing_names)) if missing_names else ""
+    return " · ".join(x for x in (dep, line) if x)
+
+
 class ModDialog(QDialog):
     def __init__(self, meta=None, parent=None):
         super().__init__(parent)
@@ -628,8 +635,8 @@ class HomePage(QWidget):
             if grp and info[mid][0] == "outfits" and grp.lower() not in label.lower():
                 label = f"{grp} — {label}"
             it = QTreeWidgetItem(parent, [label + ("   ✎" if active else ""),
-                                          ("⚠ needs " + ", ".join(mods[r].name if r in mods else r for r in missing)
-                                           if missing else info[mid][2])])
+                                          mod_subtitle(info[mid][2], [mods[r].name if r in mods else r
+                                                                      for r in missing])])
             it.setData(0, ROLE, mid)
             it.setData(0, KIND, "mod")
             tip = (mod.meta.get("description") or "") + (f"\nby {mod.meta.get('author')}" if mod.meta.get("author") else "")
@@ -1094,13 +1101,6 @@ class HomePage(QWidget):
             top, meta = modshare.read_package(path)
         except Exception as e:
             return QMessageBox.warning(self, "Import", f"Not a mod package: {e}")
-        from d5lib import exebytes
-        note = exebytes.describe_package(path)
-        if note and QMessageBox.warning(
-                self, "This mod changes the game's program", exebytes.warning_text(meta.get("name", "This mod"), note),
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                QMessageBox.StandardButton.No) != QMessageBox.StandardButton.Yes:
-            return
         mine = next((m for m in self.ws.mods.all_mods() if meta.get("uid") and m.meta.get("uid") == meta.get("uid")),
                     None)
         if mine is not None:
@@ -1115,7 +1115,7 @@ class HomePage(QWidget):
         try:
             res = modshare.import_package(path, self.ws.mods.mods_dir, self.ws.fs,
                                           os.path.join(os.path.dirname(self.ws.mods.mods_dir), "state"),
-                                          log=lines.append)
+                                          log=lines.append, exe_consent=self._ask_exe_consent)
         except Exception as e:
             QApplication.restoreOverrideCursor()
             return error_box(self, "Could not import", e)
@@ -1132,8 +1132,27 @@ class HomePage(QWidget):
                         f"{k}: " + ", ".join(f"{a}→{b}" for a, b in v.items()) for k, v in moved.items()))
         if res.get("backup"):
             msg += f"\n\nThe previous version is kept in {res['backup']}."
+        if res.get("exe"):
+            msg += ("\n\n⚠ It changes the game's program" + (
+                ", and you approved it." if res.get("enabled") else " and is OFF: you did not approve it."))
+        elif not res.get("enabled", True):
+            msg += "\n\nIt is switched off in this profile."
         msg += "\n\nInstall to put it into the game."
         QMessageBox.information(self, "Mod imported", msg)
+
+    def _ask_exe_consent(self, line):
+        """True when the player approves a package's game-program patches (default answer: No)"""
+        from PyQt6.QtWidgets import QApplication
+        QApplication.restoreOverrideCursor()
+        try:
+            q = (f"{line}\n\nThis mod carries machine code that is written into the game's program and runs inside "
+                 "the game. Only approve it if you trust its author. If you say No it is imported but stays off.\n\n"
+                 "Approve and turn it on?")
+            return QMessageBox.question(self, "This mod changes the game's program", q,
+                                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                                        QMessageBox.StandardButton.No) == QMessageBox.StandardButton.Yes
+        finally:
+            QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
 
     def derive_mod(self):
         """iterate on someone's mod without changing it: a copy with its own identity that remembers its origin"""

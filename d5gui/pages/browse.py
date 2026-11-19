@@ -344,27 +344,12 @@ class BrowsePage(QWidget):
         w.start()
 
     def _import(self, e, path):
-        from d5lib import exebytes
-        try:
-            note = exebytes.describe_package(path)
-        except Exception:
-            note = ""                # not a readable zip: the import below reports it
-        if note and QMessageBox.warning(
-                self, "This mod changes the game's program", exebytes.warning_text(e["name"], note),
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-                QMessageBox.StandardButton.No) != QMessageBox.StandardButton.Yes:
-            self._chain = []
-            try:
-                os.remove(path)
-            except OSError:
-                pass
-            return
         lines = []
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         try:
             res = modshare.import_package(path, self.ws.mods.mods_dir, self.ws.fs,
                                           os.path.join(os.path.dirname(self.ws.mods.mods_dir), "state"),
-                                          log=lines.append)
+                                          log=lines.append, exe_consent=self._ask_exe_consent)
         except Exception as ex:
             QApplication.restoreOverrideCursor()
             self._chain = []
@@ -389,11 +374,32 @@ class BrowsePage(QWidget):
             t = f"{'Updated' if res['update'] else 'Installed'} '{e['name']}' v{e['version']}"
             if res.get("moved"):
                 t += " (some of its ids were moved: they clashed with your other mods)"
+            on = res.get("enabled", True)                    # the profile's actual state, not what was asked
+            if res.get("exe"):
+                t += (" It changes the game's program" + (" (you approved it)." if on else
+                      " and is OFF: you did not approve it."))
+            elif not on:
+                t += " It is switched off in this profile."
             parts.append(t + ".")
-        QMessageBox.information(self, "Browse Mods", "\n".join(parts) + "\n\nIt is switched on: press Install "
-                                "(bottom left) to put it into the game.")
+        off = any(not r.get("enabled", True) for _, r in self._done)
+        QMessageBox.information(self, "Browse Mods", "\n".join(parts) + ("\n\nMods marked OFF are not switched on. "
+                                "Others are switched on: " if off else "\n\nIt is switched on: ") +
+                                "press Install (bottom left) to put them into the game.")
         self._done = []
         self._fill()
+
+    def _ask_exe_consent(self, line):
+        """True when the player approves a package's game-program patches (default answer: No)"""
+        QApplication.restoreOverrideCursor()
+        try:
+            q = (f"{line}\n\nThis mod carries machine code that is written into the game's program and runs inside "
+                 "the game. Only approve it if you trust its author. If you say No it is installed but stays off.\n\n"
+                 "Approve and turn it on?")
+            return QMessageBox.question(self, "This mod changes the game's program", q,
+                                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                                        QMessageBox.StandardButton.No) == QMessageBox.StandardButton.Yes
+        finally:
+            QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
 
     # ---------------------------------------------------------------- the account, posting, review
     def _kit_dir(self):

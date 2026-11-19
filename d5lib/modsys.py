@@ -424,6 +424,30 @@ def missing_requirements(mods):
 
 
 def build(fs: GameFS, mods, log=print):
+    """build the enabled mods.  A mod with game-program patches (patches/exe) must be approved, and one whose patches
+    can't apply is left out whole (its files and patches too): the build runs again without it, saying why."""
+    from . import exebytes
+    keep, notes, snaps = [], [], {}
+    for m in mods:
+        snap, why = exebytes.assess(m)      # one read: the build applies these exact bytes and settings
+        if why:
+            notes.append((f"mod {m.name} ({m.id})", why))
+            log(f"warning: mod '{m.name}' left out whole: {why}")
+        else:
+            keep.append(m)
+            if snap is not None:
+                snaps[m.id] = snap
+    while True:
+        ctx = _build(fs, keep, log, notes, exe_snapshots=snaps)
+        drop = getattr(ctx, "drop_mods", None)
+        if not drop:
+            return ctx
+        notes = notes + [(what, f"left out whole: {why}") for what, why in drop.values()]
+        keep = [m for m in keep if m.id not in drop]
+        log("Building again without " + ", ".join(sorted(drop)) + " (its game-program patches can't apply)")
+
+
+def _build(fs: GameFS, mods, log, notes=(), exe_snapshots=None):
     load_handlers(log)
     # the game build being patched: the game addresses the kit's exe patches and runtime name are translated to it
     from . import exemap
@@ -437,6 +461,9 @@ def build(fs: GameFS, mods, log=print):
     ctx = BuildContext(fs, log)
     ctx.mod_ids = [m.id for m in mods]
     ctx.mod_folders = [m.folder for m in mods]
+    ctx.exe_snapshots = exe_snapshots if exe_snapshots is not None else {}
+    if notes:
+        ctx.skipped_features = list(notes)
     exemap.reset_ledger()                   # the exe patch sites claimed in this build (d5lib.exemap.LEDGER)
     for mod, req in missing_requirements(mods):
         log(f"warning: mod '{mod.name}' requires '{req}', which is not enabled (or loads after it)")
@@ -460,6 +487,8 @@ def build(fs: GameFS, mods, log=print):
     exemap.reset_ledger()                   # a later direct call of a patch builder starts clean, not against this build
     if ctx.exe_sites:
         log(f"exe sites: {len(ctx.exe_sites)} claimed by {len({e['owner'] for e in ctx.exe_sites})} features")
+    if getattr(ctx, "drop_mods", None):
+        return ctx                          # build() builds again without these mods
     skipped = getattr(ctx, "skipped_features", [])
     if skipped:
         log("Not installed (the game build differs there, or another mod or kit feature already patches those bytes): "

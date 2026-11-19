@@ -303,10 +303,22 @@ Known or likely names. The category comes from the high byte and from what each 
 ## Mods carrying exe byte patches (`patches/exe/*.json`, `d5lib/exebytes.py`)
 **This changes the game's code.** A mod with `patches/exe` writes machine code into the game's exe (same length,
 every original byte checked first). It can't add files to the exe, but what it writes runs when the game does.
-The patches are not hidden: the import of a shared mod asks first (Home › More › Import, and Browse Mods) and says how
-many sites and bytes it changes, the import log repeats it, and the install log has one line per applied mod
-(`<mod>: patches the game's code at 1 sites (6 bytes)`). Restore vanilla puts the original exe back from the kit's
-backup like every other kit exe patch.
+Safeguards:
+* **Off until approved.** A mod with `patches/exe` is left out of every build until the player approves it. Importing
+  a shared mod asks (Home › More › Import, and Browse Mods; default No): Yes approves it and switches it on, No imports
+  it switched off. A mod copied in by hand is held at build time (approve it by importing it, or with
+  `d5lib.exebytes.approve`). The approval is kept outside the mod (`<kit>/exe_approvals.json`) and bound to a
+  fingerprint of the patch files and the mod's `settings`, so an edit or update needs a new approval. A bulk import
+  never approves.
+* **One read, then applied.** `modsys.build` reads the patch files and settings once, checks that snapshot against the
+  approval, and the finalizer applies those same bytes: an edit between the check and the apply cannot slip through.
+  An unreadable or missing patch file is a whole-mod skip naming the file.
+* **Visible.** The mod list subtitle starts with "⚠ Changes the game's program" and the detail view says whether it is
+  approved or OFF, whatever category or author text the mod carries (computed, not taken from the mod). The import log
+  repeats it, and the install log has one line per applied mod (`<mod>: patches the game's code at 1 sites (6 bytes)`).
+* **Limits.** 256 bytes per patch, 4096 bytes per mod (sum of `new`); a bigger mod is left out whole. These bound the
+  size, not the trustworthiness: a few bytes can redirect execution, so approve only mods you trust.
+Restore vanilla puts the original exe back from the kit's backup like every other kit exe patch.
 
 A patch file is data only (hex strings and whole numbers; nothing a mod carries is ever run):
 ```json
@@ -323,8 +335,9 @@ A patch file is data only (hex strings and whole numbers; nothing a mod carries 
   when negative; a value that doesn't fit `size` leaves the mod out. Illustration with an imaginary instruction
   `B8 64000000` (`mov eax, 100`), whose operand is the 4 bytes at offset 1:
   `{"va": "0x140123456", "orig": "B864000000", "new": "B864000000", "values": [{"offset": 1, "size": 4, "setting": "cost", "default": 100}]}`
-* A mod is applied whole or not at all. A malformed file, a wrong `orig`, another build, or an overlap with another
-  owner's bytes leaves that mod out with a note naming the file and entry, and the other mods still go in. The patched exe is
+* A mod is applied whole or not at all. An unapproved mod, a malformed file, a wrong `orig`, another build, a file over
+  the limits, or an overlap with another owner's bytes leaves that mod out whole (its files and patches too): the build
+  runs again without it and the log says why, naming the file and entry. The other mods still go in. The patched exe is
   built in memory and written only when the install runs, so a rejected mod never leaves part of its bytes in it.
 
 ### Site ledger

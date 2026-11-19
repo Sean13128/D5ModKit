@@ -273,9 +273,15 @@ def summary(mod, class_names=None, all_mods=(), skill_names=None):
     kinds = file_kinds(mod)
     if kinds:
         lines.append("📁 Files: " + ", ".join(f"{n} {k}{'s' if n != 1 else ''}" for k, n in kinds.most_common()))
-    other = sorted(hs - {"outfits", "db", "classes", "characters", "skills", "autobattle", "customcolors", "grips"})
+    other = sorted(hs - {"outfits", "db", "classes", "characters", "skills", "autobattle", "customcolors", "grips",
+                         "exe"})
     if other:
         lines.append("🧩 Also: " + ", ".join(other))
+    from . import exebytes
+    if exebytes.carries(mod):
+        ok = exebytes.is_approved(mod)
+        lines.append(f"⚠ {exebytes.LABEL} (machine code, patches/exe): "
+                     + ("approved by you" if ok else "OFF until you approve it"))
     needed_by = [x for x in all_mods if mod.id in (x.meta.get("requires") or [])]
     if needed_by:
         lines.append(f"🔗 Needed by {len(needed_by)} mod{'s' if len(needed_by) != 1 else ''}: "
@@ -286,7 +292,15 @@ def summary(mod, class_names=None, all_mods=(), skill_names=None):
 
 
 def one_line(mod, class_names=None):
-    """a short subtitle for the list"""
+    """a short subtitle for the list; a mod with game-program patches always says so first (computed, not author text)"""
+    from . import exebytes
+    rest = _one_line_rest(mod, class_names)
+    if exebytes.carries(mod):
+        return f"⚠ {exebytes.LABEL}" + (f" · {rest}" if rest else "")
+    return rest
+
+
+def _one_line_rest(mod, class_names=None):
     outs = outfits_of(mod)
     n_out = f"{len(outs)} outfit{'s' if len(outs) != 1 else ''}" if outs else ""
     db = db_changes(mod)
