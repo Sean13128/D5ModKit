@@ -184,6 +184,39 @@ class Gate(Base):
         self.assertIn("a", ctx.drop_mods)
         self.assertIn("not approved", ctx.drop_mods["a"][1])
 
+    def test_a_patch_appearing_after_the_last_assessment_is_never_written(self):
+        m = make(self.kit, "a")
+        real = exebytes.assess
+
+        def assess_then_add(mod):
+            r = real(mod)                                                # sees no patch: (None, "")
+            make(self.kit, "a", [PATCH])                                 # the file lands right after the check
+            return r
+        ctx = mock.Mock(mod_folders=[m.folder], exe_snapshots={}, exe_applied={}, skipped_features=[], log=mock.Mock())
+        with mock.patch.object(exebytes, "assess", assess_then_add), \
+                mock.patch.object(exebytes, "apply") as writer:
+            exebytes._finalize(ctx)
+        writer.assert_not_called()
+        ctx.put.assert_not_called()
+        self.assertNotIn("a", ctx.exe_applied)
+
+    def test_success_log_comes_from_the_applied_snapshot_not_a_reread(self):
+        m = make(self.kit, "a", [PATCH])
+        exebytes.approve(m)
+        snap, why = exebytes.assess(m)
+        self.assertEqual(why, "")
+        logs = []
+        ctx = mock.Mock(mod_folders=[m.folder], exe_snapshots={"a": snap}, exe_applied={}, skipped_features=[], log=logs.append)
+        boom = OSError("read failed after apply")
+        with mock.patch.object(exebytes, "load", return_value=[{"va": 1, "orig": b"\x0f\x84", "new": b"\x90\x90", "what": "w"}]), \
+                mock.patch.object(exebytes, "apply", return_value=b"patched") as writer, \
+                mock.patch.object(exebytes, "describe", side_effect=boom), \
+                mock.patch.object(modsys.Mod, "load_patch", side_effect=boom):
+            exebytes._finalize(ctx)                                      # must not raise
+        writer.assert_called_once()
+        ctx.put.assert_called_once()
+        self.assertTrue(any("1 sites (2 bytes)" in l for l in logs))
+
 
 class Caps(Base):
     def test_patch_over_256_bytes_is_refused(self):

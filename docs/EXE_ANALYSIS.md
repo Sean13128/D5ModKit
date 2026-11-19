@@ -320,7 +320,8 @@ Safeguards:
   size, not the trustworthiness: a few bytes can redirect execution, so approve only mods you trust.
 Restore vanilla puts the original exe back from the kit's backup like every other kit exe patch.
 
-A patch file is data only (hex strings and whole numbers; nothing a mod carries is ever run):
+A patch file is data only (hex strings and whole numbers): the kit parses the JSON and never runs it, but the machine
+code it writes into the game's program from those numbers does run in the game, so only approve mods you trust:
 ```json
 {"build": "9460a64", "patches": [{"va": "0x1401AF645", "orig": "0F84DE010000", "new": "660F1F440000",
   "what": "steal on kill from allies"}]}

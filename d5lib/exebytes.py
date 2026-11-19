@@ -335,8 +335,8 @@ def _finalize(ctx):
                     snap, why = assess(mod)
                     if why:
                         raise ValueError(why)
-                    if snap is None:
-                        snap = snapshot(mod)
+                    if snap is None:                 # still carries nothing: nothing to apply, and no unchecked second read
+                        continue
             entries = load(mod, snap)
             if not entries:
                 continue
@@ -353,7 +353,8 @@ def _finalize(ctx):
         if snaps is not None:                # what the build actually applied, for the log and the tests
             ctx.exe_applied = getattr(ctx, "exe_applied", {})
             ctx.exe_applied[mod.id] = snap["fingerprint"]
-        ctx.log(f"  {describe(mod)}")
+        size = sum(len(e["orig"]) for e in entries)       # from the applied entries: no second read of the files
+        ctx.log(f"  {mod.name}: patches the game's code at {len(entries)} sites ({size} bytes)")
     if cur:
         ctx.put(EXE_FILE, cur)
 

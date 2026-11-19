@@ -11,7 +11,9 @@ added by pull request and reviewed before they are listed):
                "download": "https://github.com/<owner>/<repo>/releases/download/<tag>/<file>.zip",
                "size": 1234567, "sha256": "<hex>", "updated": "2026-10-21"}]}
 
-Safety (a mod is data; the kit makes every piece of code itself):
+Safety (a mod is data; the kit reads it and makes the code from it).  A mod's patches/exe files are JSON that the kit
+parses; the machine code the kit then builds from them runs inside the game, which is why such a mod is off until you
+approve it on import:
   * the list and the previews come from raw.githubusercontent.com over HTTPS; a download only from github.com /
     its release storage or raw.githubusercontent.com (the final address after redirects is checked too);
   * a download must have the listed size (at most MAX_DOWNLOAD) and SHA-256, else it is thrown away;
