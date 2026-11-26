@@ -1,0 +1,539 @@
+{
+ "version": 1,
+ "database": "/Volumes/Data/ai-tmp/magichange/vanilla/Database_0.dat",
+ "mods": "/Volumes/Data/Projects/D5/Builds/MAGICHANGE-20261030/mods",
+ "cases": [
+  {
+   "case": "the baseline is the vanilla table",
+   "ok": true,
+   "detail": "e646eaae6e2b3911"
+  },
+  {
+   "case": "the second vanilla copy agrees",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "vanilla table loaded",
+   "ok": true,
+   "detail": "583 magic rows / 806 char rows"
+  },
+  {
+   "case": "no imported identity exists in the vanilla char table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "every bundle patch applied without a warning",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "magic.dat re-reads from its own bytes",
+   "ok": true,
+   "detail": "624 rows"
+  },
+  {
+   "case": "char.dat re-reads from its own bytes",
+   "ok": true,
+   "detail": "813 rows"
+  },
+  {
+   "case": "every magic id is unique",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "file order is not the search order (vanilla has inversions)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Desco: the set is consistent (set_of)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Desco: the character learns its set at D4's levels",
+   "ok": true,
+   "detail": "{20351: 42, 20352: 100, 20611: 30, 20612: 70}"
+  },
+  {
+   "case": "Desco: learn_count matches the slots",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Desco: the char row can still Magichange",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Desco: D4 row 20051 'Evil Sword Balmung' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Desco: D4 row 20052 'Martial Transformer' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: 20234 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: 20234 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: 20235 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: 20235 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: 20236 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: 20236 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: the set is consistent (set_of)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: numbers come from donor 22021",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: names/descriptions are D4's, in five locales",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: the dual points at the single and back",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: user1 is the imported identity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: the character learns its set at D4's levels",
+   "ok": true,
+   "detail": "{20231: 8, 20232: 42, 20233: 100, 20234: 30, 20235: 70, 20236: 1}"
+  },
+  {
+   "case": "Prinny Kurtis: learn_count matches the slots",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: the char row can still Magichange",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: D4 row 20191 'Twin Rocket Punch' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Prinny Kurtis: D4 row 20192 'Sonic Fire' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: 20285 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: 20285 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: 20286 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: 20286 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: the set is consistent (set_of)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: numbers come from donor 22101",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: names/descriptions are D4's, in five locales",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: user1 is the imported identity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: the character learns its set at D4's levels",
+   "ok": true,
+   "detail": "{20281: 8, 20282: 28, 20283: 56, 20284: 112, 20285: 10, 20286: 50}"
+  },
+  {
+   "case": "God's Part: learn_count matches the slots",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: the char row can still Magichange",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: D4 row 22041 'Eryngi Raid' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "God's Part: D4 row 22042 'Erynger Panic' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: 20385 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: 20385 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: 20386 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: 20386 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: 20387 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: 20387 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: the set is consistent (set_of)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: numbers come from donor 22021",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: names/descriptions are D4's, in five locales",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: the dual points at the single and back",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: user1 is the imported identity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: the character learns its set at D4's levels",
+   "ok": true,
+   "detail": "{20381: 15, 20382: 45, 20383: 90, 20384: 180, 20385: 15, 20386: 75, 20387: 1}"
+  },
+  {
+   "case": "Pink: learn_count matches the slots",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: the char row can still Magichange",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: D4 row 22201 'Death Paws' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Pink: D4 row 22202 'Deadly Moon Blow' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: 20414 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: 20414 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: 20415 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: 20415 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: 20416 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: 20416 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: the set is consistent (set_of)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: numbers come from donor 22021",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: names/descriptions are D4's, in five locales",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: the dual points at the single and back",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: user1 is the imported identity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: the character learns its set at D4's levels",
+   "ok": true,
+   "detail": "{20411: 15, 20412: 45, 20413: 90, 20414: 15, 20415: 75, 20416: 1}"
+  },
+  {
+   "case": "Gig: learn_count matches the slots",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: the char row can still Magichange",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: D4 row 20341 'Demon Force' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Gig: D4 row 20342 'Demon Blast' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: 28135 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: 28135 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: 28136 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: 28136 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: the set is consistent (set_of)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: numbers come from donor 22141",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: names/descriptions are D4's, in five locales",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: user1 is the imported identity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: the character learns its set at D4's levels",
+   "ok": true,
+   "detail": "{28131: 15, 28132: 40, 28133: 80, 28134: 160, 28135: 15, 28136: 75}"
+  },
+  {
+   "case": "Hugo: learn_count matches the slots",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: the char row can still Magichange",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: D4 row 22121 'Nightmare Sheep' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Hugo: D4 row 22122 'Drop Out' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: 28144 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: 28144 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: 28145 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: 28145 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: 28146 is present exactly once",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: 28146 was not in the vanilla table",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: the set is consistent (set_of)",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: numbers come from donor 20611",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: names/descriptions are D4's, in five locales",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: the dual points at the single and back",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: user1 is the imported identity",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: the character learns its set at D4's levels",
+   "ok": true,
+   "detail": "{28141: 8, 28142: 42, 28144: 30, 28145: 70, 28146: 1}"
+  },
+  {
+   "case": "Des X: learn_count matches the slots",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: the char row can still Magichange",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: D4 row 20431 'Evil Sword Z' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "Des X: D4 row 20432 'Sword Musouzan Z' is the source of a carried name",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "case": "the eight held D4 Magichange attacks are all carried",
+   "ok": true,
+   "detail": "carried [20051, 20052, 20191, 20192, 20341, 20342, 20431, 20432, 22041, 22042, 22121, 22122, 22201, 22202]"
+  }
+ ],
+ "passed": 106,
+ "failed": 0
+}

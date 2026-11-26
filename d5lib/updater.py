@@ -109,17 +109,21 @@ def _kept(rel):
     return any(rel == k or (k.endswith("/") and rel.startswith(k)) for k in KEEP)
 
 
-def _full_info(z, kit_dir, old_files):
-    """an update made from the full kit zip: its files that differ from this kit's, the files it no longer has"""
+def _full_info(z, kit_dir, old_files, hashes):
+    """an update made from the full kit zip: its files that differ from this kit's, the files it no longer has.
+    hashes: {rel: sha1} of the kit files read here (apply() reuses them instead of reading the files again)"""
     new = json.loads(z.read(FULL_ROOT + MANIFEST).decode("utf-8"))
     changed = []
     for rel, h in new["files"].items():
         path = os.path.join(kit_dir, *rel.split("/"))
-        if old_files.get(rel) == h and os.path.exists(path):
-            continue                                    # unchanged since the last update (checked by the manifest)
-        if os.path.exists(path) and sha1_file(path) == h:
+        if not os.path.exists(path):
+            changed.append(rel)
             continue
-        changed.append(rel)
+        if old_files.get(rel) == h:
+            continue                                    # unchanged since the last update (checked by the manifest)
+        hashes[rel] = sha1_file(path)
+        if hashes[rel] != h:
+            changed.append(rel)
     removed = [r for r in old_files if r not in new["files"]]
     return {"from": None, "to": new["version"], "files": changed, "removed": removed, "manifest": new,
             "root": FULL_ROOT}
@@ -131,12 +135,13 @@ def apply(zip_path, kit_dir, log=print):
     changed is copied to state/update_backups/<version> first."""
     old = load_manifest(kit_dir)
     old_files = old.get("files", {})
+    hashes = {}                                         # rel -> sha1 of the kit's file, each read once
     with zipfile.ZipFile(zip_path) as z:
         names = set(z.namelist())
         if "update.json" in names:
             info = json.loads(z.read("update.json").decode("utf-8"))
         elif FULL_ROOT + MANIFEST in names:
-            info = _full_info(z, kit_dir, old_files)
+            info = _full_info(z, kit_dir, old_files, hashes)
         else:
             raise RuntimeError("this zip is neither a D5 Mod Kit release nor an update")
         root = info.get("root", "files/")
@@ -147,7 +152,11 @@ def apply(zip_path, kit_dir, log=print):
         written, backed, pending = [], [], {}
 
         def keep_copy(rel, path):
-            if os.path.exists(path) and old_files.get(rel) and sha1_file(path) != old_files[rel]:
+            if not old_files.get(rel) or not os.path.exists(path):
+                return
+            if rel not in hashes:
+                hashes[rel] = sha1_file(path)
+            if hashes[rel] != old_files[rel]:
                 dst = os.path.join(backup, *rel.split("/"))
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 shutil.copy2(path, dst)
@@ -158,10 +167,9 @@ def apply(zip_path, kit_dir, log=print):
             path = os.path.join(kit_dir, *rel.split("/"))
             keep_copy(rel, path)
             os.makedirs(os.path.dirname(path), exist_ok=True)
-            data = z.read(root + rel)
             tmp = path + ".upd"
-            with open(tmp, "wb") as f:
-                f.write(data)
+            with z.open(root + rel) as src, open(tmp, "wb") as f:
+                shutil.copyfileobj(src, f, 1 << 20)
             try:
                 os.replace(tmp, path)
             except PermissionError:                     # in use (a loaded DLL): swapped in at the next start

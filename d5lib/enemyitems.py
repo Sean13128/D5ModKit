@@ -15,7 +15,7 @@ item id is over 0xFFFF) and patches the spawn (code section ".d5ei") when an ena
 A mod's Stages page save lists its maps with rarities in patches/stages/item_rarity.json, and the install patches
 the exe when any enabled mod has one (without the patch an id with high bits would be unknown: no item).
 """
-from .exepatch import add_hook_section
+from .exepatch import add_hook_section, has_feature
 from .gamefs import EXE_FILE
 from .modsys import Mod, register_finalizer
 
@@ -72,7 +72,9 @@ def build(exe):
 
 
 def is_patched(exe):
-    return SECTION in exe[:0x400]
+    # the claim alone is not enough: if the id hook site no longer jumps into the section the patch is stale or
+    # half-applied (an older kit section, a partial write) and must be rebuilt
+    return has_feature(exe, SECTION, hooks=[(ID_SITE, 0xE9)])
 
 
 def maps_of(mod):

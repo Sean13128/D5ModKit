@@ -31,7 +31,8 @@
    "offset": 4,
    "type": "u32",
    "desc": "class-mastery EXP needed for this rank: base x 1,4,16,64,256,4096 (Warrior base 64: 64..262144; Thief 96; Ninja/Samurai 128; Pirate/Sage/Dark Knight 256). Rows 9930-9995 (unused dummy chains) use 100..14400",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow rank_up_requirement VERIFIED"
   },
   {
    "name": "next_id",

@@ -1,4 +1,8 @@
-"""Battle cursor helpers (top view: W +y, A -x, S -y, D +x)."""
+"""Battle cursor helpers (top view: W +y, A -x, S -y, D +x).
+
+The same four keys turn the caster for range-0 ("from the caster") skills and the normal Attack: W faces toward
+LARGER y (not screen-up), S smaller y, D larger x, A smaller x (proved live, LIVE1120C 2026-11-20).  Use
+facing_key(caster_xy, target_xy) instead of guessing the key."""
 import json
 import time
 
@@ -132,7 +136,49 @@ def set_sp(c, name, sp=999):
         c.cmd(f"wr {up + off:#x} {v}")
 
 
-def cast(c, name, skill, target, menu_open=False):
+
+# ------------------------------------------------------------------ queue check (SPECTOOLS1)
+BM_PTR = 0x147b58e70             # DAT_147b58e70: the battle manager pointer (decomp: special_alloc_ctx)
+BM_QUEUE_COUNT = 0x950           # BM+2384: queued ActionContexts. The turn menu's Execute (14063aa20 case 0) does
+                                 # NOTHING (menu stays open, no event) while this is < 1.
+TARGET_ERRORS = ("Out of range.", "No target.", "Attack zone obstructed.", "Attack zone height problem.",
+                 "This Special Skill cannot be used here.", "The target is too far off the center of the skill.")
+
+
+def queue_count(c):
+    """number of queued actions (BM+2384), or None when it cannot be read"""
+    try:
+        bm = int.from_bytes(bytes.fromhex(c.cmd(f"rd {BM_PTR:#x} 8")["hex"]), "little")
+        if not bm:
+            return None
+        return int.from_bytes(bytes.fromhex(c.cmd(f"rd {bm + BM_QUEUE_COUNT:#x} 4")["hex"]), "little", signed=True)
+    except Exception:           # noqa: BLE001 - a probe, never a reason to stop a run
+        return None
+
+
+def target_error(c):
+    """the target selector's red error line ("No target." ...) when one is showing, else None"""
+    for line in texts(c)[:6]:
+        if any(line.startswith(e) for e in TARGET_ERRORS):
+            return line
+    return None
+
+
+FACING_KEYS = {(0, 1): "W", (0, -1): "S", (1, 0): "D", (-1, 0): "A"}   # grid step (dx, dy) -> d-pad key
+
+
+def facing_key(src, dst):
+    """The d-pad key that turns a unit at grid `src` toward the tile `dst` (the dominant axis wins; a tie prefers x).
+    W is toward LARGER y.  None when both are the same tile."""
+    dx, dy = dst[0] - src[0], dst[1] - src[1]
+    if dx == 0 and dy == 0:
+        return None
+    if abs(dx) >= abs(dy):
+        return FACING_KEYS[(1 if dx > 0 else -1, 0)]
+    return FACING_KEYS[(0, 1 if dy > 0 else -1)]
+
+
+def cast(c, name, skill, target, menu_open=False, facing=None):
     """queue unit `name`'s skill on panel `target` (x, y); menu_open: the unit's command menu is already up (it
     opens by itself after a move -- cancelling it would undo the move)"""
     if not menu_open:
@@ -153,16 +199,31 @@ def cast(c, name, skill, target, menu_open=False):
     c.keys("K:1:10"); time.sleep(1.0)
     if texts(c) and texts(c)[0].startswith("Select range"):
         c.keys("K:1:10"); time.sleep(0.8)
-    goto(c, *target)
+    before = queue_count(c)
+    if facing:                              # range-0 ("from the caster") skill: the d-pad turns the caster, the
+        c.keys(f"{facing}:1:14"); time.sleep(0.5)    # cursor does not move, so goto() can never arrive
+    else:
+        goto(c, *target)
+    err = target_error(c)
+    if err:                                 # the game refuses the confirm (SE 4) and queues nothing
+        cast.last_error = err
+        for _ in range(3):
+            c.keys("L:1:10"); time.sleep(0.4)
+        return False
     c.keys("K:1:10"); time.sleep(1.0)
-    return True
+    after = queue_count(c)
+    cast.last_error = None
+    # True only when the game queued something (BM+2384 rose); unreadable counts as before (old behaviour)
+    return True if before is None or after is None else after > before
+
+
+cast.last_error = None
 
 
 def execute(c, shots_prefix=None, n=20, gap=0.3):
     """battle menu -> Execute; optionally screenshots while the actions play"""
     for _ in range(2):
-        t = texts(c)
-        if t and t[0].startswith(";044;"):
+        if on_map(texts(c)):            # EXECDROP1: never L on the map (it undoes the cursor unit's queued action)
             break
         c.keys("L:1:10"); time.sleep(0.6)
     battle_menu(c)
@@ -176,6 +237,30 @@ def execute(c, shots_prefix=None, n=20, gap=0.3):
             time.sleep(gap)
     time.sleep(2)
     return files
+
+
+def execute_checked(c, wait=6.0):
+    """battle menu -> Execute, but say what happened: {"queued": BM+2384 before, "left_menu": bool, "texts": [...]}.
+    Execute is a silent no-op while nothing is queued, so a False `left_menu` with queued == 0 means the cast
+    never reached the queue (a cast() that returned True was wrong or the entry was dropped before Execute)."""
+    out = {"queued": queue_count(c)}
+    out["menu_open"] = battle_menu(c)
+    if out["queued"] is not None and out["queued"] < 1:
+        out["left_menu"] = False
+        out["note"] = "nothing queued: Execute would be ignored"
+        return out
+    c.keys("K:1:10")
+    t0 = time.time()
+    while time.time() - t0 < wait:
+        t = texts(c)
+        if not (t and t[0].startswith("Commence")):
+            out["left_menu"] = True
+            break
+        time.sleep(0.4)
+    else:
+        out["left_menu"] = False
+    out["texts"] = texts(c)[:3]
+    return out
 
 
 def burst(c, prefix, n=40):
@@ -196,15 +281,27 @@ def execute_burst(c, prefix, n=60):
     return files
 
 
+def on_map(t):
+    """True while the battle map (field cursor) has the input: its help bar shows the ";044; Menu" prompt, as the
+    first line on an empty panel or after the unit panel's two name lines when the cursor is on a unit."""
+    return any(x.startswith(";044;") for x in (t or [])[:5])
+
+
 def battle_menu(c):
     """open the battle menu (Execute / End Turn ...): R with the launch build's default keys, I with the Steam
-    build's -> True when it is open"""
+    build's -> True when it is open.
+
+    EXECDROP1: L is pressed only when a key really opened another screen (the map's ";044;" help bar is gone).
+    On the map L is the game's Cancel = undo (cursor_ctl_s0_update 0x1405FE450, action 5 ->
+    cursor_undo_last_action_stack_entry 0x1404CF660): with the cursor on a player unit it removes that unit's queued
+    ActionContexts (BM+0x950 falls, Execute then does nothing) or undoes its move.  After an Attack or a range-0
+    skill the cursor sits on the actor, so the old "not ;0 -> L" test (t[0] is the unit's name there) undid it."""
     for key in ("R", "I"):
         c.keys(f"{key}:1:20"); time.sleep(1.0)
         t = texts(c)
         if t and t[0].startswith(("Commence", "End your turn")):
             return True
-        if t and not t[0].startswith(";0"):            # something else opened (not the map's help bar): close it
+        if t and not on_map(t):                          # something else opened (not the map): close it
             c.keys("L:1:10"); time.sleep(0.5)
     return False
 

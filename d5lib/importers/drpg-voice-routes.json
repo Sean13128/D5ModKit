@@ -1,0 +1,376 @@
+{
+ "schema": "drpg-voice-routes/1",
+ "generated": "2026-11-10",
+ "lane": "VOICE1",
+ "method": "Each DRPG battle-bank clip of 33 characters that also exist in Disgaea 5 was matched by normalised waveform cross-correlation (>=0.6) to the D5 Japanese lines of the same character; D5's own situation flags on the identical recording say where D5 keeps that cue. A (kind, situation) is routed when at least 15% of a cue's matched clips carry it.",
+ "threshold": 0.15,
+ "verification": {
+  "characters": 33,
+  "clips": 571,
+  "matched": 451,
+  "leave_one_character_out": {
+   "voice_attack": {
+    "heldout_clips": 74,
+    "hit": 74,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.368
+   },
+   "voice_damage": {
+    "heldout_clips": 28,
+    "hit": 26,
+    "hit_rate": 0.929,
+    "routed_flag_precision": 0.589
+   },
+   "voice_dead": {
+    "heldout_clips": 28,
+    "hit": 28,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.964
+   },
+   "voice_get": {
+    "heldout_clips": 29,
+    "hit": 29,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.27
+   },
+   "voice_glad": {
+    "heldout_clips": 28,
+    "hit": 28,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.56
+   },
+   "voice_h_attack": {
+    "heldout_clips": 70,
+    "hit": 70,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.483
+   },
+   "voice_magic": {
+    "heldout_clips": 57,
+    "hit": 56,
+    "hit_rate": 0.982,
+    "routed_flag_precision": 0.626
+   },
+   "voice_recover": {
+    "heldout_clips": 31,
+    "hit": 29,
+    "hit_rate": 0.935,
+    "routed_flag_precision": 0.587
+   },
+   "voice_sp": {
+    "heldout_clips": 75,
+    "hit": 58,
+    "hit_rate": 0.773,
+    "routed_flag_precision": 0.464
+   },
+   "voice_turn": {
+    "heldout_clips": 31,
+    "hit": 31,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.42
+   }
+  }
+ },
+ "routes": {
+  "voice_attack": {
+   "0": {
+    "cats": [
+     0,
+     1,
+     10,
+     11,
+     13
+    ],
+    "support": {
+     "0": 56,
+     "1": 15,
+     "10": 22,
+     "11": 14,
+     "13": 27
+    },
+    "clips_in_kind": 73,
+    "matched_clips": 74
+   },
+   "1": {
+    "cats": [
+     22
+    ],
+    "support": {
+     "22": 12
+    },
+    "clips_in_kind": 12,
+    "matched_clips": 74
+   },
+   "3": {
+    "cats": [
+     0,
+     1
+    ],
+    "support": {
+     "0": 57,
+     "1": 15
+    },
+    "clips_in_kind": 72,
+    "matched_clips": 74
+   }
+  },
+  "voice_damage": {
+   "0": {
+    "cats": [
+     19,
+     20
+    ],
+    "support": {
+     "19": 10,
+     "20": 23
+    },
+    "clips_in_kind": 28,
+    "matched_clips": 28
+   },
+   "3": {
+    "cats": [
+     20,
+     32
+    ],
+    "support": {
+     "20": 20,
+     "32": 13
+    },
+    "clips_in_kind": 26,
+    "matched_clips": 28
+   }
+  },
+  "voice_dead": {
+   "0": {
+    "cats": [
+     21
+    ],
+    "support": {
+     "21": 28
+    },
+    "clips_in_kind": 28,
+    "matched_clips": 28
+   },
+   "3": {
+    "cats": [
+     21
+    ],
+    "support": {
+     "21": 26
+    },
+    "clips_in_kind": 26,
+    "matched_clips": 28
+   }
+  },
+  "voice_get": {
+   "0": {
+    "cats": [
+     3,
+     6
+    ],
+    "support": {
+     "3": 8,
+     "6": 5
+    },
+    "clips_in_kind": 23,
+    "matched_clips": 29
+   },
+   "1": {
+    "cats": [
+     22,
+     23,
+     25,
+     27
+    ],
+    "support": {
+     "22": 29,
+     "23": 5,
+     "25": 6,
+     "27": 5
+    },
+    "clips_in_kind": 29,
+    "matched_clips": 29
+   }
+  },
+  "voice_glad": {
+   "0": {
+    "cats": [
+     14,
+     15,
+     18
+    ],
+    "support": {
+     "14": 14,
+     "15": 17,
+     "18": 11
+    },
+    "clips_in_kind": 27,
+    "matched_clips": 28
+   },
+   "1": {
+    "cats": [
+     22
+    ],
+    "support": {
+     "22": 27
+    },
+    "clips_in_kind": 27,
+    "matched_clips": 28
+   },
+   "3": {
+    "cats": [
+     31,
+     33
+    ],
+    "support": {
+     "31": 19,
+     "33": 6
+    },
+    "clips_in_kind": 23,
+    "matched_clips": 28
+   }
+  },
+  "voice_h_attack": {
+   "0": {
+    "cats": [
+     1,
+     2
+    ],
+    "support": {
+     "1": 15,
+     "2": 55
+    },
+    "clips_in_kind": 68,
+    "matched_clips": 70
+   },
+   "1": {
+    "cats": [
+     22
+    ],
+    "support": {
+     "22": 27
+    },
+    "clips_in_kind": 27,
+    "matched_clips": 70
+   },
+   "3": {
+    "cats": [
+     1,
+     2
+    ],
+    "support": {
+     "1": 14,
+     "2": 58
+    },
+    "clips_in_kind": 70,
+    "matched_clips": 70
+   }
+  },
+  "voice_magic": {
+   "0": {
+    "cats": [
+     3,
+     4
+    ],
+    "support": {
+     "3": 15,
+     "4": 36
+    },
+    "clips_in_kind": 57,
+    "matched_clips": 57
+   },
+   "1": {
+    "cats": [
+     22
+    ],
+    "support": {
+     "22": 56
+    },
+    "clips_in_kind": 56,
+    "matched_clips": 57
+   }
+  },
+  "voice_recover": {
+   "0": {
+    "cats": [
+     8,
+     9,
+     12
+    ],
+    "support": {
+     "8": 21,
+     "9": 24,
+     "12": 7
+    },
+    "clips_in_kind": 31,
+    "matched_clips": 31
+   },
+   "1": {
+    "cats": [
+     22,
+     27
+    ],
+    "support": {
+     "22": 27,
+     "27": 12
+    },
+    "clips_in_kind": 27,
+    "matched_clips": 31
+   }
+  },
+  "voice_sp": {
+   "0": {
+    "cats": [
+     6
+    ],
+    "support": {
+     "6": 20
+    },
+    "clips_in_kind": 66,
+    "matched_clips": 75
+   },
+   "1": {
+    "cats": [
+     22
+    ],
+    "support": {
+     "22": 58
+    },
+    "clips_in_kind": 58,
+    "matched_clips": 75
+   }
+  },
+  "voice_turn": {
+   "0": {
+    "cats": [
+     3,
+     4,
+     5,
+     7,
+     17
+    ],
+    "support": {
+     "3": 24,
+     "4": 14,
+     "5": 9,
+     "7": 5,
+     "17": 6
+    },
+    "clips_in_kind": 31,
+    "matched_clips": 31
+   },
+   "1": {
+    "cats": [
+     22,
+     25
+    ],
+    "support": {
+     "22": 28,
+     "25": 8
+    },
+    "clips_in_kind": 28,
+    "matched_clips": 31
+   }
+  }
+ }
+}

@@ -1,0 +1,3092 @@
+{
+ "schema": 1,
+ "game": "d1c",
+ "about": "Reviewed D1C unique skill map (tools/d1c_unique_skillmap.py).  characters[listing id].skills: one row per source skill with the D5 twin.  label exact = same name in the D5 table; adapted = closest D5 skill (backlog \"own special\" = no D5 twin has the source special); donor = no source skill, the donor class line; none = not attachable.  no_source_skills true = the source gives this character no skills at all.",
+ "characters": {
+  "4": {
+   "name": {
+    "@text": "456a845d1b0b1a1bd1929911e44cfacabc4943cb63dfd4179e6f125ecbe4a1aa"
+   },
+   "title": {
+    "@text": "157ddc59b5e4e7ca9a05ffa09e4fa7cdefe073d8a3ebdf56b70a8446b64ae83f"
+   },
+   "body": 40,
+   "kind": "humanoid",
+   "donor": 1140,
+   "source_character": 4,
+   "skills": [
+    {
+     "d1_id": 1031,
+     "d1_name": {
+      "@text": "94fab6126c7b952979c05678df639989e37be3650d0902816dd20cf16661bfbc"
+     },
+     "level": 5,
+     "d5_id": 10151,
+     "d5_name": {
+      "@text": "2bf6e8fc6947021ae763a040bde039d1bf7dd02d6585c8c6ce1fd35db0bebf55"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area small, tier 1 (source SP 12) -> D5 Energy Break (none, range 4, 1 cells, SP 10)",
+     "d5_info": "none, range 4, 1 cells, SP 10",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 1032,
+     "d1_name": {
+      "@text": "fdc0a5087d1bfa6a5e4b0600617a9dda25a72f4015aff5538ea0a748fa1a296a"
+     },
+     "level": 20,
+     "d5_id": 11093,
+     "d5_name": {
+      "@text": "a8170859204c8d3eb04a2266e64fca927ea74dcb995142df2dfccb205886ca32"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 3 (source SP 30) -> D5 Thief's Key (none, range 2, 1 cells, SP 24)",
+     "d5_info": "none, range 2, 1 cells, SP 24",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 1033,
+     "d1_name": {
+      "@text": "56c2e09f67fe62b2026b1464cb82f37af0ea4f8bbe446b38277de196bb1ba452"
+     },
+     "level": 50,
+     "d5_id": 10103,
+     "d5_name": {
+      "@text": "3195c02375bae69f935c869b5eafae4dc841499fab451388ea6d2b8ddcb558f6"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 4 (source SP 70) -> D5 Rising Gale Kick (none, range 0, 9 cells, SP 72)",
+     "d5_info": "none, range 0, 9 cells, SP 72",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "5": {
+   "name": {
+    "@text": "bda0a01c76aae97ef15d6b792f3dc3cbb6609d611e9c563a54a1393fe685e31b"
+   },
+   "title": {
+    "@text": "284133ec593bd7b979ab071f24f50f5881a9bae23853dbc147025c5ecb100e32"
+   },
+   "body": 50,
+   "kind": "humanoid",
+   "donor": 1080,
+   "source_character": 5,
+   "skills": [
+    {
+     "d1_id": 1041,
+     "d1_name": {
+      "@text": "1c00fee284d8440b7dedaf345c2316eb4740f0aecc2f13dfcd2624498d31e9b6"
+     },
+     "level": 5,
+     "d5_id": 10241,
+     "d5_name": {
+      "@text": "8cb3b611203535c8637d30ab16d8a5e2e665cfe5b912197193672803d8a75490"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area small, tier 1 (source SP 15) -> D5 Magic Bazooka (none, range 0, 4 cells, SP 10)",
+     "d5_info": "none, range 0, 4 cells, SP 10",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 1042,
+     "d1_name": {
+      "@text": "ed655e3e4f8e463028b16582794ca0730dec851aeb59a3a12c1804a9cbce6560"
+     },
+     "level": 20,
+     "d5_id": 10522,
+     "d5_name": {
+      "@text": "16efc582caa745a67f29b7704f8a2ef1f7f74344e95cf4933702c05051ec3810"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 3 (source SP 60) -> D5 Sexy Beam (none, range 0, 15 cells, SP 30)",
+     "d5_info": "none, range 0, 15 cells, SP 30",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 1043,
+     "d1_name": {
+      "@text": "cca86ab3e0586effcb85b1348964648e3f04334eedf50bbf45e15702afcfffe2"
+     },
+     "level": 50,
+     "d5_id": 10243,
+     "d5_name": {
+      "@text": "c72a4a98f13fe6ed8e5eca17c74ac14c8736a4c6cc481f1ae29954e3d689916f"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 4 (source SP 70) -> D5 Mighty Commando (none, range 0, 9 cells, SP 72)",
+     "d5_info": "none, range 0, 9 cells, SP 72",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2200": {
+   "name": {
+    "@text": "fc2662062ffdef9610020183ea2b087c21d71150d78a7c7463be8a9050bd3ac9"
+   },
+   "title": {
+    "@text": "fa32af60ec8507db011cd8b6db216df03425efaa17f00cc142a3805858bf6e40"
+   },
+   "body": 2200,
+   "kind": "monster",
+   "donor": 2060,
+   "source_character": 2200,
+   "skills": [
+    {
+     "d1_id": 2201,
+     "d1_name": {
+      "@text": "266725bd19e328c4a7a74964c3f9128047fb1cb0b147cdc9d5aecef768818abd"
+     },
+     "level": 5,
+     "d5_id": 22011,
+     "d5_name": {
+      "@text": "5594c04a7d5a892024da0bd5dddd54e4c4feb2e43240364d0524303aa717a443"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 1 (source SP 18) -> D5 Trans Prin Barrage (none, range 3, 1 cells, SP 8)",
+     "d5_info": "none, range 3, 1 cells, SP 8",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 2202,
+     "d1_name": {
+      "@text": "a57b637e656efa935c089f495fb9c3f4d4c84efaa6d92c88acd65805fcbebf78"
+     },
+     "level": 21,
+     "d5_id": 12203,
+     "d5_name": {
+      "@text": "6dcfe07cea00435e1e0f360adfb99d206fe8982491060d8117fb984d07c12bb9"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 3 (source SP 35) -> D5 Icy Flame Shot (none, range 3, 6 cells, SP 48)",
+     "d5_info": "none, range 3, 6 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2203,
+     "d1_name": {
+      "@text": "96602aac0dd40dfd22ed75289d092663ef9fda55ccd6551b3357405eac0c0826"
+     },
+     "level": 30,
+     "d5_id": 12033,
+     "d5_name": {
+      "@text": "b18c86e9f839628802019810cf07fec9e93de2b30f793142112a2de6be745260"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 3 (source SP 72) -> D5 Orc Juggler (none, range 0, 2 cells, SP 48)",
+     "d5_info": "none, range 0, 2 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2204,
+     "d1_name": {
+      "@text": "fdbefcd1b5c0cbedfddfd39c0d2eee2557ee6251670a9e1ad4966ac2008c18e3"
+     },
+     "level": 50,
+     "d5_id": 12064,
+     "d5_name": {
+      "@text": "2bcf57e6d0fc6bb67b93dcd2b26977cfcd715b28e88927dfcc75947e424d2862"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2060 own tier-4 skill (none, range 0, 8 cells, SP 120)",
+     "d5_info": "none, range 0, 8 cells, SP 120",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2216": {
+   "name": {
+    "@text": "1fa3392a716c1334f7e71e7639da08a11206ec4506dbb65771e6c45e1da87084"
+   },
+   "title": {
+    "@text": "b1a3afafd798e5836fb5cbbcfa07e5f7efe563516e1da66e889987937b2c8a08"
+   },
+   "body": 2220,
+   "kind": "monster",
+   "donor": 2010,
+   "source_character": 2216,
+   "skills": [
+    {
+     "d1_id": 2221,
+     "d1_name": {
+      "@text": "e03135997234d11edba136d9f91fa4baab2da1fa6915b6afc86625765b869cb4"
+     },
+     "level": 5,
+     "d5_id": 982,
+     "d5_name": {
+      "@text": "e03135997234d11edba136d9f91fa4baab2da1fa6915b6afc86625765b869cb4"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 1 cells, SP 0",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2222,
+     "d1_name": {
+      "@text": "77186cb366d87f6a1054e39423d01535b5e0cff135c3b2619bddcf3602062967"
+     },
+     "level": 20,
+     "d5_id": 12073,
+     "d5_name": {
+      "@text": "e3adb0d04e53feb23ca4039f071c038f9f3338ef718161181246d4a44293b098"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 3 (source SP 42) -> D5 Cat Meteor Fist (none, range 0, 4 cells, SP 48)",
+     "d5_info": "none, range 0, 4 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2223,
+     "d1_name": {
+      "@text": "247d5a3f1f414dece2bf8796beab230976bfd0105bd680d49407a5803141cc87"
+     },
+     "level": 35,
+     "d5_id": 12043,
+     "d5_name": {
+      "@text": "4a69c4cd1bbedc1cdf3333373de1c1c7052aaf1bfcf33466c33c1d9e4545c664"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element fire, class physical, area medium, tier 4 (source SP 68) -> D5 Carrot Funnel (fire, range 3, 5 cells, SP 48)",
+     "d5_info": "fire, range 3, 5 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2224,
+     "d1_name": {
+      "@text": "38b4972da4d4aaf53899f1c8f576a160604b2153d75b03b993f6d4410ec9fded"
+     },
+     "level": 50,
+     "d5_id": 12013,
+     "d5_name": {
+      "@text": "38b4972da4d4aaf53899f1c8f576a160604b2153d75b03b993f6d4410ec9fded"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 8 cells, SP 48",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2300": {
+   "name": {
+    "@text": "ca2db3292857754f776e0437b07e83dfa2b5a65d915ee437119265ebaa13454c"
+   },
+   "title": {
+    "@text": "ca2db3292857754f776e0437b07e83dfa2b5a65d915ee437119265ebaa13454c"
+   },
+   "body": 10,
+   "kind": "humanoid",
+   "donor": 1040,
+   "source_character": 2300,
+   "skills": [
+    {
+     "d1_id": null,
+     "d1_name": null,
+     "level": 5,
+     "d5_id": 11041,
+     "d5_name": {
+      "@text": "bbeaae035171e735198d68c11b5b8bc8448b6a9abdf9633c2c0b1c6b4e3dff54"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "reason": "the source gives this character no skills and its table stores no per-weapon forte (only a stat-growth block); donor class 1040 own humanoid skill",
+     "d5_info": "none, range 2, 3 cells, SP 8",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2301": {
+   "name": {
+    "@text": "e68fcc91c7061554b22001446ddc1b6a9c1434bda576524299ab89a9586bc64a"
+   },
+   "title": {
+    "@text": "53cca3d0a1b73d27d43d7e6f49e293eea005aa865a5737561276a62bec2b4522"
+   },
+   "body": 10,
+   "kind": "humanoid",
+   "donor": 1040,
+   "source_character": 2301,
+   "skills": [
+    {
+     "d1_id": null,
+     "d1_name": null,
+     "level": 5,
+     "d5_id": 11041,
+     "d5_name": {
+      "@text": "bbeaae035171e735198d68c11b5b8bc8448b6a9abdf9633c2c0b1c6b4e3dff54"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "reason": "the source gives this character no skills and its table stores no per-weapon forte (only a stat-growth block); donor class 1040 own humanoid skill",
+     "d5_info": "none, range 2, 3 cells, SP 8",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2302": {
+   "name": {
+    "@text": "cdee1f5965f76562041a75b994b299d84ff709957223cff3b5a308a2e007931c"
+   },
+   "title": {
+    "@text": "a5f9573121452cf12aea62087711871d87c1566342b31553fc7b2a7a6beb13fe"
+   },
+   "body": 10,
+   "kind": "humanoid",
+   "donor": 1040,
+   "source_character": 2302,
+   "skills": [
+    {
+     "d1_id": null,
+     "d1_name": null,
+     "level": 5,
+     "d5_id": 11041,
+     "d5_name": {
+      "@text": "bbeaae035171e735198d68c11b5b8bc8448b6a9abdf9633c2c0b1c6b4e3dff54"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "reason": "the source gives this character no skills and its table stores no per-weapon forte (only a stat-growth block); donor class 1040 own humanoid skill",
+     "d5_info": "none, range 2, 3 cells, SP 8",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2400": {
+   "name": {
+    "@text": "163a3d552d645271186a11e65ea53b3584579606e21e5c1daceb724083de5b64"
+   },
+   "title": {
+    "@text": "e5cb5b70161a464048081729ce960560f530451ab98a2767fe5d862e7c29d090"
+   },
+   "body": 2130,
+   "kind": "monster",
+   "donor": 2160,
+   "source_character": 2400,
+   "skills": [
+    {
+     "d1_id": 2131,
+     "d1_name": {
+      "@text": "ff9d5c33aaf4fe7588ccb6c2673e80a4abe0e6e07af254efcabd35aef14fec9b"
+     },
+     "level": 5,
+     "d5_id": 12161,
+     "d5_name": {
+      "@text": "8d4529c280e83b327202973fe654ec55fd65d94aa1cb6eb00b6341b2d49454f6"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 1 (source SP 10) -> D5 Stolen Slice (none, range 0, 1 cells, SP 3)",
+     "d5_info": "none, range 0, 1 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2132,
+     "d1_name": {
+      "@text": "3525c3110b422191248eb413cabebed2c4a78ce272482b3e3206cafaa359c3e0"
+     },
+     "level": 15,
+     "d5_id": 12162,
+     "d5_name": {
+      "@text": "3525c3110b422191248eb413cabebed2c4a78ce272482b3e3206cafaa359c3e0"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 4 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2133,
+     "d1_name": {
+      "@text": "bafd2e4029597d6b4f62c142141b20270b91e9f40900a6794151f1529eab0e9f"
+     },
+     "level": 30,
+     "d5_id": 12163,
+     "d5_name": {
+      "@text": "d9e5d658691618dc1243815d27d4b43b4dc381d70dded1fa409f17dbb2e8689b"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 3 (source SP 45) -> D5 Boulder Shot (none, range 0, 5 cells, SP 48)",
+     "d5_info": "none, range 0, 5 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2134,
+     "d1_name": {
+      "@text": "72d2be2c8c5d3291ad94b0d53be29da9dda9eb012f826ecab617000d97a6b9b6"
+     },
+     "level": 50,
+     "d5_id": 12093,
+     "d5_name": {
+      "@text": "dd9b9f483d6685bf200d6266ee88ea4a0eb9e14d95b5e4ac31071052a1728bbf"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 4 (source SP 72) -> D5 Ultra Zombeam (none, range 2, 5 cells, SP 48)",
+     "d5_info": "none, range 2, 5 cells, SP 48",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2410": {
+   "name": {
+    "@text": "afe426d361fa6743b61381c0d1927db0f0f3fca508dd89b172c82ebe4bff21b8"
+   },
+   "title": {
+    "@text": "9b0b619ddf6aa023e69832b9ddd5dcd1e9f42f98a75c9cd3cc4a8c33c1159453"
+   },
+   "body": 1080,
+   "kind": "humanoid",
+   "donor": 1110,
+   "source_character": 2410,
+   "skills": [
+    {
+     "d1_id": 5001,
+     "d1_name": null,
+     "level": 1,
+     "d5_id": null,
+     "label": "none",
+     "basis": "none",
+     "reason": "id absent from the readable 285-row D1 skill table"
+    },
+    {
+     "d1_id": 814,
+     "d1_name": {
+      "@text": "92379b5967a9e70af681f35106f57f2bf9c5cc0dacae2c37e5e6c7e7e87e3746"
+     },
+     "level": 6,
+     "d5_id": 1504,
+     "d5_name": {
+      "@text": "92379b5967a9e70af681f35106f57f2bf9c5cc0dacae2c37e5e6c7e7e87e3746"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 813,
+     "d1_name": {
+      "@text": "6c8554b45f7129794d4792190ca1d8ec287c4b1413a55bbf62a0eee2ade3040a"
+     },
+     "level": 7,
+     "d5_id": 1503,
+     "d5_name": {
+      "@text": "6c8554b45f7129794d4792190ca1d8ec287c4b1413a55bbf62a0eee2ade3040a"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 812,
+     "d1_name": {
+      "@text": "480d4be7d61fe52bc31768ffaaffea7ad5db66ba8b699d30623c4726704cc646"
+     },
+     "level": 9,
+     "d5_id": 1502,
+     "d5_name": {
+      "@text": "480d4be7d61fe52bc31768ffaaffea7ad5db66ba8b699d30623c4726704cc646"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 811,
+     "d1_name": {
+      "@text": "932c0aca2e9956b1c1496f84f38eee46c3975a20e6a5ba57f420286f078c1213"
+     },
+     "level": 10,
+     "d5_id": 1501,
+     "d5_name": {
+      "@text": "932c0aca2e9956b1c1496f84f38eee46c3975a20e6a5ba57f420286f078c1213"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 5002,
+     "d1_name": null,
+     "level": 12,
+     "d5_id": null,
+     "label": "none",
+     "basis": "none",
+     "reason": "id absent from the readable 285-row D1 skill table"
+    },
+    {
+     "d1_id": 5003,
+     "d1_name": null,
+     "level": 30,
+     "d5_id": null,
+     "label": "none",
+     "basis": "none",
+     "reason": "id absent from the readable 285-row D1 skill table"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2420": {
+   "name": {
+    "@text": "3b46e8607f547d93da660019736de5d4d133c422ba626bb1de4d38d1b691c034"
+   },
+   "title": {
+    "@text": "3b46e8607f547d93da660019736de5d4d133c422ba626bb1de4d38d1b691c034"
+   },
+   "body": 2190,
+   "kind": "monster",
+   "donor": 2180,
+   "source_character": 2420,
+   "skills": [
+    {
+     "d1_id": 3801,
+     "d1_name": {
+      "@text": "94ccbea7c427617fbbb1f30a9f03cce8274f3d77f55efdfa67a22b1bdf9b649b"
+     },
+     "level": 5,
+     "d5_id": 22031,
+     "d5_name": {
+      "@text": "5dc3867f985b2ad6a99d20f5801a86a7b12c45cf0c708392ba93aaf499ddc75c"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 1 (source SP 36) -> D5 Flying V-Strike (none, range 0, 1 cells, SP 8)",
+     "d5_info": "none, range 0, 1 cells, SP 8",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 3802,
+     "d1_name": {
+      "@text": "c0f410ca8fd6a485449e79d8a43bf03bbe9933a734e1f1f03cae4e17702fd794"
+     },
+     "level": 15,
+     "d5_id": 12042,
+     "d5_name": {
+      "@text": "08b0200acbe83b59acd6683f555b01954c8befc94d7059ec8ef73454fc4c36e3"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 2 (source SP 52) -> D5 Moon Shine Slash (none, range 0, 3 cells, SP 16)",
+     "d5_info": "none, range 0, 3 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3803,
+     "d1_name": {
+      "@text": "b37aca482d44ee747b643c7e0ed23ac1455451254c2d5d89c915f1ece62c2357"
+     },
+     "level": 30,
+     "d5_id": 12103,
+     "d5_name": {
+      "@text": "97eded7541c85c8f8468a579ebb6ab2d147b49797983ef1fd341e9d3d09fa759"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 3 (source SP 76) -> D5 Mushroom Spin (none, range 2, 1 cells, SP 48)",
+     "d5_info": "none, range 2, 1 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3804,
+     "d1_name": {
+      "@text": "e4fd348f3cdd14bf3194fc81430312469b85acf60fb3f1a41311fe9eecbf6b71"
+     },
+     "level": 50,
+     "d5_id": 12024,
+     "d5_name": {
+      "@text": "b8151657d0a8d0806e7d77fc9623373d0aaa518296f3817f122f91ab376c3a3d"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 4 (source SP 102) -> D5 Dark Illuminati (none, range 0, 9 cells, SP 120)",
+     "d5_info": "none, range 0, 9 cells, SP 120",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2500": {
+   "name": {
+    "@text": "63707b0e4f777ae3a78697cb54e5b88e5a825fc8c7051f1adebeceef5952b031"
+   },
+   "title": {
+    "@text": "63707b0e4f777ae3a78697cb54e5b88e5a825fc8c7051f1adebeceef5952b031"
+   },
+   "body": 2500,
+   "kind": "monster",
+   "donor": 2120,
+   "source_character": 2500,
+   "skills": [
+    {
+     "d1_id": 2501,
+     "d1_name": {
+      "@text": "a7edc2ff58e74371bd928038d3dcaad7f359e02af29186a23142f4eb45a72dfe"
+     },
+     "level": 1,
+     "d5_id": 12122,
+     "d5_name": {
+      "@text": "36af480796ff7b1064613e8e5c9b6738d6f8caab9858712b940a888b705cbde9"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 2 (source SP 25) -> D5 Kitty Brain Blast (none, range 0, 4 cells, SP 16)",
+     "d5_info": "none, range 0, 4 cells, SP 16",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2540": {
+   "name": {
+    "@text": "62b4104b37b405a244ba28870e2f82891ae954f4dd337de3aef019cf1f35a8e3"
+   },
+   "title": {
+    "@text": "f9fc1ae5e7566c9234d1d618bcc04e07a85126bd6c99a9bb5892a4a8b14a306e"
+   },
+   "body": 2500,
+   "kind": "monster",
+   "donor": 2120,
+   "source_character": 2540,
+   "skills": [
+    {
+     "d1_id": 2501,
+     "d1_name": {
+      "@text": "a7edc2ff58e74371bd928038d3dcaad7f359e02af29186a23142f4eb45a72dfe"
+     },
+     "level": 1,
+     "d5_id": 12122,
+     "d5_name": {
+      "@text": "36af480796ff7b1064613e8e5c9b6738d6f8caab9858712b940a888b705cbde9"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "same source skill as another character: same twin (see its row); none, range 0, 4 cells, SP 16",
+     "d5_info": "none, range 0, 4 cells, SP 16",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2550": {
+   "name": {
+    "@text": "b0286ac030926b931791b6c568ae2be09cbb7bed7103e0d1ca4011fbdc7e1fc2"
+   },
+   "title": {
+    "@text": "cc12a63f344632ca4e35e076ec0343888735fdbc850cbafe85ee904686afe5dc"
+   },
+   "body": 2180,
+   "kind": "monster",
+   "donor": 2140,
+   "source_character": 2550,
+   "skills": [
+    {
+     "d1_id": 2181,
+     "d1_name": {
+      "@text": "20ea3c3df6b54f054a313a5b1049709e95b3fc8834305947bf716b46ca1b69f0"
+     },
+     "level": 5,
+     "d5_id": 12141,
+     "d5_name": {
+      "@text": "03ed95fa547508925e685043b18b3ef0dc2a251325f09a4341c551a3d1b01db2"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2140 own tier-1 skill (none, range 3, 1 cells, SP 3)",
+     "d5_info": "none, range 3, 1 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2182,
+     "d1_name": {
+      "@text": "82358add7088af95892ff625e51fcbf95fcc23b2373a3ebefe8c21b437a9feb4"
+     },
+     "level": 21,
+     "d5_id": 12092,
+     "d5_name": {
+      "@text": "a06d6abcd74c7aea9c42da00bafca7b4503862a67a22968c483452137ba6003d"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 3 (source SP 35) -> D5 Zombie Tornado (none, range 0, 4 cells, SP 16)",
+     "d5_info": "none, range 0, 4 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2183,
+     "d1_name": {
+      "@text": "5c337a88055f3d952a440cadceb9979597bf70e54dd4437506d08b7dca3150ba"
+     },
+     "level": 30,
+     "d5_id": 12113,
+     "d5_name": {
+      "@text": "d35f01780ff32b39169a56377cfab4e4a44ca4ed49306c487f967e28c6825b81"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 3 (source SP 64) -> D5 Non-Stick Thorn (none, range 4, 5 cells, SP 48)",
+     "d5_info": "none, range 4, 5 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2184,
+     "d1_name": {
+      "@text": "c747c3390dceb10bf0e20c3af88e1276e1150622c1378d402425004f968b8926"
+     },
+     "level": 50,
+     "d5_id": 12144,
+     "d5_name": {
+      "@text": "481b6d57f6cace5f9679f3b2515c33afa47c61127a8003f37352d1017e8cc078"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2140 own tier-4 skill (none, range 4, 8 cells, SP 120)",
+     "d5_info": "none, range 4, 8 cells, SP 120",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2570": {
+   "name": {
+    "@text": "a137fc0fbfa1f6b0fb97db04940efb7df9072d8602fccf5b7cae356ed8304c9c"
+   },
+   "title": {
+    "@text": "203e744107d0f143ca1ca3babfd2cf76e12c5c0fbf3877f47652d49697b0bcf5"
+   },
+   "body": 2570,
+   "kind": "monster",
+   "donor": 2100,
+   "source_character": 2570,
+   "skills": [
+    {
+     "d1_id": 2571,
+     "d1_name": {
+      "@text": "ca94263279ba6bdaffc687eae49e9d7b1b127ca0bec6f0d4005f2d849e07ebb7"
+     },
+     "level": 1,
+     "d5_id": 12032,
+     "d5_name": {
+      "@text": "45715fc2d741c69e170f3ad361a183e64e275b22e83e62b3acc21802670e284b"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element fire, class physical, area medium, tier 2 (source SP 27) -> D5 Land Crusher (fire, range 3, 1 cells, SP 16)",
+     "d5_info": "fire, range 3, 1 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2572,
+     "d1_name": {
+      "@text": "fd3c063f691f1a961ee3a52ccd34b04dfee1de2a2dc73b31975b71b496345ffd"
+     },
+     "level": 1,
+     "d5_id": 12112,
+     "d5_name": {
+      "@text": "919b8f09e524c30f075957998c197f91a4462147a1cf97b2a4488dbe2590d76b"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class heal, area medium, tier 3 (source SP 48) -> D5 Flower Dance (none, range 3, 5 cells, SP 16)",
+     "d5_info": "none, range 3, 5 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2573,
+     "d1_name": {
+      "@text": "9013e9cb31ab184be011a658661b9017e983756de29110573ea50f4b29ab267e"
+     },
+     "level": 1,
+     "d5_id": 22192,
+     "d5_name": {
+      "@text": "b74dce0cc6bcdc427dc2a969a785872adfe827963633fb27ba83f2371fd0840a"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element star, class magic, area medium, tier 3 (source SP 70) -> D5 Imperial Fox Witch (star, range 0, 9 cells, SP 64)",
+     "d5_info": "star, range 0, 9 cells, SP 64",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2580": {
+   "name": {
+    "@text": "77d7a1123b0bce4b33cefd306768f72aca4aa3458a941116a057715ed5f27ec5"
+   },
+   "title": {
+    "@text": "30c3dfe9bc80386890a4fbecb2a3b21c805018bc668d0c31f5a2b148d67bded9"
+   },
+   "body": 2580,
+   "kind": "monster",
+   "donor": 2130,
+   "source_character": 2580,
+   "skills": [
+    {
+     "d1_id": 2581,
+     "d1_name": {
+      "@text": "c011634b292d658b304c275576b3d250d522e7a0b7f893eee99c1fc6b2352da9"
+     },
+     "level": 1,
+     "d5_id": 12132,
+     "d5_name": {
+      "@text": "410db370ecd1dd936049e2144fd8e0698f455a892cec907ed179b7dd116add21"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element ice, class physical, area medium, tier 2 (source SP 35) -> D5 Water Guillotine (ice, range 4, 1 cells, SP 16)",
+     "d5_info": "ice, range 4, 1 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2582,
+     "d1_name": {
+      "@text": "f6664caad2155fb8144f476a895cbbc260b33933db0ed56070b1d537242f688c"
+     },
+     "level": 1,
+     "d5_id": 12134,
+     "d5_name": {
+      "@text": "0d4587df3756baa44ff5547b8fbf5b0b620b81f8a697b78e78319c074d6e75fc"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2130 own tier-4 skill (ice, range 0, 9 cells, SP 120)",
+     "d5_info": "ice, range 0, 9 cells, SP 120",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2590": {
+   "name": {
+    "@text": "1fa3392a716c1334f7e71e7639da08a11206ec4506dbb65771e6c45e1da87084"
+   },
+   "title": {
+    "@text": "b1a3afafd798e5836fb5cbbcfa07e5f7efe563516e1da66e889987937b2c8a08"
+   },
+   "body": 2590,
+   "kind": "monster",
+   "donor": 2130,
+   "source_character": 2590,
+   "skills": [
+    {
+     "d1_id": 2591,
+     "d1_name": {
+      "@text": "e03135997234d11edba136d9f91fa4baab2da1fa6915b6afc86625765b869cb4"
+     },
+     "level": 1,
+     "d5_id": 982,
+     "d5_name": {
+      "@text": "e03135997234d11edba136d9f91fa4baab2da1fa6915b6afc86625765b869cb4"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 1 cells, SP 0",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2592,
+     "d1_name": {
+      "@text": "77186cb366d87f6a1054e39423d01535b5e0cff135c3b2619bddcf3602062967"
+     },
+     "level": 1,
+     "d5_id": 12123,
+     "d5_name": {
+      "@text": "373359cadb4584b66ad725b82fa278b452a7213a6a2ce309260982c18583e6ba"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 3 (source SP 42) -> D5 Cat Strike (none, range 0, 5 cells, SP 48)",
+     "d5_info": "none, range 0, 5 cells, SP 48",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 2593,
+     "d1_name": {
+      "@text": "247d5a3f1f414dece2bf8796beab230976bfd0105bd680d49407a5803141cc87"
+     },
+     "level": 1,
+     "d5_id": 12183,
+     "d5_name": {
+      "@text": "3aac3dcd54888bab4cb69a745fc8369b307f4a4c20f296d1219d8b12cbc07a12"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element fire, class physical, area medium, tier 3 (source SP 68) -> D5 Spiral Flame (fire, range 0, 4 cells, SP 48)",
+     "d5_info": "fire, range 0, 4 cells, SP 48",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2600": {
+   "name": {
+    "@text": "54d139eaf531d58efbaa681344dd07465d3077643684ae3f1f3404a86009bf8b"
+   },
+   "title": {
+    "@text": "296326c94a8ac6ab6f535a83c48c89736b737c2458f334822f9224ac1987fa15"
+   },
+   "body": 2600,
+   "kind": "monster",
+   "donor": 2130,
+   "source_character": 2600,
+   "skills": [
+    {
+     "d1_id": 2601,
+     "d1_name": {
+      "@text": "a1351caf510c7d0a8b2df818c07316c37fd89f00e2d75e458edcdb31a445a37d"
+     },
+     "level": 1,
+     "d5_id": 12201,
+     "d5_name": {
+      "@text": "2670083bc7e0e15fd35363fdbb4f069efc4148e5b3961ec6cbcfa3253b40f683"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 1 (source SP 10) -> D5 Double Flame (none, range 0, 6 cells, SP 3)",
+     "d5_info": "none, range 0, 6 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2602,
+     "d1_name": {
+      "@text": "5c4b03fb7f1bd875b78c64ab4ec1de3d3b4cabe04cf1c657ce5ab8e5fe7e4daf"
+     },
+     "level": 1,
+     "d5_id": 12153,
+     "d5_name": {
+      "@text": "33046512329561525d33b457e9dd614d94729aba7714e4c3d3438797d3434633"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 3 (source SP 48) -> D5 Soul Bind (none, range 3, 3 cells, SP 48)",
+     "d5_info": "none, range 3, 3 cells, SP 48",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2611": {
+   "name": {
+    "@text": "f3983d1f2482488e703246a53b8dc61aa6bd1a31618317a6ff4e3cdba478fa87"
+   },
+   "title": {
+    "@text": "e2875da4c7c4631e459a5d2fe4533d7a8dce41a20d5f112666dd8900aa1a2281"
+   },
+   "body": 2610,
+   "kind": "monster",
+   "donor": 2100,
+   "source_character": 2611,
+   "skills": [
+    {
+     "d1_id": 2611,
+     "d1_name": {
+      "@text": "769d778381a730fdbefe05a5cbe61cc7211b07a93de60154538d727cc60ec8b7"
+     },
+     "level": 5,
+     "d5_id": 22022,
+     "d5_name": {
+      "@text": "c521be391c57757dfefef3435c26cac186d08946323cd4abd38763109619986f"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 1 (source SP 60) -> D5 Imp Pyramid (none, range 2, 9 cells, SP 64)",
+     "d5_info": "none, range 2, 9 cells, SP 64",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2612": {
+   "name": {
+    "@text": "2a0df6a51713590800dab184222f8bbd8f22cac00ee0627c7257dcb818268fac"
+   },
+   "title": {
+    "@text": "e2875da4c7c4631e459a5d2fe4533d7a8dce41a20d5f112666dd8900aa1a2281"
+   },
+   "body": 2610,
+   "kind": "monster",
+   "donor": 2100,
+   "source_character": 2612,
+   "skills": [
+    {
+     "d1_id": 2611,
+     "d1_name": {
+      "@text": "769d778381a730fdbefe05a5cbe61cc7211b07a93de60154538d727cc60ec8b7"
+     },
+     "level": 5,
+     "d5_id": 22022,
+     "d5_name": {
+      "@text": "c521be391c57757dfefef3435c26cac186d08946323cd4abd38763109619986f"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "same source skill as another character: same twin (see its row); none, range 2, 9 cells, SP 64",
+     "d5_info": "none, range 2, 9 cells, SP 64",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2613": {
+   "name": {
+    "@text": "1d8098ce9f05d35e4d110d02becac3f6518343366e72a942eb60473a30e10520"
+   },
+   "title": {
+    "@text": "c910d474dcd724bff83ddedeb06bf1eceaf9fb3af7c76bb282be057f36e6dffa"
+   },
+   "body": 2610,
+   "kind": "monster",
+   "donor": 2100,
+   "source_character": 2613,
+   "skills": [
+    {
+     "d1_id": 2611,
+     "d1_name": {
+      "@text": "769d778381a730fdbefe05a5cbe61cc7211b07a93de60154538d727cc60ec8b7"
+     },
+     "level": 5,
+     "d5_id": 22022,
+     "d5_name": {
+      "@text": "c521be391c57757dfefef3435c26cac186d08946323cd4abd38763109619986f"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "same source skill as another character: same twin (see its row); none, range 2, 9 cells, SP 64",
+     "d5_info": "none, range 2, 9 cells, SP 64",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2614": {
+   "name": {
+    "@text": "1ecb3207238c01121c05168d0666ff856c6c1c65770707915764caaed2f44a1c"
+   },
+   "title": {
+    "@text": "d4ed565260ab648ce04f852ec3b81d2f37e3440a0fd3e50f709222c515ef8a3c"
+   },
+   "body": 2610,
+   "kind": "monster",
+   "donor": 2100,
+   "source_character": 2614,
+   "skills": [
+    {
+     "d1_id": 2611,
+     "d1_name": {
+      "@text": "769d778381a730fdbefe05a5cbe61cc7211b07a93de60154538d727cc60ec8b7"
+     },
+     "level": 5,
+     "d5_id": 22022,
+     "d5_name": {
+      "@text": "c521be391c57757dfefef3435c26cac186d08946323cd4abd38763109619986f"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "same source skill as another character: same twin (see its row); none, range 2, 9 cells, SP 64",
+     "d5_info": "none, range 2, 9 cells, SP 64",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2615": {
+   "name": {
+    "@text": "0fd516b599c8bbb5e79896571df82a79aa8d9a1c292dfceb1942ce34a4c3174a"
+   },
+   "title": {
+    "@text": "d4ed565260ab648ce04f852ec3b81d2f37e3440a0fd3e50f709222c515ef8a3c"
+   },
+   "body": 2610,
+   "kind": "monster",
+   "donor": 2100,
+   "source_character": 2615,
+   "skills": [
+    {
+     "d1_id": 2611,
+     "d1_name": {
+      "@text": "769d778381a730fdbefe05a5cbe61cc7211b07a93de60154538d727cc60ec8b7"
+     },
+     "level": 5,
+     "d5_id": 22022,
+     "d5_name": {
+      "@text": "c521be391c57757dfefef3435c26cac186d08946323cd4abd38763109619986f"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "same source skill as another character: same twin (see its row); none, range 2, 9 cells, SP 64",
+     "d5_info": "none, range 2, 9 cells, SP 64",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2901": {
+   "name": {
+    "@text": "4c6d141cf5d17ba05e3f3c82e6165f0b43eedfddcf0b23727bb0778d00f42a74"
+   },
+   "title": {
+    "@text": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+   },
+   "body": 2010,
+   "kind": "monster",
+   "donor": 2050,
+   "source_character": 2901,
+   "skills": [
+    {
+     "d1_id": 2011,
+     "d1_name": {
+      "@text": "6a1e38d01bf622b6929288c493de6739e4c01d40ee53e37b1215f91a7541af7b"
+     },
+     "level": 5,
+     "d5_id": 12051,
+     "d5_name": {
+      "@text": "22d8db2eaab8937a8b3eb92c58656a8d8227cffb43ba1c5a4125b5b0d70d1bf3"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2050 own tier-1 skill (fire, range 3, 1 cells, SP 3)",
+     "d5_info": "fire, range 3, 1 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2012,
+     "d1_name": {
+      "@text": "a0b6898578f92737f16aa3e83aa22e06d2dd357193c7b72656fb543191324b3a"
+     },
+     "level": 15,
+     "d5_id": 22191,
+     "d5_name": {
+      "@text": "0c7f3dcf3f725807529f17662121da3c7ebdfb6b23ee9984e18d20860fbd9260"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element star, class magic, area medium, tier 2 (source SP 18) -> D5 Fox Spirit Dance (star, range 0, 1 cells, SP 8)",
+     "d5_info": "star, range 0, 1 cells, SP 8",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 2013,
+     "d1_name": {
+      "@text": "734544d55016df34dcc389f5e5b5a91c74b292c2a46db21c3f1cf319546b33dd"
+     },
+     "level": 30,
+     "d5_id": 12053,
+     "d5_name": {
+      "@text": "ba94e941a0d4efed228184448185010f92f34d836c396196ab1248892b9ed159"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2050 own tier-3 skill (none, range 4, 5 cells, SP 48)",
+     "d5_info": "none, range 4, 5 cells, SP 48",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 2014,
+     "d1_name": {
+      "@text": "05b309f27a812f2990053670efd4b0897bcae47d2dee1d035b9aa5b6260e03ca"
+     },
+     "level": 50,
+     "d5_id": 12054,
+     "d5_name": {
+      "@text": "a59648a58dbf2236100d09d37b8a9e85e775906c3f47a6067029f7fa08957a14"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2050 own tier-4 skill (none, range 3, 1 cells, SP 120)",
+     "d5_info": "none, range 3, 1 cells, SP 120",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2902": {
+   "name": {
+    "@text": "f68139c2d08cfacb4f0469d741ea7e6a7e9db61bf657a0c3d25680a398cfe703"
+   },
+   "title": {
+    "@text": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+   },
+   "body": 2070,
+   "kind": "monster",
+   "donor": 2140,
+   "source_character": 2902,
+   "skills": [
+    {
+     "d1_id": 2071,
+     "d1_name": {
+      "@text": "d72e311c4ddaf4ac6f39136038420b3b01a9eefc09790efa74616ad8a65478d5"
+     },
+     "level": 5,
+     "d5_id": 12101,
+     "d5_name": {
+      "@text": "bb7b1a5202955684ff217a46cd10b6e5db4e494ed671ab3ba40eab6dfb70aae3"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 1 (source SP 6) -> D5 Eryngi Dance (none, range 3, 1 cells, SP 3)",
+     "d5_info": "none, range 3, 1 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2072,
+     "d1_name": {
+      "@text": "2d9b818f0e78400f436094a200485b333f4bbee83fbfbcbaca56c05a68c563d6"
+     },
+     "level": 15,
+     "d5_id": 12142,
+     "d5_name": {
+      "@text": "f211db68574074cb9763820b7dea2f68dc5aa5e550ce4802544c015be2434c12"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2140 own tier-2 skill (none, range 0, 8 cells, SP 16)",
+     "d5_info": "none, range 0, 8 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2073,
+     "d1_name": {
+      "@text": "63faebb494c84e362d8072c0b5f759b35e8de6e3ebe638882199ff43a7959684"
+     },
+     "level": 30,
+     "d5_id": 12173,
+     "d5_name": {
+      "@text": "7e40d5f3aceb445dd14131173c0b387efa33c8020740db32c776f3a6150c8859"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 3 (source SP 55) -> D5 Darkness Release (none, range 4, 3 cells, SP 48)",
+     "d5_info": "none, range 4, 3 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2074,
+     "d1_name": {
+      "@text": "f680be897ae960e618537b89d31fe5f17021463154215719dcb16cc3c07b4243"
+     },
+     "level": 50,
+     "d5_id": 12144,
+     "d5_name": {
+      "@text": "481b6d57f6cace5f9679f3b2515c33afa47c61127a8003f37352d1017e8cc078"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2140 own tier-4 skill (none, range 4, 8 cells, SP 120)",
+     "d5_info": "none, range 4, 8 cells, SP 120",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2903": {
+   "name": {
+    "@text": "7ba7568e8ee4ffc46394bc4efe4f754b25d33b3ad01b7a8142f1147cae88ced7"
+   },
+   "title": {
+    "@text": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+   },
+   "body": 2150,
+   "kind": "monster",
+   "donor": 2170,
+   "source_character": 2903,
+   "skills": [
+    {
+     "d1_id": 2151,
+     "d1_name": {
+      "@text": "6c2af6761c627b03020a8b184f6a495a8d7e43d73403c8748127e971c8834463"
+     },
+     "level": 5,
+     "d5_id": 12171,
+     "d5_name": {
+      "@text": "736776f93f7937763ed2515ba1d0121b090fd559543234b7dbaaf22ae5d7bd9e"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2170 own tier-1 skill (wind, range 0, 3 cells, SP 3)",
+     "d5_info": "wind, range 0, 3 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2152,
+     "d1_name": {
+      "@text": "9f058d9eb5eb613f3b31eba9a241d841ab0219f57267580561c8adced639a0aa"
+     },
+     "level": 15,
+     "d5_id": 12192,
+     "d5_name": {
+      "@text": "f603143c996a57d76df3f9e0ce997c3adc061b85b8c7013425cd78fc5ac640ef"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 2 (source SP 24) -> D5 Murder Stone Story (none, range 4, 1 cells, SP 16)",
+     "d5_info": "none, range 4, 1 cells, SP 16",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 2153,
+     "d1_name": {
+      "@text": "4c1e80409c4f601e3557b440b0af0f4e2b39decb9ac5531cd485e2565e1ae127"
+     },
+     "level": 30,
+     "d5_id": 22072,
+     "d5_name": {
+      "@text": "a02cfb2c41dfbba48537e6257e1ae00c7eb9983f9293484e2f9361b3964d1dba"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element fire, class physical, area medium, tier 3 (source SP 46) -> D5 Booming Meow Kick (fire, range 2, 9 cells, SP 64)",
+     "d5_info": "fire, range 2, 9 cells, SP 64",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 2154,
+     "d1_name": {
+      "@text": "f11ba616e1facd922b211d3d9d236599a668dfd2232132b4f7b941a55b90f689"
+     },
+     "level": 50,
+     "d5_id": 12174,
+     "d5_name": {
+      "@text": "349c2f1a34ba5db133be51772f85884f96c544cec4e898e019401a5772c456c7"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2170 own tier-4 skill (none, range 0, 5 cells, SP 120)",
+     "d5_info": "none, range 0, 5 cells, SP 120",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2904": {
+   "name": {
+    "@text": "060417372ee6fe35054c86db7690a5d334dd45f74666b99449b1f8246853f1f3"
+   },
+   "title": {
+    "@text": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+   },
+   "body": 2020,
+   "kind": "monster",
+   "donor": 2170,
+   "source_character": 2904,
+   "skills": [
+    {
+     "d1_id": 2021,
+     "d1_name": {
+      "@text": "8c283a9e3ec6a39a5018eef682d0f0f6c12fe5ca1b285b9224db3bd31c9f2c3e"
+     },
+     "level": 5,
+     "d5_id": 12021,
+     "d5_name": {
+      "@text": "6ffa6b8b1c9fa11cb67a0a54b7e3e175dfb7edcb8e8d322148a3b00affc4a842"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 1 (source SP 8) -> D5 Stone (none, range 0, 1 cells, SP 3)",
+     "d5_info": "none, range 0, 1 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2022,
+     "d1_name": {
+      "@text": "5af42e378458e37ed542ee011fa7bf52b72d9a59fb1f9520be1ce8cf0fec6a42"
+     },
+     "level": 15,
+     "d5_id": 12072,
+     "d5_name": {
+      "@text": "4043d0962883cf6cb3a799ca3f0aa8a854deed51dd575957be10e10849825467"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element fire, class physical, area wide, tier 2 (source SP 27) -> D5 Rolling Hairball (fire, range 4, 1 cells, SP 16)",
+     "d5_info": "fire, range 4, 1 cells, SP 16",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 2023,
+     "d1_name": {
+      "@text": "a30b7ee5a2bc6d54e8837237693c7c310f0322aaca7d27000fda8b40648d9a49"
+     },
+     "level": 30,
+     "d5_id": 12173,
+     "d5_name": {
+      "@text": "7e40d5f3aceb445dd14131173c0b387efa33c8020740db32c776f3a6150c8859"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2170 own tier-3 skill (none, range 4, 3 cells, SP 48)",
+     "d5_info": "none, range 4, 3 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2024,
+     "d1_name": {
+      "@text": "e95c2a9f1655cd562a9029aed3e87e22b8e5dcbeb5a9dd0585898aa506c983cd"
+     },
+     "level": 50,
+     "d5_id": 12213,
+     "d5_name": {
+      "@text": "4528790310b9110c9140881b51809e70f3d674ae3b591935ec3fc1242468fac6"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 4 (source SP 70) -> D5 Reckless Charge (none, range 0, 5 cells, SP 48)",
+     "d5_info": "none, range 0, 5 cells, SP 48",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2905": {
+   "name": {
+    "@text": "831547d9a96b40ebdaf0eccb905ac3ae0ed4d3662225ab4205e30f2ec3ebe02c"
+   },
+   "title": {
+    "@text": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+   },
+   "body": 2110,
+   "kind": "monster",
+   "donor": 2180,
+   "source_character": 2905,
+   "skills": [
+    {
+     "d1_id": 3721,
+     "d1_name": {
+      "@text": "69e450517a43ad1933e3ddf5e848e32002f3c0f167bfec32e7598576e2108c43"
+     },
+     "level": 5,
+     "d5_id": 22041,
+     "d5_name": {
+      "@text": "9f10891cb0ffadc684f55751cf9c31a753211a60028ee74541ca8476773e50c2"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 1 (source SP 12) -> D5 Rabbit Slicer (none, range 0, 1 cells, SP 8)",
+     "d5_info": "none, range 0, 1 cells, SP 8",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 3722,
+     "d1_name": {
+      "@text": "d9b75168223776da18825a53fb7c35470ae76cf07795892e5232e4a8e16eb4de"
+     },
+     "level": 15,
+     "d5_id": 12182,
+     "d5_name": {
+      "@text": "6b872f7e139e51da48dc23fa132ceb8aec41dfc90e1d362a14a0cb59170f9515"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2180 own tier-2 skill (fire, range 0, 5 cells, SP 16)",
+     "d5_info": "fire, range 0, 5 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3723,
+     "d1_name": {
+      "@text": "f0503b5bd5b71ac58dabdc5b6eeb9d07fbefed726a167269935f2944aefe309c"
+     },
+     "level": 30,
+     "d5_id": 12183,
+     "d5_name": {
+      "@text": "3aac3dcd54888bab4cb69a745fc8369b307f4a4c20f296d1219d8b12cbc07a12"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element fire, class physical, area wide, tier 3 (source SP 48) -> D5 Spiral Flame (fire, range 0, 4 cells, SP 48)",
+     "d5_info": "fire, range 0, 4 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3724,
+     "d1_name": {
+      "@text": "723754ec0d301e7b2779270a2bbb9acf9baf7c6364a031f33c32d079b7624ca6"
+     },
+     "level": 50,
+     "d5_id": 12043,
+     "d5_name": {
+      "@text": "4a69c4cd1bbedc1cdf3333373de1c1c7052aaf1bfcf33466c33c1d9e4545c664"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element fire, class physical, area wide, tier 4 (source SP 75) -> D5 Carrot Funnel (fire, range 3, 5 cells, SP 48)",
+     "d5_info": "fire, range 3, 5 cells, SP 48",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2907": {
+   "name": {
+    "@text": "b4053fbdf55448e8ac66387f14362bb3cb05a7d54177df37475b0eb8727c0003"
+   },
+   "title": {
+    "@text": "b4053fbdf55448e8ac66387f14362bb3cb05a7d54177df37475b0eb8727c0003"
+   },
+   "body": 1130,
+   "kind": "humanoid",
+   "donor": 1090,
+   "source_character": 2907,
+   "skills": [
+    {
+     "d1_id": 801,
+     "d1_name": {
+      "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+     },
+     "level": 1,
+     "d5_id": 1401,
+     "d5_name": {
+      "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 4",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 805,
+     "d1_name": {
+      "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+     },
+     "level": 7,
+     "d5_id": 1499,
+     "d5_name": {
+      "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 802,
+     "d1_name": {
+      "@text": "2a42559d1a8b74e32de4497006e61318a5a58d77285579ab0a386dae0facd380"
+     },
+     "level": 10,
+     "d5_id": 1402,
+     "d5_name": {
+      "@text": "2a42559d1a8b74e32de4497006e61318a5a58d77285579ab0a386dae0facd380"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 803,
+     "d1_name": {
+      "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+     },
+     "level": 25,
+     "d5_id": 1403,
+     "d5_name": {
+      "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 49",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 804,
+     "d1_name": {
+      "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+     },
+     "level": 50,
+     "d5_id": 1404,
+     "d5_name": {
+      "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 96",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2909": {
+   "name": {
+    "@text": "544bc4a38894b9ef63353d05a158d4b53ded817601d917dffbb85e35058039ee"
+   },
+   "title": {
+    "@text": "750db8444cd74ad2d575eba6df720f8e46b872e5b42858a78f51adacc1c27e01"
+   },
+   "body": 1110,
+   "kind": "humanoid",
+   "donor": 1060,
+   "source_character": 2909,
+   "skills": [
+    {
+     "d1_id": 701,
+     "d1_name": {
+      "@text": "c141faa80e43a11909f5736d1e767f12e1468aa06dadd446081746934e875fc3"
+     },
+     "level": 1,
+     "d5_id": 1001,
+     "d5_name": {
+      "@text": "c141faa80e43a11909f5736d1e767f12e1468aa06dadd446081746934e875fc3"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 4",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 811,
+     "d1_name": {
+      "@text": "932c0aca2e9956b1c1496f84f38eee46c3975a20e6a5ba57f420286f078c1213"
+     },
+     "level": 6,
+     "d5_id": 1501,
+     "d5_name": {
+      "@text": "932c0aca2e9956b1c1496f84f38eee46c3975a20e6a5ba57f420286f078c1213"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 812,
+     "d1_name": {
+      "@text": "480d4be7d61fe52bc31768ffaaffea7ad5db66ba8b699d30623c4726704cc646"
+     },
+     "level": 7,
+     "d5_id": 1502,
+     "d5_name": {
+      "@text": "480d4be7d61fe52bc31768ffaaffea7ad5db66ba8b699d30623c4726704cc646"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 702,
+     "d1_name": {
+      "@text": "9374cdd14b76f78b1d20d98b96be1630154f18d2779377b05a0d7e4538deb4de"
+     },
+     "level": 8,
+     "d5_id": 1002,
+     "d5_name": {
+      "@text": "9374cdd14b76f78b1d20d98b96be1630154f18d2779377b05a0d7e4538deb4de"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 813,
+     "d1_name": {
+      "@text": "6c8554b45f7129794d4792190ca1d8ec287c4b1413a55bbf62a0eee2ade3040a"
+     },
+     "level": 9,
+     "d5_id": 1503,
+     "d5_name": {
+      "@text": "6c8554b45f7129794d4792190ca1d8ec287c4b1413a55bbf62a0eee2ade3040a"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 814,
+     "d1_name": {
+      "@text": "92379b5967a9e70af681f35106f57f2bf9c5cc0dacae2c37e5e6c7e7e87e3746"
+     },
+     "level": 10,
+     "d5_id": 1504,
+     "d5_name": {
+      "@text": "92379b5967a9e70af681f35106f57f2bf9c5cc0dacae2c37e5e6c7e7e87e3746"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 703,
+     "d1_name": {
+      "@text": "04246efc6fb15c35c2b40d56c3bfdce62d51c8d6414bc57094b2499ab956eadc"
+     },
+     "level": 20,
+     "d5_id": 1003,
+     "d5_name": {
+      "@text": "04246efc6fb15c35c2b40d56c3bfdce62d51c8d6414bc57094b2499ab956eadc"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 49",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 704,
+     "d1_name": {
+      "@text": "f55d2c39d80437915e5a0fb981b72b1bacaba78ec1eb7d14c48ea56d7bace226"
+     },
+     "level": 40,
+     "d5_id": 1004,
+     "d5_name": {
+      "@text": "f55d2c39d80437915e5a0fb981b72b1bacaba78ec1eb7d14c48ea56d7bace226"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 96",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2910": {
+   "name": {
+    "@text": "1e66ab373880ff92fe5b604fe9d40805e0c0d368f18c30c4c6e578ebb8ec1342"
+   },
+   "title": {
+    "@text": "750db8444cd74ad2d575eba6df720f8e46b872e5b42858a78f51adacc1c27e01"
+   },
+   "body": 1030,
+   "kind": "humanoid",
+   "donor": 1040,
+   "source_character": 2910,
+   "skills": [],
+   "no_source_skills": true,
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2911": {
+   "name": {
+    "@text": "c84c7c52910260127029babbbde8856ab17004a93e175d3aed0f4a589702eea6"
+   },
+   "title": {
+    "@text": "750db8444cd74ad2d575eba6df720f8e46b872e5b42858a78f51adacc1c27e01"
+   },
+   "body": 1090,
+   "kind": "humanoid",
+   "donor": 1110,
+   "source_character": 2911,
+   "skills": [],
+   "no_source_skills": true,
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2912": {
+   "name": {
+    "@text": "97e9623661f2970acb41495153876df0836f6894398e2c45bb5a29d109ba9a46"
+   },
+   "title": {
+    "@text": "ab63c0d0657040400f5a49dadd7c211d9d502e8f71de3ace7736b5ac29d1e816"
+   },
+   "body": 1070,
+   "kind": "humanoid",
+   "donor": 1040,
+   "source_character": 2912,
+   "skills": [],
+   "no_source_skills": true,
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2914": {
+   "name": {
+    "@text": "654906467272c1c6dc49670ee028defd22718228afca7af12402f463f6e90aa0"
+   },
+   "title": {
+    "@text": "654906467272c1c6dc49670ee028defd22718228afca7af12402f463f6e90aa0"
+   },
+   "body": 1120,
+   "kind": "humanoid",
+   "donor": 1090,
+   "source_character": 2914,
+   "skills": [
+    {
+     "d1_id": 801,
+     "d1_name": {
+      "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+     },
+     "level": 1,
+     "d5_id": 1401,
+     "d5_name": {
+      "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 4",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 805,
+     "d1_name": {
+      "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+     },
+     "level": 7,
+     "d5_id": 1499,
+     "d5_name": {
+      "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 812,
+     "d1_name": {
+      "@text": "480d4be7d61fe52bc31768ffaaffea7ad5db66ba8b699d30623c4726704cc646"
+     },
+     "level": 9,
+     "d5_id": 1502,
+     "d5_name": {
+      "@text": "480d4be7d61fe52bc31768ffaaffea7ad5db66ba8b699d30623c4726704cc646"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 802,
+     "d1_name": {
+      "@text": "2a42559d1a8b74e32de4497006e61318a5a58d77285579ab0a386dae0facd380"
+     },
+     "level": 10,
+     "d5_id": 1402,
+     "d5_name": {
+      "@text": "2a42559d1a8b74e32de4497006e61318a5a58d77285579ab0a386dae0facd380"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 814,
+     "d1_name": {
+      "@text": "92379b5967a9e70af681f35106f57f2bf9c5cc0dacae2c37e5e6c7e7e87e3746"
+     },
+     "level": 15,
+     "d5_id": 1504,
+     "d5_name": {
+      "@text": "92379b5967a9e70af681f35106f57f2bf9c5cc0dacae2c37e5e6c7e7e87e3746"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 803,
+     "d1_name": {
+      "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+     },
+     "level": 25,
+     "d5_id": 1403,
+     "d5_name": {
+      "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 49",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 804,
+     "d1_name": {
+      "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+     },
+     "level": 50,
+     "d5_id": 1404,
+     "d5_name": {
+      "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 96",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "2915": {
+   "name": {
+    "@text": "0c7e120ba41e9e85bcc015e40799dc16c3ef0715fd6444fe7110f947b092ec45"
+   },
+   "title": {
+    "@text": "0c7e120ba41e9e85bcc015e40799dc16c3ef0715fd6444fe7110f947b092ec45"
+   },
+   "body": 1100,
+   "kind": "humanoid",
+   "donor": 1070,
+   "source_character": 2915,
+   "skills": [
+    {
+     "d1_id": 701,
+     "d1_name": {
+      "@text": "c141faa80e43a11909f5736d1e767f12e1468aa06dadd446081746934e875fc3"
+     },
+     "level": 1,
+     "d5_id": 1001,
+     "d5_name": {
+      "@text": "c141faa80e43a11909f5736d1e767f12e1468aa06dadd446081746934e875fc3"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 4",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 702,
+     "d1_name": {
+      "@text": "9374cdd14b76f78b1d20d98b96be1630154f18d2779377b05a0d7e4538deb4de"
+     },
+     "level": 8,
+     "d5_id": 1002,
+     "d5_name": {
+      "@text": "9374cdd14b76f78b1d20d98b96be1630154f18d2779377b05a0d7e4538deb4de"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 813,
+     "d1_name": {
+      "@text": "6c8554b45f7129794d4792190ca1d8ec287c4b1413a55bbf62a0eee2ade3040a"
+     },
+     "level": 9,
+     "d5_id": 1503,
+     "d5_name": {
+      "@text": "6c8554b45f7129794d4792190ca1d8ec287c4b1413a55bbf62a0eee2ade3040a"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 811,
+     "d1_name": {
+      "@text": "932c0aca2e9956b1c1496f84f38eee46c3975a20e6a5ba57f420286f078c1213"
+     },
+     "level": 12,
+     "d5_id": 1501,
+     "d5_name": {
+      "@text": "932c0aca2e9956b1c1496f84f38eee46c3975a20e6a5ba57f420286f078c1213"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 703,
+     "d1_name": {
+      "@text": "04246efc6fb15c35c2b40d56c3bfdce62d51c8d6414bc57094b2499ab956eadc"
+     },
+     "level": 20,
+     "d5_id": 1003,
+     "d5_name": {
+      "@text": "04246efc6fb15c35c2b40d56c3bfdce62d51c8d6414bc57094b2499ab956eadc"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 49",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 704,
+     "d1_name": {
+      "@text": "f55d2c39d80437915e5a0fb981b72b1bacaba78ec1eb7d14c48ea56d7bace226"
+     },
+     "level": 40,
+     "d5_id": 1004,
+     "d5_name": {
+      "@text": "f55d2c39d80437915e5a0fb981b72b1bacaba78ec1eb7d14c48ea56d7bace226"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 96",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 705,
+     "d1_name": {
+      "@text": "eb62408ad8f622e620af6e14d9f640aa2210934df9ba795e1e73a0a92b048dc8"
+     },
+     "level": 100,
+     "d5_id": 1005,
+     "d5_name": {
+      "@text": "eb62408ad8f622e620af6e14d9f640aa2210934df9ba795e1e73a0a92b048dc8"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 128",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "3000": {
+   "name": {
+    "@text": "68095a464c5811446ed4128ab8bf4a2fa0e53ba9da9883f72912119662c958bc"
+   },
+   "title": {
+    "@text": "1e56767c5f9119ca9fa477c46a8f2eb427c0a4432eb39905e5a67078a8dfcfe7"
+   },
+   "body": 3000,
+   "kind": "monster",
+   "donor": 2130,
+   "source_character": 3000,
+   "skills": [
+    {
+     "d1_id": 804,
+     "d1_name": {
+      "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+     },
+     "level": 1,
+     "d5_id": 1404,
+     "d5_name": {
+      "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 96",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3001,
+     "d1_name": {
+      "@text": "57fb66663ccadf5ef9652b4314ac308c5c10562901adc669b84baf5065f2ad9b"
+     },
+     "level": 1,
+     "d5_id": 22102,
+     "d5_name": {
+      "@text": "10a0b337c2ee558d44de64ba99e6e31a335fc28146644d90c6965e039ca6c9e5"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 3 (source SP 65) -> D5 Shroom Skyscraper (none, range 0, 6 cells, SP 64)",
+     "d5_info": "none, range 0, 6 cells, SP 64",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 3002,
+     "d1_name": {
+      "@text": "08e353a4a6324f717a34f8013013d362c0fdcb55d5a07deeec24be4ad9c54629"
+     },
+     "level": 1,
+     "d5_id": 10763,
+     "d5_name": {
+      "@text": "08e353a4a6324f717a34f8013013d362c0fdcb55d5a07deeec24be4ad9c54629"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 9 cells, SP 72",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "3010": {
+   "name": {
+    "@text": "7bc2de40f1c6633d26630637c37449eaf5b488aca39bc52890a1cbd7e7e45856"
+   },
+   "title": {
+    "@text": "f28854498a03ea2c2454eac5c7765b970f8cda71eb7c89a99673a0705492c674"
+   },
+   "body": 3010,
+   "kind": "monster",
+   "donor": 2130,
+   "source_character": 3010,
+   "skills": [
+    {
+     "d1_id": 705,
+     "d1_name": {
+      "@text": "eb62408ad8f622e620af6e14d9f640aa2210934df9ba795e1e73a0a92b048dc8"
+     },
+     "level": 1,
+     "d5_id": 1005,
+     "d5_name": {
+      "@text": "eb62408ad8f622e620af6e14d9f640aa2210934df9ba795e1e73a0a92b048dc8"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 128",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 715,
+     "d1_name": {
+      "@text": "c863e4e5bd9abda3826fe7b7e8ada0bd0c0d26f96c0c057baf8a1b447dd982e6"
+     },
+     "level": 1,
+     "d5_id": 1105,
+     "d5_name": {
+      "@text": "c863e4e5bd9abda3826fe7b7e8ada0bd0c0d26f96c0c057baf8a1b447dd982e6"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "wind, range 0, 0 cells, SP 128",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 725,
+     "d1_name": {
+      "@text": "06cd08142ad561aa06c43450464cac2dfa0c4c5075fba2329ac71232dc3682fb"
+     },
+     "level": 1,
+     "d5_id": 1205,
+     "d5_name": {
+      "@text": "06cd08142ad561aa06c43450464cac2dfa0c4c5075fba2329ac71232dc3682fb"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "ice, range 0, 0 cells, SP 128",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 735,
+     "d1_name": {
+      "@text": "1e1a470d25745abc2cd5faeb0bdd6b2c28ccdde63cf1a89e04b48bcba751dfa9"
+     },
+     "level": 1,
+     "d5_id": 1305,
+     "d5_name": {
+      "@text": "1e1a470d25745abc2cd5faeb0bdd6b2c28ccdde63cf1a89e04b48bcba751dfa9"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "star, range 0, 0 cells, SP 128",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3011,
+     "d1_name": {
+      "@text": "bc802e97831bced7b549b0b9c4f6d0a8a624cebfcd58d4f388b07046f8ff37de"
+     },
+     "level": 1,
+     "d5_id": 12134,
+     "d5_name": {
+      "@text": "0d4587df3756baa44ff5547b8fbf5b0b620b81f8a697b78e78319c074d6e75fc"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2130 own tier-4 skill (ice, range 0, 9 cells, SP 120)",
+     "d5_info": "ice, range 0, 9 cells, SP 120",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "3050": {
+   "name": {
+    "@text": "99ce6cff092c7a5ef45fa77528d7156f3622b695d024808d28bb81543f9cf96c"
+   },
+   "title": {
+    "@text": "fa4a97a602fb0841da81aca3f3b89bb3358cedbfcae1abb6e426e471f8ac3218"
+   },
+   "body": 2160,
+   "kind": "monster",
+   "donor": 2040,
+   "source_character": 3050,
+   "skills": [
+    {
+     "d1_id": 2161,
+     "d1_name": {
+      "@text": "03ed95fa547508925e685043b18b3ef0dc2a251325f09a4341c551a3d1b01db2"
+     },
+     "level": 1,
+     "d5_id": 12141,
+     "d5_name": {
+      "@text": "03ed95fa547508925e685043b18b3ef0dc2a251325f09a4341c551a3d1b01db2"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 3, 1 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2162,
+     "d1_name": {
+      "@text": "a6583674d3ec803684fd5efa7d04d60f9d98850ce788fd82daec6c1a2d52a616"
+     },
+     "level": 1,
+     "d5_id": 12143,
+     "d5_name": {
+      "@text": "a6583674d3ec803684fd5efa7d04d60f9d98850ce788fd82daec6c1a2d52a616"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "wind, range 0, 5 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2163,
+     "d1_name": {
+      "@text": "f211db68574074cb9763820b7dea2f68dc5aa5e550ce4802544c015be2434c12"
+     },
+     "level": 1,
+     "d5_id": 12142,
+     "d5_name": {
+      "@text": "f211db68574074cb9763820b7dea2f68dc5aa5e550ce4802544c015be2434c12"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 8 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2164,
+     "d1_name": {
+      "@text": "9171b0197dface19a3bae785163cf3374bc22dd36d25d63ab3c8419f68d60d87"
+     },
+     "level": 1,
+     "d5_id": 12043,
+     "d5_name": {
+      "@text": "4a69c4cd1bbedc1cdf3333373de1c1c7052aaf1bfcf33466c33c1d9e4545c664"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2040 own tier-3 skill (fire, range 3, 5 cells, SP 48)",
+     "d5_info": "fire, range 3, 5 cells, SP 48",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "3060": {
+   "name": {
+    "@text": "99dd5ae7478fb55e39cc5ad82ca7b688826b7f2a46ec279ff3a5349e907ab955"
+   },
+   "title": {
+    "@text": "9395c7cf1cf3f5171560d13e39449630fb42925b74df3816bd6aa03a01ba064e"
+   },
+   "body": 30,
+   "kind": "humanoid",
+   "donor": 1060,
+   "source_character": 3060,
+   "skills": [
+    {
+     "d1_id": 734,
+     "d1_name": {
+      "@text": "9cee196808341634fac7eb384406896b7a979b75def52e932316af7e5acfa96f"
+     },
+     "level": 1,
+     "d5_id": 1304,
+     "d5_name": {
+      "@text": "9cee196808341634fac7eb384406896b7a979b75def52e932316af7e5acfa96f"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "star, range 0, 0 cells, SP 96",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 802,
+     "d1_name": {
+      "@text": "2a42559d1a8b74e32de4497006e61318a5a58d77285579ab0a386dae0facd380"
+     },
+     "level": 1,
+     "d5_id": 1402,
+     "d5_name": {
+      "@text": "2a42559d1a8b74e32de4497006e61318a5a58d77285579ab0a386dae0facd380"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 16",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "3130": {
+   "name": {
+    "@text": "0dd62ce90c6e3973b3f8d52c1fb4387b4e5e06f49cad6593f36b6b8324eb8448"
+   },
+   "title": {
+    "@text": "d162c541d095bed7bdd131255ce4018771fbaf0cc2ddb8615fa318f45ae0ab7e"
+   },
+   "body": 2090,
+   "kind": "monster",
+   "donor": 2190,
+   "source_character": 3130,
+   "skills": [
+    {
+     "d1_id": 3551,
+     "d1_name": {
+      "@text": "46995f29f09ebb5f679ce83fdba669771ed1e17be0133524f132a9c801ae8e5e"
+     },
+     "level": 5,
+     "d5_id": 12031,
+     "d5_name": {
+      "@text": "4c5112948f709b18d293fdc4063e738e6b8abc8112e92a65e22b0201745131c9"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 1 (source SP 8) -> D5 Petite Slicer (none, range 0, 4 cells, SP 3)",
+     "d5_info": "none, range 0, 4 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3552,
+     "d1_name": {
+      "@text": "5cf4dcd5bd07dc1b72fef2d6f5e8edc546ad9d1d5c623395f608c5e1972a4b72"
+     },
+     "level": 15,
+     "d5_id": 12192,
+     "d5_name": {
+      "@text": "f603143c996a57d76df3f9e0ce997c3adc061b85b8c7013425cd78fc5ac640ef"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area medium, tier 2 (source SP 28) -> D5 Murder Stone Story (none, range 4, 1 cells, SP 16)",
+     "d5_info": "none, range 4, 1 cells, SP 16",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 3553,
+     "d1_name": {
+      "@text": "50f484e8ad4b2e577293fe53166082e9a6c59d94bef4e32999741234288c9fbd"
+     },
+     "level": 30,
+     "d5_id": 12143,
+     "d5_name": {
+      "@text": "a6583674d3ec803684fd5efa7d04d60f9d98850ce788fd82daec6c1a2d52a616"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element wind, class physical, area small, tier 3 (source SP 42) -> D5 Thunderbolt (wind, range 0, 5 cells, SP 48)",
+     "d5_info": "wind, range 0, 5 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3554,
+     "d1_name": {
+      "@text": "0e5a4bfb603171bb0504c082d28e606b5fb0050252aed40f969d0c88f58839b4"
+     },
+     "level": 50,
+     "d5_id": 12194,
+     "d5_name": {
+      "@text": "fadd95730c0a266af1e7f37aa59723734ce60dee1b1497afdfea3d5aaa36eb44"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2190 own tier-4 skill (star, range 0, 9 cells, SP 120)",
+     "d5_info": "star, range 0, 9 cells, SP 120",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "3140": {
+   "name": {
+    "@text": "4d38d03cf821c9033c07e543df89121a2b5fa729bc2a0a6bfae8c607eb81748d"
+   },
+   "title": {
+    "@text": "1e56767c5f9119ca9fa477c46a8f2eb427c0a4432eb39905e5a67078a8dfcfe7"
+   },
+   "body": 2190,
+   "kind": "monster",
+   "donor": 2180,
+   "source_character": 3140,
+   "skills": [
+    {
+     "d1_id": 3801,
+     "d1_name": {
+      "@text": "94ccbea7c427617fbbb1f30a9f03cce8274f3d77f55efdfa67a22b1bdf9b649b"
+     },
+     "level": 5,
+     "d5_id": 22031,
+     "d5_name": {
+      "@text": "5dc3867f985b2ad6a99d20f5801a86a7b12c45cf0c708392ba93aaf499ddc75c"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "same source skill as another character: same twin (see its row); none, range 0, 1 cells, SP 8",
+     "d5_info": "none, range 0, 1 cells, SP 8",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 3802,
+     "d1_name": {
+      "@text": "c0f410ca8fd6a485449e79d8a43bf03bbe9933a734e1f1f03cae4e17702fd794"
+     },
+     "level": 15,
+     "d5_id": 12042,
+     "d5_name": {
+      "@text": "08b0200acbe83b59acd6683f555b01954c8befc94d7059ec8ef73454fc4c36e3"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "same source skill as another character: same twin (see its row); none, range 0, 3 cells, SP 16",
+     "d5_info": "none, range 0, 3 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3803,
+     "d1_name": {
+      "@text": "b37aca482d44ee747b643c7e0ed23ac1455451254c2d5d89c915f1ece62c2357"
+     },
+     "level": 30,
+     "d5_id": 12103,
+     "d5_name": {
+      "@text": "97eded7541c85c8f8468a579ebb6ab2d147b49797983ef1fd341e9d3d09fa759"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "same source skill as another character: same twin (see its row); none, range 2, 1 cells, SP 48",
+     "d5_info": "none, range 2, 1 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 3804,
+     "d1_name": {
+      "@text": "e4fd348f3cdd14bf3194fc81430312469b85acf60fb3f1a41311fe9eecbf6b71"
+     },
+     "level": 50,
+     "d5_id": 12024,
+     "d5_name": {
+      "@text": "b8151657d0a8d0806e7d77fc9623373d0aaa518296f3817f122f91ab376c3a3d"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "same source skill as another character: same twin (see its row); none, range 0, 9 cells, SP 120",
+     "d5_info": "none, range 0, 9 cells, SP 120",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "3150": {
+   "name": {
+    "@text": "4298b765727c9f343d639e9d75e81646902bcbefa4e55d4ff3d64ed2dba861e1"
+   },
+   "title": {
+    "@text": "12f245fa0765e6ce09e2becf79155856fab5196712d832929eec5e8b67f9a68b"
+   },
+   "body": 1130,
+   "kind": "humanoid",
+   "donor": 1090,
+   "source_character": 3150,
+   "skills": [
+    {
+     "d1_id": 705,
+     "d1_name": {
+      "@text": "eb62408ad8f622e620af6e14d9f640aa2210934df9ba795e1e73a0a92b048dc8"
+     },
+     "level": 1,
+     "d5_id": 1005,
+     "d5_name": {
+      "@text": "eb62408ad8f622e620af6e14d9f640aa2210934df9ba795e1e73a0a92b048dc8"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 0 cells, SP 128",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 715,
+     "d1_name": {
+      "@text": "c863e4e5bd9abda3826fe7b7e8ada0bd0c0d26f96c0c057baf8a1b447dd982e6"
+     },
+     "level": 1,
+     "d5_id": 1105,
+     "d5_name": {
+      "@text": "c863e4e5bd9abda3826fe7b7e8ada0bd0c0d26f96c0c057baf8a1b447dd982e6"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "wind, range 0, 0 cells, SP 128",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 725,
+     "d1_name": {
+      "@text": "06cd08142ad561aa06c43450464cac2dfa0c4c5075fba2329ac71232dc3682fb"
+     },
+     "level": 1,
+     "d5_id": 1205,
+     "d5_name": {
+      "@text": "06cd08142ad561aa06c43450464cac2dfa0c4c5075fba2329ac71232dc3682fb"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "ice, range 0, 0 cells, SP 128",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 803,
+     "d1_name": {
+      "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+     },
+     "level": 1,
+     "d5_id": 1403,
+     "d5_name": {
+      "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 49",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 804,
+     "d1_name": {
+      "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+     },
+     "level": 1,
+     "d5_id": 1404,
+     "d5_name": {
+      "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 96",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 805,
+     "d1_name": {
+      "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+     },
+     "level": 1,
+     "d5_id": 1499,
+     "d5_name": {
+      "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "3160": {
+   "name": {
+    "@text": "7ef5b2bf10953bc5916a78d987383c8edad559d3539149068bffa81fd6a796db"
+   },
+   "title": {
+    "@text": "4ee4c93056bfc5bffcf2108c90cc605f4e3d0867827a47a58e637d5b8a850229"
+   },
+   "body": 1160,
+   "kind": "humanoid",
+   "donor": 1090,
+   "source_character": 3160,
+   "skills": [
+    {
+     "d1_id": 305,
+     "d1_name": {
+      "@text": "861a59821a30e17e52f475e853cfdd1e45993664123b06912fd1ca6bba369a09"
+     },
+     "level": 1,
+     "d5_id": 10583,
+     "d5_name": {
+      "@text": "d3b5a45098829728eb66ba2fa57c9a8128de8b223af9eedb5a09101b074a403c"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element wind, class physical, area wide, tier 4 (source SP 90) -> D5 Vanargandr (wind, range 0, 7 cells, SP 72)",
+     "d5_info": "wind, range 0, 7 cells, SP 72",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 306,
+     "d1_name": {
+      "@text": "485cd346e8e9c4588f4ad266847fde48733a0391dd67fdc09849f63acaee49fe"
+     },
+     "level": 1,
+     "d5_id": 10603,
+     "d5_name": {
+      "@text": "007f1dcd3440a9ef14c50555ca88f76c83e2f2bc3b164a47e5ef80f02eca0765"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element fire, class physical, area wide, tier 4 (source SP 120) -> D5 Prinny Kaiser XX (fire, range 0, 8 cells, SP 72)",
+     "d5_info": "fire, range 0, 8 cells, SP 72",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 735,
+     "d1_name": {
+      "@text": "1e1a470d25745abc2cd5faeb0bdd6b2c28ccdde63cf1a89e04b48bcba751dfa9"
+     },
+     "level": 1,
+     "d5_id": 1305,
+     "d5_name": {
+      "@text": "1e1a470d25745abc2cd5faeb0bdd6b2c28ccdde63cf1a89e04b48bcba751dfa9"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "star, range 0, 0 cells, SP 128",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 803,
+     "d1_name": {
+      "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+     },
+     "level": 1,
+     "d5_id": 1403,
+     "d5_name": {
+      "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 49",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 805,
+     "d1_name": {
+      "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+     },
+     "level": 1,
+     "d5_id": 1499,
+     "d5_name": {
+      "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 0 cells, SP 8",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "3170": {
+   "name": {
+    "@text": "b995e2a2a66cdda5350e7c8e6969ce6b1c6dfb947c804cb130320eacf284503f"
+   },
+   "title": {
+    "@text": "34cc93aaa1fd43d9ed3a96317e46979b3455489a6022987dba7af3db0fdb59eb"
+   },
+   "body": 2210,
+   "kind": "monster",
+   "donor": 2070,
+   "source_character": 3170,
+   "skills": [
+    {
+     "d1_id": 2211,
+     "d1_name": {
+      "@text": "0f6bcbdf20fda11c574f09902a3a08351b3744262dcea1b9f0aa7d12e238f037"
+     },
+     "level": 5,
+     "d5_id": 12011,
+     "d5_name": {
+      "@text": "0f6bcbdf20fda11c574f09902a3a08351b3744262dcea1b9f0aa7d12e238f037"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 3, 1 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2212,
+     "d1_name": {
+      "@text": "6b3e2d0c1108242d3a6a28b1af5dae1385fc4c1c30aa6b584eb17a1a90d8cf06"
+     },
+     "level": 20,
+     "d5_id": 12073,
+     "d5_name": {
+      "@text": "e3adb0d04e53feb23ca4039f071c038f9f3338ef718161181246d4a44293b098"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2070 own tier-3 skill (none, range 0, 4 cells, SP 48)",
+     "d5_info": "none, range 0, 4 cells, SP 48",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 2213,
+     "d1_name": {
+      "@text": "f82536bc6e135448b396631ffb0645c0893504e0f60ebec9e6684f80a7d015e1"
+     },
+     "level": 35,
+     "d5_id": 12012,
+     "d5_name": {
+      "@text": "f82536bc6e135448b396631ffb0645c0893504e0f60ebec9e6684f80a7d015e1"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "fire, range 0, 5 cells, SP 16",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": 2214,
+     "d1_name": {
+      "@text": "38b4972da4d4aaf53899f1c8f576a160604b2153d75b03b993f6d4410ec9fded"
+     },
+     "level": 50,
+     "d5_id": 12013,
+     "d5_name": {
+      "@text": "38b4972da4d4aaf53899f1c8f576a160604b2153d75b03b993f6d4410ec9fded"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 8 cells, SP 48",
+     "motion_check": "fallback"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  },
+  "5390": {
+   "name": {
+    "@text": "1b24eaa48ce1a49136b45f84da175c14afb658d92c256e78ec7eed6ec124c531"
+   },
+   "title": {
+    "@text": "1d66331ed5744fbd4ba1281435ab62829dd35c3e5ce4bc361968f2501b67a869"
+   },
+   "body": 5390,
+   "kind": "monster",
+   "donor": 2050,
+   "source_character": 3,
+   "skills": [
+    {
+     "d1_id": 1021,
+     "d1_name": {
+      "@text": "2d0c6166a67f462b40dd1f763731a12ef3500f7e9d37f7163ad21ab1c6eec40f"
+     },
+     "level": 5,
+     "d5_id": 12112,
+     "d5_name": {
+      "@text": "919b8f09e524c30f075957998c197f91a4462147a1cf97b2a4488dbe2590d76b"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class heal, area wide, tier 1 (source SP 15) -> D5 Flower Dance (none, range 3, 5 cells, SP 16)",
+     "d5_info": "none, range 3, 5 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 1022,
+     "d1_name": {
+      "@text": "854542dcb669c9b95747ef978bd8e468d1d8421c5f8f808236771bd0b317b09c"
+     },
+     "level": 20,
+     "d5_id": 10532,
+     "d5_name": {
+      "@text": "854542dcb669c9b95747ef978bd8e468d1d8421c5f8f808236771bd0b317b09c"
+     },
+     "label": "exact",
+     "basis": "name",
+     "reason": "same ability name in the D5 skill table",
+     "d5_info": "none, range 0, 5 cells, SP 30",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 1023,
+     "d1_name": {
+      "@text": "1cedfc946d3a0073dbedb5cf4c907b218730c7e7ca400c07adce3c428e908b3c"
+     },
+     "level": 50,
+     "d5_id": 12054,
+     "d5_name": {
+      "@text": "a59648a58dbf2236100d09d37b8a9e85e775906c3f47a6067029f7fa08957a14"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "backlog": "own special",
+     "reason": "no D5 skill matches this source skill on element/class/area/tier with motions the body has; donor class 2050 own tier-4 skill (none, range 3, 1 cells, SP 120)",
+     "d5_info": "none, range 3, 1 cells, SP 120",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "variant of source character 3 (identical stat block), its learn list"
+  },
+  "5590": {
+   "name": {
+    "@text": "70d200583af284f6ab9c9bf7dbe508336a1080903a821887f532b1ae577e8cf4"
+   },
+   "title": {
+    "@text": "6b131a64140d91f82d2bc45cdcb81bc384cd0ccad5810d283bb8b5de4bba55fc"
+   },
+   "body": 50,
+   "kind": "humanoid",
+   "donor": 1080,
+   "source_character": 5,
+   "skills": [
+    {
+     "d1_id": 1041,
+     "d1_name": {
+      "@text": "1c00fee284d8440b7dedaf345c2316eb4740f0aecc2f13dfcd2624498d31e9b6"
+     },
+     "level": 5,
+     "d5_id": 10241,
+     "d5_name": {
+      "@text": "8cb3b611203535c8637d30ab16d8a5e2e665cfe5b912197193672803d8a75490"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area small, tier 1 (source SP 15) -> D5 Magic Bazooka (none, range 0, 4 cells, SP 10); variant of listing 5: same list",
+     "d5_info": "none, range 0, 4 cells, SP 10",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 1042,
+     "d1_name": {
+      "@text": "ed655e3e4f8e463028b16582794ca0730dec851aeb59a3a12c1804a9cbce6560"
+     },
+     "level": 20,
+     "d5_id": 10522,
+     "d5_name": {
+      "@text": "16efc582caa745a67f29b7704f8a2ef1f7f74344e95cf4933702c05051ec3810"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 3 (source SP 60) -> D5 Sexy Beam (none, range 0, 15 cells, SP 30); variant of listing 5: same list",
+     "d5_info": "none, range 0, 15 cells, SP 30",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": 1043,
+     "d1_name": {
+      "@text": "cca86ab3e0586effcb85b1348964648e3f04334eedf50bbf45e15702afcfffe2"
+     },
+     "level": 50,
+     "d5_id": 10243,
+     "d5_name": {
+      "@text": "c72a4a98f13fe6ed8e5eca17c74ac14c8736a4c6cc481f1ae29954e3d689916f"
+     },
+     "label": "adapted",
+     "basis": "mechanics",
+     "backlog": "own special",
+     "reason": "no same-named D5 skill: element none, class physical, area wide, tier 4 (source SP 70) -> D5 Mighty Commando (none, range 0, 9 cells, SP 72); variant of listing 5: same list",
+     "d5_info": "none, range 0, 9 cells, SP 72",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "variant of source character 5 (identical stat block), its learn list"
+  },
+  "6601": {
+   "name": {
+    "@text": "25eb92ae54cc5089e9b995f4176795d3c67d927069a3009a655c76cf0e447536"
+   },
+   "title": {
+    "@text": "41dfb81909ff4100813b4e80b812c4774ab825589e4abf09ca7b33bd0685ff15"
+   },
+   "body": 2560,
+   "kind": "monster",
+   "donor": 2120,
+   "source_character": 6601,
+   "skills": [
+    {
+     "d1_id": null,
+     "d1_name": null,
+     "level": 5,
+     "d5_id": 12121,
+     "d5_name": {
+      "@text": "1f025619e09198f0b4acbe957d796452fae381832777fba263c7139e2b6b5b85"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "reason": "the source gives this character no skills and its table stores no per-weapon forte (only a stat-growth block); donor class 2120 own monster skill",
+     "d5_info": "none, range 0, 1 cells, SP 3",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": null,
+     "d1_name": null,
+     "level": 15,
+     "d5_id": 12122,
+     "d5_name": {
+      "@text": "36af480796ff7b1064613e8e5c9b6738d6f8caab9858712b940a888b705cbde9"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "reason": "the source gives this character no skills and its table stores no per-weapon forte (only a stat-growth block); donor class 2120 own monster skill",
+     "d5_info": "none, range 0, 4 cells, SP 16",
+     "motion_check": "ok"
+    },
+    {
+     "d1_id": null,
+     "d1_name": null,
+     "level": 30,
+     "d5_id": 12123,
+     "d5_name": {
+      "@text": "373359cadb4584b66ad725b82fa278b452a7213a6a2ce309260982c18583e6ba"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "reason": "the source gives this character no skills and its table stores no per-weapon forte (only a stat-growth block); donor class 2120 own monster skill",
+     "d5_info": "none, range 0, 5 cells, SP 48",
+     "motion_check": "fallback"
+    },
+    {
+     "d1_id": null,
+     "d1_name": null,
+     "level": 50,
+     "d5_id": 12124,
+     "d5_name": {
+      "@text": "92f97c11b5a77828f5c734ed069cf577f1c3f6e4b3a2cc0b8f396e39596a2e95"
+     },
+     "label": "donor",
+     "basis": "donor",
+     "reason": "the source gives this character no skills and its table stores no per-weapon forte (only a stat-growth block); donor class 2120 own monster skill",
+     "d5_info": "none, range 3, 1 cells, SP 120",
+     "motion_check": "ok"
+    }
+   ],
+   "source": "Disgaea Source Switch start.dat[43] learn slots"
+  }
+ }
+}

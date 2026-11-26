@@ -1,0 +1,216 @@
+{
+  "schema": 1,
+  "game": "dd2",
+  "edition": "Disgaea D2: A Brighter Darkness PS3 BLUS31313, local 1.40/DLC archives",
+  "about": "Reviewed Disgaea D2 -> D5 mappings for the source-neutral DD2 importer (d5lib/nativeimports.py). Read docs/DD2_IMPORT.md before editing. relation: exact = same rule on the same element; adapted = closest D5 effect (D5's code AND numbers retained, the difference named in the note); lookalike = the name/role only, the D5 rule behaves differently and its own text is shown; omit = not imported. Every donor id below was read from the user's own D5 Skill.dat/magic.dat; the read evidence is recorded in Research/source-packs/dd2/slice/packet/d5-donors.json. DD2 source ids and the evidence for them are in skills-evilities.json beside it.",
+  "allocations": {
+    "about": "Fixed product ids for this pack, so a rebuild reproduces the same rows. Verified free in the vanilla tables and against every supplied mods root before a row is written; an occupied id refuses rather than renumbering.",
+    "skills_base": 39101,
+    "evilities_base": 9101,
+    "skills": {
+      "10081": 39101,
+      "10082": 39102,
+      "12181": 39103,
+      "12182": 39104,
+      "12183": 39105,
+      "12184": 39106
+    },
+    "evilities": {
+      "2180": 9101,
+      "2181": 9102,
+      "2182": 9103,
+      "80": 9104
+    }
+  },
+  "skills": {
+    "10081": {
+      "dd2_name": {
+        "@text": "cd4c065250cc82dbc2b761d052248a580ebc152c1bd833254f4811d1ef08a956"
+      },
+      "dd2_desc": {
+        "@text": "47bfbe30a4934c6557a815f480c5675295947e67ad05366f60191077f26ef29c"
+      },
+      "copy_of": 10111,
+      "copy_of_name": {
+        "@text": "15c0612311672a900521b69298c1136986cc6e39b81859729e3572b36c7ef0a0"
+      },
+      "d5_element": 4,
+      "d5_sp_cost": 10,
+      "relation": "adapted",
+      "note": "Shared action role (a named single-target darkness attack); D5 execution, targeting, power, timing and scenes retained. DD2's own effect numbers are not decoded, so no power claim is made."
+    },
+    "10082": {
+      "dd2_name": {
+        "@text": "1cbe7d7be4a814884303e99bc92086a5c666ce62bdd1a904e13d44b00f2b1cd0"
+      },
+      "dd2_desc": {
+        "@text": "14b8808f03881c235d8d37ecd8b1413dd6d11f0e480d64678032b11f013573b5"
+      },
+      "copy_of": 10811,
+      "copy_of_name": {
+        "@text": "2f2e2c89dc80989d9c7e77d753c494aaa46e6d52f5aeb58f6f03217404b16062"
+      },
+      "d5_element": 4,
+      "d5_sp_cost": 72,
+      "relation": "adapted",
+      "note": "Second tier of the same darkness attack role; D5 numbers retained. Not a claim that the two skills are equivalent."
+    },
+    "12181": {
+      "dd2_name": {
+        "@text": "094d4939d320f665ca5b2c336267ed54de7786e496b3e27ea46f922ad83be35c"
+      },
+      "dd2_desc": {
+        "@text": "21369dee7c4775d23fdd5af56a2071add61ccccd61e32b06661946f2eebb696e"
+      },
+      "copy_of": 12131,
+      "copy_of_name": {
+        "@text": "7aea90544d4a3e4665a87da8d91ac85cf97a925e1a647e72d354fd804a21b30a"
+      },
+      "d5_element": 3,
+      "d5_sp_cost": 3,
+      "relation": "adapted",
+      "note": "First tier of D5's water monster-skill series (element 3, the element D5's own evilities call water); tier order follows the DD2 learn levels 8/28/56/112. D5 numbers retained."
+    },
+    "12182": {
+      "dd2_name": {
+        "@text": "b3cb9ed2eedd0a74732046156d57bccd131ff7ed67334377cc48383ea36edccc"
+      },
+      "dd2_desc": {
+        "@text": "b04d09ebf452d4f2b870ff12bb1cf67926bd57b3ea58d7f2d4348279601ec2d4"
+      },
+      "copy_of": 12132,
+      "copy_of_name": {
+        "@text": "410db370ecd1dd936049e2144fd8e0698f455a892cec907ed179b7dd116add21"
+      },
+      "d5_element": 3,
+      "d5_sp_cost": 16,
+      "relation": "adapted",
+      "note": "Second tier of the same water monster-skill series; D5 numbers retained."
+    },
+    "12183": {
+      "dd2_name": {
+        "@text": "a52b47c2f56d847392beedeade02871b9e1334922baad46a0e919531e58a7f96"
+      },
+      "dd2_desc": {
+        "@text": "4fd0922aa787f7fd4a9b4a29cf89c0e5b9bcab41fbe796fb5df6cd451fd9c504"
+      },
+      "copy_of": 12133,
+      "copy_of_name": {
+        "@text": "9334d7ce058df4ea7a83867a08c6693b53eaaae37f558a5bb463273cd35b8247"
+      },
+      "d5_element": 0,
+      "d5_sp_cost": 48,
+      "relation": "adapted",
+      "note": "Third tier by cost (48 SP). Disclosed mismatch: this donor is non-elemental where the DD2 skill is a water vortex; the next ice donor (12134) is the fourth tier, so the tier was kept and the element difference recorded instead of silently swapping tiers."
+    },
+    "12184": {
+      "dd2_name": {
+        "@text": "9e94a4031d84f60f88cea30bf7e4775fc7ad91d6efa695e7ebcaf1d7b0f827bd"
+      },
+      "dd2_desc": {
+        "@text": "16eadb1f214cb6ea376bc4fe6d87d2a5be8920c3202c72de2a99675fe1791a4b"
+      },
+      "copy_of": 12134,
+      "copy_of_name": {
+        "@text": "0d4587df3756baa44ff5547b8fbf5b0b620b81f8a697b78e78319c074d6e75fc"
+      },
+      "d5_element": 3,
+      "d5_sp_cost": 120,
+      "relation": "adapted",
+      "note": "Fourth tier of the same water series; D5 numbers retained."
+    },
+    "32181": {
+      "dd2_name": {
+        "@text": "72646dfcbb7cd71c1390246298e25afcb21d558162be8f2b90d601d85eb9ec49"
+      },
+      "dd2_desc": {
+        "@text": "b3eca7410f8bd976acc7d2b39595a2d91ad96d5d468b0f5ce8f9ce2adc9f9610"
+      },
+      "relation": "omit",
+      "reason": "Mounted-only (magichange) skill with no D5 learnable counterpart; D5 magichange skills are chosen by the weapon, not learned from a class row. Omitted rather than mapped onto an unrelated attack."
+    },
+    "10083": {
+      "relation": "omit",
+      "reason": "Source id is absent from magic.dat in every DD2 archive (START, START_1, START_2, START_4), so the skill has no name or description to import. Not remapped."
+    }
+  },
+  "evilities": {
+    "2180": {
+      "dd2_name": {
+        "@text": "62ba3e3521772075e83870e1c9d21605c08e363fb1df00f3226338907522b3be"
+      },
+      "dd2_desc": {
+        "@text": "448702fe7add79ab21e1a13b3ae7d530cfb3a9fd28973d60a9f9dca668638a53"
+      },
+      "works_like": 4016,
+      "works_like_name": {
+        "@text": "c2474c18eaa7603a69abd552b2b9a38d1351cbf979d46ce6026f5cbe5105a42f"
+      },
+      "d5_desc": {
+        "@text": "1133b163c8713b1cdc417a045b7847a2bc337e36bffdbb97c6d46db7de23885c"
+      },
+      "relation": "exact",
+      "note": "Same rule on the same element: D5 element 3 is the element its own evilities name water. The alias carries D5's rule, which is a nullify, matching the source text exactly. Native equivalence is still unproven until gameplay."
+    },
+    "2181": {
+      "dd2_name": {
+        "@text": "62ddef20d5ccd6a90fabd23dbd431e28b2816b057105757ef2ba9b741bc12549"
+      },
+      "dd2_desc": {
+        "@text": "5cc51bc3c166eda4067f38554d990da08760215807c256b421b4bd9f69b2f3fa"
+      },
+      "works_like": 10,
+      "works_like_name": {
+        "@text": "72b20540a1fb03d1ca59f7a7f0dfe4b6290caa5f362d60cc2827fecec7e49c3c"
+      },
+      "d5_desc": {
+        "@text": "919b65260b6ca2fa515c6937c1ee202c25ba1d5b1634b316fb7048e41ce80493"
+      },
+      "relation": "lookalike",
+      "note": "Nearest D5 rule is stats-on-event, but the trigger differs: War Demon counts this unit's own attacks, the DD2 rule counts any water skill used on the map. The donor's own text is shown, so the description states what the unit really gets. The exact trigger needs an engine extension (see Subprojects/Engine-Extensions/dd2-evility-map)."
+    },
+    "2182": {
+      "dd2_name": {
+        "@text": "3586ed45d17f62f2c7d0d0068991cab22b12735e0662f41c67ceac633dcbafbb"
+      },
+      "dd2_desc": {
+        "@text": "852ecc9a98eed00dd77ba1d6fad359a6d04e3e17a8a83a65e20de80c7da256bf"
+      },
+      "works_like": 4013,
+      "works_like_name": {
+        "@text": "26b25342a67cb26b34904d11d5d7a21e9316d65a0921ef58ac8102576d62f394"
+      },
+      "d5_desc": {
+        "@text": "402ea4c86766f559982cb742c513931e3bbe4904bee4325d9d97eaead0f6e6c6"
+      },
+      "relation": "adapted",
+      "note": "Same stat and same map scope, but the donor lowers every other unit while the DD2 rule names enemy units only, and D5's stored magnitude is used. Difference disclosed in the help text block; the donor text is shown."
+    },
+    "80": {
+      "dd2_name": {
+        "@text": "ed1d08294a21cc37ad03ac2c44fc0c8e8c69ca2b6f2f8f620a25a6e2308aa196"
+      },
+      "dd2_desc": {
+        "@text": "4f08764b722e44534bd1e1a8bdcfbdfb089edadc6291564b5404a226cca0d91f"
+      },
+      "works_like": 143,
+      "works_like_name": {
+        "@text": "7469dc3c8c37bc4ba42571b618a75587a71a8d1b54b6dfd64248e96dc4a826c2"
+      },
+      "d5_desc": {
+        "@text": "42b4fa02ae2a0e58c36c5b1f2a670bd09645042119bcfc53fc6a956526c02f04"
+      },
+      "relation": "lookalike",
+      "note": "Both punish attackers, but the amount differs in kind: the DD2 rule is a percentage of the unit's own max HP, the D5 rule is a percentage of the damage taken. Donor text is shown; no max-HP reflection exists in D5 without an engine extension."
+    },
+    "81": {
+      "relation": "omit",
+      "reason": "Source name and description are the placeholder '？？？？？' - there is no reviewed effect to map. Inventing one would be fabrication."
+    }
+  },
+  "voice": {
+    "status": "unproven",
+    "product": "The donor template's voice_id is inherited per rank, which is what the installed 2026-10-19 slice does.",
+    "note": "DD2's voice banks (Data/SOUND/SndPakVoice*) are anonymous 8-byte index tables with no names or group ids, no local native reader exists, and no char.dat column was shown to index them. The audio itself is copyrighted game data and is never decoded, copied or shipped. A faithful source voice therefore cannot be claimed; the D5 template voice is an explicit adaptation, not a mapping."
+  }
+}

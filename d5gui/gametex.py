@@ -15,17 +15,37 @@ ROLE = Qt.ItemDataRole.UserRole
 UI_TEX = "Start/Start_JP.dat/Texture.dat"
 
 
+class Skin:
+    """a block skin of the game: NNN_amap_01.txf is a block top (320 x 256: the tiled top in the left 256 x 256 and
+    its outline pieces in the right strip -- the stone blocks' 160 x 128 top at twice the size) and NNN_amap_02.txf
+    its sides (256 x 64: the blocks' 128 x 32 wall strip at twice the size)"""
+
+    def __init__(self, label, top, side=None):
+        self.label, self.top, self.side = label, top, side
+
+    def thumb(self):
+        return self.top.crop((0, 0, min(256, self.top.width), min(256, self.top.height)))
+
+
 def ground_tiles(fs):
-    """[(label, PIL image)]: the left 256 x 256 of every NNN_amap_01.txf (seamless Netherworld grounds)"""
+    """[(label, Skin)]: every NNN_amap_01.txf with its NNN_amap_02.txf (the Netherworld grounds and their sides)"""
     out = []
-    for n in sorted(fs.children(UI_TEX)):
+    names = set(fs.children(UI_TEX))
+    for n in sorted(names):
         if not n.endswith("_amap_01.txf"):
             continue
         try:
-            img = txf.to_image(fs.read(f"{UI_TEX}/{n}")).convert("RGBA")
+            top = txf.to_image(fs.read(f"{UI_TEX}/{n}")).convert("RGBA")
         except Exception:
             continue
-        out.append((f"Ground {n[:3]}", img.crop((0, 0, min(256, img.width), min(256, img.height)))))
+        side = None
+        n2 = n.replace("_amap_01", "_amap_02")
+        if n2 in names:
+            try:
+                side = txf.to_image(fs.read(f"{UI_TEX}/{n2}")).convert("RGBA")
+            except Exception:
+                side = None
+        out.append((f"Ground {n[:3]}", Skin(f"Ground {n[:3]}", top, side)))
     return out
 
 
@@ -46,10 +66,18 @@ def stage_textures(fs, map_id):
 
 
 def fit(img, target_entry):
-    """the picture made for a block texture: a 160 x 128 stone top keeps its own right strip (the left 128 x 128 is
-    the tiled top); a wide strip (walls, 128 x 32) is cropped from the picture, not squashed; others are scaled"""
+    """the picture made for a block texture.  A game skin (Skin): its top for a top (outline included), its side
+    texture for a wall strip.  Any other picture: a 160 x 128 stone top keeps its own right strip (the left
+    128 x 128 is the tiled top); a wide strip (walls, 128 x 32) is cropped from the picture, not squashed; others
+    are scaled"""
     t = obf.Texture(target_entry)
     W, H = t.width, t.height
+    if isinstance(img, Skin):
+        if W >= 2 * H and img.side is not None:
+            return img.side.resize((W, H), Image.Resampling.LANCZOS)
+        if abs(W / H - img.top.width / img.top.height) < 0.05:
+            return img.top.resize((W, H), Image.Resampling.LANCZOS)
+        img = img.thumb()
     if (W, H) == (160, 128):
         try:
             own = t.to_image().convert("RGBA")
@@ -86,7 +114,7 @@ class GameTextureDialog(QDialog):
         lay.addLayout(row)
         self.list = QListWidget()
         self.list.setViewMode(QListView.ViewMode.IconMode)
-        self.list.setIconSize(QSize(128, 128))
+        self.list.setIconSize(QSize(128, 160))
         self.list.setResizeMode(QListView.ResizeMode.Adjust)
         self.list.setSpacing(6)
         self.list.itemDoubleClicked.connect(lambda _: self.accept())
@@ -111,8 +139,14 @@ class GameTextureDialog(QDialog):
             if self.source.currentData() != mid:
                 return
             for label, img in items:
-                it = QListWidgetItem(QIcon(pil_to_pixmap(img.resize((128, 128)) if img.width != img.height
-                                                         else img.resize((128, 128)))), label)
+                th = img.thumb() if isinstance(img, Skin) else img
+                if isinstance(img, Skin) and img.side is not None:      # the top over its side, like a block
+                    pic = Image.new("RGBA", (128, 160), (0, 0, 0, 0))
+                    pic.paste(th.resize((128, 128)), (0, 0))
+                    pic.paste(img.side.resize((128, 32)), (0, 128))
+                    th = pic
+                it = QListWidgetItem(QIcon(pil_to_pixmap(th.resize((128, 160) if th.height > th.width
+                                                                   else (128, 128)))), label)
                 it.setData(ROLE, img)
                 it.setToolTip(label)
                 self.list.addItem(it)

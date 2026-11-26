@@ -10,6 +10,8 @@ Command line (prints the answer):
     python tools/d5ctl.py shot out.png [scale]
     python tools/d5ctl.py keys K S S K
     python tools/d5ctl.py launch           start the game (if needed) and wait for the harness
+    python tools/d5ctl.py facility list    the 18 Pocket Netherworld facilities; `facility recruiter` opens one
+    python tools/d5ctl.py giveup           leave the battle for the base (its progress is lost)
     python tools/d5ctl.py <any harness command ...>
 """
 import json
@@ -107,6 +109,21 @@ class Ctl:
 
     def wr(self, addr, data):
         return self.cmd(f"wr {addr:x} {bytes(data).hex()}")
+
+    def facility(self, name):
+        """open a Pocket Netherworld facility natively (`facility list` names them); raises with the reason
+        the runtime refused it (build/signatures, unlock flags, base not idle)"""
+        r = self.cmd(f"facility {name}")
+        if not r.get("ok"):
+            raise RuntimeError(f"facility {name}: {r.get('reason') or r.get('error') or r}")
+        return r
+
+    def giveup(self):
+        """leave the battle for the base, its progress lost (Give Up -> Pocket Netherworld, without the menu)"""
+        r = self.cmd("giveup")
+        if not r.get("ok"):
+            raise RuntimeError(f"giveup: {r.get('reason') or r.get('error') or r}")
+        return r
 
     def shot(self, out_png, scale=0.5, crop=None):
         from PIL import Image

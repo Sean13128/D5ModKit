@@ -1,0 +1,702 @@
+{
+ "mode": "abi-site-entry",
+ "build": {
+  "families": [
+   1350,
+   1360
+  ],
+  "slots": {
+   "1350": 47,
+   "1360": 48
+  },
+  "section": ".d5cm",
+  "base": "0x14808f000",
+  "size": 249004,
+  "original_sha256": "49a7530baa1c3e15e4bf9c63c56fefd71d7e51a6e641bce80280b37b2db282ce",
+  "patched_sha256": "d616e83c07bc1f23cba231f2a8559d22e50531bc394812b06fde889c91446480",
+  "mapper_sites": 16
+ },
+ "checks": [
+  {
+   "name": "mapper-vanilla-identical-and-custom-slots",
+   "ok": true,
+   "detail": {
+    "sites": 16,
+    "comparisons": 296,
+    "slots": {
+     "1350": 47,
+     "1360": 48
+    }
+   }
+  },
+  {
+   "name": "award-custom-family-gets-xp-vanilla-identical",
+   "ok": true,
+   "detail": {
+    "unpatched": {
+     "slot47": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "slot0": [
+      99,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "bonuses": [
+      10,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "instructions": 60
+    },
+    "patched": {
+     "slot47": [
+      8,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "slot0": [
+      99,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "bonuses": [
+      10,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "instructions": 336
+    },
+    "threshold": {
+     "counters": [
+      64,
+      4,
+      0,
+      0,
+      0,
+      0
+     ],
+     "bonuses": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+     ]
+    }
+   }
+  },
+  {
+   "name": "subclass-passed-to-writer",
+   "ok": true,
+   "detail": {
+    "native class, custom subclass": 1350,
+    "native class, vanilla subclass": 1030,
+    "native class, subclass 0": 1010,
+    "native class, unconfigured 1370": 1010,
+    "native class, monster subclass": 2015,
+    "custom class, subclass 0 (unchanged)": 0
+   }
+  },
+  {
+   "name": "subclass-list-extended",
+   "ok": true,
+   "detail": {
+    "vanilla": 47,
+    "extended": {
+     "47": 1350,
+     "48": 1360,
+     "49": 0,
+     "60": 0
+    },
+    "row_cap": {
+     "47": 0,
+     "48": 0
+    },
+    "gate": {
+     "1010": 1,
+     "1320": 1,
+     "1350": 1,
+     "1355": 1,
+     "1360": 1,
+     "1370": 1
+    },
+    "gate_unwidened_1350": 0,
+    "bound": 49
+   }
+  },
+  {
+   "name": "persistence-record-round-trip-and-side-table",
+   "ok": true,
+   "detail": {
+    "saved_1350_rank0": 18,
+    "reloaded_1350": 18,
+    "reloaded_1351": 0,
+    "reloaded_1363": 7,
+    "reloaded_1365": 0,
+    "vanilla_1010": 0,
+    "vanilla_1015": 0,
+    "vanilla_2010": 0,
+    "vanilla_save_custom_reads": 0,
+    "side_table": {
+     "bytes": 384,
+     "units": 2,
+     "families": 3,
+     "native_range_refused": true,
+     "tamper_refused": true
+    }
+   }
+  },
+  {
+   "name": "six-custom-families-independent-slots",
+   "ok": true,
+   "detail": {
+    "slots": {
+     "1350": 47,
+     "1360": 48,
+     "1370": 49,
+     "1380": 50,
+     "1390": 51,
+     "1400": 52
+    },
+    "mapper": {
+     "1350": 47,
+     "1360": 48,
+     "1370": 49,
+     "1380": 50,
+     "1390": 51,
+     "1400": 52
+    },
+    "awarded": {
+     "1350": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1360": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1370": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1380": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1390": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1400": [
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "seventh_family": "refused"
+   }
+  },
+  {
+   "name": "vanilla-only-save-untouched",
+   "ok": true,
+   "detail": {
+    "identical": "cc74717e8d0b9c37f7413925fc89123f2e350af031f41979aff98fe136560092",
+    "session": [
+     "1010+5",
+     "1020+5",
+     "1035+5",
+     "1150+5",
+     "2010+5",
+     "2100+5"
+    ],
+    "spare_slots_zero": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "name": "d4-armor-knight-family-1350-1355",
+   "ok": true,
+   "detail": {
+    "mapper": {
+     "1350": 47,
+     "1351": 47,
+     "1352": 47,
+     "1353": 47,
+     "1354": 47,
+     "1355": 47
+    },
+    "award": {
+     "1350": [
+      4,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1351": [
+      8,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1352": [
+      12,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1353": [
+      16,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1354": [
+      20,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "1355": [
+      24,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    },
+    "read": {
+     "1350": 24,
+     "1351": 0,
+     "1352": 0,
+     "1353": 0,
+     "1354": 0,
+     "1355": 0
+    },
+    "vanilla_family_identical": {
+     "family": 1150,
+     "slot": 14,
+     "counters": [
+      24,
+      20,
+      16,
+      12,
+      8,
+      4
+     ]
+    },
+    "unpatched_awards_nothing": true,
+    "subclass_gate": [
+     1350,
+     1351,
+     1352,
+     1353,
+     1354,
+     1355
+    ],
+    "screen_index_47": 1350
+   }
+  },
+  {
+   "name": "award-order-one-star-at-a-time",
+   "ok": true,
+   "detail": {
+    "rank5_partial": [
+     7,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "completion_overflow": [
+     64,
+     36,
+     0,
+     0,
+     0,
+     0
+    ],
+    "second_overflow": [
+     64,
+     256,
+     80,
+     0,
+     0,
+     0
+    ],
+    "walk_complete_star": [
+     64,
+     256,
+     2,
+     0,
+     0,
+     0
+    ],
+    "stale_parallel_retained": [
+     64,
+     14,
+     5,
+     0,
+     0,
+     0
+    ],
+    "explicit_call_0x1517fc": [
+     7,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "explicit_vanilla": {
+     "slot": 14,
+     "counters": [
+      7,
+      7,
+      7,
+      7,
+      7,
+      7
+     ]
+    },
+    "selected_subclass_1355": [
+     7,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "own_class_selected_wrapper_target": 0,
+    "own_class_path_note": "register bound 0x122/0x136 is the class lane's; explicit call (f) is the award path"
+   }
+  },
+  {
+   "name": "prefix-wrapper-reproduces-the-cascade",
+   "ok": true,
+   "detail": {
+    "partial": [
+     7,
+     7,
+     7,
+     7,
+     7,
+     7
+    ],
+    "one_completion": [
+     64,
+     36,
+     36,
+     36,
+     36,
+     36
+    ],
+    "two_completions": [
+     64,
+     256,
+     80,
+     80,
+     80,
+     80
+    ],
+    "stale_parallel": [
+     64,
+     14,
+     9,
+     4,
+     4,
+     4
+    ],
+    "note": "the pre-fix wrapper is rebuilt here for the comparison; the fixed build is case 9"
+   }
+  },
+  {
+   "name": "abi-mapper-sites-call-entry",
+   "ok": true,
+   "detail": {
+    "sites": 16,
+    "runs": 64,
+    "max_instructions": 29,
+    "answer_in_rax": true,
+    "writer_site": "0x14015f500",
+    "writer_r10": {
+     "1350": 1350,
+     "1355": 1350,
+     "1300": 52584165073223680,
+     "1010": 52584165073223680
+    },
+    "other_sites_r10_untouched": true,
+    "wrapper": "0x14808f010",
+    "first": [
+     {
+      "site": "0x1400b3ce8",
+      "cls": 1350,
+      "want": 47,
+      "got": 47,
+      "r10": 52584165073223680,
+      "want_r10": 52584165073223680,
+      "instructions": 28,
+      "calls": 2
+     },
+     {
+      "site": "0x1400b3ce8",
+      "cls": 1355,
+      "want": 47,
+      "got": 47,
+      "r10": 52584165073223680,
+      "want_r10": 52584165073223680,
+      "instructions": 28,
+      "calls": 2
+     },
+     {
+      "site": "0x1400b3ce8",
+      "cls": 1300,
+      "want": 4294967295,
+      "got": 4294967295,
+      "r10": 52584165073223680,
+      "want_r10": 52584165073223680,
+      "instructions": 27,
+      "calls": 2
+     },
+     {
+      "site": "0x1400b3ce8",
+      "cls": 1010,
+      "want": 12,
+      "got": 12,
+      "r10": 52584165073223680,
+      "want_r10": 52584165073223680,
+      "instructions": 19,
+      "calls": 2
+     }
+    ]
+   }
+  },
+  {
+   "name": "abi-fetch-site-call-entry",
+   "ok": true,
+   "detail": {
+    "site": "0x140470bd0",
+    "runs": [
+     {
+      "index": 0,
+      "rows_in_use": 0,
+      "want": 1010,
+      "got": 1010,
+      "instructions": 6
+     },
+     {
+      "index": 25,
+      "rows_in_use": 0,
+      "want": 1260,
+      "got": 1260,
+      "instructions": 6
+     },
+     {
+      "index": 26,
+      "rows_in_use": 0,
+      "want": 2010,
+      "got": 2010,
+      "instructions": 6
+     },
+     {
+      "index": 46,
+      "rows_in_use": 0,
+      "want": 2210,
+      "got": 2210,
+      "instructions": 6
+     },
+     {
+      "index": 47,
+      "rows_in_use": 0,
+      "want": 1350,
+      "got": 1350,
+      "instructions": 10
+     },
+     {
+      "index": 48,
+      "rows_in_use": 0,
+      "want": 1360,
+      "got": 1360,
+      "instructions": 12
+     },
+     {
+      "index": 49,
+      "rows_in_use": 0,
+      "want": 0,
+      "got": 0,
+      "instructions": 13
+     },
+     {
+      "index": 60,
+      "rows_in_use": 0,
+      "want": 0,
+      "got": 0,
+      "instructions": 13
+     },
+     {
+      "index": 47,
+      "rows_in_use": 47,
+      "want": 0,
+      "got": 0,
+      "instructions": 8
+     },
+     {
+      "index": 48,
+      "rows_in_use": 47,
+      "want": 0,
+      "got": 0,
+      "instructions": 8
+     }
+    ],
+    "xmm_preserved": true,
+    "writes_outside_stack": 0,
+    "r15_is_the_only_output": true
+   }
+  },
+  {
+   "name": "abi-subclass-gate-jump-entry",
+   "ok": true,
+   "detail": {
+    "site": "0x140160e79",
+    "runs": [
+     {
+      "subclass": 1350,
+      "exit": "0x140160e89",
+      "accept": true,
+      "instructions": 14
+     },
+     {
+      "subclass": 1355,
+      "exit": "0x140160e89",
+      "accept": true,
+      "instructions": 14
+     },
+     {
+      "subclass": 1360,
+      "exit": "0x140160e89",
+      "accept": true,
+      "instructions": 17
+     },
+     {
+      "subclass": 1010,
+      "exit": "0x140160e89",
+      "accept": true,
+      "instructions": 11
+     },
+     {
+      "subclass": 2015,
+      "exit": "0x140160e89",
+      "accept": true,
+      "instructions": 7
+     },
+     {
+      "subclass": 1370,
+      "exit": "0x140160e8c",
+      "accept": false,
+      "instructions": 17
+     },
+     {
+      "subclass": 1349,
+      "exit": "0x140160e8c",
+      "accept": false,
+      "instructions": 17
+     },
+     {
+      "subclass": 2460,
+      "exit": "0x140160e8c",
+      "accept": false,
+      "instructions": 17
+     },
+     {
+      "subclass": 0,
+      "exit": "0x140160e8c",
+      "accept": false,
+      "instructions": 17
+     }
+    ],
+    "flags_unread": {
+     "accept": [],
+     "reject": [],
+     "fetch": []
+    },
+    "rsp_unchanged": true,
+    "no_call_edges": true
+   }
+  }
+ ],
+ "passed": true,
+ "limitations": [
+  "Original-game helpers that this proof replaces (DLC gate, class -> index, and in --abi mode the original mapper and callee) are stubs in the emulated copy.",
+  "Executed paths only; Windows unwind and native gameplay are not executed. The .d5cm unwind records are checked structurally (tests + exepatch), not by an exception dispatch.",
+  "The sub-class screen's row capacity (47) is enforced by the extension's own guard; a full screen lists the vanilla classes only.",
+  "The companion side-table codec (d5lib.classmastery) is exercised as bytes only; nothing installs or reads it."
+ ]
+}

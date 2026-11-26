@@ -1,0 +1,455 @@
+{
+ "schema": "d4-allocation/1",
+ "families": [
+  {
+   "source_family": 1010,
+   "registry_family": 14010,
+   "name": {
+    "@text": "eaf0fe0a362b58490e9d73c9584a36ef7353872dd1663afef4e2099b88bf56bf"
+   },
+   "sprite_family": 1270,
+   "template": 1010,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1020,
+   "registry_family": 14020,
+   "name": {
+    "@text": "f4fc2b23c5e19e5758fdcffd076e35808c6b4571ace242bb91d0828ba8b4268d"
+   },
+   "sprite_family": 1280,
+   "template": 1020,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1030,
+   "registry_family": 14030,
+   "name": {
+    "@text": "32c0c84455c7f7aa156378aa2f0fc72444be6bbda96431e72fd07899f31ca0b9"
+   },
+   "sprite_family": 1290,
+   "template": 1030,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1040,
+   "registry_family": 14040,
+   "name": {
+    "@text": "f28854498a03ea2c2454eac5c7765b970f8cda71eb7c89a99673a0705492c674"
+   },
+   "sprite_family": 1300,
+   "template": 1040,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1050,
+   "registry_family": 14050,
+   "name": {
+    "@text": "a491a33c72cd4d182ee8ede3507d1742252d8953b036d7cad05c174e39f1806d"
+   },
+   "sprite_family": 1310,
+   "template": 1080,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1060,
+   "registry_family": 14060,
+   "name": {
+    "@text": "71f2149b5982e467908f4dd974d3cf0c1533bb97717bd9e85f845848553de00d"
+   },
+   "sprite_family": 1320,
+   "template": 1110,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1070,
+   "registry_family": 14070,
+   "name": {
+    "@text": "0cbc0bc5729f801f03612eb227bcce972dea2f8ac9a991e234990435c7270b26"
+   },
+   "sprite_family": 1330,
+   "template": 1120,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1080,
+   "registry_family": 14080,
+   "name": {
+    "@text": "1e96deaacadd574ca5a6d2a1bbaf41238c86d07956d43ef2cfbb4847e886f0c2"
+   },
+   "sprite_family": 1340,
+   "template": 1150,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1090,
+   "registry_family": 14090,
+   "name": {
+    "@text": "2fd478c88ca0e81b2d75642c55fc2ac47eef23f24ee2f6d89d1c1af8c5ca4c43"
+   },
+   "sprite_family": 1360,
+   "template": 1090,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1100,
+   "registry_family": 14100,
+   "name": {
+    "@text": "90547a1e8264b831cc9006f9826cdaf1d84be322fff039139104374acd62dddb"
+   },
+   "sprite_family": 1370,
+   "template": 1130,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1110,
+   "registry_family": 14110,
+   "name": {
+    "@text": "857aaed377b4bec920983e2082417a1de13ea365e135410602acedc0328295b7"
+   },
+   "sprite_family": 1380,
+   "template": 1140,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1120,
+   "registry_family": 14120,
+   "name": {
+    "@text": "4d2f5107205b3f5686f6d1acaa45df443cdf46fd6a7e8a810b07c08e7f761afb"
+   },
+   "sprite_family": 1390,
+   "template": 1100,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1130,
+   "registry_family": 14130,
+   "name": {
+    "@text": "e42fb6fe4ee7e23aa19b4e5c2f116917ec96fccc833b836d0a7e349a31a8c708"
+   },
+   "sprite_family": 1400,
+   "template": 1260,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1140,
+   "registry_family": 14140,
+   "name": {
+    "@text": "39e88b1351e5f1e0db418f1eeea5b26d8bf52bc836b86f3b791dc1639c7e2bcb"
+   },
+   "sprite_family": 1410,
+   "template": 1190,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1150,
+   "registry_family": 14150,
+   "name": {
+    "@text": "6511f4dadcda5bfb2b28869f8cf34d36866ce01a08c0f1eb432b8ea4fa70e75a"
+   },
+   "sprite_family": 1420,
+   "template": 1180,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1160,
+   "registry_family": 14160,
+   "name": {
+    "@text": "e828916a29f4361c9efbc7aea5990a9ee98b94b3843657fa627917fc0b05ac43"
+   },
+   "sprite_family": 1430,
+   "template": 1160,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1170,
+   "registry_family": 14170,
+   "name": {
+    "@text": "a0602609123bfef195ab761081f02daedcdc326e068fed485c94edcb1032fadf"
+   },
+   "sprite_family": 1440,
+   "template": 1130,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1180,
+   "registry_family": 14180,
+   "name": {
+    "@text": "900875a866fd11d08379f3cbf00ea176c982785aa6b105e20615774e2b035c64"
+   },
+   "sprite_family": 1450,
+   "template": 1070,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1190,
+   "registry_family": 14190,
+   "name": {
+    "@text": "6759faa02d8e277ba9dfcfc5ee74f2292132054ef2c1b50f964a9cef1b8d7425"
+   },
+   "sprite_family": 1460,
+   "template": 1190,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1200,
+   "registry_family": 14200,
+   "name": {
+    "@text": "6d612a86bee4b0a659b8b3affd6f1fbcad15c4cbbbbdc4996c6c01c786711a21"
+   },
+   "sprite_family": 1470,
+   "template": 1250,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1210,
+   "registry_family": 14210,
+   "name": {
+    "@text": "6c191c4b94f769130b308223e00a03a2b2ea317c4fabfe9147d81d687a262977"
+   },
+   "sprite_family": 1480,
+   "template": 1240,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1220,
+   "registry_family": 14220,
+   "name": {
+    "@text": "e2875da4c7c4631e459a5d2fe4533d7a8dce41a20d5f112666dd8900aa1a2281"
+   },
+   "sprite_family": 1490,
+   "template": 1010,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1230,
+   "registry_family": 14230,
+   "name": {
+    "@text": "8a6d2b0624b460bbbfd464666c7b2bfad08a201aa083ec964a1b716743c186c2"
+   },
+   "sprite_family": 1500,
+   "template": 1250,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1240,
+   "registry_family": 14240,
+   "name": {
+    "@text": "25877b98fccba1d5a34b052c47e3265d8723b23fb696fb358fe6fc042dddb6db"
+   },
+   "sprite_family": 1510,
+   "template": 1080,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 1250,
+   "registry_family": 14250,
+   "name": {
+    "@text": "896ae426e8b6c0e1bbc864fb4610418343364f8825cdf623f30b183af653a3ff"
+   },
+   "sprite_family": 1520,
+   "template": 1260,
+   "kind": "humanoid"
+  },
+  {
+   "source_family": 2010,
+   "registry_family": 14510,
+   "name": {
+    "@text": "800ec96fd99ebe877f3191de6319ed8e89a18598413a9864b42d82115031963a"
+   },
+   "sprite_family": 2220,
+   "template": 2060,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2020,
+   "registry_family": 14520,
+   "name": {
+    "@text": "3907af2e3409c8737e09736dee955306c798dc0c1ce5a728d2d806278f4d8e0b"
+   },
+   "sprite_family": 2230,
+   "template": 2030,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2030,
+   "registry_family": 14530,
+   "name": {
+    "@text": "eb827351b0f37b93ff7f3cac7a9eb4f7c5c21523f71555e91cfce6a68a73cb32"
+   },
+   "sprite_family": 2240,
+   "template": 2080,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2040,
+   "registry_family": 14540,
+   "name": {
+    "@text": "c73b8dea0417a182f3b04469543be528bb87a60280990a4773281e5450611823"
+   },
+   "sprite_family": 2250,
+   "template": 2100,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2050,
+   "registry_family": 14550,
+   "name": {
+    "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+   },
+   "sprite_family": 2260,
+   "template": 2020,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2060,
+   "registry_family": 14560,
+   "name": {
+    "@text": "006a5c9911ca0aeca897ccdeda53b5166de5b2529225553a83d9049d6eccd845"
+   },
+   "sprite_family": 2270,
+   "template": 2070,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2070,
+   "registry_family": 14570,
+   "name": {
+    "@text": "69d5ed9a51210c6854c853a1ef5b5d420574621544ad6b2841643f0195210bc3"
+   },
+   "sprite_family": 2280,
+   "template": 2010,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2080,
+   "registry_family": 14580,
+   "name": {
+    "@text": "a5bb6066391197b9b53c348c977a6b1fbe97575905481e8d6b034dfa095c2cba"
+   },
+   "sprite_family": 2290,
+   "template": 2090,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2090,
+   "registry_family": 14590,
+   "name": {
+    "@text": "06f796120e31629debf326f50abe3ed41036fe41e203cb09ebd94b1cb331b73c"
+   },
+   "sprite_family": 2300,
+   "template": 2150,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2100,
+   "registry_family": 14600,
+   "name": {
+    "@text": "92203d8d2d043ece40752a06e37f15f5f0438612fe028edc30c0a0101201b5dd"
+   },
+   "sprite_family": 2310,
+   "template": 2110,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2110,
+   "registry_family": 14610,
+   "name": {
+    "@text": "d1e081cb0af657e63a4509104fe82ed827541090c27db24511c7623bd3fac3b6"
+   },
+   "sprite_family": 2320,
+   "template": 2080,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2120,
+   "registry_family": 14620,
+   "name": {
+    "@text": "fcd6fea72de7e6c09ca2567674befdef61c04e783bd2e0f092aeb99c57e587e3"
+   },
+   "sprite_family": 2330,
+   "template": 2210,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2130,
+   "registry_family": 14630,
+   "name": {
+    "@text": "4dbbbe0bb124528958ddca7de999bdeb423c04fbe814015e70ae9067ccb25c6b"
+   },
+   "sprite_family": 2340,
+   "template": 2190,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2140,
+   "registry_family": 14640,
+   "name": {
+    "@text": "14b4955bda3539b6b9cc574970f03383f0b01d24936d91c18299bb674a8b3caf"
+   },
+   "sprite_family": 2350,
+   "template": 2140,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2150,
+   "registry_family": 14650,
+   "name": {
+    "@text": "71076b352528923dfae0a6a66b44034cd3adf7797a0335af4943a77fcc05913b"
+   },
+   "sprite_family": 2360,
+   "template": 2200,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2160,
+   "registry_family": 14660,
+   "name": {
+    "@text": "9b0fe4c1d8407b8dd859cf02a6c58faa3be7c0c27851bdcc49a8fc46effebcba"
+   },
+   "sprite_family": 2370,
+   "template": 2170,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2170,
+   "registry_family": 14670,
+   "name": {
+    "@text": "bbe963c645f060d61857b416b39ec5dcf63f659a960bb2dc164b7faad2897783"
+   },
+   "sprite_family": 2380,
+   "template": 2180,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2180,
+   "registry_family": 14680,
+   "name": {
+    "@text": "804eb31feafa556517b45aeee186948b552a4df9f0386d40f4deb9d52f60388f"
+   },
+   "sprite_family": 2390,
+   "template": 2120,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2190,
+   "registry_family": 14690,
+   "name": {
+    "@text": "73fcf414fdaca67829bf89d2256792bcab04a8b9783026b4d7d97b5822982f21"
+   },
+   "sprite_family": 2620,
+   "template": 2130,
+   "kind": "monster"
+  },
+  {
+   "source_family": 2200,
+   "registry_family": 14700,
+   "name": {
+    "@text": "a07fdb3c4b1867d9cc73b1cc60e8af63607e640cdf57f22d4f1231f3096b8339"
+   },
+   "sprite_family": 2630,
+   "template": 2070,
+   "kind": "monster"
+  }
+ ]
+}

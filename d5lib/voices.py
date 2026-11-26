@@ -27,6 +27,8 @@ voices.json: {"voices": {"9000": {"name": ..., "template": [voice id, personalit
                                   "tail": "01000400",
                                   "lines": [{"kind": 0, "cats": [0, 10], "volume": 70, "src": 400001},
                                             {"kind": 0, "cats": [1], "volume": 80, "file": "9000_0007.vag"}]}}}
+A line with "personality": 0-2 belongs to that personality only (imported voices whose personalities have their own
+recordings); lines without it are used by all three.
 """
 import json
 import os
@@ -147,12 +149,19 @@ def load(mod):
 
 
 def save(mod, data):
+    # Reject explicit locale metadata before replacing JSON or pruning recordings.
+    for voice in data["voices"].values():
+        for line in voice.get("lines", []):
+            if "files" in line:
+                for lang in TABLES:
+                    _custom_source(line, lang)
     os.makedirs(folder(mod), exist_ok=True)
     p = os.path.join(folder(mod), FILE)
     with open(p + ".tmp", "w", encoding="utf-8") as f:
         json.dump(data, f, indent=1)
     os.replace(p + ".tmp", p)
-    used = {ln.get("file") for v in data["voices"].values() for ln in v.get("lines", []) if ln.get("file")}
+    used = {name for v in data["voices"].values() for ln in v.get("lines", [])
+            for name in ([ln["file"]] if ln.get("file") else list(ln.get("files", {}).values()))}
     for fn in os.listdir(folder(mod)):                  # recordings no line uses any more
         if fn.lower().endswith(".vag") and fn not in used:
             try:
@@ -218,7 +227,32 @@ def voice_for(catalog, mod, mods, source, is_class, name):
 
 
 # ------------------------------------------------------------------------------------------ build
-def custom_lines(vid, voice):
+def _custom_source(line, lang):
+    if "files" not in line:
+        return ("file", line["file"]) if line.get("file") else (("src", int(line["src"])) if line.get("src") else None)
+    files = line["files"]
+    if (not isinstance(files, dict) or not files or set(files) - set(TABLES)
+            or "file" in line or "src" in line
+            or any(not isinstance(v, str) or not v or os.path.isabs(v) or ".." in v.replace("\\", "/").split("/") for v in files.values())):
+        raise ValueError("Invalid explicit locale voice files")
+    fallback = line.get("fallback_language")
+    if fallback is not None and (not isinstance(fallback, str) or fallback not in files):
+        raise ValueError("Declared fallback language has no voice file")
+    if line.get("missing_locale") not in (None, "silence"):
+        raise ValueError("Unsupported missing voice locale policy")
+    lang = lang or "EN"
+    if lang not in TABLES:
+        raise ValueError("Unsupported voice locale")
+    if lang in files:
+        return "file", files[lang]
+    if fallback in files:
+        return "file", files[fallback]
+    if line.get("missing_locale") == "silence":
+        return None
+    raise ValueError("Missing voice locale requires explicit silence or fallback_language")
+
+
+def custom_lines(vid, voice, lang=None):
     """[(Line, source)] of a custom voice, every kind and personality; source = ('src', line id) or ('file', name)"""
     out = []
     tail = voice.get("tail") or DEFAULT_TAIL
@@ -226,13 +260,18 @@ def custom_lines(vid, voice):
         n = defaultdict(int)
         for ln in voice.get("lines", []):
             k = int(ln.get("kind", 0))
-            if not 0 <= k < KINDS or not (ln.get("file") or ln.get("src")):
+            if not 0 <= k < KINDS:
+                continue
+            source = _custom_source(ln, lang)
+            if source is None:
+                continue
+            if "personality" in ln and int(ln["personality"]) != p:     # a line of one personality only
                 continue
             n[k] += 1
             g = set_of(k, vid, p)
             line = Line(g * 1000 + n[k], g, ln.get("volume", DEFAULT_VOLUME), ln.get("cats", []),
                         ln.get("tail") or tail)
-            out.append((line, ("file", ln["file"]) if ln.get("file") else ("src", int(ln["src"]))))
+            out.append((line, source))
     return out
 
 
@@ -251,6 +290,9 @@ def _handler(ctx, mod, pdir):
     if not data["voices"]:
         return
     mine = {set_of(k, int(v), p) for v in data["voices"] for k in range(KINDS) for p in range(PERSONALITIES)}
+    # Validate both locales before producing any table/pack output.
+    resolved = {lang: {vid: custom_lines(int(vid), voice, lang=lang)
+                       for vid, voice in data["voices"].items()} for lang in TABLES}
     for lang in ("EN", "JP"):
         table = read_table(ctx.get(TABLES[lang]))
         group_of = {l.id: l.group for l in table}
@@ -258,7 +300,7 @@ def _handler(ctx, mod, pdir):
         packs = defaultdict(dict)
         cache = {}
         for vid, voice in data["voices"].items():
-            for line, (kind, ref) in custom_lines(int(vid), voice):
+            for line, (kind, ref) in resolved[lang][vid]:
                 if kind == "file":
                     p = os.path.join(pdir, ref)
                     if not os.path.exists(p):
@@ -299,7 +341,7 @@ class VoiceBank:
         self.custom = {}                                # line id -> path of a recording / vanilla line id
         for m in mods:
             for vid, voice in load(m)["voices"].items():
-                for line, (kind, ref) in custom_lines(int(vid), voice):
+                for line, (kind, ref) in custom_lines(int(vid), voice, lang=self.lang):
                     self.custom[line.id] = os.path.join(folder(m), ref) if kind == "file" else ref
                     self.lines.append(line)
         self.by_group = defaultdict(list)

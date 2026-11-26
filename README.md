@@ -176,7 +176,11 @@ The editors always show the game as your enabled mods make it (every mod's chang
   thousand; 119 new generic classes (73 humanoid, 46 monster), new Overloads by the thousand (208 with numbers of
   their own). Limits that come from the game itself: new unique characters and the outfits of unique characters
   share the ids below 1000 (714 in all), and a save keeps the progress of 1 024 quests (the game uses ~520). See
-  docs/OUTFITS.md "Capacity", docs/CLASSES.md and docs/OVERLOADS.md.
+  docs/OUTFITS.md "Capacity", docs/CLASSES.md, docs/OVERLOADS.md and docs/EVILITIES.md.
+* **An evility can have behavior of its own**, beyond copying a game one: a mod's evility id can add its own
+  numbers to the stat potency, stat bonus and growth passes, optionally only for a character, only alongside
+  another evility, or only when the unit has enough evilities ([docs/EVILITIES.md](docs/EVILITIES.md)). Damage,
+  movement and turn-order logic is not covered yet.
 * A quest's **sort_order** is its progress slot in the save: it must be unique, and Quest-shop quests (id < 2000) need a
   slot below the number of quests or the board never lists them. The wizard picks a free slot, and the installer
   moves bad ones (with a warning).
@@ -220,7 +224,8 @@ The editors always show the game as your enabled mods make it (every mod's chang
   [docs/SHARING.md](docs/SHARING.md). Installing everything in the kit takes about a minute.
 * Mods are kept separate: **Outfit System** (the feature) / **Girl Laharl Outfits** (content, requires the system) /
   **Thunderlady** (a new character: Girl Laharl's lightning alternative, with the Thunderlady outfits). A mod lists what it needs in `mod.json`
-  (`"requires"`); the Home page and the installer warn when a required mod is off.
+  (`"requires"`, loaded before it; or `"needs"`, only enabled, any order); the Home page and the installer warn
+  when a required mod is off.
 * Recruit quests (reward “character joins”) only move a unit the story left in the hidden reserve. For new
   characters the installer adds a small exe hook that creates the unit (level 1) when the quest is completed.
 * Untested in-game so far: sprites larger than the original, more color variants than the original,

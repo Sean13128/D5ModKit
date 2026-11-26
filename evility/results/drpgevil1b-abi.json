@@ -1,0 +1,355 @@
+{
+ "mode": "abi",
+ "passed": true,
+ "patched_sha256": "211248d177ce6daa1bd6456cc3c2ea2d06b33e2a00c8c8fcfb04ace571e7ebfc",
+ "checks": [
+  {
+   "name": "provider-weapon-holder-has-the-fist",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-holder-has-a-sword",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-holder-out-of-radius",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-any-qualifying-holder-counts",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-enemy-holder-does-not-count",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-the-holder-itself-own-row",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-the-holder-itself-wrong-weapon",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-second-slot",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "recipient-condition-after-the-qualifier-holds",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "recipient-condition-after-the-qualifier-fails",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-enemy-aura-holder-has-the-staff",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-enemy-aura-holder-has-the-staff",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-enemy-aura-holder-has-the-staff",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-enemy-aura-holder-has-the-staff",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-enemy-aura-holder-has-a-gun",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-enemy-aura-holder-has-a-gun",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-enemy-aura-holder-has-a-gun",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "provider-weapon-enemy-aura-holder-has-a-gun",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-above-at-50",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-above-at-50",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-above-at-50",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-above-at-50",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-above-at-49",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-above-at-49",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-above-at-49",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-above-at-49",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-below-at-49",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-below-at-49",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-below-at-49",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-below-at-49",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-below-at-50",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-below-at-50",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-below-at-50",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-below-at-50",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-at-or-below-at-250-of-1000",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-at-or-below-at-250-of-1000",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-at-or-below-at-250-of-1000",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-at-or-below-at-250-of-1000",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-at-or-below-at-251-of-1000",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-at-or-below-at-251-of-1000",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-at-or-below-at-251-of-1000",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-at-or-below-at-251-of-1000",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-holder-without-a-max-is-no-provider",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-holder-without-a-max-is-no-provider",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-holder-without-a-max-is-no-provider",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "provider-hp-holder-without-a-max-is-no-provider",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-on-a-critical",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-no-critical",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-flag-of-another-target",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-target-entry-0",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-row-on-the-defender-does-nothing",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-unlearned",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-after-the-defenders-reduction",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-conditional-gun",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-conditional-sword",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-two-rows-add",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-aura-from-an-ally",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "crit-damage-not-a-target-index",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  }
+ ]
+}

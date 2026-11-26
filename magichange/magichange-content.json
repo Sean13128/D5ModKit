@@ -1,0 +1,373 @@
+{
+ "version": 1,
+ "lane": "MAGICHANGE",
+ "purpose": "Attach the D4 Magichange attacks the importer dropped to the five imported monsters that learn them, inside D5's own Magichange mode (char.dat magichange_weapon/magichange_type + magic.dat skill_group 10 + the learnset). No exe hook: the mode already exists.",
+ "source": {
+  "game": "Disgaea 4 Complete+ (PC EN)",
+  "reader": "d5lib.d4source.D4Data (char.dat 0x1B8 magichange, learnset 0x014; magic.dat name/desc)",
+  "evidence": "magichange/rows.json, magichange/offline_proof_magichange.json"
+ },
+ "rules": {
+  "row_id": "10000 + the character's registry identity + n (the ownership manifest's special_id band 10000-39999, the same rule d5lib.charstudio.free_skill_id uses); the first free n above the character's own skill rows",
+  "shape": "the body template family's own row count: Imp 2020 ships 3 rows (single / 64-SP pair / dual), Shroom 2100 ships 2 (single / pair) - a character never grows a Dual Magichange its body family does not have",
+  "numbers": "the donor row's numbers, animation id, area, height, effects and element are kept (adapted); D4's name and text are carried in all five locales, with D4's status-marker parenthetical dropped because D4's own marker bytes are not valid in the D5 text table",
+  "level": "D4's own level for that attack in the D4 char.dat learnset"
+ },
+ "characters": [
+  {
+   "mod": "D4_Unique_50",
+   "character": {
+    "@text": "da62457d3a0b2d3f0988930e24911eff240be9130c0958c663630f894c1a42c3"
+   },
+   "identity": 10350,
+   "d4_id": 50,
+   "template": 2020,
+   "d5_rows": "reuse",
+   "donor_single": 20611,
+   "learn": [
+    [
+     20611,
+     30
+    ],
+    [
+     20612,
+     70
+    ]
+   ],
+   "d4_rows": [
+    20051,
+    20052
+   ],
+   "note": "D5 ships Desco (char 610) with exactly these two Magichange attacks, 20611 Evil Sword Balmung and 20612 Martial Transformer, plus the native dual 20613; the imported D4a Desco learns neither. Nothing is written: the native rows are attached."
+  },
+  {
+   "mod": "D4_Unique_190",
+   "character": {
+    "@text": "1a2eb37ff75ce1d8d54a49180a27cbea73c7ec40187eb4304c44d38e9fc7d729"
+   },
+   "identity": 10230,
+   "d4_id": 190,
+   "template": 2020,
+   "d5_rows": "new",
+   "donor_single": 22021,
+   "ids": [
+    20234,
+    20235,
+    20236
+   ],
+   "levels": [
+    30,
+    70,
+    1
+   ],
+   "d4_rows": [
+    20191,
+    20192
+   ],
+   "names": {
+    "single": {
+     "@text": "dbcd59aed8ec89bea43ea4938e6d7fc28dc331e4e272be729d53bd99b3a9e1e1"
+    },
+    "pair": {
+     "@text": "e1a3bb4db831f995fb8cd1d0bab483f9676bad5f3a5d03b93de87f4d235e26d5"
+    },
+    "dual": {
+     "@prefix": "Twin ",
+     "@text": "dbcd59aed8ec89bea43ea4938e6d7fc28dc331e4e272be729d53bd99b3a9e1e1"
+    }
+   },
+   "descs": {
+    "single": {
+     "@text": "4353d5a945c2651372fc0f1226c6e2f89793bbe19365bd314e2098d6e61e23c6"
+    },
+    "pair": {
+     "@text": "c28e5c6325df3e6c62ae11eb43b959a25deac011f8345472ea679dd6f5e45aa8"
+    },
+    "dual": {
+     "@segments": [
+      "Dual ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sTwo Prinnies, twice the yelling."
+     ]
+    }
+   }
+  },
+  {
+   "mod": "D4_Unique_230",
+   "character": {
+    "@text": "12df16bf7105705576db9e4470d62abc97fc12588612d74a931a61e9b4c8cc6b"
+   },
+   "identity": 10280,
+   "d4_id": 230,
+   "template": 2100,
+   "d5_rows": "new",
+   "donor_single": 22101,
+   "ids": [
+    20285,
+    20286
+   ],
+   "levels": [
+    10,
+    50
+   ],
+   "d4_rows": [
+    22041,
+    22042
+   ],
+   "names": {
+    "single": {
+     "@text": "e24ab258932d16a894e9ba75766340e6565babe1df011bd3b94228b6987286c9"
+    },
+    "pair": {
+     "@text": "74d833ed1479e54dc6c4a39fc2b27612c4b9859274ab8c11f3f20185fcd86282"
+    }
+   },
+   "descs": {
+    "single": {
+     "@segments": [
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sAn activity you can enjoy with the grandkids."
+     ]
+    },
+    "pair": {
+     "@text": "6bd0419d67bf1e72ddbf8d15abb8182862f9dc158a3012ff252f6963cfe0cda0"
+    }
+   }
+  },
+  {
+   "mod": "D4_Unique_300",
+   "character": {
+    "@text": "bd38ed7732402b1a93261916c5906016cdccd1a9600b3864208246f6a3299bd0"
+   },
+   "identity": 10380,
+   "d4_id": 300,
+   "template": 2020,
+   "d5_rows": "new",
+   "donor_single": 22021,
+   "ids": [
+    20385,
+    20386,
+    20387
+   ],
+   "levels": [
+    15,
+    75,
+    1
+   ],
+   "d4_rows": [
+    22201,
+    22202
+   ],
+   "names": {
+    "single": {
+     "@text": "d976cf58d1197bcea040b90cd9e7bf2f3d9aebaf7f4538cbd4efd8f99ba1809d"
+    },
+    "pair": {
+     "@text": "936d17f8095120e316f8da15134bd9c56e7adb99b728941bdc35883bc7fcadff"
+    },
+    "dual": {
+     "@prefix": "Twin ",
+     "@text": "d976cf58d1197bcea040b90cd9e7bf2f3d9aebaf7f4538cbd4efd8f99ba1809d"
+    }
+   },
+   "descs": {
+    "single": {
+     "@segments": [
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sPaw attack. Maaannn, that's so soft."
+     ]
+    },
+    "pair": {
+     "@text": "aaeb12c86f364acb51ac5416f741170f38a3a7a68105d2e3382f82194801fdf6"
+    },
+    "dual": {
+     "@segments": [
+      "Dual ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sTwice the paws, twice the soft."
+     ]
+    }
+   }
+  },
+  {
+   "mod": "D4_Unique_340",
+   "character": {
+    "@text": "908cd52f814794cec51a559f616cbafde4983806836bf9b1e1e6bb209b794bb0"
+   },
+   "identity": 10410,
+   "d4_id": 340,
+   "template": 2020,
+   "d5_rows": "new",
+   "donor_single": 22021,
+   "ids": [
+    20414,
+    20415,
+    20416
+   ],
+   "levels": [
+    15,
+    75,
+    1
+   ],
+   "d4_rows": [
+    20341,
+    20342
+   ],
+   "names": {
+    "single": {
+     "@text": "88fe4d1650358fef1c0691247713bcb65c3ac82981b6b8ec62e87f5469c70492"
+    },
+    "pair": {
+     "@text": "504510aab2ecd5d1e0b610adf6391bc15db5a5a83ed301067a136d54e20da251"
+    },
+    "dual": {
+     "@prefix": "Twin ",
+     "@text": "88fe4d1650358fef1c0691247713bcb65c3ac82981b6b8ec62e87f5469c70492"
+    }
+   },
+   "descs": {
+    "single": {
+     "@segments": [
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sEnd lives with this ruthless strike."
+     ]
+    },
+    "pair": {
+     "@text": "af5d76a94032643cb3179da861044a718fb09ca30660f155c40f5256d9b28706"
+    },
+    "dual": {
+     "@segments": [
+      "Dual ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sEnd lives with two ruthless strikes."
+     ]
+    }
+   }
+  },
+  {
+   "mod": "D4_Unique_420",
+   "character": {
+    "@text": "d70b489bb97ec09dbafa72e461c8320d04e13ad160dd74c8e69a60ea62dc8ffd"
+   },
+   "identity": 18130,
+   "d4_id": 420,
+   "template": 2140,
+   "d5_rows": "new",
+   "donor_single": 22141,
+   "ids": [
+    28135,
+    28136
+   ],
+   "levels": [
+    15,
+    75
+   ],
+   "d4_rows": [
+    22121,
+    22122
+   ],
+   "names": {
+    "single": {
+     "@text": "8841ce91ecce3ce095674598564408c973478a338fb34447947f1663c695641d"
+    },
+    "pair": {
+     "@text": "859511357b0145f5f595fd0607b30566e3435a988ff176ae5ee6349ae80c7b32"
+    }
+   },
+   "descs": {
+    "single": {
+     "@segments": [
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sA flock nobody wants to count."
+     ]
+    },
+    "pair": {
+     "@segments": [
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sDrop out of the waking world."
+     ]
+    }
+   }
+  },
+  {
+   "mod": "D4_Unique_430",
+   "character": {
+    "@text": "4b4cedb8a0da30f786551c15c7df7ab1662c7bef636f4a08fce55c863ef9d795"
+   },
+   "identity": 18140,
+   "d4_id": 430,
+   "template": 610,
+   "d5_rows": "new",
+   "donor_single": 20611,
+   "ids": [
+    28144,
+    28145,
+    28146
+   ],
+   "levels": [
+    30,
+    70,
+    1
+   ],
+   "d4_rows": [
+    20431,
+    20432
+   ],
+   "names": {
+    "single": {
+     "@text": "9a0e6cfb45fc1414cc2255caeb4f205b93610d58f3deca3712dcf051fcb6914f"
+    },
+    "pair": {
+     "@text": "1c7eae5f2a55ed214c2350833cce39c12a3de0ae0ffad20b9a9728c3893c9747"
+    },
+    "dual": {
+     "@prefix": "Twin ",
+     "@text": "9a0e6cfb45fc1414cc2255caeb4f205b93610d58f3deca3712dcf051fcb6914f"
+    }
+   },
+   "descs": {
+    "single": {
+     "@segments": [
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sThe final boss's own blade."
+     ]
+    },
+    "pair": {
+     "@segments": [
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sA swordsmanship no mortal survives."
+     ]
+    },
+    "dual": {
+     "@segments": [
+      "Dual ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      ":%sTwo final-boss blades at once."
+     ]
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,43 @@
+{
+ "table_rows": 1010,
+ "evility": 28003,
+ "position": 1005,
+ "native": {
+  "row_lookup": {
+   "found": true,
+   "row_id": 28003
+  },
+  "getter_learned": 0,
+  "setter_result": -1,
+  "bitmap_untouched": true,
+  "active_list": [
+   28003
+  ],
+  "evility_screen": {
+   "learned_count": 0,
+   "not_learned_count": 58,
+   "array_capacity": 1000
+  },
+  "faults": []
+ },
+ "kit .d5lc": {
+  "row_lookup": {
+   "found": true,
+   "row_id": 28003
+  },
+  "getter_learned": 0,
+  "setter_result": -1,
+  "bitmap_untouched": true,
+  "active_list": [
+   28003
+  ],
+  "evility_screen": {
+   "learned_count": 0,
+   "not_learned_count": 58,
+   "array_capacity": 1000
+  },
+  "faults": []
+ },
+ "vanilla_rows_with_shop_rank": 167,
+ "pass": true
+}

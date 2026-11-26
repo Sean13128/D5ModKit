@@ -1,0 +1,3014 @@
+{
+ "schema": 1,
+ "game": "d4",
+ "edition": "Disgaea 4 Complete+ PC EN",
+ "about": "Reviewed D4 -> D5 mappings used by the D4 class importer (d5lib/sourceimports.py). Read docs/D4_IMPORT.md before editing. relation: exact = same effect; adapted = closest D5 effect (D5's code AND numbers: evility aliases cannot carry their own values yet, see docs/D4_IMPORT.md); lookalike = name/description only, behaves differently; omit = not imported. desc: in-game description; leave it out to keep the D5 evility's / skill's own text, which states what the effect really does (with its real numbers).",
+ "evilities": {
+  "392": {
+   "d4_name": {
+    "@text": "969850e59a53a9708dbdd2693c5d094a7f15a037be72256761f55e716ea68324"
+   },
+   "works_like": 12,
+   "works_like_name": {
+    "@text": "f97ce82e30a5985e8a39a8589e2eeb04afc150e63a5f5199315c1304ee257e9b"
+   },
+   "relation": "adapted",
+   "d4_effect": "Damage taken -30% when attacked from the front (D4 mskill.dat value byte +13; matches the wiki)",
+   "d5_effect": "Damage taken from adjacent units -20%",
+   "d4_desc": {
+    "@segments": [
+     {
+      "@template": "d34943a869061443857df5f9621fb09e2c836852de364ad94e778edd1f8aae62",
+      "args": [
+       30
+      ],
+      "trim": 1
+     },
+     " when attacked from the front."
+    ]
+   }
+  },
+  "228": {
+   "d4_name": {
+    "@text": "cbd77713898ab8a5541b8c6b2fedb698d99b435f076643efbb08c879de087b39"
+   },
+   "works_like": 6082,
+   "works_like_name": {
+    "@text": "95d3e9d5c35d75d58e7ce3f8f50a0feb922a2dc79babcfb083b3af18a1e9d9cf"
+   },
+   "relation": "adapted",
+   "d4_effect": "DEF & RES +50% while HP <= 25% (D4 mskill.dat value byte +13; matches the wiki)",
+   "d5_effect": "Robust (D5 numbers; see report: one value is both threshold and bonus)",
+   "d4_desc": {
+    "@authored": "Increase DEF and RES by 50% while HP is 25% or less."
+   }
+  },
+  "391": {
+   "d4_name": {
+    "@text": "89e487af447730bbfabb8f9dcea5e07b47920d5d0aef264a95f964387c0c5ee5"
+   },
+   "works_like": 1152,
+   "works_like_name": {
+    "@text": "89e487af447730bbfabb8f9dcea5e07b47920d5d0aef264a95f964387c0c5ee5"
+   },
+   "relation": "adapted",
+   "d4_effect": "Damage taken -80% while defending (D4 mskill.dat value byte +13; matches the wiki)",
+   "d5_effect": "Damage taken -50% while defending (D5 value)",
+   "note": "Same-name donor has a different stored magnitude; activation, ordering and rounding equivalence remain unverified. This alias is an adaptation, not a faithful D4 rule.",
+   "d4_desc": {
+    "@segments": [
+     {
+      "@template": "d34943a869061443857df5f9621fb09e2c836852de364ad94e778edd1f8aae62",
+      "args": [
+       80
+      ],
+      "trim": 1
+     },
+     " while Defending (instead of the usual 50%)."
+    ]
+   }
+  },
+  "85": {
+   "d4_name": {
+    "@text": "e8badaa6b668c2eb3d2e5d323ebef7414104972a7abdf4016f3f3cb19675c2bf"
+   },
+   "works_like": 53,
+   "works_like_name": {
+    "@text": "e114f334c3ec0528b28cdfde00ce6bdd72d9be60c51b7b23f092267a566f79fe"
+   },
+   "relation": "adapted",
+   "d4_effect": "30% of base ATK added to DEF while a spear is equipped (D4 mskill.dat value byte +13; matches the wiki)",
+   "d5_effect": "DEF +10% always",
+   "d4_desc": {
+    "@authored": "If a spear is equipped, 30% of base ATK is added to DEF."
+   }
+  },
+  "62": {
+   "d4_name": {
+    "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+   },
+   "relation": "omit",
+   "reason": "Generic D4 evility every class could buy; D5 sells its own Mind Mastery (1041). Only 4 innate slots."
+  },
+  "67": {
+   "d4_name": {
+    "@text": "acef5d9191579b33d144d9ceab1e40a45ae0a9c3a3c8b89e1474522b4c0803c6"
+   },
+   "relation": "omit",
+   "reason": "Generic D4 evility (D5: Hit Mastery 1111, sold separately). Only 4 innate slots."
+  },
+  "8": {
+   "d4_name": {
+    "@text": "5900626363b961b6b10ce5e266ecd7ad9c057be2bca4da9052cba01711fc9229"
+   },
+   "works_like": 4053,
+   "works_like_name": {
+    "@text": "5900626363b961b6b10ce5e266ecd7ad9c057be2bca4da9052cba01711fc9229"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "9": {
+   "d4_name": {
+    "@text": "d4191c464bc6cf4631f61162534667003178e3926ab8b6747823c82f310e0f41"
+   },
+   "works_like": 4054,
+   "works_like_name": {
+    "@text": "d4191c464bc6cf4631f61162534667003178e3926ab8b6747823c82f310e0f41"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "19": {
+   "d4_name": {
+    "@text": "8cf907e19a423c863fde39622c2f99bb7a53fb167b504d146e5fe931d5fb2813"
+   },
+   "works_like": 2212,
+   "works_like_name": {
+    "@text": "8cf907e19a423c863fde39622c2f99bb7a53fb167b504d146e5fe931d5fb2813"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "20": {
+   "d4_name": {
+    "@text": "e6774e0d6745d90b21fe1c21e6e6a090e99168090af03306d4ab83c62b8903d5"
+   },
+   "works_like": 6005,
+   "works_like_name": {
+    "@text": "e6774e0d6745d90b21fe1c21e6e6a090e99168090af03306d4ab83c62b8903d5"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "26": {
+   "d4_name": {
+    "@text": "7f117ba88bc724149923fada480413bb2969f44555e247ff2ed7136c4b95943f"
+   },
+   "works_like": 2103,
+   "works_like_name": {
+    "@text": "7f117ba88bc724149923fada480413bb2969f44555e247ff2ed7136c4b95943f"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "28": {
+   "d4_name": {
+    "@text": "e929aeaf55109801484d0fede8284c4d78b729acb92390ae42f3084f41781c46"
+   },
+   "works_like": 2210,
+   "works_like_name": {
+    "@text": "e929aeaf55109801484d0fede8284c4d78b729acb92390ae42f3084f41781c46"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "32": {
+   "d4_name": {
+    "@text": "03989148270f1d2842ec656d8c6772af3e88c2be8a5aa836e46ce7d3c670571a"
+   },
+   "works_like": 2060,
+   "works_like_name": {
+    "@text": "03989148270f1d2842ec656d8c6772af3e88c2be8a5aa836e46ce7d3c670571a"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "61": {
+   "d4_name": {
+    "@text": "95c12d84104bb8b98d40d390b03d0e903e9d875b3f2f32eb032e1b51ad8dfc85"
+   },
+   "works_like": 1011,
+   "works_like_name": {
+    "@text": "95c12d84104bb8b98d40d390b03d0e903e9d875b3f2f32eb032e1b51ad8dfc85"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "64": {
+   "d4_name": {
+    "@text": "90a8ccf0c1003a2837256164198356640d9c08dac57489d46c456c9763309539"
+   },
+   "works_like": 1021,
+   "works_like_name": {
+    "@text": "90a8ccf0c1003a2837256164198356640d9c08dac57489d46c456c9763309539"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "65": {
+   "d4_name": {
+    "@text": "53710cc22e99da5e6345fe633ee254b9d06c14637c491ab84af020f8d3e9641b"
+   },
+   "works_like": 1031,
+   "works_like_name": {
+    "@text": "53710cc22e99da5e6345fe633ee254b9d06c14637c491ab84af020f8d3e9641b"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "66": {
+   "d4_name": {
+    "@text": "5c4b3d5344965732151d5812048d3c7e535a1942fd24220c52abaa1510a878dc"
+   },
+   "works_like": 1091,
+   "works_like_name": {
+    "@text": "5c4b3d5344965732151d5812048d3c7e535a1942fd24220c52abaa1510a878dc"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "68": {
+   "d4_name": {
+    "@text": "cb502d71d47b77238755f380b3edf3c6b2c5175535fd249874284e8c2baa65f3"
+   },
+   "works_like": 1081,
+   "works_like_name": {
+    "@text": "cb502d71d47b77238755f380b3edf3c6b2c5175535fd249874284e8c2baa65f3"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "99": {
+   "d4_name": {
+    "@text": "cc43058e57374ccf6727e416409dceb4df5492bf6275aa66c9cff3eab66ae77a"
+   },
+   "works_like": 4129,
+   "works_like_name": {
+    "@text": "cc43058e57374ccf6727e416409dceb4df5492bf6275aa66c9cff3eab66ae77a"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "101": {
+   "d4_name": {
+    "@text": "a5818a96cc6240363320360c715b5aa991158b633264ac8c7de053ff82de65f8"
+   },
+   "works_like": 6040,
+   "works_like_name": {
+    "@text": "a5818a96cc6240363320360c715b5aa991158b633264ac8c7de053ff82de65f8"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "108": {
+   "d4_name": {
+    "@text": "fd86e47f1d224e98b93d2fc045bf1e1af3e25cbc7e481c2f751ba5a2a2bafeab"
+   },
+   "works_like": 1010,
+   "works_like_name": {
+    "@text": "fd86e47f1d224e98b93d2fc045bf1e1af3e25cbc7e481c2f751ba5a2a2bafeab"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "111": {
+   "d4_name": {
+    "@text": "3f0365450cb00a5d893305b7c5fa021779d844f8b2f2458351a293c34ecdf1e4"
+   },
+   "works_like": 2100,
+   "works_like_name": {
+    "@text": "3f0365450cb00a5d893305b7c5fa021779d844f8b2f2458351a293c34ecdf1e4"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "113": {
+   "d4_name": {
+    "@text": "b987863669542eb369fd06a81e7c1ccdd3fde2ebdc139f85f5917569cb0813cb"
+   },
+   "works_like": 2140,
+   "works_like_name": {
+    "@text": "b987863669542eb369fd06a81e7c1ccdd3fde2ebdc139f85f5917569cb0813cb"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "135": {
+   "d4_name": {
+    "@text": "7dd75748fd3262649d0e8fc0644ae8ac7bf7e2726af552ee32c8871bf6a8e2bf"
+   },
+   "works_like": 1224,
+   "works_like_name": {
+    "@text": "7dd75748fd3262649d0e8fc0644ae8ac7bf7e2726af552ee32c8871bf6a8e2bf"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "164": {
+   "d4_name": {
+    "@text": "e114f334c3ec0528b28cdfde00ce6bdd72d9be60c51b7b23f092267a566f79fe"
+   },
+   "works_like": 53,
+   "works_like_name": {
+    "@text": "e114f334c3ec0528b28cdfde00ce6bdd72d9be60c51b7b23f092267a566f79fe"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "166": {
+   "d4_name": {
+    "@text": "896c4379af53c6033e2113e83676eb02067469f8d6f9facadcddf6599bcbadd7"
+   },
+   "works_like": 103,
+   "works_like_name": {
+    "@text": "896c4379af53c6033e2113e83676eb02067469f8d6f9facadcddf6599bcbadd7"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "167": {
+   "d4_name": {
+    "@text": "f8d87d30c79552273de3e9b91be86671c1e751610ec69cc77191a9f1e6f76d9e"
+   },
+   "works_like": 43,
+   "works_like_name": {
+    "@text": "f8d87d30c79552273de3e9b91be86671c1e751610ec69cc77191a9f1e6f76d9e"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "168": {
+   "d4_name": {
+    "@text": "933250060e9e62cbcea4941dbcc54b0cf01ad6408069b16467b53ad45cf5a73b"
+   },
+   "works_like": 73,
+   "works_like_name": {
+    "@text": "933250060e9e62cbcea4941dbcc54b0cf01ad6408069b16467b53ad45cf5a73b"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "177": {
+   "d4_name": {
+    "@text": "16d186a180375a70cd1bceb8d13e6d27569883c6d2b0f0a722c62951a86f324e"
+   },
+   "works_like": 162,
+   "works_like_name": {
+    "@text": "16d186a180375a70cd1bceb8d13e6d27569883c6d2b0f0a722c62951a86f324e"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "187": {
+   "d4_name": {
+    "@text": "2c3158dd8c2a7eaf0f0356cfb3447d9f854d4717801019b934f41756d8975c38"
+   },
+   "works_like": 2112,
+   "works_like_name": {
+    "@text": "2c3158dd8c2a7eaf0f0356cfb3447d9f854d4717801019b934f41756d8975c38"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "191": {
+   "d4_name": {
+    "@text": "9ddd8858555b7e279f0a99842af236cb41a40d47bdf27920b882598710fd7800"
+   },
+   "works_like": 2113,
+   "works_like_name": {
+    "@text": "9ddd8858555b7e279f0a99842af236cb41a40d47bdf27920b882598710fd7800"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "201": {
+   "d4_name": {
+    "@text": "604133732460d2f1cdfbeb3199b2c78d0f5d082b075b432661f433f46b4ba14c"
+   },
+   "works_like": 6021,
+   "works_like_name": {
+    "@text": "604133732460d2f1cdfbeb3199b2c78d0f5d082b075b432661f433f46b4ba14c"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "203": {
+   "d4_name": {
+    "@text": "ff8fa359ba8a3ffde83ba8158ef8e9185436af1620b20e10a370389e90a3f3f8"
+   },
+   "works_like": 2134,
+   "works_like_name": {
+    "@text": "ff8fa359ba8a3ffde83ba8158ef8e9185436af1620b20e10a370389e90a3f3f8"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "261": {
+   "d4_name": {
+    "@text": "20aa81623355ad74149f1c1e2242568971683b3c3deacd7477d9be55868c7740"
+   },
+   "works_like": 2061,
+   "works_like_name": {
+    "@text": "20aa81623355ad74149f1c1e2242568971683b3c3deacd7477d9be55868c7740"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "264": {
+   "d4_name": {
+    "@text": "0a0644d20a560e4b29e8d8302c0cc8ee1d7a43628c7eb52739fe8faa647c3925"
+   },
+   "works_like": 2031,
+   "works_like_name": {
+    "@text": "0a0644d20a560e4b29e8d8302c0cc8ee1d7a43628c7eb52739fe8faa647c3925"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "265": {
+   "d4_name": {
+    "@text": "472f50f62c82089c0d50baa218635f3214bbef1e2eb24fc259ec1761a6a9eb19"
+   },
+   "works_like": 2141,
+   "works_like_name": {
+    "@text": "472f50f62c82089c0d50baa218635f3214bbef1e2eb24fc259ec1761a6a9eb19"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "271": {
+   "d4_name": {
+    "@text": "cce9c6c9bc755b788255290970fa148bbb0d3be183d18bcb8e28f5b4e8f923fa"
+   },
+   "works_like": 2092,
+   "works_like_name": {
+    "@text": "cce9c6c9bc755b788255290970fa148bbb0d3be183d18bcb8e28f5b4e8f923fa"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "273": {
+   "d4_name": {
+    "@text": "5940a3f806c0dbbb4e5800b43d8dff1893a93f4120649af67488121acc02d5d0"
+   },
+   "works_like": 2211,
+   "works_like_name": {
+    "@text": "5940a3f806c0dbbb4e5800b43d8dff1893a93f4120649af67488121acc02d5d0"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "275": {
+   "d4_name": {
+    "@text": "c6f115f9a774af6f819555e1aae09190e4dc2e482acecdf5ac96e02e3d10a650"
+   },
+   "works_like": 2142,
+   "works_like_name": {
+    "@text": "c6f115f9a774af6f819555e1aae09190e4dc2e482acecdf5ac96e02e3d10a650"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "327": {
+   "d4_name": {
+    "@text": "23bccfdf27fb954a7d0a0dc11e682515eeb3739ed5bb7ab4162eaeb157dcb5f1"
+   },
+   "works_like": 1222,
+   "works_like_name": {
+    "@text": "23bccfdf27fb954a7d0a0dc11e682515eeb3739ed5bb7ab4162eaeb157dcb5f1"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "329": {
+   "d4_name": {
+    "@text": "1d79fa2249232f49d9300f55010f5cc336e6bc792c55f0b115c79434c7a8814c"
+   },
+   "works_like": 1052,
+   "works_like_name": {
+    "@text": "1d79fa2249232f49d9300f55010f5cc336e6bc792c55f0b115c79434c7a8814c"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "334": {
+   "d4_name": {
+    "@text": "71ad6a3549937dd613a8374560f3cec23cd94d91a161aa1441b238528b5229e3"
+   },
+   "works_like": 1054,
+   "works_like_name": {
+    "@text": "71ad6a3549937dd613a8374560f3cec23cd94d91a161aa1441b238528b5229e3"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "343": {
+   "d4_name": {
+    "@text": "a92d5c74074f34487c8359229e873d05a74635429bd18cdaf445355908814224"
+   },
+   "works_like": 1160,
+   "works_like_name": {
+    "@text": "a92d5c74074f34487c8359229e873d05a74635429bd18cdaf445355908814224"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "345": {
+   "d4_name": {
+    "@text": "c19451f07a6408c84fba731629ffddaa9d2560d5aa529c01546209145cb5bb70"
+   },
+   "works_like": 1210,
+   "works_like_name": {
+    "@text": "c19451f07a6408c84fba731629ffddaa9d2560d5aa529c01546209145cb5bb70"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "348": {
+   "d4_name": {
+    "@text": "7bcdf89248d9fdcd063fd295fe8bcf8e2006f898819b17f65d25c5b439eba14b"
+   },
+   "works_like": 2124,
+   "works_like_name": {
+    "@text": "7bcdf89248d9fdcd063fd295fe8bcf8e2006f898819b17f65d25c5b439eba14b"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "350": {
+   "d4_name": {
+    "@text": "a0d020c2eb899d898b9fb79e231077e84214ee41840d52541dee0b1b90396c74"
+   },
+   "works_like": 1131,
+   "works_like_name": {
+    "@text": "a0d020c2eb899d898b9fb79e231077e84214ee41840d52541dee0b1b90396c74"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "356": {
+   "d4_name": {
+    "@text": "f30ef56da63eda329f5eacc050d811e7a14f4fae0237a7386879d9cf248606f5"
+   },
+   "works_like": 2074,
+   "works_like_name": {
+    "@text": "f30ef56da63eda329f5eacc050d811e7a14f4fae0237a7386879d9cf248606f5"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "358": {
+   "d4_name": {
+    "@text": "718ef10df6e4493867c7eafe4e80aa11b580082c5f664640531aa88b011ca712"
+   },
+   "works_like": 1143,
+   "works_like_name": {
+    "@text": "718ef10df6e4493867c7eafe4e80aa11b580082c5f664640531aa88b011ca712"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "383": {
+   "d4_name": {
+    "@text": "726d11bd5b230253cc5f795cfcb3268117267cb11fee8df060a472e6448abc56"
+   },
+   "works_like": 4116,
+   "works_like_name": {
+    "@text": "726d11bd5b230253cc5f795cfcb3268117267cb11fee8df060a472e6448abc56"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "385": {
+   "d4_name": {
+    "@text": "b29a1d7620030019c09d5bb4979961a0bcee7bd832a419a52b573204b0b6309f"
+   },
+   "works_like": 1141,
+   "works_like_name": {
+    "@text": "b29a1d7620030019c09d5bb4979961a0bcee7bd832a419a52b573204b0b6309f"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "406": {
+   "d4_name": {
+    "@text": "7aa6b1e3418e6485a19aaef10676bd6a549933d79877e8d9885f121989c21356"
+   },
+   "works_like": 1040,
+   "works_like_name": {
+    "@text": "7aa6b1e3418e6485a19aaef10676bd6a549933d79877e8d9885f121989c21356"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "407": {
+   "d4_name": {
+    "@text": "d16c989c01b9e4117015da4326ae18ee7ead32fdac3f5c2eef848b27e108845e"
+   },
+   "works_like": 1030,
+   "works_like_name": {
+    "@text": "d16c989c01b9e4117015da4326ae18ee7ead32fdac3f5c2eef848b27e108845e"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "409": {
+   "d4_name": {
+    "@text": "7b3860d56ee991fab2cb09a8e1af30cb6bf906125b72698f8ca5d365bc7419fc"
+   },
+   "works_like": 1090,
+   "works_like_name": {
+    "@text": "7b3860d56ee991fab2cb09a8e1af30cb6bf906125b72698f8ca5d365bc7419fc"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "410": {
+   "d4_name": {
+    "@text": "f9488b73b1e7d8471d8dd242e3e71ce4a2ec35136126ba9f50fc554b81554ef9"
+   },
+   "works_like": 1095,
+   "works_like_name": {
+    "@text": "f9488b73b1e7d8471d8dd242e3e71ce4a2ec35136126ba9f50fc554b81554ef9"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "411": {
+   "d4_name": {
+    "@text": "4f0db5bc37f585aff6ca82a63c1d0aa7b2678f17769359776822ad74518b8128"
+   },
+   "works_like": 1094,
+   "works_like_name": {
+    "@text": "4f0db5bc37f585aff6ca82a63c1d0aa7b2678f17769359776822ad74518b8128"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "422": {
+   "d4_name": {
+    "@text": "69f0f84f40efcb8c791aa0ae2e21f916cde701ff74600e4c470b6e9cbcb63a4d"
+   },
+   "works_like": 2050,
+   "works_like_name": {
+    "@text": "69f0f84f40efcb8c791aa0ae2e21f916cde701ff74600e4c470b6e9cbcb63a4d"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "426": {
+   "d4_name": {
+    "@text": "8c072e9ee4840a21ec1ed376b003b15026df49d739fc69a57e982043af5a6018"
+   },
+   "works_like": 2053,
+   "works_like_name": {
+    "@text": "8c072e9ee4840a21ec1ed376b003b15026df49d739fc69a57e982043af5a6018"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "441": {
+   "d4_name": {
+    "@text": "6221c66886341503152ef4f344aa04bbe3c3c7645c1f11db8003e8e1464f3431"
+   },
+   "works_like": 2122,
+   "works_like_name": {
+    "@text": "6221c66886341503152ef4f344aa04bbe3c3c7645c1f11db8003e8e1464f3431"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "444": {
+   "d4_name": {
+    "@text": "c8d1df198dda22f19f392506fe5d40e0965e4e7063395f46316e935b614f2f9a"
+   },
+   "works_like": 1062,
+   "works_like_name": {
+    "@text": "c8d1df198dda22f19f392506fe5d40e0965e4e7063395f46316e935b614f2f9a"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "464": {
+   "d4_name": {
+    "@text": "2eb503aadf450754d33f8497838cf7f0299331522ba93f9637ae36258d613037"
+   },
+   "works_like": 244,
+   "works_like_name": {
+    "@text": "2eb503aadf450754d33f8497838cf7f0299331522ba93f9637ae36258d613037"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "475": {
+   "d4_name": {
+    "@text": "79316fce536f583c92db9cd05ba4ff654a8ac9347e2627e430891efa9b03bc34"
+   },
+   "works_like": 1093,
+   "works_like_name": {
+    "@text": "79316fce536f583c92db9cd05ba4ff654a8ac9347e2627e430891efa9b03bc34"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "622": {
+   "d4_name": {
+    "@text": "16c25a76bf4a7515483c3cb214a32889664d54ebf828c5a3489e2b042881075f"
+   },
+   "works_like": 6120,
+   "works_like_name": {
+    "@text": "16c25a76bf4a7515483c3cb214a32889664d54ebf828c5a3489e2b042881075f"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "643": {
+   "d4_name": {
+    "@text": "c2cfec66629abd71488212efd5fbb8c6d88459318d65929dffc0e9d02ad26623"
+   },
+   "works_like": 1215,
+   "works_like_name": {
+    "@text": "c2cfec66629abd71488212efd5fbb8c6d88459318d65929dffc0e9d02ad26623"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "652": {
+   "d4_name": {
+    "@text": "e6e568805162837b4f952169e75faa427d481b7b38b6416ad48609840cb54631"
+   },
+   "works_like": 1092,
+   "works_like_name": {
+    "@text": "e6e568805162837b4f952169e75faa427d481b7b38b6416ad48609840cb54631"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "666": {
+   "d4_name": {
+    "@text": "f524d4f0ff4026ac72fbd72bf31ce3b432ab4a0ba681587746738078c0496300"
+   },
+   "works_like": 2204,
+   "works_like_name": {
+    "@text": "f524d4f0ff4026ac72fbd72bf31ce3b432ab4a0ba681587746738078c0496300"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "698": {
+   "d4_name": {
+    "@text": "4e3b5d1c7fde9869879abbc3d3a69426181d22b4d6ba11d63760d353ce533628"
+   },
+   "works_like": 1151,
+   "works_like_name": {
+    "@text": "4e3b5d1c7fde9869879abbc3d3a69426181d22b4d6ba11d63760d353ce533628"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "805": {
+   "d4_name": {
+    "@text": "392a55fa71877acfa9302b6f996db54c6bf279ce714264154b833de14d5412eb"
+   },
+   "works_like": 2203,
+   "works_like_name": {
+    "@text": "392a55fa71877acfa9302b6f996db54c6bf279ce714264154b833de14d5412eb"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "810": {
+   "d4_name": {
+    "@text": "13b2a288492608c0adf35b03b8d9d3f6e21f1ebd715806e9f155130fdfe00aa7"
+   },
+   "works_like": 1184,
+   "works_like_name": {
+    "@text": "13b2a288492608c0adf35b03b8d9d3f6e21f1ebd715806e9f155130fdfe00aa7"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "815": {
+   "d4_name": {
+    "@text": "bc1e3978f56b836e71c0dd4da4b9859e30e23841f44599cf554081647ad492fa"
+   },
+   "works_like": 6032,
+   "works_like_name": {
+    "@text": "bc1e3978f56b836e71c0dd4da4b9859e30e23841f44599cf554081647ad492fa"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "818": {
+   "d4_name": {
+    "@text": "b75c49dff0803868ad59e254260cfdaa7a121ab1b03ba1f058864eb69e48f1a4"
+   },
+   "works_like": 6111,
+   "works_like_name": {
+    "@text": "b75c49dff0803868ad59e254260cfdaa7a121ab1b03ba1f058864eb69e48f1a4"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "819": {
+   "d4_name": {
+    "@text": "761b49bb7e43ba5af1fbf6b281f6acf15fd5e06865b812d8c1bd9a6608529ece"
+   },
+   "works_like": 6110,
+   "works_like_name": {
+    "@text": "761b49bb7e43ba5af1fbf6b281f6acf15fd5e06865b812d8c1bd9a6608529ece"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "824": {
+   "d4_name": {
+    "@text": "b56d74d8df3cfa1367bfa30c1ded026ae52ffb328e0440961c5c66c47961e3b3"
+   },
+   "works_like": 6041,
+   "works_like_name": {
+    "@text": "b56d74d8df3cfa1367bfa30c1ded026ae52ffb328e0440961c5c66c47961e3b3"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "828": {
+   "d4_name": {
+    "@text": "e7c3a2ce1c2e205ab8090a2e91df089387f55c729cacb4f2f01d6e48b6cfad92"
+   },
+   "works_like": 241,
+   "works_like_name": {
+    "@text": "e7c3a2ce1c2e205ab8090a2e91df089387f55c729cacb4f2f01d6e48b6cfad92"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "831": {
+   "d4_name": {
+    "@text": "ea202ab4d975d5f8a6d7dd58d16947b42c8c79c8dff4b66df2a347ee9b4e312a"
+   },
+   "works_like": 6067,
+   "works_like_name": {
+    "@text": "ea202ab4d975d5f8a6d7dd58d16947b42c8c79c8dff4b66df2a347ee9b4e312a"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "833": {
+   "d4_name": {
+    "@text": "73df0a5837f1146c8a665bbd59b7c048c7223e201c7a8241fb99b41d4779cfd7"
+   },
+   "works_like": 1055,
+   "works_like_name": {
+    "@text": "73df0a5837f1146c8a665bbd59b7c048c7223e201c7a8241fb99b41d4779cfd7"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "849": {
+   "d4_name": {
+    "@text": "b96d4cf367a03e7c8667f021c5518cc3ad7558f0eb0877d7361294d16accb71f"
+   },
+   "works_like": 6061,
+   "works_like_name": {
+    "@text": "b96d4cf367a03e7c8667f021c5518cc3ad7558f0eb0877d7361294d16accb71f"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "853": {
+   "d4_name": {
+    "@text": "0e267bec6e5241cb8f7da5d0e919c575518f84eb2564abca4b8366467384d8b6"
+   },
+   "works_like": 6035,
+   "works_like_name": {
+    "@text": "0e267bec6e5241cb8f7da5d0e919c575518f84eb2564abca4b8366467384d8b6"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "856": {
+   "d4_name": {
+    "@text": "fc4b511b632817aad66941aa99ef303d70e34bb643d65a90116c595e0832c588"
+   },
+   "works_like": 6056,
+   "works_like_name": {
+    "@text": "fc4b511b632817aad66941aa99ef303d70e34bb643d65a90116c595e0832c588"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "860": {
+   "d4_name": {
+    "@text": "505c6e9cc0efbf85d0d0e565351b1f08270294784b183559a8c57f986dc7c6a2"
+   },
+   "works_like": 45,
+   "works_like_name": {
+    "@text": "505c6e9cc0efbf85d0d0e565351b1f08270294784b183559a8c57f986dc7c6a2"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "862": {
+   "d4_name": {
+    "@text": "8f87a402ef3e904957743428ca7d23fec1266e0c64921ec15736ef97614b850c"
+   },
+   "works_like": 1174,
+   "works_like_name": {
+    "@text": "8f87a402ef3e904957743428ca7d23fec1266e0c64921ec15736ef97614b850c"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "887": {
+   "d4_name": {
+    "@text": "653ccc77ee064ccabccc0902d083a75a47e25de48b00f96d0becb97353d212f4"
+   },
+   "works_like": 6127,
+   "works_like_name": {
+    "@text": "653ccc77ee064ccabccc0902d083a75a47e25de48b00f96d0becb97353d212f4"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "890": {
+   "d4_name": {
+    "@text": "a94953e6e26ed3d9751a4dd5e4674a587232a894999224e5ce566be1f0895d89"
+   },
+   "works_like": 6043,
+   "works_like_name": {
+    "@text": "a94953e6e26ed3d9751a4dd5e4674a587232a894999224e5ce566be1f0895d89"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: corresponding condition/target/effect. D5 parameters and implementation retained, including any magnitude, scope or timing differences; native equivalence untested."
+  },
+  "13": {
+   "d4_name": {
+    "@text": "e5b4dc0badf3424d8e4258699dd9b42138cfe27b9a551287b28b85f17ee4f87d"
+   },
+   "works_like": 4019,
+   "works_like_name": {
+    "@text": "c485638cf27186dd7195abc22a4441c74486fb70f73f8f0085baeb3a76edeae8"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "c141faa80e43a11909f5736d1e767f12e1468aa06dadd446081746934e875fc3"
+     },
+     " damage +30%. D4 adaptation: D5 conditions, bonus stacking and limits. Common Evility: 3 slots; learnable from rank 1."
+    ]
+   },
+   "note": "Ordinary D5 donor alias, without parameter overrides. Source damage boosts scale sequentially; D5 combines bonuses using its own stacking, caps, element/status predicates and provider rules. The normal Common shop path retains the source Mana price and donor slot cost, and offers the Evility from rank 1 even when the D4 source first learns it at rank 3. No faithful source mechanics or native gameplay acceptance claim."
+  },
+  "14": {
+   "d4_name": {
+    "@text": "b60e07ea10b992a28562f6a8c03eb870e203baf30fb51509a7d793ac810e68ec"
+   },
+   "works_like": 4027,
+   "works_like_name": {
+    "@text": "49dd67ae6195ee67282be65eb7ab3d2ef97aeb635799b24bfc886f3d639aa4fb"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "d151346fe7eea3c6a0865199579ca6017487dbf981d59cdd1fcadadb03518dc8"
+     },
+     " damage +30%. D4 adaptation: D5 conditions, bonus stacking and limits. Common Evility: 3 slots; learnable from rank 1."
+    ]
+   },
+   "note": "Ordinary D5 donor alias, without parameter overrides. Source damage boosts scale sequentially; D5 combines bonuses using its own stacking, caps, element/status predicates and provider rules. The normal Common shop path retains the source Mana price and donor slot cost, and offers the Evility from rank 1 even when the D4 source first learns it at rank 3. No faithful source mechanics or native gameplay acceptance claim."
+  },
+  "16": {
+   "d4_name": {
+    "@text": "fec0c7253430d66f34698b48e028c8a89b19ac59ae1de09632169e861843f5b7"
+   },
+   "works_like": 4031,
+   "works_like_name": {
+    "@text": "cac4964158c55de2a0c8367cf1535d404d73d93c11897cb7f7e016c47576ec1b"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "e357d396871d10121ee7921467cae8c0671d97275f7bb97e7ecfcf00970b5d27"
+     },
+     " damage +30%. D4 adaptation: D5 conditions, bonus stacking and limits. Common Evility: 3 slots; learnable from rank 1."
+    ]
+   },
+   "note": "Ordinary D5 donor alias, without parameter overrides. Source damage boosts scale sequentially; D5 combines bonuses using its own stacking, caps, element/status predicates and provider rules. The normal Common shop path retains the source Mana price and donor slot cost, and offers the Evility from rank 1 even when the D4 source first learns it at rank 3. No faithful source mechanics or native gameplay acceptance claim."
+  },
+  "272": {
+   "d4_name": {
+    "@text": "31462e9a83b90b0b03b1622dddbd73acff64476c097c804f433e9f5a72fc7034"
+   },
+   "works_like": 2073,
+   "works_like_name": {
+    "@text": "26c13a74537a21d3a0998cb836dc9f6186f1b0a222a5afb274e05737e687d222"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@authored": "Damage to sleeping units +100%. D4 adaptation: D5 conditions, bonus stacking and limits. Common Evility: 3 slots; learnable from rank 1."
+   },
+   "note": "Ordinary D5 donor alias, without parameter overrides. Source damage boosts scale sequentially; D5 combines bonuses using its own stacking, caps, element/status predicates and provider rules. The normal Common shop path retains the source Mana price and donor slot cost, and offers the Evility from rank 1 even when the D4 source first learns it at rank 3. No faithful source mechanics or native gameplay acceptance claim."
+  },
+  "274": {
+   "d4_name": {
+    "@text": "679ce5d4c07f8f5389455f300c6dc9590fabc07f30e128e504cec8068cb6886f"
+   },
+   "works_like": 2161,
+   "works_like_name": {
+    "@text": "36236f019441cc3182f722a59b9a0eac8ce098962adc8c67751041a9609decc4"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@authored": "Damage to amnesiac units +100%. D4 adaptation: D5 conditions, bonus stacking and limits. Common Evility: 3 slots; learnable from rank 1."
+   },
+   "note": "Ordinary D5 donor alias, without parameter overrides. Source damage boosts scale sequentially; D5 combines bonuses using its own stacking, caps, element/status predicates and provider rules. The normal Common shop path retains the source Mana price and donor slot cost, and offers the Evility from rank 1 even when the D4 source first learns it at rank 3. No faithful source mechanics or native gameplay acceptance claim."
+  }
+ },
+ "skills": {
+  "13081": {
+   "d4_name": {
+    "@text": "fc27f899ad3bb8fa2935014ca52bfa1286cab32f4813142f03e731e0e2e23ecd"
+   },
+   "copy_of": 915,
+   "copy_of_name": {
+    "@text": "871eee33f78a556c6b176e4d92b9de9cc55ae22d76b12ae40d6c6ce0a2944d8a"
+   },
+   "relation": "omit",
+   "experimental": true,
+   "fields": {
+    "range": 2
+   },
+   "desc": {
+    "@segments": [
+     {
+      "@text": "871eee33f78a556c6b176e4d92b9de9cc55ae22d76b12ae40d6c6ce0a2944d8a"
+     },
+     " the target from a distance (range 2). Can't throw directly afterwards."
+    ]
+   },
+   "note": "D5's Lift is a field command; whether a copy works as a learned skill needs an in-game test.",
+   "tested": "2026-10-18 in game: a copy of Lift learned as a skill does nothing",
+   "reason": "No D5 skill lifts from a distance; omitted until one can be built"
+  },
+  "13082": {
+   "d4_name": {
+    "@text": "99ab4df515ef813f43af0cedf5ae874e031e449bbf3c4bdfaf6959c207112c1d"
+   },
+   "copy_of": 1502,
+   "copy_of_name": {
+    "@text": "480d4be7d61fe52bc31768ffaaffea7ad5db66ba8b699d30623c4726704cc646"
+   },
+   "relation": "lookalike",
+   "note": "D4: damage taken -50% to -77% for 3 attacks; D5 Shield raises DEF for 3 turns.",
+   "d4_desc": {
+    "@authored": "Support: decrease the damage the target takes (lasts 3 turns)."
+   }
+  },
+  "701": {
+   "d4_name": {
+    "@text": "c141faa80e43a11909f5736d1e767f12e1468aa06dadd446081746934e875fc3"
+   },
+   "copy_of": 1001,
+   "copy_of_name": {
+    "@text": "c141faa80e43a11909f5736d1e767f12e1468aa06dadd446081746934e875fc3"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "702": {
+   "d4_name": {
+    "@text": "9374cdd14b76f78b1d20d98b96be1630154f18d2779377b05a0d7e4538deb4de"
+   },
+   "copy_of": 1002,
+   "copy_of_name": {
+    "@text": "9374cdd14b76f78b1d20d98b96be1630154f18d2779377b05a0d7e4538deb4de"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "703": {
+   "d4_name": {
+    "@text": "04246efc6fb15c35c2b40d56c3bfdce62d51c8d6414bc57094b2499ab956eadc"
+   },
+   "copy_of": 1003,
+   "copy_of_name": {
+    "@text": "04246efc6fb15c35c2b40d56c3bfdce62d51c8d6414bc57094b2499ab956eadc"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "704": {
+   "d4_name": {
+    "@text": "f55d2c39d80437915e5a0fb981b72b1bacaba78ec1eb7d14c48ea56d7bace226"
+   },
+   "copy_of": 1004,
+   "copy_of_name": {
+    "@text": "f55d2c39d80437915e5a0fb981b72b1bacaba78ec1eb7d14c48ea56d7bace226"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "705": {
+   "d4_name": {
+    "@text": "eb62408ad8f622e620af6e14d9f640aa2210934df9ba795e1e73a0a92b048dc8"
+   },
+   "copy_of": 1005,
+   "copy_of_name": {
+    "@text": "eb62408ad8f622e620af6e14d9f640aa2210934df9ba795e1e73a0a92b048dc8"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "711": {
+   "d4_name": {
+    "@text": "d151346fe7eea3c6a0865199579ca6017487dbf981d59cdd1fcadadb03518dc8"
+   },
+   "copy_of": 1101,
+   "copy_of_name": {
+    "@text": "d151346fe7eea3c6a0865199579ca6017487dbf981d59cdd1fcadadb03518dc8"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "712": {
+   "d4_name": {
+    "@text": "893372d2314c77f73ecc496c3f0395937203028905929394076a30b2ca79ce3b"
+   },
+   "copy_of": 1102,
+   "copy_of_name": {
+    "@text": "893372d2314c77f73ecc496c3f0395937203028905929394076a30b2ca79ce3b"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "713": {
+   "d4_name": {
+    "@text": "0662cbc96ce777af8f2eb2c4e472d4cf1f9d7ab6f5866e647e8593700d1eb4e2"
+   },
+   "copy_of": 1103,
+   "copy_of_name": {
+    "@text": "0662cbc96ce777af8f2eb2c4e472d4cf1f9d7ab6f5866e647e8593700d1eb4e2"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "714": {
+   "d4_name": {
+    "@text": "e224a3367e59d2df3b51878b484b8c92f2f3e544b06d6864aa918f38f1d2afc4"
+   },
+   "copy_of": 1104,
+   "copy_of_name": {
+    "@text": "e224a3367e59d2df3b51878b484b8c92f2f3e544b06d6864aa918f38f1d2afc4"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "715": {
+   "d4_name": {
+    "@text": "c863e4e5bd9abda3826fe7b7e8ada0bd0c0d26f96c0c057baf8a1b447dd982e6"
+   },
+   "copy_of": 1105,
+   "copy_of_name": {
+    "@text": "c863e4e5bd9abda3826fe7b7e8ada0bd0c0d26f96c0c057baf8a1b447dd982e6"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "721": {
+   "d4_name": {
+    "@text": "2a1a6355ed7e30b0eea3a7967a31e9c42f6afa817fbf6555df3befdf05ae38e0"
+   },
+   "copy_of": 1201,
+   "copy_of_name": {
+    "@text": "2a1a6355ed7e30b0eea3a7967a31e9c42f6afa817fbf6555df3befdf05ae38e0"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "722": {
+   "d4_name": {
+    "@text": "ef4523a2fbbaa50152629ff544c011645fb98ca670f1c6a0601ba83ba8dba207"
+   },
+   "copy_of": 1202,
+   "copy_of_name": {
+    "@text": "ef4523a2fbbaa50152629ff544c011645fb98ca670f1c6a0601ba83ba8dba207"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "723": {
+   "d4_name": {
+    "@text": "0b6fee55c3d91eb7815cbdaac6f1abba7b4173bc1c5e9f22dd78c47b563040a8"
+   },
+   "copy_of": 1203,
+   "copy_of_name": {
+    "@text": "0b6fee55c3d91eb7815cbdaac6f1abba7b4173bc1c5e9f22dd78c47b563040a8"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "724": {
+   "d4_name": {
+    "@text": "512f000d8c39e7017a881f2be6f432aced65a3e3926c7a7ee160a902d40024b6"
+   },
+   "copy_of": 1204,
+   "copy_of_name": {
+    "@text": "512f000d8c39e7017a881f2be6f432aced65a3e3926c7a7ee160a902d40024b6"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "725": {
+   "d4_name": {
+    "@text": "06cd08142ad561aa06c43450464cac2dfa0c4c5075fba2329ac71232dc3682fb"
+   },
+   "copy_of": 1205,
+   "copy_of_name": {
+    "@text": "06cd08142ad561aa06c43450464cac2dfa0c4c5075fba2329ac71232dc3682fb"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "731": {
+   "d4_name": {
+    "@text": "e357d396871d10121ee7921467cae8c0671d97275f7bb97e7ecfcf00970b5d27"
+   },
+   "copy_of": 1301,
+   "copy_of_name": {
+    "@text": "e357d396871d10121ee7921467cae8c0671d97275f7bb97e7ecfcf00970b5d27"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "732": {
+   "d4_name": {
+    "@text": "5af4d72a1eab346971d65bc53ac6ec670dd94acb977a6ec1919c2a65f5830a82"
+   },
+   "copy_of": 1302,
+   "copy_of_name": {
+    "@text": "5af4d72a1eab346971d65bc53ac6ec670dd94acb977a6ec1919c2a65f5830a82"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "733": {
+   "d4_name": {
+    "@text": "accc0324b3cc00547835569931af6a5964d53adbc5a729b71c48bc0b90b77943"
+   },
+   "copy_of": 1303,
+   "copy_of_name": {
+    "@text": "accc0324b3cc00547835569931af6a5964d53adbc5a729b71c48bc0b90b77943"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "734": {
+   "d4_name": {
+    "@text": "9cee196808341634fac7eb384406896b7a979b75def52e932316af7e5acfa96f"
+   },
+   "copy_of": 1304,
+   "copy_of_name": {
+    "@text": "9cee196808341634fac7eb384406896b7a979b75def52e932316af7e5acfa96f"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "735": {
+   "d4_name": {
+    "@text": "1e1a470d25745abc2cd5faeb0bdd6b2c28ccdde63cf1a89e04b48bcba751dfa9"
+   },
+   "copy_of": 1305,
+   "copy_of_name": {
+    "@text": "1e1a470d25745abc2cd5faeb0bdd6b2c28ccdde63cf1a89e04b48bcba751dfa9"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "801": {
+   "d4_name": {
+    "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+   },
+   "copy_of": 1401,
+   "copy_of_name": {
+    "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "802": {
+   "d4_name": {
+    "@text": "2a42559d1a8b74e32de4497006e61318a5a58d77285579ab0a386dae0facd380"
+   },
+   "copy_of": 1402,
+   "copy_of_name": {
+    "@text": "2a42559d1a8b74e32de4497006e61318a5a58d77285579ab0a386dae0facd380"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "803": {
+   "d4_name": {
+    "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+   },
+   "copy_of": 1403,
+   "copy_of_name": {
+    "@text": "976410c8ec153ca199ff222780e51b14802e855478cecc7cd7a9f77db06dfacc"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "804": {
+   "d4_name": {
+    "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+   },
+   "copy_of": 1404,
+   "copy_of_name": {
+    "@text": "061418aa9a3dbe418c571274ab13b91e38cea144c6f09aed339a85caa1deb8a5"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "805": {
+   "d4_name": {
+    "@text": "b0fb98412b20b9872c1b8265f3ebba917fe78a90c18671bd77b234624da2a015"
+   },
+   "copy_of": 1405,
+   "copy_of_name": {
+    "@text": "b0fb98412b20b9872c1b8265f3ebba917fe78a90c18671bd77b234624da2a015"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "807": {
+   "d4_name": {
+    "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+   },
+   "copy_of": 1499,
+   "copy_of_name": {
+    "@text": "5d67c0b6bd11139fbbb32d06476fe435eb7cefd14966f5309acdc3e585acfa4d"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "811": {
+   "d4_name": {
+    "@text": "932c0aca2e9956b1c1496f84f38eee46c3975a20e6a5ba57f420286f078c1213"
+   },
+   "copy_of": 1501,
+   "copy_of_name": {
+    "@text": "932c0aca2e9956b1c1496f84f38eee46c3975a20e6a5ba57f420286f078c1213"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "812": {
+   "d4_name": {
+    "@text": "480d4be7d61fe52bc31768ffaaffea7ad5db66ba8b699d30623c4726704cc646"
+   },
+   "copy_of": 1502,
+   "copy_of_name": {
+    "@text": "480d4be7d61fe52bc31768ffaaffea7ad5db66ba8b699d30623c4726704cc646"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "813": {
+   "d4_name": {
+    "@text": "6c8554b45f7129794d4792190ca1d8ec287c4b1413a55bbf62a0eee2ade3040a"
+   },
+   "copy_of": 1503,
+   "copy_of_name": {
+    "@text": "6c8554b45f7129794d4792190ca1d8ec287c4b1413a55bbf62a0eee2ade3040a"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "814": {
+   "d4_name": {
+    "@text": "92379b5967a9e70af681f35106f57f2bf9c5cc0dacae2c37e5e6c7e7e87e3746"
+   },
+   "copy_of": 1504,
+   "copy_of_name": {
+    "@text": "92379b5967a9e70af681f35106f57f2bf9c5cc0dacae2c37e5e6c7e7e87e3746"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "815": {
+   "d4_name": {
+    "@text": "a99fc7d6862f9ce1d9946be9fc39fdda7619b5f6f804d58402c91a386cfed393"
+   },
+   "copy_of": 1506,
+   "copy_of_name": {
+    "@text": "a99fc7d6862f9ce1d9946be9fc39fdda7619b5f6f804d58402c91a386cfed393"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "816": {
+   "d4_name": {
+    "@text": "ac59d88c386d66a0b89218743535682de2d1eb05460bd8552352b89945bd29a4"
+   },
+   "copy_of": 1505,
+   "copy_of_name": {
+    "@text": "ac59d88c386d66a0b89218743535682de2d1eb05460bd8552352b89945bd29a4"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "817": {
+   "d4_name": {
+    "@text": "9eb3e76dfb3c37118ae8e5330525af122146765b52a8e57ec93f19d847edbea5"
+   },
+   "copy_of": 1601,
+   "copy_of_name": {
+    "@text": "9eb3e76dfb3c37118ae8e5330525af122146765b52a8e57ec93f19d847edbea5"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "818": {
+   "d4_name": {
+    "@text": "0c4790bd3d5e718a34b6664e5f82cdc8a58fb83ef449e26ff47c818bcdc516bb"
+   },
+   "copy_of": 1602,
+   "copy_of_name": {
+    "@text": "0c4790bd3d5e718a34b6664e5f82cdc8a58fb83ef449e26ff47c818bcdc516bb"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "819": {
+   "d4_name": {
+    "@text": "9830f4e7d3344b3c2505b73f0edf5596b8cf7d4cb3ed1bc2f968ebaa675bd73f"
+   },
+   "copy_of": 1603,
+   "copy_of_name": {
+    "@text": "9830f4e7d3344b3c2505b73f0edf5596b8cf7d4cb3ed1bc2f968ebaa675bd73f"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "820": {
+   "d4_name": {
+    "@text": "6ab96accc6276e6b1e6f72bfa61ec42a4b918d38735331a843e7a92acd80fc17"
+   },
+   "copy_of": 1604,
+   "copy_of_name": {
+    "@text": "6ab96accc6276e6b1e6f72bfa61ec42a4b918d38735331a843e7a92acd80fc17"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "821": {
+   "d4_name": {
+    "@text": "4b2bebbf33aeb7aea11cbab9d95019a647ca038b638f99f593aae85b986ed2e2"
+   },
+   "copy_of": 1606,
+   "copy_of_name": {
+    "@text": "4b2bebbf33aeb7aea11cbab9d95019a647ca038b638f99f593aae85b986ed2e2"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "822": {
+   "d4_name": {
+    "@text": "64c82aaed1b4155efc23d5cfcea6ec22f8ee5826dd26f5f1274e44fe905d4fb1"
+   },
+   "copy_of": 1605,
+   "copy_of_name": {
+    "@text": "64c82aaed1b4155efc23d5cfcea6ec22f8ee5826dd26f5f1274e44fe905d4fb1"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "851": {
+   "d4_name": {
+    "@text": "d5a78b996fe640a3f9181d71da872b9dfb63bbad0d282edff0a12e4e32074b6e"
+   },
+   "copy_of": 1701,
+   "copy_of_name": {
+    "@text": "d5a78b996fe640a3f9181d71da872b9dfb63bbad0d282edff0a12e4e32074b6e"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "852": {
+   "d4_name": {
+    "@text": "0c24b0f5793e1140dbd47679783203cc52e8183f5fc9bd0f08aff79aafb76a8f"
+   },
+   "copy_of": 1702,
+   "copy_of_name": {
+    "@text": "0c24b0f5793e1140dbd47679783203cc52e8183f5fc9bd0f08aff79aafb76a8f"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "853": {
+   "d4_name": {
+    "@text": "4b63b96ae5c589ab93aa1024699b1137f822d73f3f4d6cd2749bbf4fa9193440"
+   },
+   "copy_of": 1703,
+   "copy_of_name": {
+    "@text": "4b63b96ae5c589ab93aa1024699b1137f822d73f3f4d6cd2749bbf4fa9193440"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "854": {
+   "d4_name": {
+    "@text": "05951eca489cab078929567b5dc507619033b2f00b6e8ebb20b66b7a19a28bff"
+   },
+   "copy_of": 1704,
+   "copy_of_name": {
+    "@text": "05951eca489cab078929567b5dc507619033b2f00b6e8ebb20b66b7a19a28bff"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "855": {
+   "d4_name": {
+    "@text": "cb202ce740ea23b09a039a51724a26f05a05cbd44cb1fb5692f72a7c406b4201"
+   },
+   "copy_of": 1705,
+   "copy_of_name": {
+    "@text": "cb202ce740ea23b09a039a51724a26f05a05cbd44cb1fb5692f72a7c406b4201"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "10901": {
+   "d4_name": {
+    "@text": "812b7167105df5bbfb33097111b300408c2f66276be9e079d99a388a78003aac"
+   },
+   "copy_of": 1901,
+   "copy_of_name": {
+    "@text": "812b7167105df5bbfb33097111b300408c2f66276be9e079d99a388a78003aac"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "10903": {
+   "d4_name": {
+    "@text": "d647ba4e9c4af5805c0cb5cad6dcc77417da4dac4f0287f7699c61fe57187a30"
+   },
+   "copy_of": 1903,
+   "copy_of_name": {
+    "@text": "d647ba4e9c4af5805c0cb5cad6dcc77417da4dac4f0287f7699c61fe57187a30"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "10904": {
+   "d4_name": {
+    "@text": "61b81a1e6d62c4c290ae3c94e384e5c3a7acc07b45b0a0fd82e55481c789d144"
+   },
+   "copy_of": 1904,
+   "copy_of_name": {
+    "@text": "61b81a1e6d62c4c290ae3c94e384e5c3a7acc07b45b0a0fd82e55481c789d144"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "10905": {
+   "d4_name": {
+    "@text": "b39a456fb6c0ffafa9d2e1832c75f33a4acb5c9383b6d0a0e41f9ab8685b3ad5"
+   },
+   "copy_of": 1905,
+   "copy_of_name": {
+    "@text": "b39a456fb6c0ffafa9d2e1832c75f33a4acb5c9383b6d0a0e41f9ab8685b3ad5"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "10906": {
+   "d4_name": {
+    "@text": "d449e7440f93e080cd91f6a8ead4a31f685215397070b0d8c12accc9186f47d5"
+   },
+   "copy_of": 1906,
+   "copy_of_name": {
+    "@text": "d449e7440f93e080cd91f6a8ead4a31f685215397070b0d8c12accc9186f47d5"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13031": {
+   "d4_name": {
+    "@text": "4633b6e52a36882b7648832a20773fecd04c370db432d59175d5fbb767f83789"
+   },
+   "copy_of": 11032,
+   "copy_of_name": {
+    "@text": "4633b6e52a36882b7648832a20773fecd04c370db432d59175d5fbb767f83789"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13041": {
+   "d4_name": {
+    "@text": "9a7d8b2ce335ee8b1c87c9b16fa9d120291b1b3c8decb974ac7ac8ddcb4456cd"
+   },
+   "copy_of": 11042,
+   "copy_of_name": {
+    "@text": "9a7d8b2ce335ee8b1c87c9b16fa9d120291b1b3c8decb974ac7ac8ddcb4456cd"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13091": {
+   "d4_name": {
+    "@text": "f3172f54f825f33906abc3d099ab871a05dc50d27fcd57c304e42206ddc4d699"
+   },
+   "copy_of": 11091,
+   "copy_of_name": {
+    "@text": "f3172f54f825f33906abc3d099ab871a05dc50d27fcd57c304e42206ddc4d699"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13092": {
+   "d4_name": {
+    "@text": "f729e3aba0e22c3f743357d8bd7eb0dcfd9ddee9ed247f18eda6a50e1b88b79c"
+   },
+   "copy_of": 11092,
+   "copy_of_name": {
+    "@text": "f729e3aba0e22c3f743357d8bd7eb0dcfd9ddee9ed247f18eda6a50e1b88b79c"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13093": {
+   "d4_name": {
+    "@text": "a8170859204c8d3eb04a2266e64fca927ea74dcb995142df2dfccb205886ca32"
+   },
+   "copy_of": 11093,
+   "copy_of_name": {
+    "@text": "a8170859204c8d3eb04a2266e64fca927ea74dcb995142df2dfccb205886ca32"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13101": {
+   "d4_name": {
+    "@text": "d6c601c1b7a359ff0c00589334c8d55e2abe467a35ab181e323dc4f7029649ff"
+   },
+   "copy_of": 11131,
+   "copy_of_name": {
+    "@text": "d6c601c1b7a359ff0c00589334c8d55e2abe467a35ab181e323dc4f7029649ff"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13131": {
+   "d4_name": {
+    "@text": "8b30f08c5c33277e7418770d56b9dccba07241b492652fb89694521ea23af2e7"
+   },
+   "copy_of": 11261,
+   "copy_of_name": {
+    "@text": "8b30f08c5c33277e7418770d56b9dccba07241b492652fb89694521ea23af2e7"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13132": {
+   "d4_name": {
+    "@text": "0e55da84a535ab80b28fb02575b16c2e32b7e0b522f4795ae185b27293842786"
+   },
+   "copy_of": 11262,
+   "copy_of_name": {
+    "@text": "0e55da84a535ab80b28fb02575b16c2e32b7e0b522f4795ae185b27293842786"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13212": {
+   "d4_name": {
+    "@text": "f02f33b50f61116b60ffcedcb46a4ff47638a768f115351d8979506382d78cdd"
+   },
+   "copy_of": 11172,
+   "copy_of_name": {
+    "@text": "f02f33b50f61116b60ffcedcb46a4ff47638a768f115351d8979506382d78cdd"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13231": {
+   "d4_name": {
+    "@text": "507a2c512150dae7875adb98f4322f10207de0a318c4dda538a3e218760bcd05"
+   },
+   "copy_of": 11251,
+   "copy_of_name": {
+    "@text": "507a2c512150dae7875adb98f4322f10207de0a318c4dda538a3e218760bcd05"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "13232": {
+   "d4_name": {
+    "@text": "7940811060c427113a690f45e5f09595482970097d6b4c472b17caf9b5940136"
+   },
+   "copy_of": 11252,
+   "copy_of_name": {
+    "@text": "7940811060c427113a690f45e5f09595482970097d6b4c472b17caf9b5940136"
+   },
+   "relation": "adapted",
+   "note": "Reviewed source/destination descriptions: shared action role; D5 execution, targeting, power, timing and scenes retained. No faithful D4 mechanics claim."
+  },
+  "10181": {
+   "d4_name": {
+    "@text": "4c8ae9b0cdb254d2cd8b2d67cece536ea2636c79e49207f3629bb8244c1d6dc0"
+   },
+   "copy_of": 10611,
+   "copy_of_name": {
+    "@text": "4c8ae9b0cdb254d2cd8b2d67cece536ea2636c79e49207f3629bb8244c1d6dc0"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "e357d396871d10121ee7921467cae8c0671d97275f7bb97e7ecfcf00970b5d27"
+     },
+     " damage. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "10182": {
+   "d4_name": {
+    "@text": "b0a0a58fad9e155bf16f2121f18a54747be2ee6acbeb3dc65720ec147ae65475"
+   },
+   "copy_of": 10612,
+   "copy_of_name": {
+    "@text": "b0a0a58fad9e155bf16f2121f18a54747be2ee6acbeb3dc65720ec147ae65475"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "e357d396871d10121ee7921467cae8c0671d97275f7bb97e7ecfcf00970b5d27"
+     },
+     " damage. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "10193": {
+   "d4_name": {
+    "@text": "38b4972da4d4aaf53899f1c8f576a160604b2153d75b03b993f6d4410ec9fded"
+   },
+   "copy_of": 12013,
+   "copy_of_name": {
+    "@text": "38b4972da4d4aaf53899f1c8f576a160604b2153d75b03b993f6d4410ec9fded"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "e357d396871d10121ee7921467cae8c0671d97275f7bb97e7ecfcf00970b5d27"
+     },
+     " damage. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {
+    "element": 4
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12012": {
+   "d4_name": {
+    "@text": "c52584036ce98c4fbfd13ac8a2106d6f49bde4a2919cc7b15ff1716194187419"
+   },
+   "copy_of": 12063,
+   "copy_of_name": {
+    "@text": "c52584036ce98c4fbfd13ac8a2106d6f49bde4a2919cc7b15ff1716194187419"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 40% Poison. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12032": {
+   "d4_name": {
+    "@text": "0d9d59a2d798f85d77c22883c34aa75e3935ee75a727fee9276021d8093ffbf3"
+   },
+   "copy_of": 12082,
+   "copy_of_name": {
+    "@text": "0d9d59a2d798f85d77c22883c34aa75e3935ee75a727fee9276021d8093ffbf3"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 50% Paralysis. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12072": {
+   "d4_name": {
+    "@text": "0f6bcbdf20fda11c574f09902a3a08351b3744262dcea1b9f0aa7d12e238f037"
+   },
+   "copy_of": 12011,
+   "copy_of_name": {
+    "@text": "0f6bcbdf20fda11c574f09902a3a08351b3744262dcea1b9f0aa7d12e238f037"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12074": {
+   "d4_name": {
+    "@text": "e95eabb2f5084347496abb608d53033204271ededb414d4fa332e9f7c28a26d3"
+   },
+   "copy_of": 12014,
+   "copy_of_name": {
+    "@text": "e95eabb2f5084347496abb608d53033204271ededb414d4fa332e9f7c28a26d3"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "e357d396871d10121ee7921467cae8c0671d97275f7bb97e7ecfcf00970b5d27"
+     },
+     " damage. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {
+    "element": 4
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12082": {
+   "d4_name": {
+    "@text": "a06d6abcd74c7aea9c42da00bafca7b4503862a67a22968c483452137ba6003d"
+   },
+   "copy_of": 12092,
+   "copy_of_name": {
+    "@text": "a06d6abcd74c7aea9c42da00bafca7b4503862a67a22968c483452137ba6003d"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "d151346fe7eea3c6a0865199579ca6017487dbf981d59cdd1fcadadb03518dc8"
+     },
+     " damage. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {
+    "element": 2
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12182": {
+   "d4_name": {
+    "@text": "36af480796ff7b1064613e8e5c9b6738d6f8caab9858712b940a888b705cbde9"
+   },
+   "copy_of": 12122,
+   "copy_of_name": {
+    "@text": "36af480796ff7b1064613e8e5c9b6738d6f8caab9858712b940a888b705cbde9"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and knockback. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12183": {
+   "d4_name": {
+    "@text": "373359cadb4584b66ad725b82fa278b452a7213a6a2ce309260982c18583e6ba"
+   },
+   "copy_of": 12123,
+   "copy_of_name": {
+    "@text": "373359cadb4584b66ad725b82fa278b452a7213a6a2ce309260982c18583e6ba"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "note": "Compared source row values, descriptions and actual character/rank learnsets. D5 strength, targeting, choreography and actor metadata are retained; explicit element overrides adapt the reviewed source element role. Source numeric grades and target selectors are not translated. Donor poses or actors may appear. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12042": {
+   "d4_name": {
+    "@text": "02a015c522405df301264adccee2cd9deb854d373e395669fafcd8bf9b9d1de9"
+   },
+   "copy_of": 12102,
+   "copy_of_name": {
+    "@text": "02a015c522405df301264adccee2cd9deb854d373e395669fafcd8bf9b9d1de9"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {
+    "effect2_type": 0,
+    "effect2_value": 0
+   },
+   "note": "Compared source status description, stored role codes and character/rank learnsets. Ordinary effect-slot overrides remove donor Paralysis or add Poison; D5 damage strength, targeting, choreography and actor metadata remain. Source power grades and target selectors are not translated. D5 status chance, duration, immunity and interaction rules apply. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12102": {
+   "d4_name": {
+    "@text": "0a01601545646777573de631f45477d41a937e6092c9a6acec4438452278d204"
+   },
+   "copy_of": 12111,
+   "copy_of_name": {
+    "@text": "0a01601545646777573de631f45477d41a937e6092c9a6acec4438452278d204"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 50% Poison. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {
+    "effect2_type": 21,
+    "effect2_value": 50
+   },
+   "note": "Compared source status description, stored role codes and character/rank learnsets. Ordinary effect-slot overrides remove donor Paralysis or add Poison; D5 damage strength, targeting, choreography and actor metadata remain. Source power grades and target selectors are not translated. D5 status chance, duration, immunity and interaction rules apply. No faithful D4 mechanics or native gameplay acceptance claim."
+  },
+  "12013": {
+   "d4_name": {
+    "@text": "12baa956cbc92cf84bd223c104cde66aac050111dad106b3496e62f9a6a538b2"
+   },
+   "copy_of": 12062,
+   "copy_of_name": {
+    "@text": "f0a7e618f8d05402a420fd5b8b472af96a095abd2e8923f4a6b3f17d2627dd99"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 30% Poison. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {},
+   "note": "Corresponding creature attack role and actual source rank learnsets reviewed with original row/status controls. D4 nominal Poison byte50 becomes donor D5 value30; damage strength/targeting/timing remain D5. D5 formula, main damage magnitude, level-power curve, SP cost, target flags/area, choreography and actor metadata retained. Source signed grades/target selectors are not converted; nominal matching status values do not establish equal hit, immunity, duration or stacking. No faithful-source mechanics, presentation or gameplay acceptance claim."
+  },
+  "12014": {
+   "d4_name": {
+    "@text": "7a7039a036b4cbe1f1318141250818778f9b9659a9d4462d33499f4e66ba2e06"
+   },
+   "copy_of": 12064,
+   "copy_of_name": {
+    "@text": "2bcf57e6d0fc6bb67b93dcd2b26977cfcd715b28e88927dfcc75947e424d2862"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 50% Poison. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {},
+   "note": "Corresponding creature attack role and actual source rank learnsets reviewed with original row/status controls. Nominal Poison50 is shared; D4 Muscle Slime narrative is adapted to D5 Cell Division presentation and strength. D5 formula, main damage magnitude, level-power curve, SP cost, target flags/area, choreography and actor metadata retained. Source signed grades/target selectors are not converted; nominal matching status values do not establish equal hit, immunity, duration or stacking. No faithful-source mechanics, presentation or gameplay acceptance claim."
+  },
+  "12033": {
+   "d4_name": {
+    "@text": "a726f7ff7d12aacc27165a713d7f5020b6daeed9244e06dd0541e68eef8b704b"
+   },
+   "copy_of": 12083,
+   "copy_of_name": {
+    "@text": "9a8df29d5950edf59c2f3ca44ebc646d05d92879a218480a1efb6992b74db322"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 30% Amnesia. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {},
+   "note": "Corresponding creature attack role and actual source rank learnsets reviewed with original row/status controls. D4 nominal Forget50 becomes donor D5 Amnesia30; D5 ailment rules, target area and dive presentation apply. D5 formula, main damage magnitude, level-power curve, SP cost, target flags/area, choreography and actor metadata retained. Source signed grades/target selectors are not converted; nominal matching status values do not establish equal hit, immunity, duration or stacking. No faithful-source mechanics, presentation or gameplay acceptance claim."
+  },
+  "12081": {
+   "d4_name": {
+    "@text": "b13c649ed4ec6c27fa8aa447e336dee2a03f61df4c22dfe342a13d767ee5fee0"
+   },
+   "copy_of": 12091,
+   "copy_of_name": {
+    "@text": "df8ae5455fd28acd21411240d700661a4cb6cbaf2663929707572dd277589bbf"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 40% Poison. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {},
+   "note": "Corresponding creature attack role and actual source rank learnsets reviewed with original row/status controls. D4 nominal Poison30 becomes donor D5 value40; detached-skull presentation becomes D5 Rotten Headbutt. D5 formula, main damage magnitude, level-power curve, SP cost, target flags/area, choreography and actor metadata retained. Source signed grades/target selectors are not converted; nominal matching status values do not establish equal hit, immunity, duration or stacking. No faithful-source mechanics, presentation or gameplay acceptance claim."
+  },
+  "12184": {
+   "d4_name": {
+    "@text": "6445ea36999c95119b26f5e6c27dab862796c21204eb75df987918f76de4afe8"
+   },
+   "copy_of": 12124,
+   "copy_of_name": {
+    "@text": "92f97c11b5a77828f5c734ed069cf577f1c3f6e4b3a2cc0b8f396e39596a2e95"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 50% Paralysis. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {},
+   "note": "Corresponding creature attack role and actual source rank learnsets reviewed with original row/status controls. Both store nominal Paralysis50; D5 damage75, choreography and recipient rules remain, not equivalent source damage. D5 formula, main damage magnitude, level-power curve, SP cost, target flags/area, choreography and actor metadata retained. Source signed grades/target selectors are not converted; nominal matching status values do not establish equal hit, immunity, duration or stacking. No faithful-source mechanics, presentation or gameplay acceptance claim."
+  },
+  "12083": {
+   "d4_name": {
+    "@text": "d1e57cc2a09d72cae16457b9f645c6880e6508833381ee7e001f7f2977f95efa"
+   },
+   "copy_of": 12093,
+   "copy_of_name": {
+    "@text": "dd9b9f483d6685bf200d6266ee88ea4a0eb9e14d95b5e4ac31071052a1728bbf"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 50% Poison. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {
+    "effect2_type": 21,
+    "effect2_value": 50
+   },
+   "note": "Corresponding creature attack role and actual source rank learnsets reviewed with original row/status controls. Add an ordinary D5 Poison50 slot; this chooses D5 status behavior and does not prove source hit/immunity/duration equivalence. D5 formula, main damage magnitude, level-power curve, SP cost, target flags/area, choreography and actor metadata retained. Source signed grades/target selectors are not converted; nominal matching status values do not establish equal hit, immunity, duration or stacking. No faithful-source mechanics, presentation or gameplay acceptance claim."
+  },
+  "12043": {
+   "d4_name": {
+    "@text": "dba4789fdf9c0e6f0cd7cfad1f5c11361ee7c9634eb9fb9eb8c8488bdbbb6d7b"
+   },
+   "copy_of": 12103,
+   "copy_of_name": {
+    "@text": "97eded7541c85c8f8468a579ebb6ab2d147b49797983ef1fd341e9d3d09fa759"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 30% Amnesia. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {
+    "effect2_type": 24,
+    "effect2_value": 30
+   },
+   "note": "Corresponding creature attack role and actual source rank learnsets reviewed with original row/status controls. Add D5 Amnesia30; D5 Mushroom Spin geometry/choreography and impairment rules are explicit adaptations. D5 formula, main damage magnitude, level-power curve, SP cost, target flags/area, choreography and actor metadata retained. Source signed grades/target selectors are not converted; nominal matching status values do not establish equal hit, immunity, duration or stacking. No faithful-source mechanics, presentation or gameplay acceptance claim."
+  },
+  "12031": {
+   "d4_name": {
+    "@text": "4464b51689712a7118c6bda7cff0cc0185d8a7308a79d1008bf2ff8173a34736"
+   },
+   "copy_of": 12081,
+   "copy_of_name": {
+    "@text": "03b51e49147c137a0ca48f5a099aa890fc5ec392677834c44e600a89e8b30395"
+   },
+   "relation": "adapted",
+   "desc": {
+    "@segments": [
+     {
+      "@text": "a89383f1a4302676318d7ff58fcce2c8bf4fd46ac48aa55fcbebb6a340ca2c60"
+     },
+     " damage and 50% Sleep. D4 adaptation; D5 strength, reach, area and timing."
+    ]
+   },
+   "fields": {
+    "effect2_type": 22,
+    "effect2_value": 50,
+    "effect3_type": 0,
+    "effect3_value": 0,
+    "effect4_type": 0,
+    "effect4_value": 0
+   },
+   "note": "Corresponding creature attack role and actual source rank learnsets reviewed with original row/status controls. Replace donor Poison/Sleep/Paralysis set with D5 Sleep50, clearing the other slots; D5 powder choreography replaces a source cocoon. D5 formula, main damage magnitude, level-power curve, SP cost, target flags/area, choreography and actor metadata retained. Source signed grades/target selectors are not converted; nominal matching status values do not establish equal hit, immunity, duration or stacking. No faithful-source mechanics, presentation or gameplay acceptance claim."
+  }
+ },
+ "voice": {
+  "flags_to_d5": {},
+  "status": "unmapped",
+  "note": "Twelve native categories follow a separate signed rate input. Tier 1 conversion may use explicit adapted event choices and D5 timing/randomizer; no native shim required. Unmapped categories remain gaps."
+ },
+ "personalities": {
+  "1080": [
+   {
+    "@text": "784959c309d157a33ce4a4d70edd84216959a55df2693736e810a7552c600244"
+   },
+   {
+    "@text": "b2d7dd916beb46ed8205aca1336cb651e751021fa6a2b18955609b6820ffc6be"
+   },
+   {
+    "@text": "5404d255d9467a65cc0655f025f0d1b53622fa68e6683f6f0842565ce55ea17c"
+   }
+  ]
+ },
+ "uniques": {
+  "240": {
+   "name": {
+    "@text": "72cbe5730360cc60c495db40be6f83962646a52f9ab4d26f255ed6769781ab32"
+   },
+   "no_source_skills": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset empty, weapon_skills empty",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 5,
+     "d5_id": 12101,
+     "d5_name": {
+      "@text": "bb7b1a5202955684ff217a46cd10b6e5db4e494ed671ab3ba40eab6dfb70aae3"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2100 own monster skill, learn level 5"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 15,
+     "d5_id": 12102,
+     "d5_name": {
+      "@text": "02a015c522405df301264adccee2cd9deb854d373e395669fafcd8bf9b9d1de9"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2100 own monster skill, learn level 15"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 12103,
+     "d5_name": {
+      "@text": "97eded7541c85c8f8468a579ebb6ab2d147b49797983ef1fd341e9d3d09fa759"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2100 own monster skill, learn level 30"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 50,
+     "d5_id": 12104,
+     "d5_name": {
+      "@text": "e4ba5aa4f92393c7e12094b61b8da55640b4c5d1a7c5ba1cee1da0d4a43d8f30"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2100 own monster skill, learn level 50"
+    }
+   ],
+   "no_source_innate": true,
+   "innate_source": "Disgaea 4 Complete+ char.dat +0x1B4 innate_evility = 0 (read with d5lib.d4source, EVILFX3 2026-11-10): the source unit has no innate evility, so a blank status page 3 is faithful"
+  },
+  "250": {
+   "name": {
+    "@text": "da9101ad7c75da2736cf17fa005cc404078fb733d40b8d7a90b7c6f492058c85"
+   },
+   "no_source_skills": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset empty, weapon_skills empty",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 5,
+     "d5_id": 12101,
+     "d5_name": {
+      "@text": "bb7b1a5202955684ff217a46cd10b6e5db4e494ed671ab3ba40eab6dfb70aae3"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2100 own monster skill, learn level 5"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 15,
+     "d5_id": 12102,
+     "d5_name": {
+      "@text": "02a015c522405df301264adccee2cd9deb854d373e395669fafcd8bf9b9d1de9"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2100 own monster skill, learn level 15"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 12103,
+     "d5_name": {
+      "@text": "97eded7541c85c8f8468a579ebb6ab2d147b49797983ef1fd341e9d3d09fa759"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2100 own monster skill, learn level 30"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 50,
+     "d5_id": 12104,
+     "d5_name": {
+      "@text": "e4ba5aa4f92393c7e12094b61b8da55640b4c5d1a7c5ba1cee1da0d4a43d8f30"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2100 own monster skill, learn level 50"
+    }
+   ],
+   "no_source_innate": true,
+   "innate_source": "Disgaea 4 Complete+ char.dat +0x1B4 innate_evility = 0 (read with d5lib.d4source, EVILFX3 2026-11-10): the source unit has no innate evility, so a blank status page 3 is faithful"
+  },
+  "610": {
+   "name": {
+    "@text": "05cc42e7377995025572f789f47683c7831c30f9b1d332a585b63307bb21386e"
+   },
+   "no_source_skills": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset empty, weapon_skills empty",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 5,
+     "d5_id": 12021,
+     "d5_name": {
+      "@text": "6ffa6b8b1c9fa11cb67a0a54b7e3e175dfb7edcb8e8d322148a3b00affc4a842"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2020 own monster skill, learn level 5"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 15,
+     "d5_id": 12022,
+     "d5_name": {
+      "@text": "98258c6f2e1ca6136afe340ee0ca24d9961345227c9d02ee2a56e3392d70c28f"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2020 own monster skill, learn level 15"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 12023,
+     "d5_name": {
+      "@text": "056c19191e6fab87e52540bf6d9ce4624d5f9e19813d36163f6c851abd787976"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2020 own monster skill, learn level 30"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 50,
+     "d5_id": 12024,
+     "d5_name": {
+      "@text": "b8151657d0a8d0806e7d77fc9623373d0aaa518296f3817f122f91ab376c3a3d"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills and no weapon skills (char.dat learn/weapon slots empty); template class 2020 own monster skill, learn level 50"
+    }
+   ]
+  },
+  "4390": {
+   "name": {
+    "@text": "d504f19307a561ee7bffb33cebfb6f33dc56be802574eb5cff349d170553d5b9"
+   },
+   "no_source_skills": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset empty (weapon skills only, 6 class weapon rows, not a learn list)",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11011,
+     "d5_name": {
+      "@text": "ec96b1eb31259058ec69184df69d57b11260048b2b0d08335423246b06f31326"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11012,
+     "d5_name": {
+      "@text": "78164f31c6b9857ee1f3b9d66425d80d05e4d0ede477a3021f1ef7969256fd2c"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 30"
+    }
+   ]
+  },
+  "5305": {
+   "name": {
+    "@text": "eedef7e2febf770d297c308b69b069d4f347c848afdc5dc90a50a0a4cfc1a0ca"
+   },
+   "no_source_skills": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset empty (weapon skills only, 12 class weapon rows, not a learn list)",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11011,
+     "d5_name": {
+      "@text": "ec96b1eb31259058ec69184df69d57b11260048b2b0d08335423246b06f31326"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11012,
+     "d5_name": {
+      "@text": "78164f31c6b9857ee1f3b9d66425d80d05e4d0ede477a3021f1ef7969256fd2c"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 30"
+    }
+   ]
+  },
+  "5306": {
+   "name": {
+    "@text": "3f3aad4b4332a6b9dba996aae5741b86816a3877507534a4a15671731e83d45b"
+   },
+   "no_source_skills": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset empty (weapon skills only, 9 class weapon rows, not a learn list)",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11011,
+     "d5_name": {
+      "@text": "ec96b1eb31259058ec69184df69d57b11260048b2b0d08335423246b06f31326"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11012,
+     "d5_name": {
+      "@text": "78164f31c6b9857ee1f3b9d66425d80d05e4d0ede477a3021f1ef7969256fd2c"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 30"
+    }
+   ]
+  },
+  "5307": {
+   "name": {
+    "@text": "e10bd55d3f37879653ea2a3fa4c88cf8e6d1ec3e94219370297a71120b2b9d3f"
+   },
+   "no_source_skills": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset empty (weapon skills only, 8 class weapon rows, not a learn list)",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11011,
+     "d5_name": {
+      "@text": "ec96b1eb31259058ec69184df69d57b11260048b2b0d08335423246b06f31326"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11012,
+     "d5_name": {
+      "@text": "78164f31c6b9857ee1f3b9d66425d80d05e4d0ede477a3021f1ef7969256fd2c"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 30"
+    }
+   ]
+  },
+  "5308": {
+   "name": {
+    "@text": "697a683d18be19f324be4d93b9fb10ddefa701df41077d0a0e35be8ea312b79d"
+   },
+   "donor_only": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset has 6 monster skill(s) [12141, 12142, 12143, 12144, 22141, 22142], every one a placeholder in the reviewed mapping (no D5 twin)",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 8,
+     "d5_id": 12141,
+     "d5_name": {
+      "@text": "03ed95fa547508925e685043b18b3ef0dc2a251325f09a4341c551a3d1b01db2"
+     },
+     "label": "donor",
+     "reason": "all 6 D4 learned skills have no D5 twin (completed-mapping placeholder); template class 2140 (Succubus) own skill, learn level 8"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 24,
+     "d5_id": 12142,
+     "d5_name": {
+      "@text": "f211db68574074cb9763820b7dea2f68dc5aa5e550ce4802544c015be2434c12"
+     },
+     "label": "donor",
+     "reason": "all 6 D4 learned skills have no D5 twin (completed-mapping placeholder); template class 2140 (Succubus) own skill, learn level 24"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 48,
+     "d5_id": 12143,
+     "d5_name": {
+      "@text": "a6583674d3ec803684fd5efa7d04d60f9d98850ce788fd82daec6c1a2d52a616"
+     },
+     "label": "donor",
+     "reason": "all 6 D4 learned skills have no D5 twin (completed-mapping placeholder); template class 2140 (Succubus) own skill, learn level 48"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 96,
+     "d5_id": 12144,
+     "d5_name": {
+      "@text": "481b6d57f6cace5f9679f3b2515c33afa47c61127a8003f37352d1017e8cc078"
+     },
+     "label": "donor",
+     "reason": "all 6 D4 learned skills have no D5 twin (completed-mapping placeholder); template class 2140 (Succubus) own skill, learn level 96"
+    }
+   ]
+  },
+  "5309": {
+   "name": {
+    "@text": "462e0e7c94782c8dcb3553b1c87dd94bbea18fdcdff9f3ce4479c5fb323c48b3"
+   },
+   "no_source_skills": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset empty (weapon skills only, 16 class weapon rows, not a learn list)",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11021,
+     "d5_name": {
+      "@text": "9eb492883f5ba1b491734ccb4bbe087083c3c7e75009592c3c2fa0c4b0e9d40d"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1020 (Valkyrie) own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11022,
+     "d5_name": {
+      "@text": "c6b57aed9480adfa4e7b2613a158104137c5fafb1f4e431156f908c0f3331847"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1020 (Valkyrie) own skill, learn level 30"
+    }
+   ]
+  },
+  "5310": {
+   "name": {
+    "@text": "1b67bd135fc4598c4fdd4dca53c5aeb52ae5cf5d4405e9f17505b4744bc00ebc"
+   },
+   "no_source_skills": true,
+   "source": "Disgaea 4 Complete+ char.dat: learnset empty (weapon skills only, 11 class weapon rows, not a learn list)",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11011,
+     "d5_name": {
+      "@text": "ec96b1eb31259058ec69184df69d57b11260048b2b0d08335423246b06f31326"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11012,
+     "d5_name": {
+      "@text": "78164f31c6b9857ee1f3b9d66425d80d05e4d0ede477a3021f1ef7969256fd2c"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no learned skills (char.dat learn slots empty; the weapon rows are class masteries); template class 1010 (Warrior) own skill, learn level 30"
+    }
+   ]
+  },
+  "4300": {
+   "name": {
+    "@text": "fd04e450ab52ab3b598940d74cdfdf5dc1f24bda2d63030e4bd3546ff336931a"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11011,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "eaf0fe0a362b58490e9d73c9584a36ef7353872dd1663afef4e2099b88bf56bf"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1150 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11012,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "eaf0fe0a362b58490e9d73c9584a36ef7353872dd1663afef4e2099b88bf56bf"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1150 own skill, learn level 30"
+    }
+   ]
+  },
+  "4310": {
+   "name": {
+    "@text": "f86e99d50fbd0abdaed661941d8ed436618b8b5750530a29a89bde66e334234d"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11111,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "71f2149b5982e467908f4dd974d3cf0c1533bb97717bd9e85f845848553de00d"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1110 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11112,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "71f2149b5982e467908f4dd974d3cf0c1533bb97717bd9e85f845848553de00d"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1110 own skill, learn level 30"
+    }
+   ]
+  },
+  "4320": {
+   "name": {
+    "@text": "229381c7ca8f92445b14e7eaee664bb5930d5ffd2ebdcce97e3557321432ce71"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11131,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "90547a1e8264b831cc9006f9826cdaf1d84be322fff039139104374acd62dddb"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1130 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11132,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "90547a1e8264b831cc9006f9826cdaf1d84be322fff039139104374acd62dddb"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1130 own skill, learn level 30"
+    }
+   ]
+  },
+  "4330": {
+   "name": {
+    "@text": "757b098aabc160d713a76ca6c90c0177d2577955c6c16097471f905e609f471c"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11041,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "f28854498a03ea2c2454eac5c7765b970f8cda71eb7c89a99673a0705492c674"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1040 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11042,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "f28854498a03ea2c2454eac5c7765b970f8cda71eb7c89a99673a0705492c674"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1040 own skill, learn level 30"
+    }
+   ]
+  },
+  "4340": {
+   "name": {
+    "@text": "2f59f50addd667b5d6106b6fbacaea225ecd4c03409f2344298c4927b56cb64c"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11011,
+     "d5_name": {
+      "@text": "ec96b1eb31259058ec69184df69d57b11260048b2b0d08335423246b06f31326"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1010 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11012,
+     "d5_name": {
+      "@text": "78164f31c6b9857ee1f3b9d66425d80d05e4d0ede477a3021f1ef7969256fd2c"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1010 own skill, learn level 30"
+    }
+   ]
+  },
+  "4350": {
+   "name": {
+    "@text": "19468e371549f35db564d51e25ff5bb9fa98f9fb12e44c3988a7152fcad3d14a"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11121,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "0cbc0bc5729f801f03612eb227bcce972dea2f8ac9a991e234990435c7270b26"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1120 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11122,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "0cbc0bc5729f801f03612eb227bcce972dea2f8ac9a991e234990435c7270b26"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1120 own skill, learn level 30"
+    }
+   ]
+  },
+  "5300": {
+   "name": {
+    "@text": "f223a387df27038a287437491c862d6379378caa86d373a911072893b4afae89"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11141,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "857aaed377b4bec920983e2082417a1de13ea365e135410602acedc0328295b7"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1190 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11142,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "857aaed377b4bec920983e2082417a1de13ea365e135410602acedc0328295b7"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1190 own skill, learn level 30"
+    }
+   ]
+  },
+  "5302": {
+   "name": {
+    "@text": "697301fb6050461a49e4eadd3d8d87b69f8111299b7715c0612c19a13b327c5d"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11131,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "90547a1e8264b831cc9006f9826cdaf1d84be322fff039139104374acd62dddb"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1130 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11132,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "90547a1e8264b831cc9006f9826cdaf1d84be322fff039139104374acd62dddb"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1130 own skill, learn level 30"
+    }
+   ]
+  },
+  "5303": {
+   "name": {
+    "@text": "72e4646b0bfe3620d3d9d1e65a0ea4a8c0b11682f4c86f987a19ed66882a2106"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11201,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "2aecfe15c341f5d5f27070e58adbb1fddda295ba7ecba55de0c884850e28a809"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1250 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 80,
+     "d5_id": 11202,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "2aecfe15c341f5d5f27070e58adbb1fddda295ba7ecba55de0c884850e28a809"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1250 own skill, learn level 80"
+    }
+   ]
+  },
+  "990": {
+   "name": {
+    "@text": "d7dd7aa6bfc23226cdb72a556cce75d8e5121980985dcad8e34c5be462f9bacd"
+   },
+   "no_source_skills": true,
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11011,
+     "d5_name": {
+      "@text": "ec96b1eb31259058ec69184df69d57b11260048b2b0d08335423246b06f31326"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1010 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11012,
+     "d5_name": {
+      "@text": "78164f31c6b9857ee1f3b9d66425d80d05e4d0ede477a3021f1ef7969256fd2c"
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1010 own skill, learn level 30"
+    }
+   ]
+  },
+  "4400": {
+   "name": {
+    "@text": "e50f086dbc14eb74d6e7932f798ce98438dd1d7d1bb0ffa25a84833a5f5302ab"
+   },
+   "donor_only": true,
+   "source": "D4 learnset 12161-12164, 22161-22162 (Wood Golem's own monster skills): no D5 twin in the reviewed mapping (D4-NPC1 build report)",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 8,
+     "d5_id": 12161,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "50f67cc6ad9160af1a047d2092b787dd5ccd2eca083f9a16a94671e427ea5ada"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 2170 own skill, learn level 8"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 24,
+     "d5_id": 12162,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "50f67cc6ad9160af1a047d2092b787dd5ccd2eca083f9a16a94671e427ea5ada"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 2170 own skill, learn level 24"
+    }
+   ]
+  },
+  "5414": {
+   "name": {
+    "@text": "3cd9f93fec81b4ee9e5c538f9b9e07d608ab5f19068c1b4f0a97e416ae68bb6f"
+   },
+   "donor_only": true,
+   "source": "D4 learnset 10041-10043 (Justice Fuka's own skills): no D5 twin in the reviewed mapping (D4-NPC1 build report)",
+   "skills": [
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 10,
+     "d5_id": 11021,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "f4fc2b23c5e19e5758fdcffd076e35808c6b4571ace242bb91d0828ba8b4268d"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1020 own skill, learn level 10"
+    },
+    {
+     "d4_id": null,
+     "d4_name": null,
+     "level": 30,
+     "d5_id": 11022,
+     "d5_name": {
+      "@segments": [
+       {
+        "@text": "f4fc2b23c5e19e5758fdcffd076e35808c6b4571ace242bb91d0828ba8b4268d"
+       },
+       " line"
+      ]
+     },
+     "label": "donor",
+     "reason": "D4 gives this character no D5-mappable learned skills; template class 1020 own skill, learn level 30"
+    }
+   ]
+  }
+ }
+}

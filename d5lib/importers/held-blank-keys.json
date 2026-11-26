@@ -1,0 +1,219 @@
+{
+ "schema": "held-blank-keys/1",
+ "about": "Bank files and animation ids the installed-reference hold pass (d5lib/holdblank.py) fills when a machine has no installed pack. Ids only, no game data: the pass holds the nearest earlier drawn key of the same private layer at each blank key time (BLANKKEYS1 rule; a labelled approximation). Do not hand-edit; regenerate with tools/build_held_blank_keys.py.",
+ "source": "BLANKKEYS1-20261111 blankkeys1-apply.json (measured held pose), import_game results with hold_blank records (D1C final pass), and installed-reference scans of rebuilt packs",
+ "games": {
+  "d1c": {
+   "D1C_Class_11760": {
+    "anm02660.lzs": [
+     1527,
+     1567,
+     3071
+    ]
+   },
+   "D1C_Class_11770": {
+    "anm02670.lzs": [
+     3071,
+     3077,
+     4001,
+     4007,
+     4011,
+     4017
+    ]
+   },
+   "D1C_Class_11800": {
+    "anm02680.lzs": [
+     1527
+    ]
+   },
+   "D1C_Class_11820": {
+    "anm02700.lzs": [
+     1527
+    ]
+   },
+   "D1C_Class_11830": {
+    "anm02710.lzs": [
+     1511,
+     1531,
+     1541,
+     1547
+    ]
+   },
+   "D1C_Class_11840": {
+    "anm02720.lzs": [
+     1501,
+     1507,
+     2071,
+     3071,
+     4011
+    ]
+   },
+   "D1C_Class_11860": {
+    "anm02740.lzs": [
+     1527
+    ]
+   },
+   "D1C_Class_11900": {
+    "anm02650.lzs": [
+     3071,
+     3077,
+     4001,
+     4007,
+     4011,
+     4017
+    ]
+   },
+   "D1C_Class_11930": {
+    "anm02750.lzs": [
+     1527
+    ]
+   },
+   "D1C_Unique_2200": {
+    "anm00853.lzs": [
+     1057,
+     1097,
+     1507,
+     4001,
+     4007,
+     4011,
+     4017
+    ]
+   },
+   "D1C_Unique_2216": {
+    "anm00526.lzs": [
+     1561,
+     1567,
+     2071,
+     2077,
+     3071,
+     3077,
+     4011,
+     4017
+    ]
+   },
+   "D1C_Unique_2420": {
+    "anm00859.lzs": [
+     1527
+    ]
+   },
+   "D1C_Unique_2550": {
+    "anm00862.lzs": [
+     1527
+    ]
+   },
+   "D1C_Unique_2901": {
+    "anm00865.lzs": [
+     1527,
+     1567,
+     2071,
+     3071
+    ]
+   },
+   "D1C_Unique_2902": {
+    "anm00868.lzs": [
+     1527
+    ]
+   },
+   "D1C_Unique_2903": {
+    "anm00871.lzs": [
+     2071,
+     2077,
+     3071,
+     3077,
+     4001,
+     4007,
+     4011,
+     4017
+    ]
+   },
+   "D1C_Unique_2904": {
+    "anm00874.lzs": [
+     2071,
+     2077,
+     3071,
+     3077,
+     4001,
+     4007,
+     4011,
+     4017
+    ]
+   },
+   "D1C_Unique_2905": {
+    "anm00877.lzs": [
+     1527
+    ]
+   },
+   "D1C_Unique_3050": {
+    "anm00901.lzs": [
+     1501,
+     1507,
+     2071,
+     2077,
+     3071,
+     3077,
+     4001,
+     4007,
+     4011,
+     4017
+    ]
+   },
+   "D1C_Unique_3130": {
+    "anm00931.lzs": [
+     1501,
+     1507,
+     2071,
+     3071,
+     4011
+    ]
+   },
+   "D1C_Unique_3140": {
+    "anm00907.lzs": [
+     1527
+    ]
+   },
+   "D1C_Unique_3170": {
+    "anm00916.lzs": [
+     2071,
+     2077,
+     3071,
+     3077,
+     4001,
+     4007,
+     4011,
+     4017
+    ]
+   },
+   "D1C_Unique_4": {
+    "anm00516.lzs": [
+     7011,
+     7021
+    ]
+   }
+  },
+  "d4": {
+   "D4_Unique_610": {
+    "anm00506.lzs": [
+     2077,
+     3077,
+     4017
+    ]
+   }
+  },
+  "dd2": {
+   "DD2_Unique_300": {
+    "anm00676.lzs": [
+     2077,
+     3077,
+     4017
+    ]
+   },
+   "DD2_Unique_640": {
+    "anm00683.lzs": [
+     2077,
+     3077,
+     4017
+    ]
+   }
+  }
+ }
+}

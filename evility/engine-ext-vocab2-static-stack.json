@@ -1,0 +1,707 @@
+{
+ "branch": "engine-ext-vocab2",
+ "source_sha256": "f9f068f26359537b4f34ca19a8020329f1ae6defcbfa09689cdcee02a5afdc23",
+ "section_sha256": "c05870cab08e49cda709b669abb151ed94829e43131daf433e52cc1dd4076250",
+ "section_base": "0x14808f000",
+ "sites": [
+  {
+   "site": "0x14021cd02",
+   "opcode": "E8",
+   "continuation": "0x14021cd07",
+   "target": "0x14808fff3"
+  },
+  {
+   "site": "0x1401b9575",
+   "opcode": "E8",
+   "continuation": "0x1401b957a",
+   "target": "0x148090027"
+  },
+  {
+   "site": "0x14021e19b",
+   "opcode": "E8",
+   "continuation": "0x14021e1a0",
+   "target": "0x148090027"
+  },
+  {
+   "site": "0x1402aa5e3",
+   "opcode": "E8",
+   "continuation": "0x1402aa5e8",
+   "target": "0x148090027"
+  },
+  {
+   "site": "0x1402b0494",
+   "opcode": "E8",
+   "continuation": "0x1402b0499",
+   "target": "0x148090027"
+  },
+  {
+   "site": "0x14021c15d",
+   "opcode": "E8",
+   "continuation": "0x14021c162",
+   "target": "0x148090063"
+  },
+  {
+   "site": "0x1401c169d",
+   "opcode": "E8",
+   "continuation": "0x1401c16a2",
+   "target": "0x14809009f"
+  },
+  {
+   "site": "0x1401c0ebd",
+   "opcode": "E8",
+   "continuation": "0x1401c0ec2",
+   "target": "0x148090113"
+  },
+  {
+   "site": "0x140157514",
+   "opcode": "E8",
+   "continuation": "0x140157519",
+   "target": "0x1480901b7"
+  },
+  {
+   "site": "0x1402db22e",
+   "opcode": "E8",
+   "continuation": "0x1402db233",
+   "target": "0x1480901b7"
+  },
+  {
+   "site": "0x140154523",
+   "opcode": "E8",
+   "continuation": "0x140154528",
+   "target": "0x148090209"
+  },
+  {
+   "site": "0x1401c2318",
+   "opcode": "E8",
+   "continuation": "0x1401c231d",
+   "target": "0x14809025b"
+  },
+  {
+   "site": "0x1401bfa23",
+   "opcode": "E8",
+   "continuation": "0x1401bfa28",
+   "target": "0x1480902e6"
+  },
+  {
+   "site": "0x14021e79f",
+   "opcode": "E8",
+   "continuation": "0x14021e7a4",
+   "target": "0x14809036f"
+  }
+ ],
+ "current_with_call_entry": {
+  "calls": [
+   {
+    "entry": "0x14808f04f",
+    "pc": "0x14808f0aa",
+    "instruction": "0x14808f010",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 40,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f19c",
+    "pc": "0x14808f1da",
+    "instruction": "0x14808f156",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f19c",
+    "pc": "0x14808f2c6",
+    "instruction": "0x14808f156",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f31e",
+    "pc": "0x14808f353",
+    "instruction": "0x14808f124",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f31e",
+    "pc": "0x14808f36e",
+    "instruction": "0x14808f19c",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f414",
+    "pc": "0x14808fb86",
+    "instruction": "0x14808f380",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 72,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f414",
+    "pc": "0x14808f9c3",
+    "instruction": "0x14808f124",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 72,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f414",
+    "pc": "0x14808f9f6",
+    "instruction": "0x14808f19c",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 72,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f414",
+    "pc": "0x14808f974",
+    "instruction": "0x140136660",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 72,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f414",
+    "pc": "0x14808f8c3",
+    "instruction": "0x14808f3d3",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 72,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f414",
+    "pc": "0x14808f8a4",
+    "instruction": "0x14808f3d3",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 72,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f414",
+    "pc": "0x14808f75e",
+    "instruction": "0x14808f124",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 72,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808f414",
+    "pc": "0x14808f77c",
+    "instruction": "0x14808f19c",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 72,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fbff",
+    "pc": "0x14808fc2c",
+    "instruction": "0x14808f04f",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fbff",
+    "pc": "0x14808fc4e",
+    "instruction": "0x14808f414",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fbff",
+    "pc": "0x14808fca1",
+    "instruction": "0x14808f31e",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fd46",
+    "pc": "0x14808fd74",
+    "instruction": "0x14808f04f",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fd46",
+    "pc": "0x14808fd90",
+    "instruction": "0x14808f414",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fdd7",
+    "pc": "0x14808fe0f",
+    "instruction": "0x14808f04f",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 64,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fdd7",
+    "pc": "0x14808fe30",
+    "instruction": "0x14808f414",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 64,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fdd7",
+    "pc": "0x14808fe7b",
+    "instruction": "0x14808f31e",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 64,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808feaa",
+    "pc": "0x14808fed4",
+    "instruction": "0x14808f04f",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808feaa",
+    "pc": "0x14808fef1",
+    "instruction": "0x14808f414",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808ff15",
+    "pc": "0x14808ff36",
+    "instruction": "0x14808f04f",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808ff15",
+    "pc": "0x14808ff51",
+    "instruction": "0x14808f414",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808ffc9",
+    "pc": "0x14808ffcd",
+    "instruction": "0x1401e1b30",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 40,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808ffd7",
+    "pc": "0x14808ffdb",
+    "instruction": "0x1401b97d0",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 40,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808ffe5",
+    "pc": "0x14808ffe9",
+    "instruction": "0x1401e9b50",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 40,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fff3",
+    "pc": "0x148090004",
+    "instruction": "0x14808ffc9",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14808fff3",
+    "pc": "0x14809001b",
+    "instruction": "0x14808fbff",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x148090027",
+    "pc": "0x14809003d",
+    "instruction": "0x14808ffd7",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x148090027",
+    "pc": "0x148090057",
+    "instruction": "0x14808fbff",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x148090063",
+    "pc": "0x14809007a",
+    "instruction": "0x14808ffe5",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x148090063",
+    "pc": "0x148090090",
+    "instruction": "0x14808fd46",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14809009f",
+    "pc": "0x1480900be",
+    "instruction": "0x1401f8fd0",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14809009f",
+    "pc": "0x1480900e9",
+    "instruction": "0x14808fdd7",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x148090113",
+    "pc": "0x14809014c",
+    "instruction": "0x1401fb2e0",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x148090113",
+    "pc": "0x148090181",
+    "instruction": "0x14808fdd7",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 56,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x1480901b7",
+    "pc": "0x1480901c6",
+    "instruction": "0x140206160",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 40,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x1480901b7",
+    "pc": "0x1480901f4",
+    "instruction": "0x14808feaa",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 40,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x148090209",
+    "pc": "0x148090218",
+    "instruction": "0x1402062f0",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 40,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x148090209",
+    "pc": "0x148090246",
+    "instruction": "0x14808feaa",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 40,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14809025b",
+    "pc": "0x14809027c",
+    "instruction": "0x1401f5410",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14809025b",
+    "pc": "0x1480902ae",
+    "instruction": "0x14808fdd7",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x1480902e6",
+    "pc": "0x148090307",
+    "instruction": "0x1401ff070",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x1480902e6",
+    "pc": "0x148090339",
+    "instruction": "0x14808fdd7",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14809036f",
+    "pc": "0x14809037f",
+    "instruction": "0x1401eee30",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   },
+   {
+    "entry": "0x14809036f",
+    "pc": "0x148090389",
+    "instruction": "0x14808ff15",
+    "precall_mod16": 0,
+    "aligned": true,
+    "home_clearance": 48,
+    "shadow_ok": true
+   }
+  ],
+  "returns": [
+   {
+    "entry": "0x14808f010",
+    "pc": "0x14808f04e",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f04f",
+    "pc": "0x14808f123",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f124",
+    "pc": "0x14808f151",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f124",
+    "pc": "0x14808f155",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f156",
+    "pc": "0x14808f19b",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f19c",
+    "pc": "0x14808f31d",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f31e",
+    "pc": "0x14808f37f",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f380",
+    "pc": "0x14808f3cf",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f380",
+    "pc": "0x14808f3d2",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f3d3",
+    "pc": "0x14808f413",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808f414",
+    "pc": "0x14808fbfe",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808fbff",
+    "pc": "0x14808fd45",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808fd46",
+    "pc": "0x14808fdd6",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808fdd7",
+    "pc": "0x14808fea9",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808feaa",
+    "pc": "0x14808ff14",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808ff15",
+    "pc": "0x14808ffc8",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808ffc9",
+    "pc": "0x14808ffd6",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808ffd7",
+    "pc": "0x14808ffe4",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808ffe5",
+    "pc": "0x14808fff2",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14808fff3",
+    "pc": "0x148090026",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x148090027",
+    "pc": "0x148090062",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x148090063",
+    "pc": "0x14809009e",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14809009f",
+    "pc": "0x148090112",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x148090113",
+    "pc": "0x1480901b6",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x1480901b7",
+    "pc": "0x148090208",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x148090209",
+    "pc": "0x14809025a",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14809025b",
+    "pc": "0x1480902e5",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x1480902e6",
+    "pc": "0x14809036e",
+    "balanced": true,
+    "delta": 0
+   },
+   {
+    "entry": "0x14809036f",
+    "pc": "0x148090393",
+    "balanced": true,
+    "delta": 0
+   }
+  ],
+  "unknown": [],
+  "home_stores": []
+ },
+ "findings": 0
+}

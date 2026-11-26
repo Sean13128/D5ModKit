@@ -134,6 +134,17 @@ Consequences:
 * Effect models: the start-up preload (0x14070eda0 -> 0x1404002c0) loads every EffectTableDataBase model into a
   cache of 512 entries whose data goes to the resource manager's slots 700 .. 1099: 400 models (vanilla 383; the
   401st crashes at 0x1402fb302). Lifted by loading on demand (`d5lib/fxpool.py`, `d5lib/native/d5fx.inc.c`).
+* Vertex arena (POOLLEAK1, 2026-11-20): every built 3D model (effect models, map objects) takes one block from an
+  arena of **1024 block records** (24 bytes: block, size, alignment) in front of a 25 MB block, set up once at start
+  (Steam build: arena header at 146a07110: +0 records, +4 in use, +8 capacity, +0xc bytes in use, +0x28 -> the
+  records; allocator 140308c80 -> record scan 140308c10, which **writes through NULL when every record is taken**:
+  the LIVE1120G crash at 140308c5d). The build step (0x1402fa580, `FX_FINISH`) takes the block and stores it at
+  manager + slot * 0xd0 + 0x12528; the model free behind the cache release (0x1404001f0) frees only that one. The
+  loader (0x140306c40) already ends with the build step; the game's own load job (start-up preload only) calls it
+  a second time, which orphans one record per preloaded model (vanilla: 383 at start, fixed). The on-demand loader
+  copied the job and leaked one record (and a heap box array) per load until POOLLEAK1; it now builds once and
+  refuses a load when fewer than 24 records are left. Gate: `tools/check_fx_arena.py` (Unicorn runs of the game's
+  build step and release, plus session simulation); harness `fx` reports `arena_used`.
 * Script operands: `call_event` / `spawn_event` store the event id in 3 bytes (< 16 777 216: event 17003000 is
   never found), `cmd_3c00` the effect id in a signed 16-bit slot (<= 32767).
 * Overloads: Overload ids 1 .. 213 (switches `dec; cmp 0xd4`), their skill rows magic 3000 .. 3255 (a unit keeps
@@ -299,3 +310,155 @@ Known or likely names. The category comes from the high byte and from what each 
 | `script_validate.py` | decode every script in `_extracted/Script/script.dat` with that table (19053/19053 OK) |
 | `save_decode.py <sav> [out]` | decode a save to the raw 0x89B8C8 state |
 | `save_roster.py <sav> [char.dat]` | list unit records and flag stale char.dat row indices, to check whether a modified char.dat is safe for existing saves |
+
+## Opening facilities and leaving a battle (harness commands `facility`, `giveup`)
+
+Steam build only (PE timestamp `0x5C4E7571`, the pinned exe); addresses below are that build's RVAs. Ported from
+Cryswar's Overlord "Facility Hotkeys" (The Unlicense); the decomp names are Sorrow's.
+
+- `script_cmd_menu_open` `0x18AE20(?, ?, short id)`: ignored while the task manager's selected task is 26; with
+  the byte at `0x6A07FA8` set it forwards to the state-32 object; else `base_object_request_menu 0x6A4680(base, id)`
+  writes `base+0x88 = id`, `+8 = next` (7 for the shops), `+0xC = 3`, `+0x2C = 2`, `+0x30E4 = shop kind`
+  (50 -> 2, 60 -> 3, 130 -> 0x12, 135 -> 0x13, 140 -> 0x10, 145 -> 0x11, 190 -> 0xC, 310 -> 0x14).
+- Top-level facilities are task ids written to the task manager's pending field (`[0xBDFD08]+0`): Strategy
+  Assembly 7, world map 9, Item World 14, Chara World 31, Research 33, Innocents 35, Recruiter 36, Squads 37.
+  "Idle base" = pending -1, selected 13, `+0xA18`/`+0xA19` clear, and the base object (`[0x7B58EC0]`) with
+  `+0x14 == 0`, `+0x30 == 0`, `+0xB0 == -1`, `+0xB8 == -1`.
+- Equipment / item shop: route 50 with the shop selector byte `0x4FCCC2D` (bits 0x10 / 0x40); Carnage guide: world
+  map 9 with bit 0 of `0x4FCCFF0` (a byte of the event-flag bitmap `0x4FCCB0E`, ids 10000..10007). Each facility
+  has a native unlock flag and a first-visit flag in that bitmap (table in `d5lib/native/d5ctl.inc.c`).
+- Give Up: system_ctl s4 `0x620DF0` "Yes" = battle manager (`[0x7B58E70]`) `+0xC0610 = 2` (lose progress), clear
+  bit 2 of `0x4FCD261` and `0x4FCCFF0`, zero the world-map resume `0x7B58E88`/`0x7A678A8`/`0x7B58E8C`, then
+  `script_context_create 0x190140([0xA67CF0], 2013, 0, 0, 0, 0, 0, &out)` (script 2013 = back to the base). The
+  battle-manager request queue (`{code, flag}` x16 at +0, count +0x80, pending byte +0xB5) is routed by the battle
+  object's post-draw hook every frame; `{9001, 1}` pushes the dispatcher sub-state S42 (what the S37 exit queues).
+  The battle object is `[0x7B58E68]` (vtable `0x98BF00`), its current sub-state at `+0x14` (28 = turn runner).
+
+## Animation actor chain and the `anmtrace` / `actorprobe` harness commands (ANMTRACE1)
+Steam build RVAs (PE timestamp 0x5C4E7571; decomp `/Volumes/Data/Decomp/d5`), not the launch-build VAs above. Port of
+Cryswar's Overlord `d5_anm_trace.c` (The Unlicense); names: Sorrow.
+* **Battle actor** (actor table, `state` "slot"): `+0x2A0` bound anm, `+0x1E4` loader slot, `+0x1E8/+0x1EC` pending
+  anm / motion (`ui_sprite_set_anm` 0x14E7E0, `unit_deferred_anm_bind` 0x14A310), `+0x2E2` kind
+  (`unit_bind_anm_owner` 0x14DFD0), `+0x2E6` and `+0x2E8` must both be non-zero or `ui_sprite_draw` (0x14AD70) draws
+  nothing, `+0x1D0` -> animation owner.
+* **Owner**: `+0x20` group (anm id), `+0x22` motion, `+0x24` palette (`unit_bind_anm_owner`), `+0x60` -> player.
+* **Player** (anm actor): `+0x28` tick (Q16), `+0x30 & +0x40 & anm_global_step_mask` = the step budget (any 0 holds
+  the clock), `+0x3C` ended/held, `+0x3A` palette (used only below the record's palette count), `+0x3E` loaded slot
+  (`anm_find_loaded_slot` result, -1 = no bank), `+0x60` -> record (`anm_find_loaded_record`; NULL when the bank is
+  not loaded), `+0x68` -> motion entry {u16 id, s16 root node} (NULL with no record)
+  (`anm_instance_load_anim_and_motion` 0x2F4B10, `anm_owner_create_instance` 0x2F2E60, `anm_actor_advance` 0x2F4F70).
+* **Record** (0xC0 each, `anm_find_loaded_slot` 0x301240 / `_record` 0x3020C0 binary-search them by `+0x08` id):
+  `+0x10` palette count, `+0x12` texture count (`anm_render_node_hierarchy` 0x2F7C60), `+0x0A` motion count,
+  `+0x48` motions, `+0x50` nodes, `+0x58` control keys.
+* A group-lookup miss leaves `+0x68` NULL; `anm_owner_restart_at_frame` 0x2F28C0 -> `anm_actor_build_render_root`
+  then faults at **0x2F5512** (`movsx eax, word [rax+2]`, rax = player+0x68).
+* `anm_acquire_lzs` 0x3FFCB0 compares EDX (the id) again after its call to 0x301240 (0x3FFCF2): a hook on the lookup
+  must hand every register back as the original left it.
+* Harness: `anmtrace on|guard|off|status` hooks 0x301240 (misses), 0x3FFCB0, 0x14E7E0, 0x14DFD0, 0x2F28C0 after checking
+  their prologues (a mismatch skips that hook); `guard` returns from 0x2F28C0 when player+0x68 is NULL.
+  `actorprobe <slot> <frames>` logs the fields above once per frame. Lines: `[anmtrace]` / `[actorprobe]` in
+  d5auto.log, parsed by `d5lib/anmtrace.py`. Proof: `tools/proof_anmtrace.py` (Unicorn, normal and `--abi`).
+
+## Steal on kill from a player-side victim (the Ally Steal mod, ALLYSTEAL1/2)
+`damage_after_hit_evaluate` 0x1401AEB10 rolls "steal on defeat" (Plunder 1202 + Cat Burglar 3036 values, 100 for skill
+0x50D4) only if the killer is player side (`cmp byte [rbx+0x2E32], r13b / jne` at 0x1401AF625; team byte 0 = player)
+and the victim is not: `0x1401AF63E cmp byte [rax+0x2E32], r13b` / `0x1401AF645 0F 84 DE 01 00 00 je 0x1401AF829`.
+The patch writes `66 0F 1F 44 00 00` over the je (file offset 0x1AEA45), so an ally victim rolls the same chance. The
+steal copies one random non-empty equipped slot (victim rec+0x10+600*slot) to pending loot (0x140533760); the victim's
+slot is never cleared, so the ally keeps its item. Shipped as the data-only mod `Ally_Steal` (`patches/exe/ally_steal.json`, one entry, build `9460a64`; no kit code,
+since 1.1); the `patches/exe` handler checks the original bytes and skips the mod on a build that differs.
+
+## Mods carrying exe byte patches (`patches/exe/*.json`, `d5lib/exebytes.py`, EXEBYTES1)
+**This changes the game's code**: a mod with `patches/exe` writes machine code into the game's exe (same length, every
+original checked first). The installer never evaluates mod-supplied Python, but the replacement machine code runs in
+the game. Safeguards (SITELEDGER3):
+- **Off until approved.** Importing a package with `patches/exe` asks first (default No, on Home and Browse): Yes approves
+  it and switches it on; No imports it switched off. A bulk import (`modbulk`) never approves. The approval is kept outside
+  the mod (`<kit>/exe_approvals.json`) and bound to a fingerprint of the patch files and the mod's `settings`, so an
+  update or edit needs a new approval. `modsys.build` enforces it for every enabled mod, also one copied in by hand:
+  it reads the patch files and settings once, checks that snapshot against the approval, and the finalizer applies
+  those same bytes, so an edit between the check and the apply cannot slip through. An unreadable or missing patch
+  file is a whole-mod skip with its name in the reason, not an install error.
+- **Visible.** The mod list subtitle starts with "⚠ Changes the game's program" and the detail view says whether it is
+  approved or OFF, whatever category or author text the mod carries. Install and import print
+  `Ally_Steal: patches the game's code at 1 sites (6 bytes)`.
+- **Whole or not at all.** A mod that is unapproved, or whose patches can't apply (bytes differ, overlap, bad data, over
+  the limits), is left out whole (its files and patches too): the build runs again without it and the log says why.
+- **Limits.** 256 bytes per patch, 4096 bytes per mod (sum of `new`); a bigger mod is left out whole.
+These limits bound the size, not the trustworthiness: a few bytes can redirect execution, so approve only mods you trust.
+
+A mod can ship checked in-place byte patches as data (hex strings and ints). Ally Steal, plain:
+```json
+{"build": "9460a64", "patches": [{"va": "0x1401AF645", "orig": "0F84DE010000", "new": "660F1F440000",
+  "what": "steal on kill from allies"}]}
+```
+Illustrative only (an imaginary instruction, not a real site): `values` fills a setting into the patch. Here `new` is
+`B8 64000000` (`mov eax, 100`); its immediate operand is the 4 bytes at offset 1, so the entry writes the mod's `cost`
+setting there:
+```json
+{"va": "0x140123456", "orig": "B864000000", "new": "B864000000", "what": "an imaginary cost",
+ "values": [{"offset": 1, "size": 4, "setting": "cost", "default": 100}]}
+```
+`va` (a hex string or an int) is an address of the build named by `build` (optional sha1 prefix; absent = the build being patched; a different
+build leaves the mod out). `orig` is checked before anything is written and `new` must have the same length. `values`
+writes `mod.json` `settings[setting]` (or `default`) little-endian into `new` at `offset` (signed if negative; a value
+that doesn't fit `size` leaves the mod out). Each mod is applied whole or not at all, in load order, under `mod <folder id>`
+as site owner (display names are not unique): a mod whose bytes differ or overlap an earlier owner's range is skipped with a note (the others
+still apply). An entry inside a kit-added (`.d5*`) section, or not wholly inside one original section of the image, is rejected the same way: patches/exe targets the game's own code, not the kit's. The finalizer runs after every kit exe patch (outfits, learned, runtime) and before grips, so a mod that overlaps a kit feature is the one refused.
+
+## Dark Assembly bills and recruit wishes (`patches/wishes/recruit_wishes.json`, `d5lib/wishrecruit.py`, RECRUIT1)
+
+Steam build (sha1 `9460a641…`, the decomp's build); offline facts from the decomp and the pinned exe, not live-measured.
+
+- **WishDataBase.dat** rows load to a runtime table of `0x80`-byte rows (count `0x140A04E88`, rows `0x140A04EA0`):
+  `+0` id, `+0x38` minimum item level (Item Assembly), `+0x40..+0x4C` req_flag1..4 (all must be set), `+0x50..+0x5C`
+  block_flag1..4 (none may be set), `+0x60..+0x6C` set_flag1..4 and `+0x70..+0x7C` clear_flag1..4 (applied when the
+  bill passes). Flags are bits of the game flag bitmap (`0x144FCCB0E`).
+- **Which assembly lists a bill is decided by its id.** Strategy (Dark Assembly) predicate `0x14044A730(assembly,
+  row, unit)` — called for every row by both Strategy list builders `0x140442BC0` and `0x1404449A0` — hides ids `0x133`,
+  `0x47..0x48` and **1000..1999**, has per-id rules for a few vanilla ids (`0xB`, `0xC`, `0x14..0x1C`, `0x1F`, `0x29`,
+  `0x31`, `0x3E..0x40`, `0x6F`, `0x70`, `0x7C..0x7E`, `0x131`, `0xC9..0xF3`, `0x2A..0x30`), then applies the row's
+  req/block flags and returns 1. The Item Assembly predicate `0x14068FE40` lists **only ids 1000..1999** (and 1), with the
+  same req/block flags plus the minimum item level. So a new Strategy bill with an id of 2000 or more is listed by the
+  game's own code and gated by its own flags, and never appears in the Item Assembly.
+- **The bill's effect** runs in `0x140221090` after the vote passes, with `r15` = the passed row: at `0x140221793`
+  (`mov eax,[r15]` …) it switches on the id (1000..1999 decrement a count at `[rbx+0x134]`; `0x3F3..0x40E` stat
+  bonuses through a jump table; `0x411..0x418`; `0x7C..0x7E` class changes of the selected unit), re-reads `[r15]`
+  at `0x14022191B`, then sets/clears the row's flags (`0x140221AAF..`).
+- **Recruit wishes** (Overlord's design, Cryswar, The Unlicense): `.d5wr` hooks `0x14044A730` (a listed bill is
+  hidden when army + reserve ≥ 128 — `roster_create_unit`'s own guard — or, unless `duplicates`, when a unit of that
+  class is in the army; otherwise the game's predicate runs) and `0x140221793` (a listed bill calls
+  `roster_create_unit` `0x1402EA3E0(class, 0, level)`, then the game's code runs unchanged; `d5lib/wishrecruit.py` names
+  it `CREATE_UNIT = 0x1402EA890`, its known-build address, which exemap translates to `0x1402EA3E0`. In this build
+  `0x1402EA890` is inside `script_actor_lookup` `0x1402EA760`. No xmm value is live across `0x140221793`: the effect
+  function's only xmm use is a store at `0x1402213FF..0x140221421`, before the site). Ids below 2000 are refused
+  at install. The unlock condition is the row's own `req_flag1`; "only once" is a `set_flag` the row also lists as a
+  `block_flag`. Overlord's own runtime (when installed) hooks the same two addresses; the Kit then writes nothing.
+  Offline proof: `tools/proof_wishrecruit.py [--abi]`.
+
+## Sub-class lists (SUBCLASS2, 2026-11-19; Steam build addresses)
+- **The Strategy Assembly "Set a Sub Class" screen** (`task\assembly\subclassedit.cpp`) is built by `0x1404707E0`:
+  a 47-family array on its stack (1010..1260, 2010..2210), each family offered when the unlock test `0x140470610`
+  (= `0x1401C6110` plus a few character-specific monster exceptions) accepts its first rank; the row's id is
+  `family - 1 + number of unlocked ranks`. Rows live **inside the screen object**: 47 × `0x238` bytes at `+0x2768`,
+  which end exactly at `+0x8FB0` (the chosen u16) and `+0x8FB8` (the unit pointer) of the `0x8FC0`-byte object;
+  `+0x8C` counts them. On exit `0x140470740` writes `unit +0x35AC = +0x8FB0` -- the screen's only effect.
+  So the list cannot grow past 47 rows without moving the rows, the menu entries at `+0x158` and every reader; the
+  mastery hooks (`d5lib.masteryext` `0x140470BD0` / `0x140470DB7`) add configured families only while rows are free
+  (a post-game unit with 43 vanilla classes unlocked: 4 extra, SUBCLASS1 live).
+- **The Status Class tab** (child object, update `0x14029CA50`, reached by the tail jump at `0x14029A426`): visible
+  tab `+0x1A0A8` (4 = Class), unit `+0x90`, cursor `+0x1E328`, scroll `+0x1E32C`, count `+0x1E4D8`, family list
+  `+0x1E404` (53) -- relocated by `.d5cl` into a 512-entry buffer when the build has class mods.
+- **`.d5sb`** (Overlord's sub-class switch, Cryswar, The Unlicense; `d5lib/subclasstab.py`): `jmp` at `0x14029CA50`
+  (12 bytes `4C 8B DC 56 57 48 81 EC A8 00 00 00`, re-run after the hook). On the Class tab, from its second frame,
+  the game's menu Confirm (`carry_common_action(4, 1, 0)` `0x1402258B0` == 2: the keyboard keys bound to action 4 via the edge table `0x147B24AE0`, then the pad through `input_physical` `0x140223CE0` -> `input_button_state` `0x140223EA0`; SUBCLASS3: the pad half alone missed every keyboard Confirm) sets
+  `unit +0x35AC` to the highlighted family's highest unlocked rank (base rank admitted by `0x1401C6110`, then the highest rank it accepts; the unit's own family refused).
+  Refused: count outside 1..cap, cursor/scroll < 0, cursor + scroll >= count, a unit pointer that is not an aligned
+  roster record (`0x145207DB8`, `0x4750`, 128), a family outside 1000..32760 (registry families such as 11770 included) or not a multiple of 10, no unlocked rank.
+  Section `.d5sb` (`.d5sc` is scalepatch's). Built only when `.d5cl` relocated the Class tab. A 32-byte state block opens the section (owner, presses, result,
+  family, target). Proof: `tools/proof_subclasstab.py [--abi | --static]`.
+- **The current-sub-class panel** of that screen (`0x14046F980`) draws for any positive `+0x35AC`: `char_find_by_id`
+  `0x140061F80` -> -1 leaves the row pointer 0 and `ui_draw_text` `0x1403FACE0` gets `0xF8 + language*0x34` (null page).
+  **`.d5sv`** (`d5lib/subclassguard.py`, every build): the 11 bytes after the lookup (`0x14046FA39`) jump to code that
+  on a miss restores r15 (`[rsp+0x60]`, normally restored at `0x14046FA9E`) and jumps to the epilogue `0x14046FC8C`;
+  a skip counter follows the code. Proof: `tools/proof_subclassguard.py [--abi | --static]`.

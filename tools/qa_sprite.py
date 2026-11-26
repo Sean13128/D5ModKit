@@ -372,6 +372,21 @@ def qa(built, tmpl, ids=None, log=print, humanoid=False, parts=None, fx=None):
                                     built_changes=len(seq) - 1))
             if db < min(dt, 4):
                 flagged.append((aid, ts[0], "idle"))
+    # the stand picture the creation / class-change / Recruiter screens draw (ids 1 and 7) is checked on the
+    # build's own animations, not the template's: a donor template carries neither id (its wheel picture lives in
+    # another file), so a doubled stand pose -- the same complete source pose on two donor body tracks -- used to
+    # slip through untested (playtest PT1027 S1: the idle drawn 2-3 times at different spots)
+    for aid in (1, 7, 1001, 1007):
+        if aid not in built.ids():
+            continue
+        for t in built.times(aid):
+            a_b, x_b = built.at[aid]                      # 1001/1007 are stubs: the pose comes from the
+            items = [it for it in anm.evaluate(a_b, x_b["index"], t, nested=True)]   # animation they name
+            nb = _bodies(built, aid, items)
+            if nb >= 2:
+                rep["doubled"].append(dict(id=aid, t=t, built=nb, template=None, source="built stand picture"))
+                flagged.append((aid, t, "doubled"))
+                break
     # DRPG flash frames (white impact / skill flashes) used as a pose: far whiter than the view's usual drawing
     for view, ws in whites.items():
         med = float(np.percentile([w for w, _, _, _ in ws], 25))     # the usual drawing (flashes may be common)

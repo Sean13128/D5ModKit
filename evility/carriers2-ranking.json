@@ -1,0 +1,844 @@
+{
+ "ranking": [
+  {
+   "bucket": "filtered-counts",
+   "description": "count deployed units of a kind (species / class / type / carried evility) as a magnitude, and count them for a threshold",
+   "evility_ids": [
+    127,
+    131,
+    658,
+    816,
+    837,
+    841,
+    875
+   ],
+   "imported_characters": 9,
+   "packs": [
+    "D4_Class_1120",
+    "D4_Class_1220",
+    "D4_Class_2020",
+    "D4_Class_2200",
+    "D4_Unique_300",
+    "D4_Unique_320",
+    "D4_Unique_340",
+    "D4_Unique_40",
+    "D4_Unique_440"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 127,
+     "name": {
+      "@text": "464e15ab03532bf70f52b3f78295d567946c1621ccb4ea152ba89b4a1717a3f3"
+     },
+     "text": {
+      "@template": "b1dd013c71149b8be273924d43507508350224f2a09f6550f9eb0c51480ae830",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Class_2020"
+     ]
+    },
+    {
+     "id": 131,
+     "name": {
+      "@text": "5d7abdf513454207a60d7bce674c049f1050336230b3e90ac123dc3e99388dcb"
+     },
+     "text": {
+      "@template": "5a31b31c17780d7f0f453989f49dff9c3464957f096a973f951cc8071885dabe",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Class_1120"
+     ]
+    },
+    {
+     "id": 658,
+     "name": {
+      "@text": "0b2cb7def48194711f0197585b7a1e522187e5981f1d82c314331657868457e0"
+     },
+     "text": {
+      "@template": "02a6d24fa108ec6b16b075ee361689371a5887749609e3b516c8347b19f7363c",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_340"
+     ]
+    },
+    {
+     "id": 816,
+     "name": {
+      "@text": "00b22a04b97606497908b8b110ebbafa3402faf4ac7bc7ff5e86ab215a3d3030"
+     },
+     "text": {
+      "@template": "6a5e0513a43e251db23bb2696e42b356ac51b5b909008a101658c0724316365d",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_40"
+     ]
+    },
+    {
+     "id": 837,
+     "name": {
+      "@text": "aa9681618ea0662343a89fb1e2d81ec1ca52327363739ffd9ef22e0cd4d238dd"
+     },
+     "text": {
+      "@template": "33bdc089586ae3399735915f4c07c30eca3d5e262b3ebba00cee390bfbd2bc5b",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Class_2200",
+      "D4_Unique_300"
+     ]
+    },
+    {
+     "id": 841,
+     "name": {
+      "@text": "3dfd2acb11395d5fe1862000f41f9f58bcd5ebaa0adf42c33a981403e3e9b429"
+     },
+     "text": {
+      "@text": "d045f7a6cbd8a183675a7be9bc71a1862c4927b0a12913793135a65deafa95df"
+     },
+     "packs": [
+      "D4_Class_1220",
+      "D4_Unique_320"
+     ]
+    },
+    {
+     "id": 875,
+     "name": {
+      "@text": "7604358d927f3b10e8ede948cb66801e91a62d331484d6aa647380ce77d9fb2e"
+     },
+     "text": {
+      "@template": "7e110bb1a400b68f5ddc60acf8d837c6f29667990d8ca675cb49f31ac125c68c",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_440"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "magichange-summon",
+   "description": "a Magichange / Confine / summoning mode (the mode itself, not a modifier)",
+   "evility_ids": [
+    682,
+    820,
+    851,
+    876,
+    878,
+    879
+   ],
+   "imported_characters": 6,
+   "packs": [
+    "D4_Unique_220",
+    "D4_Unique_340",
+    "D4_Unique_410",
+    "D4_Unique_440",
+    "D4_Unique_450",
+    "D4_Unique_70"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 682,
+     "name": {
+      "@text": "b8e55f3beeff2ca4db0656c164f74a587d84f4db3f68dfd62f99b3d6bc258297"
+     },
+     "text": {
+      "@template": "8b6a47109379d7b70eeda7684eb8bef534fc26817bbfcbb5b96479f4e8aec954",
+      "args": [
+       10
+      ]
+     },
+     "packs": [
+      "D4_Unique_410"
+     ]
+    },
+    {
+     "id": 820,
+     "name": {
+      "@text": "64d8d95a3a5b9a8609a5255943fd32cdeda3acf90a2b763e881f46f4221d5d61"
+     },
+     "text": {
+      "@text": "f29b05ab1792551d02ac16dd25ea96a7146dea9ba0e144ff89b20c72011b2702"
+     },
+     "packs": [
+      "D4_Unique_220",
+      "D4_Unique_410",
+      "D4_Unique_70"
+     ]
+    },
+    {
+     "id": 851,
+     "name": {
+      "@text": "f3746d817975269481099b17d4ed2fdc5be36abf4bb1750a233f2114a066b405"
+     },
+     "text": {
+      "@template": "cfd6b739c9f83ab0bb3b93fa4993053bcfdc2d557001274a4650cffcbde18a42",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_340"
+     ]
+    },
+    {
+     "id": 876,
+     "name": {
+      "@text": "8c4aa7258f4f3df745fec5d7f4353d8c564b3d33f208c9c8db344c47a4ee0c80"
+     },
+     "text": {
+      "@text": "0757051b1981b8753d8ea1c1afb253696fc7a5de388fd99e16f21b415875adac"
+     },
+     "packs": [
+      "D4_Unique_440"
+     ]
+    },
+    {
+     "id": 878,
+     "name": {
+      "@text": "0bea17f0f200fcda7aad297c635207ac19c95a62c7446485aedcbe3b4fd781b0"
+     },
+     "text": {
+      "@template": "026b501ce5beb67bb4bb6db43aa5d9c44620cdececfa8cb3c6e53b7c7413d2a7",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_450"
+     ]
+    },
+    {
+     "id": 879,
+     "name": {
+      "@text": "e250360d810f40976996a2e6a96df98422a1cc85afc40d77f06a028bc00353be"
+     },
+     "text": {
+      "@template": "a2f5b12c52f10c0d4250b2d68fc0275336bd48dc813bbaff8c678e9b7c1f0729",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_450"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "damage-redirect",
+   "description": "damage redirection / reflection / inversion (who the damage lands on)",
+   "evility_ids": [
+    813,
+    872,
+    891
+   ],
+   "imported_characters": 3,
+   "packs": [
+    "D4_Unique_20",
+    "D4_Unique_410",
+    "D4_Unique_500"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 813,
+     "name": {
+      "@text": "57294e76f9f3ec01915a32175df33ded3c20137f72e1ca9a246d1c374dd3f5fd"
+     },
+     "text": {
+      "@text": "d0320784decf976607880a52d447c6b9319644d43aaa449496649efa3fc7f6ec"
+     },
+     "packs": [
+      "D4_Unique_20"
+     ]
+    },
+    {
+     "id": 872,
+     "name": {
+      "@text": "d97634207ca855c98ba525e17993a319b0d114f8e28ddd82abb15651920cd95d"
+     },
+     "text": {
+      "@template": "57f9284a08620841cc24ece5f006287adc8b34a0c8e18616a080d60c30382951",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_410"
+     ]
+    },
+    {
+     "id": 891,
+     "name": {
+      "@text": "4ab5a8cf189a21005a8d8611091b575f0ae96887e0fa7be87cd85a147d815f2d"
+     },
+     "text": {
+      "@text": "f873ca066c7d206a867e437d271320013df386d970eac9aadf62023e0f96695d"
+     },
+     "packs": [
+      "D4_Unique_500"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "evasion-aura",
+   "description": "evasion granted to / taken from other units",
+   "evility_ids": [
+    844,
+    847,
+    886
+   ],
+   "imported_characters": 3,
+   "packs": [
+    "D4_Unique_350",
+    "D4_Unique_360",
+    "D4_Unique_470"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 844,
+     "name": {
+      "@text": "d846c94a44cdc1eb9869e84b6b488ee40e55f63da79fdfd3e5542fec4fbdddeb"
+     },
+     "text": {
+      "@template": "ea670ad3904ae84027d50d27cf28011c97c0e09b3652d4968cbb6652a696f384",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_350"
+     ]
+    },
+    {
+     "id": 847,
+     "name": {
+      "@text": "85841ab1f6f1262efc8bed7b44a5d190461c1296e3708d700bd4ee807448af3f"
+     },
+     "text": {
+      "@template": "5fd342f28a1e2f04989222123b18a5e0dea7576c4ea27449cc392faddee3f006",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_360"
+     ]
+    },
+    {
+     "id": 886,
+     "name": {
+      "@text": "37ce0c2918de1257d5f876cfde91337a3ad31825546b1b29cda8b8369b2faad7"
+     },
+     "text": {
+      "@text": "7436f481dd3d2c7ee7886794c7caf97517cf93ee016a3b5a7a933cda98ee746e"
+     },
+     "packs": [
+      "D4_Unique_470"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "evil-area",
+   "description": "Evil Area membership (dispatched Evil Area allies, Evil Area leader)",
+   "evility_ids": [
+    658,
+    840
+   ],
+   "imported_characters": 3,
+   "packs": [
+    "D4_Class_1220",
+    "D4_Unique_320",
+    "D4_Unique_340"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 658,
+     "name": {
+      "@text": "0b2cb7def48194711f0197585b7a1e522187e5981f1d82c314331657868457e0"
+     },
+     "text": {
+      "@template": "02a6d24fa108ec6b16b075ee361689371a5887749609e3b516c8347b19f7363c",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_340"
+     ]
+    },
+    {
+     "id": 840,
+     "name": {
+      "@text": "bd104d1b98d032274986497eeb7997c44a1d674b29140e43cd525d33468ecb6e"
+     },
+     "text": {
+      "@template": "b7dd23dbb33c890438f6c07a895f557d65846c6dd239952bdf7986a7deeec3e9",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Class_1220",
+      "D4_Unique_320"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "healing-pass",
+   "description": "the healing pass (heal amount, heal auras, cure-on-heal)",
+   "evility_ids": [
+    215,
+    626,
+    627,
+    628,
+    889
+   ],
+   "imported_characters": 3,
+   "packs": [
+    "D4_Unique_310",
+    "D4_Unique_420",
+    "D4_Unique_500"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 215,
+     "name": {
+      "@text": "7308205e9a1701793dd68621930c14d19761c6656859d93597ceacc9c7aba961"
+     },
+     "text": {
+      "@template": "21796cbf00cc67ac49a86b69aa9ffe9c14130aa81c78c6d60bc0f17d049d8c69",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_420"
+     ]
+    },
+    {
+     "id": 626,
+     "name": {
+      "@text": "cf264c16dac2e6c8ce921583794d237b6029cdb7cae090f76677a302f9779c73"
+     },
+     "text": {
+      "@text": "9ce893d2873e61ec097135ecc9694fc3c73710689eb644d14fd581bd9d934f04"
+     },
+     "packs": [
+      "D4_Unique_310"
+     ]
+    },
+    {
+     "id": 627,
+     "name": {
+      "@text": "7d17e860289688b02b44ff7560702b8a3a5637220b7597afd25c106f9d29a69c"
+     },
+     "text": {
+      "@text": "04bff1320288eccbc804534474b9682801dba1d10f0f41a3cdcce33ffbcce52e"
+     },
+     "packs": [
+      "D4_Unique_310"
+     ]
+    },
+    {
+     "id": 628,
+     "name": {
+      "@text": "c1bf0ed4339c65cb876082439c5ce034f78b73d2e422070ac0de7e5cfa51ec8b"
+     },
+     "text": {
+      "@template": "c408cbceac0bdeb2a906635cb5d8d43ed68f2b9a4bef1b017ca14b2e97001797",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_310"
+     ]
+    },
+    {
+     "id": 889,
+     "name": {
+      "@text": "7b838410683d30ee5c8f1eef649a77de882454385eea730fb252857eaa172b39"
+     },
+     "text": {
+      "@template": "a52423f5f2e8a55a4cde6a08d76107b0ba92e53d04776e8038ded523d37fe2de",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_500"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "instant-death",
+   "description": "a deathblow roll on an attack or a spell",
+   "evility_ids": [
+    873,
+    891
+   ],
+   "imported_characters": 2,
+   "packs": [
+    "D4_Unique_420",
+    "D4_Unique_500"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 873,
+     "name": {
+      "@text": "8b12559313782d869ce2e3db1610496bc443365c06c7d19e2afe1f993da2a3c1"
+     },
+     "text": {
+      "@template": "ca0ff5d424490ca7336c73e08ec5f0fd4f97771fdf9b6ff3e7de121e5b40eeb3",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_420"
+     ]
+    },
+    {
+     "id": 891,
+     "name": {
+      "@text": "4ab5a8cf189a21005a8d8611091b575f0ae96887e0fa7be87cd85a147d815f2d"
+     },
+     "text": {
+      "@text": "f873ca066c7d206a867e437d271320013df386d970eac9aadf62023e0f96695d"
+     },
+     "packs": [
+      "D4_Unique_500"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "movement-state",
+   "description": "panels moved / has not moved (the movement counter proof)",
+   "evility_ids": [
+    610,
+    628
+   ],
+   "imported_characters": 2,
+   "packs": [
+    "D4_Unique_310",
+    "D4_Unique_420"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 610,
+     "name": {
+      "@text": "a29c74269a8c224dc302f1e9140f2d3147828dfd130f6b79698cee3ba9fb17e6"
+     },
+     "text": {
+      "@template": "1c1f9fa0702004c4e4c3db978e1d03744abcbc2d3d7d8cf75552ba3e4b41d321",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_420"
+     ]
+    },
+    {
+     "id": 628,
+     "name": {
+      "@text": "c1bf0ed4339c65cb876082439c5ce034f78b73d2e422070ac0de7e5cfa51ec8b"
+     },
+     "text": {
+      "@template": "c408cbceac0bdeb2a906635cb5d8d43ed68f2b9a4bef1b017ca14b2e97001797",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_310"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "named-unit-scale",
+   "description": "a magnitude scaled from a named other unit (its missing HP, its stats)",
+   "evility_ids": [
+    812,
+    852
+   ],
+   "imported_characters": 2,
+   "packs": [
+    "D4_Unique_20",
+    "D4_Unique_340"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 812,
+     "name": {
+      "@text": "631cb8a984d071a33e4623c901ac4dea69a058f1892675484b74900ecf77873d"
+     },
+     "text": {
+      "@text": "f3a1be0516b0a9371a3c15218da022e36a0a602ae82107aba42a0eb9f27dd32d"
+     },
+     "packs": [
+      "D4_Unique_20"
+     ]
+    },
+    {
+     "id": 852,
+     "name": {
+      "@text": "b2caa6808b56cbf76f2b77107b0434cc5355b3afa9b8ed7497f2cff9b0dc946a"
+     },
+     "text": {
+      "@template": "be2bb1d2fb2f9d74b7fadcc2e52d0278eca0c2f85d32212792d06519d8b3c9b1",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_340"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "resource-reward",
+   "description": "an EXP/mana reward multiplier",
+   "evility_ids": [
+    814
+   ],
+   "imported_characters": 2,
+   "packs": [
+    "D4_Unique_430",
+    "D4_Unique_50"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 814,
+     "name": {
+      "@text": "74708430134fe92e8c4c0f21dc049114d9c5707a5e08b2698699631db86fd450"
+     },
+     "text": {
+      "@template": "c8b7d35c74c98f549b0d977f49eb0150b11141d4ac5cfd4378742e40878d4829",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_430",
+      "D4_Unique_50"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "weapon-category",
+   "description": "a measured D5 weapon-category test for bows and monster weapons",
+   "evility_ids": [
+    44,
+    97
+   ],
+   "imported_characters": 2,
+   "packs": [
+    "D4_Unique_420",
+    "D4_Unique_610"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 44,
+     "name": {
+      "@text": "4f24d0aa9593c0270d37f6c98859ed942497edc137dfc1a5046e435b0bbe15bf"
+     },
+     "text": {
+      "@template": "df3867203f8e57e80a193cf6769f978164ed3e2cdec150d0610f18ea696a0de0",
+      "args": [
+       1
+      ]
+     },
+     "packs": [
+      "D4_Unique_610"
+     ]
+    },
+    {
+     "id": 97,
+     "name": {
+      "@text": "06d3d3bdcf5e412550173645df05a05a51a855c9d481e4063a3b97cf8fbe771b"
+     },
+     "text": {
+      "@template": "c69a484057125dd3c660a4fef08ce646af34efcc99357ba781b4853273203e4e",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_420"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "facing-write",
+   "description": "a facing write on the target",
+   "evility_ids": [
+    836
+   ],
+   "imported_characters": 1,
+   "packs": [
+    "D4_Unique_300"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 836,
+     "name": {
+      "@text": "f13c410d484a100533a5f125e7f63a742541a3d328514ef4e67a09dcc2bd0999"
+     },
+     "text": {
+      "@text": "a324956e326a0b745279e7b9b215c80985363f9fe900b1cc5546e1d86dd20364"
+     },
+     "packs": [
+      "D4_Unique_300"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "sp-cost-aura",
+   "description": "an SP-cost modifier applied to other units",
+   "evility_ids": [
+    216
+   ],
+   "imported_characters": 1,
+   "packs": [
+    "D4_Unique_420"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 216,
+     "name": {
+      "@text": "141f1a8d88dc265df4d1876b3f8f149786b416b459f33e6cdf48d630a4a0138f"
+     },
+     "text": {
+      "@template": "91be699ae32d483f2be5237fee81ef63d0b82aab099c2010d76129e56f819a1e",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_420"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "status-and-height",
+   "description": "a status-intensity / height condition",
+   "evility_ids": [
+    839
+   ],
+   "imported_characters": 1,
+   "packs": [
+    "D4_Unique_300"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 839,
+     "name": {
+      "@text": "c889c739bb4f0e729bf521d7038c572ed42b9a36ed33c86a5ab7d8591c1b49be"
+     },
+     "text": {
+      "@template": "58f1d8eae95a0d6cebbf8c53913022d6940a4b501fbd451a8ef596c8cef52efc",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "packs": [
+      "D4_Unique_300"
+     ]
+    }
+   ]
+  },
+  {
+   "bucket": "survival-latch",
+   "description": "a lethal-hit survival latch with a per-turn limit",
+   "evility_ids": [
+    838
+   ],
+   "imported_characters": 1,
+   "packs": [
+    "D4_Unique_300"
+   ],
+   "not_imported": [],
+   "evilities": [
+    {
+     "id": 838,
+     "name": {
+      "@text": "072dc2fd11dac26637210c6b1e27b1a9ae328ae922431b6f80b8efaab90c9f80"
+     },
+     "text": {
+      "@text": "a1843bf99cf90eb3fd353dd945e0f404e3a9a27767f1b43194c909fc0a03d6df"
+     },
+     "packs": [
+      "D4_Unique_300"
+     ]
+    }
+   ]
+  }
+ ]
+}

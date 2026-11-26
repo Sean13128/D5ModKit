@@ -1,0 +1,1265 @@
+{
+  "schema": 1,
+  "profile": "MAIN",
+  "captured": "2026-11-03",
+  "origin": "read-only installed DD2_* packs; parked D2_* excluded; ROSTERGAP1 (2026-11-09) added DD2_Class_22680, DD2_Unique_941/480/300/640 (new leases, tools/rostergap1_leases.py) and parked 22190/22100 as duplicates of Kit classes",
+  "entries": {
+    "DD2_Class_22210": {
+      "source_id": 1210,
+      "name": {
+        "@text": "a0602609123bfef195ab761081f02daedcdc326e068fed485c94edcb1032fadf"
+      },
+      "kind": "class",
+      "target": 22210,
+      "physical": 1550,
+      "template": 1230,
+      "body_kind": "humanoid",
+      "help": 22210,
+      "voice_ids": [
+        1230,
+        1230,
+        1230,
+        1230,
+        1230,
+        1230
+      ],
+      "rank_ids": [
+        22210,
+        22211,
+        22212,
+        22213,
+        22214,
+        22215
+      ],
+      "source_rank_ids": [
+        1210,
+        1211,
+        1212,
+        1213,
+        1214,
+        1215
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "charhelp.dat.json": "ff4d9939ea073c4e7e82c3a5579ebcb984cecb60a05513c1ccd99e05157921c9",
+        "char.dat.json": "fed1143786afba7f4f151fe495f1d231949fd050da24b1a313f12aa55c16e29c",
+        "charPersonal.dat.json": "e6907aad953b3a06b09b0f2dcb3307a3492feb29e902e2ae3dea685102623337",
+        "Skill.dat.json": "2d1561d5245dc8341e266a01999cd0e1f9650c8a91d3add8baf04397c81eaab9",
+        "JobRank.dat.json": "e56e4fd451dfa47b5caee965575192f53a573b9da75e334ee4ff91d8f53c108d"
+      },
+      "evilities": [
+        9000
+      ],
+      "personalities": [
+        309,
+        310,
+        311
+      ],
+      "quests": [],
+      "jobranks": [
+        22210,
+        22211,
+        22212,
+        22213,
+        22214,
+        22215
+      ]
+    },
+    "DD2_Class_22520": {
+      "source_id": 2020,
+      "name": {
+        "@text": "ee4b4532f4c4fc3628b33c3cfab34ee318fbbbde4d382b70c3f0649a5de39294"
+      },
+      "kind": "class",
+      "target": 22520,
+      "physical": 2760,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22520,
+      "voice_ids": [
+        2020,
+        2020,
+        2020,
+        2020,
+        2020,
+        2020
+      ],
+      "rank_ids": [
+        22520,
+        22521,
+        22522,
+        22523,
+        22524,
+        22525
+      ],
+      "source_rank_ids": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "charhelp.dat.json": "7532817d11e8328b91ee35625990f93a6b7784418652fba85fc8ebe9714eced4",
+        "char.dat.json": "2b1eec4f3871d9f968d5f2b6f70d148657205917d7a30f5af86707d02086cadc",
+        "charPersonal.dat.json": "45033a4f35d33cda47d513ca42b9ce850451ac17ddab70df061178d3b0e7a7cd",
+        "JobRank.dat.json": "06827ddea46226e7ac9d8b70397e79f9c37acc82cfc2387e9b3290b4a33cfcf0"
+      },
+      "evilities": [],
+      "personalities": [
+        312,
+        313,
+        314
+      ],
+      "quests": [],
+      "jobranks": [
+        22520,
+        22521,
+        22522,
+        22523,
+        22524,
+        22525
+      ]
+    },
+    "DD2_Class_22540": {
+      "source_id": 2040,
+      "name": {
+        "@text": "7801c2b35bd33a6d0bed2640bbde3bd64ff1939e0f4afcfe73fc907781ec963c"
+      },
+      "kind": "class",
+      "target": 22540,
+      "physical": 2770,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22540,
+      "voice_ids": [
+        2020,
+        2020,
+        2020,
+        2020,
+        2020,
+        2020
+      ],
+      "rank_ids": [
+        22540,
+        22541,
+        22542,
+        22543,
+        22544,
+        22545
+      ],
+      "source_rank_ids": [
+        2040,
+        2041,
+        2042,
+        2043,
+        2044,
+        2045
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "charhelp.dat.json": "45f378e87544b2667a0ecfd75ef94bde8159f532218877eb920471a900d13af1",
+        "char.dat.json": "bb6691d50f2046b39a46460f87ac744f178dc00cf2e228c05dccfeb7b0fa7142",
+        "charPersonal.dat.json": "4c65481d3e285e8854711e64a199d6237b333e99418d83e0a841e6ed23d602bc",
+        "JobRank.dat.json": "b2b114036ac7838ad9e3468af8239d06ad6f813b3e440852007e22ed070c2299"
+      },
+      "evilities": [],
+      "personalities": [
+        315,
+        316,
+        317
+      ],
+      "quests": [],
+      "jobranks": [
+        22540,
+        22541,
+        22542,
+        22543,
+        22544,
+        22545
+      ]
+    },
+    "DD2_Class_22550": {
+      "source_id": 2050,
+      "name": {
+        "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+      },
+      "kind": "class",
+      "target": 22550,
+      "physical": 2780,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22550,
+      "voice_ids": [
+        2020,
+        2020,
+        2020,
+        2020,
+        2020,
+        2020
+      ],
+      "rank_ids": [
+        22550,
+        22551,
+        22552,
+        22553,
+        22554,
+        22555
+      ],
+      "source_rank_ids": [
+        2050,
+        2051,
+        2052,
+        2053,
+        2054,
+        2055
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "charhelp.dat.json": "50697475466bc075a3a890b03ebad3efc75b77fe7785a24a88bd8dadf0d8a391",
+        "char.dat.json": "6a562937056f897f1f0706bd6756fe19c5b90d898773d30570ca672d0d21723b",
+        "charPersonal.dat.json": "c6d6dbdb1f2842253521721714cecae07db9ebda190a8daf4c6593fe0329d40a",
+        "Skill.dat.json": "ee0817f7669e114f21c194c64a8b16b63f2f7ad114f7b5b6afdeea2dd4208813",
+        "JobRank.dat.json": "3e6ece609d77bc2ebe104298e6eab6da1c21f014af1a7b23f89c868583463b1e"
+      },
+      "evilities": [
+        9001
+      ],
+      "personalities": [
+        318,
+        319,
+        320
+      ],
+      "quests": [],
+      "jobranks": [
+        22550,
+        22551,
+        22552,
+        22553,
+        22554,
+        22555
+      ]
+    },
+    "DD2_Class_22590": {
+      "source_id": 2090,
+      "name": {
+        "@text": "b44f2738b3701178509513d9c0f0c69eea6de0ee430ca9970ef612e06ee25f08"
+      },
+      "kind": "class",
+      "target": 22590,
+      "physical": 2790,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22590,
+      "voice_ids": [
+        2020,
+        2020,
+        2020,
+        2020,
+        2020,
+        2020
+      ],
+      "rank_ids": [
+        22590,
+        22591,
+        22592,
+        22593,
+        22594,
+        22595
+      ],
+      "source_rank_ids": [
+        2090,
+        2091,
+        2092,
+        2093,
+        2094,
+        2095
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "charhelp.dat.json": "2fef78b842f94dc4b8a0e9f9e4a23ed0f5f3863457be2badecb6f1591ac2ec84",
+        "char.dat.json": "a3e3c4dd57e104873a3c1ff3f544482a06f7e88b1f67064874dfa17920531b08",
+        "charPersonal.dat.json": "6fa77f56bf8d9c81aeb958d7e85841a43c042fcaf7ec089b4c1420b4bb946242",
+        "Skill.dat.json": "aa7e3cd81d50932336c8f6d120066ed4b294849602f8dc997e009f18cea3b041",
+        "JobRank.dat.json": "b0513ed6066faae3aff562355357758061bd21cd74aca7a2bc040a604860c636"
+      },
+      "evilities": [
+        9002
+      ],
+      "personalities": [
+        321,
+        322,
+        323
+      ],
+      "quests": [],
+      "jobranks": [
+        22590,
+        22591,
+        22592,
+        22593,
+        22594,
+        22595
+      ]
+    },
+    "DD2_Class_22620": {
+      "source_id": 2120,
+      "name": {
+        "@text": "fcd6fea72de7e6c09ca2567674befdef61c04e783bd2e0f092aeb99c57e587e3"
+      },
+      "kind": "class",
+      "target": 22620,
+      "physical": 2800,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22620,
+      "voice_ids": [
+        2020,
+        2020,
+        2020,
+        2020,
+        2020,
+        2020
+      ],
+      "rank_ids": [
+        22620,
+        22621,
+        22622,
+        22623,
+        22624,
+        22625
+      ],
+      "source_rank_ids": [
+        2120,
+        2121,
+        2122,
+        2123,
+        2124,
+        2125
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "charhelp.dat.json": "055e00cdd56fc0f93bf71fd48105f6e92370abce8de03111bea2eb80c66cd8bf",
+        "char.dat.json": "248db389e461da31f23010f0dbb71692b78dc80ed17f0bb6566edb11a5052e41",
+        "charPersonal.dat.json": "0727522f6f9b6b7af1177e5d790995a5b32ebdbce4e80d58bb083d854f7999aa",
+        "JobRank.dat.json": "b6ed62583fd34ecbf8d735c44a043a7b44f02d4cc52b614475264daffcf1f6e8"
+      },
+      "evilities": [],
+      "personalities": [
+        324,
+        325,
+        326
+      ],
+      "quests": [],
+      "jobranks": [
+        22620,
+        22621,
+        22622,
+        22623,
+        22624,
+        22625
+      ]
+    },
+    "DD2_Class_22630": {
+      "source_id": 2130,
+      "name": {
+        "@text": "9e0480c6740b19c6ea7fdc35d7cccc4e914b02d8e534c4cd43e8c13b3dd008ce"
+      },
+      "kind": "class",
+      "target": 22630,
+      "physical": 2810,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22630,
+      "voice_ids": [
+        2020,
+        2020,
+        2020,
+        2020,
+        2020,
+        2020
+      ],
+      "rank_ids": [
+        22630,
+        22631,
+        22632,
+        22633,
+        22634,
+        22635
+      ],
+      "source_rank_ids": [
+        2130,
+        2131,
+        2132,
+        2133,
+        2134,
+        2135
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "charhelp.dat.json": "501c42fc7de30b1cf4736dc62fab3f497293d5a0da3896f69725963783cada63",
+        "char.dat.json": "d73a3559a565233cf91d8e89c1a8634e9306814f61f412765f0bc70532f48490",
+        "charPersonal.dat.json": "d4ecf96dec3e05733f253bb3bff5c034a9240c47afdfac648c8c81a9b111bd08",
+        "JobRank.dat.json": "d9bb62e581db3290dc05f5712c6160d67159abcae22bf60afd33ba105de46267"
+      },
+      "evilities": [],
+      "personalities": [
+        327,
+        328,
+        329
+      ],
+      "quests": [],
+      "jobranks": [
+        22630,
+        22631,
+        22632,
+        22633,
+        22634,
+        22635
+      ]
+    },
+    "DD2_Class_22670": {
+      "source_id": 2170,
+      "name": {
+        "@text": "73fcf414fdaca67829bf89d2256792bcab04a8b9783026b4d7d97b5822982f21"
+      },
+      "kind": "class",
+      "target": 22670,
+      "physical": 2820,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22670,
+      "voice_ids": [
+        2020,
+        2020,
+        2020,
+        2020,
+        2020,
+        2020
+      ],
+      "rank_ids": [
+        22670,
+        22671,
+        22672,
+        22673,
+        22674,
+        22675
+      ],
+      "source_rank_ids": [
+        2170,
+        2171,
+        2172,
+        2173,
+        2174,
+        2175
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "charhelp.dat.json": "45404a37409dd9723b9654efefc4428316a32cef756451942a9f3fbfc205b711",
+        "char.dat.json": "e7df824fba0e8b48e24387ce1f198e4cd0c1baa490442370105de165561800f9",
+        "charPersonal.dat.json": "734a9ec3bb4f446bbe6a72485cb34be1b7063dda91c657c0f3dcd1cbd1fbaa1a",
+        "JobRank.dat.json": "b34d291d46814b42b10859360e6123cd4b386bc38774a64e432f8bd7c47768ba"
+      },
+      "evilities": [],
+      "personalities": [
+        330,
+        331,
+        332
+      ],
+      "quests": [],
+      "jobranks": [
+        22670,
+        22671,
+        22672,
+        22673,
+        22674,
+        22675
+      ]
+    },
+    "DD2_Class_22700": {
+      "source_id": 2200,
+      "name": {
+        "@text": "0c9450bc586d09c0e459a932d885a8d9c9673fc5d2b8ffc89d79cecad96f61bd"
+      },
+      "kind": "class",
+      "target": 22700,
+      "physical": 2830,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22705,
+      "voice_ids": [
+        2020,
+        2020,
+        2020,
+        2020,
+        2020,
+        2020
+      ],
+      "rank_ids": [
+        22700,
+        22701,
+        22702,
+        22703,
+        22704,
+        22705
+      ],
+      "source_rank_ids": [
+        2200,
+        2201,
+        2202,
+        2203,
+        2204,
+        2205
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "charhelp.dat.json": "fc638debf335e22fe2e4cd3490f330aa5f5dd438d7e1f0b58a139ea960363c56",
+        "char.dat.json": "0d34538d1e3b4dc73b015137e6e67c506767d8f5155d0f283b035399e24b83df",
+        "charPersonal.dat.json": "b99039ecef16bcd785422e3b42ca1c98288e4783b384b516a49dd275278fb271",
+        "JobRank.dat.json": "460e6bba71f4cf24da170abed06bfc9be25a1bd1cc7ef0cb85ccee985a8bce0e"
+      },
+      "evilities": [],
+      "personalities": [
+        333,
+        334,
+        335
+      ],
+      "quests": [],
+      "jobranks": [
+        22700,
+        22701,
+        22702,
+        22703,
+        22704,
+        22705
+      ]
+    },
+    "DD2_Unique_10": {
+      "source_id": 10,
+      "name": {
+        "@text": "c81b908686124770595b26664df1d4cc8186333725320740e4fabd54e58c6695"
+      },
+      "kind": "unique",
+      "target": 10530,
+      "physical": 626,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22609,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10530
+      ],
+      "source_rank_ids": [
+        10
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "b912f40ac15574190e9fef23135a9eb247c2f69b5e87f910e844315a97d996a6",
+        "charhelp.dat.json": "07c9c67eac52b12944d9470c0b3b321e864f51d5d49119cd2beffa52b737d834",
+        "char.dat.json": "d6fe751afa535fb75417e0bddc765d29d06d7bc56c4f42d023b8f12c63972416"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        356
+      ],
+      "jobranks": [],
+      "quest": 356,
+      "quest_slot": 555
+    },
+    "DD2_Unique_100": {
+      "source_id": 100,
+      "name": {
+        "@text": "d01926adf94597454516e441789dba45148c4360a90c6eaddad59823881ab7c0"
+      },
+      "kind": "unique",
+      "target": 10800,
+      "physical": 406,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22852,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10800
+      ],
+      "source_rank_ids": [
+        100
+      ],
+      "skills": [
+        20801,
+        20802
+      ],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "7a166b0aedd3e1c0f472968bede9cfc3e07d7207367f54224802087c0bb52736",
+        "magic.dat.json": "0b262800230aecd3ae6f3e4e672d2598d8884f8f644f333252449e3d58cbccc1",
+        "charhelp.dat.json": "55caeea9af28d38edf5f691d751f1e678638736981a5ab571241d6db0e202293",
+        "char.dat.json": "3df5fb40fbca3bcb72d290bfc110ec4dc5ab937c0177d5f12059c7c471fae481",
+        "Skill.dat.json": "620b4b3ac1bc503dcf36bfb0cfbc79f42bf2871c4ddeaee0a367a210e15bc94e"
+      },
+      "evilities": [
+        10100
+      ],
+      "personalities": [],
+      "quests": [
+        383
+      ],
+      "jobranks": [],
+      "quest": 383,
+      "quest_slot": 605
+    },
+    "DD2_Unique_140": {
+      "source_id": 140,
+      "name": {
+        "@text": "855250ab9c815e25780a0e1adc83c2dcd194d468ee701fb6a4fb885ad74fe51d"
+      },
+      "kind": "unique",
+      "target": 10450,
+      "physical": 416,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22601,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10450
+      ],
+      "source_rank_ids": [
+        140
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "c709779c497d89fbfcb04a8eb2f783e62736b811db716bb80fd36541ce9d99dd",
+        "charhelp.dat.json": "e316d4e9cd114d3800e765d633b708f3056b11d0493f92d5a8763d279fd79b08",
+        "char.dat.json": "d0ed543f9af7f456e440f0017e3c1c5869feae97e8ebd3215633818a0f6b0cac"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        348
+      ],
+      "jobranks": [],
+      "quest": 348,
+      "quest_slot": 546
+    },
+    "DD2_Unique_210": {
+      "source_id": 210,
+      "name": {
+        "@text": "dc86d290d14390a8b29e00ab3e5eaed12009d4d3ed1f01e6a97a52227d50ef29"
+      },
+      "kind": "unique",
+      "target": 10460,
+      "physical": 426,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22602,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10460
+      ],
+      "source_rank_ids": [
+        210
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "97476897c9a25fa513044c6bb21a1c7261d35e3c5d39a996a642e15e08bdaf9b",
+        "charhelp.dat.json": "06cdf7ab2d7242fad74df75b77ace1abaf0ee0716dd3d85e1576867434e5ff6a",
+        "char.dat.json": "7423341d60eebfec516ba760c16dbfdd66aa9f2b23f3b3cccce36c47bf8bbf70"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        349
+      ],
+      "jobranks": [],
+      "quest": 349,
+      "quest_slot": 548
+    },
+    "DD2_Unique_270": {
+      "source_id": 270,
+      "name": {
+        "@text": "4006d169b9202b9a024081b4c400711e0b917c849edbf5591ca61d774d085248"
+      },
+      "kind": "unique",
+      "target": 10470,
+      "physical": 433,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22603,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10470
+      ],
+      "source_rank_ids": [
+        270
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "2f10b186351bb3e3c97e5b8be8aff71ce4041caed37820729a4b67e9b7f0264e",
+        "charhelp.dat.json": "5272a9a1a9bccb5c57c9bcc0dec55adda038f3082f107656b2577971ce3f9abe",
+        "char.dat.json": "6d191ebc7502bc9d3a259129ff0a3f0ecaa54cc0e9e8b3b23b5101943b28e000"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        350
+      ],
+      "jobranks": [],
+      "quest": 350,
+      "quest_slot": 549
+    },
+    "DD2_Unique_30": {
+      "source_id": 30,
+      "name": {
+        "@text": "40ede8445092e43118daf16eacc7be7daa689990772d7bf8f71ba4a05b4348e5"
+      },
+      "kind": "unique",
+      "target": 10820,
+      "physical": 423,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22854,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10820
+      ],
+      "source_rank_ids": [
+        30
+      ],
+      "skills": [
+        20821,
+        20822,
+        20823,
+        20824
+      ],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "145d7f42054c1a114ec67bdd420175b4e6b5e6546ba29808fd738390347cce27",
+        "magic.dat.json": "30903bc54cfc3404307af050b511fc820353a3cf3c3ee93a70b8b93f71236165",
+        "charhelp.dat.json": "d5879f771a9e9ce003117d6c2106e95a651c99f8298c7f7b401d7b0c03e4b83f",
+        "char.dat.json": "272272a883546568f729e97feae4a5ad640346deb1d4780f2c41edb7b97befbd"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        385
+      ],
+      "jobranks": [],
+      "quest": 385,
+      "quest_slot": 607
+    },
+    "DD2_Unique_320": {
+      "source_id": 320,
+      "name": {
+        "@text": "a4a2899ef6f76ef71ac0dceefc25029c493642ac306959a8cacc8f9cadb67801"
+      },
+      "kind": "unique",
+      "target": 10480,
+      "physical": 436,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22604,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10480
+      ],
+      "source_rank_ids": [
+        320
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "5561951d7a48a47ec655943db457e5c3b9096fd16067375062df596df02f9e1d",
+        "charhelp.dat.json": "93ca4114225aa99cc2a97ebafb3259cb7bcdfaf39d40b0fd94d02075b4c4c115",
+        "char.dat.json": "e9ac125886ba410e9a1e7c758745f0b768ec4ab8d179dd624d1208fe72a24d70"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        351
+      ],
+      "jobranks": [],
+      "quest": 351,
+      "quest_slot": 550
+    },
+    "DD2_Unique_400": {
+      "source_id": 400,
+      "name": {
+        "@text": "21d9243a90ba66ed48bb3d70c9fa6ddfedd2ab8b50ec85cf06aff5fa776eb025"
+      },
+      "kind": "unique",
+      "target": 10490,
+      "physical": 443,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22605,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10490
+      ],
+      "source_rank_ids": [
+        400
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "661855bcf984c3f1a1be20e939fef5a049af5f458739617d922a423d63116094",
+        "charhelp.dat.json": "a88d1ef981dcb47a19a1c1aefb1430df30586eb72486af95008c00042cf06e99",
+        "char.dat.json": "889b1885baa69dc7174c0e8f6857ba3b8554954faa5f0f1503a9dfe80f020152"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        352
+      ],
+      "jobranks": [],
+      "quest": 352,
+      "quest_slot": 551
+    },
+    "DD2_Unique_420": {
+      "source_id": 420,
+      "name": {
+        "@text": "5f1942df6113cef3dd04a1bd89d0e921700f622aca82ae1d93418bef9ed61b4c"
+      },
+      "kind": "unique",
+      "target": 10170,
+      "physical": 413,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22600,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10170
+      ],
+      "source_rank_ids": [
+        420
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "dd94cf4ce97ba6ae403ea15c6e93695c257aa1536e43900a7819ae183f637154",
+        "charhelp.dat.json": "e4e3df92417024fc0f7bbcbc82f4164792e30df109e67e8d9d99fe1e54d272d2",
+        "char.dat.json": "0f6da8a8131fdb03970559f3e80c92b0edf3375da1bdadf84fc4f546acb72dae"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        314
+      ],
+      "jobranks": [],
+      "quest": 314,
+      "quest_slot": 545
+    },
+    "DD2_Unique_430": {
+      "source_id": 430,
+      "name": {
+        "@text": "7610c7695faa5426203b76df3b74ec72008528e1322b967ed26005b8b99cad3b"
+      },
+      "kind": "unique",
+      "target": 10500,
+      "physical": 446,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22606,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10500
+      ],
+      "source_rank_ids": [
+        430
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "5eed0db84b52409bb88bc00a76d5b287d215a577b67169157e33b083be6cee9b",
+        "charhelp.dat.json": "ddd3fff2db0748dd663beb5578a954afb5d2656a5a34605c109a17ceb5eb6f72",
+        "char.dat.json": "b4657e11320f45dce96d93e6c92a5237d9c202eeacb62388ead391c257d3cfd2"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        353
+      ],
+      "jobranks": [],
+      "quest": 353,
+      "quest_slot": 552
+    },
+    "DD2_Unique_50": {
+      "source_id": 50,
+      "name": {
+        "@text": "26c6cdb6e2dfeb14cbd9fc599f7791824cc2916347e3608620395c09abeb6955"
+      },
+      "kind": "unique",
+      "target": 10540,
+      "physical": 633,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22610,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10540
+      ],
+      "source_rank_ids": [
+        50
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "7986de923a3c4ec66b9cf6e4e6c2b8a2f3fe465d35d99c2fd4f3cf2418ece9f7",
+        "charhelp.dat.json": "404a998688a03c7b40df3ee28acd22e0aa40ecb92cf6c4ab3fb4b41e0e1c8199",
+        "char.dat.json": "f8d3029bcba1a3a3ce2320515140b7b04e3f0e7f071ada54ff04793040b15896"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        357
+      ],
+      "jobranks": [],
+      "quest": 357,
+      "quest_slot": 556
+    },
+    "DD2_Unique_550": {
+      "source_id": 550,
+      "name": {
+        "@text": "ecc8be01821e7544558bb163f1f681654265cc759a600e92c34485d543a60fb0"
+      },
+      "kind": "unique",
+      "target": 10510,
+      "physical": 453,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22607,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10510
+      ],
+      "source_rank_ids": [
+        550
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "547c1d75d6bd5ef4c71eed755b5d0d244b4021ba8af2dea07a31c646adf69c7e",
+        "charhelp.dat.json": "79274bcee96709880252b988bb5eeb5cec103404f61242a8fdd56a326ef79639",
+        "char.dat.json": "434ddf2e672aa15fcd11f137e9de6f4ae3d604f71844993f601a881848df9053"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        354
+      ],
+      "jobranks": [],
+      "quest": 354,
+      "quest_slot": 553
+    },
+    "DD2_Unique_570": {
+      "source_id": 570,
+      "name": {
+        "@text": "324b7ca1312182bf601625ff0bbf5b05c7303116a05065e8bd0a039e8ff79c2b"
+      },
+      "kind": "unique",
+      "target": 10520,
+      "physical": 456,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22608,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10520
+      ],
+      "source_rank_ids": [
+        570
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "99a0501abba83bbce989eee797ae23c8ca7ba1520b65d1fd1e4322eaadb52f25",
+        "charhelp.dat.json": "f573679227b75b4d6e94737bfc53fa130a9ae15ce9df9d82a32c2748223bfdee",
+        "char.dat.json": "d3b80840e35f34e6f6352ca84c1406ee4e74561fa3a9be0f28f232921f9dead3"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        355
+      ],
+      "jobranks": [],
+      "quest": 355,
+      "quest_slot": 554
+    },
+    "DD2_Unique_60": {
+      "source_id": 60,
+      "name": {
+        "@text": "6b59fa8b73b5692c33c4a24a09c41ed34fc62ae8b23b4ae8ce7e85f28565b5ab"
+      },
+      "kind": "unique",
+      "target": 10550,
+      "physical": 636,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22611,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10550
+      ],
+      "source_rank_ids": [
+        60
+      ],
+      "skills": [],
+      "main": true,
+      "patch_sha256": {
+        "Quest.dat.json": "e197e09d0a7c47a8ee15f7907a1ec0dd6a22abdcc6d92aefaab47f0762607b21",
+        "charhelp.dat.json": "7337d20ed816d64534f7b409bedf8f84ba229b182a191b16bfef1f278cfaac87",
+        "char.dat.json": "45a4cbcbb2f48b53d47b6582e674215e182b6c1c723dad69719f5e51715fd676"
+      },
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        358
+      ],
+      "jobranks": [],
+      "quest": 358,
+      "quest_slot": 557
+    },
+    "DD2_Class_22680": {
+      "source_id": 2180,
+      "name": {
+        "@text": "716de116dfcc9a03d1d482793df57e5d967504a8ca8759bb05a938eef0435d42"
+      },
+      "kind": "class",
+      "target": 22680,
+      "physical": 2640,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22680,
+      "voice_ids": [
+        2020,
+        2020,
+        2020,
+        2020,
+        2020,
+        2020
+      ],
+      "rank_ids": [
+        22680,
+        22681,
+        22682,
+        22683,
+        22684,
+        22685
+      ],
+      "source_rank_ids": [
+        2180,
+        2181,
+        2182,
+        2183,
+        2184,
+        2185
+      ],
+      "skills": [],
+      "main": true,
+      "evilities": [],
+      "personalities": [
+        336,
+        337,
+        338
+      ],
+      "quests": [],
+      "jobranks": [
+        22680,
+        22681,
+        22682,
+        22683,
+        22684,
+        22685
+      ],
+      "new": true
+    },
+    "DD2_Unique_941": {
+      "source_id": 80,
+      "name": {
+        "@text": "a7918595e1a6f5cf8f70ab7a93e45a6350acbbd85818f971a2da67402a720034"
+      },
+      "kind": "unique",
+      "target": 941,
+      "physical": 941,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22889,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        941
+      ],
+      "source_rank_ids": [
+        80
+      ],
+      "skills": [],
+      "main": true,
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        417
+      ],
+      "jobranks": [],
+      "quest": 417,
+      "quest_slot": 628,
+      "new": true
+    },
+    "DD2_Unique_480": {
+      "source_id": 480,
+      "name": {
+        "@text": "db74c940d447e877d119df613edd2700c4a84cd1cf08beb7cbc319bcfaeab97a"
+      },
+      "kind": "unique",
+      "target": 10560,
+      "physical": 673,
+      "template": 1080,
+      "body_kind": "humanoid",
+      "help": 22890,
+      "voice_ids": [
+        1080
+      ],
+      "rank_ids": [
+        10560
+      ],
+      "source_rank_ids": [
+        480
+      ],
+      "skills": [],
+      "main": true,
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        418
+      ],
+      "jobranks": [],
+      "quest": 418,
+      "quest_slot": 630,
+      "new": true
+    },
+    "DD2_Unique_300": {
+      "source_id": 300,
+      "name": {
+        "@text": "f1818107faa1e9bf5a54c4c85b3f70b757013ca647f81212dec7096a5aec8911"
+      },
+      "kind": "unique",
+      "target": 10570,
+      "physical": 676,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22891,
+      "voice_ids": [
+        2020
+      ],
+      "rank_ids": [
+        10570
+      ],
+      "source_rank_ids": [
+        300
+      ],
+      "skills": [],
+      "main": true,
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        419
+      ],
+      "jobranks": [],
+      "quest": 419,
+      "quest_slot": 631,
+      "new": true
+    },
+    "DD2_Unique_640": {
+      "source_id": 640,
+      "name": {
+        "@text": "ade6ede4c4bb79e2e9a56361d58858e889c36d58d31afd4652344a17d8551076"
+      },
+      "kind": "unique",
+      "target": 10580,
+      "physical": 683,
+      "template": 2020,
+      "body_kind": "monster",
+      "help": 22892,
+      "voice_ids": [
+        2020
+      ],
+      "rank_ids": [
+        10580
+      ],
+      "source_rank_ids": [
+        640
+      ],
+      "skills": [],
+      "main": true,
+      "evilities": [],
+      "personalities": [],
+      "quests": [
+        420
+      ],
+      "jobranks": [],
+      "quest": 420,
+      "quest_slot": 632,
+      "new": true
+    },
+    "DD2_Class_22190": {
+      "source_id": 1190,
+      "name": {
+        "@text": "4d2f5107205b3f5686f6d1acaa45df443cdf46fd6a7e8a810b07c08e7f761afb"
+      },
+      "kind": "class",
+      "parked": true,
+      "why": "The Kit already ships Beast Master (Class_Beast_Master, family 1280, docs/CLASSES.md; D4 importer scope lists it the same way); a DD2 copy would be a second class of the same name. Source art exists (DD2 body 1190), so this is a duplicate, not a gap."
+    },
+    "DD2_Class_22100": {
+      "source_id": 1100,
+      "name": {
+        "@text": "900875a866fd11d08379f3cbf00ea176c982785aa6b105e20615774e2b035c64"
+      },
+      "kind": "class",
+      "parked": true,
+      "why": "The Kit already ships Onmyo Monk (Class_Onmyo_Monk, family 1270, docs/CLASSES.md; D4 importer scope lists it the same way); a DD2 copy would be a second class of the same name. Source art exists (DD2 body 1100), so this is a duplicate, not a gap."
+    }
+  }
+}

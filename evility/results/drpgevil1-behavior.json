@@ -1,0 +1,418 @@
+{
+ "mode": "behavior",
+ "rows": [
+  28000,
+  28003,
+  28008,
+  28012,
+  28051,
+  28063,
+  28078,
+  28098,
+  28131,
+  28155,
+  28380,
+  28410,
+  28574
+ ],
+ "passed": true,
+ "patched_sha256": "f1b62d4b656d87e3adc66ac7784545c1a53d8cdef2d931d09bc2c40f7851206e",
+ "checks": [
+  {
+   "name": "stats-weapon-axe-equipped",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-axe-equipped",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-axe-equipped",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-axe-equipped",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-sword-equipped",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-sword-equipped",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-sword-equipped",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-sword-equipped",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-unlearned",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-unlearned",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-unlearned",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "stats-weapon-unlearned",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "stats-unconditional",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "stats-unconditional",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "stats-unconditional",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "stats-unconditional",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "stats-two-rows-one-id",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "stats-two-rows-one-id",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "stats-two-rows-one-id",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "stats-two-rows-one-id",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "dealt-skill",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "dealt-skill-normal-attack",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "dealt-ice-element",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "dealt-fire-element-does-not-match",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true
+  },
+  {
+   "name": "taken-from-humanoid",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "taken-from-monster-unchanged",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "taken-normal-attack",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "taken-normal-attack-row-on-a-skill",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "taken-elemental",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "taken-elemental-row-on-a-plain-hit",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "taken-multi-target",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "taken-single-target-unchanged",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true
+  },
+  {
+   "name": "ailment-null-gun-equipped",
+   "family": "status_chance",
+   "site": "0x1401bfa23",
+   "ok": true
+  },
+  {
+   "name": "ailment-null-staff-equipped",
+   "family": "status_chance",
+   "site": "0x1401bfa23",
+   "ok": true
+  },
+  {
+   "name": "regen-at-the-threshold",
+   "family": "regen",
+   "site": "0x140554b9e",
+   "ok": true
+  },
+  {
+   "name": "regen-at-the-threshold",
+   "family": "regen",
+   "site": "0x1405fb5df",
+   "ok": true
+  },
+  {
+   "name": "regen-above-the-threshold",
+   "family": "regen",
+   "site": "0x140554b9e",
+   "ok": true
+  },
+  {
+   "name": "regen-above-the-threshold",
+   "family": "regen",
+   "site": "0x1405fb5df",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-reaches-an-ally-20-panels-away",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-reaches-an-ally-20-panels-away",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-reaches-an-ally-20-panels-away",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-reaches-an-ally-20-panels-away",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-holder-gets-its-own-row-once",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-holder-gets-its-own-row-once",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-holder-gets-its-own-row-once",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-holder-gets-its-own-row-once",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-two-holders-reach-each-other",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-two-holders-reach-each-other",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-two-holders-reach-each-other",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-two-holders-reach-each-other",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-stops-past-30-panels",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-stops-past-30-panels",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-stops-past-30-panels",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-stops-past-30-panels",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-does-not-reach-an-enemy",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-does-not-reach-an-enemy",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-does-not-reach-an-enemy",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "D1-ally-aura-does-not-reach-an-enemy",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "D1-enemy-aura-lowers-a-hostile-unit",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "D1-enemy-aura-lowers-a-hostile-unit",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "D1-enemy-aura-lowers-a-hostile-unit",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "D1-enemy-aura-lowers-a-hostile-unit",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  },
+  {
+   "name": "D1-enemy-aura-spares-its-own-side",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true
+  },
+  {
+   "name": "D1-enemy-aura-spares-its-own-side",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true
+  },
+  {
+   "name": "D1-enemy-aura-spares-its-own-side",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true
+  },
+  {
+   "name": "D1-enemy-aura-spares-its-own-side",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true
+  }
+ ]
+}

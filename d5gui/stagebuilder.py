@@ -195,15 +195,19 @@ class LookDialog(QDialog):
         if dlg.exec() != QDialog.DialogCode.Accepted or not dlg.choice:
             return
         label, img = dlg.choice
-        try:
-            pic = fit(img, self.piece.textures[k])
-        except Exception as e:
-            QMessageBox.warning(self, "Picture", f"That picture can't be used here: {e}")
-            return
+        from .gametex import Skin
+        # a game skin dresses the whole block: its top (with the outline) and its sides
+        targets = [i for i, e in enumerate(self.piece.textures) if e] if isinstance(img, Skin) else [k]
         os.makedirs(self.pictures_dir, exist_ok=True)
-        name = "game_" + "".join(c if c.isalnum() else "_" for c in label).strip("_")[:60] + f"_t{k}.png"
-        pic.save(os.path.join(self.pictures_dir, name))
-        self.tex[k] = name
+        for i in targets:
+            try:
+                pic = fit(img, self.piece.textures[i])
+            except Exception as e:
+                QMessageBox.warning(self, "Picture", f"That picture can't be used here: {e}")
+                return
+            name = "game_" + "".join(c if c.isalnum() else "_" for c in label).strip("_")[:60] + f"_t{i}.png"
+            pic.save(os.path.join(self.pictures_dir, name))
+            self.tex[i] = name
         self._show_tex()
 
     def apply(self, pl):

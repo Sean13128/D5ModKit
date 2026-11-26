@@ -52,7 +52,8 @@ def remember_source(mod, anm_id, image, fit="cover"):
     if isinstance(image, str) and os.path.exists(image):
         p = os.path.normpath(image)
         parts = p.replace("\\", "/").split("/")
-        if len(parts) >= 2 and parts[-2] in ("Cut-Ins", "Cutins"):
+        from . import drpgcutin
+        if len(parts) >= 2 and parts[-2] in ("Cut-Ins", "Cutins") and not drpgcutin.is_own(p):   # made-from-illustration files are copied into the mod
             src = "drpg:" + parts[-1]
     if src is None:
         img = Image.open(image) if isinstance(image, str) else image
@@ -209,7 +210,8 @@ def save(mod, anm_id, src, mask, source=None, fit="cover", keep_marks=True):
     if source is not None and not load_info(mod, anm_id).get("source"):
         info = {"fit": fit}
         parts = os.path.normpath(source).replace("\\", "/").split("/")
-        if len(parts) >= 2 and parts[-2] in ("Cut-Ins", "Cutins"):
+        from . import drpgcutin
+        if len(parts) >= 2 and parts[-2] in ("Cut-Ins", "Cutins") and not drpgcutin.is_own(source):   # made-from-illustration files are copied into the mod
             info["source"] = "drpg:" + parts[-1]
         else:
             name = f"portrait_{int(anm_id)}.png"

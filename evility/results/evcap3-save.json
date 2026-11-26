@@ -1,0 +1,233 @@
+{
+ "save": "Save_001.sav",
+ "source": "/Volumes/Data/SteamLibrary/steamapps/common/Disgaea 5 Complete/D5ModKit/profiles/.shared_saves/27885847/SaveData/Save_001.sav",
+ "scratch": "/Volumes/Data/ai-tmp/evcap4/saves",
+ "table_rows": 1045,
+ "extension_ids": [
+  8851,
+  8852
+ ],
+ "generation": 499571387,
+ "capacity": 131072,
+ "max_used": 98304,
+ "units": 59,
+ "native_learned": 241,
+ "plan": [
+  [
+   1,
+   8851
+  ],
+  [
+   2259,
+   8851
+  ],
+  [
+   2259,
+   8852
+  ]
+ ],
+ "checks": [
+  {
+   "name": "save-parsed",
+   "ok": true,
+   "detail": {
+    "units": 59,
+    "army": 58,
+    "reserve": 1
+   }
+  },
+  {
+   "name": "native-learning-decoded",
+   "ok": true,
+   "detail": {
+    "learned_total": 241
+   }
+  },
+  {
+   "name": "store-ceiling-covers-the-plan",
+   "ok": true,
+   "detail": {
+    "capacity": 131072,
+    "max_used": 98304,
+    "pairs_planned": 98304
+   }
+  },
+  {
+   "name": "session-A-wrote-the-companion",
+   "ok": true,
+   "detail": {
+    "path": "/Volumes/Data/ai-tmp/evcap4/saves/SaveData/Save_001.sav.d5learn.json"
+   }
+  },
+  {
+   "name": "companion-validates-against-the-save",
+   "ok": true,
+   "detail": {
+    "problems": []
+   }
+  },
+  {
+   "name": "companion-carries-exactly-the-new-learning",
+   "ok": true,
+   "detail": {
+    "units": 2
+   }
+  },
+  {
+   "name": "companion-is-bound-to-the-save-bytes",
+   "ok": true,
+   "detail": null
+  },
+  {
+   "name": "quit-empties-the-store",
+   "ok": true,
+   "detail": {
+    "pairs": 0
+   }
+  },
+  {
+   "name": "load-restores-every-extension-evility",
+   "ok": true,
+   "detail": {
+    "got": [
+     [
+      1,
+      8851
+     ],
+     [
+      2259,
+      8851
+     ],
+     [
+      2259,
+      8852
+     ]
+    ],
+    "want": [
+     [
+      1,
+      8851
+     ],
+     [
+      2259,
+      8851
+     ],
+     [
+      2259,
+      8852
+     ]
+    ]
+   }
+  },
+  {
+   "name": "load-did-not-touch-the-save-bytes",
+   "ok": true,
+   "detail": null
+  },
+  {
+   "name": "old-evilities-load-unchanged",
+   "ok": true,
+   "detail": {
+    "units": 59,
+    "learned_total": 241
+   }
+  },
+  {
+   "name": "every-bitmap-byte-unchanged",
+   "ok": true,
+   "detail": {
+    "bitmaps": 59
+   }
+  },
+  {
+   "name": "save-after-load-is-the-same-learning",
+   "ok": true,
+   "detail": {
+    "units": 2
+   }
+  },
+  {
+   "name": "a-save-with-no-companion-loads-native-only",
+   "ok": true,
+   "detail": {
+    "log": [
+     "log: learn: /Volumes/Data/ai-tmp/evcap4/saves/SaveData/Save_002.sav: no companion -- this save's native evilities only"
+    ]
+   }
+  },
+  {
+   "name": "a-mismatched-companion-is-refused-and-kept",
+   "ok": true,
+   "detail": {
+    "rejected": true,
+    "log": [
+     "log: learn: /Volumes/Data/ai-tmp/evcap4/saves/SaveData/Save_003.sav: companion does not match these save bytes -- kept as /Volumes/Data/ai-tmp/evcap4/saves/SaveData/Save_003.sav.d5learn.json.rejected, native evilities only"
+    ]
+   }
+  },
+  {
+   "name": "a-refused-companion-changes-no-native-learning",
+   "ok": true,
+   "detail": {
+    "units": 59
+   }
+  },
+  {
+   "name": "a-file-that-is-not-a-slot-file-gets-no-companion",
+   "ok": true,
+   "detail": {
+    "log": [
+     "log: learn: /Volumes/Data/ai-tmp/evcap4/saves/SaveData/Save_004.sav is not a slot file this game's writer produced: no companion"
+    ]
+   }
+  },
+  {
+   "name": "a-slot-with-no-file-gets-no-companion",
+   "ok": true,
+   "detail": {
+    "log": [
+     "log: learn: cannot read back the save the game just wrote (/Volumes/Data/ai-tmp/evcap4/saves/SaveData/Save_005.sav): no companion"
+    ]
+   }
+  },
+  {
+   "name": "an-agent-run-writes-nothing-under-the-save-folder",
+   "ok": true,
+   "detail": {
+    "log": [
+     "host: remote=1",
+     "log: learn: remote=1 (agent run): the save folder is read only for this runtime"
+    ]
+   }
+  },
+  {
+   "name": "an-autosave-gets-a-companion-bound-to-AutoSave.sav",
+   "ok": true,
+   "detail": {
+    "problems": []
+   }
+  },
+  {
+   "name": "a-moved-table-writes-no-companion",
+   "ok": true,
+   "detail": {
+    "log": [
+     "log: learn: Skill table does not match this build's generation -- companion NOT written for /Volumes/Data/ai-tmp/evcap4/saves/SaveData/Save_001.sav"
+    ]
+   }
+  },
+  {
+   "name": "source-save-unchanged",
+   "ok": true,
+   "detail": {
+    "sha256": "285fc3e1ffe39efc7c0dc786becbf61d0f8cb66b823e9bd96992ec0ba05cc3f6"
+   }
+  }
+ ],
+ "passed": true,
+ "limitations": [
+  "Offline: the runtime code is real (the same C the DLL builds) and the section is the real assembled section, but the game itself does not run, so \"the game saves\" and \"the game loads\" are the relays' documented behaviour being driven directly.",
+  "The save is never written: it is read for its hash and parsed for its learning. A live save/reload in game is still the acceptance step (EVCAP3-REPORT.md).",
+  "Save2 is known-bad and is not opened."
+ ]
+}

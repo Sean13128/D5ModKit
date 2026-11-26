@@ -1,0 +1,390 @@
+{
+ "original_sha256": "49a7530baa1c3e15e4bf9c63c56fefd71d7e51a6e641bce80280b37b2db282ce",
+ "patched_sha256": "7fc751978f11ad4f494609a250c01ffcd9045164ca1db51be3620fa02be25e4a",
+ "section_base": "0x14808f000",
+ "section_size": 256280,
+ "wrappers": {
+  "dealt": "0x1480903a4",
+  "taken": "0x148090418",
+  "potency": "0x1480902f8",
+  "growth": "0x148090368",
+  "status": "0x14809032c",
+  "flight_a": "0x1480904ee",
+  "flight_b": "0x148090543"
+ },
+ "owned": {
+  "0x1400efde0": 33,
+  "0x14010eaf0": 204,
+  "0x1402068b0": 86,
+  "0x1401f4020": 355,
+  "0x1401f4190": 765,
+  "0x14008d0f0": 81,
+  "0x14008d141": 21,
+  "0x1402072a0": 298
+ },
+ "globals": [
+  [
+   "0x140a00020",
+   8
+  ],
+  [
+   "0x141ba33b0",
+   1966080
+  ],
+  [
+   "0x144ab34b0",
+   131072
+  ],
+  [
+   "0x140a66ae0",
+   8
+  ],
+  [
+   "0x145574aaf",
+   8
+  ]
+ ],
+ "rows": {
+  "7101": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 30
+    }
+   ]
+  },
+  "7102": {
+   "family": "taken",
+   "effects": [
+    {
+     "value": 50
+    }
+   ]
+  },
+  "7103": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 20
+    }
+   ],
+   "condition": {
+    "kind": "hp_below",
+    "id": 50
+   }
+  },
+  "7104": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 15
+    }
+   ],
+   "condition": {
+    "kind": "target_class",
+    "id": 5
+   }
+  },
+  "7105": {
+   "family": "taken",
+   "effects": [
+    {
+     "value": -30
+    }
+   ]
+  },
+  "7106": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 25
+    }
+   ],
+   "condition": {
+    "kind": "level",
+    "id": 200
+   }
+  },
+  "7201": {
+   "family": "potency",
+   "effects": [
+    {
+     "stat": "atk",
+     "value": 30
+    }
+   ]
+  },
+  "7202": {
+   "family": "potency",
+   "effects": [
+    {
+     "stat": "def",
+     "value": 20
+    }
+   ],
+   "condition": {
+    "kind": "has",
+    "id": 121
+   }
+  },
+  "7203": {
+   "family": "growth",
+   "effects": [
+    {
+     "stat": 5,
+     "value": 7
+    }
+   ]
+  },
+  "7204": {
+   "family": "stats",
+   "effects": [
+    {
+     "stat": "all",
+     "value": 5
+    }
+   ]
+  },
+  "7301": {
+   "family": "flight"
+  },
+  "7302": {
+   "family": "flight",
+   "condition": {
+    "kind": "hp_below",
+    "id": 50
+   }
+  }
+ },
+ "checks": [
+  {
+   "name": "vanilla-dealt-identical",
+   "ok": true,
+   "original": 0,
+   "patched": 0,
+   "fault_o": null,
+   "fault_n": null
+  },
+  {
+   "name": "vanilla-taken-identical",
+   "ok": true,
+   "original": 100,
+   "patched": 100,
+   "fault_o": null,
+   "fault_n": null
+  },
+  {
+   "name": "new-id-dealt-adds",
+   "ok": true,
+   "original": 0,
+   "patched": 30
+  },
+  {
+   "name": "new-id-ignored-by-game",
+   "ok": true,
+   "game": 0,
+   "vanilla": 0
+  },
+  {
+   "name": "hp-below-not-met",
+   "ok": true,
+   "original": 0,
+   "patched": 0
+  },
+  {
+   "name": "hp-below-met",
+   "ok": true,
+   "original": 0,
+   "patched": 20
+  },
+  {
+   "name": "target-class-mismatch",
+   "ok": true,
+   "original": 0,
+   "patched": 0
+  },
+  {
+   "name": "target-class-match",
+   "ok": true,
+   "original": 0,
+   "patched": 15
+  },
+  {
+   "name": "level-condition-not-met",
+   "ok": true,
+   "original": 0,
+   "patched": 0
+  },
+  {
+   "name": "level-condition-met",
+   "ok": true,
+   "original": 0,
+   "patched": 25
+  },
+  {
+   "name": "new-id-taken-scales",
+   "ok": true,
+   "original": 100,
+   "patched": 150
+  },
+  {
+   "name": "new-id-taken-negative",
+   "ok": true,
+   "original": 100,
+   "patched": 70
+  },
+  {
+   "name": "potency-vanilla-identical",
+   "ok": true,
+   "original": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+   ],
+   "patched": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+   ],
+   "fault": null
+  },
+  {
+   "name": "potency-new-id",
+   "ok": true,
+   "patched": [
+    10,
+    10,
+    40,
+    10,
+    10,
+    10,
+    10,
+    10
+   ],
+   "want": [
+    10,
+    10,
+    40,
+    10,
+    10,
+    10,
+    10,
+    10
+   ],
+   "fault": null
+  },
+  {
+   "name": "potency-condition-not-met",
+   "ok": true,
+   "patched": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+   ]
+  },
+  {
+   "name": "potency-condition-met",
+   "ok": true,
+   "patched": [
+    10,
+    10,
+    10,
+    30,
+    10,
+    10,
+    10,
+    10
+   ],
+   "base": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+   ]
+  },
+  {
+   "name": "growth-new-id",
+   "ok": true,
+   "original": 0,
+   "patched": 7,
+   "fault": null
+  },
+  {
+   "name": "flight-vanilla-none",
+   "ok": true,
+   "original": 0,
+   "patched": 0,
+   "fault": null
+  },
+  {
+   "name": "flight-vanilla-124",
+   "ok": true,
+   "original": 1,
+   "patched": 1
+  },
+  {
+   "name": "flight-new-id",
+   "ok": true,
+   "original": 4294967040,
+   "patched": 1,
+   "fault": null
+  },
+  {
+   "name": "flight-condition",
+   "ok": true,
+   "met": 1,
+   "unmet": 0
+  },
+  {
+   "name": "flight-second-copy",
+   "ok": true,
+   "patched": 1,
+   "fault": null
+  },
+  {
+   "name": "status-aggregate-still-works",
+   "ok": true,
+   "fault": null,
+   "agg": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "passed": true
+}

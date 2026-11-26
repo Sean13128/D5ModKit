@@ -1,0 +1,12 @@
+{
+ "note": "Overlord sites that are documented in our own collision study but that the declarations parser cannot reach mechanically (they are computed relative to a pointer, or installed through a portrait helper rather than d5_hook_install/…_RVA). Transcribed from p2-collision/SITES.md with its line evidence; arbitrate.py still reads the bytes at every address from the pinned executable and prints them, and marks these entries source='documented' so a reader can tell them from 'parsed' ones.",
+ "image_base": "0x140000000",
+ "sites": [
+  {"name": "PORTRAIT_RESOLVER", "va": "0x1401a0880", "len": 14, "evidence": "p2-collision/SITES.md (0x1a0880-0x1a088d); overlord-source/d5_portraits.c:884-899,1130-1189"},
+  {"name": "PORTRAIT_SMALL48", "va": "0x1401a3010", "len": 12, "evidence": "p2-collision/SITES.md (0x1a3010-0x1a301b); overlord-source/d5_portraits.c:1192"},
+  {"name": "CLASS_UNLOCK", "va": "0x1401c62a0", "len": 13, "evidence": "p2-collision/SITES.md (0x1c62a0-0x1c62ac); overlord-source/d5_custom_classes.c:697"},
+  {"name": "CHARHELP", "va": "0x14029f753", "len": 6, "evidence": "p2-collision/SITES.md (0x29f753-0x29f758); overlord-source/overlord/11_charhelp_soundmsg.c:3-32"},
+  {"name": "CHANGE_COLOR_ROW", "va": "0x1404552f1", "len": 20, "evidence": "p2-collision/SITES.md (0x4552f1-0x455304); overlord-source/d5_portraits.c:1035-1061"},
+  {"name": "CUTIN_KEY", "va": "0x14021bef0", "len": 13, "evidence": "p2-collision/SITES.md same-function table; overlord-source/d5_portraits.c D5C_CUTIN_RVA"}
+ ]
+}

@@ -1,0 +1,4774 @@
+{
+ "schema": "d4-evility-additions/1",
+ "lane": "EVILGAP1-20261110",
+ "mods": {
+  "D4_Unique_490": {
+   "skill_rows": [
+    {
+     "id": 8894,
+     "name_JP": {
+      "@text": "2ab13b0616f09f944d1ffc66224fdd8cb4e8415c8a176ead888a9a150f01ac57"
+     },
+     "name_EN": {
+      "@text": "2ab13b0616f09f944d1ffc66224fdd8cb4e8415c8a176ead888a9a150f01ac57"
+     },
+     "name_FR": {
+      "@text": "2ab13b0616f09f944d1ffc66224fdd8cb4e8415c8a176ead888a9a150f01ac57"
+     },
+     "name_CHN": {
+      "@text": "2ab13b0616f09f944d1ffc66224fdd8cb4e8415c8a176ead888a9a150f01ac57"
+     },
+     "name_KOR": {
+      "@text": "2ab13b0616f09f944d1ffc66224fdd8cb4e8415c8a176ead888a9a150f01ac57"
+     },
+     "slot_cost": 5,
+     "desc_JP": {
+      "@template": "352f317fd442982d9cc8908bb579c7e9a67ede41e5f9b9e585e07c10fe82b940",
+      "args": [
+       15
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "352f317fd442982d9cc8908bb579c7e9a67ede41e5f9b9e585e07c10fe82b940",
+      "args": [
+       15
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "352f317fd442982d9cc8908bb579c7e9a67ede41e5f9b9e585e07c10fe82b940",
+      "args": [
+       15
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "352f317fd442982d9cc8908bb579c7e9a67ede41e5f9b9e585e07c10fe82b940",
+      "args": [
+       15
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "352f317fd442982d9cc8908bb579c7e9a67ede41e5f9b9e585e07c10fe82b940",
+      "args": [
+       15
+      ],
+      "percent": "％"
+     },
+     "kind": 0,
+     "effect_group": 0,
+     "value1": 15,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 40000,
+     "shop_rank": 0,
+     "owner": 10240,
+     "class_order": 0,
+     "version_group": 100
+    },
+    {
+     "id": 27892,
+     "name_JP": {
+      "@text": "4526b86abb5bbe791855c57faf0c4d944ab463f9bbf99491011ae41389d6dce0"
+     },
+     "name_EN": {
+      "@text": "4526b86abb5bbe791855c57faf0c4d944ab463f9bbf99491011ae41389d6dce0"
+     },
+     "name_FR": {
+      "@text": "4526b86abb5bbe791855c57faf0c4d944ab463f9bbf99491011ae41389d6dce0"
+     },
+     "name_CHN": {
+      "@text": "4526b86abb5bbe791855c57faf0c4d944ab463f9bbf99491011ae41389d6dce0"
+     },
+     "name_KOR": {
+      "@text": "4526b86abb5bbe791855c57faf0c4d944ab463f9bbf99491011ae41389d6dce0"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@template": "67a88e7a7a3b3de588518a33db86752f9c17e953eeef294c18f02701b4a96ace",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "67a88e7a7a3b3de588518a33db86752f9c17e953eeef294c18f02701b4a96ace",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "67a88e7a7a3b3de588518a33db86752f9c17e953eeef294c18f02701b4a96ace",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "67a88e7a7a3b3de588518a33db86752f9c17e953eeef294c18f02701b4a96ace",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "67a88e7a7a3b3de588518a33db86752f9c17e953eeef294c18f02701b4a96ace",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 10240,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "behaviors": {
+    "8894": {
+     "family": "dealt",
+     "effects": [
+      {
+       "value": 15
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "attack_skill"
+      },
+      {
+       "kind": "attack_phys"
+      }
+     ]
+    },
+    "27892": {
+     "family": [
+      "weapon_percent",
+      "aura"
+     ],
+     "effects": [
+      {
+       "value": 10
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "near_has",
+       "of": 1,
+       "radius": 65535,
+       "id": 27892
+      }
+     ]
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "2ab13b0616f09f944d1ffc66224fdd8cb4e8415c8a176ead888a9a150f01ac57"
+      },
+      " (894): adapted - D4 'weapon skills' are read as physical attack skills (skill effect type physical; normal attacks excluded), +15% damage dealt (stored value 15), kit family dealt, row 8894"
+     ]
+    },
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "4526b86abb5bbe791855c57faf0c4d944ab463f9bbf99491011ae41389d6dce0"
+      },
+      " (892): exact text and number - D4 'Increase stats of ally weapons by 10%' (FUN_1401B4010: the value of every other unit on the holder's team summed, the sum capped at 100, multiplying the item stat of a weapon slot by (100 + sum) / 100); row 27892 (late band) is kit family weapon_percent + aura (near_has ally, radius 65535 = anywhere), applied by wrap_equip to the result of the game's own unit_stats_equip_stat for a weapon-category slot (category 1..9), signed truncation, sum capped at 100; armour and accessories are not raised, ",
+      {
+       "@text": "c305615bfb135c3d055eef1e5a7fdfdbe73d8df91b87833a81dc0b9a672b34d0"
+      },
+      " himself is not, (D4SIG4; replaces the potency row that also raised armour). Not carried: D4 adds the value of every ally holder and the kit evaluates an aura row once, however many providers (",
+      {
+       "@text": "c305615bfb135c3d055eef1e5a7fdfdbe73d8df91b87833a81dc0b9a672b34d0"
+      },
+      " is unique, so one holder is the normal case); the result is scaled after D5's own stages of that function. With no other weapon-percent source it equals adding the percent inside the function (proved against the real function); with D5's own weapon-percent evility 6035 (+30) the two multiply (715 for item 1000 at potency 50) where D4 adds its own term 0x355 into the same sum (700); D5's later x1.5 stage is also applied before ours. D4's ally test (alive, state flags) is the kit's near_has. When D5 recomputes stats after an ally holder arrives or dies is not measured. Innate, owned by this pack"
+     ]
+    }
+   ],
+   "late_ids": {
+    "892": 27892
+   },
+   "char_links": {
+    "10240": {
+     "evility1": 27892,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   }
+  },
+  "D4_Unique_460": {
+   "skill_rows": [
+    {
+     "id": 8882,
+     "name_JP": {
+      "@text": "8b4fd55e81d4d9fab500d239c72cd3942a9c0fec4a48f77aa764d2639595bd74"
+     },
+     "name_EN": {
+      "@text": "8b4fd55e81d4d9fab500d239c72cd3942a9c0fec4a48f77aa764d2639595bd74"
+     },
+     "name_FR": {
+      "@text": "8b4fd55e81d4d9fab500d239c72cd3942a9c0fec4a48f77aa764d2639595bd74"
+     },
+     "name_CHN": {
+      "@text": "8b4fd55e81d4d9fab500d239c72cd3942a9c0fec4a48f77aa764d2639595bd74"
+     },
+     "name_KOR": {
+      "@text": "8b4fd55e81d4d9fab500d239c72cd3942a9c0fec4a48f77aa764d2639595bd74"
+     },
+     "slot_cost": 5,
+     "desc_JP": {
+      "@template": "298018b1c3ec91fd122abf83ef5fb5d1c863c5fad0c42486fb5429973c05574b",
+      "args": [
+       30
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "298018b1c3ec91fd122abf83ef5fb5d1c863c5fad0c42486fb5429973c05574b",
+      "args": [
+       30
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "298018b1c3ec91fd122abf83ef5fb5d1c863c5fad0c42486fb5429973c05574b",
+      "args": [
+       30
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "298018b1c3ec91fd122abf83ef5fb5d1c863c5fad0c42486fb5429973c05574b",
+      "args": [
+       30
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "298018b1c3ec91fd122abf83ef5fb5d1c863c5fad0c42486fb5429973c05574b",
+      "args": [
+       30
+      ],
+      "percent": "％"
+     },
+     "kind": 0,
+     "effect_group": 0,
+     "value1": 30,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 7000,
+     "shop_rank": 0,
+     "owner": 18170,
+     "class_order": 0,
+     "version_group": 100
+    },
+    {
+     "id": 27881,
+     "name_JP": {
+      "@text": "450ee08136160affe4878be027d44e60195471399f31f5be706358854ee64976"
+     },
+     "name_EN": {
+      "@text": "450ee08136160affe4878be027d44e60195471399f31f5be706358854ee64976"
+     },
+     "name_FR": {
+      "@text": "450ee08136160affe4878be027d44e60195471399f31f5be706358854ee64976"
+     },
+     "name_CHN": {
+      "@text": "450ee08136160affe4878be027d44e60195471399f31f5be706358854ee64976"
+     },
+     "name_KOR": {
+      "@text": "450ee08136160affe4878be027d44e60195471399f31f5be706358854ee64976"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@authored": "D5 adaptation: stats increased by 50％ for the first 3 rounds of a stage (D4: activated by command, lasts 3 turns)."
+     },
+     "desc_EN": {
+      "@authored": "D5 adaptation: stats increased by 50％ for the first 3 rounds of a stage (D4: activated by command, lasts 3 turns)."
+     },
+     "desc_FR": {
+      "@authored": "D5 adaptation: stats increased by 50％ for the first 3 rounds of a stage (D4: activated by command, lasts 3 turns)."
+     },
+     "desc_CHN": {
+      "@authored": "D5 adaptation: stats increased by 50％ for the first 3 rounds of a stage (D4: activated by command, lasts 3 turns)."
+     },
+     "desc_KOR": {
+      "@authored": "D5 adaptation: stats increased by 50％ for the first 3 rounds of a stage (D4: activated by command, lasts 3 turns)."
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 50,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 18170,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "behaviors": {
+    "8882": {
+     "family": "conversion",
+     "effects": [
+      {
+       "stat": "atk",
+       "from": "def",
+       "value": 30
+      },
+      {
+       "stat": "int",
+       "from": "res",
+       "value": 30
+      }
+     ]
+    },
+    "27881": {
+     "family": "stats",
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 50
+      },
+      {
+       "stat": "def",
+       "value": 50
+      },
+      {
+       "stat": "int",
+       "value": 50
+      },
+      {
+       "stat": "res",
+       "value": 50
+      },
+      {
+       "stat": "hit",
+       "value": 50
+      },
+      {
+       "stat": "spd",
+       "value": 50
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "turn_max",
+       "id": 3
+      }
+     ]
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "8b4fd55e81d4d9fab500d239c72cd3942a9c0fec4a48f77aa764d2639595bd74"
+      },
+      " (882): adapted - ATK gains 30% of base DEF and INT 30% of base RES (D4's text lists the pairs in that order), kit family conversion, row 8882"
+     ]
+    },
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "450ee08136160affe4878be027d44e60195471399f31f5be706358854ee64976"
+      },
+      " (881): adapted - D4 'Stats increased by 50% when activated. (Lasts 3 turns)' is a menu command used once per stage (EVILNEW1: D4 0x14030B440 / 0x1402D8510); the runtime has no command, so row 27881 is +50% ATK/DEF/INT/RES/HIT/SPD (not HP/SP, D4SIG4 trace) while the battle round counter is at most 3 (kit stats + turn_max): automatic, from the start of the stage, not on demand. The counter's first value in a battle is not measured, so the window is 3 or 4 rounds. Innate, owned by this pack"
+     ]
+    }
+   ],
+   "late_ids": {
+    "881": 27881
+   },
+   "char_links": {
+    "18170": {
+     "evility1": 27881,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   }
+  },
+  "D4_Unique_220": {
+   "skill_rows": [
+    {
+     "id": 8872,
+     "name_JP": {
+      "@text": "d97634207ca855c98ba525e17993a319b0d114f8e28ddd82abb15651920cd95d"
+     },
+     "name_EN": {
+      "@text": "d97634207ca855c98ba525e17993a319b0d114f8e28ddd82abb15651920cd95d"
+     },
+     "name_FR": {
+      "@text": "d97634207ca855c98ba525e17993a319b0d114f8e28ddd82abb15651920cd95d"
+     },
+     "name_CHN": {
+      "@text": "d97634207ca855c98ba525e17993a319b0d114f8e28ddd82abb15651920cd95d"
+     },
+     "name_KOR": {
+      "@text": "d97634207ca855c98ba525e17993a319b0d114f8e28ddd82abb15651920cd95d"
+     },
+     "slot_cost": 3,
+     "desc_JP": {
+      "@template": "57f9284a08620841cc24ece5f006287adc8b34a0c8e18616a080d60c30382951",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "57f9284a08620841cc24ece5f006287adc8b34a0c8e18616a080d60c30382951",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "57f9284a08620841cc24ece5f006287adc8b34a0c8e18616a080d60c30382951",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "57f9284a08620841cc24ece5f006287adc8b34a0c8e18616a080d60c30382951",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "57f9284a08620841cc24ece5f006287adc8b34a0c8e18616a080d60c30382951",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "kind": 0,
+     "effect_group": 5,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 1,
+     "subcategory": 0,
+     "mana_cost": 40000,
+     "shop_rank": 0,
+     "owner": 18110,
+     "class_order": 0,
+     "version_group": 100
+    },
+    {
+     "id": 27820,
+     "name_JP": {
+      "@text": "64d8d95a3a5b9a8609a5255943fd32cdeda3acf90a2b763e881f46f4221d5d61"
+     },
+     "name_EN": {
+      "@text": "64d8d95a3a5b9a8609a5255943fd32cdeda3acf90a2b763e881f46f4221d5d61"
+     },
+     "name_FR": {
+      "@text": "64d8d95a3a5b9a8609a5255943fd32cdeda3acf90a2b763e881f46f4221d5d61"
+     },
+     "name_CHN": {
+      "@text": "64d8d95a3a5b9a8609a5255943fd32cdeda3acf90a2b763e881f46f4221d5d61"
+     },
+     "name_KOR": {
+      "@text": "64d8d95a3a5b9a8609a5255943fd32cdeda3acf90a2b763e881f46f4221d5d61"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@segments": [
+       "At the start of every turn, a ",
+       {
+        "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+       },
+       " unit appears near this unit."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       "At the start of every turn, a ",
+       {
+        "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+       },
+       " unit appears near this unit."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       "At the start of every turn, a ",
+       {
+        "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+       },
+       " unit appears near this unit."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       "At the start of every turn, a ",
+       {
+        "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+       },
+       " unit appears near this unit."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       "At the start of every turn, a ",
+       {
+        "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+       },
+       " unit appears near this unit."
+      ]
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 0,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 18110,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "aliases": {
+    "8872": 143
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "d97634207ca855c98ba525e17993a319b0d114f8e28ddd82abb15651920cd95d"
+      },
+      " (872): D5 equivalent, same number - D5 ",
+      {
+       "@text": "7469dc3c8c37bc4ba42571b618a75587a71a8d1b54b6dfd64248e96dc4a826c2"
+      },
+      " (143) inflicts 10% of damage taken on the attacker; alias row 8872"
+     ]
+    },
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "64d8d95a3a5b9a8609a5255943fd32cdeda3acf90a2b763e881f46f4221d5d61"
+      },
+      " (820): adapted - D4 text 'Summon a ",
+      {
+       "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+      },
+      " unit to the map on every turn'. CODE (D4 decomp): FUN_1402E99D0, state 3 of the round-edge state machine FUN_1402EA550 (once per round, after every side has acted, not per side), finds the first unit holding 820 and, while fewer than 32 units are active, draws a class char 5330 + rand(39) (the 39 '",
+      {
+       "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+      },
+      " <class>' rows, tier 9; a table of up to 15 classes of flagged units already on the map switches the draw to those once it is full - read, not traced), the level L*60/100 + rand(40)*L/100 (L = the holder's level, at least 1) and has FUN_1402AD4C0 create it with side byte 1 on a random free walkable cell inside the square of radius 10 cells around the holder (-1 and nothing when no cell is free); FUN_1402E99D0 then sets the new unit's values. COMMUNITY (Disgaea wiki, page ",
+      {
+       "@text": "624b14e41e07b1843b7fa7241724b143fae584f31173a4596645a2c1357a90f4"
+      },
+      "; evidence class community, not code): one ",
+      {
+       "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+      },
+      " unit every turn. D5 build: kit row summon_malice (second-word family bit 13) read in wrap_revenge (the one call site of the round-edge sweep, once per active unit per round, turn_ctl_s6_update): a living holder, while fewer than 32 units live, rebuilds the game's free-cell grid (events_clear_pick_cell, as ",
+      {
+       "@text": "58fd33ff0f59a5baf896f7d6759cd37c84c007cf10832c22e5939cca297a44a4"
+      },
+      " does), counts the free cells inside the same radius-10 square, and has unit_spawn_from_request build one D5 class drawn with game_rng_draw from 25 stand-ins (D5 class rows 1010 ",
+      {
+       "@text": "eaf0fe0a362b58490e9d73c9584a36ef7353872dd1663afef4e2099b88bf56bf"
+      },
+      ", 1020 ",
+      {
+       "@text": "f4fc2b23c5e19e5758fdcffd076e35808c6b4571ace242bb91d0828ba8b4268d"
+      },
+      ", 1030 ",
+      {
+       "@text": "32c0c84455c7f7aa156378aa2f0fc72444be6bbda96431e72fd07899f31ca0b9"
+      },
+      ", 1040 ",
+      {
+       "@text": "f28854498a03ea2c2454eac5c7765b970f8cda71eb7c89a99673a0705492c674"
+      },
+      ", 1080 ",
+      {
+       "@text": "356e7e8add971be475ad6325a48e0d062a4b1dd0a147127b09f3200723a6227f"
+      },
+      ", 1090 ",
+      {
+       "@text": "2fd478c88ca0e81b2d75642c55fc2ac47eef23f24ee2f6d89d1c1af8c5ca4c43"
+      },
+      ", 1110 ",
+      {
+       "@text": "71f2149b5982e467908f4dd974d3cf0c1533bb97717bd9e85f845848553de00d"
+      },
+      ", 1120 ",
+      {
+       "@text": "0cbc0bc5729f801f03612eb227bcce972dea2f8ac9a991e234990435c7270b26"
+      },
+      ", 1130 ",
+      {
+       "@text": "90547a1e8264b831cc9006f9826cdaf1d84be322fff039139104374acd62dddb"
+      },
+      ", 1140 ",
+      {
+       "@text": "857aaed377b4bec920983e2082417a1de13ea365e135410602acedc0328295b7"
+      },
+      ", 1150 ",
+      {
+       "@text": "1e96deaacadd574ca5a6d2a1bbaf41238c86d07956d43ef2cfbb4847e886f0c2"
+      },
+      ", 1160 ",
+      {
+       "@text": "e828916a29f4361c9efbc7aea5990a9ee98b94b3843657fa627917fc0b05ac43"
+      },
+      ", 1180 ",
+      {
+       "@text": "6511f4dadcda5bfb2b28869f8cf34d36866ce01a08c0f1eb432b8ea4fa70e75a"
+      },
+      ", 1260 ",
+      {
+       "@text": "e42fb6fe4ee7e23aa19b4e5c2f116917ec96fccc833b836d0a7e349a31a8c708"
+      },
+      ", 2010 ",
+      {
+       "@text": "69d5ed9a51210c6854c853a1ef5b5d420574621544ad6b2841643f0195210bc3"
+      },
+      ", 2030 Orc, 2060 ",
+      {
+       "@text": "800ec96fd99ebe877f3191de6319ed8e89a18598413a9864b42d82115031963a"
+      },
+      ", 2070 ",
+      {
+       "@text": "006a5c9911ca0aeca897ccdeda53b5166de5b2529225553a83d9049d6eccd845"
+      },
+      ", 2080 ",
+      {
+       "@text": "ddf4d972bf4656b5a95d2aff74b0c36c7106756fb3963055453fb8cafc7b3d8c"
+      },
+      ", 2090 ",
+      {
+       "@text": "a5bb6066391197b9b53c348c977a6b1fbe97575905481e8d6b034dfa095c2cba"
+      },
+      ", 2100 ",
+      {
+       "@text": "c73b8dea0417a182f3b04469543be528bb87a60280990a4773281e5450611823"
+      },
+      ", 2110 ",
+      {
+       "@text": "92203d8d2d043ece40752a06e37f15f5f0438612fe028edc30c0a0101201b5dd"
+      },
+      ", 2120 ",
+      {
+       "@text": "804eb31feafa556517b45aeee186948b552a4df9f0386d40f4deb9d52f60388f"
+      },
+      ", 2140 ",
+      {
+       "@text": "14b4955bda3539b6b9cc574970f03383f0b01d24936d91c18299bb674a8b3caf"
+      },
+      ", 2180 ",
+      {
+       "@text": "cd872f99f878b74f7af496715c486158b2e90fea8d96ba0867cde7798f3c1c1b"
+      },
+      ") at D4's level formula on a free cell drawn with game_rng_draw, on the holder's side (team 0 -> 4, the game's AI-run friendly team; enemy holders -> 1; teams 2 and 3 do nothing). OUR CHOICES: the side (D4 always uses side byte 1, even for a player-side holder), the 25 stand-ins (the other 14 ",
+      {
+       "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+      },
+      " classes - ",
+      {
+       "@text": "4d2f5107205b3f5686f6d1acaa45df443cdf46fd6a7e8a810b07c08e7f761afb"
+      },
+      ", ",
+      {
+       "@text": "39e88b1351e5f1e0db418f1eeea5b26d8bf52bc836b86f3b791dc1639c7e2bcb"
+      },
+      ", ",
+      {
+       "@text": "a0602609123bfef195ab761081f02daedcdc326e068fed485c94edcb1032fadf"
+      },
+      ", ",
+      {
+       "@text": "900875a866fd11d08379f3cbf00ea176c982785aa6b105e20615774e2b035c64"
+      },
+      ", ",
+      {
+       "@text": "6759faa02d8e277ba9dfcfc5ee74f2292132054ef2c1b50f964a9cef1b8d7425"
+      },
+      ", ",
+      {
+       "@text": "6d612a86bee4b0a659b8b3affd6f1fbcad15c4cbbbbdc4996c6c01c786711a21"
+      },
+      ", ",
+      {
+       "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+      },
+      ", ",
+      {
+       "@text": "5efe48eeb6c7c83f27b3f2b95e5fe84356e1822fbf592822b12da219965dfbee"
+      },
+      ", Roc, ",
+      {
+       "@text": "fcd6fea72de7e6c09ca2567674befdef61c04e783bd2e0f092aeb99c57e587e3"
+      },
+      ", ",
+      {
+       "@text": "4dbbbe0bb124528958ddca7de999bdeb423c04fbe814015e70ae9067ccb25c6b"
+      },
+      ", ",
+      {
+       "@text": "71076b352528923dfae0a6a66b44034cd3adf7797a0335af4943a77fcc05913b"
+      },
+      ", ",
+      {
+       "@text": "9b0fe4c1d8407b8dd859cf02a6c58faa3be7c0c27851bdcc49a8fc46effebcba"
+      },
+      ", ",
+      {
+       "@text": "73fcf414fdaca67829bf89d2256792bcab04a8b9783026b4d7d97b5822982f21"
+      },
+      " - have no D5 class and are left out), the grid and free-cell rule (the game's own, not D4's walkable test), no once-per-round guard beyond the sweep itself. Not carried: the ",
+      {
+       "@text": "af55ccec6442d187de2465816dca170a86217b50c9bed9729e410e41d637a97e"
+      },
+      " look and names (an ordinary D5 class of the draw), D4's 15-class table, the stat values FUN_1402E99D0 sets after creation, ",
+      {
+       "@text": "18b68e9b397901ce8f750dc2bcb42f0f77bf80742dc3b31feef0e19686756188"
+      },
+      " (",
+      {
+       "@text": "624b14e41e07b1843b7fa7241724b143fae584f31173a4596645a2c1357a90f4"
+      },
+      "'s second evility), any lifetime, EXP or bonus effects. Spawn, side and AI behaviour not run offline (live recipe in NEMO1-REPORT). Innate"
+     ]
+    }
+   ],
+   "late_ids": {
+    "820": 27820
+   },
+   "behaviors": {
+    "27820": {
+     "family": "summon_malice"
+    }
+   },
+   "char_links": {
+    "18110": {
+     "evility1": 27820,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   }
+  },
+  "D4_Unique_450": {
+   "skill_rows": [
+    {
+     "id": 8880,
+     "name_JP": {
+      "@text": "c45ef61aab8fb970bbda2d45d37d27cb3cdca0c7f8bcb89d976d1681b3c801e7"
+     },
+     "name_EN": {
+      "@text": "c45ef61aab8fb970bbda2d45d37d27cb3cdca0c7f8bcb89d976d1681b3c801e7"
+     },
+     "name_FR": {
+      "@text": "c45ef61aab8fb970bbda2d45d37d27cb3cdca0c7f8bcb89d976d1681b3c801e7"
+     },
+     "name_CHN": {
+      "@text": "c45ef61aab8fb970bbda2d45d37d27cb3cdca0c7f8bcb89d976d1681b3c801e7"
+     },
+     "name_KOR": {
+      "@text": "c45ef61aab8fb970bbda2d45d37d27cb3cdca0c7f8bcb89d976d1681b3c801e7"
+     },
+     "slot_cost": 3,
+     "desc_JP": {
+      "@template": "292bead1df1d506f6a89afd5c01bf467796051098a9da61240fe99225fa5b474",
+      "args": [
+       20,
+       20
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "292bead1df1d506f6a89afd5c01bf467796051098a9da61240fe99225fa5b474",
+      "args": [
+       20,
+       20
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "292bead1df1d506f6a89afd5c01bf467796051098a9da61240fe99225fa5b474",
+      "args": [
+       20,
+       20
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "292bead1df1d506f6a89afd5c01bf467796051098a9da61240fe99225fa5b474",
+      "args": [
+       20,
+       20
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "292bead1df1d506f6a89afd5c01bf467796051098a9da61240fe99225fa5b474",
+      "args": [
+       20,
+       20
+      ],
+      "percent": "％"
+     },
+     "kind": 0,
+     "effect_group": 2,
+     "value1": 20,
+     "value2": 20,
+     "source": 4,
+     "category": 1,
+     "subcategory": 2,
+     "mana_cost": 40000,
+     "shop_rank": 0,
+     "owner": 18160,
+     "class_order": 0,
+     "version_group": 150
+    },
+    {
+     "id": 27878,
+     "name_JP": {
+      "@text": "0bea17f0f200fcda7aad297c635207ac19c95a62c7446485aedcbe3b4fd781b0"
+     },
+     "name_EN": {
+      "@text": "0bea17f0f200fcda7aad297c635207ac19c95a62c7446485aedcbe3b4fd781b0"
+     },
+     "name_FR": {
+      "@text": "0bea17f0f200fcda7aad297c635207ac19c95a62c7446485aedcbe3b4fd781b0"
+     },
+     "name_CHN": {
+      "@text": "0bea17f0f200fcda7aad297c635207ac19c95a62c7446485aedcbe3b4fd781b0"
+     },
+     "name_KOR": {
+      "@text": "0bea17f0f200fcda7aad297c635207ac19c95a62c7446485aedcbe3b4fd781b0"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@segments": [
+       "Stats increased by 100％ on the last turn of a ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       "."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       "Stats increased by 100％ on the last turn of a ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       "."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       "Stats increased by 100％ on the last turn of a ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       "."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       "Stats increased by 100％ on the last turn of a ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       "."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       "Stats increased by 100％ on the last turn of a ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       "."
+      ]
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 100,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 18160,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "aliases": {
+    "8880": 6113
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "c45ef61aab8fb970bbda2d45d37d27cb3cdca0c7f8bcb89d976d1681b3c801e7"
+      },
+      " (880): D5 equivalent, same numbers - D5 ",
+      {
+       "@text": "7654394c2033d9bde0960c3f72c05ec61fb79ea6099f12bf2c113f0c15a50881"
+      },
+      " (6113) water damage dealt +20%, taken -20%; alias row 8880"
+     ]
+    },
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "0bea17f0f200fcda7aad297c635207ac19c95a62c7446485aedcbe3b4fd781b0"
+      },
+      " (878): exact text and number - D4 'Stats increased by 100% on last turn of a ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      "'; row 27878 (late band) is +100% ATK/DEF/INT/RES/HIT/SPD (not HP/SP: D4SIG3 trace of FUN_1401ba0a0 -> FUN_1401b4010) while a weapon slot of the holder has a ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      " participant and that slot's remaining-turn byte is 1 (kit stats + condition magichange_turns 1, EVILCAP1). Not measured: when D5 recomputes the stat aggregate after turn_h13 lowers the counter to 1 (turn_h13 itself calls no recalc). Innate, owned by this pack"
+     ]
+    }
+   ],
+   "late_ids": {
+    "878": 27878
+   },
+   "char_links": {
+    "18160": {
+     "evility1": 27878,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "behaviors": {
+    "27878": {
+     "family": "stats",
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 100
+      },
+      {
+       "stat": "def",
+       "value": 100
+      },
+      {
+       "stat": "int",
+       "value": 100
+      },
+      {
+       "stat": "res",
+       "value": 100
+      },
+      {
+       "stat": "hit",
+       "value": 100
+      },
+      {
+       "stat": "spd",
+       "value": 100
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "magichange_turns",
+       "id": 1
+      }
+     ]
+    }
+   }
+  },
+  "D4_Unique_170": {
+   "skill_rows": [
+    {
+     "id": 8873,
+     "name_JP": {
+      "@text": "8b12559313782d869ce2e3db1610496bc443365c06c7d19e2afe1f993da2a3c1"
+     },
+     "name_EN": {
+      "@text": "8b12559313782d869ce2e3db1610496bc443365c06c7d19e2afe1f993da2a3c1"
+     },
+     "name_FR": {
+      "@text": "8b12559313782d869ce2e3db1610496bc443365c06c7d19e2afe1f993da2a3c1"
+     },
+     "name_CHN": {
+      "@text": "8b12559313782d869ce2e3db1610496bc443365c06c7d19e2afe1f993da2a3c1"
+     },
+     "name_KOR": {
+      "@text": "8b12559313782d869ce2e3db1610496bc443365c06c7d19e2afe1f993da2a3c1"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@segments": [
+       "D5 adaptation: 20％ chance to deathblow when using magic (D4: 10％). Uses D5 ",
+       {
+        "@text": "7186aedb5e7e476f6fd80db32a15289c118da4cc66db04dc0609880115573f50"
+       },
+       "'s rule and number."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       "D5 adaptation: 20％ chance to deathblow when using magic (D4: 10％). Uses D5 ",
+       {
+        "@text": "7186aedb5e7e476f6fd80db32a15289c118da4cc66db04dc0609880115573f50"
+       },
+       "'s rule and number."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       "D5 adaptation: 20％ chance to deathblow when using magic (D4: 10％). Uses D5 ",
+       {
+        "@text": "7186aedb5e7e476f6fd80db32a15289c118da4cc66db04dc0609880115573f50"
+       },
+       "'s rule and number."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       "D5 adaptation: 20％ chance to deathblow when using magic (D4: 10％). Uses D5 ",
+       {
+        "@text": "7186aedb5e7e476f6fd80db32a15289c118da4cc66db04dc0609880115573f50"
+       },
+       "'s rule and number."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       "D5 adaptation: 20％ chance to deathblow when using magic (D4: 10％). Uses D5 ",
+       {
+        "@text": "7186aedb5e7e476f6fd80db32a15289c118da4cc66db04dc0609880115573f50"
+       },
+       "'s rule and number."
+      ]
+     },
+     "kind": 1,
+     "effect_group": 19,
+     "value1": 20,
+     "value2": 0,
+     "source": 4,
+     "category": 1,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 10270,
+     "class_order": 0,
+     "version_group": 120
+    },
+    {
+     "id": 8215,
+     "name_JP": {
+      "@text": "7308205e9a1701793dd68621930c14d19761c6656859d93597ceacc9c7aba961"
+     },
+     "name_EN": {
+      "@text": "7308205e9a1701793dd68621930c14d19761c6656859d93597ceacc9c7aba961"
+     },
+     "name_FR": {
+      "@text": "7308205e9a1701793dd68621930c14d19761c6656859d93597ceacc9c7aba961"
+     },
+     "name_CHN": {
+      "@text": "7308205e9a1701793dd68621930c14d19761c6656859d93597ceacc9c7aba961"
+     },
+     "name_KOR": {
+      "@text": "7308205e9a1701793dd68621930c14d19761c6656859d93597ceacc9c7aba961"
+     },
+     "slot_cost": 4,
+     "desc_JP": {
+      "@segments": [
+       {
+        "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+       },
+       " magic effects by enemies on the map decreased by 50％."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       {
+        "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+       },
+       " magic effects by enemies on the map decreased by 50％."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       {
+        "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+       },
+       " magic effects by enemies on the map decreased by 50％."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       {
+        "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+       },
+       " magic effects by enemies on the map decreased by 50％."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       {
+        "@text": "421acf13c1cb044e40e0fe1c1e88656e604113be888d92b2ecbb136252023b17"
+       },
+       " magic effects by enemies on the map decreased by 50％."
+      ]
+     },
+     "kind": 0,
+     "effect_group": 18,
+     "value1": 50,
+     "value2": 0,
+     "source": 4,
+     "category": 9,
+     "subcategory": 0,
+     "mana_cost": 1000,
+     "shop_rank": 0,
+     "owner": 10270,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "aliases": {
+    "8873": 6052,
+    "8215": 141
+   },
+   "char_links": {
+    "10270": {
+     "evility1": 27691,
+     "evility2": 8873,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 2
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "8b12559313782d869ce2e3db1610496bc443365c06c7d19e2afe1f993da2a3c1"
+      },
+      " (873): adapted - D5 ",
+      {
+       "@text": "7186aedb5e7e476f6fd80db32a15289c118da4cc66db04dc0609880115573f50"
+      },
+      " (6052) deathblow chance on magic is 20%, D4 stores 10%; alias row 8873, kept in ",
+      {
+       "@text": "d70b489bb97ec09dbafa72e461c8320d04e13ad160dd74c8e69a60ea62dc8ffd"
+      },
+      "'s second slot since EVILGAP1; the D4 source gives ",
+      {
+       "@text": "d70b489bb97ec09dbafa72e461c8320d04e13ad160dd74c8e69a60ea62dc8ffd"
+      },
+      " only ",
+      {
+       "@text": "8d1e1108fcae2f1fbc434a27bdd2355cc3c37cf1e3db0ea308d78e9a7e618c83"
+      },
+      " (691), so this row is an ",
+      {
+       "@text": "c8dee78f8c7b466c881847accc196998bad00e2b96c5ef913dfbe454d3807c96"
+      },
+      ", not one of his source evilities"
+     ]
+    },
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "7308205e9a1701793dd68621930c14d19761c6656859d93597ceacc9c7aba961"
+      },
+      " (215): adapted - D5 ",
+      {
+       "@text": "ba947995a6e9c2bc6ea2d31899a59521bd16cdd641a135ea795f58e9f4d95c27"
+      },
+      " (141), same text and 50: D5 multiplies heals received by the holder's enemies by 0.5 per holder (FUN_1401fff40); D4 subtracts 50 from the heal percent of heals cast by the holder's enemies (FUN_1400ff700); alias row 8215, learnable"
+     ]
+    },
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "8d1e1108fcae2f1fbc434a27bdd2355cc3c37cf1e3db0ea308d78e9a7e618c83"
+      },
+      " (691): ",
+      {
+       "@text": "d70b489bb97ec09dbafa72e461c8320d04e13ad160dd74c8e69a60ea62dc8ffd"
+      },
+      "'s source innate, exact text and number - references row 27691 owned by D4_Class_2120 (alias to D5 ",
+      {
+       "@text": "38e9b8fcd6693670aafbcf09c8293fa02a78ee2811096a5bb6b7f81c91752dac"
+      },
+      " 3011 plus kit row sp_damage_percent 50, EVILCAP1); mod.json requires that pack. ",
+      {
+       "@text": "8b12559313782d869ce2e3db1610496bc443365c06c7d19e2afe1f993da2a3c1"
+      },
+      " 8873, which EVILGAP1 had linked as the innate, stays linked in the second slot"
+     ]
+    }
+   ],
+   "refs": {
+    "27691": "D4_Class_2120"
+   },
+   "requires": [
+    "D4_Class_2120"
+   ]
+  },
+  "D4_Unique_310": {
+   "skill_rows": [
+    {
+     "id": 8627,
+     "name_JP": {
+      "@text": "7d17e860289688b02b44ff7560702b8a3a5637220b7597afd25c106f9d29a69c"
+     },
+     "name_EN": {
+      "@text": "7d17e860289688b02b44ff7560702b8a3a5637220b7597afd25c106f9d29a69c"
+     },
+     "name_FR": {
+      "@text": "7d17e860289688b02b44ff7560702b8a3a5637220b7597afd25c106f9d29a69c"
+     },
+     "name_CHN": {
+      "@text": "7d17e860289688b02b44ff7560702b8a3a5637220b7597afd25c106f9d29a69c"
+     },
+     "name_KOR": {
+      "@text": "7d17e860289688b02b44ff7560702b8a3a5637220b7597afd25c106f9d29a69c"
+     },
+     "slot_cost": 4,
+     "desc_JP": {
+      "@text": "04bff1320288eccbc804534474b9682801dba1d10f0f41a3cdcce33ffbcce52e"
+     },
+     "desc_EN": {
+      "@text": "04bff1320288eccbc804534474b9682801dba1d10f0f41a3cdcce33ffbcce52e"
+     },
+     "desc_FR": {
+      "@text": "04bff1320288eccbc804534474b9682801dba1d10f0f41a3cdcce33ffbcce52e"
+     },
+     "desc_CHN": {
+      "@text": "04bff1320288eccbc804534474b9682801dba1d10f0f41a3cdcce33ffbcce52e"
+     },
+     "desc_KOR": {
+      "@text": "04bff1320288eccbc804534474b9682801dba1d10f0f41a3cdcce33ffbcce52e"
+     },
+     "kind": 0,
+     "effect_group": 1,
+     "value1": 0,
+     "value2": 0,
+     "source": 4,
+     "category": 9,
+     "subcategory": 12,
+     "mana_cost": 5000,
+     "shop_rank": 0,
+     "owner": 10390,
+     "class_order": 0,
+     "version_group": 100
+    },
+    {
+     "id": 8625,
+     "name_JP": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "name_EN": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "name_FR": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "name_CHN": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "name_KOR": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 50,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 10390,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "aliases": {
+    "8627": 1070
+   },
+   "char_links": {
+    "10390": {
+     "evility1": 8625,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "7d17e860289688b02b44ff7560702b8a3a5637220b7597afd25c106f9d29a69c"
+      },
+      " (627): D5 equivalent - D5 ",
+      {
+       "@text": "e5028ab80b51835e75e382ae6e701e954cc134e2d49c1a6a4ad10d525702fba1"
+      },
+      " (1070) cures all ailments when using healing magic; alias row 8627"
+     ]
+    },
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+      },
+      " (625): exact rule, row 8625 owned by this pack (`taken` aura, near_has radius 1 + element 0, -50); innate. The D4 class pack is out of importer scope"
+     ]
+    }
+   ],
+   "behaviors": {
+    "8625": {
+     "family": [
+      "aura",
+      "taken"
+     ],
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "near_has",
+       "of": 1,
+       "radius": 1,
+       "id": 8625
+      },
+      {
+       "kind": "element",
+       "id": 0
+      }
+     ]
+    }
+   }
+  },
+  "D4_Unique_5301": {
+   "skill_rows": [
+    {
+     "id": 8304,
+     "name_JP": {
+      "@text": "c87be339dd226e373bc1498b6596e506c97688019d7abc201c006f4c19694222"
+     },
+     "name_EN": {
+      "@text": "c87be339dd226e373bc1498b6596e506c97688019d7abc201c006f4c19694222"
+     },
+     "name_FR": {
+      "@text": "c87be339dd226e373bc1498b6596e506c97688019d7abc201c006f4c19694222"
+     },
+     "name_CHN": {
+      "@text": "c87be339dd226e373bc1498b6596e506c97688019d7abc201c006f4c19694222"
+     },
+     "name_KOR": {
+      "@text": "c87be339dd226e373bc1498b6596e506c97688019d7abc201c006f4c19694222"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@authored": "Increase the effect of support magic by 50％."
+     },
+     "desc_EN": {
+      "@authored": "Increase the effect of support magic by 50％."
+     },
+     "desc_FR": {
+      "@authored": "Increase the effect of support magic by 50％."
+     },
+     "desc_CHN": {
+      "@authored": "Increase the effect of support magic by 50％."
+     },
+     "desc_KOR": {
+      "@authored": "Increase the effect of support magic by 50％."
+     },
+     "kind": 1,
+     "effect_group": 17,
+     "value1": 50,
+     "value2": 0,
+     "source": 4,
+     "category": 10,
+     "subcategory": 5,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 18220,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "aliases": {
+    "8304": 1180
+   },
+   "magic_ids": [
+    13018,
+    13019,
+    13020,
+    13027,
+    13028
+   ],
+   "char_links": {
+    "18220": {
+     "evility1": 8304,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "c87be339dd226e373bc1498b6596e506c97688019d7abc201c006f4c19694222"
+      },
+      " (304): exact text and number - D4 stores +50% for 304 and FUN_1400FF700 scales the buff value of a support-flagged skill by (50 + 100) / 100, signed truncation; row 8304 keeps its alias to D5 ",
+      {
+       "@text": "c87be339dd226e373bc1498b6596e506c97688019d7abc201c006f4c19694222"
+      },
+      " (1180) and carries kit row support_magic_percent 50 (D4SIG3: wrap_support at both callers of FUN_1401FEFA0), which replaces the game's x2 with x1.5 for support magic (magic row category 5). Not carried: D4 caps the result at 100 (D5's own stage not measured). Innate, owned by this pack"
+     ]
+    }
+   ],
+   "behaviors": {
+    "8304": {
+     "family": "support_magic_percent",
+     "effects": [
+      {
+       "value": 50
+      }
+     ]
+    }
+   }
+  },
+  "D4_Unique_5305": {
+   "skill_rows": [
+    {
+     "id": 7126,
+     "name_JP": {
+      "@text": "fd86e47f1d224e98b93d2fc045bf1e1af3e25cbc7e481c2f751ba5a2a2bafeab"
+     },
+     "name_EN": {
+      "@text": "fd86e47f1d224e98b93d2fc045bf1e1af3e25cbc7e481c2f751ba5a2a2bafeab"
+     },
+     "name_FR": {
+      "@text": "fd86e47f1d224e98b93d2fc045bf1e1af3e25cbc7e481c2f751ba5a2a2bafeab"
+     },
+     "name_CHN": {
+      "@text": "fd86e47f1d224e98b93d2fc045bf1e1af3e25cbc7e481c2f751ba5a2a2bafeab"
+     },
+     "name_KOR": {
+      "@text": "fd86e47f1d224e98b93d2fc045bf1e1af3e25cbc7e481c2f751ba5a2a2bafeab"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@text": "de75f1db49f359be92d28f90d861e3a56f1fc45ab25479bdc0141baabf252d45"
+     },
+     "desc_EN": {
+      "@text": "2f7a31c08e3e02f0f1ac203259c3aa14c749653411cc83e9dbee2cd323240654"
+     },
+     "desc_FR": {
+      "@text": "7a60e09176a76caced4c54b46743bec910b1b7c773a6fe1ddd0d6a09f4e9bc2c"
+     },
+     "desc_CHN": {
+      "@text": "06017d807d6cdf86b97020f0fdcacb2a90d91355b99422f1d40cf26444359089"
+     },
+     "desc_KOR": {
+      "@text": "f5bcdac14807c7f9ffe951d7f5d3ec5e7ad9717047cd5fd0a1da63373e03f4aa"
+     },
+     "kind": 1,
+     "effect_group": 11,
+     "value1": 15,
+     "value2": 0,
+     "source": 4,
+     "category": 5,
+     "subcategory": 0,
+     "mana_cost": 10000,
+     "shop_rank": 0,
+     "owner": 18230,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "char_links": {
+    "18230": {
+     "evility1": 7126,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "behaviors": {},
+   "aliases": {
+    "7126": 1010
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "fd86e47f1d224e98b93d2fc045bf1e1af3e25cbc7e481c2f751ba5a2a2bafeab"
+      },
+      " (7126): installed row recorded as is (REPROFIX3) - alias of D5 evility 1010 (",
+      {
+       "@text": "fd86e47f1d224e98b93d2fc045bf1e1af3e25cbc7e481c2f751ba5a2a2bafeab"
+      },
+      "), stored value 15, text '",
+      {
+       "@text": "2f7a31c08e3e02f0f1ac203259c3aa14c749653411cc83e9dbee2cd323240654"
+      },
+      "'; row 7126 is the id the installed pack owns, below the D4 exact band; not reviewed against the D4 text"
+     ]
+    }
+   ],
+   "installed_rows": true
+  },
+  "D4_Unique_5309": {
+   "skill_rows": [
+    {
+     "id": 8211,
+     "name_JP": {
+      "@text": "deb420879e404e0855a97ccc29fb55d966e69c3896dd5ac2a5dc09d7059fea5e"
+     },
+     "name_EN": {
+      "@text": "deb420879e404e0855a97ccc29fb55d966e69c3896dd5ac2a5dc09d7059fea5e"
+     },
+     "name_FR": {
+      "@text": "deb420879e404e0855a97ccc29fb55d966e69c3896dd5ac2a5dc09d7059fea5e"
+     },
+     "name_CHN": {
+      "@text": "deb420879e404e0855a97ccc29fb55d966e69c3896dd5ac2a5dc09d7059fea5e"
+     },
+     "name_KOR": {
+      "@text": "deb420879e404e0855a97ccc29fb55d966e69c3896dd5ac2a5dc09d7059fea5e"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@template": "c41efb67a3f80a54fa2021b09396b14a180bcde9e18988f7b4343943653a3018",
+      "args": [
+       5
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "c41efb67a3f80a54fa2021b09396b14a180bcde9e18988f7b4343943653a3018",
+      "args": [
+       5
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "c41efb67a3f80a54fa2021b09396b14a180bcde9e18988f7b4343943653a3018",
+      "args": [
+       5
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "c41efb67a3f80a54fa2021b09396b14a180bcde9e18988f7b4343943653a3018",
+      "args": [
+       5
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "c41efb67a3f80a54fa2021b09396b14a180bcde9e18988f7b4343943653a3018",
+      "args": [
+       5
+      ],
+      "percent": "％"
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 5,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 18270,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "deb420879e404e0855a97ccc29fb55d966e69c3896dd5ac2a5dc09d7059fea5e"
+      },
+      " (211): exact rule, row 8211 owned by this pack (stats -5% on enemies on the map, near_has of enemy radius 65535); innate. The D4 class family pack is out of importer scope, so there is no owner to reference"
+     ]
+    }
+   ],
+   "behaviors": {
+    "8211": {
+     "family": [
+      "aura",
+      "stats"
+     ],
+     "effects": [
+      {
+       "stat": "all",
+       "value": -5
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "near_has",
+       "of": 2,
+       "radius": 65535,
+       "id": 8211
+      }
+     ]
+    }
+   },
+   "char_links": {
+    "18270": {
+     "evility1": 8211,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   }
+  },
+  "D4_Unique_5310": {
+   "skill_rows": [
+    {
+     "id": 8351,
+     "name_JP": {
+      "@text": "96ee7b4f8b0427fae68ffeaa4cefe8d3ffdab70e8d72e493dda2467e66778cb8"
+     },
+     "name_EN": {
+      "@text": "96ee7b4f8b0427fae68ffeaa4cefe8d3ffdab70e8d72e493dda2467e66778cb8"
+     },
+     "name_FR": {
+      "@text": "96ee7b4f8b0427fae68ffeaa4cefe8d3ffdab70e8d72e493dda2467e66778cb8"
+     },
+     "name_CHN": {
+      "@text": "96ee7b4f8b0427fae68ffeaa4cefe8d3ffdab70e8d72e493dda2467e66778cb8"
+     },
+     "name_KOR": {
+      "@text": "96ee7b4f8b0427fae68ffeaa4cefe8d3ffdab70e8d72e493dda2467e66778cb8"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@template": "784c12396af6a484a7313061c7a93b4d61a3a39582a82773e7a8613e46d0196d",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "784c12396af6a484a7313061c7a93b4d61a3a39582a82773e7a8613e46d0196d",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "784c12396af6a484a7313061c7a93b4d61a3a39582a82773e7a8613e46d0196d",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "784c12396af6a484a7313061c7a93b4d61a3a39582a82773e7a8613e46d0196d",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "784c12396af6a484a7313061c7a93b4d61a3a39582a82773e7a8613e46d0196d",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 50,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 18280,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "96ee7b4f8b0427fae68ffeaa4cefe8d3ffdab70e8d72e493dda2467e66778cb8"
+      },
+      " (351): exact rule - D4 'evade attacks from front' (FUN_140107100: the hit rate is multiplied by (100 - 50) / 100 when the attack's per-target direction is 0, front); row 8351 owned by this pack is kit family evasion (scale, 50) + attack_dir front, applied by wrap_hit to the percent damage_hit_chance_rules returns (D5's hit chance, kept in 1..100); innate. Not carried: D4 rolls a hit in two stages (a failed first roll gets a second roll that decides miss or a weakened hit) where D5 rolls once, so the same chance gives D5's own miss rate; D4 can reach 0% where D5 keeps 1%; a second evasion row on one unit adds the values where D4 multiplies the factors. The D4 class pack is out of importer scope"
+     ]
+    }
+   ],
+   "behaviors": {
+    "8351": {
+     "family": "evasion",
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "attack_dir",
+       "id": 0
+      }
+     ]
+    }
+   },
+   "char_links": {
+    "18280": {
+     "evility1": 8351,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   }
+  },
+  "D4_Unique_320": {
+   "skill_rows": [],
+   "refs": {
+    "8181": "D4_Class_1220",
+    "8841": "D4_Class_1220",
+    "8840": "D4_Class_1220"
+   },
+   "requires": [
+    "D4_Class_1220"
+   ],
+   "char_links": {
+    "10400": {
+     "evility1": 8840,
+     "evility2": 8181,
+     "evility3": 8841,
+     "evility4": 0,
+     "evility_count": 3
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "f7b797c805bef17c7c096905947d86a39708f45d26bf875737b05b09b83102d7"
+      },
+      " (181) and ",
+      {
+       "@text": "3dfd2acb11395d5fe1862000f41f9f58bcd5ebaa0adf42c33a981403e3e9b429"
+      },
+      " (841): adapted reference - both are learnable in D4 but a unique cannot learn a row another pack owns, so they are linked as innate to rows 8181 and 8841 owned by D4_Class_1220; mod.json requires that pack."
+     ]
+    },
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "bd104d1b98d032274986497eeb7997c44a1d674b29140e43cd525d33468ecb6e"
+      },
+      " (840): adapted - D4 counts dispatched allies of the holder's Evil Area; D5 has squads instead, so row 8840 is +5% ATK/DEF/INT/RES/HIT/SPD (not HP/SP, D4SIG4 trace) x deployed allies in the holder's own squad (kit scale map_squad, EVILFX1; holder not counted, as in D4 FUN_1401ba0a0); innate; since EVILFX3 the row is owned by D4_Class_1220 and referenced"
+     ]
+    }
+   ],
+   "behaviors": {}
+  },
+  "D4_Unique_210": {
+   "skill_rows": [
+    {
+     "id": 8667,
+     "name_JP": {
+      "@text": "69f6acb9bff235a5308c9ec741adf2efd8c8de6653dc90ecdf7c6316b199a606"
+     },
+     "name_EN": {
+      "@text": "69f6acb9bff235a5308c9ec741adf2efd8c8de6653dc90ecdf7c6316b199a606"
+     },
+     "name_FR": {
+      "@text": "69f6acb9bff235a5308c9ec741adf2efd8c8de6653dc90ecdf7c6316b199a606"
+     },
+     "name_CHN": {
+      "@text": "69f6acb9bff235a5308c9ec741adf2efd8c8de6653dc90ecdf7c6316b199a606"
+     },
+     "name_KOR": {
+      "@text": "69f6acb9bff235a5308c9ec741adf2efd8c8de6653dc90ecdf7c6316b199a606"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@text": "909e5f2ade4a61946253a9beed6fd3338253bcf05e63fa675f43591c16de7bbe"
+     },
+     "desc_EN": {
+      "@text": "909e5f2ade4a61946253a9beed6fd3338253bcf05e63fa675f43591c16de7bbe"
+     },
+     "desc_FR": {
+      "@text": "909e5f2ade4a61946253a9beed6fd3338253bcf05e63fa675f43591c16de7bbe"
+     },
+     "desc_CHN": {
+      "@text": "909e5f2ade4a61946253a9beed6fd3338253bcf05e63fa675f43591c16de7bbe"
+     },
+     "desc_KOR": {
+      "@text": "909e5f2ade4a61946253a9beed6fd3338253bcf05e63fa675f43591c16de7bbe"
+     },
+     "kind": 1,
+     "effect_group": 29,
+     "value1": 0,
+     "value2": 0,
+     "source": 4,
+     "category": 2,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 10260,
+     "class_order": 0,
+     "version_group": 120
+    }
+   ],
+   "aliases": {
+    "8667": 6047
+   },
+   "behaviors": {
+    "8667": {
+     "family": "rearm_first_damage"
+    }
+   },
+   "char_links": {
+    "10260": {
+     "evility1": 8667,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "69f6acb9bff235a5308c9ec741adf2efd8c8de6653dc90ecdf7c6316b199a606"
+      },
+      " (667): exact rule for a threshold of 0 or 1 (D4SIG6) - D4 FUN_1400FF700 (target result, lines 1768-1783) nullifies a hit while the unit's hit counter (unit +0x1183, +1 per landed hit in FUN_140123940, reset to 0 in FUN_1400F3C20 inside the all-units turn-end pass FUN_1402EB670) is under max(1, T) and keeps a lethal result (result HP below 1); T is the number of ",
+      {
+       "@text": "1e5ca904d26669506a15d6a072cb5bf8e0ee11f8d1442fca1916a5cd04800523"
+      },
+      " (669) holders on the team (FUN_1402E9400) and no pack here carries 669, so T is 0: the first non-lethal hit of every turn is nullified. Row 8667 = alias to D5 ",
+      {
+       "@text": "0ab0d62fc776420361cac39f1965047f4131fcc77dc7966ce485b377af2612a7"
+      },
+      " 6047 (nullifies while stat record byte +0xDF9 is 0, which damage_apply_damage sets on the first damage) + kit family rearm_first_damage (the byte is cleared at every round edge) + wrap_firstimp (the call to cmdmenu_preds_p_2068b0 inside damage_nullify_predicate answers 'not carried' for this holder when the hit's damage is at least its HP, so a lethal hit goes through as in D4); innate. Not measured: that the round-edge clear (0x1405F8FFC) falls where D4's turn-end pass does, D4's +0x7B6 test on the counter, and a counter above 1 (needs T of 2 or more)"
+     ]
+    }
+   ]
+  },
+  "D4_Unique_4390": {
+   "skill_rows": [],
+   "refs": {
+    "8697": "D4_Class_1140"
+   },
+   "requires": [
+    "D4_Class_1140"
+   ],
+   "char_links": {
+    "18210": {
+     "evility1": 8697,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "3630ba6e7a7c277005f5dd90e699000cad2fe6e04a562aa70670534210a363d9"
+      },
+      " (697): exact text and number, innate - DEF and ",
+      {
+       "@text": "a98e255d4f286866a3e5349787bfea1f9c9117d381e7fdac403f27d11c73b1b9"
+      },
+      " for each ally standing on a panel next to Kojiro (kit `stats` aura, near_has ally radius 1; Kojiro himself is not raised). Row 8697 is owned by D4_Class_1140 (",
+      {
+       "@text": "39e88b1351e5f1e0db418f1eeea5b26d8bf52bc836b86f3b791dc1639c7e2bcb"
+      },
+      ", the D4 class that has the same innate evility); mod.json requires that pack. D4's own adjacency arithmetic was not traced"
+     ]
+    }
+   ],
+   "carried_rows": [
+    {
+     "id": 7044,
+     "name_JP": {
+      "@text": "4e3b5d1c7fde9869879abbc3d3a69426181d22b4d6ba11d63760d353ce533628"
+     },
+     "name_EN": {
+      "@text": "4e3b5d1c7fde9869879abbc3d3a69426181d22b4d6ba11d63760d353ce533628"
+     },
+     "name_FR": {
+      "@text": "4e3b5d1c7fde9869879abbc3d3a69426181d22b4d6ba11d63760d353ce533628"
+     },
+     "name_CHN": {
+      "@text": "4e3b5d1c7fde9869879abbc3d3a69426181d22b4d6ba11d63760d353ce533628"
+     },
+     "name_KOR": {
+      "@text": "4e3b5d1c7fde9869879abbc3d3a69426181d22b4d6ba11d63760d353ce533628"
+     },
+     "slot_cost": 3,
+     "desc_JP": {
+      "@text": "b91ef7c7035a0b93ea3b0516bcae827dfaf275ee015e7b336839a47fbf8ae624"
+     },
+     "desc_EN": {
+      "@text": "94281663dfe19623df1295118b9ba813dc88c1b422cdc2e521619d508f06e00e"
+     },
+     "desc_FR": {
+      "@text": "c022daa30a950d0045ed0865968caef373ff130b60e2f89950fb574a25c819ee"
+     },
+     "desc_CHN": {
+      "@text": "659b5b844cd559a96fb6680cfb202c76dbf1fe206e36cd6fda3f1f2507392e48"
+     },
+     "desc_KOR": {
+      "@text": "da2fe435de0e199d4adca39bf149d2d7f1ffe7bbd5d6b1432bad81652a4aae4d"
+     },
+     "kind": 0,
+     "effect_group": 3,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 2,
+     "subcategory": 10,
+     "mana_cost": 1000,
+     "shop_rank": 0,
+     "owner": 18210,
+     "class_order": 0,
+     "version_group": 100
+    },
+    {
+     "id": 7045,
+     "name_JP": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "name_EN": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "name_FR": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "name_CHN": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "name_KOR": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "slot_cost": 2,
+     "desc_JP": {
+      "@segments": [
+       "SP aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       "SP aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       "SP aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       "SP aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       "SP aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "kind": 0,
+     "effect_group": 9,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 7,
+     "subcategory": 5,
+     "mana_cost": 100,
+     "shop_rank": 0,
+     "owner": 18210,
+     "class_order": 0,
+     "version_group": 100
+    },
+    {
+     "id": 7125,
+     "name_JP": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "name_EN": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "name_FR": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "name_CHN": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "name_KOR": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "slot_cost": 2,
+     "desc_JP": {
+      "@segments": [
+       "ATK aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "d34097db01de391a661075b05863d20d9f540b351bcaee412622a8e134ca2b42"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       "ATK aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "d34097db01de391a661075b05863d20d9f540b351bcaee412622a8e134ca2b42"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       "ATK aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "d34097db01de391a661075b05863d20d9f540b351bcaee412622a8e134ca2b42"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       "ATK aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "d34097db01de391a661075b05863d20d9f540b351bcaee412622a8e134ca2b42"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       "ATK aptitude +10. D5 adaptation; 2 slots, 100 Mana. Shares D5 ",
+       {
+        "@text": "d34097db01de391a661075b05863d20d9f540b351bcaee412622a8e134ca2b42"
+       },
+       "'s bonus; copies do not stack."
+      ]
+     },
+     "kind": 0,
+     "effect_group": 9,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 1,
+     "subcategory": 5,
+     "mana_cost": 100,
+     "shop_rank": 0,
+     "owner": 18210,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "aliases": {
+    "7044": 1151,
+    "7045": 1041,
+    "7125": 1191
+   }
+  },
+  "D4_Unique_350": {
+   "skill_rows": [
+    {
+     "id": 27844,
+     "name_JP": {
+      "@text": "d846c94a44cdc1eb9869e84b6b488ee40e55f63da79fdfd3e5542fec4fbdddeb"
+     },
+     "name_EN": {
+      "@text": "d846c94a44cdc1eb9869e84b6b488ee40e55f63da79fdfd3e5542fec4fbdddeb"
+     },
+     "name_FR": {
+      "@text": "d846c94a44cdc1eb9869e84b6b488ee40e55f63da79fdfd3e5542fec4fbdddeb"
+     },
+     "name_CHN": {
+      "@text": "d846c94a44cdc1eb9869e84b6b488ee40e55f63da79fdfd3e5542fec4fbdddeb"
+     },
+     "name_KOR": {
+      "@text": "d846c94a44cdc1eb9869e84b6b488ee40e55f63da79fdfd3e5542fec4fbdddeb"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@segments": [
+       "When next to ",
+       {
+        "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+       },
+       ", evasion is increased by 50％."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       "When next to ",
+       {
+        "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+       },
+       ", evasion is increased by 50％."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       "When next to ",
+       {
+        "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+       },
+       ", evasion is increased by 50％."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       "When next to ",
+       {
+        "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+       },
+       ", evasion is increased by 50％."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       "When next to ",
+       {
+        "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+       },
+       ", evasion is increased by 50％."
+      ]
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 50,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 10420,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "844": 27844
+   },
+   "char_links": {
+    "10420": {
+     "evility1": 27844,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "behaviors": {
+    "27844": {
+     "family": "evasion",
+     "effects": [
+      {
+       "value": 50,
+       "mode": "points"
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "near_char",
+       "of": 1,
+       "radius": 1,
+       "id": 650
+      }
+     ]
+    },
+    "8845": {
+     "family": [
+      "stats",
+      "aura"
+     ],
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 10
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "near_has",
+       "of": 1,
+       "radius": 1,
+       "id": 8845
+      },
+      {
+       "kind": "char",
+       "id": 650
+      }
+     ]
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "dcd05aeb2ed54c7dcca9dfdbdd28a4604bc349bacd33105f4e0ad8c557edd5e7"
+      },
+      " (845): fixed - the aura row named provider evility 8045 instead of its own id 8845, so ",
+      {
+       "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+      },
+      " (D5 character 650) never received ",
+      {
+       "@text": "37538d08d147e5071f0327d1d16125a33bc62c8152ca7d75ec89dace06846c8e"
+      },
+      " next to ",
+      {
+       "@text": "3640cd175bd74a035c61855f46d781e63c88374c1c73b7b491c2d72028c2e4e5"
+      }
+     ]
+    },
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "d846c94a44cdc1eb9869e84b6b488ee40e55f63da79fdfd3e5542fec4fbdddeb"
+      },
+      " (844): exact rule - D4 'evasion is increased by 50% next to ",
+      {
+       "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+      },
+      "' (FUN_1400FF700: 50 is subtracted from the hit rate before the cap at 100, only for the class-350 holder while an adjacent same-team unit holds ",
+      {
+       "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+      },
+      "'s evility); row 27844 (late band 27000 + D4 id, so no installed learnable row changes position) is kit family evasion (points, 50) + near_char ally radius 1 of D5's ",
+      {
+       "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+      },
+      " (character 650), applied by wrap_hit before the game's own clamp of damage_hit_chance_rules to 1..100; innate, owned by this pack. Not carried: D4 rolls a hit in two stages where D5 rolls once, D4 can reach 0% where D5 keeps 1%, and the neighbour test is the kit's radius-1 test on D5's ",
+      {
+       "@text": "f81b545b1eeb48ff0967cec19c1c7666627b4479330519afd699eeb441d9726a"
+      },
+      ", not D4's own adjacency function"
+     ]
+    }
+   ]
+  },
+  "D4_Class_1200": {
+   "skill_rows": [
+    {
+     "id": 27121,
+     "name_JP": {
+      "@text": "edf4608bc88ed1f5d31d3bb4b7eef9254ba7578b4eb60463a83166c762b1ec8e"
+     },
+     "name_EN": {
+      "@text": "edf4608bc88ed1f5d31d3bb4b7eef9254ba7578b4eb60463a83166c762b1ec8e"
+     },
+     "name_FR": {
+      "@text": "edf4608bc88ed1f5d31d3bb4b7eef9254ba7578b4eb60463a83166c762b1ec8e"
+     },
+     "name_CHN": {
+      "@text": "edf4608bc88ed1f5d31d3bb4b7eef9254ba7578b4eb60463a83166c762b1ec8e"
+     },
+     "name_KOR": {
+      "@text": "edf4608bc88ed1f5d31d3bb4b7eef9254ba7578b4eb60463a83166c762b1ec8e"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@template": "775b0ec4b9dc8bda0e21ce2a1af1ce4e098f744de1ac626cddb560376c5d9c22",
+      "args": [
+       100
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "775b0ec4b9dc8bda0e21ce2a1af1ce4e098f744de1ac626cddb560376c5d9c22",
+      "args": [
+       100
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "775b0ec4b9dc8bda0e21ce2a1af1ce4e098f744de1ac626cddb560376c5d9c22",
+      "args": [
+       100
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "775b0ec4b9dc8bda0e21ce2a1af1ce4e098f744de1ac626cddb560376c5d9c22",
+      "args": [
+       100
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "775b0ec4b9dc8bda0e21ce2a1af1ce4e098f744de1ac626cddb560376c5d9c22",
+      "args": [
+       100
+      ],
+      "percent": "％"
+     },
+     "kind": 1,
+     "effect_group": 11,
+     "value1": 100,
+     "value2": 0,
+     "source": 4,
+     "category": 5,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14200,
+     "class_order": 0,
+     "version_group": 120
+    }
+   ],
+   "late_ids": {
+    "121": 27121
+   },
+   "char_links": {
+    "14200": {
+     "evility1": 27121,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14201": {
+     "evility1": 27121,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14202": {
+     "evility1": 27121,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14203": {
+     "evility1": 27121,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14204": {
+     "evility1": 27121,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14205": {
+     "evility1": 27121,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "edf4608bc88ed1f5d31d3bb4b7eef9254ba7578b4eb60463a83166c762b1ec8e"
+      },
+      " (121): D5 equivalent, same number - D5 ",
+      {
+       "@text": "61276ebf82da484bdd2e769d3ed35d3c8ed62ccf07c478ec3175b86d6baacb60"
+      },
+      " (6059) 'If she becomes the very last unit of a force, increase stats by 100%'; alias row 27121 (late band), innate on all six ranks"
+     ]
+    }
+   ],
+   "class_alias": {
+    "27121": 6059
+   }
+  },
+  "D4_Class_2170": {
+   "skill_rows": [
+    {
+     "id": 27663,
+     "name_JP": {
+      "@text": "0c9aa9584b568dad11abf9e8729424c03db7c4d2190e8e1b7b94999e2e816103"
+     },
+     "name_EN": {
+      "@text": "0c9aa9584b568dad11abf9e8729424c03db7c4d2190e8e1b7b94999e2e816103"
+     },
+     "name_FR": {
+      "@text": "0c9aa9584b568dad11abf9e8729424c03db7c4d2190e8e1b7b94999e2e816103"
+     },
+     "name_CHN": {
+      "@text": "0c9aa9584b568dad11abf9e8729424c03db7c4d2190e8e1b7b94999e2e816103"
+     },
+     "name_KOR": {
+      "@text": "0c9aa9584b568dad11abf9e8729424c03db7c4d2190e8e1b7b94999e2e816103"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@authored": "Increase ATK by 10％ every time an attack is received (resets when this unit acts)."
+     },
+     "desc_EN": {
+      "@authored": "Increase ATK by 10％ every time an attack is received (resets when this unit acts)."
+     },
+     "desc_FR": {
+      "@authored": "Increase ATK by 10％ every time an attack is received (resets when this unit acts)."
+     },
+     "desc_CHN": {
+      "@authored": "Increase ATK by 10％ every time an attack is received (resets when this unit acts)."
+     },
+     "desc_KOR": {
+      "@authored": "Increase ATK by 10％ every time an attack is received (resets when this unit acts)."
+     },
+     "kind": 1,
+     "effect_group": 14,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 1,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14670,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "663": 27663
+   },
+   "char_links": {
+    "14670": {
+     "evility1": 27663,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14671": {
+     "evility1": 27663,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14672": {
+     "evility1": 27663,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14673": {
+     "evility1": 27663,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14674": {
+     "evility1": 27663,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14675": {
+     "evility1": 27663,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "0c9aa9584b568dad11abf9e8729424c03db7c4d2190e8e1b7b94999e2e816103"
+      },
+      " (663): exact rule - D4 'Increase ATK by 10% every time attack is received (attack resets)': FUN_140106900 adds value 10 x the unit's counter (+0x20D5, signed char) to the attack-power percent; FUN_140123940 (action event 0x1E, once per target) adds 1 to each target's counter (at most 20) whenever the target's result slot is not negative, so every hit, nullified hit, miss and buff counts and a heal (slot = -amount) does not; FUN_1402DD8B0 (end of every action) sets the ACTOR's counter to 0. Row 27663 (late band) keeps the alias to D5 ",
+      {
+       "@text": "273d857ab5080557b23f135801d6c853cfba5bc823a3a4957f8e436d8dd7c883"
+      },
+      " (2065), which reads the counter (damage_attack_bonus_rules: 10 x the short at stat record +0x5D8, at most +200) and adds the kit row attack_counter (second-word family): wrap_atkcount at the call of damage_apply_damage in FUN_1401B1BA0 (once per action target) stores min(counter before the call + 1 for a non-heal target, 20) and discards D5's own count (non-elemental attacks only), and the once-per-action pass of exec_ctl_s2_update (wrap_face_away) zeroes the actor's counter; D5 has no other writer of that short (exe scan: the apply_damage increment, two wipes, a record copy; readers: the bonus rules and the damage breakdown display). Not carried: D5 counts a heal as a positive slot, so the heal test is the skill row's category 4 (D4: slot <= 0), and a heal of 0 on a target D4 cannot heal counts in D4 only; D4's multi-target branch skips a carried target; D5 skips a target already at 0 HP before its own count while the wrapper counts it; D5's damage is added by its own bonus rules, not D4's function. Live not checked. Innate on all six ranks"
+     ]
+    }
+   ],
+   "class_alias": {
+    "27663": 2065
+   },
+   "behaviors": {
+    "27663": {
+     "family": "attack_counter"
+    }
+   }
+  },
+  "D4_Class_1170": {
+   "skill_rows": [
+    {
+     "id": 27690,
+     "name_JP": {
+      "@text": "7e98755d40916e7a97770b2139560aed3d9ffb058c3675ea5c5325c9b5dabded"
+     },
+     "name_EN": {
+      "@text": "7e98755d40916e7a97770b2139560aed3d9ffb058c3675ea5c5325c9b5dabded"
+     },
+     "name_FR": {
+      "@text": "7e98755d40916e7a97770b2139560aed3d9ffb058c3675ea5c5325c9b5dabded"
+     },
+     "name_CHN": {
+      "@text": "7e98755d40916e7a97770b2139560aed3d9ffb058c3675ea5c5325c9b5dabded"
+     },
+     "name_KOR": {
+      "@text": "7e98755d40916e7a97770b2139560aed3d9ffb058c3675ea5c5325c9b5dabded"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@authored": "Increase SPD by 5％ x panels moved this turn."
+     },
+     "desc_EN": {
+      "@authored": "Increase SPD by 5％ x panels moved this turn."
+     },
+     "desc_FR": {
+      "@authored": "Increase SPD by 5％ x panels moved this turn."
+     },
+     "desc_CHN": {
+      "@authored": "Increase SPD by 5％ x panels moved this turn."
+     },
+     "desc_KOR": {
+      "@authored": "Increase SPD by 5％ x panels moved this turn."
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 5,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14170,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "690": 27690
+   },
+   "char_links": {
+    "14170": {
+     "evility1": 27690,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14171": {
+     "evility1": 27690,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14172": {
+     "evility1": 27690,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14173": {
+     "evility1": 27690,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14174": {
+     "evility1": 27690,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14175": {
+     "evility1": 27690,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "7e98755d40916e7a97770b2139560aed3d9ffb058c3675ea5c5325c9b5dabded"
+      },
+      " (690): exact rule - D4 'Increase SPD Bonus by 5% x moving panels (during turns)' (D4SIG5, source: FUN_1401BA0A0 term 0x2B2 adds 5 x the unit's moved-panel counter, battle record +0x4E8, to the SPD percent slot at unit +0x17FE after that slot's clamp; FUN_1401B4010 reads the slot at 0x1401B6AA9 into the SPD percent sum that scales the stat by (100 + sum) / 100; the counter is set by FUN_1400F1200 to the movement-cost value of the move's destination cell and zeroed by FUN_1400F3C20, the per-unit end-of-turn routine, which is followed by the stat recalculation); row 27690 is SPD +5% x D5's panels-moved counter (battle record +0x61C, the one D5's ",
+      {
+       "@text": "f553893a19fe51fede5c28727d70292b19b49708aee8ebe27964d6f98e9bc15b"
+      },
+      " 1020 and ",
+      {
+       "@text": "1d73e31ee9f88e8ad625c21751ca1bc3a1b88e0b23a04466359f217c463e142c"
+      },
+      " 105 multiply by), kit family stats with scale movement_cost; D5's counter is added to by confirm_push_move_entry (the move's cost, restored on undo) and zeroed by turn_t3_per_unit_end_turn, the same routine (same idle-counter block), which turn_t1_per_unit_hp_sp follows with unit_recalc; innate on all six ranks. Live read (LIVEPROOF3): SPD 112800 -> 129720, +15% right after a 3-panel move, control unchanged. Not carried: D4 sets the counter to the last move's value where D5 adds each confirmed move (the same with one move per turn); the read after End Turn (counter 0, SPD back) is not measured"
+     ]
+    }
+   ],
+   "behaviors": {
+    "27690": {
+     "family": "stats",
+     "effects": [
+      {
+       "stat": "spd",
+       "value": 5,
+       "per": "movement_cost"
+      }
+     ]
+    }
+   }
+  },
+  "D4_Class_2130": {
+   "skill_rows": [
+    {
+     "id": 27692,
+     "name_JP": {
+      "@text": "4b06232dd572d307d575b3474755e6b34249752da1eb77c351177f225cd88376"
+     },
+     "name_EN": {
+      "@text": "4b06232dd572d307d575b3474755e6b34249752da1eb77c351177f225cd88376"
+     },
+     "name_FR": {
+      "@text": "4b06232dd572d307d575b3474755e6b34249752da1eb77c351177f225cd88376"
+     },
+     "name_CHN": {
+      "@text": "4b06232dd572d307d575b3474755e6b34249752da1eb77c351177f225cd88376"
+     },
+     "name_KOR": {
+      "@text": "4b06232dd572d307d575b3474755e6b34249752da1eb77c351177f225cd88376"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@authored": "Increase elemental damage dealt by 10％ x panels moved."
+     },
+     "desc_EN": {
+      "@authored": "Increase elemental damage dealt by 10％ x panels moved."
+     },
+     "desc_FR": {
+      "@authored": "Increase elemental damage dealt by 10％ x panels moved."
+     },
+     "desc_CHN": {
+      "@authored": "Increase elemental damage dealt by 10％ x panels moved."
+     },
+     "desc_KOR": {
+      "@authored": "Increase elemental damage dealt by 10％ x panels moved."
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14630,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "692": 27692
+   },
+   "char_links": {
+    "14630": {
+     "evility1": 27692,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14631": {
+     "evility1": 27692,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14632": {
+     "evility1": 27692,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14633": {
+     "evility1": 27692,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14634": {
+     "evility1": 27692,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14635": {
+     "evility1": 27692,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "4b06232dd572d307d575b3474755e6b34249752da1eb77c351177f225cd88376"
+      },
+      " (692): exact text and number - D4 'Increase the power of an elemental ATK by 10% x moved panels'; row 27692 is damage dealt +10% x D5's panels-moved counter for an attack that carries an element (kit family dealt, scale movement_cost, condition element_any; no cap, D5's own ",
+      {
+       "@text": "f553893a19fe51fede5c28727d70292b19b49708aee8ebe27964d6f98e9bc15b"
+      },
+      " caps at 200); innate on all six ranks"
+     ]
+    }
+   ],
+   "behaviors": {
+    "27692": {
+     "family": "dealt",
+     "effects": [
+      {
+       "value": 10,
+       "per": "movement_cost"
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "element_any"
+      }
+     ]
+    }
+   }
+  },
+  "D4_Class_2190": {
+   "skill_rows": [
+    {
+     "id": 27693,
+     "name_JP": {
+      "@text": "2bb31862854a8a5d11e5806434563580d92f7cc62f3c0f49d31ac2150d648176"
+     },
+     "name_EN": {
+      "@text": "2bb31862854a8a5d11e5806434563580d92f7cc62f3c0f49d31ac2150d648176"
+     },
+     "name_FR": {
+      "@text": "2bb31862854a8a5d11e5806434563580d92f7cc62f3c0f49d31ac2150d648176"
+     },
+     "name_CHN": {
+      "@text": "2bb31862854a8a5d11e5806434563580d92f7cc62f3c0f49d31ac2150d648176"
+     },
+     "name_KOR": {
+      "@text": "2bb31862854a8a5d11e5806434563580d92f7cc62f3c0f49d31ac2150d648176"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@template": "b1660261f5930bf4d7688e61674f914403837d1885ed5ea71205527c220a9718",
+      "args": [],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "b1660261f5930bf4d7688e61674f914403837d1885ed5ea71205527c220a9718",
+      "args": [],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "b1660261f5930bf4d7688e61674f914403837d1885ed5ea71205527c220a9718",
+      "args": [],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "b1660261f5930bf4d7688e61674f914403837d1885ed5ea71205527c220a9718",
+      "args": [],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "b1660261f5930bf4d7688e61674f914403837d1885ed5ea71205527c220a9718",
+      "args": [],
+      "percent": "％"
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 50,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14690,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "693": 27693
+   },
+   "char_links": {
+    "14690": {
+     "evility1": 27693,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14691": {
+     "evility1": 27693,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14692": {
+     "evility1": 27693,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14693": {
+     "evility1": 27693,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14694": {
+     "evility1": 27693,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14695": {
+     "evility1": 27693,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "2bb31862854a8a5d11e5806434563580d92f7cc62f3c0f49d31ac2150d648176"
+      },
+      " (693): exact text and number - damage dealt +50% while D5's panels-moved counter is 0 (kit family dealt, condition not_moved); row 27693 (late band), innate on all six ranks. D4's own 'moved' test was not traced"
+     ]
+    }
+   ],
+   "behaviors": {
+    "27693": {
+     "family": "dealt",
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "not_moved"
+      }
+     ]
+    }
+   }
+  },
+  "D4_Class_1220": {
+   "skill_rows": [
+    {
+     "id": 8840,
+     "name_JP": {
+      "@text": "bd104d1b98d032274986497eeb7997c44a1d674b29140e43cd525d33468ecb6e"
+     },
+     "name_EN": {
+      "@text": "bd104d1b98d032274986497eeb7997c44a1d674b29140e43cd525d33468ecb6e"
+     },
+     "name_FR": {
+      "@text": "bd104d1b98d032274986497eeb7997c44a1d674b29140e43cd525d33468ecb6e"
+     },
+     "name_CHN": {
+      "@text": "bd104d1b98d032274986497eeb7997c44a1d674b29140e43cd525d33468ecb6e"
+     },
+     "name_KOR": {
+      "@text": "bd104d1b98d032274986497eeb7997c44a1d674b29140e43cd525d33468ecb6e"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@authored": "Increase stats by 5％ x the # of dispatched squad allies."
+     },
+     "desc_EN": {
+      "@authored": "Increase stats by 5％ x the # of dispatched squad allies."
+     },
+     "desc_FR": {
+      "@authored": "Increase stats by 5％ x the # of dispatched squad allies."
+     },
+     "desc_CHN": {
+      "@authored": "Increase stats by 5％ x the # of dispatched squad allies."
+     },
+     "desc_KOR": {
+      "@authored": "Increase stats by 5％ x the # of dispatched squad allies."
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 5,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14220,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "behaviors": {
+    "8840": {
+     "family": "stats",
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 5,
+       "per": "map_squad"
+      },
+      {
+       "stat": "def",
+       "value": 5,
+       "per": "map_squad"
+      },
+      {
+       "stat": "int",
+       "value": 5,
+       "per": "map_squad"
+      },
+      {
+       "stat": "res",
+       "value": 5,
+       "per": "map_squad"
+      },
+      {
+       "stat": "hit",
+       "value": 5,
+       "per": "map_squad"
+      },
+      {
+       "stat": "spd",
+       "value": 5,
+       "per": "map_squad"
+      }
+     ]
+    }
+   },
+   "char_links": {
+    "14220": {
+     "evility1": 8840,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14221": {
+     "evility1": 8840,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14222": {
+     "evility1": 8840,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14223": {
+     "evility1": 8840,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14224": {
+     "evility1": 8840,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14225": {
+     "evility1": 8840,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "bd104d1b98d032274986497eeb7997c44a1d674b29140e43cd525d33468ecb6e"
+      },
+      " (840): innate on all six ranks, row 8840 now owned by this pack (the D4 class is the source owner; D4_Unique_320 references it). Adapted as before: D4 counts dispatched Evil Area allies, row 8840 is +5% ATK/DEF/INT/RES/HIT/SPD (not HP/SP, D4SIG4 trace) x deployed allies in the holder's own squad (kit scale map_squad)"
+     ]
+    }
+   ]
+  },
+  "D4_Unique_440": {
+   "skill_rows": [
+    {
+     "id": 27875,
+     "name_JP": {
+      "@text": "7604358d927f3b10e8ede948cb66801e91a62d331484d6aa647380ce77d9fb2e"
+     },
+     "name_EN": {
+      "@text": "7604358d927f3b10e8ede948cb66801e91a62d331484d6aa647380ce77d9fb2e"
+     },
+     "name_FR": {
+      "@text": "7604358d927f3b10e8ede948cb66801e91a62d331484d6aa647380ce77d9fb2e"
+     },
+     "name_CHN": {
+      "@text": "7604358d927f3b10e8ede948cb66801e91a62d331484d6aa647380ce77d9fb2e"
+     },
+     "name_KOR": {
+      "@text": "7604358d927f3b10e8ede948cb66801e91a62d331484d6aa647380ce77d9fb2e"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@segments": [
+       "Increase stats by 5％ per ally ",
+       {
+        "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+       },
+       " unit on the map."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       "Increase stats by 5％ per ally ",
+       {
+        "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+       },
+       " unit on the map."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       "Increase stats by 5％ per ally ",
+       {
+        "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+       },
+       " unit on the map."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       "Increase stats by 5％ per ally ",
+       {
+        "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+       },
+       " unit on the map."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       "Increase stats by 5％ per ally ",
+       {
+        "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+       },
+       " unit on the map."
+      ]
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 5,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 18150,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "875": 27875
+   },
+   "char_links": {
+    "18150": {
+     "evility1": 27875,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "behaviors": {
+    "27875": {
+     "family": "stats",
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 5,
+       "per": "map_class_ally"
+      },
+      {
+       "stat": "def",
+       "value": 5,
+       "per": "map_class_ally"
+      },
+      {
+       "stat": "int",
+       "value": 5,
+       "per": "map_class_ally"
+      },
+      {
+       "stat": "res",
+       "value": 5,
+       "per": "map_class_ally"
+      },
+      {
+       "stat": "hit",
+       "value": 5,
+       "per": "map_class_ally"
+      },
+      {
+       "stat": "spd",
+       "value": 5,
+       "per": "map_class_ally"
+      }
+     ],
+     "classes": [
+      14550,
+      14551,
+      14552,
+      14553,
+      14554,
+      14555
+     ]
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "7604358d927f3b10e8ede948cb66801e91a62d331484d6aa647380ce77d9fb2e"
+      },
+      " (875): exact text and number - D4 'Increase stats by 5% per ally ",
+      {
+       "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+      },
+      " unit on map'; row 27875 (late band) is +5% per deployed ALLY ",
+      {
+       "@text": "57e39463d863391c8e144d815e31d4b80ad3af8cd576001d531c2370566ac607"
+      },
+      "-family unit (D4_Class_2050 ranks 14550-14555, kit scale map_class_ally, six rows), ",
+      {
+       "@text": "e1f4728d9ee22b6dbde41b0ffe66e167fb5b9d268786ba90c56068ce46507bcb"
+      },
+      " herself never counted (D4 FUN_1401ba0a0 skips the holder, counts the holder's team, class group 205). Stat set traced (D4SIG3): the sum goes into the percent stored at unit+0x5BE which FUN_1401b4010 applies to ATK, DEF, INT, RES, HIT and SPD only (not HP or SP), so the row raises those six; the D5 total-stat cap applies; innate, owned by this pack"
+     ]
+    }
+   ]
+  },
+  "D4_Class_2120": {
+   "skill_rows": [
+    {
+     "id": 27691,
+     "name_JP": {
+      "@text": "8d1e1108fcae2f1fbc434a27bdd2355cc3c37cf1e3db0ea308d78e9a7e618c83"
+     },
+     "name_EN": {
+      "@text": "8d1e1108fcae2f1fbc434a27bdd2355cc3c37cf1e3db0ea308d78e9a7e618c83"
+     },
+     "name_FR": {
+      "@text": "8d1e1108fcae2f1fbc434a27bdd2355cc3c37cf1e3db0ea308d78e9a7e618c83"
+     },
+     "name_CHN": {
+      "@text": "8d1e1108fcae2f1fbc434a27bdd2355cc3c37cf1e3db0ea308d78e9a7e618c83"
+     },
+     "name_KOR": {
+      "@text": "8d1e1108fcae2f1fbc434a27bdd2355cc3c37cf1e3db0ea308d78e9a7e618c83"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@template": "3b55103e6762ed7ebd6729e394b4a87657b69d52c596077e23e940192b83f1ab",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "3b55103e6762ed7ebd6729e394b4a87657b69d52c596077e23e940192b83f1ab",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "3b55103e6762ed7ebd6729e394b4a87657b69d52c596077e23e940192b83f1ab",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "3b55103e6762ed7ebd6729e394b4a87657b69d52c596077e23e940192b83f1ab",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "3b55103e6762ed7ebd6729e394b4a87657b69d52c596077e23e940192b83f1ab",
+      "args": [
+       50
+      ],
+      "percent": "％"
+     },
+     "kind": 1,
+     "effect_group": 44,
+     "value1": 50,
+     "value2": 0,
+     "source": 4,
+     "category": 1,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14620,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "691": 27691
+   },
+   "char_links": {
+    "14620": {
+     "evility1": 27691,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14621": {
+     "evility1": 27691,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14622": {
+     "evility1": 27691,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14623": {
+     "evility1": 27691,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14624": {
+     "evility1": 27691,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14625": {
+     "evility1": 27691,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "8d1e1108fcae2f1fbc434a27bdd2355cc3c37cf1e3db0ea308d78e9a7e618c83"
+      },
+      " (691): exact text and number - D4 'Inflict 50% of damage to SP during an attack'; row 27691 (late band) keeps its alias to D5 ",
+      {
+       "@text": "38e9b8fcd6693670aafbcf09c8293fa02a78ee2811096a5bb6b7f81c91752dac"
+      },
+      " (3011), the game's own 'damage also inflicted to SP' code, and carries kit row sp_damage_percent 50 (EVILCAP1), which hands that code 50 instead of 3011's 25. Innate on all six ranks. ",
+      {
+       "@text": "d70b489bb97ec09dbafa72e461c8320d04e13ad160dd74c8e69a60ea62dc8ffd"
+      },
+      " (D4_Unique_170) references this row"
+     ]
+    }
+   ],
+   "class_alias": {
+    "27691": 3011
+   },
+   "behaviors": {
+    "27691": {
+     "family": "sp_damage_percent",
+     "effects": [
+      {
+       "value": 50
+      }
+     ]
+    }
+   }
+  },
+  "D4_Unique_340": {
+   "skill_rows": [
+    {
+     "id": 27851,
+     "name_JP": {
+      "@text": "f3746d817975269481099b17d4ed2fdc5be36abf4bb1750a233f2114a066b405"
+     },
+     "name_EN": {
+      "@text": "f3746d817975269481099b17d4ed2fdc5be36abf4bb1750a233f2114a066b405"
+     },
+     "name_FR": {
+      "@text": "f3746d817975269481099b17d4ed2fdc5be36abf4bb1750a233f2114a066b405"
+     },
+     "name_CHN": {
+      "@text": "f3746d817975269481099b17d4ed2fdc5be36abf4bb1750a233f2114a066b405"
+     },
+     "name_KOR": {
+      "@text": "f3746d817975269481099b17d4ed2fdc5be36abf4bb1750a233f2114a066b405"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@segments": [
+       "During ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       ", Equipment Aptitude increases 50％."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       "During ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       ", Equipment Aptitude increases 50％."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       "During ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       ", Equipment Aptitude increases 50％."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       "During ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       ", Equipment Aptitude increases 50％."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       "During ",
+       {
+        "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+       },
+       ", Equipment Aptitude increases 50％."
+      ]
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 50,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 10410,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "851": 27851
+   },
+   "char_links": {
+    "10410": {
+     "evility1": 27851,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "f3746d817975269481099b17d4ed2fdc5be36abf4bb1750a233f2114a066b405"
+      },
+      " (851): adapted - source text and number for ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      " - D4 'During magichange or fusion, Equipment Aptitude increases 50%'; row 27851 (late band) is equipment potency +50% on all eight stats while the holder wields a ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      " weapon (kit potency + condition magichange_host, EVILCAP1). D5 hands Gig's innate to the unit wielding him (unit_stats_evil_rebuild_list), so the wielder is raised, as in D4 (FUN_1401b4010). Not carried: D4's giant fusion, which D5 does not have. No alias any more (was D5 ",
+      {
+       "@text": "3e767ffd76a688a5ce8f494addaff8f800351016137afd250831b2e478be1c48"
+      },
+      " 1185, +15% weapon stats). Innate, owned by this pack"
+     ]
+    }
+   ],
+   "behaviors": {
+    "27851": {
+     "family": "potency",
+     "effects": [
+      {
+       "stat": "all",
+       "value": 50
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "magichange_host"
+      }
+     ]
+    }
+   }
+  },
+  "D4_Class_2090": {
+   "skill_rows": [
+    {
+     "id": 27807,
+     "name_JP": {
+      "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+     },
+     "name_EN": {
+      "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+     },
+     "name_FR": {
+      "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+     },
+     "name_CHN": {
+      "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+     },
+     "name_KOR": {
+      "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@template": "cc847dc4aa547978b9c6364746a13d8247e741dd85e623eea14dcb6ebadcbf21",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_EN": {
+      "@template": "cc847dc4aa547978b9c6364746a13d8247e741dd85e623eea14dcb6ebadcbf21",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_FR": {
+      "@template": "cc847dc4aa547978b9c6364746a13d8247e741dd85e623eea14dcb6ebadcbf21",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_CHN": {
+      "@template": "cc847dc4aa547978b9c6364746a13d8247e741dd85e623eea14dcb6ebadcbf21",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "desc_KOR": {
+      "@template": "cc847dc4aa547978b9c6364746a13d8247e741dd85e623eea14dcb6ebadcbf21",
+      "args": [
+       10
+      ],
+      "percent": "％"
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14590,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "807": 27807
+   },
+   "char_links": {
+    "14590": {
+     "evility1": 27807,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14591": {
+     "evility1": 27807,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14592": {
+     "evility1": 27807,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14593": {
+     "evility1": 27807,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14594": {
+     "evility1": 27807,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14595": {
+     "evility1": 27807,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+      },
+      " (807): exact rule - D4 'Increase DEF by 10% every turn of not moving': FUN_1400F3C20 (the per-unit round-edge routine, called by FUN_1402EB670) adds 1 to the holder's counter (unit +0x22DE, a byte, at most 10) when the unit's move cost (battle record +0x4E8, set by FUN_1400F1200 only from the move commit and cleared on undo) is 0 and sets it to 0 otherwise, then recalculates the unit; FUN_1401B4010 adds value 10 x the counter to the DEF percent (at most 100); nothing else (acting, being hit, being lifted or thrown) is tested. Row 27807 is ",
+      {
+       "@text": "f44aa2ab8290077e159b63b8f699d7881137348f9bd4e6fa276a88ae836cf338"
+      },
+      " x D5's idle-turn counter (stat record byte SR+1, 0..10; kit scale idle_turns, read when the stats are recalculated) and wrap_endturn (tag 0xE70021) redirects the three calls of turn_t3_per_unit_end_turn 0x140159F50 (turn_t1_per_unit_hp_sp for team 0, sequencer_ctl_s1_update, FUN_1405FAF90): for a unit that has learned 27807 it reads the counter and the move cost +0x61C before the call and stores D4's value afterwards (+1 up to 10 when the cost is 0, else 0), discarding D5's ",
+      {
+       "@text": "c8dee78f8c7b466c881847accc196998bad00e2b96c5ef913dfbe454d3807c96"
+      },
+      " clears (stat record byte SR+2 = lifted/thrown count, +0x11E1 = hit by a skill that sets it, +0x11F5 in one mode); a unit without 27807 keeps D5's own rule. The only other writer of the byte found by decomp text search is the FUN_14015FD40 clear (its flag argument; T3 passes 0), D4's three unit-init clears have no scanned D5 counterpart (whole-record wipes were not scanned). Not carried: D5's move cost is added to by each confirmed move and restored on undo where D4 sets it to the last move's cost (the same with one move per turn); D5 recalculates the unit after T3 in turn_t1_per_unit_hp_sp (team 0), not shown for the other two sites; D4 sums the term into one DEF percent with its other terms and clamps it, the kit adds it to its own aggregate; live not checked. Innate on all six ranks"
+     ]
+    }
+   ],
+   "behaviors": {
+    "27807": {
+     "family": "stats",
+     "effects": [
+      {
+       "stat": "def",
+       "value": 10,
+       "per": "idle_turns"
+      }
+     ]
+    }
+   }
+  },
+  "D4_Class_2200": {
+   "skill_rows": [
+    {
+     "id": 27836,
+     "name_JP": {
+      "@text": "f13c410d484a100533a5f125e7f63a742541a3d328514ef4e67a09dcc2bd0999"
+     },
+     "name_EN": {
+      "@text": "f13c410d484a100533a5f125e7f63a742541a3d328514ef4e67a09dcc2bd0999"
+     },
+     "name_FR": {
+      "@text": "f13c410d484a100533a5f125e7f63a742541a3d328514ef4e67a09dcc2bd0999"
+     },
+     "name_CHN": {
+      "@text": "f13c410d484a100533a5f125e7f63a742541a3d328514ef4e67a09dcc2bd0999"
+     },
+     "name_KOR": {
+      "@text": "f13c410d484a100533a5f125e7f63a742541a3d328514ef4e67a09dcc2bd0999"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@text": "a324956e326a0b745279e7b9b215c80985363f9fe900b1cc5546e1d86dd20364"
+     },
+     "desc_EN": {
+      "@text": "a324956e326a0b745279e7b9b215c80985363f9fe900b1cc5546e1d86dd20364"
+     },
+     "desc_FR": {
+      "@text": "a324956e326a0b745279e7b9b215c80985363f9fe900b1cc5546e1d86dd20364"
+     },
+     "desc_CHN": {
+      "@text": "a324956e326a0b745279e7b9b215c80985363f9fe900b1cc5546e1d86dd20364"
+     },
+     "desc_KOR": {
+      "@text": "a324956e326a0b745279e7b9b215c80985363f9fe900b1cc5546e1d86dd20364"
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 0,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14700,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "836": 27836
+   },
+   "char_links": {
+    "14700": {
+     "evility1": 27836,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14701": {
+     "evility1": 27836,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14702": {
+     "evility1": 27836,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14703": {
+     "evility1": 27836,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14704": {
+     "evility1": 27836,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14705": {
+     "evility1": 27836,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "f13c410d484a100533a5f125e7f63a742541a3d328514ef4e67a09dcc2bd0999"
+      },
+      " (836): exact rule - D4 FUN_1402DD8B0 (run after every action by FUN_1402E3E20, counter-attacks included) turns each target whose killed flag (action +0x3E98+i) is 0 and that is within footprint distance 1 of the actor (FUN_1400ED660) to face directly away: FUN_14022F350(target, actor) = -90 or 90 when |dz| < |dx| (by the sign of dx), else 0 when dz > 0, else 180 (so a zero distance, the actor as its own target, and every exact 45 degree tie give D4's answer), then FUN_1400F1230 / FUN_1400F3EE0 write the facing; the actor and allies are not excluded. Row 27836 (late band) is the kit's second-word family face_target_away: wrap_face_away runs before post_hit_effects (0x140542CB0, the once-per-action pass of exec_ctl_s2_update 0x14053F880, after the ctx-bound script ended and every target's vertical speed is 0) and for every target entry whose KO byte (ctx +0x152E + j x 0x260) is 0 and for which ai_transition_within_range (0x140153FF0, D4 FUN_1400ED660's counterpart) holds, calls unit_set_facing (0x14014F640) with D4's FUN_14022F350 computed inline in integers (not D5's atan2 function) of the (int)(float) world positions. Not carried (engine differences, not rule differences): D5's KO byte is set in damage_apply_damage when the hit kills (or the target is already at 0 HP) behind the same script flag 0xFFF as D4's FUN_140191170 byte, matched by structure and not branch by branch; D4's FUN_1400ED660 reads a saved cell (+0x74A, flag +0x744) in some states where D5's function reads the record's world position; D5 stores 180 as -180; the wrapper also skips an inactive record. Facing only checked offline (whether D5's later states or idle pose overwrite it, and the visual result, need the game). Innate on all six ranks"
+     ]
+    }
+   ],
+   "behaviors": {
+    "27836": {
+     "family": "face_target_away"
+    }
+   }
+  },
+  "D4_Unique_5388": {
+   "skill_rows": [
+    {
+     "id": 27129,
+     "name_JP": {
+      "@text": "d326ddce659b712bb3e53eb2245a1aef1fe78eea42576f7c06ff8666a771a045"
+     },
+     "name_EN": {
+      "@text": "d326ddce659b712bb3e53eb2245a1aef1fe78eea42576f7c06ff8666a771a045"
+     },
+     "name_FR": {
+      "@text": "d326ddce659b712bb3e53eb2245a1aef1fe78eea42576f7c06ff8666a771a045"
+     },
+     "name_CHN": {
+      "@text": "d326ddce659b712bb3e53eb2245a1aef1fe78eea42576f7c06ff8666a771a045"
+     },
+     "name_KOR": {
+      "@text": "d326ddce659b712bb3e53eb2245a1aef1fe78eea42576f7c06ff8666a771a045"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@authored": "Stats increased by 10％ per Geo Symbol color on map."
+     },
+     "desc_EN": {
+      "@authored": "Stats increased by 10％ per Geo Symbol color on map."
+     },
+     "desc_FR": {
+      "@authored": "Stats increased by 10％ per Geo Symbol color on map."
+     },
+     "desc_CHN": {
+      "@authored": "Stats increased by 10％ per Geo Symbol color on map."
+     },
+     "desc_KOR": {
+      "@authored": "Stats increased by 10％ per Geo Symbol color on map."
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 18290,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "129": 27129
+   },
+   "char_links": {
+    "18290": {
+     "evility1": 27129,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "behaviors": {
+    "27129": {
+     "family": "stats",
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 10,
+       "per": "geo_colours"
+      },
+      {
+       "stat": "def",
+       "value": 10,
+       "per": "geo_colours"
+      },
+      {
+       "stat": "int",
+       "value": 10,
+       "per": "geo_colours"
+      },
+      {
+       "stat": "res",
+       "value": 10,
+       "per": "geo_colours"
+      },
+      {
+       "stat": "hit",
+       "value": 10,
+       "per": "geo_colours"
+      },
+      {
+       "stat": "spd",
+       "value": 10,
+       "per": "geo_colours"
+      }
+     ]
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "d326ddce659b712bb3e53eb2245a1aef1fe78eea42576f7c06ff8666a771a045"
+      },
+      " (129): exact rule - D4 'Stats increased by 10% per ",
+      {
+       "@text": "7c6abb490e9c1476258a8f99d72828a76be6b555a1cf3e48a1f22801012b5521"
+      },
+      " color on map' (FUN_1401BA0A0: over every active, living unit of family 0x1E1 it collects the raw colour value of the record, +0x25A, into a set and the term adds 10 x the number of distinct values, 100 at most; the returned percent reaches ATK/DEF/INT/RES/HIT/SPD only, FUN_1401B4010); row 27129 (late band) is kit family stats +10% on those six stats x the new scale geo_colours: the number of distinct colour bytes (unit +0x2E2C, D5's own Geo Symbol colour: placement +0x248, written by 0x1404D29C0 / 0x1405247D0 at deployment and by script_cmd_unit_geo_change; the game's maps use 0..6, 0 = clear) over the alive units on the map whose character id is 4810..4819 (D5's own Geo Symbol name switch, 0x1402ACBB0, tests the same id / 10 == 481). Like D4 a clear symbol (0) counts as a colour and a holder off the map or carried counts 0. Not carried: D4 adds the term into one percent shared with its other stat evilities and clamps that sum to -50..100 (the kit adds each row to D5's aggregate separately; ",
+      {
+       "@text": "fb306f1ca3a5b8e768a2171ace73dc85ee5ee802398503b1bb73c1759d690666"
+      },
+      " holds no other, and 7 colours is at most +70); D4's class-kind exclusion of the holder (record +0x1808 in 0x33..0x34) was not mapped; that D4's family 0x1E1 is the ",
+      {
+       "@text": "7c6abb490e9c1476258a8f99d72828a76be6b555a1cf3e48a1f22801012b5521"
+      },
+      " unit rests on EVILFX1's reading, the D4 character ids were not opened; when D5 recomputes the aggregate after a Geo Symbol dies or changes colour is not measured. Innate, owned by this pack"
+     ]
+    }
+   ],
+   "magic_ids": [
+    13029,
+    13030,
+    13031,
+    13032,
+    13033
+   ]
+  },
+  "D4_Class_1240": {
+   "skill_rows": [
+    {
+     "id": 27864,
+     "name_JP": {
+      "@text": "cd82e84e6cf80464940a47717d7509368428a7b92c02a372da85cc1816b7cdd9"
+     },
+     "name_EN": {
+      "@text": "cd82e84e6cf80464940a47717d7509368428a7b92c02a372da85cc1816b7cdd9"
+     },
+     "name_FR": {
+      "@text": "cd82e84e6cf80464940a47717d7509368428a7b92c02a372da85cc1816b7cdd9"
+     },
+     "name_CHN": {
+      "@text": "cd82e84e6cf80464940a47717d7509368428a7b92c02a372da85cc1816b7cdd9"
+     },
+     "name_KOR": {
+      "@text": "cd82e84e6cf80464940a47717d7509368428a7b92c02a372da85cc1816b7cdd9"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@authored": "Allies in the base panel recover 5％ HP and SP every turn."
+     },
+     "desc_EN": {
+      "@authored": "Allies in the base panel recover 5％ HP and SP every turn."
+     },
+     "desc_FR": {
+      "@authored": "Allies in the base panel recover 5％ HP and SP every turn."
+     },
+     "desc_CHN": {
+      "@authored": "Allies in the base panel recover 5％ HP and SP every turn."
+     },
+     "desc_KOR": {
+      "@authored": "Allies in the base panel recover 5％ HP and SP every turn."
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 5,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14240,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "864": 27864
+   },
+   "char_links": {
+    "14240": {
+     "evility1": 27864,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14241": {
+     "evility1": 27864,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14242": {
+     "evility1": 27864,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14243": {
+     "evility1": 27864,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14244": {
+     "evility1": 27864,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14245": {
+     "evility1": 27864,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "cd82e84e6cf80464940a47717d7509368428a7b92c02a372da85cc1816b7cdd9"
+      },
+      " (864): exact rule with the differences below - D4 'Allies in the base panel recover 5% HP and SP every turn': FUN_1402EB670, in the per-unit pass of the battle machine's round-end state (FUN_1402EE580 state 100 -> 0x66, reached only when no side has a pending phase, so once per round, units visited in table order), for each unit that has learned 864 walks the party roster (FUN_1400FC2D0, DAT_140D54FE6 records) and for every record whose byte +0x20D3 is 0, that is not dead (HP +0xD10 > 0) and has no battle unit (FUN_140244320) adds maxHP x 5 / 100 to HP and maxSP x 5 / 100 to SP (signed truncation, no minimum of 1), each clamped at its maximum, one provider after another (no team test on the recipient). +0x20D3 is set to 1 only by code that moves a record into another unit's member list (FUN_1400EFC30, FUN_1400F23D0, FUN_1400EFDA0, FUN_140280420: a partner record of a ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      " or a giant-fusion member, read from the member-list fields they touch, not from names) and cleared when that unit separates alive (FUN_140306FD0, FUN_1403BFB50). D5: wrap_regen (the existing wrapper of turn_t1_per_unit_hp_sp's two calls, tag 0xE7000C) calls evil_hospital after the game's own T1 for a unit that has learned 27864 and whose team byte (+0x2E32 & 0xFB) is 0, which the round-end sweep of sequencer_ctl_s1_update (Sorrow: the round-end processor, once per round, every player-side unit) reaches: the same cadence. Recipients: a roster record (0x145207DB8, stride 0x4750, count the short at 0x145574A9C) that is present, team 0, alive (HP +0x2CC8 > 0), not a ",
+      {
+       "@text": "61e45266adb759ecfec014bdb69a28393e5e7560853207dcd9943e0dc63b289b"
+      },
+      " weapon (stat record byte +0x4E2, which EVILCAP1 found set while a monster is a weapon and cleared by FUN_14015F030: read as D5's counterpart of +0x20D3, not proven identical) and is the record of no active battle unit, +5% of its max HP and SP (HP +0x2CC8/+0x2CD8, SP +0x2CD0/+0x2CE0), clamped, once per provider. Not carried: D4 has no team test on a provider (its enemy ",
+      {
+       "@text": "25877b98fccba1d5a34b052c47e3265d8723b23fb696fb358fe6fc042dddb6db"
+      },
+      "s would also heal the party; D5's other side runs T1 at TurnCtl init, not at the round end, so only player-side holders act); the D5 table also holds the other sides so recipients are limited to team 0 (D4's roster is the army only); D5 has no giant fusion; D5's own facility heal of the same roster pass still applies on top; the value 5 is the row's number written into the code; a provider at 0 HP never reaches T1 in D5 (its loop skips dead units), D4's pass was not traced for dead providers; live not checked. Innate on all six ranks"
+     ]
+    }
+   ]
+  },
+  "D4_Class_2110": {
+   "skill_rows": [
+    {
+     "id": 27115,
+     "name_JP": {
+      "@text": "7b72ed4913552c94483fb8b7fca3830fe7f3d22d02771c483ca1723cf84d916e"
+     },
+     "name_EN": {
+      "@text": "7b72ed4913552c94483fb8b7fca3830fe7f3d22d02771c483ca1723cf84d916e"
+     },
+     "name_FR": {
+      "@text": "7b72ed4913552c94483fb8b7fca3830fe7f3d22d02771c483ca1723cf84d916e"
+     },
+     "name_CHN": {
+      "@text": "7b72ed4913552c94483fb8b7fca3830fe7f3d22d02771c483ca1723cf84d916e"
+     },
+     "name_KOR": {
+      "@text": "7b72ed4913552c94483fb8b7fca3830fe7f3d22d02771c483ca1723cf84d916e"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@text": "8979ff5c6ba5b1ca3e49c445104a55a5516751d304c6d8ec35715135a595b46b"
+     },
+     "desc_EN": {
+      "@text": "8979ff5c6ba5b1ca3e49c445104a55a5516751d304c6d8ec35715135a595b46b"
+     },
+     "desc_FR": {
+      "@text": "8979ff5c6ba5b1ca3e49c445104a55a5516751d304c6d8ec35715135a595b46b"
+     },
+     "desc_CHN": {
+      "@text": "8979ff5c6ba5b1ca3e49c445104a55a5516751d304c6d8ec35715135a595b46b"
+     },
+     "desc_KOR": {
+      "@text": "8979ff5c6ba5b1ca3e49c445104a55a5516751d304c6d8ec35715135a595b46b"
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 100,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14610,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "115": 27115
+   },
+   "char_links": {
+    "14610": {
+     "evility1": 27115,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14611": {
+     "evility1": 27115,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14612": {
+     "evility1": 27115,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14613": {
+     "evility1": 27115,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14614": {
+     "evility1": 27115,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14615": {
+     "evility1": 27115,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "7b72ed4913552c94483fb8b7fca3830fe7f3d22d02771c483ca1723cf84d916e"
+      },
+      " (115): adapted - D4 'Prohibits special skill use by adjacent enemy units': FUN_140105640(unit, 0x73) sums the evility over every unit that is active, alive (HP > 0), of a hostile team (FUN_14022D830), not an object kind / class 0x12CA / Geo class and within distance 1 by FUN_1400ED660 (footprints); a non-zero sum withdraws the special-skill flag in the two menu builders (FUN_14030B440, FUN_14030D920, which also test the Silence geo effect, index 10 of the geo table = GE.dat 'Silence: No Special Skills can be used by characters on', through FUN_1400EDD70) and makes the AI sites (FUN_1402F5020 twice, FUN_1402F06B0, FUN_140231370, FUN_1402302B0) treat the unit as on that Silence panel (special-skill chance 0). D5 has the same geo effect (GE.dat 'Silence: No Specials can be used by units on') and reads it once, in cmdmenu_preds_p_156820 (the base of Skill, column 10 of unit_effect_table_sum), which only the player menu uses. Kit row special_seal (second-word family): wrap_roc_geo at that one call makes the Skill command unavailable for a unit with an adjacent Roc holder (same gate as the game's own Silence panel) and wrap_roc_skill at the four calls of cmdmenu_env_stat_row_can_use_skill (player menu x2, AI list_skills, executor FUN_140547750; exe call scan: no others) answers 'cannot' for a skill whose magic.dat class byte +0x3F2 is 0 (unique), 1 (weapon skill) or 2 (spell). Holder test as D4: adjacent by the game's own ai_transition_within_range (D4 FUN_1400ED660's footprint test, distance 1), hostile (the game's team table), alive, not an object / Geo class (events_env_is_object_rec). Adapted because D5's own Silence panel never reaches the AI or the executor, so the AI/executor part and its class set {0, 1, 2} (what the Skill command lists; items 3, Overload 4 and basic actions 5 stay usable) are this lane's reading of D4's AI consumers; the menu gate is the game's own. Not carried: D4 byte +0x115E (a boss/rank byte that exempts some enemy units from the AI chance consumers; no D5 counterpart), evility 0x298 ",
+      {
+       "@text": "fd7fc69b3dd22e21a2ab1997b568706e8996083156df0ab4d879a94bc2c04081"
+      },
+      " ('Seal special skill', the holder's own seal, a separate rule) and 0x280 ",
+      {
+       "@text": "7d996348d057f419848f63b3d19b8641cfb0fb6103f195b7e94243d187205d21"
+      },
+      " (read by the chance consumer), of which no unit in this install holds either (not in any imported pack); D5's ailments ",
+      {
+       "@text": "cd09a0701ee8f1225b85b0fce55e99518bd9f1dac3a81ab63d8fd908c2d23653"
+      },
+      " / Weaken (statuses 3 and 4) are untouched. Live not checked. Innate on all six ranks"
+     ]
+    }
+   ],
+   "behaviors": {
+    "27115": {
+     "family": "special_seal"
+    }
+   }
+  },
+  "D4_Class_1190": {
+   "skill_rows": [
+    {
+     "id": 27802,
+     "name_JP": {
+      "@text": "e17222079367c3b423f9981174a8b57aca0cd813d46d496dae7f2f185f02215b"
+     },
+     "name_EN": {
+      "@text": "e17222079367c3b423f9981174a8b57aca0cd813d46d496dae7f2f185f02215b"
+     },
+     "name_FR": {
+      "@text": "e17222079367c3b423f9981174a8b57aca0cd813d46d496dae7f2f185f02215b"
+     },
+     "name_CHN": {
+      "@text": "e17222079367c3b423f9981174a8b57aca0cd813d46d496dae7f2f185f02215b"
+     },
+     "name_KOR": {
+      "@text": "e17222079367c3b423f9981174a8b57aca0cd813d46d496dae7f2f185f02215b"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@authored": "Explodes when hit down to 10％ HP or less, hurting nearby units."
+     },
+     "desc_EN": {
+      "@authored": "Explodes when hit down to 10％ HP or less, hurting nearby units."
+     },
+     "desc_FR": {
+      "@authored": "Explodes when hit down to 10％ HP or less, hurting nearby units."
+     },
+     "desc_CHN": {
+      "@authored": "Explodes when hit down to 10％ HP or less, hurting nearby units."
+     },
+     "desc_KOR": {
+      "@authored": "Explodes when hit down to 10％ HP or less, hurting nearby units."
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 10,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14190,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "802": 27802
+   },
+   "char_links": {
+    "14190": {
+     "evility1": 27802,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14191": {
+     "evility1": 27802,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14192": {
+     "evility1": 27802,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14193": {
+     "evility1": 27802,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14194": {
+     "evility1": 27802,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14195": {
+     "evility1": 27802,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "e17222079367c3b423f9981174a8b57aca0cd813d46d496dae7f2f185f02215b"
+      },
+      " (802): adapted - D4 text 'Self-destruct when HP hits below 10% by an attack'. CODE (D4 decomp): the test is FUN_14010DE70(unit, 0x322, unit+0xD20): it returns nonzero when the unit's HP (+0xD10) is at most trunc(max HP x percent / 100) (so at or below the 10 percent threshold, not strictly below; the percent is the evility's own byte, 10 per the game text, not read from D4 data), and each of the seven sites (the after-action sweep in FUN_1402EE580 state 0x66 plus six after-damage sites in FUN_1402EA950, FUN_140300BB0, FUN_1402CBCB0, FUN_1402CFAC0, FUN_1402CA7C0, FUN_1402CDBD0) then plays effect 0x816 and applies the unit's own current HP to itself as lethal damage (FUN_140190F90); no damage to OTHER units appears in those sites. COMMUNITY (Disgaea wiki, page ",
+      {
+       "@text": "6759faa02d8e277ba9dfcfc5ee74f2292132054ef2c1b50f964a9cef1b8d7425"
+      },
+      "; evidence class community, not code): the blast hits a circle of radius 2 for 50% of the holder's current HP. D5 build: kit row self_destruct (second-word family, percent 10), read in wrap_face_away (the once-per-action pass of exec_ctl_s2_update, before post_hit_effects): for each action target that took a real hit (positive result, not a heal), is still alive, is not already exploding (+0x11DC 0) and has HP <= trunc(max HP x 10 / 100), the game's own explosion routine FUN_1401A3E80(unit, 1) runs (D5's thrown-explosive blast: 50% of current HP, area 10 and 2 from FUN_1402038C0, then the unit's HP applied to itself so it dies), so the blast amount and radius are D5's defaults, which equal the community numbers. Not carried: D4's six other sites (damage that is not an action hit: poison, Geo, fall, reflect), D4's after-action sweep of a holder that was already low (only a unit hit in this action explodes), D4's effect 0x816 (D5 plays its own explosion), the blast's exact victims (D5's field sweep decides) and the 50 percent of CURRENT HP, tiny at 10 percent HP. Blast and kill not run offline. Innate on all six ranks"
+     ]
+    }
+   ],
+   "behaviors": {
+    "27802": {
+     "family": "self_destruct",
+     "effects": [
+      {
+       "value": 10
+      }
+     ]
+    }
+   }
+  },
+  "D4_Class_1250": {
+   "skill_rows": [
+    {
+     "id": 27868,
+     "name_JP": {
+      "@text": "28851d791ef22abfbef72cfbe7c34905d05d60c5f8ba6d0aa1ce7738caf59915"
+     },
+     "name_EN": {
+      "@text": "28851d791ef22abfbef72cfbe7c34905d05d60c5f8ba6d0aa1ce7738caf59915"
+     },
+     "name_FR": {
+      "@text": "28851d791ef22abfbef72cfbe7c34905d05d60c5f8ba6d0aa1ce7738caf59915"
+     },
+     "name_CHN": {
+      "@text": "28851d791ef22abfbef72cfbe7c34905d05d60c5f8ba6d0aa1ce7738caf59915"
+     },
+     "name_KOR": {
+      "@text": "28851d791ef22abfbef72cfbe7c34905d05d60c5f8ba6d0aa1ce7738caf59915"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@segments": [
+       "Enemies you defeat come back as 1 HP ",
+       {
+        "@text": "4c876e938c74ff4d6ee0e587623abf3c4a399188742b9318a786b2dd108489ba"
+       },
+       "s that fight for you by themselves."
+      ]
+     },
+     "desc_EN": {
+      "@segments": [
+       "Enemies you defeat come back as 1 HP ",
+       {
+        "@text": "4c876e938c74ff4d6ee0e587623abf3c4a399188742b9318a786b2dd108489ba"
+       },
+       "s that fight for you by themselves."
+      ]
+     },
+     "desc_FR": {
+      "@segments": [
+       "Enemies you defeat come back as 1 HP ",
+       {
+        "@text": "4c876e938c74ff4d6ee0e587623abf3c4a399188742b9318a786b2dd108489ba"
+       },
+       "s that fight for you by themselves."
+      ]
+     },
+     "desc_CHN": {
+      "@segments": [
+       "Enemies you defeat come back as 1 HP ",
+       {
+        "@text": "4c876e938c74ff4d6ee0e587623abf3c4a399188742b9318a786b2dd108489ba"
+       },
+       "s that fight for you by themselves."
+      ]
+     },
+     "desc_KOR": {
+      "@segments": [
+       "Enemies you defeat come back as 1 HP ",
+       {
+        "@text": "4c876e938c74ff4d6ee0e587623abf3c4a399188742b9318a786b2dd108489ba"
+       },
+       "s that fight for you by themselves."
+      ]
+     },
+     "kind": 1,
+     "effect_group": 0,
+     "value1": 0,
+     "value2": 0,
+     "source": 4,
+     "category": 0,
+     "subcategory": 0,
+     "mana_cost": 0,
+     "shop_rank": 0,
+     "owner": 14250,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "late_ids": {
+    "868": 27868
+   },
+   "char_links": {
+    "14250": {
+     "evility1": 27868,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14251": {
+     "evility1": 27868,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14252": {
+     "evility1": 27868,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14253": {
+     "evility1": 27868,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14254": {
+     "evility1": 27868,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    },
+    "14255": {
+     "evility1": 27868,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "28851d791ef22abfbef72cfbe7c34905d05d60c5f8ba6d0aa1ce7738caf59915"
+      },
+      " (868): adapted - D4 text 'Bring back defeated enemies as zombies and use them'. CODE (D4 decomp): FUN_1401946B0 (per defeat) tests 868 on the attacker, a victim of an opposite ordinary team (neither team 2 nor 3, not carried or stacked, no pending conversion, cell free, class != 0x151D) and calls FUN_1400F2680, a 17-byte setter that only marks the victim (unit+0x7B4 = 1, owner +0x7B8); the battle's retire block FUN_140302530 then builds a class 0x820 unit from the victim's data on the victim's cell (FUN_1401B9350: statuses and the four equipment slots cleared, side byte 3 for a player holder, 1 for an enemy holder), no unit slot free means no zombie. COMMUNITY (Disgaea wiki, page ",
+      {
+       "@text": "896ae426e8b6c0e1bbc864fb4610418343364f8825cdf623f30b183af653a3ff"
+      },
+      "; evidence class community, not code): the zombies are helpful units that cannot be controlled, with 1 HP and no equipment. Lifetime, EXP and the exact HP source were not found in D4 code. D5 build: kit row raise_zombie (second-word family bit 12). Right after the game applies the holder's damage to a target (damage_apply_damage, while the victim's record is still whole, because the game retires a defeated unit before the action's script ends) the target the holder defeated (KO byte set, HP 0) that is hostile (not team 3), not an object, not already an ",
+      {
+       "@text": "a5bb6066391197b9b53c348c977a6b1fbe97575905481e8d6b034dfa095c2cba"
+      },
+      " and not carried or carrying is noted (cell, facing, level, team); at the end of the action (exec_ctl_s2_update's once-per-action pass) each noted victim whose cell holds no living unit, while fewer than 32 units live, gets one zombie, so it appears when the action ends: unit_spawn_from_request builds D5 ",
+      {
+       "@text": "a5bb6066391197b9b53c348c977a6b1fbe97575905481e8d6b034dfa095c2cba"
+      },
+      " (char 2090, title ",
+      {
+       "@text": "4c876e938c74ff4d6ee0e587623abf3c4a399188742b9318a786b2dd108489ba"
+      },
+      ") of the victim's level at the victim's position and facing on the holder's side (team 0 -> 4, the game's own AI-run friendly team; enemy holders -> 1), then its HP is set to 1 (community number). Not carried: kills by counter, chain damage, poison, Geo or fall; the victim's own data and name (a fresh ",
+      {
+       "@text": "a5bb6066391197b9b53c348c977a6b1fbe97575905481e8d6b034dfa095c2cba"
+      },
+      " of its level); D4's class and +0x2138 exclusions; any lifetime (rest of the battle); EXP / bonus effects; that the zombie acts as D4's team-3 unit. Spawn, side and AI behaviour not run offline (live recipe in NECRO1-REPORT). Innate on all six ranks"
+     ]
+    }
+   ],
+   "behaviors": {
+    "27868": {
+     "family": "raise_zombie"
+    }
+   }
+  },
+  "D4_Unique_5306": {
+   "skill_rows": [
+    {
+     "id": 7127,
+     "name_JP": {
+      "@text": "969850e59a53a9708dbdd2693c5d094a7f15a037be72256761f55e716ea68324"
+     },
+     "name_EN": {
+      "@text": "969850e59a53a9708dbdd2693c5d094a7f15a037be72256761f55e716ea68324"
+     },
+     "name_FR": {
+      "@text": "969850e59a53a9708dbdd2693c5d094a7f15a037be72256761f55e716ea68324"
+     },
+     "name_CHN": {
+      "@text": "969850e59a53a9708dbdd2693c5d094a7f15a037be72256761f55e716ea68324"
+     },
+     "name_KOR": {
+      "@text": "969850e59a53a9708dbdd2693c5d094a7f15a037be72256761f55e716ea68324"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@text": "fbc175add70fe61221561228ef2f6f2fde7d0031c7200d502c4792b55025d19d"
+     },
+     "desc_EN": {
+      "@text": "e16da08ea4a7c0481270245a524a709a640c5841f793391a5b117340d2bcb4a8"
+     },
+     "desc_FR": {
+      "@text": "262ccd29fb8ed21d328dd96ebf36e9785aad7f0ba8cf8179aefa2b4a590000a5"
+     },
+     "desc_CHN": {
+      "@text": "db8931cd8761b2b2c56157f3dc53a5526d85e23f85635665cfad513031352762"
+     },
+     "desc_KOR": {
+      "@text": "7082c87a2c7dd2a255b41cc9e6df18dd52c369f1cc55770708636b1a4b4d6b7f"
+     },
+     "kind": 1,
+     "effect_group": 3,
+     "value1": 20,
+     "value2": 0,
+     "source": 4,
+     "category": 2,
+     "subcategory": 0,
+     "mana_cost": 100,
+     "shop_rank": 0,
+     "owner": 18240,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "char_links": {
+    "18240": {
+     "evility1": 7127,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "behaviors": {},
+   "aliases": {
+    "7127": 12
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "969850e59a53a9708dbdd2693c5d094a7f15a037be72256761f55e716ea68324"
+      },
+      " (7127): installed row recorded as is (REPROFIX1) - alias of D5 evility 12, stored value 20, text '",
+      {
+       "@text": "e16da08ea4a7c0481270245a524a709a640c5841f793391a5b117340d2bcb4a8"
+      },
+      "'; row 7127 is the id the installed pack owns, below the D4 exact band; not reviewed against the D4 text"
+     ]
+    }
+   ],
+   "installed_rows": true
+  },
+  "D4_Unique_5307": {
+   "skill_rows": [
+    {
+     "id": 7128,
+     "name_JP": {
+      "@text": "d16c989c01b9e4117015da4326ae18ee7ead32fdac3f5c2eef848b27e108845e"
+     },
+     "name_EN": {
+      "@text": "d16c989c01b9e4117015da4326ae18ee7ead32fdac3f5c2eef848b27e108845e"
+     },
+     "name_FR": {
+      "@text": "d16c989c01b9e4117015da4326ae18ee7ead32fdac3f5c2eef848b27e108845e"
+     },
+     "name_CHN": {
+      "@text": "d16c989c01b9e4117015da4326ae18ee7ead32fdac3f5c2eef848b27e108845e"
+     },
+     "name_KOR": {
+      "@text": "d16c989c01b9e4117015da4326ae18ee7ead32fdac3f5c2eef848b27e108845e"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@text": "74049cfbc286af0ced9d274dde2ee40b3d78debe30d343355a8684a30657a4aa"
+     },
+     "desc_EN": {
+      "@text": "56912dfee2a0df5908c55c877aed9c12cb62bcabd3e14ce843c1923c952b1eff"
+     },
+     "desc_FR": {
+      "@text": "d57eddc2d9dd03d586e0328fb497a80e35b5079a4df14050dc424ca85482994a"
+     },
+     "desc_CHN": {
+      "@text": "5452dc30bd7b81b1f8d0b31706645c6a7ec523bb44d662f57b54957c9902c589"
+     },
+     "desc_KOR": {
+      "@text": "6112155e8aad570b188777a554708687ae12535161657161a4a41f94332016c2"
+     },
+     "kind": 1,
+     "effect_group": 4,
+     "value1": 30,
+     "value2": 50,
+     "source": 4,
+     "category": 1,
+     "subcategory": 7,
+     "mana_cost": 10000,
+     "shop_rank": 0,
+     "owner": 18250,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "char_links": {
+    "18250": {
+     "evility1": 7128,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "behaviors": {},
+   "aliases": {
+    "7128": 1030
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "d16c989c01b9e4117015da4326ae18ee7ead32fdac3f5c2eef848b27e108845e"
+      },
+      " (7128): installed row recorded as is (REPROFIX1) - alias of D5 evility 1030, stored value 30/50, text '",
+      {
+       "@text": "56912dfee2a0df5908c55c877aed9c12cb62bcabd3e14ce843c1923c952b1eff"
+      },
+      "'; row 7128 is the id the installed pack owns, below the D4 exact band; not reviewed against the D4 text"
+     ]
+    }
+   ],
+   "installed_rows": true
+  },
+  "D4_Unique_5308": {
+   "skill_rows": [
+    {
+     "id": 7129,
+     "name_JP": {
+      "@text": "b987863669542eb369fd06a81e7c1ccdd3fde2ebdc139f85f5917569cb0813cb"
+     },
+     "name_EN": {
+      "@text": "b987863669542eb369fd06a81e7c1ccdd3fde2ebdc139f85f5917569cb0813cb"
+     },
+     "name_FR": {
+      "@text": "b987863669542eb369fd06a81e7c1ccdd3fde2ebdc139f85f5917569cb0813cb"
+     },
+     "name_CHN": {
+      "@text": "b987863669542eb369fd06a81e7c1ccdd3fde2ebdc139f85f5917569cb0813cb"
+     },
+     "name_KOR": {
+      "@text": "b987863669542eb369fd06a81e7c1ccdd3fde2ebdc139f85f5917569cb0813cb"
+     },
+     "slot_cost": 0,
+     "desc_JP": {
+      "@text": "03ee7a7c076221b0e0d7a023c2511d2a1c10ec7b99c88dfaedd2d0c17bab3ea5"
+     },
+     "desc_EN": {
+      "@text": "657ec18713992c83385785a20079fe2edbc7f4689e2412d995827b0d4eb34be1"
+     },
+     "desc_FR": {
+      "@text": "ad067f610879589baa1dcbfd83132a1052ff48fac2164a6d27c97d9103022574"
+     },
+     "desc_CHN": {
+      "@text": "1a3ba4b98c7721e189a3f323d0b4caa8b5311cf24bfeaaae8ec27d002022d923"
+     },
+     "desc_KOR": {
+      "@text": "a1e24f6076dd9d97bd3461d2d95facee6dd802363a87ae2ca2cb9143c08871c1"
+     },
+     "kind": 1,
+     "effect_group": 22,
+     "value1": 20,
+     "value2": 0,
+     "source": 4,
+     "category": 5,
+     "subcategory": 0,
+     "mana_cost": 10000,
+     "shop_rank": 0,
+     "owner": 18260,
+     "class_order": 0,
+     "version_group": 100
+    }
+   ],
+   "char_links": {
+    "18260": {
+     "evility1": 7129,
+     "evility2": 0,
+     "evility3": 0,
+     "evility4": 0,
+     "evility_count": 1
+    }
+   },
+   "behaviors": {},
+   "aliases": {
+    "7129": 2140
+   },
+   "adaptations": [
+    {
+     "@segments": [
+      "evility ",
+      {
+       "@text": "b987863669542eb369fd06a81e7c1ccdd3fde2ebdc139f85f5917569cb0813cb"
+      },
+      " (7129): installed row recorded as is (REPROFIX1) - alias of D5 evility 2140, stored value 20, text '",
+      {
+       "@text": "657ec18713992c83385785a20079fe2edbc7f4689e2412d995827b0d4eb34be1"
+      },
+      "'; row 7129 is the id the installed pack owns, below the D4 exact band; not reviewed against the D4 text"
+     ]
+    }
+   ],
+   "installed_rows": true
+  }
+ },
+ "source": "tools/evilgap1_rows.py; merged into d4-evility-overlay.json by tools/build_d4_evility_overlay.py"
+}

@@ -1,0 +1,7219 @@
+{
+ "schema": "d4-extension-emission/2",
+ "exact": [
+  {
+   "d4_id": 1,
+   "d5_id": 8001
+  },
+  {
+   "d4_id": 2,
+   "d5_id": 8002
+  },
+  {
+   "d4_id": 4,
+   "d5_id": 8004
+  },
+  {
+   "d4_id": 7,
+   "d5_id": 8007
+  },
+  {
+   "d4_id": 8,
+   "d5_id": 8008
+  },
+  {
+   "d4_id": 9,
+   "d5_id": 8009
+  },
+  {
+   "d4_id": 11,
+   "d5_id": 8011
+  },
+  {
+   "d4_id": 13,
+   "d5_id": 8013
+  },
+  {
+   "d4_id": 14,
+   "d5_id": 8014
+  },
+  {
+   "d4_id": 16,
+   "d5_id": 8016
+  },
+  {
+   "d4_id": 17,
+   "d5_id": 8017
+  },
+  {
+   "d4_id": 19,
+   "d5_id": 8019
+  },
+  {
+   "d4_id": 20,
+   "d5_id": 8020
+  },
+  {
+   "d4_id": 22,
+   "d5_id": 8022
+  },
+  {
+   "d4_id": 23,
+   "d5_id": 8023
+  },
+  {
+   "d4_id": 24,
+   "d5_id": 8024
+  },
+  {
+   "d4_id": 25,
+   "d5_id": 8025
+  },
+  {
+   "d4_id": 26,
+   "d5_id": 8026
+  },
+  {
+   "d4_id": 28,
+   "d5_id": 8028
+  },
+  {
+   "d4_id": 31,
+   "d5_id": 8031
+  },
+  {
+   "d4_id": 32,
+   "d5_id": 8032
+  },
+  {
+   "d4_id": 37,
+   "d5_id": 8037
+  },
+  {
+   "d4_id": 38,
+   "d5_id": 8038
+  },
+  {
+   "d4_id": 39,
+   "d5_id": 8039
+  },
+  {
+   "d4_id": 40,
+   "d5_id": 8040
+  },
+  {
+   "d4_id": 61,
+   "d5_id": 8061
+  },
+  {
+   "d4_id": 62,
+   "d5_id": 8062
+  },
+  {
+   "d4_id": 63,
+   "d5_id": 8063
+  },
+  {
+   "d4_id": 64,
+   "d5_id": 8064
+  },
+  {
+   "d4_id": 65,
+   "d5_id": 8065
+  },
+  {
+   "d4_id": 66,
+   "d5_id": 8066
+  },
+  {
+   "d4_id": 67,
+   "d5_id": 8067
+  },
+  {
+   "d4_id": 68,
+   "d5_id": 8068
+  },
+  {
+   "d4_id": 71,
+   "d5_id": 8071
+  },
+  {
+   "d4_id": 81,
+   "d5_id": 8081
+  },
+  {
+   "d4_id": 83,
+   "d5_id": 8083
+  },
+  {
+   "d4_id": 84,
+   "d5_id": 8084
+  },
+  {
+   "d4_id": 85,
+   "d5_id": 8085
+  },
+  {
+   "d4_id": 86,
+   "d5_id": 8086
+  },
+  {
+   "d4_id": 88,
+   "d5_id": 8088
+  },
+  {
+   "d4_id": 89,
+   "d5_id": 8089
+  },
+  {
+   "d4_id": 90,
+   "d5_id": 8090
+  },
+  {
+   "d4_id": 91,
+   "d5_id": 8091
+  },
+  {
+   "d4_id": 92,
+   "d5_id": 8092
+  },
+  {
+   "d4_id": 98,
+   "d5_id": 8098
+  },
+  {
+   "d4_id": 109,
+   "d5_id": 8109
+  },
+  {
+   "d4_id": 118,
+   "d5_id": 8118
+  },
+  {
+   "d4_id": 178,
+   "d5_id": 8178
+  },
+  {
+   "d4_id": 179,
+   "d5_id": 8179
+  },
+  {
+   "d4_id": 181,
+   "d5_id": 8181
+  },
+  {
+   "d4_id": 182,
+   "d5_id": 8182
+  },
+  {
+   "d4_id": 183,
+   "d5_id": 8183
+  },
+  {
+   "d4_id": 184,
+   "d5_id": 8184
+  },
+  {
+   "d4_id": 185,
+   "d5_id": 8185
+  },
+  {
+   "d4_id": 186,
+   "d5_id": 8186
+  },
+  {
+   "d4_id": 189,
+   "d5_id": 8189
+  },
+  {
+   "d4_id": 221,
+   "d5_id": 8221
+  },
+  {
+   "d4_id": 223,
+   "d5_id": 8223
+  },
+  {
+   "d4_id": 228,
+   "d5_id": 8228
+  },
+  {
+   "d4_id": 271,
+   "d5_id": 8271
+  },
+  {
+   "d4_id": 272,
+   "d5_id": 8272
+  },
+  {
+   "d4_id": 273,
+   "d5_id": 8273
+  },
+  {
+   "d4_id": 274,
+   "d5_id": 8274
+  },
+  {
+   "d4_id": 291,
+   "d5_id": 8291
+  },
+  {
+   "d4_id": 325,
+   "d5_id": 8325
+  },
+  {
+   "d4_id": 326,
+   "d5_id": 8326
+  },
+  {
+   "d4_id": 341,
+   "d5_id": 8341
+  },
+  {
+   "d4_id": 344,
+   "d5_id": 8344
+  },
+  {
+   "d4_id": 350,
+   "d5_id": 8350
+  },
+  {
+   "d4_id": 367,
+   "d5_id": 8367
+  },
+  {
+   "d4_id": 368,
+   "d5_id": 8368
+  },
+  {
+   "d4_id": 384,
+   "d5_id": 8384
+  },
+  {
+   "d4_id": 421,
+   "d5_id": 8421
+  },
+  {
+   "d4_id": 422,
+   "d5_id": 8422
+  },
+  {
+   "d4_id": 429,
+   "d5_id": 8429
+  },
+  {
+   "d4_id": 464,
+   "d5_id": 8464
+  },
+  {
+   "d4_id": 625,
+   "d5_id": 8625
+  },
+  {
+   "d4_id": 643,
+   "d5_id": 8643
+  },
+  {
+   "d4_id": 697,
+   "d5_id": 8697
+  },
+  {
+   "d4_id": 830,
+   "d5_id": 8830
+  },
+  {
+   "d4_id": 845,
+   "d5_id": 8845
+  },
+  {
+   "d4_id": 846,
+   "d5_id": 8846
+  },
+  {
+   "d4_id": 859,
+   "d5_id": 8859
+  },
+  {
+   "d4_id": 884,
+   "d5_id": 8884
+  },
+  {
+   "d4_id": 347,
+   "d5_id": 8347
+  },
+  {
+   "d4_id": 815,
+   "d5_id": 8815
+  },
+  {
+   "d4_id": 694,
+   "d5_id": 8694
+  }
+ ],
+ "mod_files": {
+  "patches/db/Skill.dat.json": {
+   "added": [
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "c2ac5103ab822efcc8cf59c53d117d59195e8163323e15284f507c63fdf67c48",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "c2ac5103ab822efcc8cf59c53d117d59195e8163323e15284f507c63fdf67c48",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "c2ac5103ab822efcc8cf59c53d117d59195e8163323e15284f507c63fdf67c48",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "c2ac5103ab822efcc8cf59c53d117d59195e8163323e15284f507c63fdf67c48",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "c2ac5103ab822efcc8cf59c53d117d59195e8163323e15284f507c63fdf67c48",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8001,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "3487a953681f4ac2edbedff43736ea5c76ff796777781ac84fda7e4248ddff69"
+     },
+     "name_EN": {
+      "@text": "3487a953681f4ac2edbedff43736ea5c76ff796777781ac84fda7e4248ddff69"
+     },
+     "name_FR": {
+      "@text": "3487a953681f4ac2edbedff43736ea5c76ff796777781ac84fda7e4248ddff69"
+     },
+     "name_JP": {
+      "@text": "3487a953681f4ac2edbedff43736ea5c76ff796777781ac84fda7e4248ddff69"
+     },
+     "name_KOR": {
+      "@text": "3487a953681f4ac2edbedff43736ea5c76ff796777781ac84fda7e4248ddff69"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 20,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "c186d2b80aa1052b87dbae104ee0df1a8e988977aed90725fdb0cc0acbd52541",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "c186d2b80aa1052b87dbae104ee0df1a8e988977aed90725fdb0cc0acbd52541",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "c186d2b80aa1052b87dbae104ee0df1a8e988977aed90725fdb0cc0acbd52541",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "c186d2b80aa1052b87dbae104ee0df1a8e988977aed90725fdb0cc0acbd52541",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "c186d2b80aa1052b87dbae104ee0df1a8e988977aed90725fdb0cc0acbd52541",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8002,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "96c4aad869252a138a55cac8b6637af30a2557e99e53652ddbab3dc14ce665d1"
+     },
+     "name_EN": {
+      "@text": "96c4aad869252a138a55cac8b6637af30a2557e99e53652ddbab3dc14ce665d1"
+     },
+     "name_FR": {
+      "@text": "96c4aad869252a138a55cac8b6637af30a2557e99e53652ddbab3dc14ce665d1"
+     },
+     "name_JP": {
+      "@text": "96c4aad869252a138a55cac8b6637af30a2557e99e53652ddbab3dc14ce665d1"
+     },
+     "name_KOR": {
+      "@text": "96c4aad869252a138a55cac8b6637af30a2557e99e53652ddbab3dc14ce665d1"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "c431b30aaae7e475ca415ede85953441eb37070bf852033744f6dc4f3c8c6a62",
+      "args": [
+       25
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "c431b30aaae7e475ca415ede85953441eb37070bf852033744f6dc4f3c8c6a62",
+      "args": [
+       25
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "c431b30aaae7e475ca415ede85953441eb37070bf852033744f6dc4f3c8c6a62",
+      "args": [
+       25
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "c431b30aaae7e475ca415ede85953441eb37070bf852033744f6dc4f3c8c6a62",
+      "args": [
+       25
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "c431b30aaae7e475ca415ede85953441eb37070bf852033744f6dc4f3c8c6a62",
+      "args": [
+       25
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8004,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "e4a967a7f2419f0dc4ba7c3876c728b8859485b4667d0365328d243253533ba0"
+     },
+     "name_EN": {
+      "@text": "e4a967a7f2419f0dc4ba7c3876c728b8859485b4667d0365328d243253533ba0"
+     },
+     "name_FR": {
+      "@text": "e4a967a7f2419f0dc4ba7c3876c728b8859485b4667d0365328d243253533ba0"
+     },
+     "name_JP": {
+      "@text": "e4a967a7f2419f0dc4ba7c3876c728b8859485b4667d0365328d243253533ba0"
+     },
+     "name_KOR": {
+      "@text": "e4a967a7f2419f0dc4ba7c3876c728b8859485b4667d0365328d243253533ba0"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 25,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "3e3676ff1124d93e356b416f5570045e24189c3b484c51f8000d513feca55fce",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "3e3676ff1124d93e356b416f5570045e24189c3b484c51f8000d513feca55fce",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "3e3676ff1124d93e356b416f5570045e24189c3b484c51f8000d513feca55fce",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "3e3676ff1124d93e356b416f5570045e24189c3b484c51f8000d513feca55fce",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "3e3676ff1124d93e356b416f5570045e24189c3b484c51f8000d513feca55fce",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8007,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "3c3d849de59253d4d0d6e35270e7383feb13e1908f5e5f3bf287e41b26b22fe9"
+     },
+     "name_EN": {
+      "@text": "3c3d849de59253d4d0d6e35270e7383feb13e1908f5e5f3bf287e41b26b22fe9"
+     },
+     "name_FR": {
+      "@text": "3c3d849de59253d4d0d6e35270e7383feb13e1908f5e5f3bf287e41b26b22fe9"
+     },
+     "name_JP": {
+      "@text": "3c3d849de59253d4d0d6e35270e7383feb13e1908f5e5f3bf287e41b26b22fe9"
+     },
+     "name_KOR": {
+      "@text": "3c3d849de59253d4d0d6e35270e7383feb13e1908f5e5f3bf287e41b26b22fe9"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "c57faf8a6bd33846d9090f69940ca54135986f2f2c8d00a4aff6f4b4f3289caf",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "c57faf8a6bd33846d9090f69940ca54135986f2f2c8d00a4aff6f4b4f3289caf",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "c57faf8a6bd33846d9090f69940ca54135986f2f2c8d00a4aff6f4b4f3289caf",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "c57faf8a6bd33846d9090f69940ca54135986f2f2c8d00a4aff6f4b4f3289caf",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "c57faf8a6bd33846d9090f69940ca54135986f2f2c8d00a4aff6f4b4f3289caf",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8008,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "5900626363b961b6b10ce5e266ecd7ad9c057be2bca4da9052cba01711fc9229"
+     },
+     "name_EN": {
+      "@text": "5900626363b961b6b10ce5e266ecd7ad9c057be2bca4da9052cba01711fc9229"
+     },
+     "name_FR": {
+      "@text": "5900626363b961b6b10ce5e266ecd7ad9c057be2bca4da9052cba01711fc9229"
+     },
+     "name_JP": {
+      "@text": "5900626363b961b6b10ce5e266ecd7ad9c057be2bca4da9052cba01711fc9229"
+     },
+     "name_KOR": {
+      "@text": "5900626363b961b6b10ce5e266ecd7ad9c057be2bca4da9052cba01711fc9229"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 15,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "627e9542f91b427ee684279c9effb64799175b931b9dd2436cee1b66b9042994",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "627e9542f91b427ee684279c9effb64799175b931b9dd2436cee1b66b9042994",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "627e9542f91b427ee684279c9effb64799175b931b9dd2436cee1b66b9042994",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "627e9542f91b427ee684279c9effb64799175b931b9dd2436cee1b66b9042994",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "627e9542f91b427ee684279c9effb64799175b931b9dd2436cee1b66b9042994",
+      "args": [
+       15
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8009,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "d4191c464bc6cf4631f61162534667003178e3926ab8b6747823c82f310e0f41"
+     },
+     "name_EN": {
+      "@text": "d4191c464bc6cf4631f61162534667003178e3926ab8b6747823c82f310e0f41"
+     },
+     "name_FR": {
+      "@text": "d4191c464bc6cf4631f61162534667003178e3926ab8b6747823c82f310e0f41"
+     },
+     "name_JP": {
+      "@text": "d4191c464bc6cf4631f61162534667003178e3926ab8b6747823c82f310e0f41"
+     },
+     "name_KOR": {
+      "@text": "d4191c464bc6cf4631f61162534667003178e3926ab8b6747823c82f310e0f41"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 15,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "5a5798bd32be1f2b76918597c2e346c743f12e7cee5b5526e24ad1ad0c972975",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "5a5798bd32be1f2b76918597c2e346c743f12e7cee5b5526e24ad1ad0c972975",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "5a5798bd32be1f2b76918597c2e346c743f12e7cee5b5526e24ad1ad0c972975",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "5a5798bd32be1f2b76918597c2e346c743f12e7cee5b5526e24ad1ad0c972975",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "5a5798bd32be1f2b76918597c2e346c743f12e7cee5b5526e24ad1ad0c972975",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8011,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "fcd7a4131ca82797a1846c3b086690725068dfc38da653b15a58da1f08649b12"
+     },
+     "name_EN": {
+      "@text": "fcd7a4131ca82797a1846c3b086690725068dfc38da653b15a58da1f08649b12"
+     },
+     "name_FR": {
+      "@text": "fcd7a4131ca82797a1846c3b086690725068dfc38da653b15a58da1f08649b12"
+     },
+     "name_JP": {
+      "@text": "fcd7a4131ca82797a1846c3b086690725068dfc38da653b15a58da1f08649b12"
+     },
+     "name_KOR": {
+      "@text": "fcd7a4131ca82797a1846c3b086690725068dfc38da653b15a58da1f08649b12"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 20,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "d07c077a7f4f4e06c664958704041dbcf5d76f0d22cbeea74e72ba6739b12a93",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "d07c077a7f4f4e06c664958704041dbcf5d76f0d22cbeea74e72ba6739b12a93",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "d07c077a7f4f4e06c664958704041dbcf5d76f0d22cbeea74e72ba6739b12a93",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "d07c077a7f4f4e06c664958704041dbcf5d76f0d22cbeea74e72ba6739b12a93",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "d07c077a7f4f4e06c664958704041dbcf5d76f0d22cbeea74e72ba6739b12a93",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8013,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "e5b4dc0badf3424d8e4258699dd9b42138cfe27b9a551287b28b85f17ee4f87d"
+     },
+     "name_EN": {
+      "@text": "e5b4dc0badf3424d8e4258699dd9b42138cfe27b9a551287b28b85f17ee4f87d"
+     },
+     "name_FR": {
+      "@text": "e5b4dc0badf3424d8e4258699dd9b42138cfe27b9a551287b28b85f17ee4f87d"
+     },
+     "name_JP": {
+      "@text": "e5b4dc0badf3424d8e4258699dd9b42138cfe27b9a551287b28b85f17ee4f87d"
+     },
+     "name_KOR": {
+      "@text": "e5b4dc0badf3424d8e4258699dd9b42138cfe27b9a551287b28b85f17ee4f87d"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "f9a07a9bd6202fb84a296e773cce6121bd0f1fab6f1d42eb9efe647025fe181f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "f9a07a9bd6202fb84a296e773cce6121bd0f1fab6f1d42eb9efe647025fe181f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "f9a07a9bd6202fb84a296e773cce6121bd0f1fab6f1d42eb9efe647025fe181f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "f9a07a9bd6202fb84a296e773cce6121bd0f1fab6f1d42eb9efe647025fe181f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "f9a07a9bd6202fb84a296e773cce6121bd0f1fab6f1d42eb9efe647025fe181f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8014,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "b60e07ea10b992a28562f6a8c03eb870e203baf30fb51509a7d793ac810e68ec"
+     },
+     "name_EN": {
+      "@text": "b60e07ea10b992a28562f6a8c03eb870e203baf30fb51509a7d793ac810e68ec"
+     },
+     "name_FR": {
+      "@text": "b60e07ea10b992a28562f6a8c03eb870e203baf30fb51509a7d793ac810e68ec"
+     },
+     "name_JP": {
+      "@text": "b60e07ea10b992a28562f6a8c03eb870e203baf30fb51509a7d793ac810e68ec"
+     },
+     "name_KOR": {
+      "@text": "b60e07ea10b992a28562f6a8c03eb870e203baf30fb51509a7d793ac810e68ec"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "8c3909cadedebe42a57658e8de725cb343465d782af7c893e58a1093301dbe24",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "8c3909cadedebe42a57658e8de725cb343465d782af7c893e58a1093301dbe24",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "8c3909cadedebe42a57658e8de725cb343465d782af7c893e58a1093301dbe24",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "8c3909cadedebe42a57658e8de725cb343465d782af7c893e58a1093301dbe24",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "8c3909cadedebe42a57658e8de725cb343465d782af7c893e58a1093301dbe24",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8016,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "fec0c7253430d66f34698b48e028c8a89b19ac59ae1de09632169e861843f5b7"
+     },
+     "name_EN": {
+      "@text": "fec0c7253430d66f34698b48e028c8a89b19ac59ae1de09632169e861843f5b7"
+     },
+     "name_FR": {
+      "@text": "fec0c7253430d66f34698b48e028c8a89b19ac59ae1de09632169e861843f5b7"
+     },
+     "name_JP": {
+      "@text": "fec0c7253430d66f34698b48e028c8a89b19ac59ae1de09632169e861843f5b7"
+     },
+     "name_KOR": {
+      "@text": "fec0c7253430d66f34698b48e028c8a89b19ac59ae1de09632169e861843f5b7"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "136b1a60764ca01bd75968bc39e97588e885f6b8afbe627b429153af1dde7783",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "136b1a60764ca01bd75968bc39e97588e885f6b8afbe627b429153af1dde7783",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "136b1a60764ca01bd75968bc39e97588e885f6b8afbe627b429153af1dde7783",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "136b1a60764ca01bd75968bc39e97588e885f6b8afbe627b429153af1dde7783",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "136b1a60764ca01bd75968bc39e97588e885f6b8afbe627b429153af1dde7783",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8017,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "d5bf8275d37f7ffd7dff75b724fe3811ccdfcd2f2d16eed11100f646159d51dc"
+     },
+     "name_EN": {
+      "@text": "d5bf8275d37f7ffd7dff75b724fe3811ccdfcd2f2d16eed11100f646159d51dc"
+     },
+     "name_FR": {
+      "@text": "d5bf8275d37f7ffd7dff75b724fe3811ccdfcd2f2d16eed11100f646159d51dc"
+     },
+     "name_JP": {
+      "@text": "d5bf8275d37f7ffd7dff75b724fe3811ccdfcd2f2d16eed11100f646159d51dc"
+     },
+     "name_KOR": {
+      "@text": "d5bf8275d37f7ffd7dff75b724fe3811ccdfcd2f2d16eed11100f646159d51dc"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 20,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "73a215b1aa1b1d2780b0e0fce28f5e511caeba2a5470d530de0ae565bf058864",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "73a215b1aa1b1d2780b0e0fce28f5e511caeba2a5470d530de0ae565bf058864",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "73a215b1aa1b1d2780b0e0fce28f5e511caeba2a5470d530de0ae565bf058864",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "73a215b1aa1b1d2780b0e0fce28f5e511caeba2a5470d530de0ae565bf058864",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "73a215b1aa1b1d2780b0e0fce28f5e511caeba2a5470d530de0ae565bf058864",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8019,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "8cf907e19a423c863fde39622c2f99bb7a53fb167b504d146e5fe931d5fb2813"
+     },
+     "name_EN": {
+      "@text": "8cf907e19a423c863fde39622c2f99bb7a53fb167b504d146e5fe931d5fb2813"
+     },
+     "name_FR": {
+      "@text": "8cf907e19a423c863fde39622c2f99bb7a53fb167b504d146e5fe931d5fb2813"
+     },
+     "name_JP": {
+      "@text": "8cf907e19a423c863fde39622c2f99bb7a53fb167b504d146e5fe931d5fb2813"
+     },
+     "name_KOR": {
+      "@text": "8cf907e19a423c863fde39622c2f99bb7a53fb167b504d146e5fe931d5fb2813"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "6f1f676e431d936d67893147ce762da275d18e48aca11b6c6e56fe993ac509d4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "6f1f676e431d936d67893147ce762da275d18e48aca11b6c6e56fe993ac509d4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "6f1f676e431d936d67893147ce762da275d18e48aca11b6c6e56fe993ac509d4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "6f1f676e431d936d67893147ce762da275d18e48aca11b6c6e56fe993ac509d4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "6f1f676e431d936d67893147ce762da275d18e48aca11b6c6e56fe993ac509d4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8020,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "e6774e0d6745d90b21fe1c21e6e6a090e99168090af03306d4ab83c62b8903d5"
+     },
+     "name_EN": {
+      "@text": "e6774e0d6745d90b21fe1c21e6e6a090e99168090af03306d4ab83c62b8903d5"
+     },
+     "name_FR": {
+      "@text": "e6774e0d6745d90b21fe1c21e6e6a090e99168090af03306d4ab83c62b8903d5"
+     },
+     "name_JP": {
+      "@text": "e6774e0d6745d90b21fe1c21e6e6a090e99168090af03306d4ab83c62b8903d5"
+     },
+     "name_KOR": {
+      "@text": "e6774e0d6745d90b21fe1c21e6e6a090e99168090af03306d4ab83c62b8903d5"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "42d128013680668835ff22e89e2523cf67f0f5c372a48576b287e4f00f551d8d",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "42d128013680668835ff22e89e2523cf67f0f5c372a48576b287e4f00f551d8d",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "42d128013680668835ff22e89e2523cf67f0f5c372a48576b287e4f00f551d8d",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "42d128013680668835ff22e89e2523cf67f0f5c372a48576b287e4f00f551d8d",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "42d128013680668835ff22e89e2523cf67f0f5c372a48576b287e4f00f551d8d",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8022,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "4284db1aeb9375794b889102a7b2ff9cd4c26da5c6df37422e7558bef14b8df7"
+     },
+     "name_EN": {
+      "@text": "4284db1aeb9375794b889102a7b2ff9cd4c26da5c6df37422e7558bef14b8df7"
+     },
+     "name_FR": {
+      "@text": "4284db1aeb9375794b889102a7b2ff9cd4c26da5c6df37422e7558bef14b8df7"
+     },
+     "name_JP": {
+      "@text": "4284db1aeb9375794b889102a7b2ff9cd4c26da5c6df37422e7558bef14b8df7"
+     },
+     "name_KOR": {
+      "@text": "4284db1aeb9375794b889102a7b2ff9cd4c26da5c6df37422e7558bef14b8df7"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "ae50a099a96fbe18347463a1caf8b3c157af016417e55f872957e29b70368a9e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "ae50a099a96fbe18347463a1caf8b3c157af016417e55f872957e29b70368a9e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "ae50a099a96fbe18347463a1caf8b3c157af016417e55f872957e29b70368a9e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "ae50a099a96fbe18347463a1caf8b3c157af016417e55f872957e29b70368a9e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "ae50a099a96fbe18347463a1caf8b3c157af016417e55f872957e29b70368a9e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8023,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "9356235baa49b5471211cb55f81283caf2e6c5d1de7354135702b376377a4558"
+     },
+     "name_EN": {
+      "@text": "9356235baa49b5471211cb55f81283caf2e6c5d1de7354135702b376377a4558"
+     },
+     "name_FR": {
+      "@text": "9356235baa49b5471211cb55f81283caf2e6c5d1de7354135702b376377a4558"
+     },
+     "name_JP": {
+      "@text": "9356235baa49b5471211cb55f81283caf2e6c5d1de7354135702b376377a4558"
+     },
+     "name_KOR": {
+      "@text": "9356235baa49b5471211cb55f81283caf2e6c5d1de7354135702b376377a4558"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "d3d124bc6570aa47e3a4e7c477a9ce953126a60952a49bea022e905f4caaf853",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "d3d124bc6570aa47e3a4e7c477a9ce953126a60952a49bea022e905f4caaf853",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "d3d124bc6570aa47e3a4e7c477a9ce953126a60952a49bea022e905f4caaf853",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "d3d124bc6570aa47e3a4e7c477a9ce953126a60952a49bea022e905f4caaf853",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "d3d124bc6570aa47e3a4e7c477a9ce953126a60952a49bea022e905f4caaf853",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8024,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "2af0dab006483d85ef4cb01a2d9f8e94232f0858404e386e5b530954cd8bf1b6"
+     },
+     "name_EN": {
+      "@text": "2af0dab006483d85ef4cb01a2d9f8e94232f0858404e386e5b530954cd8bf1b6"
+     },
+     "name_FR": {
+      "@text": "2af0dab006483d85ef4cb01a2d9f8e94232f0858404e386e5b530954cd8bf1b6"
+     },
+     "name_JP": {
+      "@text": "2af0dab006483d85ef4cb01a2d9f8e94232f0858404e386e5b530954cd8bf1b6"
+     },
+     "name_KOR": {
+      "@text": "2af0dab006483d85ef4cb01a2d9f8e94232f0858404e386e5b530954cd8bf1b6"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "64b980bf58843d1bdc30c51361405741639c4493bc68c774b23808fd4975b616",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "64b980bf58843d1bdc30c51361405741639c4493bc68c774b23808fd4975b616",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "64b980bf58843d1bdc30c51361405741639c4493bc68c774b23808fd4975b616",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "64b980bf58843d1bdc30c51361405741639c4493bc68c774b23808fd4975b616",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "64b980bf58843d1bdc30c51361405741639c4493bc68c774b23808fd4975b616",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8025,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "2276050f1b47dcc651108c595e266f41abc5ced153985e1316acd6006f2a3bac"
+     },
+     "name_EN": {
+      "@text": "2276050f1b47dcc651108c595e266f41abc5ced153985e1316acd6006f2a3bac"
+     },
+     "name_FR": {
+      "@text": "2276050f1b47dcc651108c595e266f41abc5ced153985e1316acd6006f2a3bac"
+     },
+     "name_JP": {
+      "@text": "2276050f1b47dcc651108c595e266f41abc5ced153985e1316acd6006f2a3bac"
+     },
+     "name_KOR": {
+      "@text": "2276050f1b47dcc651108c595e266f41abc5ced153985e1316acd6006f2a3bac"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "35e0bb23fca0372cf4cfdd3f11c97a30768cc9d561700e92554092a1daff7d89",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "35e0bb23fca0372cf4cfdd3f11c97a30768cc9d561700e92554092a1daff7d89",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "35e0bb23fca0372cf4cfdd3f11c97a30768cc9d561700e92554092a1daff7d89",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "35e0bb23fca0372cf4cfdd3f11c97a30768cc9d561700e92554092a1daff7d89",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "35e0bb23fca0372cf4cfdd3f11c97a30768cc9d561700e92554092a1daff7d89",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8026,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "7f117ba88bc724149923fada480413bb2969f44555e247ff2ed7136c4b95943f"
+     },
+     "name_EN": {
+      "@text": "7f117ba88bc724149923fada480413bb2969f44555e247ff2ed7136c4b95943f"
+     },
+     "name_FR": {
+      "@text": "7f117ba88bc724149923fada480413bb2969f44555e247ff2ed7136c4b95943f"
+     },
+     "name_JP": {
+      "@text": "7f117ba88bc724149923fada480413bb2969f44555e247ff2ed7136c4b95943f"
+     },
+     "name_KOR": {
+      "@text": "7f117ba88bc724149923fada480413bb2969f44555e247ff2ed7136c4b95943f"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "0a8400bd427bac82398664302dc7882e7deeca8af7beae06a5bedbe0fb2bb9ba",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "0a8400bd427bac82398664302dc7882e7deeca8af7beae06a5bedbe0fb2bb9ba",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "0a8400bd427bac82398664302dc7882e7deeca8af7beae06a5bedbe0fb2bb9ba",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "0a8400bd427bac82398664302dc7882e7deeca8af7beae06a5bedbe0fb2bb9ba",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "0a8400bd427bac82398664302dc7882e7deeca8af7beae06a5bedbe0fb2bb9ba",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8028,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "e929aeaf55109801484d0fede8284c4d78b729acb92390ae42f3084f41781c46"
+     },
+     "name_EN": {
+      "@text": "e929aeaf55109801484d0fede8284c4d78b729acb92390ae42f3084f41781c46"
+     },
+     "name_FR": {
+      "@text": "e929aeaf55109801484d0fede8284c4d78b729acb92390ae42f3084f41781c46"
+     },
+     "name_JP": {
+      "@text": "e929aeaf55109801484d0fede8284c4d78b729acb92390ae42f3084f41781c46"
+     },
+     "name_KOR": {
+      "@text": "e929aeaf55109801484d0fede8284c4d78b729acb92390ae42f3084f41781c46"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "0571b85a8dc14e489516d27458f8b3e82113a640a740d489e94e12e30654e043",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "0571b85a8dc14e489516d27458f8b3e82113a640a740d489e94e12e30654e043",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "0571b85a8dc14e489516d27458f8b3e82113a640a740d489e94e12e30654e043",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "0571b85a8dc14e489516d27458f8b3e82113a640a740d489e94e12e30654e043",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "0571b85a8dc14e489516d27458f8b3e82113a640a740d489e94e12e30654e043",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8031,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "41bd1ab27a7f5048e5f9a11be7d3ac6f36f422e6313f56dbded199be1f844cde"
+     },
+     "name_EN": {
+      "@text": "41bd1ab27a7f5048e5f9a11be7d3ac6f36f422e6313f56dbded199be1f844cde"
+     },
+     "name_FR": {
+      "@text": "41bd1ab27a7f5048e5f9a11be7d3ac6f36f422e6313f56dbded199be1f844cde"
+     },
+     "name_JP": {
+      "@text": "41bd1ab27a7f5048e5f9a11be7d3ac6f36f422e6313f56dbded199be1f844cde"
+     },
+     "name_KOR": {
+      "@text": "41bd1ab27a7f5048e5f9a11be7d3ac6f36f422e6313f56dbded199be1f844cde"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "689b054f29ff7a70759c90b1b9237efb226adcb66013e7ee3db301a964647819",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "689b054f29ff7a70759c90b1b9237efb226adcb66013e7ee3db301a964647819",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "689b054f29ff7a70759c90b1b9237efb226adcb66013e7ee3db301a964647819",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "689b054f29ff7a70759c90b1b9237efb226adcb66013e7ee3db301a964647819",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "689b054f29ff7a70759c90b1b9237efb226adcb66013e7ee3db301a964647819",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8032,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "03989148270f1d2842ec656d8c6772af3e88c2be8a5aa836e46ce7d3c670571a"
+     },
+     "name_EN": {
+      "@text": "03989148270f1d2842ec656d8c6772af3e88c2be8a5aa836e46ce7d3c670571a"
+     },
+     "name_FR": {
+      "@text": "03989148270f1d2842ec656d8c6772af3e88c2be8a5aa836e46ce7d3c670571a"
+     },
+     "name_JP": {
+      "@text": "03989148270f1d2842ec656d8c6772af3e88c2be8a5aa836e46ce7d3c670571a"
+     },
+     "name_KOR": {
+      "@text": "03989148270f1d2842ec656d8c6772af3e88c2be8a5aa836e46ce7d3c670571a"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "8a250d999220f029ad2f27eb3b5c72a51f389d95383f2c347cc64885d6fe5ea8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "8a250d999220f029ad2f27eb3b5c72a51f389d95383f2c347cc64885d6fe5ea8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "8a250d999220f029ad2f27eb3b5c72a51f389d95383f2c347cc64885d6fe5ea8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "8a250d999220f029ad2f27eb3b5c72a51f389d95383f2c347cc64885d6fe5ea8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "8a250d999220f029ad2f27eb3b5c72a51f389d95383f2c347cc64885d6fe5ea8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8037,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "a591d73cbf363de6e5bde244d3bebf23538194f56d15814c02124efeb7af9bd1"
+     },
+     "name_EN": {
+      "@text": "a591d73cbf363de6e5bde244d3bebf23538194f56d15814c02124efeb7af9bd1"
+     },
+     "name_FR": {
+      "@text": "a591d73cbf363de6e5bde244d3bebf23538194f56d15814c02124efeb7af9bd1"
+     },
+     "name_JP": {
+      "@text": "a591d73cbf363de6e5bde244d3bebf23538194f56d15814c02124efeb7af9bd1"
+     },
+     "name_KOR": {
+      "@text": "a591d73cbf363de6e5bde244d3bebf23538194f56d15814c02124efeb7af9bd1"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "2ebd365e3f015f71624091285df3994023a28b9ea443d70f5bedd2de4086dee1",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "2ebd365e3f015f71624091285df3994023a28b9ea443d70f5bedd2de4086dee1",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "2ebd365e3f015f71624091285df3994023a28b9ea443d70f5bedd2de4086dee1",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "2ebd365e3f015f71624091285df3994023a28b9ea443d70f5bedd2de4086dee1",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "2ebd365e3f015f71624091285df3994023a28b9ea443d70f5bedd2de4086dee1",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8038,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "d2a1b484be0ebdc1a37c0ffc1c303c3367a2cccaf9237b245c1e7f572de9bc23"
+     },
+     "name_EN": {
+      "@text": "d2a1b484be0ebdc1a37c0ffc1c303c3367a2cccaf9237b245c1e7f572de9bc23"
+     },
+     "name_FR": {
+      "@text": "d2a1b484be0ebdc1a37c0ffc1c303c3367a2cccaf9237b245c1e7f572de9bc23"
+     },
+     "name_JP": {
+      "@text": "d2a1b484be0ebdc1a37c0ffc1c303c3367a2cccaf9237b245c1e7f572de9bc23"
+     },
+     "name_KOR": {
+      "@text": "d2a1b484be0ebdc1a37c0ffc1c303c3367a2cccaf9237b245c1e7f572de9bc23"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "5db2697518f078b6346c3863a11ead5872e2e54163a70529e3556af56a00800e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "5db2697518f078b6346c3863a11ead5872e2e54163a70529e3556af56a00800e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "5db2697518f078b6346c3863a11ead5872e2e54163a70529e3556af56a00800e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "5db2697518f078b6346c3863a11ead5872e2e54163a70529e3556af56a00800e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "5db2697518f078b6346c3863a11ead5872e2e54163a70529e3556af56a00800e",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8039,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "2d62663571b06896da744a0ee5f090d932d1c03daa3cf624b635c6741394cd53"
+     },
+     "name_EN": {
+      "@text": "2d62663571b06896da744a0ee5f090d932d1c03daa3cf624b635c6741394cd53"
+     },
+     "name_FR": {
+      "@text": "2d62663571b06896da744a0ee5f090d932d1c03daa3cf624b635c6741394cd53"
+     },
+     "name_JP": {
+      "@text": "2d62663571b06896da744a0ee5f090d932d1c03daa3cf624b635c6741394cd53"
+     },
+     "name_KOR": {
+      "@text": "2d62663571b06896da744a0ee5f090d932d1c03daa3cf624b635c6741394cd53"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "5741756fa957bdabb02dea2ab59e4786c0a9ab05bf975536c44ac02c51fbb050",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "5741756fa957bdabb02dea2ab59e4786c0a9ab05bf975536c44ac02c51fbb050",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "5741756fa957bdabb02dea2ab59e4786c0a9ab05bf975536c44ac02c51fbb050",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "5741756fa957bdabb02dea2ab59e4786c0a9ab05bf975536c44ac02c51fbb050",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "5741756fa957bdabb02dea2ab59e4786c0a9ab05bf975536c44ac02c51fbb050",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8040,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "8cb6601198e78bfbff9daf41961b8fd62d668a50d4c37068f950ee41a0089518"
+     },
+     "name_EN": {
+      "@text": "8cb6601198e78bfbff9daf41961b8fd62d668a50d4c37068f950ee41a0089518"
+     },
+     "name_FR": {
+      "@text": "8cb6601198e78bfbff9daf41961b8fd62d668a50d4c37068f950ee41a0089518"
+     },
+     "name_JP": {
+      "@text": "8cb6601198e78bfbff9daf41961b8fd62d668a50d4c37068f950ee41a0089518"
+     },
+     "name_KOR": {
+      "@text": "8cb6601198e78bfbff9daf41961b8fd62d668a50d4c37068f950ee41a0089518"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 20,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "9bf0b1069dfd750a8e99ecd001323b10d758c98c51f430a9de11cd9ec36aaf28",
+      "args": [
+       10
+      ]
+     },
+     "desc_EN": {
+      "@template": "9bf0b1069dfd750a8e99ecd001323b10d758c98c51f430a9de11cd9ec36aaf28",
+      "args": [
+       10
+      ]
+     },
+     "desc_FR": {
+      "@template": "9bf0b1069dfd750a8e99ecd001323b10d758c98c51f430a9de11cd9ec36aaf28",
+      "args": [
+       10
+      ]
+     },
+     "desc_JP": {
+      "@template": "9bf0b1069dfd750a8e99ecd001323b10d758c98c51f430a9de11cd9ec36aaf28",
+      "args": [
+       10
+      ]
+     },
+     "desc_KOR": {
+      "@template": "9bf0b1069dfd750a8e99ecd001323b10d758c98c51f430a9de11cd9ec36aaf28",
+      "args": [
+       10
+      ]
+     },
+     "effect_group": 0,
+     "id": 8061,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "95c12d84104bb8b98d40d390b03d0e903e9d875b3f2f32eb032e1b51ad8dfc85"
+     },
+     "name_EN": {
+      "@text": "95c12d84104bb8b98d40d390b03d0e903e9d875b3f2f32eb032e1b51ad8dfc85"
+     },
+     "name_FR": {
+      "@text": "95c12d84104bb8b98d40d390b03d0e903e9d875b3f2f32eb032e1b51ad8dfc85"
+     },
+     "name_JP": {
+      "@text": "95c12d84104bb8b98d40d390b03d0e903e9d875b3f2f32eb032e1b51ad8dfc85"
+     },
+     "name_KOR": {
+      "@text": "95c12d84104bb8b98d40d390b03d0e903e9d875b3f2f32eb032e1b51ad8dfc85"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "d392239c537782b39439582e1c05472d7da18b5df5ca4b843da841071c96bcb9",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "d392239c537782b39439582e1c05472d7da18b5df5ca4b843da841071c96bcb9",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "d392239c537782b39439582e1c05472d7da18b5df5ca4b843da841071c96bcb9",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "d392239c537782b39439582e1c05472d7da18b5df5ca4b843da841071c96bcb9",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "d392239c537782b39439582e1c05472d7da18b5df5ca4b843da841071c96bcb9",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8062,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "name_EN": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "name_FR": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "name_JP": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "name_KOR": {
+      "@text": "98f272de4b98d7f4c2afce803466f7f61c536363d288260183a9188ec095fb51"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "f4abe7de3987848cd0db906213e269808c2b1babbdc8a68873dfbbdf63823ab6",
+      "args": [
+       10
+      ]
+     },
+     "desc_EN": {
+      "@template": "f4abe7de3987848cd0db906213e269808c2b1babbdc8a68873dfbbdf63823ab6",
+      "args": [
+       10
+      ]
+     },
+     "desc_FR": {
+      "@template": "f4abe7de3987848cd0db906213e269808c2b1babbdc8a68873dfbbdf63823ab6",
+      "args": [
+       10
+      ]
+     },
+     "desc_JP": {
+      "@template": "f4abe7de3987848cd0db906213e269808c2b1babbdc8a68873dfbbdf63823ab6",
+      "args": [
+       10
+      ]
+     },
+     "desc_KOR": {
+      "@template": "f4abe7de3987848cd0db906213e269808c2b1babbdc8a68873dfbbdf63823ab6",
+      "args": [
+       10
+      ]
+     },
+     "effect_group": 0,
+     "id": 8063,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "name_EN": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "name_FR": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "name_JP": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "name_KOR": {
+      "@text": "5724da0fb10191019aa4878747ee1217252e822a29476a1981d066b5b0f43bca"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "3c102761128f644f1a002c3adfeee3db310352bd57c4ea9a6f28630df487589f",
+      "args": [
+       10
+      ]
+     },
+     "desc_EN": {
+      "@template": "3c102761128f644f1a002c3adfeee3db310352bd57c4ea9a6f28630df487589f",
+      "args": [
+       10
+      ]
+     },
+     "desc_FR": {
+      "@template": "3c102761128f644f1a002c3adfeee3db310352bd57c4ea9a6f28630df487589f",
+      "args": [
+       10
+      ]
+     },
+     "desc_JP": {
+      "@template": "3c102761128f644f1a002c3adfeee3db310352bd57c4ea9a6f28630df487589f",
+      "args": [
+       10
+      ]
+     },
+     "desc_KOR": {
+      "@template": "3c102761128f644f1a002c3adfeee3db310352bd57c4ea9a6f28630df487589f",
+      "args": [
+       10
+      ]
+     },
+     "effect_group": 0,
+     "id": 8064,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "90a8ccf0c1003a2837256164198356640d9c08dac57489d46c456c9763309539"
+     },
+     "name_EN": {
+      "@text": "90a8ccf0c1003a2837256164198356640d9c08dac57489d46c456c9763309539"
+     },
+     "name_FR": {
+      "@text": "90a8ccf0c1003a2837256164198356640d9c08dac57489d46c456c9763309539"
+     },
+     "name_JP": {
+      "@text": "90a8ccf0c1003a2837256164198356640d9c08dac57489d46c456c9763309539"
+     },
+     "name_KOR": {
+      "@text": "90a8ccf0c1003a2837256164198356640d9c08dac57489d46c456c9763309539"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "384a5b2c7465e24825e5a6ebaad119b30c22b21c40a03866de55297dac5397bc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "384a5b2c7465e24825e5a6ebaad119b30c22b21c40a03866de55297dac5397bc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "384a5b2c7465e24825e5a6ebaad119b30c22b21c40a03866de55297dac5397bc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "384a5b2c7465e24825e5a6ebaad119b30c22b21c40a03866de55297dac5397bc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "384a5b2c7465e24825e5a6ebaad119b30c22b21c40a03866de55297dac5397bc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8065,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "53710cc22e99da5e6345fe633ee254b9d06c14637c491ab84af020f8d3e9641b"
+     },
+     "name_EN": {
+      "@text": "53710cc22e99da5e6345fe633ee254b9d06c14637c491ab84af020f8d3e9641b"
+     },
+     "name_FR": {
+      "@text": "53710cc22e99da5e6345fe633ee254b9d06c14637c491ab84af020f8d3e9641b"
+     },
+     "name_JP": {
+      "@text": "53710cc22e99da5e6345fe633ee254b9d06c14637c491ab84af020f8d3e9641b"
+     },
+     "name_KOR": {
+      "@text": "53710cc22e99da5e6345fe633ee254b9d06c14637c491ab84af020f8d3e9641b"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "2ddbf12c53b0c22ce5c2ffd415ca9047810dd73fcfe03143210b5f506ee38b22",
+      "args": [
+       10
+      ]
+     },
+     "desc_EN": {
+      "@template": "2ddbf12c53b0c22ce5c2ffd415ca9047810dd73fcfe03143210b5f506ee38b22",
+      "args": [
+       10
+      ]
+     },
+     "desc_FR": {
+      "@template": "2ddbf12c53b0c22ce5c2ffd415ca9047810dd73fcfe03143210b5f506ee38b22",
+      "args": [
+       10
+      ]
+     },
+     "desc_JP": {
+      "@template": "2ddbf12c53b0c22ce5c2ffd415ca9047810dd73fcfe03143210b5f506ee38b22",
+      "args": [
+       10
+      ]
+     },
+     "desc_KOR": {
+      "@template": "2ddbf12c53b0c22ce5c2ffd415ca9047810dd73fcfe03143210b5f506ee38b22",
+      "args": [
+       10
+      ]
+     },
+     "effect_group": 0,
+     "id": 8066,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "5c4b3d5344965732151d5812048d3c7e535a1942fd24220c52abaa1510a878dc"
+     },
+     "name_EN": {
+      "@text": "5c4b3d5344965732151d5812048d3c7e535a1942fd24220c52abaa1510a878dc"
+     },
+     "name_FR": {
+      "@text": "5c4b3d5344965732151d5812048d3c7e535a1942fd24220c52abaa1510a878dc"
+     },
+     "name_JP": {
+      "@text": "5c4b3d5344965732151d5812048d3c7e535a1942fd24220c52abaa1510a878dc"
+     },
+     "name_KOR": {
+      "@text": "5c4b3d5344965732151d5812048d3c7e535a1942fd24220c52abaa1510a878dc"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "3a0b6a39823bf120171ab74c4f5e2aaa8e94487f4fc236b7ad0d80d7f17a485d",
+      "args": [
+       10
+      ]
+     },
+     "desc_EN": {
+      "@template": "3a0b6a39823bf120171ab74c4f5e2aaa8e94487f4fc236b7ad0d80d7f17a485d",
+      "args": [
+       10
+      ]
+     },
+     "desc_FR": {
+      "@template": "3a0b6a39823bf120171ab74c4f5e2aaa8e94487f4fc236b7ad0d80d7f17a485d",
+      "args": [
+       10
+      ]
+     },
+     "desc_JP": {
+      "@template": "3a0b6a39823bf120171ab74c4f5e2aaa8e94487f4fc236b7ad0d80d7f17a485d",
+      "args": [
+       10
+      ]
+     },
+     "desc_KOR": {
+      "@template": "3a0b6a39823bf120171ab74c4f5e2aaa8e94487f4fc236b7ad0d80d7f17a485d",
+      "args": [
+       10
+      ]
+     },
+     "effect_group": 0,
+     "id": 8067,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "acef5d9191579b33d144d9ceab1e40a45ae0a9c3a3c8b89e1474522b4c0803c6"
+     },
+     "name_EN": {
+      "@text": "acef5d9191579b33d144d9ceab1e40a45ae0a9c3a3c8b89e1474522b4c0803c6"
+     },
+     "name_FR": {
+      "@text": "acef5d9191579b33d144d9ceab1e40a45ae0a9c3a3c8b89e1474522b4c0803c6"
+     },
+     "name_JP": {
+      "@text": "acef5d9191579b33d144d9ceab1e40a45ae0a9c3a3c8b89e1474522b4c0803c6"
+     },
+     "name_KOR": {
+      "@text": "acef5d9191579b33d144d9ceab1e40a45ae0a9c3a3c8b89e1474522b4c0803c6"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "04bcd8767d0b08516dcac108a8f09d8d0e711c96f32c23fe600fc977c329c49c",
+      "args": [
+       10
+      ]
+     },
+     "desc_EN": {
+      "@template": "04bcd8767d0b08516dcac108a8f09d8d0e711c96f32c23fe600fc977c329c49c",
+      "args": [
+       10
+      ]
+     },
+     "desc_FR": {
+      "@template": "04bcd8767d0b08516dcac108a8f09d8d0e711c96f32c23fe600fc977c329c49c",
+      "args": [
+       10
+      ]
+     },
+     "desc_JP": {
+      "@template": "04bcd8767d0b08516dcac108a8f09d8d0e711c96f32c23fe600fc977c329c49c",
+      "args": [
+       10
+      ]
+     },
+     "desc_KOR": {
+      "@template": "04bcd8767d0b08516dcac108a8f09d8d0e711c96f32c23fe600fc977c329c49c",
+      "args": [
+       10
+      ]
+     },
+     "effect_group": 0,
+     "id": 8068,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "cb502d71d47b77238755f380b3edf3c6b2c5175535fd249874284e8c2baa65f3"
+     },
+     "name_EN": {
+      "@text": "cb502d71d47b77238755f380b3edf3c6b2c5175535fd249874284e8c2baa65f3"
+     },
+     "name_FR": {
+      "@text": "cb502d71d47b77238755f380b3edf3c6b2c5175535fd249874284e8c2baa65f3"
+     },
+     "name_JP": {
+      "@text": "cb502d71d47b77238755f380b3edf3c6b2c5175535fd249874284e8c2baa65f3"
+     },
+     "name_KOR": {
+      "@text": "cb502d71d47b77238755f380b3edf3c6b2c5175535fd249874284e8c2baa65f3"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "1244be809e62be7445c2fa785b73c0c2a04b5f45ed9f25aebc6e48c46ace9ef1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "1244be809e62be7445c2fa785b73c0c2a04b5f45ed9f25aebc6e48c46ace9ef1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "1244be809e62be7445c2fa785b73c0c2a04b5f45ed9f25aebc6e48c46ace9ef1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "1244be809e62be7445c2fa785b73c0c2a04b5f45ed9f25aebc6e48c46ace9ef1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "1244be809e62be7445c2fa785b73c0c2a04b5f45ed9f25aebc6e48c46ace9ef1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8071,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "53af2aa0172e9088a54978f3c15410d25ecd0c0588d7cfcd7d146a2c9cf6b1e4"
+     },
+     "name_EN": {
+      "@text": "53af2aa0172e9088a54978f3c15410d25ecd0c0588d7cfcd7d146a2c9cf6b1e4"
+     },
+     "name_FR": {
+      "@text": "53af2aa0172e9088a54978f3c15410d25ecd0c0588d7cfcd7d146a2c9cf6b1e4"
+     },
+     "name_JP": {
+      "@text": "53af2aa0172e9088a54978f3c15410d25ecd0c0588d7cfcd7d146a2c9cf6b1e4"
+     },
+     "name_KOR": {
+      "@text": "53af2aa0172e9088a54978f3c15410d25ecd0c0588d7cfcd7d146a2c9cf6b1e4"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "51084fcb17efd61e9f2585e8e0470dc50a2e9a108d94ecb8f1152a4655567e5e",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "51084fcb17efd61e9f2585e8e0470dc50a2e9a108d94ecb8f1152a4655567e5e",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "51084fcb17efd61e9f2585e8e0470dc50a2e9a108d94ecb8f1152a4655567e5e",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "51084fcb17efd61e9f2585e8e0470dc50a2e9a108d94ecb8f1152a4655567e5e",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "51084fcb17efd61e9f2585e8e0470dc50a2e9a108d94ecb8f1152a4655567e5e",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8081,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "87250466a9606bf5133f305fa2c429a4c2621f5ed4b56b224f5c6f647759b08a"
+     },
+     "name_EN": {
+      "@text": "87250466a9606bf5133f305fa2c429a4c2621f5ed4b56b224f5c6f647759b08a"
+     },
+     "name_FR": {
+      "@text": "87250466a9606bf5133f305fa2c429a4c2621f5ed4b56b224f5c6f647759b08a"
+     },
+     "name_JP": {
+      "@text": "87250466a9606bf5133f305fa2c429a4c2621f5ed4b56b224f5c6f647759b08a"
+     },
+     "name_KOR": {
+      "@text": "87250466a9606bf5133f305fa2c429a4c2621f5ed4b56b224f5c6f647759b08a"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "329a42283cc24919eedca8104a36013c97f7bf91e1afa5d91e4c6766d03833b1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "329a42283cc24919eedca8104a36013c97f7bf91e1afa5d91e4c6766d03833b1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "329a42283cc24919eedca8104a36013c97f7bf91e1afa5d91e4c6766d03833b1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "329a42283cc24919eedca8104a36013c97f7bf91e1afa5d91e4c6766d03833b1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "329a42283cc24919eedca8104a36013c97f7bf91e1afa5d91e4c6766d03833b1",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8083,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "1bfb930bd9a1a0a64aeb5c0316407bc5615a9984c5e7a8248b4212181dc3627b"
+     },
+     "name_EN": {
+      "@text": "1bfb930bd9a1a0a64aeb5c0316407bc5615a9984c5e7a8248b4212181dc3627b"
+     },
+     "name_FR": {
+      "@text": "1bfb930bd9a1a0a64aeb5c0316407bc5615a9984c5e7a8248b4212181dc3627b"
+     },
+     "name_JP": {
+      "@text": "1bfb930bd9a1a0a64aeb5c0316407bc5615a9984c5e7a8248b4212181dc3627b"
+     },
+     "name_KOR": {
+      "@text": "1bfb930bd9a1a0a64aeb5c0316407bc5615a9984c5e7a8248b4212181dc3627b"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "7e5ff9f7f658de0b850a85ba0c14709e54225120b317399e79e951efcf3ef050",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "7e5ff9f7f658de0b850a85ba0c14709e54225120b317399e79e951efcf3ef050",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "7e5ff9f7f658de0b850a85ba0c14709e54225120b317399e79e951efcf3ef050",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "7e5ff9f7f658de0b850a85ba0c14709e54225120b317399e79e951efcf3ef050",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "7e5ff9f7f658de0b850a85ba0c14709e54225120b317399e79e951efcf3ef050",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8084,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "3c19248e36683c22849510ef0caca3568a7a450131b09c1ce2b118b624699047"
+     },
+     "name_EN": {
+      "@text": "3c19248e36683c22849510ef0caca3568a7a450131b09c1ce2b118b624699047"
+     },
+     "name_FR": {
+      "@text": "3c19248e36683c22849510ef0caca3568a7a450131b09c1ce2b118b624699047"
+     },
+     "name_JP": {
+      "@text": "3c19248e36683c22849510ef0caca3568a7a450131b09c1ce2b118b624699047"
+     },
+     "name_KOR": {
+      "@text": "3c19248e36683c22849510ef0caca3568a7a450131b09c1ce2b118b624699047"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "fc355d798fd01be301fd7d2604c5acfb4faf1c0066155a87da54aa7e259a2ed4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "fc355d798fd01be301fd7d2604c5acfb4faf1c0066155a87da54aa7e259a2ed4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "fc355d798fd01be301fd7d2604c5acfb4faf1c0066155a87da54aa7e259a2ed4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "fc355d798fd01be301fd7d2604c5acfb4faf1c0066155a87da54aa7e259a2ed4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "fc355d798fd01be301fd7d2604c5acfb4faf1c0066155a87da54aa7e259a2ed4",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8085,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "e8badaa6b668c2eb3d2e5d323ebef7414104972a7abdf4016f3f3cb19675c2bf"
+     },
+     "name_EN": {
+      "@text": "e8badaa6b668c2eb3d2e5d323ebef7414104972a7abdf4016f3f3cb19675c2bf"
+     },
+     "name_FR": {
+      "@text": "e8badaa6b668c2eb3d2e5d323ebef7414104972a7abdf4016f3f3cb19675c2bf"
+     },
+     "name_JP": {
+      "@text": "e8badaa6b668c2eb3d2e5d323ebef7414104972a7abdf4016f3f3cb19675c2bf"
+     },
+     "name_KOR": {
+      "@text": "e8badaa6b668c2eb3d2e5d323ebef7414104972a7abdf4016f3f3cb19675c2bf"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "87b7a312ad73cc74f5ee7703e49b26617b4720f5b907dcea018f9c6acea5c7ba",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "87b7a312ad73cc74f5ee7703e49b26617b4720f5b907dcea018f9c6acea5c7ba",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "87b7a312ad73cc74f5ee7703e49b26617b4720f5b907dcea018f9c6acea5c7ba",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "87b7a312ad73cc74f5ee7703e49b26617b4720f5b907dcea018f9c6acea5c7ba",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "87b7a312ad73cc74f5ee7703e49b26617b4720f5b907dcea018f9c6acea5c7ba",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8086,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "f9f8f487133885c881f66e3a73923ae35ad1da1b38e4cdaf052b2f447efee03b"
+     },
+     "name_EN": {
+      "@text": "f9f8f487133885c881f66e3a73923ae35ad1da1b38e4cdaf052b2f447efee03b"
+     },
+     "name_FR": {
+      "@text": "f9f8f487133885c881f66e3a73923ae35ad1da1b38e4cdaf052b2f447efee03b"
+     },
+     "name_JP": {
+      "@text": "f9f8f487133885c881f66e3a73923ae35ad1da1b38e4cdaf052b2f447efee03b"
+     },
+     "name_KOR": {
+      "@text": "f9f8f487133885c881f66e3a73923ae35ad1da1b38e4cdaf052b2f447efee03b"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "db5ae408b84c813ca0162bd2eb1c5e5cc133210ef746c78f584ef15f7037effa",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "db5ae408b84c813ca0162bd2eb1c5e5cc133210ef746c78f584ef15f7037effa",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "db5ae408b84c813ca0162bd2eb1c5e5cc133210ef746c78f584ef15f7037effa",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "db5ae408b84c813ca0162bd2eb1c5e5cc133210ef746c78f584ef15f7037effa",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "db5ae408b84c813ca0162bd2eb1c5e5cc133210ef746c78f584ef15f7037effa",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8088,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "840ca027434dc32b1503b141ddd07ac70d625b094a80c60cc1eea283c2cea149"
+     },
+     "name_EN": {
+      "@text": "840ca027434dc32b1503b141ddd07ac70d625b094a80c60cc1eea283c2cea149"
+     },
+     "name_FR": {
+      "@text": "840ca027434dc32b1503b141ddd07ac70d625b094a80c60cc1eea283c2cea149"
+     },
+     "name_JP": {
+      "@text": "840ca027434dc32b1503b141ddd07ac70d625b094a80c60cc1eea283c2cea149"
+     },
+     "name_KOR": {
+      "@text": "840ca027434dc32b1503b141ddd07ac70d625b094a80c60cc1eea283c2cea149"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "30c7d7d92a135d8d49120bb8e92518d3639c1d28eb2de845cf517535b792b68d",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "30c7d7d92a135d8d49120bb8e92518d3639c1d28eb2de845cf517535b792b68d",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "30c7d7d92a135d8d49120bb8e92518d3639c1d28eb2de845cf517535b792b68d",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "30c7d7d92a135d8d49120bb8e92518d3639c1d28eb2de845cf517535b792b68d",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "30c7d7d92a135d8d49120bb8e92518d3639c1d28eb2de845cf517535b792b68d",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8089,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "5ae870f07587a66921d483b4c891d68d7a0376c5f0cd3a94f34c2dd5a3e0bec2"
+     },
+     "name_EN": {
+      "@text": "5ae870f07587a66921d483b4c891d68d7a0376c5f0cd3a94f34c2dd5a3e0bec2"
+     },
+     "name_FR": {
+      "@text": "5ae870f07587a66921d483b4c891d68d7a0376c5f0cd3a94f34c2dd5a3e0bec2"
+     },
+     "name_JP": {
+      "@text": "5ae870f07587a66921d483b4c891d68d7a0376c5f0cd3a94f34c2dd5a3e0bec2"
+     },
+     "name_KOR": {
+      "@text": "5ae870f07587a66921d483b4c891d68d7a0376c5f0cd3a94f34c2dd5a3e0bec2"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "dbd866fc1bdc6646cebfdaae0d5cc28333a4e11e9a02fb6714832705fa7ce21f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "dbd866fc1bdc6646cebfdaae0d5cc28333a4e11e9a02fb6714832705fa7ce21f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "dbd866fc1bdc6646cebfdaae0d5cc28333a4e11e9a02fb6714832705fa7ce21f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "dbd866fc1bdc6646cebfdaae0d5cc28333a4e11e9a02fb6714832705fa7ce21f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "dbd866fc1bdc6646cebfdaae0d5cc28333a4e11e9a02fb6714832705fa7ce21f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8090,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "210b8e4a380a3fdaa10ac2105ead6fa5b3cc214c528be1b57739b09f1f64072d"
+     },
+     "name_EN": {
+      "@text": "210b8e4a380a3fdaa10ac2105ead6fa5b3cc214c528be1b57739b09f1f64072d"
+     },
+     "name_FR": {
+      "@text": "210b8e4a380a3fdaa10ac2105ead6fa5b3cc214c528be1b57739b09f1f64072d"
+     },
+     "name_JP": {
+      "@text": "210b8e4a380a3fdaa10ac2105ead6fa5b3cc214c528be1b57739b09f1f64072d"
+     },
+     "name_KOR": {
+      "@text": "210b8e4a380a3fdaa10ac2105ead6fa5b3cc214c528be1b57739b09f1f64072d"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "02d6c407cd1ea42efc4a13dabc0acde521af09cb6420aabeac9e1332f9eeb43b",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "02d6c407cd1ea42efc4a13dabc0acde521af09cb6420aabeac9e1332f9eeb43b",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "02d6c407cd1ea42efc4a13dabc0acde521af09cb6420aabeac9e1332f9eeb43b",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "02d6c407cd1ea42efc4a13dabc0acde521af09cb6420aabeac9e1332f9eeb43b",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "02d6c407cd1ea42efc4a13dabc0acde521af09cb6420aabeac9e1332f9eeb43b",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8091,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "faa895f1e7713ee3a12d2dc5921967e2171457086b5582208825c5b0eae45fd6"
+     },
+     "name_EN": {
+      "@text": "faa895f1e7713ee3a12d2dc5921967e2171457086b5582208825c5b0eae45fd6"
+     },
+     "name_FR": {
+      "@text": "faa895f1e7713ee3a12d2dc5921967e2171457086b5582208825c5b0eae45fd6"
+     },
+     "name_JP": {
+      "@text": "faa895f1e7713ee3a12d2dc5921967e2171457086b5582208825c5b0eae45fd6"
+     },
+     "name_KOR": {
+      "@text": "faa895f1e7713ee3a12d2dc5921967e2171457086b5582208825c5b0eae45fd6"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "54e1b6c7861237a38c602c75acde1759bca2d2487e1fbdc3c8c759c53f802b5f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "54e1b6c7861237a38c602c75acde1759bca2d2487e1fbdc3c8c759c53f802b5f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "54e1b6c7861237a38c602c75acde1759bca2d2487e1fbdc3c8c759c53f802b5f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "54e1b6c7861237a38c602c75acde1759bca2d2487e1fbdc3c8c759c53f802b5f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "54e1b6c7861237a38c602c75acde1759bca2d2487e1fbdc3c8c759c53f802b5f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8092,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "61b1ba4f2bc2559d39b0df955f1aedd4f06febfe5655d82322dac391a3fee35a"
+     },
+     "name_EN": {
+      "@text": "61b1ba4f2bc2559d39b0df955f1aedd4f06febfe5655d82322dac391a3fee35a"
+     },
+     "name_FR": {
+      "@text": "61b1ba4f2bc2559d39b0df955f1aedd4f06febfe5655d82322dac391a3fee35a"
+     },
+     "name_JP": {
+      "@text": "61b1ba4f2bc2559d39b0df955f1aedd4f06febfe5655d82322dac391a3fee35a"
+     },
+     "name_KOR": {
+      "@text": "61b1ba4f2bc2559d39b0df955f1aedd4f06febfe5655d82322dac391a3fee35a"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "bd58573c0db1c929596f2ca37bb6d2518dc4713da46e427505312540c3c5f757",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "bd58573c0db1c929596f2ca37bb6d2518dc4713da46e427505312540c3c5f757",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "bd58573c0db1c929596f2ca37bb6d2518dc4713da46e427505312540c3c5f757",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "bd58573c0db1c929596f2ca37bb6d2518dc4713da46e427505312540c3c5f757",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "bd58573c0db1c929596f2ca37bb6d2518dc4713da46e427505312540c3c5f757",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8098,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "04308c973d4963968ebe89e55ddc028a691e7c1a8d815b75cef1dd1a3fb6ccbf"
+     },
+     "name_EN": {
+      "@text": "04308c973d4963968ebe89e55ddc028a691e7c1a8d815b75cef1dd1a3fb6ccbf"
+     },
+     "name_FR": {
+      "@text": "04308c973d4963968ebe89e55ddc028a691e7c1a8d815b75cef1dd1a3fb6ccbf"
+     },
+     "name_JP": {
+      "@text": "04308c973d4963968ebe89e55ddc028a691e7c1a8d815b75cef1dd1a3fb6ccbf"
+     },
+     "name_KOR": {
+      "@text": "04308c973d4963968ebe89e55ddc028a691e7c1a8d815b75cef1dd1a3fb6ccbf"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "d08ffc31e9d39240e082df7f95e4c6d2fc9725cbd46587d4b40f04be61044abb",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "d08ffc31e9d39240e082df7f95e4c6d2fc9725cbd46587d4b40f04be61044abb",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "d08ffc31e9d39240e082df7f95e4c6d2fc9725cbd46587d4b40f04be61044abb",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "d08ffc31e9d39240e082df7f95e4c6d2fc9725cbd46587d4b40f04be61044abb",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "d08ffc31e9d39240e082df7f95e4c6d2fc9725cbd46587d4b40f04be61044abb",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8109,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "4c3ff9e1ffe90f09772ca95dd5c5c7d76e2497ddc11ce06919034c6ae45382ef"
+     },
+     "name_EN": {
+      "@text": "4c3ff9e1ffe90f09772ca95dd5c5c7d76e2497ddc11ce06919034c6ae45382ef"
+     },
+     "name_FR": {
+      "@text": "4c3ff9e1ffe90f09772ca95dd5c5c7d76e2497ddc11ce06919034c6ae45382ef"
+     },
+     "name_JP": {
+      "@text": "4c3ff9e1ffe90f09772ca95dd5c5c7d76e2497ddc11ce06919034c6ae45382ef"
+     },
+     "name_KOR": {
+      "@text": "4c3ff9e1ffe90f09772ca95dd5c5c7d76e2497ddc11ce06919034c6ae45382ef"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 20,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "cced0053f50057925222bc08fadeb619cdc8b5a470b3a07285edeb0fc554d37a",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "cced0053f50057925222bc08fadeb619cdc8b5a470b3a07285edeb0fc554d37a",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "cced0053f50057925222bc08fadeb619cdc8b5a470b3a07285edeb0fc554d37a",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "cced0053f50057925222bc08fadeb619cdc8b5a470b3a07285edeb0fc554d37a",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "cced0053f50057925222bc08fadeb619cdc8b5a470b3a07285edeb0fc554d37a",
+      "args": [],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8118,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "ebf8384323a6259315926ff4b3ef5a6a2e99d8a228ef377b34542456d8a7f2d2"
+     },
+     "name_EN": {
+      "@text": "ebf8384323a6259315926ff4b3ef5a6a2e99d8a228ef377b34542456d8a7f2d2"
+     },
+     "name_FR": {
+      "@text": "ebf8384323a6259315926ff4b3ef5a6a2e99d8a228ef377b34542456d8a7f2d2"
+     },
+     "name_JP": {
+      "@text": "ebf8384323a6259315926ff4b3ef5a6a2e99d8a228ef377b34542456d8a7f2d2"
+     },
+     "name_KOR": {
+      "@text": "ebf8384323a6259315926ff4b3ef5a6a2e99d8a228ef377b34542456d8a7f2d2"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "3a11c92ba3907b066b401a9282b1406c0dfc34a194661f73f713b9dc602ff9fb",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "3a11c92ba3907b066b401a9282b1406c0dfc34a194661f73f713b9dc602ff9fb",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "3a11c92ba3907b066b401a9282b1406c0dfc34a194661f73f713b9dc602ff9fb",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "3a11c92ba3907b066b401a9282b1406c0dfc34a194661f73f713b9dc602ff9fb",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "3a11c92ba3907b066b401a9282b1406c0dfc34a194661f73f713b9dc602ff9fb",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8178,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "e9123f67d979be03c3ed0c46fac92fbfe91a58f73717df6244890d7135cc8bf6"
+     },
+     "name_EN": {
+      "@text": "e9123f67d979be03c3ed0c46fac92fbfe91a58f73717df6244890d7135cc8bf6"
+     },
+     "name_FR": {
+      "@text": "e9123f67d979be03c3ed0c46fac92fbfe91a58f73717df6244890d7135cc8bf6"
+     },
+     "name_JP": {
+      "@text": "e9123f67d979be03c3ed0c46fac92fbfe91a58f73717df6244890d7135cc8bf6"
+     },
+     "name_KOR": {
+      "@text": "e9123f67d979be03c3ed0c46fac92fbfe91a58f73717df6244890d7135cc8bf6"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "51efcb4d66e05e534b5590ce223800b869118fd959adba80d09130c3816fed72",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "51efcb4d66e05e534b5590ce223800b869118fd959adba80d09130c3816fed72",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "51efcb4d66e05e534b5590ce223800b869118fd959adba80d09130c3816fed72",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "51efcb4d66e05e534b5590ce223800b869118fd959adba80d09130c3816fed72",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "51efcb4d66e05e534b5590ce223800b869118fd959adba80d09130c3816fed72",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8179,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "8b3dd68bac1f8a60f0a5943ab4d741bad2ab6ccdc0b8fa291ba9aa64ac1bf352"
+     },
+     "name_EN": {
+      "@text": "8b3dd68bac1f8a60f0a5943ab4d741bad2ab6ccdc0b8fa291ba9aa64ac1bf352"
+     },
+     "name_FR": {
+      "@text": "8b3dd68bac1f8a60f0a5943ab4d741bad2ab6ccdc0b8fa291ba9aa64ac1bf352"
+     },
+     "name_JP": {
+      "@text": "8b3dd68bac1f8a60f0a5943ab4d741bad2ab6ccdc0b8fa291ba9aa64ac1bf352"
+     },
+     "name_KOR": {
+      "@text": "8b3dd68bac1f8a60f0a5943ab4d741bad2ab6ccdc0b8fa291ba9aa64ac1bf352"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "1811e01ba1d62c4636db0b3a259ea788ea2dd64c125a34b6aeace2dae35f4022",
+      "args": [
+       10
+      ]
+     },
+     "desc_EN": {
+      "@template": "1811e01ba1d62c4636db0b3a259ea788ea2dd64c125a34b6aeace2dae35f4022",
+      "args": [
+       10
+      ]
+     },
+     "desc_FR": {
+      "@template": "1811e01ba1d62c4636db0b3a259ea788ea2dd64c125a34b6aeace2dae35f4022",
+      "args": [
+       10
+      ]
+     },
+     "desc_JP": {
+      "@template": "1811e01ba1d62c4636db0b3a259ea788ea2dd64c125a34b6aeace2dae35f4022",
+      "args": [
+       10
+      ]
+     },
+     "desc_KOR": {
+      "@template": "1811e01ba1d62c4636db0b3a259ea788ea2dd64c125a34b6aeace2dae35f4022",
+      "args": [
+       10
+      ]
+     },
+     "effect_group": 0,
+     "id": 8181,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "f7b797c805bef17c7c096905947d86a39708f45d26bf875737b05b09b83102d7"
+     },
+     "name_EN": {
+      "@text": "f7b797c805bef17c7c096905947d86a39708f45d26bf875737b05b09b83102d7"
+     },
+     "name_FR": {
+      "@text": "f7b797c805bef17c7c096905947d86a39708f45d26bf875737b05b09b83102d7"
+     },
+     "name_JP": {
+      "@text": "f7b797c805bef17c7c096905947d86a39708f45d26bf875737b05b09b83102d7"
+     },
+     "name_KOR": {
+      "@text": "f7b797c805bef17c7c096905947d86a39708f45d26bf875737b05b09b83102d7"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "ab0ec734d887f5331ed5220b27d77bfdf190c4772372d48b489cebcf78bcc6cb",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "ab0ec734d887f5331ed5220b27d77bfdf190c4772372d48b489cebcf78bcc6cb",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "ab0ec734d887f5331ed5220b27d77bfdf190c4772372d48b489cebcf78bcc6cb",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "ab0ec734d887f5331ed5220b27d77bfdf190c4772372d48b489cebcf78bcc6cb",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "ab0ec734d887f5331ed5220b27d77bfdf190c4772372d48b489cebcf78bcc6cb",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8182,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "f67321dac096b3ad1e49b55231663e26f3f9d96efafe79d75719a6eb72fc5caa"
+     },
+     "name_EN": {
+      "@text": "f67321dac096b3ad1e49b55231663e26f3f9d96efafe79d75719a6eb72fc5caa"
+     },
+     "name_FR": {
+      "@text": "f67321dac096b3ad1e49b55231663e26f3f9d96efafe79d75719a6eb72fc5caa"
+     },
+     "name_JP": {
+      "@text": "f67321dac096b3ad1e49b55231663e26f3f9d96efafe79d75719a6eb72fc5caa"
+     },
+     "name_KOR": {
+      "@text": "f67321dac096b3ad1e49b55231663e26f3f9d96efafe79d75719a6eb72fc5caa"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "68efdb9b1be2d94186f64a8d28ab1cb07db152b8385ce11940f12c3d85a9e12e",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "68efdb9b1be2d94186f64a8d28ab1cb07db152b8385ce11940f12c3d85a9e12e",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "68efdb9b1be2d94186f64a8d28ab1cb07db152b8385ce11940f12c3d85a9e12e",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "68efdb9b1be2d94186f64a8d28ab1cb07db152b8385ce11940f12c3d85a9e12e",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "68efdb9b1be2d94186f64a8d28ab1cb07db152b8385ce11940f12c3d85a9e12e",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8183,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "5f2d6f607453430a6a4ce49c58ea5afd8af16815ac3b16ed3cdf9526ba7f074f"
+     },
+     "name_EN": {
+      "@text": "5f2d6f607453430a6a4ce49c58ea5afd8af16815ac3b16ed3cdf9526ba7f074f"
+     },
+     "name_FR": {
+      "@text": "5f2d6f607453430a6a4ce49c58ea5afd8af16815ac3b16ed3cdf9526ba7f074f"
+     },
+     "name_JP": {
+      "@text": "5f2d6f607453430a6a4ce49c58ea5afd8af16815ac3b16ed3cdf9526ba7f074f"
+     },
+     "name_KOR": {
+      "@text": "5f2d6f607453430a6a4ce49c58ea5afd8af16815ac3b16ed3cdf9526ba7f074f"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "061d834b0a4763642f5dc829ea4a996ae37141f9eac570c222349bedf645370a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "061d834b0a4763642f5dc829ea4a996ae37141f9eac570c222349bedf645370a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "061d834b0a4763642f5dc829ea4a996ae37141f9eac570c222349bedf645370a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "061d834b0a4763642f5dc829ea4a996ae37141f9eac570c222349bedf645370a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "061d834b0a4763642f5dc829ea4a996ae37141f9eac570c222349bedf645370a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8184,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "599ca636a25b4504685a07a9ebb06a54cdd0a0eba52c07702daf1f301921209c"
+     },
+     "name_EN": {
+      "@text": "599ca636a25b4504685a07a9ebb06a54cdd0a0eba52c07702daf1f301921209c"
+     },
+     "name_FR": {
+      "@text": "599ca636a25b4504685a07a9ebb06a54cdd0a0eba52c07702daf1f301921209c"
+     },
+     "name_JP": {
+      "@text": "599ca636a25b4504685a07a9ebb06a54cdd0a0eba52c07702daf1f301921209c"
+     },
+     "name_KOR": {
+      "@text": "599ca636a25b4504685a07a9ebb06a54cdd0a0eba52c07702daf1f301921209c"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "e405fbf4991f98c686fe593021a66ab88620200331b31eb4e6ff26a30c63bb2c",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "e405fbf4991f98c686fe593021a66ab88620200331b31eb4e6ff26a30c63bb2c",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "e405fbf4991f98c686fe593021a66ab88620200331b31eb4e6ff26a30c63bb2c",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "e405fbf4991f98c686fe593021a66ab88620200331b31eb4e6ff26a30c63bb2c",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "e405fbf4991f98c686fe593021a66ab88620200331b31eb4e6ff26a30c63bb2c",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8185,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "ac991dd3c2d928da95b77afb954db61a3246be27b683f30d1232dcee625ae376"
+     },
+     "name_EN": {
+      "@text": "ac991dd3c2d928da95b77afb954db61a3246be27b683f30d1232dcee625ae376"
+     },
+     "name_FR": {
+      "@text": "ac991dd3c2d928da95b77afb954db61a3246be27b683f30d1232dcee625ae376"
+     },
+     "name_JP": {
+      "@text": "ac991dd3c2d928da95b77afb954db61a3246be27b683f30d1232dcee625ae376"
+     },
+     "name_KOR": {
+      "@text": "ac991dd3c2d928da95b77afb954db61a3246be27b683f30d1232dcee625ae376"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "1e70e67abd79d9c8beb57f907f5bc86290edf004d4c4029a1a6cbe47e346a812",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "1e70e67abd79d9c8beb57f907f5bc86290edf004d4c4029a1a6cbe47e346a812",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "1e70e67abd79d9c8beb57f907f5bc86290edf004d4c4029a1a6cbe47e346a812",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "1e70e67abd79d9c8beb57f907f5bc86290edf004d4c4029a1a6cbe47e346a812",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "1e70e67abd79d9c8beb57f907f5bc86290edf004d4c4029a1a6cbe47e346a812",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8186,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "869608639a4178f7e379027b2376eaeb05739e91794ff2f3cef4b57810fa2534"
+     },
+     "name_EN": {
+      "@text": "869608639a4178f7e379027b2376eaeb05739e91794ff2f3cef4b57810fa2534"
+     },
+     "name_FR": {
+      "@text": "869608639a4178f7e379027b2376eaeb05739e91794ff2f3cef4b57810fa2534"
+     },
+     "name_JP": {
+      "@text": "869608639a4178f7e379027b2376eaeb05739e91794ff2f3cef4b57810fa2534"
+     },
+     "name_KOR": {
+      "@text": "869608639a4178f7e379027b2376eaeb05739e91794ff2f3cef4b57810fa2534"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "cf5706af580382e72a0c55baaa9d3288471983fbebf087b996fc61628b850438",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "cf5706af580382e72a0c55baaa9d3288471983fbebf087b996fc61628b850438",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "cf5706af580382e72a0c55baaa9d3288471983fbebf087b996fc61628b850438",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "cf5706af580382e72a0c55baaa9d3288471983fbebf087b996fc61628b850438",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "cf5706af580382e72a0c55baaa9d3288471983fbebf087b996fc61628b850438",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8189,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "ba7d256f4e0b63810b417280668aba9bc5a53dca8c69f3875b364bdcc388cdf4"
+     },
+     "name_EN": {
+      "@text": "ba7d256f4e0b63810b417280668aba9bc5a53dca8c69f3875b364bdcc388cdf4"
+     },
+     "name_FR": {
+      "@text": "ba7d256f4e0b63810b417280668aba9bc5a53dca8c69f3875b364bdcc388cdf4"
+     },
+     "name_JP": {
+      "@text": "ba7d256f4e0b63810b417280668aba9bc5a53dca8c69f3875b364bdcc388cdf4"
+     },
+     "name_KOR": {
+      "@text": "ba7d256f4e0b63810b417280668aba9bc5a53dca8c69f3875b364bdcc388cdf4"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "59583222d6c4bff107fb742d73b6f9dd5ef3d18512ce005737f7a89debb6c622",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "59583222d6c4bff107fb742d73b6f9dd5ef3d18512ce005737f7a89debb6c622",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "59583222d6c4bff107fb742d73b6f9dd5ef3d18512ce005737f7a89debb6c622",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "59583222d6c4bff107fb742d73b6f9dd5ef3d18512ce005737f7a89debb6c622",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "59583222d6c4bff107fb742d73b6f9dd5ef3d18512ce005737f7a89debb6c622",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8221,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "1eb2dced2651481299155df1b8395d0b77a6b93c933c8fc418be1b545de553de"
+     },
+     "name_EN": {
+      "@text": "1eb2dced2651481299155df1b8395d0b77a6b93c933c8fc418be1b545de553de"
+     },
+     "name_FR": {
+      "@text": "1eb2dced2651481299155df1b8395d0b77a6b93c933c8fc418be1b545de553de"
+     },
+     "name_JP": {
+      "@text": "1eb2dced2651481299155df1b8395d0b77a6b93c933c8fc418be1b545de553de"
+     },
+     "name_KOR": {
+      "@text": "1eb2dced2651481299155df1b8395d0b77a6b93c933c8fc418be1b545de553de"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "fac56218894c8ae0d1705d140d4fa42d1993162cf06bd91d8d0f321c6f5bf9fe",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "fac56218894c8ae0d1705d140d4fa42d1993162cf06bd91d8d0f321c6f5bf9fe",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "fac56218894c8ae0d1705d140d4fa42d1993162cf06bd91d8d0f321c6f5bf9fe",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "fac56218894c8ae0d1705d140d4fa42d1993162cf06bd91d8d0f321c6f5bf9fe",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "fac56218894c8ae0d1705d140d4fa42d1993162cf06bd91d8d0f321c6f5bf9fe",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8223,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "e3ffd19f14fdbbe9f17f8baa7971d6babe298b48dfae15c0eaa8c07509ec473d"
+     },
+     "name_EN": {
+      "@text": "e3ffd19f14fdbbe9f17f8baa7971d6babe298b48dfae15c0eaa8c07509ec473d"
+     },
+     "name_FR": {
+      "@text": "e3ffd19f14fdbbe9f17f8baa7971d6babe298b48dfae15c0eaa8c07509ec473d"
+     },
+     "name_JP": {
+      "@text": "e3ffd19f14fdbbe9f17f8baa7971d6babe298b48dfae15c0eaa8c07509ec473d"
+     },
+     "name_KOR": {
+      "@text": "e3ffd19f14fdbbe9f17f8baa7971d6babe298b48dfae15c0eaa8c07509ec473d"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "1b643228b6b2865a6d70cad4b0e66c557182e86d4e10b4b86f9f3f1f4e8c50d5",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "1b643228b6b2865a6d70cad4b0e66c557182e86d4e10b4b86f9f3f1f4e8c50d5",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "1b643228b6b2865a6d70cad4b0e66c557182e86d4e10b4b86f9f3f1f4e8c50d5",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "1b643228b6b2865a6d70cad4b0e66c557182e86d4e10b4b86f9f3f1f4e8c50d5",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "1b643228b6b2865a6d70cad4b0e66c557182e86d4e10b4b86f9f3f1f4e8c50d5",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8228,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "cbd77713898ab8a5541b8c6b2fedb698d99b435f076643efbb08c879de087b39"
+     },
+     "name_EN": {
+      "@text": "cbd77713898ab8a5541b8c6b2fedb698d99b435f076643efbb08c879de087b39"
+     },
+     "name_FR": {
+      "@text": "cbd77713898ab8a5541b8c6b2fedb698d99b435f076643efbb08c879de087b39"
+     },
+     "name_JP": {
+      "@text": "cbd77713898ab8a5541b8c6b2fedb698d99b435f076643efbb08c879de087b39"
+     },
+     "name_KOR": {
+      "@text": "cbd77713898ab8a5541b8c6b2fedb698d99b435f076643efbb08c879de087b39"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "9ce28c88bb2b21f33300b7b192e1746dd68685c5f9c6a3081985fad18e041d1e",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "9ce28c88bb2b21f33300b7b192e1746dd68685c5f9c6a3081985fad18e041d1e",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "9ce28c88bb2b21f33300b7b192e1746dd68685c5f9c6a3081985fad18e041d1e",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "9ce28c88bb2b21f33300b7b192e1746dd68685c5f9c6a3081985fad18e041d1e",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "9ce28c88bb2b21f33300b7b192e1746dd68685c5f9c6a3081985fad18e041d1e",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8271,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "cce9c6c9bc755b788255290970fa148bbb0d3be183d18bcb8e28f5b4e8f923fa"
+     },
+     "name_EN": {
+      "@text": "cce9c6c9bc755b788255290970fa148bbb0d3be183d18bcb8e28f5b4e8f923fa"
+     },
+     "name_FR": {
+      "@text": "cce9c6c9bc755b788255290970fa148bbb0d3be183d18bcb8e28f5b4e8f923fa"
+     },
+     "name_JP": {
+      "@text": "cce9c6c9bc755b788255290970fa148bbb0d3be183d18bcb8e28f5b4e8f923fa"
+     },
+     "name_KOR": {
+      "@text": "cce9c6c9bc755b788255290970fa148bbb0d3be183d18bcb8e28f5b4e8f923fa"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 100,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "0a6795d46a5adb06e6c856c36399914129295d373c8315d3e875d9d5831aaa21",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "0a6795d46a5adb06e6c856c36399914129295d373c8315d3e875d9d5831aaa21",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "0a6795d46a5adb06e6c856c36399914129295d373c8315d3e875d9d5831aaa21",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "0a6795d46a5adb06e6c856c36399914129295d373c8315d3e875d9d5831aaa21",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "0a6795d46a5adb06e6c856c36399914129295d373c8315d3e875d9d5831aaa21",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8272,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "31462e9a83b90b0b03b1622dddbd73acff64476c097c804f433e9f5a72fc7034"
+     },
+     "name_EN": {
+      "@text": "31462e9a83b90b0b03b1622dddbd73acff64476c097c804f433e9f5a72fc7034"
+     },
+     "name_FR": {
+      "@text": "31462e9a83b90b0b03b1622dddbd73acff64476c097c804f433e9f5a72fc7034"
+     },
+     "name_JP": {
+      "@text": "31462e9a83b90b0b03b1622dddbd73acff64476c097c804f433e9f5a72fc7034"
+     },
+     "name_KOR": {
+      "@text": "31462e9a83b90b0b03b1622dddbd73acff64476c097c804f433e9f5a72fc7034"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 100,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "ad86314d4fb5a0d26697247e1450bc3469a891a64afd4c2f6a142ee4439e6835",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "ad86314d4fb5a0d26697247e1450bc3469a891a64afd4c2f6a142ee4439e6835",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "ad86314d4fb5a0d26697247e1450bc3469a891a64afd4c2f6a142ee4439e6835",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "ad86314d4fb5a0d26697247e1450bc3469a891a64afd4c2f6a142ee4439e6835",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "ad86314d4fb5a0d26697247e1450bc3469a891a64afd4c2f6a142ee4439e6835",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8273,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "5940a3f806c0dbbb4e5800b43d8dff1893a93f4120649af67488121acc02d5d0"
+     },
+     "name_EN": {
+      "@text": "5940a3f806c0dbbb4e5800b43d8dff1893a93f4120649af67488121acc02d5d0"
+     },
+     "name_FR": {
+      "@text": "5940a3f806c0dbbb4e5800b43d8dff1893a93f4120649af67488121acc02d5d0"
+     },
+     "name_JP": {
+      "@text": "5940a3f806c0dbbb4e5800b43d8dff1893a93f4120649af67488121acc02d5d0"
+     },
+     "name_KOR": {
+      "@text": "5940a3f806c0dbbb4e5800b43d8dff1893a93f4120649af67488121acc02d5d0"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 100,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "b08674cdfb0a96ff290b3629517428419061c068110279187745e6163f3a38c2",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "b08674cdfb0a96ff290b3629517428419061c068110279187745e6163f3a38c2",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "b08674cdfb0a96ff290b3629517428419061c068110279187745e6163f3a38c2",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "b08674cdfb0a96ff290b3629517428419061c068110279187745e6163f3a38c2",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "b08674cdfb0a96ff290b3629517428419061c068110279187745e6163f3a38c2",
+      "args": [
+       100
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8274,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "679ce5d4c07f8f5389455f300c6dc9590fabc07f30e128e504cec8068cb6886f"
+     },
+     "name_EN": {
+      "@text": "679ce5d4c07f8f5389455f300c6dc9590fabc07f30e128e504cec8068cb6886f"
+     },
+     "name_FR": {
+      "@text": "679ce5d4c07f8f5389455f300c6dc9590fabc07f30e128e504cec8068cb6886f"
+     },
+     "name_JP": {
+      "@text": "679ce5d4c07f8f5389455f300c6dc9590fabc07f30e128e504cec8068cb6886f"
+     },
+     "name_KOR": {
+      "@text": "679ce5d4c07f8f5389455f300c6dc9590fabc07f30e128e504cec8068cb6886f"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 100,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "5a9a14719eb597561231167901d9885fbb6f88fdcec29216b61a94b2d3a4d06f",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "5a9a14719eb597561231167901d9885fbb6f88fdcec29216b61a94b2d3a4d06f",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "5a9a14719eb597561231167901d9885fbb6f88fdcec29216b61a94b2d3a4d06f",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "5a9a14719eb597561231167901d9885fbb6f88fdcec29216b61a94b2d3a4d06f",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "5a9a14719eb597561231167901d9885fbb6f88fdcec29216b61a94b2d3a4d06f",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8291,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "6218cab08c5843d40614ae726f4ea3ee085e9fbd2423241f232a8f0473acf3a2"
+     },
+     "name_EN": {
+      "@text": "6218cab08c5843d40614ae726f4ea3ee085e9fbd2423241f232a8f0473acf3a2"
+     },
+     "name_FR": {
+      "@text": "6218cab08c5843d40614ae726f4ea3ee085e9fbd2423241f232a8f0473acf3a2"
+     },
+     "name_JP": {
+      "@text": "6218cab08c5843d40614ae726f4ea3ee085e9fbd2423241f232a8f0473acf3a2"
+     },
+     "name_KOR": {
+      "@text": "6218cab08c5843d40614ae726f4ea3ee085e9fbd2423241f232a8f0473acf3a2"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "e09adb85344e69b5a09d2189fabec023398382e57cb0dc4e2c3ae14852437b3f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "e09adb85344e69b5a09d2189fabec023398382e57cb0dc4e2c3ae14852437b3f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "e09adb85344e69b5a09d2189fabec023398382e57cb0dc4e2c3ae14852437b3f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "e09adb85344e69b5a09d2189fabec023398382e57cb0dc4e2c3ae14852437b3f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "e09adb85344e69b5a09d2189fabec023398382e57cb0dc4e2c3ae14852437b3f",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8325,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "410f98ffb3040e961074278ba919e33b0cd19f29cef4586cd17dbbbdbc22a845"
+     },
+     "name_EN": {
+      "@text": "410f98ffb3040e961074278ba919e33b0cd19f29cef4586cd17dbbbdbc22a845"
+     },
+     "name_FR": {
+      "@text": "410f98ffb3040e961074278ba919e33b0cd19f29cef4586cd17dbbbdbc22a845"
+     },
+     "name_JP": {
+      "@text": "410f98ffb3040e961074278ba919e33b0cd19f29cef4586cd17dbbbdbc22a845"
+     },
+     "name_KOR": {
+      "@text": "410f98ffb3040e961074278ba919e33b0cd19f29cef4586cd17dbbbdbc22a845"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@text": "15caa5bb33097317e1c447e850374189a972fee8e07d9550b9384fd2ada2680f"
+     },
+     "desc_EN": {
+      "@text": "15caa5bb33097317e1c447e850374189a972fee8e07d9550b9384fd2ada2680f"
+     },
+     "desc_FR": {
+      "@text": "15caa5bb33097317e1c447e850374189a972fee8e07d9550b9384fd2ada2680f"
+     },
+     "desc_JP": {
+      "@text": "15caa5bb33097317e1c447e850374189a972fee8e07d9550b9384fd2ada2680f"
+     },
+     "desc_KOR": {
+      "@text": "15caa5bb33097317e1c447e850374189a972fee8e07d9550b9384fd2ada2680f"
+     },
+     "effect_group": 0,
+     "id": 8326,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "727eeac801afb1b14811e9497d883c4e4b0ec3c1304abd2c1ed6a39fdf07d796"
+     },
+     "name_EN": {
+      "@text": "727eeac801afb1b14811e9497d883c4e4b0ec3c1304abd2c1ed6a39fdf07d796"
+     },
+     "name_FR": {
+      "@text": "727eeac801afb1b14811e9497d883c4e4b0ec3c1304abd2c1ed6a39fdf07d796"
+     },
+     "name_JP": {
+      "@text": "727eeac801afb1b14811e9497d883c4e4b0ec3c1304abd2c1ed6a39fdf07d796"
+     },
+     "name_KOR": {
+      "@text": "727eeac801afb1b14811e9497d883c4e4b0ec3c1304abd2c1ed6a39fdf07d796"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 100,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "d9ee59fc63be7d7b1793adf067c448a6e173b6efadfd4dc6a74c8cb7e05f5fb1",
+      "args": [
+       3
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "d9ee59fc63be7d7b1793adf067c448a6e173b6efadfd4dc6a74c8cb7e05f5fb1",
+      "args": [
+       3
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "d9ee59fc63be7d7b1793adf067c448a6e173b6efadfd4dc6a74c8cb7e05f5fb1",
+      "args": [
+       3
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "d9ee59fc63be7d7b1793adf067c448a6e173b6efadfd4dc6a74c8cb7e05f5fb1",
+      "args": [
+       3
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "d9ee59fc63be7d7b1793adf067c448a6e173b6efadfd4dc6a74c8cb7e05f5fb1",
+      "args": [
+       3
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8341,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "898826d906e0d3a1dbb50ee6dc484ddb8322f3b7973162e5216e5cd4528a2189"
+     },
+     "name_EN": {
+      "@text": "898826d906e0d3a1dbb50ee6dc484ddb8322f3b7973162e5216e5cd4528a2189"
+     },
+     "name_FR": {
+      "@text": "898826d906e0d3a1dbb50ee6dc484ddb8322f3b7973162e5216e5cd4528a2189"
+     },
+     "name_JP": {
+      "@text": "898826d906e0d3a1dbb50ee6dc484ddb8322f3b7973162e5216e5cd4528a2189"
+     },
+     "name_KOR": {
+      "@text": "898826d906e0d3a1dbb50ee6dc484ddb8322f3b7973162e5216e5cd4528a2189"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 3,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "c7a0ac37b38be395fff062ed19b298d0516bdc54700855eba61664189b0ca14c",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "c7a0ac37b38be395fff062ed19b298d0516bdc54700855eba61664189b0ca14c",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "c7a0ac37b38be395fff062ed19b298d0516bdc54700855eba61664189b0ca14c",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "c7a0ac37b38be395fff062ed19b298d0516bdc54700855eba61664189b0ca14c",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "c7a0ac37b38be395fff062ed19b298d0516bdc54700855eba61664189b0ca14c",
+      "args": [
+       30
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8344,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "175a0ddcbf5dbbbfdd1b4aad9c56dbb538f1e3237d98d357faa9822b10a980f6"
+     },
+     "name_EN": {
+      "@text": "175a0ddcbf5dbbbfdd1b4aad9c56dbb538f1e3237d98d357faa9822b10a980f6"
+     },
+     "name_FR": {
+      "@text": "175a0ddcbf5dbbbfdd1b4aad9c56dbb538f1e3237d98d357faa9822b10a980f6"
+     },
+     "name_JP": {
+      "@text": "175a0ddcbf5dbbbfdd1b4aad9c56dbb538f1e3237d98d357faa9822b10a980f6"
+     },
+     "name_KOR": {
+      "@text": "175a0ddcbf5dbbbfdd1b4aad9c56dbb538f1e3237d98d357faa9822b10a980f6"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 30,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "f60de6d7741fbefa832917653e83bda519cc448653f93e02ec8434bf12d26d00",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "f60de6d7741fbefa832917653e83bda519cc448653f93e02ec8434bf12d26d00",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "f60de6d7741fbefa832917653e83bda519cc448653f93e02ec8434bf12d26d00",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "f60de6d7741fbefa832917653e83bda519cc448653f93e02ec8434bf12d26d00",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "f60de6d7741fbefa832917653e83bda519cc448653f93e02ec8434bf12d26d00",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8350,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "a0d020c2eb899d898b9fb79e231077e84214ee41840d52541dee0b1b90396c74"
+     },
+     "name_EN": {
+      "@text": "a0d020c2eb899d898b9fb79e231077e84214ee41840d52541dee0b1b90396c74"
+     },
+     "name_FR": {
+      "@text": "a0d020c2eb899d898b9fb79e231077e84214ee41840d52541dee0b1b90396c74"
+     },
+     "name_JP": {
+      "@text": "a0d020c2eb899d898b9fb79e231077e84214ee41840d52541dee0b1b90396c74"
+     },
+     "name_KOR": {
+      "@text": "a0d020c2eb899d898b9fb79e231077e84214ee41840d52541dee0b1b90396c74"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 20,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "e5dbfbb623d7258ffacb9f3876a491a0db70e2704a71505dddebd87659853bd9",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "e5dbfbb623d7258ffacb9f3876a491a0db70e2704a71505dddebd87659853bd9",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "e5dbfbb623d7258ffacb9f3876a491a0db70e2704a71505dddebd87659853bd9",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "e5dbfbb623d7258ffacb9f3876a491a0db70e2704a71505dddebd87659853bd9",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "e5dbfbb623d7258ffacb9f3876a491a0db70e2704a71505dddebd87659853bd9",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8367,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+     },
+     "name_EN": {
+      "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+     },
+     "name_FR": {
+      "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+     },
+     "name_JP": {
+      "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+     },
+     "name_KOR": {
+      "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "4bd5fd728a9ccd7ad97ec138468a0f545ef692fd1b2158a77b1f4be2db10b5d4",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "4bd5fd728a9ccd7ad97ec138468a0f545ef692fd1b2158a77b1f4be2db10b5d4",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "4bd5fd728a9ccd7ad97ec138468a0f545ef692fd1b2158a77b1f4be2db10b5d4",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "4bd5fd728a9ccd7ad97ec138468a0f545ef692fd1b2158a77b1f4be2db10b5d4",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "4bd5fd728a9ccd7ad97ec138468a0f545ef692fd1b2158a77b1f4be2db10b5d4",
+      "args": [],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8368,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "3c0b1b7d2d10dacd156c4fbf937cf867ec45a3cef9add54479b421420fe00606"
+     },
+     "name_EN": {
+      "@text": "3c0b1b7d2d10dacd156c4fbf937cf867ec45a3cef9add54479b421420fe00606"
+     },
+     "name_FR": {
+      "@text": "3c0b1b7d2d10dacd156c4fbf937cf867ec45a3cef9add54479b421420fe00606"
+     },
+     "name_JP": {
+      "@text": "3c0b1b7d2d10dacd156c4fbf937cf867ec45a3cef9add54479b421420fe00606"
+     },
+     "name_KOR": {
+      "@text": "3c0b1b7d2d10dacd156c4fbf937cf867ec45a3cef9add54479b421420fe00606"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 100,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@text": "51bf23d11f285446dfc7b7ae0f487f15ba9970919f2b37dc7e7a4e905dcb6a67"
+     },
+     "desc_EN": {
+      "@text": "51bf23d11f285446dfc7b7ae0f487f15ba9970919f2b37dc7e7a4e905dcb6a67"
+     },
+     "desc_FR": {
+      "@text": "51bf23d11f285446dfc7b7ae0f487f15ba9970919f2b37dc7e7a4e905dcb6a67"
+     },
+     "desc_JP": {
+      "@text": "51bf23d11f285446dfc7b7ae0f487f15ba9970919f2b37dc7e7a4e905dcb6a67"
+     },
+     "desc_KOR": {
+      "@text": "51bf23d11f285446dfc7b7ae0f487f15ba9970919f2b37dc7e7a4e905dcb6a67"
+     },
+     "effect_group": 0,
+     "id": 8384,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "69c5f9f4a070a6d6dd0bb1dd753c7bf868b50596992aa7d61d7886c6339ee2a0"
+     },
+     "name_EN": {
+      "@text": "69c5f9f4a070a6d6dd0bb1dd753c7bf868b50596992aa7d61d7886c6339ee2a0"
+     },
+     "name_FR": {
+      "@text": "69c5f9f4a070a6d6dd0bb1dd753c7bf868b50596992aa7d61d7886c6339ee2a0"
+     },
+     "name_JP": {
+      "@text": "69c5f9f4a070a6d6dd0bb1dd753c7bf868b50596992aa7d61d7886c6339ee2a0"
+     },
+     "name_KOR": {
+      "@text": "69c5f9f4a070a6d6dd0bb1dd753c7bf868b50596992aa7d61d7886c6339ee2a0"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 100,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "930177ab455551bf976fc1f4c5940c650b0afbdad2304f2278574a6f8cf8e77a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "930177ab455551bf976fc1f4c5940c650b0afbdad2304f2278574a6f8cf8e77a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "930177ab455551bf976fc1f4c5940c650b0afbdad2304f2278574a6f8cf8e77a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "930177ab455551bf976fc1f4c5940c650b0afbdad2304f2278574a6f8cf8e77a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "930177ab455551bf976fc1f4c5940c650b0afbdad2304f2278574a6f8cf8e77a",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8421,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "6a029d1b56068a2be350ff8e568a59bec6b0041cc6971bc93ae0300661cbd0f2"
+     },
+     "name_EN": {
+      "@text": "6a029d1b56068a2be350ff8e568a59bec6b0041cc6971bc93ae0300661cbd0f2"
+     },
+     "name_FR": {
+      "@text": "6a029d1b56068a2be350ff8e568a59bec6b0041cc6971bc93ae0300661cbd0f2"
+     },
+     "name_JP": {
+      "@text": "6a029d1b56068a2be350ff8e568a59bec6b0041cc6971bc93ae0300661cbd0f2"
+     },
+     "name_KOR": {
+      "@text": "6a029d1b56068a2be350ff8e568a59bec6b0041cc6971bc93ae0300661cbd0f2"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "26b5f6608d27540d370c6049bc6af6414def0e5fcc8cbc3d9ceca07565202ecc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "26b5f6608d27540d370c6049bc6af6414def0e5fcc8cbc3d9ceca07565202ecc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "26b5f6608d27540d370c6049bc6af6414def0e5fcc8cbc3d9ceca07565202ecc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "26b5f6608d27540d370c6049bc6af6414def0e5fcc8cbc3d9ceca07565202ecc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "26b5f6608d27540d370c6049bc6af6414def0e5fcc8cbc3d9ceca07565202ecc",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8422,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "69f0f84f40efcb8c791aa0ae2e21f916cde701ff74600e4c470b6e9cbcb63a4d"
+     },
+     "name_EN": {
+      "@text": "69f0f84f40efcb8c791aa0ae2e21f916cde701ff74600e4c470b6e9cbcb63a4d"
+     },
+     "name_FR": {
+      "@text": "69f0f84f40efcb8c791aa0ae2e21f916cde701ff74600e4c470b6e9cbcb63a4d"
+     },
+     "name_JP": {
+      "@text": "69f0f84f40efcb8c791aa0ae2e21f916cde701ff74600e4c470b6e9cbcb63a4d"
+     },
+     "name_KOR": {
+      "@text": "69f0f84f40efcb8c791aa0ae2e21f916cde701ff74600e4c470b6e9cbcb63a4d"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "d8681ffe03d4c910a8caee229a828c6d92ed09b549c0a948a4b4382f7f8dd1b4",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "d8681ffe03d4c910a8caee229a828c6d92ed09b549c0a948a4b4382f7f8dd1b4",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "d8681ffe03d4c910a8caee229a828c6d92ed09b549c0a948a4b4382f7f8dd1b4",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "d8681ffe03d4c910a8caee229a828c6d92ed09b549c0a948a4b4382f7f8dd1b4",
+      "args": [],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "d8681ffe03d4c910a8caee229a828c6d92ed09b549c0a948a4b4382f7f8dd1b4",
+      "args": [],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8429,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "9843dcab5ca7bda573d96de822fb5da637ad18c596d8ba53d6ac29f4580a5fc0"
+     },
+     "name_EN": {
+      "@text": "9843dcab5ca7bda573d96de822fb5da637ad18c596d8ba53d6ac29f4580a5fc0"
+     },
+     "name_FR": {
+      "@text": "9843dcab5ca7bda573d96de822fb5da637ad18c596d8ba53d6ac29f4580a5fc0"
+     },
+     "name_JP": {
+      "@text": "9843dcab5ca7bda573d96de822fb5da637ad18c596d8ba53d6ac29f4580a5fc0"
+     },
+     "name_KOR": {
+      "@text": "9843dcab5ca7bda573d96de822fb5da637ad18c596d8ba53d6ac29f4580a5fc0"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 100,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@text": "46973e2ab70063a82937f2134be84b81afa193579c0b28b34d8a2d4de9a63d27"
+     },
+     "desc_EN": {
+      "@text": "46973e2ab70063a82937f2134be84b81afa193579c0b28b34d8a2d4de9a63d27"
+     },
+     "desc_FR": {
+      "@text": "46973e2ab70063a82937f2134be84b81afa193579c0b28b34d8a2d4de9a63d27"
+     },
+     "desc_JP": {
+      "@text": "46973e2ab70063a82937f2134be84b81afa193579c0b28b34d8a2d4de9a63d27"
+     },
+     "desc_KOR": {
+      "@text": "46973e2ab70063a82937f2134be84b81afa193579c0b28b34d8a2d4de9a63d27"
+     },
+     "effect_group": 0,
+     "id": 8464,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "2eb503aadf450754d33f8497838cf7f0299331522ba93f9637ae36258d613037"
+     },
+     "name_EN": {
+      "@text": "2eb503aadf450754d33f8497838cf7f0299331522ba93f9637ae36258d613037"
+     },
+     "name_FR": {
+      "@text": "2eb503aadf450754d33f8497838cf7f0299331522ba93f9637ae36258d613037"
+     },
+     "name_JP": {
+      "@text": "2eb503aadf450754d33f8497838cf7f0299331522ba93f9637ae36258d613037"
+     },
+     "name_KOR": {
+      "@text": "2eb503aadf450754d33f8497838cf7f0299331522ba93f9637ae36258d613037"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 0,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "e0eeb4d55f606a1e3146910ae9a145e22d1582bf0470c8182d84e99873711f64",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8625,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "name_EN": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "name_FR": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "name_JP": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "name_KOR": {
+      "@text": "a4d6b72a385db16d1a4e3b8b4a3c67e3d7abbf6cc100963bd5fe620c2bdbb02d"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "14ae9e39d8df6c843041d9f2439971e70e6ebe1c43e81ae2f302c6d795ed9d57",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "14ae9e39d8df6c843041d9f2439971e70e6ebe1c43e81ae2f302c6d795ed9d57",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "14ae9e39d8df6c843041d9f2439971e70e6ebe1c43e81ae2f302c6d795ed9d57",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "14ae9e39d8df6c843041d9f2439971e70e6ebe1c43e81ae2f302c6d795ed9d57",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "14ae9e39d8df6c843041d9f2439971e70e6ebe1c43e81ae2f302c6d795ed9d57",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8643,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "c2cfec66629abd71488212efd5fbb8c6d88459318d65929dffc0e9d02ad26623"
+     },
+     "name_EN": {
+      "@text": "c2cfec66629abd71488212efd5fbb8c6d88459318d65929dffc0e9d02ad26623"
+     },
+     "name_FR": {
+      "@text": "c2cfec66629abd71488212efd5fbb8c6d88459318d65929dffc0e9d02ad26623"
+     },
+     "name_JP": {
+      "@text": "c2cfec66629abd71488212efd5fbb8c6d88459318d65929dffc0e9d02ad26623"
+     },
+     "name_KOR": {
+      "@text": "c2cfec66629abd71488212efd5fbb8c6d88459318d65929dffc0e9d02ad26623"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "4331c344c93dc2f200537ad03e15629650c58007f18ee2b0ba321481e66b0544",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "4331c344c93dc2f200537ad03e15629650c58007f18ee2b0ba321481e66b0544",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "4331c344c93dc2f200537ad03e15629650c58007f18ee2b0ba321481e66b0544",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "4331c344c93dc2f200537ad03e15629650c58007f18ee2b0ba321481e66b0544",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "4331c344c93dc2f200537ad03e15629650c58007f18ee2b0ba321481e66b0544",
+      "args": [
+       20
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8697,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "3630ba6e7a7c277005f5dd90e699000cad2fe6e04a562aa70670534210a363d9"
+     },
+     "name_EN": {
+      "@text": "3630ba6e7a7c277005f5dd90e699000cad2fe6e04a562aa70670534210a363d9"
+     },
+     "name_FR": {
+      "@text": "3630ba6e7a7c277005f5dd90e699000cad2fe6e04a562aa70670534210a363d9"
+     },
+     "name_JP": {
+      "@text": "3630ba6e7a7c277005f5dd90e699000cad2fe6e04a562aa70670534210a363d9"
+     },
+     "name_KOR": {
+      "@text": "3630ba6e7a7c277005f5dd90e699000cad2fe6e04a562aa70670534210a363d9"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 20,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "320d6564cadb4e3fcc44160b11cb7ca98d002c0ae3633a6d08c61c7f10333709",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "320d6564cadb4e3fcc44160b11cb7ca98d002c0ae3633a6d08c61c7f10333709",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "320d6564cadb4e3fcc44160b11cb7ca98d002c0ae3633a6d08c61c7f10333709",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "320d6564cadb4e3fcc44160b11cb7ca98d002c0ae3633a6d08c61c7f10333709",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "320d6564cadb4e3fcc44160b11cb7ca98d002c0ae3633a6d08c61c7f10333709",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8830,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "0d115a556f1d88ebf32662029a26816d2e5c17d592d41beac1cb82094f7ef2a8"
+     },
+     "name_EN": {
+      "@text": "0d115a556f1d88ebf32662029a26816d2e5c17d592d41beac1cb82094f7ef2a8"
+     },
+     "name_FR": {
+      "@text": "0d115a556f1d88ebf32662029a26816d2e5c17d592d41beac1cb82094f7ef2a8"
+     },
+     "name_JP": {
+      "@text": "0d115a556f1d88ebf32662029a26816d2e5c17d592d41beac1cb82094f7ef2a8"
+     },
+     "name_KOR": {
+      "@text": "0d115a556f1d88ebf32662029a26816d2e5c17d592d41beac1cb82094f7ef2a8"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "2635f03e17cb0312ad0dd9a290d587f02217c66405ffc591122b8974f7512b69",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "2635f03e17cb0312ad0dd9a290d587f02217c66405ffc591122b8974f7512b69",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "2635f03e17cb0312ad0dd9a290d587f02217c66405ffc591122b8974f7512b69",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "2635f03e17cb0312ad0dd9a290d587f02217c66405ffc591122b8974f7512b69",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "2635f03e17cb0312ad0dd9a290d587f02217c66405ffc591122b8974f7512b69",
+      "args": [
+       10
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8845,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "dcd05aeb2ed54c7dcca9dfdbdd28a4604bc349bacd33105f4e0ad8c557edd5e7"
+     },
+     "name_EN": {
+      "@text": "dcd05aeb2ed54c7dcca9dfdbdd28a4604bc349bacd33105f4e0ad8c557edd5e7"
+     },
+     "name_FR": {
+      "@text": "dcd05aeb2ed54c7dcca9dfdbdd28a4604bc349bacd33105f4e0ad8c557edd5e7"
+     },
+     "name_JP": {
+      "@text": "dcd05aeb2ed54c7dcca9dfdbdd28a4604bc349bacd33105f4e0ad8c557edd5e7"
+     },
+     "name_KOR": {
+      "@text": "dcd05aeb2ed54c7dcca9dfdbdd28a4604bc349bacd33105f4e0ad8c557edd5e7"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 10,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "5d7f9d38067726c04ea15b4460c321dc02dc217fde69d1a0181b8c92b5f4af36",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "5d7f9d38067726c04ea15b4460c321dc02dc217fde69d1a0181b8c92b5f4af36",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "5d7f9d38067726c04ea15b4460c321dc02dc217fde69d1a0181b8c92b5f4af36",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "5d7f9d38067726c04ea15b4460c321dc02dc217fde69d1a0181b8c92b5f4af36",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "5d7f9d38067726c04ea15b4460c321dc02dc217fde69d1a0181b8c92b5f4af36",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8846,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "15d535eb97c3fbe8fbb20a3af266b4a21eb75ca0c935ae4ff2ddbadb0aee3c79"
+     },
+     "name_EN": {
+      "@text": "15d535eb97c3fbe8fbb20a3af266b4a21eb75ca0c935ae4ff2ddbadb0aee3c79"
+     },
+     "name_FR": {
+      "@text": "15d535eb97c3fbe8fbb20a3af266b4a21eb75ca0c935ae4ff2ddbadb0aee3c79"
+     },
+     "name_JP": {
+      "@text": "15d535eb97c3fbe8fbb20a3af266b4a21eb75ca0c935ae4ff2ddbadb0aee3c79"
+     },
+     "name_KOR": {
+      "@text": "15d535eb97c3fbe8fbb20a3af266b4a21eb75ca0c935ae4ff2ddbadb0aee3c79"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "f158e008eed1431f2c0a66a30b47ada7f006f5efbe4f590eefcd16e01dc35f8b",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "f158e008eed1431f2c0a66a30b47ada7f006f5efbe4f590eefcd16e01dc35f8b",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "f158e008eed1431f2c0a66a30b47ada7f006f5efbe4f590eefcd16e01dc35f8b",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "f158e008eed1431f2c0a66a30b47ada7f006f5efbe4f590eefcd16e01dc35f8b",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "f158e008eed1431f2c0a66a30b47ada7f006f5efbe4f590eefcd16e01dc35f8b",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8859,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "20edba2c343e3f9b92e082bae1a0491b4f19519e1f3ff676ec8824f9811c40fa"
+     },
+     "name_EN": {
+      "@text": "20edba2c343e3f9b92e082bae1a0491b4f19519e1f3ff676ec8824f9811c40fa"
+     },
+     "name_FR": {
+      "@text": "20edba2c343e3f9b92e082bae1a0491b4f19519e1f3ff676ec8824f9811c40fa"
+     },
+     "name_JP": {
+      "@text": "20edba2c343e3f9b92e082bae1a0491b4f19519e1f3ff676ec8824f9811c40fa"
+     },
+     "name_KOR": {
+      "@text": "20edba2c343e3f9b92e082bae1a0491b4f19519e1f3ff676ec8824f9811c40fa"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "1ac3781a424c813ab8b3e78a7f8f131ae03e6051ef8d6d127af61b35e31feb3c",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "1ac3781a424c813ab8b3e78a7f8f131ae03e6051ef8d6d127af61b35e31feb3c",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "1ac3781a424c813ab8b3e78a7f8f131ae03e6051ef8d6d127af61b35e31feb3c",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "1ac3781a424c813ab8b3e78a7f8f131ae03e6051ef8d6d127af61b35e31feb3c",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "1ac3781a424c813ab8b3e78a7f8f131ae03e6051ef8d6d127af61b35e31feb3c",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8884,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "539daa103f46a60fbc90bc7575302c1c0dd807b70e064c0c78f9af6c09b12f45"
+     },
+     "name_EN": {
+      "@text": "539daa103f46a60fbc90bc7575302c1c0dd807b70e064c0c78f9af6c09b12f45"
+     },
+     "name_FR": {
+      "@text": "539daa103f46a60fbc90bc7575302c1c0dd807b70e064c0c78f9af6c09b12f45"
+     },
+     "name_JP": {
+      "@text": "539daa103f46a60fbc90bc7575302c1c0dd807b70e064c0c78f9af6c09b12f45"
+     },
+     "name_KOR": {
+      "@text": "539daa103f46a60fbc90bc7575302c1c0dd807b70e064c0c78f9af6c09b12f45"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 50,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "306cafacf247f295c043b3ebc0b6d9c778c2d503cbc16dc8dcaf5ea96988856f",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "306cafacf247f295c043b3ebc0b6d9c778c2d503cbc16dc8dcaf5ea96988856f",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "306cafacf247f295c043b3ebc0b6d9c778c2d503cbc16dc8dcaf5ea96988856f",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "306cafacf247f295c043b3ebc0b6d9c778c2d503cbc16dc8dcaf5ea96988856f",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "306cafacf247f295c043b3ebc0b6d9c778c2d503cbc16dc8dcaf5ea96988856f",
+      "args": [
+       5
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8347,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "1fdf2fc2395d30d753a88bf48b7bda7697eaafdc623190152f27692b6fefb347"
+     },
+     "name_EN": {
+      "@text": "1fdf2fc2395d30d753a88bf48b7bda7697eaafdc623190152f27692b6fefb347"
+     },
+     "name_FR": {
+      "@text": "1fdf2fc2395d30d753a88bf48b7bda7697eaafdc623190152f27692b6fefb347"
+     },
+     "name_JP": {
+      "@text": "1fdf2fc2395d30d753a88bf48b7bda7697eaafdc623190152f27692b6fefb347"
+     },
+     "name_KOR": {
+      "@text": "1fdf2fc2395d30d753a88bf48b7bda7697eaafdc623190152f27692b6fefb347"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 0,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "1216bc44ccb3f39873fe5d7118e77f9f6b57531e597106afd7ff499d19671121",
+      "args": [
+       10
+      ]
+     },
+     "desc_EN": {
+      "@template": "1216bc44ccb3f39873fe5d7118e77f9f6b57531e597106afd7ff499d19671121",
+      "args": [
+       10
+      ]
+     },
+     "desc_FR": {
+      "@template": "1216bc44ccb3f39873fe5d7118e77f9f6b57531e597106afd7ff499d19671121",
+      "args": [
+       10
+      ]
+     },
+     "desc_JP": {
+      "@template": "1216bc44ccb3f39873fe5d7118e77f9f6b57531e597106afd7ff499d19671121",
+      "args": [
+       10
+      ]
+     },
+     "desc_KOR": {
+      "@template": "1216bc44ccb3f39873fe5d7118e77f9f6b57531e597106afd7ff499d19671121",
+      "args": [
+       10
+      ]
+     },
+     "effect_group": 0,
+     "id": 8815,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "bc1e3978f56b836e71c0dd4da4b9859e30e23841f44599cf554081647ad492fa"
+     },
+     "name_EN": {
+      "@text": "bc1e3978f56b836e71c0dd4da4b9859e30e23841f44599cf554081647ad492fa"
+     },
+     "name_FR": {
+      "@text": "bc1e3978f56b836e71c0dd4da4b9859e30e23841f44599cf554081647ad492fa"
+     },
+     "name_JP": {
+      "@text": "bc1e3978f56b836e71c0dd4da4b9859e30e23841f44599cf554081647ad492fa"
+     },
+     "name_KOR": {
+      "@text": "bc1e3978f56b836e71c0dd4da4b9859e30e23841f44599cf554081647ad492fa"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 0,
+     "value2": 0,
+     "version_group": 100
+    },
+    {
+     "category": 0,
+     "class_order": 0,
+     "desc_CHN": {
+      "@template": "22ef52a4e3c11e798594d4007ef2da05833ebc2685758dd77a8fc676a14bafc8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_EN": {
+      "@template": "22ef52a4e3c11e798594d4007ef2da05833ebc2685758dd77a8fc676a14bafc8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_FR": {
+      "@template": "22ef52a4e3c11e798594d4007ef2da05833ebc2685758dd77a8fc676a14bafc8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_JP": {
+      "@template": "22ef52a4e3c11e798594d4007ef2da05833ebc2685758dd77a8fc676a14bafc8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "desc_KOR": {
+      "@template": "22ef52a4e3c11e798594d4007ef2da05833ebc2685758dd77a8fc676a14bafc8",
+      "args": [
+       50
+      ],
+      "percent": "%"
+     },
+     "effect_group": 0,
+     "id": 8694,
+     "kind": 1,
+     "mana_cost": 0,
+     "name_CHN": {
+      "@text": "3f91976b754d267ba6e6eed62d5d480abbaff95d596192a8be0b8e71e3d9bcb4"
+     },
+     "name_EN": {
+      "@text": "3f91976b754d267ba6e6eed62d5d480abbaff95d596192a8be0b8e71e3d9bcb4"
+     },
+     "name_FR": {
+      "@text": "3f91976b754d267ba6e6eed62d5d480abbaff95d596192a8be0b8e71e3d9bcb4"
+     },
+     "name_JP": {
+      "@text": "3f91976b754d267ba6e6eed62d5d480abbaff95d596192a8be0b8e71e3d9bcb4"
+     },
+     "name_KOR": {
+      "@text": "3f91976b754d267ba6e6eed62d5d480abbaff95d596192a8be0b8e71e3d9bcb4"
+     },
+     "owner": 0,
+     "shop_rank": 0,
+     "slot_cost": 0,
+     "source": 6,
+     "subcategory": 0,
+     "value1": 0,
+     "value2": 0,
+     "version_group": 100
+    }
+   ],
+   "table": "Skill.dat"
+  },
+  "patches/evilities/evilities.json": {
+   "evilities": {
+    "8001": {
+     "conditions": [
+      {
+       "id": 1,
+       "kind": "other_level_higher"
+      }
+     ],
+     "effects": [
+      {
+       "value": 20
+      }
+     ],
+     "family": "dealt"
+    },
+    "8002": {
+     "conditions": [
+      {
+       "id": 1,
+       "kind": "other_level_lower"
+      }
+     ],
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "family": "dealt"
+    },
+    "8004": {
+     "condition": {
+      "kind": "other_monster"
+     },
+     "effects": [
+      {
+       "value": 25
+      }
+     ],
+     "family": "dealt"
+    },
+    "8007": {
+     "conditions": [
+      {
+       "kind": "other_fly"
+      }
+     ],
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "family": "dealt"
+    },
+    "8008": {
+     "conditions": [
+      {
+       "kind": "attack_skill"
+      },
+      {
+       "kind": "attack_phys"
+      }
+     ],
+     "effects": [
+      {
+       "value": 15
+      }
+     ],
+     "family": "dealt"
+    },
+    "8009": {
+     "conditions": [
+      {
+       "kind": "attack_skill"
+      },
+      {
+       "kind": "attack_magic"
+      }
+     ],
+     "effects": [
+      {
+       "value": 15
+      }
+     ],
+     "family": "dealt"
+    },
+    "8011": {
+     "conditions": [
+      {
+       "kind": "element_any"
+      }
+     ],
+     "effects": [
+      {
+       "value": 20
+      }
+     ],
+     "family": "dealt"
+    },
+    "8013": {
+     "conditions": [
+      {
+       "id": 1,
+       "kind": "element"
+      }
+     ],
+     "effects": [
+      {
+       "value": 30
+      }
+     ],
+     "family": "dealt"
+    },
+    "8014": {
+     "conditions": [
+      {
+       "id": 2,
+       "kind": "element"
+      }
+     ],
+     "effects": [
+      {
+       "value": 30
+      }
+     ],
+     "family": "dealt"
+    },
+    "8016": {
+     "conditions": [
+      {
+       "id": 4,
+       "kind": "element"
+      }
+     ],
+     "effects": [
+      {
+       "value": 30
+      }
+     ],
+     "family": "dealt"
+    },
+    "8017": {
+     "conditions": [
+      {
+       "kind": "attack_skill"
+      }
+     ],
+     "effects": [
+      {
+       "value": 20
+      }
+     ],
+     "family": "dealt"
+    },
+    "8019": {
+     "conditions": [
+      {
+       "id": 50,
+       "kind": "other_hp_below"
+      }
+     ],
+     "effects": [
+      {
+       "value": 30
+      }
+     ],
+     "family": "dealt"
+    },
+    "8020": {
+     "conditions": [
+      {
+       "id": 100,
+       "kind": "other_hp_above"
+      }
+     ],
+     "effects": [
+      {
+       "value": 30
+      }
+     ],
+     "family": "dealt"
+    },
+    "8022": {
+     "conditions": [
+      {
+       "id": 1,
+       "kind": "other_level_lower"
+      }
+     ],
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": "taken"
+    },
+    "8023": {
+     "condition": {
+      "kind": "other_human"
+     },
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": "taken"
+    },
+    "8024": {
+     "condition": {
+      "kind": "other_monster"
+     },
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": "taken"
+    },
+    "8025": {
+     "condition": {
+      "kind": "other_male"
+     },
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": "taken"
+    },
+    "8026": {
+     "condition": {
+      "kind": "other_female"
+     },
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": "taken"
+    },
+    "8028": {
+     "conditions": [
+      {
+       "kind": "attack_phys"
+      }
+     ],
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": "taken"
+    },
+    "8031": {
+     "conditions": [
+      {
+       "kind": "element_any"
+      }
+     ],
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "family": "taken"
+    },
+    "8032": {
+     "conditions": [
+      {
+       "id": 0,
+       "kind": "element"
+      }
+     ],
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": "taken"
+    },
+    "8037": {
+     "conditions": [
+      {
+       "kind": "attack_skill"
+      }
+     ],
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": "taken"
+    },
+    "8038": {
+     "conditions": [
+      {
+       "kind": "attack_normal"
+      }
+     ],
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": "taken"
+    },
+    "8039": {
+     "conditions": [
+      {
+       "id": 50,
+       "kind": "other_hp_below"
+      }
+     ],
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "family": "taken"
+    },
+    "8040": {
+     "conditions": [
+      {
+       "id": 100,
+       "kind": "other_hp_above"
+      }
+     ],
+     "effects": [
+      {
+       "value": 20
+      }
+     ],
+     "family": "taken"
+    },
+    "8061": {
+     "effects": [
+      {
+       "stat": "hp",
+       "value": 10
+      }
+     ],
+     "family": "potency"
+    },
+    "8062": {
+     "effects": [
+      {
+       "stat": "sp",
+       "value": 10
+      }
+     ],
+     "family": "potency"
+    },
+    "8063": {
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 10
+      }
+     ],
+     "family": "potency"
+    },
+    "8064": {
+     "effects": [
+      {
+       "stat": "def",
+       "value": 10
+      }
+     ],
+     "family": "potency"
+    },
+    "8065": {
+     "effects": [
+      {
+       "stat": "int",
+       "value": 10
+      }
+     ],
+     "family": "potency"
+    },
+    "8066": {
+     "effects": [
+      {
+       "stat": "spd",
+       "value": 10
+      }
+     ],
+     "family": "potency"
+    },
+    "8067": {
+     "effects": [
+      {
+       "stat": "hit",
+       "value": 10
+      }
+     ],
+     "family": "potency"
+    },
+    "8068": {
+     "effects": [
+      {
+       "stat": "res",
+       "value": 10
+      }
+     ],
+     "family": "potency"
+    },
+    "8071": {
+     "effects": [
+      {
+       "stat": "hp",
+       "value": 30
+      },
+      {
+       "stat": "def",
+       "value": 30
+      }
+     ],
+     "family": "potency"
+    },
+    "8081": {
+     "condition": {
+      "id": 1,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "spd",
+       "stat": "hit",
+       "value": 30
+      }
+     ],
+     "family": "conversion"
+    },
+    "8083": {
+     "condition": {
+      "id": 2,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "atk",
+       "stat": "int",
+       "value": 30
+      }
+     ],
+     "family": "conversion"
+    },
+    "8084": {
+     "condition": {
+      "id": 2,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "sp_current",
+       "stat": "atk",
+       "value": 10
+      }
+     ],
+     "family": "conversion"
+    },
+    "8085": {
+     "condition": {
+      "id": 3,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "atk",
+       "stat": "def",
+       "value": 30
+      }
+     ],
+     "family": "conversion"
+    },
+    "8086": {
+     "condition": {
+      "id": 3,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "hit",
+       "stat": "atk",
+       "value": 30
+      }
+     ],
+     "family": "conversion"
+    },
+    "8088": {
+     "condition": {
+      "id": 4,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "atk",
+       "stat": "hit",
+       "value": 30
+      }
+     ],
+     "family": "conversion"
+    },
+    "8089": {
+     "condition": {
+      "id": 5,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "hit",
+       "stat": "spd",
+       "value": 30
+      }
+     ],
+     "family": "conversion"
+    },
+    "8090": {
+     "condition": {
+      "id": 6,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "def",
+       "stat": "atk",
+       "value": 30
+      }
+     ],
+     "family": "conversion"
+    },
+    "8091": {
+     "condition": {
+      "id": 7,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "int",
+       "stat": "hit",
+       "value": 30
+      }
+     ],
+     "family": "conversion"
+    },
+    "8092": {
+     "condition": {
+      "id": 7,
+      "kind": "weapon"
+     },
+     "effects": [
+      {
+       "from": "int",
+       "stat": "spd",
+       "value": 30
+      }
+     ],
+     "family": "conversion"
+    },
+    "8098": {
+     "effects": [
+      {
+       "from": "sp_current",
+       "stat": "int",
+       "value": 10
+      }
+     ],
+     "family": "conversion"
+    },
+    "8109": {
+     "effects": [
+      {
+       "per": "adjacent_ally",
+       "stat": "atk",
+       "value": 20
+      }
+     ],
+     "family": "stats"
+    },
+    "8118": {
+     "condition": {
+      "id": 8118,
+      "kind": "near_has",
+      "of": 2,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "spd",
+       "value": -50
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8178": {
+     "condition": {
+      "id": 100,
+      "kind": "hp_above"
+     },
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 30
+      }
+     ],
+     "family": "stats"
+    },
+    "8179": {
+     "condition": {
+      "id": 100,
+      "kind": "hp_above"
+     },
+     "effects": [
+      {
+       "stat": "spd",
+       "value": 30
+      }
+     ],
+     "family": "stats"
+    },
+    "8181": {
+     "condition": {
+      "id": 8181,
+      "kind": "near_has",
+      "of": 1,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 10
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8182": {
+     "condition": {
+      "id": 8182,
+      "kind": "near_has",
+      "of": 1,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "def",
+       "value": 10
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8183": {
+     "condition": {
+      "id": 8183,
+      "kind": "near_has",
+      "of": 1,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "int",
+       "value": 10
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8184": {
+     "condition": {
+      "id": 8184,
+      "kind": "near_has",
+      "of": 1,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "spd",
+       "value": 10
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8185": {
+     "condition": {
+      "id": 8185,
+      "kind": "near_has",
+      "of": 1,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "hit",
+       "value": 10
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8186": {
+     "condition": {
+      "id": 8186,
+      "kind": "near_has",
+      "of": 1,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "res",
+       "value": 10
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8189": {
+     "conditions": [
+      {
+       "id": 8189,
+       "kind": "near_has",
+       "of": 1,
+       "radius": 1
+      },
+      {
+       "kind": "attack_magic"
+      }
+     ],
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": [
+      "taken",
+      "aura"
+     ]
+    },
+    "8221": {
+     "condition": {
+      "id": 25,
+      "kind": "hp_below"
+     },
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 50
+      }
+     ],
+     "family": "stats"
+    },
+    "8223": {
+     "condition": {
+      "id": 25,
+      "kind": "hp_below"
+     },
+     "effects": [
+      {
+       "stat": "int",
+       "value": 50
+      }
+     ],
+     "family": "stats"
+    },
+    "8228": {
+     "condition": {
+      "id": 25,
+      "kind": "hp_below"
+     },
+     "effects": [
+      {
+       "stat": "def",
+       "value": 50
+      },
+      {
+       "stat": "res",
+       "value": 50
+      }
+     ],
+     "family": "stats"
+    },
+    "8271": {
+     "condition": {
+      "id": 0,
+      "kind": "target_status"
+     },
+     "effects": [
+      {
+       "value": 100
+      }
+     ],
+     "family": "dealt"
+    },
+    "8272": {
+     "conditions": [
+      {
+       "id": 1,
+       "kind": "target_status"
+      }
+     ],
+     "effects": [
+      {
+       "value": 100
+      }
+     ],
+     "family": "dealt"
+    },
+    "8273": {
+     "conditions": [
+      {
+       "id": 2,
+       "kind": "target_status"
+      }
+     ],
+     "effects": [
+      {
+       "value": 100
+      }
+     ],
+     "family": "dealt"
+    },
+    "8274": {
+     "conditions": [
+      {
+       "id": 3,
+       "kind": "target_status"
+      }
+     ],
+     "effects": [
+      {
+       "value": 100
+      }
+     ],
+     "family": "dealt"
+    },
+    "8291": {
+     "condition": {
+      "id": 0,
+      "kind": "self_status"
+     },
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 50
+      }
+     ],
+     "family": "stats"
+    },
+    "8325": {
+     "conditions": [
+      {
+       "id": 0,
+       "kind": "attack_dir"
+      }
+     ],
+     "effects": [
+      {
+       "value": 30
+      }
+     ],
+     "family": "dealt"
+    },
+    "8326": {
+     "condition": {
+      "id": 2,
+      "kind": "attack_dir"
+     },
+     "effects": [
+      {
+       "value": 100
+      }
+     ],
+     "family": "crit_rate"
+    },
+    "8341": {
+     "effects": [
+      {
+       "per": "map_enemy",
+       "value": 3
+      }
+     ],
+     "family": "dealt"
+    },
+    "8344": {
+     "conditions": [
+      {
+       "id": 1,
+       "kind": "target_count"
+      }
+     ],
+     "effects": [
+      {
+       "value": 30
+      }
+     ],
+     "family": "dealt"
+    },
+    "8347": {
+     "effects": [
+      {
+       "per": "defeated_enemy",
+       "stat": "atk",
+       "value": 5
+      }
+     ],
+     "family": "stats"
+    },
+    "8350": {
+     "effects": [
+      {
+       "value": 20
+      }
+     ],
+     "family": "crit_rate"
+    },
+    "8367": {
+     "conditions": [
+      {
+       "kind": "attack_normal"
+      },
+      {
+       "id": 25,
+       "kind": "hp_below"
+      }
+     ],
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "family": "dealt"
+    },
+    "8368": {
+     "conditions": [
+      {
+       "kind": "attack_skill"
+      },
+      {
+       "id": 0,
+       "kind": "element"
+      },
+      {
+       "id": 25,
+       "kind": "hp_below"
+      }
+     ],
+     "family": "damage_null"
+    },
+    "8384": {
+     "family": "ailment_null"
+    },
+    "8421": {
+     "effects": [
+      {
+       "stat": "hp",
+       "value": 10
+      }
+     ],
+     "family": "regen"
+    },
+    "8422": {
+     "effects": [
+      {
+       "stat": "sp",
+       "value": 10
+      }
+     ],
+     "family": "regen"
+    },
+    "8429": {
+     "condition": {
+      "id": 25,
+      "kind": "hp_below"
+     },
+     "effects": [
+      {
+       "stat": "hp",
+       "value": 100
+      }
+     ],
+     "family": "regen"
+    },
+    "8464": {
+     "family": "flight"
+    },
+    "8625": {
+     "conditions": [
+      {
+       "id": 8625,
+       "kind": "near_has",
+       "of": 1,
+       "radius": 1
+      },
+      {
+       "id": 0,
+       "kind": "element"
+      }
+     ],
+     "effects": [
+      {
+       "value": -50
+      }
+     ],
+     "family": [
+      "taken",
+      "aura"
+     ]
+    },
+    "8643": {
+     "conditions": [
+      {
+       "kind": "attack_magic"
+      },
+      {
+       "id": 1,
+       "kind": "target_count"
+      }
+     ],
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "family": "dealt"
+    },
+    "8694": [
+     {
+      "condition": {
+       "id": 570,
+       "kind": "near_char",
+       "of": 1,
+       "radius": 1
+      },
+      "effects": [
+       {
+        "stat": "hp",
+        "value": 50
+       },
+       {
+        "stat": "sp",
+        "value": 50
+       },
+       {
+        "stat": "atk",
+        "value": 50
+       },
+       {
+        "stat": "def",
+        "value": 50
+       },
+       {
+        "stat": "int",
+        "value": 50
+       },
+       {
+        "stat": "res",
+        "value": 50
+       },
+       {
+        "stat": "hit",
+        "value": 50
+       },
+       {
+        "stat": "spd",
+        "value": 50
+       }
+      ],
+      "family": "stats"
+     },
+     {
+      "condition": {
+       "id": 10310,
+       "kind": "near_char",
+       "of": 1,
+       "radius": 1
+      },
+      "effects": [
+       {
+        "stat": "hp",
+        "value": 50
+       },
+       {
+        "stat": "sp",
+        "value": 50
+       },
+       {
+        "stat": "atk",
+        "value": 50
+       },
+       {
+        "stat": "def",
+        "value": 50
+       },
+       {
+        "stat": "int",
+        "value": 50
+       },
+       {
+        "stat": "res",
+        "value": 50
+       },
+       {
+        "stat": "hit",
+        "value": 50
+       },
+       {
+        "stat": "spd",
+        "value": 50
+       }
+      ],
+      "family": "stats"
+     }
+    ],
+    "8697": {
+     "condition": {
+      "id": 8697,
+      "kind": "near_has",
+      "of": 1,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "def",
+       "value": 20
+      },
+      {
+       "stat": "res",
+       "value": 20
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8815": {
+     "effects": [
+      {
+       "value": 10
+      }
+     ],
+     "family": "absorb"
+    },
+    "8830": {
+     "conditions": [
+      {
+       "kind": "other_adj"
+      },
+      {
+       "id": 5,
+       "kind": "weapon"
+      }
+     ],
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "family": "dealt"
+    },
+    "8845": {
+     "conditions": [
+      {
+       "id": 8045,
+       "kind": "near_has",
+       "of": 1,
+       "radius": 1
+      },
+      {
+       "id": 650,
+       "kind": "char"
+      }
+     ],
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 10
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8846": {
+     "condition": {
+      "id": 650,
+      "kind": "near_char",
+      "of": 1,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "atk",
+       "value": 50
+      }
+     ],
+     "family": "stats"
+    },
+    "8859": {
+     "condition": {
+      "id": 8859,
+      "kind": "near_has",
+      "of": 2,
+      "radius": 1
+     },
+     "effects": [
+      {
+       "stat": "res",
+       "value": -50
+      }
+     ],
+     "family": [
+      "stats",
+      "aura"
+     ]
+    },
+    "8884": {
+     "conditions": [
+      {
+       "kind": "attack_skill"
+      }
+     ],
+     "effects": [
+      {
+       "value": 50
+      }
+     ],
+     "family": "dealt"
+    }
+   }
+  }
+ }
+}

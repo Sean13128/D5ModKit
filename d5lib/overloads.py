@@ -37,7 +37,7 @@ import struct
 
 from . import database, dbpatch, script, skills
 from .dbpatch import DB_ARCHIVE
-from .exepatch import IMAGE_BASE, add_hook_section
+from .exepatch import IMAGE_BASE, add_hook_section, has_feature
 from .gamefs import EXE_FILE
 from .modsys import register_finalizer, register_patch_handler
 
@@ -656,7 +656,7 @@ def table_entries(exe, overloads, banners=None):
 
 
 def build_patch(exe, overloads, banners=None):
-    if SECTION_NAME in exe[:0x400]:
+    if has_feature(exe, SECTION_NAME, hooks=[(MAP_VA, 0xE9)]):
         return exe
     entries = table_entries(exe, overloads, banners)
     hooks = [(MAP_VA, MAP_ORIG, _map_src(), 0xE9), (DISPATCH_VA, DISPATCH_ORIG, _dispatch_src(), 0xE9),

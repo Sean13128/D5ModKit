@@ -1,0 +1,1279 @@
+{
+ "schema": "dd2-voice-routes/1",
+ "generated": "2026-11-10 (0:2 and 0:5 switched on 2026-11-14, DD2VOICE4; 0:1, 0:4, 0:9 and hold reasons 2026-11-14, DD2VOICE5)",
+ "lane": "VOICE1",
+ "method": "Every Japanese clip a Disgaea D2 selector column lists for 25 characters that also exist in Disgaea 5 was matched by normalised waveform cross-correlation (>=0.6) to the D5 Japanese lines of the same character; D5's situation flags on the identical recording label the column. A (kind, situation) is routed when at least 15% of the column's matched clips carry it. Column 18 (whole-bank preview) is never routed. Independent check: the four columns DD2EVENT1 proved from the executable (6 lift, 7 throw, 10 level-up, 18 preview) come out the same here.",
+ "threshold": 0.15,
+ "verification": {
+  "characters": 25,
+  "clip_slots": 3336,
+  "matched": 2322,
+  "unmatched_characters": [
+   210,
+   440,
+   460
+  ]
+ },
+ "routes": {
+  "0:0": {
+   "matched_clips": 93,
+   "listed_clips": 122,
+   "leave_one_character_out": {
+    "heldout": 93,
+    "hit": 93,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.315
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      0
+     ],
+     "support": {}
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 89,
+    "of": 93,
+    "rate": 0.957
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      0,
+      1,
+      10,
+      11,
+      13
+     ],
+     "support": {
+      "0": 52,
+      "1": 28,
+      "10": 18,
+      "11": 18,
+      "13": 20
+     }
+    },
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 25
+     }
+    },
+    "3": {
+     "cats": [
+      0,
+      1
+     ],
+     "support": {
+      "0": 50,
+      "1": 26
+     }
+    }
+   },
+   "basis": "DD2VOICE4 2026-11-14 (correction of the VOICE1 waveform route 0 / 1 / 10 / 11 / 13 + kind 1 situation 22 + kind 3 situations 0, 1): DD2LOGGER2 PROVED slot 0 = normal attack (32 picks, events 12000100/200/300/700/12012030 each followed by a damage record) and nothing else. Routed to D5 attack (kind 0, situation 0) only. D5 situation 1 is not added: vanilla D5 weapon-skill scripts call category 1 on the caster in 1 of 40 skills (Shotgun Craft) and category 0 in 12, so D5's skill scripts already ask for 0 themselves; the 'skill scripts also use slot 0' of DD2LOGGER2 is covered by 0. Lift (10), throw (11) and landing (13) come from slots 6, 7 and (held) 9, not from attack clips.",
+   "role": "attack"
+  },
+  "0:1": {
+   "matched_clips": 88,
+   "listed_clips": 124,
+   "leave_one_character_out": {
+    "heldout": 88,
+    "hit": 85,
+    "hit_rate": 0.966,
+    "routed_flag_precision": 0.434
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      2
+     ],
+     "support": {}
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 74,
+    "of": 87,
+    "rate": 0.851
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      1,
+      2
+     ],
+     "support": {
+      "1": 27,
+      "2": 49
+     }
+    },
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 42
+     }
+    },
+    "3": {
+     "cats": [
+      1,
+      2
+     ],
+     "support": {
+      "1": 26,
+      "2": 47
+     }
+    }
+   },
+   "role": "skill_cue",
+   "label": "adapted: cue position inside the skill not matched one to one",
+   "evidence": "DD2LOGGER3 PROVEN (4 keys) + D5 script survey",
+   "basis": "DD2VOICE5 2026-11-14 (ruling b): slot 1 = the second cue of a special skill in Disgaea D2 (DD2LOGGER3: Etna 30026 Blade Bash order 0,1; Adell 400023 Quintuple Shot order 2,1,4; Mao 430013 Hurricane Slash order 0,9,1; earlier Etna 30006, Adell 400018, enemy 2050105). Disgaea 5: category 2 is the follow-up cue of weapon and unique skill scripts (caster voice_play_actor 20000 follows category 4 in 70 of 70 skills that have both, and precedes 6 in 16 of 17); it is asked by 110 skill scripts (skill_type 0: 87, 1: 22, 5: 1) and by NO spell script (spell skill_type 2 asks only 4, 7, 8, 9) and by no battle engine caller found (the hub/menu selectors FUN_1404933f0, FUN_140495a50 and FUN_14049b250 also pass situation 2, with kind-1 voice keys in the branches read; one branch of FUN_1404933f0 with another key was not traced), so a cue line does not play on a spell cast. Not category 4: 4 is also the elemental cast shout (17 spell scripts), so slot 1 there would play on Fire/Wind/Ice/Star casts. Order in the skill is tree order of the choreography, not a timeline."
+  },
+  "0:2": {
+   "matched_clips": 84,
+   "listed_clips": 106,
+   "leave_one_character_out": {
+    "heldout": 84,
+    "hit": 82,
+    "hit_rate": 0.976,
+    "routed_flag_precision": 0.452
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      3,
+      4
+     ],
+     "support": {}
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 71,
+    "of": 83,
+    "rate": 0.855
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      3,
+      4
+     ],
+     "support": {
+      "3": 44,
+      "4": 39
+     }
+    },
+    "1": {
+     "cats": [
+      22,
+      25,
+      28
+     ],
+     "support": {
+      "22": 78,
+      "25": 24,
+      "28": 13
+     }
+    }
+   },
+   "basis": "DD2VOICE4 2026-11-14: DD2LOGGER2 PROVED slot 2 = unit deployment (7 keys, caller 0x1f7808) AND spell cast at a hostile target (event 12001502 / 12001001 / 12012033). Both meanings have an exact D5 twin: deployment = situation 3 (deploy_select_s0_update 0x14054f830 plays category 3 for the dispatched unit right after deploy_env_unit_img_after_dispatch), elemental spell cast = situation 4 (Fire/Wind/Ice/Star x3 each: script voice_play_actor 40000 = category 4 on the caster, decomp 0x14018c650). Routed to kind 0, cats 3 and 4 only; the clips are one list in the source and the source plays them at both, so D5 plays them at both. Not a statistic: the earlier waveform match (3: 44, 4: 39 clips) agrees.",
+   "role": "deploy_cast"
+  },
+  "0:3": {
+   "matched_clips": 56,
+   "listed_clips": 76,
+   "leave_one_character_out": {
+    "heldout": 56,
+    "hit": 55,
+    "hit_rate": 0.982,
+    "routed_flag_precision": 0.518
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      5,
+      16
+     ],
+     "support": {
+      "5": 37,
+      "16": 10
+     }
+    },
+    "1": {
+     "cats": [
+      22,
+      25
+     ],
+     "support": {
+      "22": 51,
+      "25": 18
+     }
+    }
+   },
+   "shipped": false,
+   "strict_battle_only": {
+    "hit": 42,
+    "of": 55,
+    "rate": 0.764
+   },
+   "silenced": "Disgaea 5 has no support attack voice. DD2LOGGER2 PROVED slot 3 = support attack cue (event 3170001; the supporter plays slot 3 then slot 0). Held back: D5 has no support-attack voice of its own (queue_insert_after_cur_assist 0x140544130 only queues the helper's ordinary attack, no sound_voice_play_random_for_set at that site), and routing it to attack (0) would make every normal attack play support cues; the clips cannot be told apart without listening.",
+   "hold_reason": "no_d5_situation"
+  },
+  "0:4": {
+   "matched_clips": 92,
+   "listed_clips": 119,
+   "leave_one_character_out": {
+    "heldout": 92,
+    "hit": 90,
+    "hit_rate": 0.978,
+    "routed_flag_precision": 0.612
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      6
+     ],
+     "support": {}
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 66,
+    "of": 89,
+    "rate": 0.742
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      6
+     ],
+     "support": {
+      "6": 66
+     }
+    },
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 85
+     }
+    },
+    "3": {
+     "cats": [
+      33
+     ],
+     "support": {
+      "33": 18
+     }
+    }
+   },
+   "role": "skill_cue",
+   "label": "adapted: cue position inside the skill not matched one to one",
+   "evidence": "DD2LOGGER3 PROVEN (3 keys) + D5 script survey",
+   "basis": "DD2VOICE5 2026-11-14 (ruling b): slot 4 = a late cue inside a special skill, after slot 2 (DD2LOGGER3: Etna 30013 Dimension Rush order 9,2,4; Adell 400025 Quintuple Shot order 2,1,4; earlier enemy 2050110). Disgaea 5: category 6 is the last caster cue of skill scripts (last in 57 of 275 skills with a caster cue, never first except as the only cue in 11; after 2 in 16 of 17 and after 4 in 38 of 38 skills that have both); asked by 59 skill scripts (skill_type 0: 51, 1: 7, 5: 1) and by no spell script and no battle engine caller found. Not category 4 (spell cast, see 0:1)."
+  },
+  "0:5": {
+   "matched_clips": 45,
+   "listed_clips": 64,
+   "leave_one_character_out": {
+    "heldout": 45,
+    "hit": 45,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.498
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      9
+     ],
+     "support": {}
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 33,
+    "of": 44,
+    "rate": 0.75
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      8,
+      9,
+      12
+     ],
+     "support": {
+      "8": 30,
+      "9": 19,
+      "12": 9
+     }
+    },
+    "1": {
+     "cats": [
+      22,
+      27
+     ],
+     "support": {
+      "22": 41,
+      "27": 13
+     }
+    }
+   },
+   "basis": "DD2VOICE4 2026-11-14: DD2LOGGER2 PROVED slot 5 = heal cast at an ally (Flonne 50020/50012, Sicily 70012; HP rose after each). D5 twin: Heal / Mega Heal / Giga Heal (skills 1401-1403) and the wrapper 12000074/78 play category 9 on the caster (voice_play_actor 90000, decomp 0x14018c650 / 0x1402277b0), the same destination D1CLIST3 and D4 used for heal casts. Routed to kind 0, cat 9 only: buff/support casts (D5 category 8) were not seen on slot 5 in the logger, so they stay out.",
+   "role": "heal_cast"
+  },
+  "0:6": {
+   "matched_clips": 45,
+   "listed_clips": 55,
+   "leave_one_character_out": {
+    "heldout": 45,
+    "hit": 38,
+    "hit_rate": 0.844,
+    "routed_flag_precision": 0.206
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      10
+     ],
+     "support": {}
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 38,
+    "of": 44,
+    "rate": 0.864
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      0,
+      1,
+      10,
+      11,
+      13
+     ],
+     "support": {
+      "0": 11,
+      "1": 8,
+      "10": 29,
+      "11": 7,
+      "13": 10
+     }
+    },
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 7
+     }
+    },
+    "3": {
+     "cats": [
+      0,
+      1
+     ],
+     "support": {
+      "0": 9,
+      "1": 7
+     }
+    }
+   },
+   "basis": "executable proof, not statistics (DD2EVENT1: DD2 column 6 and D5 situation 10 are both proven lift); routed to that one situation only. Strict rate of the measured set 0.864 is under the bar.",
+   "role": "lift"
+  },
+  "0:7": {
+   "matched_clips": 46,
+   "listed_clips": 56,
+   "leave_one_character_out": {
+    "heldout": 46,
+    "hit": 41,
+    "hit_rate": 0.891,
+    "routed_flag_precision": 0.32
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      11
+     ],
+     "support": {}
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 40,
+    "of": 46,
+    "rate": 0.87
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      1,
+      11,
+      13
+     ],
+     "support": {
+      "1": 13,
+      "11": 33,
+      "13": 8
+     }
+    },
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 9
+     }
+    },
+    "3": {
+     "cats": [
+      1
+     ],
+     "support": {
+      "1": 12
+     }
+    }
+   },
+   "basis": "executable proof, not statistics (DD2EVENT1: DD2 column 7 and D5 situation 11 are both proven throw); routed to that one situation only. Strict rate of the measured set 0.87 is under the bar.",
+   "role": "throw"
+  },
+  "0:8": {
+   "matched_clips": 45,
+   "listed_clips": 56,
+   "leave_one_character_out": {
+    "heldout": 45,
+    "hit": 44,
+    "hit_rate": 0.978,
+    "routed_flag_precision": 0.301
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      8,
+      9,
+      12
+     ],
+     "support": {
+      "8": 10,
+      "9": 18,
+      "12": 19
+     }
+    },
+    "1": {
+     "cats": [
+      22,
+      24,
+      25,
+      27,
+      28
+     ],
+     "support": {
+      "22": 37,
+      "24": 7,
+      "25": 8,
+      "27": 9,
+      "28": 8
+     }
+    }
+   },
+   "shipped": false,
+   "strict_battle_only": {
+    "hit": 26,
+    "of": 45,
+    "rate": 0.578
+   },
+   "silenced": "DD2EVENT1 found slot 8 once, in the cinematic event 3170000 (no code launches it; DD2LOGGER3 static, not triggered). A single cutscene voice has no Disgaea 5 battle situation; the Disgaea 5 decomp functions and vanilla script.dat opened name no cinematic voice destination for it. Not routed, does not count (ruling c).",
+   "hold_reason": "no_place_found"
+  },
+  "0:9": {
+   "matched_clips": 42,
+   "listed_clips": 54,
+   "leave_one_character_out": {
+    "heldout": 42,
+    "hit": 41,
+    "hit_rate": 0.976,
+    "routed_flag_precision": 0.28
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      13
+     ],
+     "support": {}
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 41,
+    "of": 42,
+    "rate": 0.976
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      0,
+      1,
+      10,
+      11,
+      13
+     ],
+     "support": {
+      "0": 12,
+      "1": 9,
+      "10": 12,
+      "11": 10,
+      "13": 31
+     }
+    },
+    "3": {
+     "cats": [
+      0,
+      1
+     ],
+     "support": {
+      "0": 12,
+      "1": 7
+     }
+    }
+   },
+   "role": "move_dash",
+   "label": "adapted: cue position inside the skill not matched one to one (skill dash cue); the walk step is an exact twin",
+   "evidence": "DD2LOGGER3 PROVEN (2 keys) + decomp",
+   "basis": "DD2VOICE5 2026-11-14: slot 9 has two callers in Disgaea D2 and Disgaea 5 has a twin for each. (1) Native walk step (0x21a88c: first step of a walk across a height difference, enemy 2030 only in the logs) = D5 category 13, asked by the engine after a walk (turn_unit_auto_walk_step 0x14052e920, hop landings 0x14052d500 and 0x140853720). (2) Skill dash/jump cue (DD2LOGGER3 PROVEN: Etna 30020 at the start of Dimension Rush, Mao 430002 in Hurricane Slash) = D5 category 13 as the first caster cue of dash and jump skills (first cue in 35 of 275 skill scripts, e.g. Triple Strike, Rising Gale Kick, Sonic Smash, Flying V-Strike, Dynamic Moon, Giant Press; ahead of 2 in 20 and 6 in 13 of the skills that have both). Category 13 is not asked by any spell script. VOICE1's old attack/lift/throw/kind-3 waveform route stays removed."
+  },
+  "0:10": {
+   "matched_clips": 53,
+   "listed_clips": 78,
+   "leave_one_character_out": {
+    "heldout": 53,
+    "hit": 53,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.41
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      14,
+      15,
+      18
+     ],
+     "support": {
+      "14": 25,
+      "15": 30,
+      "18": 8
+     }
+    },
+    "1": {
+     "cats": [
+      22,
+      24,
+      26
+     ],
+     "support": {
+      "22": 51,
+      "24": 10,
+      "26": 8
+     }
+    },
+    "3": {
+     "cats": [
+      31,
+      33
+     ],
+     "support": {
+      "31": 30,
+      "33": 12
+     }
+    }
+   },
+   "shipped": false,
+   "strict_battle_only": {
+    "hit": 45,
+    "of": 53,
+    "rate": 0.849
+   },
+   "silenced": "Disgaea D2: one clip list for two callers, level up (0x1fc894, PROVEN) and the target-of-ally-spell reaction (event 12000083, PROVEN) (DD2LOGGER3). Disgaea 5 level up: not found in the decomp functions opened (exp_anim_step 0x14061f640, exp_row_add 0x14061f840, result_ctl_s1/s5_enter, s31_sub43 reward screen 0x140809e10, row_open 0x14061fb60, result_per_record 0x140734b60): the result screens only call deploy_util_voice_swap(se id, key) with SE ids 0x1a, 0x18, 0x48, 0x1d, 0x1e, 7, and that function replaces only SE ids 1, 3, 4, 7, 0x11 by a character voice (situations 0, 0xd, 0x14, 1, 4) and returns the others unchanged; no sound_voice_play_random_for_set call sits in a level up path. No script voice command is level up either. Not routed, does not count (ruling c); the same clips are also Disgaea D2's spell-reaction lines, so a later route there would play both.",
+   "hold_reason": "no_place_found"
+  },
+  "1:13": {
+   "matched_clips": 94,
+   "listed_clips": 161,
+   "leave_one_character_out": {
+    "heldout": 94,
+    "hit": 53,
+    "hit_rate": 0.564,
+    "routed_flag_precision": 0.153
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      20
+     ],
+     "support": {
+      "20": 19
+     }
+    },
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 28
+     }
+    },
+    "3": {
+     "cats": [
+      20,
+      32
+     ],
+     "support": {
+      "20": 18,
+      "32": 19
+     }
+    }
+   },
+   "shipped": false,
+   "strict_battle_only": {
+    "hit": 19,
+    "of": 76,
+    "rate": 0.25
+   },
+   "hold_reason": "no_place_found",
+   "silenced": "Disgaea D2 category 1 columns 13-17 are called from pad-polling screen code, never in a battle (DD2LOGGER3 static). Column 13 has no Disgaea 5 destination proven; not routed, does not count (ruling c)."
+  },
+  "1:14": {
+   "matched_clips": 97,
+   "listed_clips": 170,
+   "leave_one_character_out": {
+    "heldout": 97,
+    "hit": 71,
+    "hit_rate": 0.732,
+    "routed_flag_precision": 0.262
+   },
+   "kinds": {
+    "0": {
+     "cats": [
+      20
+     ],
+     "support": {
+      "20": 16
+     }
+    },
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 46
+     }
+    },
+    "3": {
+     "cats": [
+      20,
+      32
+     ],
+     "support": {
+      "20": 15,
+      "32": 31
+     }
+    }
+   },
+   "shipped": false,
+   "strict_battle_only": {
+    "hit": 10,
+    "of": 64,
+    "rate": 0.156
+   },
+   "hold_reason": "no_place_found",
+   "silenced": "As 1:13 (category 1 screen voice, DD2LOGGER3 static). Not routed, does not count (ruling c)."
+  },
+  "1:15": {
+   "matched_clips": 105,
+   "listed_clips": 158,
+   "leave_one_character_out": {
+    "heldout": 105,
+    "hit": 93,
+    "hit_rate": 0.886,
+    "routed_flag_precision": 0.307
+   },
+   "kinds": {
+    "1": {
+     "cats": [
+      22,
+      23,
+      25,
+      27,
+      28
+     ],
+     "support": {
+      "22": 92,
+      "23": 17,
+      "25": 23,
+      "27": 17,
+      "28": 16
+     }
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 0,
+    "of": 71,
+    "rate": 0.0
+   },
+   "measured_kinds": {
+    "1": {
+     "cats": [
+      22,
+      23,
+      25,
+      27,
+      28
+     ],
+     "support": {
+      "22": 92,
+      "23": 17,
+      "25": 23,
+      "27": 17,
+      "28": 16
+     }
+    }
+   },
+   "basis": "VOICE2b: a category 1 / 2 column is not a battle column in Disgaea D2 (findings), so its clips are kept only where D5 keeps such lines outside battle (kinds 1 and 2); the battle kinds 0 and 3 are dropped",
+   "role": "non_battle_screen"
+  },
+  "1:16": {
+   "matched_clips": 102,
+   "listed_clips": 161,
+   "leave_one_character_out": {
+    "heldout": 102,
+    "hit": 93,
+    "hit_rate": 0.912,
+    "routed_flag_precision": 0.41
+   },
+   "kinds": {
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 88
+     }
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 2,
+    "of": 70,
+    "rate": 0.029
+   },
+   "measured_kinds": {
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 88
+     }
+    },
+    "3": {
+     "cats": [
+      31
+     ],
+     "support": {
+      "31": 29
+     }
+    }
+   },
+   "basis": "VOICE2b: a category 1 / 2 column is not a battle column in Disgaea D2 (findings), so its clips are kept only where D5 keeps such lines outside battle (kinds 1 and 2); the battle kinds 0 and 3 are dropped",
+   "role": "non_battle_screen"
+  },
+  "1:17": {
+   "matched_clips": 86,
+   "listed_clips": 130,
+   "leave_one_character_out": {
+    "heldout": 86,
+    "hit": 85,
+    "hit_rate": 0.988,
+    "routed_flag_precision": 0.384
+   },
+   "kinds": {
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 80
+     }
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 32,
+    "of": 52,
+    "rate": 0.615
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      14,
+      15
+     ],
+     "support": {
+      "14": 19,
+      "15": 20
+     }
+    },
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 80
+     }
+    },
+    "3": {
+     "cats": [
+      31,
+      33
+     ],
+     "support": {
+      "31": 28,
+      "33": 18
+     }
+    }
+   },
+   "basis": "VOICE2b: a category 1 / 2 column is not a battle column in Disgaea D2 (findings), so its clips are kept only where D5 keeps such lines outside battle (kinds 1 and 2); the battle kinds 0 and 3 are dropped",
+   "role": "non_battle_screen"
+  },
+  "2:11": {
+   "matched_clips": 20,
+   "listed_clips": 27,
+   "leave_one_character_out": {
+    "heldout": 20,
+    "hit": 20,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.255
+   },
+   "kinds": {
+    "1": {
+     "cats": [
+      22,
+      23,
+      27,
+      28
+     ],
+     "support": {
+      "22": 13,
+      "23": 3,
+      "27": 4,
+      "28": 3
+     }
+    },
+    "2": {
+     "cats": [
+      29
+     ],
+     "support": {
+      "29": 11
+     }
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 8,
+    "of": 13,
+    "rate": 0.615
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      8,
+      9,
+      12,
+      18
+     ],
+     "support": {
+      "8": 5,
+      "9": 7,
+      "12": 3,
+      "18": 3
+     }
+    },
+    "1": {
+     "cats": [
+      22,
+      23,
+      27,
+      28
+     ],
+     "support": {
+      "22": 13,
+      "23": 3,
+      "27": 4,
+      "28": 3
+     }
+    },
+    "2": {
+     "cats": [
+      29
+     ],
+     "support": {
+      "29": 11
+     }
+    },
+    "3": {
+     "cats": [
+      31
+     ],
+     "support": {
+      "31": 8
+     }
+    }
+   },
+   "basis": "VOICE2b: a category 1 / 2 column is not a battle column in Disgaea D2 (findings), so its clips are kept only where D5 keeps such lines outside battle (kinds 1 and 2); the battle kinds 0 and 3 are dropped",
+   "role": "non_battle_screen"
+  },
+  "2:12": {
+   "matched_clips": 18,
+   "listed_clips": 27,
+   "leave_one_character_out": {
+    "heldout": 18,
+    "hit": 18,
+    "hit_rate": 1.0,
+    "routed_flag_precision": 0.297
+   },
+   "kinds": {
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 10
+     }
+    },
+    "2": {
+     "cats": [
+      30
+     ],
+     "support": {
+      "30": 12
+     }
+    }
+   },
+   "shipped": true,
+   "strict_battle_only": {
+    "hit": 8,
+    "of": 13,
+    "rate": 0.615
+   },
+   "measured_kinds": {
+    "0": {
+     "cats": [
+      2,
+      7,
+      20
+     ],
+     "support": {
+      "2": 4,
+      "7": 4,
+      "20": 3
+     }
+    },
+    "1": {
+     "cats": [
+      22
+     ],
+     "support": {
+      "22": 10
+     }
+    },
+    "2": {
+     "cats": [
+      30
+     ],
+     "support": {
+      "30": 12
+     }
+    },
+    "3": {
+     "cats": [
+      2,
+      20,
+      32
+     ],
+     "support": {
+      "2": 4,
+      "20": 3,
+      "32": 7
+     }
+    }
+   },
+   "basis": "VOICE2b: a category 1 / 2 column is not a battle column in Disgaea D2 (findings), so its clips are kept only where D5 keeps such lines outside battle (kinds 1 and 2); the battle kinds 0 and 3 are dropped",
+   "role": "non_battle_screen"
+  },
+  "0:11": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "not_called_in_source",
+   "silenced": "Disgaea D2 category 0 slot 11: no native caller and no literal script request (DD2LOGGER3 static pass, 27 callers accounted for); the slot occurs only as a category 1 or 2 column. Not routed, does not count (ruling c)."
+  },
+  "0:12": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "not_called_in_source",
+   "silenced": "Disgaea D2 category 0 slot 12: no native caller and no literal script request (DD2LOGGER3 static pass, 27 callers accounted for); the slot occurs only as a category 1 or 2 column. Not routed, does not count (ruling c)."
+  },
+  "0:13": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "not_called_in_source",
+   "silenced": "Disgaea D2 category 0 slot 13: no native caller and no literal script request (DD2LOGGER3 static pass, 27 callers accounted for); the slot occurs only as a category 1 or 2 column. Not routed, does not count (ruling c)."
+  },
+  "0:14": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "not_called_in_source",
+   "silenced": "Disgaea D2 category 0 slot 14: no native caller and no literal script request (DD2LOGGER3 static pass, 27 callers accounted for); the slot occurs only as a category 1 or 2 column. Not routed, does not count (ruling c)."
+  },
+  "0:15": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "not_called_in_source",
+   "silenced": "Disgaea D2 category 0 slot 15: no native caller and no literal script request (DD2LOGGER3 static pass, 27 callers accounted for); the slot occurs only as a category 1 or 2 column. Not routed, does not count (ruling c)."
+  },
+  "0:16": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "not_called_in_source",
+   "silenced": "Disgaea D2 category 0 slot 16: no native caller and no literal script request (DD2LOGGER3 static pass, 27 callers accounted for); the slot occurs only as a category 1 or 2 column. Not routed, does not count (ruling c)."
+  },
+  "0:17": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "not_called_in_source",
+   "silenced": "Disgaea D2 category 0 slot 17: no native caller and no literal script request (DD2LOGGER3 static pass, 27 callers accounted for); the slot occurs only as a category 1 or 2 column. Not routed, does not count (ruling c)."
+  },
+  "0:18": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "Whole-bank voice preview list in Disgaea D2 (menus), not a battle situation. Not routed, does not count."
+  },
+  "1:0": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 0: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:1": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 1: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:2": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 2: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:3": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 3: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:4": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 4: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:5": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 5: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:6": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 6: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:7": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 7: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:8": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 8: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:9": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 9: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:10": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 10: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:11": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 11: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:12": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 1 column 12: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "1:18": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "whole-bank preview list (menu): category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:0": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 0: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:1": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 1: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:2": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 2: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:3": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 3: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:4": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 4: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:5": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 5: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:6": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 6: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:7": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 7: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:8": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 8: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:9": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 9: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:10": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 10: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:13": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 13: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:14": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 14: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:15": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 15: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:16": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 16: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:17": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "category 2 column 17: category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  },
+  "2:18": {
+   "kinds": {},
+   "shipped": false,
+   "hold_reason": "no_place_found",
+   "silenced": "whole-bank preview list (menu): category 1 and 2 are screen / menu voice code in Disgaea D2, never fired in battle (DD2LOGGER3); no Disgaea 5 destination proven. Not routed, does not count (ruling c)."
+  }
+ },
+ "ship_rule": "VOICE2b (coordinator, 2026-11-10): a battle column (category 0) ships only at >= 0.90 on the strict battle-only leave-one-character-out rate, or where both ends are proven from the executables (columns 6 lift, 7 throw: one proven situation each). Category 1 / 2 columns are never routed to battle kinds. Was: A column is used only when its leave-one-character-out hit rate is at least 0.8; the others stay silent (labelled, not guessed).",
+ "findings": {
+  "lane": "VOICE2",
+  "date": "2026-11-10",
+  "battle_has_no_damage_or_death_voice": "Disgaea D2 voices neither damage nor death in battle. The battle category (0) has columns 0-10 and the preview column 18 only: all 27 native callers of the selector wrapper 0x6b240 and all 803 literal script voice calls (opcode 0x4632, 12,483 framed events) ask for columns 0-10 or 18; the direct-id players (0x2e5cb0 callers) are scripts, a queued id and the fixed title id 9999001. A unique character's battle bank is used up by columns 0-10 (Laharl: 22 of 23 clips; none is a pain cry).",
+  "category_1_is_not_battle": "Columns 13-17 of category 1 are five mood buckets chosen outside battle: 0x275e64 picks one from a signed value at actor+0x6da (thresholds -39..39) of a menu actor list (stride 0xad0, cursor +0xf90); 0x1bb878 picks one for scripted hub events (event ids 3200000, 3003000, 2002000, 2004000 at actor+0x418) from a 0-5 result. Category 2 columns 11 / 12 are a yes / no pair (D5 keeps the same recordings as its kind 2 situations 29 / 30).",
+  "why_d5_matched": "D5 re-used some of these mood recordings as its own damage (20) and death (21) lines, which is why VOICE1's column match scored 0.56 / 0.73 on 1:13 / 1:14. Duration does not separate them (best bin 0.6-0.8 s: 6 of 11 matched clips are damage). No column or feature rule reaches the 0.90 bar, and the source game has no such situation to mirror, so damage and death stay silent for Disgaea D2 imports.",
+  "d5_reuse_per_clip": "For reference only (not built): D5 flags these DD2 recordings of the same character as damage 20 / death 21 -- Laharl 10010007, 10010008 / 20010002; Etna 10030010, 10030011 / -; Flonne 10050011, 10050012 / -; Pure Flonne 10060010, 10060011 / -; Petta 10270007, 10270008 / 10270009; Pleinair 10320011 / -; Nisa - / 10550017, 10550018. 7 of 26 packs would get a damage line and 4 a death line; using them would make the import speak where Disgaea D2 is silent (a D5 convention, Sean's call).",
+  "voice2b_correction": "VOICE2's first build still routed category 1 / 2 clips into battle situations as VOICE1 had (2:12 'no' line -> damage 20 among others; 1:17 -> joy 14 / 15; 2:11 -> heal). That contradicted 'Disgaea D2 voices no damage in battle' and is removed here.",
+  "dd2voice4": "DD2VOICE4 2026-11-14: damage taken, KO of a player or enemy unit, and defend produced no selector pick and no direct voice play in DD2LOGGER2 (Laharl, Etna, Flonne, Raspberyl, Adell, Yuri, Sicily took damage; Laharl, Etna, Flonne, Yuri were KO'd): not voiced in the source (DD2LOGGER2). This replaces the earlier reason 'pain columns matched 56-73%'. Evade, guard and level up through the end-of-battle screen were not reached or gave no pick."
+ },
+ "hold_reasons": {
+  "no_d5_situation": "Disgaea D2 has the situation, Disgaea 5 does not (support attack): not routed, does not count.",
+  "not_called_in_source": "nothing in Disgaea D2 asks for the column in battle (category 0 slots 11-17): not routed, does not count.",
+  "no_place_found": "Disgaea D2 uses it (cinematic, menu or screen, level up) and no Disgaea 5 destination was found in the decomp functions / vanilla scripts opened: not routed, does not count.",
+  "unproven": "a Disgaea D2 situation seen but not proven (or a Disgaea 5 destination not proven): holds the character at partial.",
+  "unknown": "a column with no entry in this file: holds the character at partial."
+ },
+ "dual_use_rule": "A clip the source lists in two battle columns of different roles plays in both destinations (one source clip, two proven uses); the receipt's dual_use list names each such clip with its columns and destinations."
+}

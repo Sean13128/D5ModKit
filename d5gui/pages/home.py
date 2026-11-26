@@ -2,7 +2,7 @@ import os
 import zipfile
 
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QListWidget,
+from PyQt6.QtWidgets import (QToolButton, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QListWidget,
                              QListWidgetItem, QFileDialog, QMessageBox, QGridLayout, QLineEdit, QTextEdit,
                              QComboBox, QDialog, QDialogButtonBox, QFormLayout, QMenu, QTreeWidget, QTreeWidgetItem,
                              QStackedWidget, QAbstractItemView, QInputDialog, QButtonGroup, QHeaderView)
@@ -14,6 +14,13 @@ from ..status import StatusPanel
 
 ROLE = Qt.ItemDataRole.UserRole
 KIND = Qt.ItemDataRole.UserRole + 1        # tree items: "mod" / "pack" / "group"
+
+
+def mod_subtitle(line, missing_names=()):
+    """a mod row's second column: the description (which starts with the program-change label for a patches/exe mod)
+    and, beside it, the unmet-dependency warning.  Neither may hide the other."""
+    dep = ("⚠ needs " + ", ".join(missing_names)) if missing_names else ""
+    return " · ".join(x for x in (dep, line) if x)
 
 
 class ModDialog(QDialog):
@@ -63,8 +70,87 @@ STEPS = [("1", "Pick a mod for new edits",
 
 PROFILE_HELP = ("A profile is a modpack: which mods are switched on and their load order. Each profile keeps its "
                 "own, like the profiles of Mod Organizer for Skyrim; the mods themselves are shared, so switching is "
-                "instant. The game gets the profile's mods when you press Install. A profile can also keep its own "
-                "saves (Profile ▾ › Separate saves).")
+                "instant. A <b>separate project</b> profile starts from the plain game instead and sees only its own "
+                "mods (Profile ▾ › Import mods from another profile copies some in). The game gets the profile's mods "
+                "when you press Install. A profile can also keep its own saves (Profile ▾ › Separate saves).")
+
+
+class NewProfileDialog(QDialog):
+    def __init__(self, parent=None):
+        from PyQt6.QtWidgets import QRadioButton
+        super().__init__(parent)
+        self.setWindowTitle("New profile")
+        v = QVBoxLayout(self)
+        f = QFormLayout()
+        self.name = QLineEdit()
+        f.addRow("Name", self.name)
+        v.addLayout(f)
+        self.isolated = QRadioButton("A separate project: start from the plain game")
+        hint1 = QLabel("Sees only its own mods: the mods of your other profiles stay out of its lists, its new ids "
+                       "(classes, characters, sprites…) and its Install. Bring some over later with Profile ▾ › "
+                       "Import mods from another profile (copies).")
+        self.shared = QRadioButton("A modpack of the shared mods")
+        hint2 = QLabel("The mods you have now, none switched on yet: pick which ones this modpack uses.")
+        for w in (hint1, hint2):
+            w.setWordWrap(True)
+            w.setStyleSheet("color: gray; margin-left: 22px;")
+        self.isolated.setChecked(True)
+        for w in (self.isolated, hint1, self.shared, hint2):
+            v.addWidget(w)
+        bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        bb.accepted.connect(self.accept)
+        bb.rejected.connect(self.reject)
+        v.addWidget(bb)
+        self.resize(460, 0)
+
+
+class ImportProfileDialog(QDialog):
+    """tick mods of the other profiles: copies of them come into this one"""
+
+    def __init__(self, parent, groups, profile):
+        super().__init__(parent)
+        self.setWindowTitle("Import mods from another profile")
+        v = QVBoxLayout(self)
+        lab = QLabel(f"Tick the mods to copy into <b>{profile.name}</b>. Each comes in as a copy, like a shared mod "
+                     "you import: ids that clash with this profile's mods are moved.")
+        lab.setWordWrap(True)
+        v.addWidget(lab)
+        self.tree = QTreeWidget()
+        self.tree.setHeaderHidden(True)
+        for p, mods in groups:
+            top = QTreeWidgetItem([p.name + ("   (separate project)" if p.isolated else "   (shared mods)")])
+            top.setFlags(top.flags() | Qt.ItemFlag.ItemIsAutoTristate | Qt.ItemFlag.ItemIsUserCheckable)
+            top.setCheckState(0, Qt.CheckState.Unchecked)
+            on = set(p.load_order())
+            for m in mods:
+                it = QTreeWidgetItem([f"{m.name}   v{m.meta.get('version', '')}" + ("" if m.id in on else
+                                                                                    "   (switched off there)")])
+                it.setFlags(it.flags() | Qt.ItemFlag.ItemIsUserCheckable)
+                it.setCheckState(0, Qt.CheckState.Unchecked)
+                it.setData(0, ROLE, m)
+                it.setToolTip(0, m.meta.get("description") or "")
+                top.addChild(it)
+            self.tree.addTopLevelItem(top)
+        self.tree.expandAll()
+        v.addWidget(self.tree)
+        bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        bb.button(QDialogButtonBox.StandardButton.Ok).setText("Copy in")
+        bb.accepted.connect(self.accept)
+        bb.rejected.connect(self.reject)
+        v.addWidget(bb)
+        self.resize(520, 460)
+
+    def chosen(self):
+        out, seen = [], set()
+        for i in range(self.tree.topLevelItemCount()):
+            top = self.tree.topLevelItem(i)
+            for k in range(top.childCount()):
+                it = top.child(k)
+                m = it.data(0, ROLE)
+                if it.checkState(0) == Qt.CheckState.Checked and m.id not in seen:
+                    seen.add(m.id)
+                    out.append(m)
+        return out
 
 
 class HomePage(QWidget):
@@ -97,7 +183,18 @@ class HomePage(QWidget):
             row.addLayout(col, 1)
             c.lay.addLayout(row)
             steps.addWidget(c, 1)
-        outer.addLayout(steps)
+        steps_box = QWidget()
+        steps_box.setLayout(steps)
+        steps.setContentsMargins(0, 0, 0, 0)
+        hide = QToolButton()
+        hide.setText("✕")
+        hide.setToolTip("Hide these tips (Guide & Tutorials has them)")
+        hide.setAutoRaise(True)
+        hide.clicked.connect(lambda: (steps_box.hide(), self.ws.settings.__setitem__("hide_home_steps", True),
+                                      self.ws.save_settings()))
+        steps.addWidget(hide, 0, Qt.AlignmentFlag.AlignTop)
+        steps_box.setVisible(not self.ws.settings.get("hide_home_steps"))
+        outer.addWidget(steps_box)
 
         # ---- game status (the same controller as the sidebar box)
         outer.addWidget(StatusPanel(main.status, large=True))
@@ -124,6 +221,7 @@ class HomePage(QWidget):
         pm = QPushButton("Profile ▾")
         menu = QMenu(pm)
         menu.addAction("Copy this profile…", lambda: self.new_profile(copy=True))
+        menu.addAction("Import mods from another profile…", self.import_from_profile)
         menu.addAction("Rename…", self.rename_profile)
         menu.addAction("Delete…", self.delete_profile)
         menu.addSeparator()
@@ -203,6 +301,8 @@ class HomePage(QWidget):
                          ("Group selected into a pack…", self.make_pack), (None, None),
                          ("Share (export as .zip)…", self.export_mod),
                          ("Import / update from .zip…", self.import_mod),
+                         ("Share all by game…", self.export_all_by_game),
+                         ("Import folder…", self.import_folder),
                          ("Make my own version…", self.derive_mod), (None, None),
                          ("Check saves…", self.check_saves),
                          ("Delete mod…", self.delete_mod)]:
@@ -338,13 +438,16 @@ class HomePage(QWidget):
         self.profile_box.blockSignals(True)
         self.profile_box.clear()
         for p in ps.all():
-            self.profile_box.addItem(p.name + ("   (own saves)" if p.separate_saves else ""), p.id)
+            self.profile_box.addItem(p.name + ("   (separate project)" if p.isolated else "") +
+                                     ("   (own saves)" if p.separate_saves else ""), p.id)
         self.profile_box.setCurrentIndex(max(0, self.profile_box.findData(cur.id)))
         self.profile_box.blockSignals(False)
         self.act_saves.setChecked(cur.separate_saves)
         inst = self.ws.installed_profile()
         n = len(self.ws.mods.load_order())
         note = f"{n} mod(s) switched on in this profile."
+        if cur.isolated:
+            note += "  A separate project: only its own mods (Profile › Import mods from another profile copies some in)."
         if inst and inst.id != cur.id:
             note += f"  The game has the profile <b>{inst.name}</b> installed: Install puts this one in."
         elif inst:
@@ -358,17 +461,54 @@ class HomePage(QWidget):
 
     def new_profile(self, copy=False):
         cur = self.ws.profile
-        name, ok = QInputDialog.getText(self, "Copy profile" if copy else "New profile",
-                                        (f"A copy of '{cur.name}' (the same mods switched on, in the same order). "
-                                         if copy else "A new modpack with no mod switched on yet. ") +
-                                        "\n\nName of the profile:", text=f"{cur.name} copy" if copy else "")
+        if copy:
+            name, ok = QInputDialog.getText(self, "Copy profile",
+                                            f"A copy of '{cur.name}' (the same mods switched on, in the same order)."
+                                            "\n\nName of the profile:", text=f"{cur.name} copy")
+            isolated = False
+        else:
+            dlg = NewProfileDialog(self)
+            ok = dlg.exec() == QDialog.DialogCode.Accepted
+            name, isolated = dlg.name.text(), dlg.isolated.isChecked()
         if not ok or not name.strip():
             return
         try:
-            p = self.ws.mods.profiles.create(name.strip(), copy_from=cur if copy else None)
+            p = self.ws.mods.profiles.create(name.strip(), copy_from=cur if copy else None, isolated=isolated)
         except ValueError as e:
             return QMessageBox.warning(self, "Profile", str(e))
         self.ws.set_profile(p.id)
+
+    def import_from_profile(self):
+        """copies of mods of the other profiles in this one (ids that clash with this profile's mods are moved)"""
+        groups = self.ws.mods.other_profiles_mods()
+        if not groups:
+            return QMessageBox.information(self, "Import from another profile",
+                                           "This profile already sees every mod of the other profiles.")
+        dlg = ImportProfileDialog(self, groups, self.ws.profile)
+        if dlg.exec() != QDialog.DialogCode.Accepted or not dlg.chosen():
+            return
+        from PyQt6.QtWidgets import QApplication
+        from d5lib import modshare
+        done, failed = [], []
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        try:
+            for mod in dlg.chosen():
+                try:
+                    res = modshare.copy_to_profile(mod, self.ws.mods.mods_dir, self.ws.fs,
+                                                   os.path.join(os.path.dirname(self.ws.mods.mods_dir), "state"),
+                                                   log=self.ws.log)
+                    done.append(mod.name + (" (some ids moved)" if res.get("moved") else ""))
+                except Exception as e:
+                    failed.append(f"{mod.name}: {e}")
+        finally:
+            QApplication.restoreOverrideCursor()
+        self.ws.mods_changed.emit()
+        msg = (f"Copied into '{self.ws.profile.name}':\n  " + "\n  ".join(done)) if done else "Nothing copied."
+        if failed:
+            msg += "\n\nNot copied:\n  " + "\n  ".join(failed)
+        msg += ("\n\nThey are copies: changing them here doesn't change the other profile's."
+                if done and self.ws.profile.isolated else "")
+        (QMessageBox.warning if failed else QMessageBox.information)(self, "Import from another profile", msg)
 
     def rename_profile(self):
         cur = self.ws.profile
@@ -389,9 +529,11 @@ class HomePage(QWidget):
         if not others:
             return QMessageBox.information(self, "Profile", "This is your only profile: make another one first.")
         extra = "  Its own saves are kept too." if ps.has_own_saves(cur) else ""
+        what = (f"It is a separate project: its {len(self.ws.mods.all_mods())} mod(s) go with it. Both are kept in "
+                if cur.isolated else "Only the profile goes (which mods it switches on); the mods stay in the kit. "
+                "It is kept in ")
         if QMessageBox.question(self, "Delete profile",
-                                f"Delete the profile '{cur.name}'?\n\nOnly the profile goes (which mods it switches "
-                                f"on); the mods stay in the kit. It is kept in D5ModKit/state/deleted_profiles in "
+                                f"Delete the profile '{cur.name}'?\n\n{what}D5ModKit/state/deleted_profiles in "
                                 f"case you want it back.{extra}") != QMessageBox.StandardButton.Yes:
             return
         try:
@@ -506,8 +648,8 @@ class HomePage(QWidget):
             if grp and info[mid][0] == "outfits" and grp.lower() not in label.lower():
                 label = f"{grp} — {label}"
             it = QTreeWidgetItem(parent, [label + ("   ✎" if active else ""),
-                                          ("⚠ needs " + ", ".join(mods[r].name if r in mods else r for r in missing)
-                                           if missing else info[mid][2])])
+                                          mod_subtitle(info[mid][2], [mods[r].name if r in mods else r
+                                                                      for r in missing])])
             it.setData(0, ROLE, mid)
             it.setData(0, KIND, "mod")
             tip = (mod.meta.get("description") or "") + (f"\nby {mod.meta.get('author')}" if mod.meta.get("author") else "")
@@ -986,7 +1128,7 @@ class HomePage(QWidget):
         try:
             res = modshare.import_package(path, self.ws.mods.mods_dir, self.ws.fs,
                                           os.path.join(os.path.dirname(self.ws.mods.mods_dir), "state"),
-                                          log=lines.append)
+                                          log=lines.append, exe_consent=self._ask_exe_consent)
         except Exception as e:
             QApplication.restoreOverrideCursor()
             return error_box(self, "Could not import", e)
@@ -1003,8 +1145,144 @@ class HomePage(QWidget):
                         f"{k}: " + ", ".join(f"{a}→{b}" for a, b in v.items()) for k, v in moved.items()))
         if res.get("backup"):
             msg += f"\n\nThe previous version is kept in {res['backup']}."
+        if res.get("exe"):
+            msg += ("\n\n⚠ It changes the game's program" + (
+                ", and you approved it." if res.get("enabled") else " and is OFF: you did not approve it."))
+        elif not res.get("enabled", True):
+            msg += "\n\nIt is switched off in this profile."
         msg += "\n\nInstall to put it into the game."
         QMessageBox.information(self, "Mod imported", msg)
+
+    def _ask_exe_consent(self, line):
+        """True when the player approves a package's game-program patches (default answer: No)"""
+        from PyQt6.QtWidgets import QApplication
+        QApplication.restoreOverrideCursor()
+        try:
+            q = (f"{line}\n\nThis mod carries machine code that is written into the game's program and runs inside "
+                 "the game. Only approve it if you trust its author. If you say No it is imported but stays off.\n\n"
+                 "Approve and turn it on?")
+            return QMessageBox.question(self, "This mod changes the game's program", q,
+                                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                                        QMessageBox.StandardButton.No) == QMessageBox.StandardButton.Yes
+        finally:
+            QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+
+    def export_all_by_game(self):
+        """mass export: one zip per mod in a folder per game, with manifests, importable by other kits
+        (d5lib.modbulk; the mods themselves are not changed)"""
+        from d5lib import modbulk
+        from ..common import error_box
+        from PyQt6.QtWidgets import QApplication, QCheckBox, QDialog, QDialogButtonBox
+        mods = self.ws.mods.all_mods()
+        pg = modbulk.load_pack_games(self.ws.mods.mods_dir)
+        count = {}
+        for m in mods:
+            g = modbulk.game_of(m, pg)
+            count[g] = count.get(g, 0) + 1
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Share all by game")
+        lay = QVBoxLayout(dlg)
+        lay.addWidget(QLabel("Export every mod of the checked games as its own zip, in one folder per game.\n"
+                             "Your mods are not changed."))
+        boxes = {}
+        for g in modbulk.GAMES:
+            if count.get(g):
+                boxes[g] = QCheckBox(f"{g}  ({count[g]} mods)")
+                boxes[g].setChecked(g != "DRPG")            # DRPG is gigabytes
+                lay.addWidget(boxes[g])
+        enabled_only = QCheckBox("Only mods that are switched on")
+        lay.addWidget(enabled_only)
+        bb = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        bb.accepted.connect(dlg.accept)
+        bb.rejected.connect(dlg.reject)
+        lay.addWidget(bb)
+        if dlg.exec() != QDialog.DialogCode.Accepted:
+            return
+        games = [g for g, b in boxes.items() if b.isChecked()]
+        if not games:
+            return
+        author = next((m.meta.get("author") for m in mods if m.meta.get("author")), "")
+        author, ok = QInputDialog.getText(self, "Share all by game", "Author (your name, shown to players; may be "
+                                          "empty to keep each mod's own):", text=author or "")
+        if not ok:
+            return
+        out = QFileDialog.getExistingDirectory(self, "Export into this folder")
+        if not out:
+            return
+        lines = []
+
+        def log(line):
+            lines.append(line)
+            QApplication.processEvents()
+
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        try:
+            rep = modbulk.export_all(mods, out, games=games, only_enabled=enabled_only.isChecked(),
+                                     author=author.strip() or None, log=log, pack_games=pg,
+                                     enabled_ids={m.id for m in self.ws.mods.enabled_mods()})
+        except Exception as e:
+            QApplication.restoreOverrideCursor()
+            return error_box(self, "Could not export", e)
+        QApplication.restoreOverrideCursor()
+        for line in lines:
+            self.ws.log(line)
+        msg = f"Exported {len(rep['exported'])} mods to {out}:\n" + "\n".join(
+            f"  {g}: {n}" for g, n in sorted(rep["games"].items()))
+        if rep["skipped"]:
+            msg += f"\n\nSkipped {len(rep['skipped'])}:\n" + "\n".join(
+                f"  {s['id']}: {s['reason']}" for s in rep["skipped"][:15])
+        msg += "\n\nGive the folder to another kit user: Home › More › Import folder…"
+        self.ws.log(msg.split("\n")[0])
+        QMessageBox.information(self, "Share all by game", msg)
+
+    def import_folder(self):
+        """mass import: every package zip under a folder (all game subfolders), mods others need first; clashing ids
+        are moved and 'requires' re-pointed (d5lib.modbulk)"""
+        from d5lib import modbulk
+        from ..common import error_box
+        from PyQt6.QtWidgets import QApplication
+        folder = QFileDialog.getExistingDirectory(self, "Import every mod package in this folder")
+        if not folder:
+            return
+        n = len(modbulk._scan_zips(folder))
+        if not n:
+            return QMessageBox.information(self, "Import folder", "No .zip packages in that folder.")
+        if QMessageBox.question(self, "Import folder", f"Import {n} package(s)? Mods you already have (same identity) "
+                                "are updated, the old versions are kept as backups. Clashing ids are moved, never "
+                                "your other mods'.") != QMessageBox.StandardButton.Yes:
+            return
+        lines = []
+
+        def log(line):
+            lines.append(line)
+            QApplication.processEvents()
+
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        try:
+            s = modbulk.import_folder(folder, self.ws.mods.mods_dir, self.ws.fs,
+                                      os.path.join(os.path.dirname(self.ws.mods.mods_dir), "state"), log=log)
+        except Exception as e:
+            QApplication.restoreOverrideCursor()
+            return error_box(self, "Could not import", e)
+        QApplication.restoreOverrideCursor()
+        self.ws.mods_changed.emit()
+        for line in lines:
+            self.ws.log(line)
+        msg = (f"Imported {len(s['imported'])}, updated {len(s['updated'])}, failed {len(s['failed'])}.")
+        if s["moved"]:
+            msg += f"\n\n{len(s['moved'])} mod(s) had ids moved because your mods already use them."
+        if s["repointed"]:
+            msg += "\n\nRequirements re-pointed: " + "; ".join(
+                f"{m}: " + ", ".join(f"{a} → {b}" for a, b in d.items()) for m, d in s["repointed"].items())
+        if s["missing_requires"]:
+            msg += "\n\nRequired mods that are not installed: " + "; ".join(
+                f"{m} needs {', '.join(r)}" for m, r in s["missing_requires"].items())
+        if s["failed"]:
+            msg += "\n\nFailed:\n" + "\n".join(
+                f"  {os.path.basename(f['file'])}: {f['reason']}" for f in s["failed"][:15])
+        msg += "\n\nInstall to put the mods into the game."
+        self.ws.log(msg.split("\n")[0])
+        QMessageBox.information(self, "Import folder", msg)
 
     def derive_mod(self):
         """iterate on someone's mod without changing it: a copy with its own identity that remembers its origin"""

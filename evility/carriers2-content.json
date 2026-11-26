@@ -1,0 +1,148 @@
+{
+ "lane": "CARRIERS2-20261030",
+ "note": "The D4 evilities the filtered-map-count carrier unlocks, as shipped rows. One source for the Skill.dat row and the .d5el rule; tools/carriers2_rows.py is the only writer. Every number here is sourced: `value` and `mana` come from the D4 profile data (mvp-successor-inputs-v1/source-profiles.json, the learning character's own row), the text from the same row, the mechanic from the D4 description plus the D5 pass the count rides. Evidence classes are named per row; anything not proven is in `not_proven`.",
+ "rows": [
+  {
+   "d4_id": 131,
+   "d4_name": {
+    "@text": "5d7abdf513454207a60d7bce674c049f1050336230b3e90ac123dc3e99388dcb"
+   },
+   "row_id": 8187,
+   "targets": [
+    {
+     "pack": "D4_Class_1120",
+     "class_row": 14120,
+     "role": "learnable"
+    }
+   ],
+   "desc": {
+    "@template": "5a31b31c17780d7f0f453989f49dff9c3464957f096a973f951cc8071885dabe",
+    "args": [
+     5
+    ],
+    "percent": "％"
+   },
+   "value1": 5,
+   "mana": 5000,
+   "family": "stats",
+   "effects": [
+    {
+     "stat": "all",
+     "value": 5,
+     "per": "map_monster"
+    }
+   ],
+   "character": "Beast Tamer (D4_Class_1120 / D4 Beast Master family)",
+   "evidence": [
+    "row id: 8000 + 131 = 8131 would land at merged table index 995, INSIDE the 1000-position learned-evility bitmap, and inserting it shifts vanilla rows 8135..10100 down by one (indices 995..999 are addressable), i.e. an existing save's learned bits would change meaning. 8187 is the lowest free id in the D4 band whose merged index (1006) is over the bitmap, so nothing addressable moves.  The D4 id is carried in this ledger and in the mod's adaptation line, not in the row id",
+    "text+value+mana: D4 profile row for D4 1120 Beast Master family, evility 131, value 5, mana 5000 (source-profiles.json uid d4:EN:character:1120:row:144)",
+    "mechanic: D4 says 'per monster unit on map' -- a count of deployed monsters, which is the class-kind split (unit record +0x2E25: 1/2 human, 11/12 monster), the same byte D5's own other_monster/self_monster conditions read",
+    "carrier: scale 11 map_monster; evility/offline_proof_carriers2.py case 'D4 131 Dark Blood -> all stats +15' (3 monsters) in normal and --abi"
+   ],
+   "not_proven": [
+    "D4's own count site for this evility was not traced; what is proven is that the D5 count means 'deployed monsters, holder excluded' and that D5's byte +0x2E25 is the game's own human/monster split",
+    "the holder is a humanoid, so whether D4 counts the holder itself cannot change this row's number"
+   ]
+  },
+  {
+   "d4_id": 837,
+   "d4_name": {
+    "@text": "aa9681618ea0662343a89fb1e2d81ec1ca52327363739ffd9ef22e0cd4d238dd"
+   },
+   "row_id": 8837,
+   "targets": [
+    {
+     "pack": "D4_Unique_300",
+     "class_row": 10380,
+     "role": "learnable"
+    }
+   ],
+   "desc": {
+    "@template": "33bdc089586ae3399735915f4c07c30eca3d5e262b3ebba00cee390bfbd2bc5b",
+    "args": [
+     10
+    ],
+    "percent": "％"
+   },
+   "value1": 10,
+   "mana": 1000,
+   "family": "stats",
+   "effects": [
+    {
+     "stat": "all",
+     "value": 10,
+     "per": "map_class"
+    }
+   ],
+   "classes": [
+    2070,
+    2071,
+    2072,
+    2073,
+    2074,
+    2075,
+    2120,
+    2121,
+    2122,
+    2123,
+    2124,
+    2125,
+    14700
+   ],
+   "character": "Pink (D4_Unique_300, identity 10380)",
+   "evidence": [
+    "text+value+mana: D4 profile row for D4 300 Pink, evility 837, value 10, mana 1000",
+    "cat-type classes: measured from the live char.dat (Data/Database/Database_0.dat/char.dat, read-only): Slumber Cat 2070-2075 and Felynn 2120-2125 are the game's two cat classes; 14700 is D4 2200's imported cat family (the class that learns 837 in D4 alongside Pink)",
+    "mechanic: D4 says 'x the # of cat-type units on the map' -- a count over a species, which is a class-id list, so the row is one row per class id (they add up) and never counts a class outside the list",
+    "carrier: scale 13 map_class with `classes`; evility/offline_proof_carriers2.py case 'D4 837 Meowyland -> all stats +40' (4 cats of 3 classes + an Orc that is not counted)"
+   ],
+   "not_proven": [
+    "whether D4's count includes the holder.  Pink is a humanoid, so the row's number cannot depend on it; the same evility on Death Saber (D4_Class_2200, itself a cat) is NOT shipped for that reason",
+    "Nine-Tails (2190-2195) is excluded: D4's cat family is the Nekomata line and Nine-Tails is a separate species, so adding it would be a guess.  A later pass with the D4 species table can extend the list without touching the runtime"
+   ]
+  },
+  {
+   "d4_id": 841,
+   "d4_name": {
+    "@text": "3dfd2acb11395d5fe1862000f41f9f58bcd5ebaa0adf42c33a981403e3e9b429"
+   },
+   "row_id": 8841,
+   "targets": [
+    {
+     "pack": "D4_Class_1220",
+     "class_row": 14220,
+     "role": "learnable"
+    }
+   ],
+   "desc": {
+    "@text": "d045f7a6cbd8a183675a7be9bc71a1862c4927b0a12913793135a65deafa95df"
+   },
+   "value1": 50,
+   "mana": 30000,
+   "family": "stats",
+   "effects": [
+    {
+     "stat": "all",
+     "value": 50
+    }
+   ],
+   "condition": {
+    "kind": "map_has_min",
+    "count": 7,
+    "of": 1,
+    "id": 8841
+   },
+   "character": "Prism Ranger (D4_Class_1220, class 14220) -- Prism Red's copy is NOT shipped",
+   "evidence": [
+    "value+mana: D4 profile row for D4 320 Prism Red, evility 841, value 50, mana 30000; the same row on D4 1220 Prism Ranger",
+    "mechanic: 'if seven allies with Prism Emblem are dispatched' is a counted predicate over deployed allies carrying the evility -- near_has (26) is only existential, which is why condition 49 map_has_min exists",
+    "carrier: condition 49; evility/offline_proof_carriers2.py cases 'nothing at six, +50 all stats at seven' and 'enemies do not satisfy the ally relation'"
+   ],
+   "not_proven": [
+    "Prism Red (D4_Unique_320) keeps missing it: D4 gives 841 to the whole Prism Ranger family and to Prism Red, and one Skill.dat id has one owner. The class copy is the one that can fire (the gate needs seven carriers, which only a recruitable class can supply), so the named copy waits on the shared-D4-evility decision D4UNIQ2 recorded for row 8109",
+    "the seven is read from D4's own description (the row stores 50, the magnitude); D4's stored threshold was not read out of its table",
+    "whether D4 counts the holder -- the holder carries 841 too, so if D4 counted it the gate would open at six allies.  The row requires seven *others*, which is the reading the description gives and the stricter one"
+   ]
+  }
+ ]
+}

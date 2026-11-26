@@ -1,0 +1,85 @@
+{
+ "schema": "ownership-claims/1",
+ "holder": "kit:Overlord_Stella_20300",
+ "claims": [
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "char_dat_row",
+   "start": 224,
+   "end": 224,
+   "label": "Stella (Overlord v3) character row"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "job_class_id",
+   "start": 224,
+   "end": 224,
+   "label": "unique: class id = row id"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "evility_id",
+   "start": 7700,
+   "end": 7703,
+   "label": "Stella evilities"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "special_id",
+   "start": 10220,
+   "end": 10222,
+   "label": "Bane Rose / Purgatory Ignition / Flame Hazard"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "voice_id",
+   "start": 9071,
+   "end": 9071,
+   "label": "Stella voice set"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "anm_id",
+   "start": 224,
+   "end": 225,
+   "label": "sprite banks"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "anm_id",
+   "start": 10224,
+   "end": 10224,
+   "label": "cut-in bank"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "database_member",
+   "member": "char.dat",
+   "label": "row-level patch to char.dat"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "database_member",
+   "member": "Skill.dat",
+   "label": "row-level patch to Skill.dat"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "database_member",
+   "member": "magic.dat",
+   "label": "row-level patch to magic.dat"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "database_member",
+   "member": "charhelp.dat",
+   "label": "row-level patch to charhelp.dat"
+  },
+  {
+   "holder": "kit:Overlord_Stella_20300",
+   "namespace": "database_member",
+   "member": "Quest.dat",
+   "label": "row-level patch to Quest.dat"
+  }
+ ]
+}

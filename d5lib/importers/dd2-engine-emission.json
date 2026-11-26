@@ -1,0 +1,37 @@
+{
+ "schema": "dd2-engine-emission/2",
+ "about": "Reviewed DD2 engine emission summary (ids/counts only). The emitted rows are D5 native aliases; no extension rows. Text is read from the user's own game files at build time, never stored here.",
+ "game": "dd2",
+ "coverage": {
+  "decisions": 5,
+  "extension_exact": 0,
+  "native_adapted": 1,
+  "native_exact": 1,
+  "omitted": 1,
+  "uncovered": 2
+ },
+ "capacity": {
+  "fits": true,
+  "limits": {
+   "conditions": 2048,
+   "effects": 4096,
+   "rows": 512
+  },
+  "used": {
+   "conditions": 0,
+   "effects": 0,
+   "rows": 0
+  }
+ },
+ "extension_rows": {},
+ "display_rows": [],
+ "native_alias_skill_ids": [
+  4013,
+  4016
+ ],
+ "limits": [
+  "Exact describes the reviewed contract, not native D4/DD2 equivalence.",
+  "The D5 alias relation is the Kit hook in patches/evilities/aliases.json; it is not an extension row.",
+  "Uncovered rows cannot be produced until the named capability exists in the native evaluator."
+ ]
+}

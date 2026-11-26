@@ -1,0 +1,227 @@
+{
+ "control": {
+  "slot_counts": {
+   "1": 75,
+   "3": 2,
+   "0": 509,
+   "2": 46
+  },
+  "calls": 632,
+  "passed": true
+ },
+ "slot3_call_sites": [
+  {
+   "event": 2000015,
+   "file_offset": "0x9cde",
+   "operand": 30000,
+   "slot": 3,
+   "actor": 0,
+   "volume": 128,
+   "called_by": [
+    2000801,
+    2000802,
+    2000803,
+    2000804,
+    2000805,
+    2000811,
+    2000812,
+    2000813,
+    2000814
+   ]
+  },
+  {
+   "event": 4009997,
+   "file_offset": "0xdcc3f",
+   "operand": 30000,
+   "slot": 3,
+   "actor": 0,
+   "volume": 127,
+   "called_by": [
+    2050801,
+    2050805,
+    2050811
+   ]
+  }
+ ],
+ "skills_reaching_list3": [
+  {
+   "id": 801,
+   "name": "Heal"
+  },
+  {
+   "id": 802,
+   "name": "Mega Heal"
+  },
+  {
+   "id": 803,
+   "name": "Giga Heal"
+  },
+  {
+   "id": 804,
+   "name": "Omega Heal"
+  },
+  {
+   "id": 805,
+   "name": "Espoir"
+  },
+  {
+   "id": 811,
+   "name": "Braveheart"
+  },
+  {
+   "id": 812,
+   "name": "Shield"
+  },
+  {
+   "id": 813,
+   "name": "Magic Boost"
+  },
+  {
+   "id": 814,
+   "name": "Magic Wall"
+  }
+ ],
+ "characters": [
+  {
+   "mod": "D1C_Class_11390",
+   "name": "Strider (D1C)",
+   "source_id": 1140,
+   "learns_list3_skill": [],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_3170",
+   "name": "Dark Durian (D1C)",
+   "source_id": 3170,
+   "learns_list3_skill": [],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_3060",
+   "name": "Dark Flonne (D1C)",
+   "source_id": 3060,
+   "learns_list3_skill": [
+    802
+   ],
+   "list3_only_clips": [
+    "0003_047"
+   ]
+  },
+  {
+   "mod": "D1C_Unique_4",
+   "name": "Gordon (D1C)",
+   "source_id": 4,
+   "learns_list3_skill": [],
+   "list3_only_clips": [
+    "0004_063"
+   ]
+  },
+  {
+   "mod": "D1C_Unique_5",
+   "name": "Jennifer (D1C)",
+   "source_id": 5,
+   "learns_list3_skill": [],
+   "list3_only_clips": [
+    "0005_029"
+   ]
+  },
+  {
+   "mod": "D1C_Unique_2216",
+   "name": "Kurtis (D1C)",
+   "source_id": 2216,
+   "learns_list3_skill": [],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_2590",
+   "name": "Kurtis (D1C)",
+   "source_id": 2590,
+   "learns_list3_skill": [],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_3010",
+   "name": "Marjoly (D1C)",
+   "source_id": 3010,
+   "learns_list3_skill": [],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_2500",
+   "name": "Mid-Boss (D1C)",
+   "source_id": 2500,
+   "learns_list3_skill": [],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_3000",
+   "name": "Priere (D1C)",
+   "source_id": 3000,
+   "learns_list3_skill": [
+    804
+   ],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_3150",
+   "name": "Serra Winguard (D1C)",
+   "source_id": 3150,
+   "learns_list3_skill": [
+    803,
+    804,
+    805
+   ],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_2200",
+   "name": "Thursday (D1C)",
+   "source_id": 2200,
+   "learns_list3_skill": [],
+   "list3_only_clips": [
+    "2200_004"
+   ]
+  },
+  {
+   "mod": "D1C_Unique_3160",
+   "name": "Vesuvius (D1C)",
+   "source_id": 3160,
+   "learns_list3_skill": [
+    803,
+    805
+   ],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_2570",
+   "name": "Vulcanus (D1C)",
+   "source_id": 2570,
+   "learns_list3_skill": [],
+   "list3_only_clips": [
+    "2570_011"
+   ]
+  },
+  {
+   "mod": "D1C_Unique_2540",
+   "name": "Vyers (D1C)",
+   "source_id": 2540,
+   "learns_list3_skill": [],
+   "list3_only_clips": []
+  },
+  {
+   "mod": "D1C_Unique_2580",
+   "name": "Lamington (D1C)",
+   "source_id": 2580,
+   "learns_list3_skill": [],
+   "list3_only_clips": []
+  }
+ ],
+ "framing_failures_excluded": [
+  140704,
+  2000705,
+  2002153,
+  2002162,
+  2003011,
+  4001014
+ ]
+}

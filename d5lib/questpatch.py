@@ -8,6 +8,8 @@ it into the army.  The vanilla overlords are put there by the story; a new chara
 complete without a reward.  The hook runs at the start of that reward case, for the modded recruit classes only:
 when the character is neither in the reserve nor in the army, it creates the unit at level 1 with the game's own
 routine (0x1402ea890, as the event command 0x7850 'join' does) and moves it into the reserve (0x1402ea4b0); the
+(known-build addresses, translated by d5lib.exemap: Steam roster_create_unit 0x1402ea3e0, roster_move_to_guests
+0x1402ea000)
 vanilla code then recruits it as usual (message, flags).
 
 Class shown by the colour screen
@@ -25,11 +27,9 @@ the vanilla code.
 """
 import struct
 
-import pefile
-
 from . import database
+from . import exepatch
 from .dbpatch import DB_ARCHIVE
-from .exepatch import IMAGE_BASE, _asm
 from .gamefs import EXE_FILE
 from .modsys import register_finalizer
 
@@ -41,8 +41,8 @@ RESERVE_COUNT = 0x1455A293E
 ARMY_COUNT = 0x1455A293C
 UNIT_CLASS = 0x145238A5C         # roster unit 0 + 0x2e04 (class id); units are 0x4750 bytes, 128 slots
 UNIT_SIZE = 0x4750
-CREATE_UNIT = 0x1402EA890        # (class, 0, level) -> unit appended to the army, 0 when the roster is full
-TO_RESERVE = 0x1402EA4B0         # (army index) -> moves the unit into the reserve
+CREATE_UNIT = 0x1402EA890        # (class, 0, level) -> unit appended to the army, 0 when the roster is full (Steam 0x1402EA3E0)
+TO_RESERVE = 0x1402EA4B0         # (army index) -> moves the unit into the reserve (Steam 0x1402EA000)
 VANILLA_RECRUITS = {250, 280, 300, 310}   # quests 2-5: the story puts these overlords in the reserve
 
 ANM_OF_VA = 0x140457AA0          # class for the colour screen: mov rax, [rcx+0x47e0] (unit copy) / mov edx, [rax+0x2e04]
@@ -55,7 +55,8 @@ PAL_LOOKUP = 0x1403025B0
 
 
 def is_hooked(exe: bytes) -> bool:
-    return SECTION_NAME in exe[:0x400]
+    """the recruit/colour hooks are present, however the section was appended (see exepatch.has_feature)"""
+    return exepatch.has_feature(exe, SECTION_NAME)
 
 
 def _recruit_src(ids):
@@ -170,46 +171,13 @@ def build_newchar_hook(exe: bytes, recruit_ids=(), class_map=None, palette_map=N
     pal_pairs = sorted((int(c), int(s)) for c, s in (palette_map or {}).items())
     if (not ids and not cls_pairs and not pal_pairs) or is_hooked(exe):
         return exe
-    pe = pefile.PE(data=exe)
     pal_orig = b"\xE8" + struct.pack("<i", PAL_LOOKUP - (PAL_CALL_VA + 5))
-    sites = [(HOOK_VA, HOOK_ORIG, ids, _recruit_src, 0xE9), (ANM_OF_VA, ANM_OF_ORIG, cls_pairs, _class_src, 0xE9),
-             (PAL_CALL_VA, pal_orig, pal_pairs, _palette_src, 0xE8)]
-    from . import exemap
-    sites = [(exemap.site(pe, va, orig, "the new-character hook site") if used else va, orig, used, src, op)
-             for va, orig, used, src, op in sites]
-    sec_align = pe.OPTIONAL_HEADER.SectionAlignment
-    file_align = pe.OPTIONAL_HEADER.FileAlignment
-    last = max(pe.sections, key=lambda s: s.VirtualAddress)
-    new_rva = (last.VirtualAddress + max(last.Misc_VirtualSize, last.SizeOfRawData) + sec_align - 1) \
-        // sec_align * sec_align
-    new_raw = (len(exe) + file_align - 1) // file_align * file_align
-    base = IMAGE_BASE + new_rva
-    code = b""
-    entries = []
-    for va, orig, used, src, op in sites:
-        if not used:
-            continue
-        code += b"\xCC" * (-len(code) % 16)
-        entries.append((va, orig, base + len(code), op))
-        code += _asm(src(used), base + len(code))
-    section = code + b"\xCC" * (-len(code) % file_align)
-    out = bytearray(exe) + b"\0" * (new_raw - len(exe))
-    nsec = pe.FILE_HEADER.NumberOfSections
-    sh_off = pe.DOS_HEADER.e_lfanew + 4 + 20 + pe.FILE_HEADER.SizeOfOptionalHeader + 40 * nsec
-    if sh_off + 40 > pe.OPTIONAL_HEADER.SizeOfHeaders:
-        raise ValueError("no room for another section header")
-    hdr = struct.pack("<8sIIIIIIHHI", SECTION_NAME.ljust(8, b"\0"), len(code), new_rva, len(section), new_raw,
-                      0, 0, 0, 0, 0x60000020)  # code | execute | read
-    out[sh_off:sh_off + 40] = hdr
-    fh = pe.DOS_HEADER.e_lfanew + 4
-    struct.pack_into("<H", out, fh + 2, nsec + 1)
-    size_of_image = (new_rva + len(code) + sec_align - 1) // sec_align * sec_align
-    struct.pack_into("<I", out, fh + 20 + 56, size_of_image)
-    out += section
-    for va, orig, target, op in entries:
-        off = pe.get_offset_from_rva(va - IMAGE_BASE)
-        out[off:off + len(orig)] = bytes([op]) + struct.pack("<i", target - (va + 5)) + b"\x90" * (len(orig) - 5)
-    return bytes(out)
+    hooks = [(va, orig, src(used), op) for va, orig, used, src, op in
+             [(HOOK_VA, HOOK_ORIG, ids, _recruit_src, 0xE9), (ANM_OF_VA, ANM_OF_ORIG, cls_pairs, _class_src, 0xE9),
+              (PAL_CALL_VA, pal_orig, pal_pairs, _palette_src, 0xE8)] if used]
+    # add_hook_section owns the section layout: it appends to the last kit section when it can, so this feature
+    # costs no section header of its own (and its claim block keeps is_hooked working on a shared section).
+    return exepatch.add_hook_section(exe, SECTION_NAME, hooks)
 
 
 def build_recruit_hook(exe: bytes, class_ids) -> bytes:

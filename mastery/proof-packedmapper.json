@@ -1,0 +1,186 @@
+{
+ "mode": "behaviour",
+ "build": {
+  "families": [
+   1350,
+   1360
+  ],
+  "section": ".d5pm",
+  "base": "0x14808f000",
+  "size": 251488,
+  "mapper_sites": 16,
+  "original_sha256": "49a7530baa1c3e15e4bf9c63c56fefd71d7e51a6e641bce80280b37b2db282ce",
+  "patched_sha256": "e32d404b8d5bedff3c48f90e4d12c6669146aab7342fac33508a7f7c9b3429e3",
+  "table": [
+   1350,
+   1360
+  ]
+ },
+ "checks": [
+  {
+   "name": "vanilla-unchanged",
+   "ok": true,
+   "detail": {
+    "ids": 292,
+    "runs": 4672,
+    "both_sites": true,
+    "differences": 0
+   }
+  },
+  {
+   "name": "stage-first",
+   "ok": true,
+   "detail": {
+    "sites": 16,
+    "answer": 52,
+    "area": "c5 01 87 00 + zeros",
+    "stage_zero": true
+   }
+  },
+  {
+   "name": "stage-idempotent",
+   "ok": true,
+   "detail": {
+    "answer": 52,
+    "record_unchanged": true
+   }
+  },
+  {
+   "name": "stage-round-trip",
+   "ok": true,
+   "detail": {
+    "counters": [
+     10,
+     20,
+     0,
+     0,
+     0,
+     0
+    ],
+    "entry": "8700020a0000140000",
+    "round_trip": true
+   }
+  },
+  {
+   "name": "stage-completed-ranks",
+   "ok": true,
+   "detail": {
+    "header": "876001",
+    "completed": 3,
+    "stored": 1,
+    "round_trip": true
+   }
+  },
+  {
+   "name": "model-format",
+   "ok": true,
+   "detail": {
+    "steps": 60,
+    "switches": 60,
+    "families": [
+     1350,
+     1360
+    ],
+    "byte_identical": true
+   }
+  },
+  {
+   "name": "fail-closed",
+   "ok": true,
+   "detail": {
+    "cases": [
+     {
+      "case": "unknown spare bytes",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "legacy six-slot counters",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "wrong pool version",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "reserved header bits",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "duplicate family entry",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "garbage after the entries",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "entry past the end of the pool",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "full pool",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "staged family not configured",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "counter above threshold",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "counter beyond 24 bits",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "missing JobRank rows",
+      "answer": -1,
+      "written": 0
+     },
+     {
+      "case": "null record",
+      "answer": -1,
+      "written": 0
+     }
+    ],
+    "refused": 13
+   }
+  },
+  {
+   "name": "per-unit-scope",
+   "ok": true,
+   "detail": {
+    "second_unit": "0x400004800",
+    "independent": true
+   }
+  },
+  {
+   "name": "register-preservation",
+   "ok": true,
+   "detail": {
+    "registers": 13,
+    "preserved": true
+   }
+  }
+ ],
+ "passed": true,
+ "limitations": [
+  "The original mapper is executed for real in the behaviour checks; --abi replaces it with a clobbering stub to prove the wrapper's own register contract.",
+  "The wrapper is proven from the game's own call instructions (all 16 sites), not from its entry: the return address it reads is the real one pushed by each caller.",
+  "The JobRank table and its two globals are fixtures; the game's real rows are not read here.",
+  "Executed paths only: Windows unwind dispatch and native gameplay are not executed.  The .d5pm unwind records are checked structurally (static audit + exepatch), not by an exception.",
+  "No writer, award, unlock or UI path is patched in this step, so none is proven here."
+ ]
+}

@@ -1,0 +1,9 @@
+{
+ "original_sha256": "49a7530baa1c3e15e4bf9c63c56fefd71d7e51a6e641bce80280b37b2db282ce",
+ "section": ".d5lc",
+ "routines": 10,
+ "call_edges": 10,
+ "returns": 11,
+ "patched_sites": 146,
+ "findings": []
+}

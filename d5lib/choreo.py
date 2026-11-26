@@ -414,6 +414,9 @@ class Context:
     loading: bool = False
     in_battle: tuple = ()
     sprite_exists: object = None
+    # source-engine dialect of local arithmetic 0x1440 op 3: False = D5 (both operands truncated, integer divide,
+    # 0x140184cd0); True = D4 (float divide, divss in 0x1401496c0). Used only to trace D4 scenes (SPECBULK1).
+    float_divide: bool = False
 
 
 # ------------------------------------------------------------------------------------------------ simulation
@@ -460,6 +463,17 @@ class Simulator:
             return n * 10 if size == 4 else n
         return _signed(v, size)
 
+    def _fixed256(self, v, regs):
+        """a cmd_1442 operand: variables scaled by 256 and truncated, literals as raw / 256"""
+        if isinstance(v, script.Var):
+            if v.id in LOCALS:
+                f = regs.get(v.id, 0.0)
+                f = f if math.isfinite(f) else 0.0
+            else:
+                f = regs.get(LOOP_VAR, 0) if v.id == LOOP_VAR else self.vars.get(v.id, 0)
+            return int(f * 256) / 256.0
+        return _signed(v, 4) / 256.0
+
     @staticmethod
     def _src(v, eid, pc, i, srcs, size, kind):
         if isinstance(v, script.Var):
@@ -471,6 +485,8 @@ class Simulator:
 
     def _cond_val(self, v, regs):
         if isinstance(v, script.Var):
+            if v.id == LOOP_VAR:      # DD2SPEC2: a condition on the loop counter reads it like _read does
+                return int(regs.get(LOOP_VAR, 0))
             return regs.get(v.id, 0.0) if v.id in LOCALS else self.vars.get(v.id, 0)
         return _signed(v, 2)
 
@@ -542,12 +558,21 @@ class Simulator:
                     b = self._read(ins.args[3], regs, 4, "f")
                     lit = 3
                 fa, fb = a / 10.0, b / 10.0
+                if c == 0x1442:
+                    # fixed point 1/256 on both engines (SPECBULK2): the parser scales a variable by 256 and
+                    # truncates (D4 0x14011fe10, D5 0x140086120), the handler multiplies by 1/256 (D4 0x140149810,
+                    # D5 0x140184ea0); a literal is the raw value / 256
+                    fa, fb = (self._fixed256(ins.args[k], regs) for k in (1, 3))
                 if opn == 0:
                     r = fa + fb
                 elif opn == 1:
                     r = fa - fb
                 elif opn == 2:
                     r = fa * fb
+                elif opn == 3 and (self.ctx.float_divide or c == 0x1442):
+                    # 1440 op 3: D4 divides floats, D5 truncates + idiv (dialect flag). 1442 op 3 divides floats on
+                    # both engines (D5 0x140184f66 / D4 divss in 0x140149810), so it never takes the integer path.
+                    r = fa / fb if fb else math.inf      # stored as non-finite -> 0.0 below (labelled approximation)
                 elif opn in (3, 4):
                     ia, ib = int(fa), int(fb)
                     if ib == 0:
@@ -588,6 +613,11 @@ class Simulator:
                         if a.id in LOCALS:
                             cargs.append(int(regs.get(a.id, 0.0) * 10))
                             csrcs.append(srcs.get(a.id))
+                        elif a.id == LOOP_VAR:
+                            # the loop counter passed down (an actor or slot per pass); read like _read does.
+                            # It used to fall through to the global variables and arrive as 0 (SPECBULK2).
+                            cargs.append(int(regs.get(LOOP_VAR, 0)) * 10)
+                            csrcs.append(None)
                         else:
                             cargs.append(int(self.vars.get(a.id, 0)) * 10)
                             csrcs.append(None)

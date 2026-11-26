@@ -1,0 +1,758 @@
+[
+{
+"rva": 400896,
+"len": 8,
+"module": "Innocents",
+"handler": "hook_innocent_generalized_lookup"
+},
+{
+"rva": 476368,
+"len": 13,
+"module": "custom classes",
+"handler": "cc_jobrank_lookup"
+},
+{
+"rva": 577776,
+"len": 13,
+"module": "evility runtime",
+"handler": "hook_skill_runtime_lookup"
+},
+{
+"rva": 1338810,
+"len": 7,
+"module": "Squads (plugin)",
+"handler": "allocate_near calc stub"
+},
+{
+"rva": 1339022,
+"len": 8,
+"module": "Squads (plugin)",
+"handler": "allocate_near stub_a"
+},
+{
+"rva": 1339253,
+"len": 8,
+"module": "Squads (plugin)",
+"handler": "allocate_near stub_b"
+},
+{
+"rva": 1339559,
+"len": 3,
+"module": "Squads (plugin)",
+"handler": "- (3 x NOP)"
+},
+{
+"rva": 1351904,
+"len": 14,
+"module": "portraits",
+"handler": "d5p_anm_set_thunk"
+},
+{
+"rva": 1368016,
+"len": 15,
+"module": "animation trace (diagnostic)",
+"handler": "at_player_create_thunk"
+},
+{
+"rva": 1370080,
+"len": 15,
+"module": "animation trace (diagnostic)",
+"handler": "at_unit_setup_thunk"
+},
+{
+"rva": 1425168,
+"len": 12,
+"module": "animation",
+"handler": "af_family_thunk"
+},
+{
+"rva": 1431280,
+"len": 14,
+"module": "evility runtime",
+"handler": "hook_stat_conversion_defense_param"
+},
+{
+"rva": 1431392,
+"len": 12,
+"module": "evility runtime",
+"handler": "hook_stat_conversion_attack_param"
+},
+{
+"rva": 1432560,
+"len": 12,
+"module": "evility runtime",
+"handler": "hook_overload_id_resolver"
+},
+{
+"rva": 1638720,
+"len": 13,
+"module": "animation trace (diagnostic)",
+"handler": "at_script_launch_thunk"
+},
+{
+"rva": 1645888,
+"len": 12,
+"module": "animation trace (diagnostic)",
+"handler": "at_script_step_thunk"
+},
+{
+"rva": 1706112,
+"len": 14,
+"module": "portraits",
+"handler": "d5p_resolve_thunk"
+},
+{
+"rva": 1716208,
+"len": 14,
+"module": "portraits",
+"handler": "d5p_small64_thunk"
+},
+{
+"rva": 1716240,
+"len": 12,
+"module": "portraits",
+"handler": "d5p_small48_thunk"
+},
+{
+"rva": 1767074,
+"len": 5,
+"module": "evility runtime",
+"handler": "steal-on-kill stub (calls 0x203A40)"
+},
+{
+"rva": 1810384,
+"len": 18,
+"module": "curry",
+"handler": "hook_curry_day_update"
+},
+{
+"rva": 1829450,
+"len": 5,
+"module": "evility runtime",
+"handler": "stub_rbp (attack-context relay)"
+},
+{
+"rva": 1829615,
+"len": 5,
+"module": "evility runtime",
+"handler": "stub_rbp (attack-context relay)"
+},
+{
+"rva": 1832021,
+"len": 5,
+"module": "evility runtime",
+"handler": "stub_rsi (attack-context relay)"
+},
+{
+"rva": 1843136,
+"len": 16,
+"module": "evility runtime",
+"handler": "stat-conversion hit/spd stub"
+},
+{
+"rva": 1859856,
+"len": 15,
+"module": "custom classes",
+"handler": "cc_tier_thunk"
+},
+{
+"rva": 1860256,
+"len": 13,
+"module": "custom classes",
+"handler": "cc_unlock_thunk"
+},
+{
+"rva": 1907809,
+"len": 5,
+"module": "Squads (plugin)",
+"handler": "allocate_near relay \u2192 0x161790"
+},
+{
+"rva": 1909181,
+"len": 4,
+"module": "Squads (plugin)",
+"handler": "- (imm32)"
+},
+{
+"rva": 1990207,
+"len": 7,
+"module": "evility runtime",
+"handler": "permanent-revenge stub #1"
+},
+{
+"rva": 1990650,
+"len": 7,
+"module": "evility runtime",
+"handler": "permanent-revenge stub #2"
+},
+{
+"rva": 2016704,
+"len": 15,
+"module": "evility runtime",
+"handler": "hook_magic_range"
+},
+{
+"rva": 2025369,
+"len": 7,
+"module": "evility runtime",
+"handler": "hook_hp_regen (inline asm stub)"
+},
+{
+"rva": 2042384,
+"len": 13,
+"module": "evility runtime",
+"handler": "hook_stat_modifier"
+},
+{
+"rva": 2043750,
+"len": 4,
+"module": "startup",
+"handler": "- (literal patch)"
+},
+{
+"rva": 2043767,
+"len": 4,
+"module": "startup",
+"handler": "- (literal patch)"
+},
+{
+"rva": 2043791,
+"len": 4,
+"module": "startup",
+"handler": "- (literal patch)"
+},
+{
+"rva": 2048032,
+"len": 13,
+"module": "evility runtime",
+"handler": "hook_collect_units"
+},
+{
+"rva": 2058920,
+"len": 5,
+"module": "evility runtime",
+"handler": "power-percent stub"
+},
+{
+"rva": 2066176,
+"len": 13,
+"module": "evility runtime",
+"handler": "hook_defense_power"
+},
+{
+"rva": 2076929,
+"len": 5,
+"module": "evility runtime",
+"handler": "inline stub \u2192 element offence"
+},
+{
+"rva": 2086100,
+"len": 5,
+"module": "evility runtime",
+"handler": "inline stub \u2192 element defence"
+},
+{
+"rva": 2086201,
+"len": 5,
+"module": "evility runtime",
+"handler": "stub_rdi (attack-context relay)"
+},
+{
+"rva": 2086219,
+"len": 5,
+"module": "evility runtime",
+"handler": "stub_rdi (attack-context relay)"
+},
+{
+"rva": 2086468,
+"len": 5,
+"module": "evility runtime",
+"handler": "stub_rdi (attack-context relay)"
+},
+{
+"rva": 2086486,
+"len": 5,
+"module": "evility runtime",
+"handler": "stub_rdi (attack-context relay)"
+},
+{
+"rva": 2086708,
+"len": 5,
+"module": "evility runtime",
+"handler": "stub_rdi (attack-context relay)"
+},
+{
+"rva": 2086726,
+"len": 5,
+"module": "evility runtime",
+"handler": "stub_rdi (attack-context relay)"
+},
+{
+"rva": 2089168,
+"len": 16,
+"module": "evility runtime",
+"handler": "hook_damage_nullify_predicate"
+},
+{
+"rva": 2093168,
+"len": 16,
+"module": "evility runtime",
+"handler": "hook_ailment_chance"
+},
+{
+"rva": 2211568,
+"len": 13,
+"module": "portraits",
+"handler": "d5c_cutin_thunk"
+},
+{
+"rva": 2223072,
+"len": 12,
+"module": "custom classes",
+"handler": "cc_mapper_thunk"
+},
+{
+"rva": 2232987,
+"len": 14,
+"module": "vanilla fixes / config",
+"handler": "- (literal block)"
+},
+{
+"rva": 2234259,
+"len": 12,
+"module": "subclass/wishes",
+"handler": "generated per-wish stub chain"
+},
+{
+"rva": 2244938,
+"len": 22,
+"module": "Item World (plugin)",
+"handler": "cave: king popup #1"
+},
+{
+"rva": 2256522,
+"len": 15,
+"module": "UI text",
+"handler": "sound-msg guard stub"
+},
+{
+"rva": 2726236,
+"len": 14,
+"module": "subclass/wishes",
+"handler": "inline stub (Class=4 hint gate)"
+},
+{
+"rva": 2738768,
+"len": 12,
+"module": "subclass/wishes",
+"handler": "hook_subclass_class_tab_update"
+},
+{
+"rva": 2750291,
+"len": 6,
+"module": "UI text",
+"handler": "charhelp stub (cmp ecx,10000 ; jae line3)"
+},
+{
+"rva": 2841213,
+"len": 7,
+"module": "Squads (plugin)",
+"handler": "- (rel32 jz)"
+},
+{
+"rva": 3090624,
+"len": 13,
+"module": "animation trace (diagnostic)",
+"handler": "at_seek_thunk"
+},
+{
+"rva": 3150400,
+"len": 15,
+"module": "animation trace (diagnostic)",
+"handler": "at_group_lookup_thunk"
+},
+{
+"rva": 3939579,
+"len": 10,
+"module": "Item World (plugin)",
+"handler": "code cave 0x3DABFA"
+},
+{
+"rva": 3955726,
+"len": 5,
+"module": "Item World (plugin)",
+"handler": "code caves 0x22414A/0x732B4A"
+},
+{
+"rva": 3957114,
+"len": 14,
+"module": "Item World (plugin)",
+"handler": "code cave 0x3EFAEA"
+},
+{
+"rva": 4040048,
+"len": 13,
+"module": "assets",
+"handler": "hook_file_arc_range_read"
+},
+{
+"rva": 4041722,
+"len": 22,
+"module": "Item World (plugin)",
+"handler": "cave: fish multiplier replay"
+},
+{
+"rva": 4127466,
+"len": 22,
+"module": "Item World (plugin)",
+"handler": "cave: sphere multiplier replay"
+},
+{
+"rva": 4173024,
+"len": 13,
+"module": "curry",
+"handler": "hook_curry_text_draw"
+},
+{
+"rva": 4193456,
+"len": 14,
+"module": "animation trace (diagnostic)",
+"handler": "at_bank_request_thunk"
+},
+{
+"rva": 4228992,
+"len": 8,
+"module": "assets",
+"handler": "hook_archive_member_size"
+},
+{
+"rva": 4229520,
+"len": 6,
+"module": "assets",
+"handler": "hook_archive_member_read"
+},
+{
+"rva": 4231184,
+"len": 15,
+"module": "assets",
+"handler": "overlord_member_pointer_thunk"
+},
+{
+"rva": 4438756,
+"len": 12,
+"module": "subclass/wishes",
+"handler": "inline relay (wish row filter)"
+},
+{
+"rva": 4475884,
+"len": 13,
+"module": "subclass/wishes",
+"handler": "inline relay (diagnostic capture)"
+},
+{
+"rva": 4499248,
+"len": 15,
+"module": "subclass/wishes",
+"handler": "hook_wish_visibility"
+},
+{
+"rva": 4541712,
+"len": 19,
+"module": "portraits",
+"handler": "d5c_class_thunk"
+},
+{
+"rva": 4542644,
+"len": 1,
+"module": "portraits",
+"handler": "- (imm8 patch)"
+},
+{
+"rva": 4543217,
+"len": 20,
+"module": "portraits",
+"handler": "d5c_row_thunk"
+},
+{
+"rva": 5578880,
+"len": 11,
+"module": "evility runtime",
+"handler": "sp-drain stub"
+},
+{
+"rva": 6425248,
+"len": 14,
+"module": "vanilla fixes",
+"handler": "hook_giveup_return_to_stage_select"
+},
+{
+"rva": 6430827,
+"len": 14,
+"module": "vanilla fixes",
+"handler": "g_giveup_stage_second_row_thunk (asm thunk)"
+},
+{
+"rva": 6430860,
+"len": 2,
+"module": "vanilla fixes",
+"handler": "- (literal patch)"
+},
+{
+"rva": 6430917,
+"len": 8,
+"module": "vanilla fixes",
+"handler": "- (literal patch)"
+},
+{
+"rva": 6430928,
+"len": 4,
+"module": "vanilla fixes",
+"handler": "- (literal patch)"
+},
+{
+"rva": 6656112,
+"len": 15,
+"module": "custom classes",
+"handler": "cc_persona_thunk"
+},
+{
+"rva": 6656220,
+"len": 16,
+"module": "custom classes",
+"handler": "cc_persona_mid_thunk"
+},
+{
+"rva": 6704624,
+"len": 15,
+"module": "custom classes",
+"handler": "cc_build_thunk"
+},
+{
+"rva": 6705024,
+"len": 15,
+"module": "custom classes",
+"handler": "cc_cost_thunk"
+},
+{
+"rva": 7547722,
+"len": 22,
+"module": "Item World (plugin)",
+"handler": "cave: king popup #2 (displacement to 0x990FD4)"
+},
+{
+"rva": 7796608,
+"len": 11,
+"module": "Innocents",
+"handler": "hook_innocent_generalized_dispatcher"
+},
+{
+"rva": 8182208,
+"len": 15,
+"module": "evility scroll shop / Android",
+"handler": "hook_shop_learn_evility_predicate"
+},
+{
+"rva": 8187367,
+"len": 12,
+"module": "evility scroll shop / Android",
+"handler": "inline stub (command hint text)"
+},
+{
+"rva": 8190528,
+"len": 10,
+"module": "evility scroll shop / Android",
+"handler": "hook_convert_evility_update"
+},
+{
+"rva": 8431778,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8431788,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8439206,
+"len": 2,
+"module": "vanilla fixes / config",
+"handler": "- (literal patch)"
+},
+{
+"rva": 8449829,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8449840,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8449868,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8450234,
+"len": 22,
+"module": "Character World (plugin)",
+"handler": "cave replaying imul esi,esi,mult"
+},
+{
+"rva": 8561102,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8561110,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8562366,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8562377,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8562409,
+"len": 1,
+"module": "Character World (plugin)",
+"handler": "- (imm8)"
+},
+{
+"rva": 8620154,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8620162,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8632307,
+"len": 7,
+"module": "Character World (plugin)",
+"handler": "code cave 0x80F0BA"
+},
+{
+"rva": 8662521,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8662553,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8662561,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8668398,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8668408,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8668430,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8668440,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8669758,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8670445,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8670655,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8752819,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8752832,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8752840,
+"len": 4,
+"module": "Character World (plugin)",
+"handler": "- (data immediate)"
+},
+{
+"rva": 8849440,
+"len": 8,
+"module": "voice",
+"handler": "hook_voice_group_open"
+},
+{
+"rva": 8851488,
+"len": 13,
+"module": "voice",
+"handler": "hook_dsarc_member_lookup"
+},
+{
+"rva": 10061664,
+"len": 16,
+"module": "Squads (plugin)",
+"handler": "- (4 x imm32)"
+},
+{
+"rva": 10062656,
+"len": 16,
+"module": "Squads (plugin)",
+"handler": "- (4 x imm32)"
+}
+]

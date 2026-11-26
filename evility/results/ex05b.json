@@ -1,0 +1,457 @@
+{
+ "original_sha256": "49a7530baa1c3e15e4bf9c63c56fefd71d7e51a6e641bce80280b37b2db282ce",
+ "patched_sha256": "8241e12a8d148aa7656acbbfcfb97372613c2ed55da1252b18bf8bec4468107e",
+ "section_base": "0x14808f000",
+ "section_size": 255456,
+ "format": 2,
+ "wrappers": {
+  "dealt": "0x1480900ae",
+  "taken": "0x148090122",
+  "hit": "0x14809026a",
+  "status": "0x1480902f5",
+  "potency": "0x148090002"
+ },
+ "rows": {
+  "7101": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 10
+    }
+   ],
+   "condition": {
+    "kind": "ally_adj",
+    "id": 1
+   }
+  },
+  "7102": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 20
+    }
+   ],
+   "condition": {
+    "kind": "enemy_adj",
+    "id": 1
+   }
+  },
+  "7103": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 30
+    }
+   ],
+   "condition": {
+    "kind": "ally_map",
+    "id": 2
+   }
+  },
+  "7104": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 11
+    }
+   ],
+   "condition": {
+    "kind": "attack_normal"
+   }
+  },
+  "7105": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 12
+    }
+   ],
+   "condition": {
+    "kind": "attack_skill"
+   }
+  },
+  "7106": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 13
+    }
+   ],
+   "condition": {
+    "kind": "attack_phys"
+   }
+  },
+  "7107": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 14
+    }
+   ],
+   "condition": {
+    "kind": "attack_magic"
+   }
+  },
+  "7108": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 15
+    }
+   ],
+   "condition": {
+    "kind": "element",
+    "id": 1
+   }
+  },
+  "7109": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 16
+    }
+   ],
+   "condition": {
+    "kind": "weapon",
+    "id": 2
+   }
+  },
+  "7110": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 17
+    }
+   ],
+   "condition": {
+    "kind": "target_status",
+    "id": 5
+   }
+  },
+  "7111": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 18
+    }
+   ],
+   "condition": {
+    "kind": "self_status",
+    "id": 5
+   }
+  },
+  "7112": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 19
+    }
+   ],
+   "condition": {
+    "kind": "turn_min",
+    "id": 3
+   }
+  },
+  "7113": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 21
+    }
+   ],
+   "condition": {
+    "kind": "attack_dir",
+    "id": 0
+   }
+  },
+  "7114": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 22
+    }
+   ],
+   "condition": {
+    "kind": "attack_dir",
+    "id": 2
+   }
+  },
+  "7115": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 25
+    }
+   ],
+   "conditions": [
+    {
+     "kind": "attack_skill"
+    },
+    {
+     "kind": "element",
+     "id": 1
+    },
+    {
+     "kind": "ally_adj",
+     "id": 1
+    }
+   ]
+  },
+  "7120": {
+   "family": "hit",
+   "effects": [
+    {
+     "value": 20
+    }
+   ]
+  },
+  "7121": {
+   "family": "hit",
+   "effects": [
+    {
+     "value": 30
+    }
+   ],
+   "condition": {
+    "kind": "attack_dir",
+    "id": 0
+   }
+  },
+  "7122": {
+   "family": "status_chance",
+   "effects": [
+    {
+     "value": 15
+    }
+   ],
+   "condition": {
+    "kind": "status_class",
+    "id": 3
+   }
+  },
+  "7130": {
+   "family": [
+    "potency",
+    "aura"
+   ],
+   "effects": [
+    {
+     "stat": "atk",
+     "value": 40
+    }
+   ],
+   "condition": {
+    "kind": "near_has",
+    "of": 1,
+    "radius": 1,
+    "id": 7131
+   }
+  },
+  "7131": {
+   "family": "dealt",
+   "effects": [
+    {
+     "value": 1
+    }
+   ]
+  }
+ },
+ "checks": [
+  {
+   "name": "vanilla-dealt-identical",
+   "ok": true,
+   "original": 0,
+   "patched": 0
+  },
+  {
+   "name": "vanilla-taken-identical",
+   "ok": true,
+   "original": 100,
+   "patched": 100
+  },
+  {
+   "name": "vanilla-hit-identical",
+   "ok": true,
+   "original": 50,
+   "patched": 50
+  },
+  {
+   "name": "vanilla-status-identical",
+   "ok": true,
+   "original": 20,
+   "patched": 20
+  },
+  {
+   "name": "ally-adj-met",
+   "ok": true,
+   "adjacent": 10,
+   "alone": 0,
+   "fault": 0,
+   "fault_met": null
+  },
+  {
+   "name": "enemy-adj-ally-is-not-enemy",
+   "ok": true,
+   "adjacent": 0,
+   "alone": 0
+  },
+  {
+   "name": "enemy-adj-met",
+   "ok": true,
+   "hostile_next_door": 20,
+   "alone": 0,
+   "fault": null
+  },
+  {
+   "name": "ally-map-count",
+   "ok": true,
+   "deployed": 30,
+   "alone": 0
+  },
+  {
+   "name": "attack-normal",
+   "ok": true,
+   "normal": 11,
+   "skill": 0
+  },
+  {
+   "name": "attack-skill",
+   "ok": true,
+   "skill": 12,
+   "normal": 0
+  },
+  {
+   "name": "attack-physical",
+   "ok": true,
+   "physical": 13,
+   "magic": 0
+  },
+  {
+   "name": "attack-magic",
+   "ok": true,
+   "magic": 14,
+   "physical": 0
+  },
+  {
+   "name": "element",
+   "ok": true,
+   "fire": 15,
+   "none": 0
+  },
+  {
+   "name": "weapon-category",
+   "ok": true,
+   "sword": 16,
+   "fist": 0
+  },
+  {
+   "name": "target-status",
+   "ok": true,
+   "poisoned": 17,
+   "clean": 0,
+   "fault": null
+  },
+  {
+   "name": "self-status",
+   "ok": true,
+   "poisoned": 18,
+   "clean": 0,
+   "fault": null
+  },
+  {
+   "name": "turn-min",
+   "ok": true,
+   "round3": 19,
+   "round2": 0,
+   "fault": null
+  },
+  {
+   "name": "attack-dir-front",
+   "ok": true,
+   "front": 21,
+   "back": 0
+  },
+  {
+   "name": "attack-dir-back",
+   "ok": true,
+   "back": 22,
+   "front": 0
+  },
+  {
+   "name": "conditions-all-must-hold",
+   "ok": true,
+   "fire": 25,
+   "none": 0
+  },
+  {
+   "name": "hit-chance-adds",
+   "ok": true,
+   "base": 50,
+   "with_row": 70
+  },
+  {
+   "name": "hit-chance-clamped",
+   "ok": true,
+   "value": 100
+  },
+  {
+   "name": "hit-chance-condition",
+   "ok": true,
+   "front": 80,
+   "back": 50
+  },
+  {
+   "name": "status-chance-adds",
+   "ok": true,
+   "base": 20,
+   "with_row": 35
+  },
+  {
+   "name": "status-chance-class",
+   "ok": true,
+   "other_status": 20,
+   "base": 20
+  },
+  {
+   "name": "aura-met",
+   "ok": true,
+   "adjacent": [
+    10,
+    10,
+    50,
+    10,
+    10,
+    10,
+    10,
+    10
+   ],
+   "distant": [
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    10
+   ],
+   "fault": null
+  },
+  {
+   "name": "aura-not-self",
+   "ok": true,
+   "provider_words": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "fault": null
+  }
+ ],
+ "passed": true
+}

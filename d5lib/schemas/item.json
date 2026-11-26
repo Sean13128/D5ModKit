@@ -326,7 +326,8 @@
    "offset": 1110,
    "type": "u16",
    "desc": "100 normally; 110..150 on crossover/DLC weapons (Prinny Book 110 ... Zetta Sword 150). Probably a percentage multiplier (growth/IW?)",
-   "confidence": "low"
+   "confidence": "low",
+   "candidate": "Sorrow series_group PROBABLE"
   },
   {
    "name": "char_exclusive",

@@ -25,3 +25,29 @@ d5lib/bin/*.so
 
 # local RPG idle source exports (contain game-derived art)
 rpg-idle-sources/
+
+# never commit game files or game-derived/extracted data (also enforced by the local .git/hooks guard)
+*.dat
+*.pac
+*.dds
+*.tx2
+*.txp
+*.obf
+*.sobj
+*.nlsd
+*.pak
+*.arc
+*.wav
+*.ogg
+*.at3
+*.at9
+*.bnk
+*.awb
+*.acb
+*.zip
+*.7z
+*.rar
+.DS_Store
+
+# SOURCEPREP2: prepared game data is never committed
+/Source/

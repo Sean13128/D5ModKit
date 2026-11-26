@@ -15,7 +15,7 @@ the learn level).  Characters no mod touches keep the story's order.
 """
 from . import database
 from .dbpatch import DB_ARCHIVE
-from .exepatch import add_hook_section
+from .exepatch import add_hook_section, has_feature
 from .gamefs import EXE_FILE
 from .modsys import register_finalizer
 
@@ -48,7 +48,7 @@ LEARN_NEXT = 0x1401D5CE6
 
 
 def is_patched(exe: bytes) -> bool:
-    return SECTION_NAME in exe[:0x400]
+    return has_feature(exe, SECTION_NAME, hooks=[(SLOTS_VA, 0xE9)])
 
 
 def _shared(ids):

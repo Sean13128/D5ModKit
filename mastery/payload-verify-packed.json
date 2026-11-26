@@ -1,0 +1,65 @@
+{
+ "payload": "/Volumes/Data/ai-tmp/hermes/p2e/payload/payload.exe",
+ "payload_sha256": "2ea7e050733de102f4a2b4013af0e430749d8bf9662d2f85f60f5ff23a84c424",
+ "section": ".d5mod",
+ "claim_base": "0x148092260",
+ "claim_size": 513408,
+ "families": [
+  1350,
+  1360
+ ],
+ "entries": {
+  "mapper": "0x148092270",
+  "subclass": "0x148092c30",
+  "fetch": "0x148092c70"
+ },
+ "table_offset": 2632,
+ "code_bytes": 2640,
+ "code_identical_at_claim_base": true,
+ "feature_claim_block": true,
+ "region_bytes": 251460,
+ "unwind_bytes": 248820,
+ "screen_bound": 49,
+ "sites": 18,
+ "sites_all_call_the_claim": true,
+ "unwind_entries_in_claim": [
+  [
+   "0x148092270",
+   "0x148092ab1"
+  ],
+  [
+   "0x148092ab1",
+   "0x148092b92"
+  ],
+  [
+   "0x148092b92",
+   "0x148092beb"
+  ],
+  [
+   "0x148092beb",
+   "0x148092c30"
+  ],
+  [
+   "0x148092c30",
+   "0x148092c6c"
+  ],
+  [
+   "0x148092c70",
+   "0x148092ca5"
+  ]
+ ],
+ "unwind_table_ok": true,
+ "other_jumps_into_the_claim": [],
+ "other_jumps_count": 0,
+ "sections": [
+  ".d5mod",
+  ".data",
+  ".pdata",
+  ".rdata",
+  ".reloc",
+  ".rsrc",
+  ".text",
+  "_RDATA"
+ ],
+ "d5cm_present": false
+}

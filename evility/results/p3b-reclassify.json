@@ -1,0 +1,389 @@
+{
+ "d4": {
+  "48": {
+   "name": "Enlarge",
+   "families": [
+    "range"
+   ],
+   "rows": [
+    {
+     "family": "range",
+     "effects": [
+      {
+       "value": 1
+      }
+     ]
+    }
+   ],
+   "source": "Magic range increased by 1 panel(s).",
+   "why": "Enlarge: \"Magic range increased by 1 panel\" -- unconditional",
+   "verdict": "covered-by-extension"
+  },
+  "176": {
+   "name": "Chicken Heart",
+   "families": [
+    "move",
+    "potency"
+   ],
+   "rows": [
+    {
+     "family": "move",
+     "effects": [
+      {
+       "value": 3
+      }
+     ]
+    },
+    {
+     "family": "potency",
+     "effects": [
+      {
+       "stat": "all",
+       "value": -30
+      }
+     ]
+    }
+   ],
+   "source": "MV increased by 3, stats decreased by 30%.",
+   "why": "Chicken Heart: \"MV increased by 3, stats decreased by 30%\" -- a move row and a potency row. The text says \"stats\", so the potency row names all eight; if D4 means the six combat stats the row is edited, the runtime is not the limit",
+   "verdict": "covered-by-extension"
+  },
+  "229": {
+   "name": "Evasive Maneuvers",
+   "families": [
+    "move"
+   ],
+   "rows": [
+    {
+     "family": "move",
+     "effects": [
+      {
+       "value": 3
+      }
+     ],
+     "condition": {
+      "kind": "hp_below",
+      "id": 25
+     }
+    }
+   ],
+   "source": "MV increased by 3 when HP is under 25%.",
+   "why": "Evasive Maneuvers: \"MV increased by 3 when HP is under 25%\" -- one effect, hp_below",
+   "verdict": "covered-by-extension"
+  },
+  "341": {
+   "name": "Violent Courage",
+   "families": [
+    "power"
+   ],
+   "rows": [
+    {
+     "family": "power",
+     "effects": [
+      {
+       "value": 3,
+       "per": "map_enemy"
+      }
+     ]
+    }
+   ],
+   "source": "Attack power increased by number of enemy units on map x 3%.",
+   "why": "Violent Courage: \"Attack power increased by # of enemy units on map x 3%\" -- per=map_enemy",
+   "verdict": "covered-by-extension"
+  },
+  "809": {
+   "name": "Stone Wall",
+   "families": [
+    "move",
+    "potency"
+   ],
+   "rows": [
+    {
+     "family": "potency",
+     "effects": [
+      {
+       "stat": "def",
+       "value": 30
+      },
+      {
+       "stat": "res",
+       "value": 30
+      }
+     ]
+    },
+    {
+     "family": "move",
+     "effects": [
+      {
+       "value": -2
+      }
+     ]
+    }
+   ],
+   "source": "Increase DEF/RES by 30%, MV -2.",
+   "why": "Stone Wall: \"Increase DEF/RES by 30%, MV -2\" -- a potency row (two stats) and a move row",
+   "verdict": "covered-by-extension"
+  },
+  "842": {
+   "name": "Adjacent Catapult",
+   "families": [
+    "move"
+   ],
+   "rows": [
+    {
+     "family": "move",
+     "effects": [
+      {
+       "value": 1,
+       "per": "adjacent_ally"
+      }
+     ]
+    }
+   ],
+   "source": "Move range increased by 1 x the # of adjacent ally units.",
+   "why": "Adjacent Catapult: \"Move range increased by 1 x # of adjacent ally units\" -- per=adjacent_ally",
+   "verdict": "covered-by-extension"
+  },
+  "180": {
+   "name": "Rapid Move",
+   "source": "MV increased by 2 when SP is at max.",
+   "why": "Rapid Move: needs \"SP is at maximum\", which is not a condition kind",
+   "verdict": "unsupported"
+  },
+  "337": {
+   "name": "Accel Shot",
+   "source": "Attack power increased by range (panels) x 5%.",
+   "why": "Accel Shot: power + distance(panels) x 5% -- no per=distance scale and no distance measure",
+   "verdict": "unsupported"
+  },
+  "344": {
+   "name": "Calm Waters",
+   "source": "Attack power increased by 30% when attacking single target.",
+   "why": "Calm Waters: power +30% on a single target -- target_count needs an action context the pass lacks",
+   "verdict": "unsupported"
+  },
+  "407": {
+   "name": "Magic Bundle",
+   "source": "Special skill power increased by 30%, but 50% more SP used.",
+   "why": "Magic Bundle: skill power +30% *and* 50% more SP -- the SP-cost family still does not exist",
+   "verdict": "unsupported"
+  },
+  "413": {
+   "name": "Law by Range",
+   "source": "Magic range increased by 2, but 50% more SP used.",
+   "why": "Law by Range: magic range +2 *and* 50% more SP -- the SP-cost family still does not exist",
+   "verdict": "unsupported"
+  },
+  "464": {
+   "name": "Sky High",
+   "source": "Movement type becomes Flying type.",
+   "why": "Sky High: changes movement type to flying, which is the existing `flight` predicate, not a range",
+   "verdict": "unsupported"
+  },
+  "692": {
+   "name": "Accel Element",
+   "source": "Increase the power of an elemental ATK by 10% x moved panels.",
+   "why": "Accel Element: elemental ATK +10% x panels moved -- needs a distance measure and an element context",
+   "verdict": "unsupported"
+  },
+  "829": {
+   "name": "Flying Bullets",
+   "source": "Attack range is limitless when gun is equipped.",
+   "why": "Flying Bullets: \"limitless\" range with a gun -- a sentinel, not an amount the game adds",
+   "verdict": "unsupported"
+  },
+  "862": {
+   "name": "All Range +",
+   "source": "Adjacent allies' attacks and magic gain 2 more panels in range.",
+   "why": "All Range +: an aura that raises allies' range -- the aura rows act on dealt/taken/hit/crit only",
+   "verdict": "unsupported"
+  },
+  "867": {
+   "name": "Transportation",
+   "source": "Allows you to transport allies to the Base Panel.",
+   "why": "Transportation: carry/transport rule, not a move-range amount",
+   "verdict": "unsupported"
+  },
+  "41": {
+   "name": "Fist Range UP",
+   "source": "Attack range increased by 1 panel(s) when fist is equipped.",
+   "why": "Fist Range UP: +1 panel with a fist -- needs a verified equipped-weapon category id",
+   "verdict": "blocked-on-evidence"
+  },
+  "44": {
+   "name": "Bow Range UP",
+   "source": "Attack range increased by 1 panel(s) when bow is equipped.",
+   "why": "Bow Range UP: +1 panel with a bow -- needs a verified equipped-weapon category id",
+   "verdict": "blocked-on-evidence"
+  }
+ },
+ "dd2": {
+  "needs_new_logic": 27,
+  "covered_by_the_new_passes": 2,
+  "covered": {
+   "100": {
+    "name": "Passiveness",
+    "text": "Increase Attack and Defense Power by %d\uff05 and always counter when defending\uff0e",
+    "value": 50,
+    "rows": [
+     {
+      "family": "power",
+      "effects": [
+       {
+        "value": 50
+       }
+      ]
+     },
+     {
+      "family": "defense_power",
+      "effects": [
+       {
+        "value": 50
+       }
+      ]
+     },
+     {
+      "family": "counter",
+      "effects": []
+     }
+    ],
+    "why": "Passiveness: \"Increase Attack and Defense Power by 50% and always counter when defending\" -- a power row, a defense_power row and the counter predicate, three rows for one id"
+   },
+   "430": {
+    "name": "Demon Experiments",
+    "text": "Within 3 panels\uff0c allies deal %d\uff05 more damage\uff0c and enemies take %d\uff05 more\uff0e",
+    "value": 10,
+    "rows": [
+     {
+      "family": [
+       "aura",
+       "dealt"
+      ],
+      "effects": [
+       {
+        "value": 10
+       }
+      ],
+      "conditions": [
+       {
+        "kind": "near_has",
+        "of": 1,
+        "radius": 3,
+        "id": 430
+       }
+      ]
+     },
+     {
+      "family": [
+       "aura",
+       "taken"
+      ],
+      "effects": [
+       {
+        "value": 10
+       }
+      ],
+      "conditions": [
+       {
+        "kind": "near_has",
+        "of": 2,
+        "radius": 3,
+        "id": 430
+       }
+      ]
+     }
+    ],
+    "why": "Demon Experiments: \"within 3 panels allies deal 10% more damage and enemies take 10% more\" -- a dealt aura row and a taken aura row, each naming its own relation"
+   }
+  },
+  "still_unsupported": 25,
+  "reviewed_against_the_new_vocabulary": {
+   "2012": {
+    "name": "Corrupting Body",
+    "text": "Decrease non-elemental damage taken by %d\uff05\uff0e Inflict deprave\uff0e",
+    "why": "Corrupting Body: \"Decrease non-elemental damage taken by 30%. Inflict deprave.\" -- the taken half is a row (taken -30, element 0), but \"inflict deprave\" is not a chance percentage: the game rolls a status it already has, and no family *adds* a status to an attack. Not counted"
+   },
+   "2090": {
+    "name": "Stone Statue",
+    "text": "As long as unit doesn't move\uff0c increase Defense Power by %d\uff05\uff0e",
+    "why": "Stone Statue: defence power +% \"as long as the unit has not moved\" -- no did-not-move condition"
+   },
+   "2111": {
+    "name": "Great Wall",
+    "text": "Increase Defense Power by %d\uff05\uff0c but all attacks will hit\uff0e",
+    "why": "Great Wall: defence power +% but all attacks hit -- no forced-hit rule"
+   },
+   "630": {
+    "name": "T\uff0eO\uff0e Despair",
+    "text": "At the end of the turn destroy the Base Panel\uff0c and heal %d\uff05 HP and SP\uff0e ",
+    "why": "T.O. Despair: regen for the heal half, but destroying the Base Panel is a battle-setup action"
+   }
+  },
+  "unreviewed_names": [
+   "Bomb Conversion",
+   "Cold Charge",
+   "Corpse Heal",
+   "Corrupting Body",
+   "Dark Breeder",
+   "Defensive Formation",
+   "Demon Experiments",
+   "Dig Shop",
+   "Dirty Things Shop",
+   "Element Force",
+   "Feel Around Shop",
+   "Final Boss Barrier",
+   "Fold Shop",
+   "Fortitude",
+   "Great Wall",
+   "Ha\uff01 Shop",
+   "Head Slap Shop",
+   "Love Love Shop",
+   "Near Death Reaper",
+   "Passiveness",
+   "Pringer Protection",
+   "Reverse Ailment",
+   "Stone Statue",
+   "Sun Tanning Shop",
+   "Transform Shop",
+   "Tsuntsun Shop",
+   "T\uff0eO\uff0e Despair"
+  ]
+ },
+ "families": {
+  "range": [
+   "Enlarge"
+  ],
+  "move": [
+   "Chicken Heart",
+   "Evasive Maneuvers",
+   "Stone Wall",
+   "Adjacent Catapult"
+  ],
+  "potency": [
+   "Chicken Heart",
+   "Stone Wall"
+  ],
+  "power": [
+   "Violent Courage"
+  ]
+ },
+ "emitted": {
+  "ids": 6,
+  "rows": 8,
+  "shared_ids": [
+   176,
+   809
+  ]
+ },
+ "d4_resistance": "resistance and resistance-aura rows (5) need a resistance accumulator, which is not built",
+ "totals": {
+  "d4_primary": 306,
+  "d4_covered_by_extension": 6,
+  "d4_moved_by_p3b": 2,
+  "d4_rejected_in_the_new_families": 10,
+  "d4_blocked_on_evidence": 2,
+  "dd2_needs_new_logic": 27,
+  "dd2_covered_by_extension": 2,
+  "dd2_moved_by_p3b": 2
+ }
+}

@@ -1,0 +1,2091 @@
+{
+ "schema": "d1c-voice-map/2",
+ "generated": "2026-11-10",
+ "lane": "VOICE1 + VOICE2",
+ "source": "Disgaea 1 Complete Switch main (selector table 0x7100232d58, 66 characters x 4 lists; VOICEMAP1 inventory.json) for who says which clip in which list; clip audio is read from the Disgaea PC DATA.DAT voice banks (same clip names in all three editions; PC is Ogg Vorbis, the only one ffmpeg decodes). Names, list numbers and hashes only, no audio.",
+ "slot_routes": {
+  "0": "voice_attack",
+  "1": "voice_sp",
+  "2": "voice_h_attack"
+ },
+ "slot_evidence": {
+  "script_calls": {
+   "0": 509,
+   "1": 75,
+   "2": 46,
+   "3": 2
+  },
+  "script_note": "632 voice calls in 3,816 framed script events: list 0 is the general attack / skill shout (509 calls, every event family); lists 1 and 2 are called only inside skill choreographies; list 3 twice.",
+  "recordings": {
+   "0": {
+    "matched_clips": 15,
+    "drpg_cues": {
+     "voice_attack": 10,
+     "voice_h_attack": 2,
+     "voice_recover": 2,
+     "voice_sp": 1
+    }
+   },
+   "1": {
+    "matched_clips": 7,
+    "drpg_cues": {
+     "voice_sp": 2,
+     "voice_attack": 2,
+     "voice_h_attack": 1,
+     "voice_glad": 2
+    }
+   },
+   "2": {
+    "matched_clips": 9,
+    "drpg_cues": {
+     "voice_attack": 2,
+     "voice_magic": 2,
+     "voice_h_attack": 4,
+     "voice_dead": 1
+    }
+   },
+   "3": {
+    "matched_clips": 13,
+    "drpg_cues": {
+     "voice_sp": 2,
+     "voice_attack": 5,
+     "voice_recover": 1,
+     "voice_h_attack": 4,
+     "voice_glad": 1
+    }
+   }
+  },
+  "recordings_note": "D1 clips matched (waveform cross-correlation >= 0.87) to Disgaea RPG clips of the same character, whose cue names label them. List 0: 12 of 15 matched clips are attack or heavy-attack cues. Lists 1 and 2 are skill shouts by the script survey; which D5 skill-shout slot each takes follows the D4 precedent (VOICES2) and the partial recording evidence, a labelled choice. List 3 is not routed."
+ },
+ "clip_rule": "A clip in list 0/1/2 follows the list. A clip in no routed list that Disgaea RPG names (same recording) follows that cue. Anything else stays silent.",
+ "voice_id_block": [
+  7500,
+  7599
+ ],
+ "mods": {
+  "D1C_Class_11390": {
+   "name": {
+    "@text": "76ec1841b2bb8cd142d0f6ffd6f59879513d5e37efe6677dcd6fdf20942a033b"
+   },
+   "source_id": 1140,
+   "selector_id": 1140,
+   "clip_prefix": "1140",
+   "native_alias": false,
+   "clips": {
+    "1140_001": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "4d2fc826ec11328a4118a38a2b155d2b571efd6496a09b691b5d3ea3d722d6a2",
+      "EN": "18277f688c8fc04dc845efb5f3b6216f0b11800a201bc189dc58bc9c3d388585"
+     }
+    },
+    "1140_002": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "9a879d4e41dd7d6dfdcccc1143783b50e427e05e5ba48ee0db45a99daa7d15f2",
+      "EN": "7ec9a8218d3e4deb29c70c7294c0d10b9bd6ef9828e7bae9a26bd3f5b116dbed"
+     }
+    },
+    "1140_003": {
+     "slots": [
+      2,
+      3
+     ],
+     "sha256": {
+      "JP": "cd87575979c539d33871565c4b6518b4c34f5dce67dec6c688dabf3b244387f9",
+      "EN": "3d336f707cdd719c1725c8edd3ab33fac188129da0975f0dae559cdd92301818"
+     }
+    },
+    "1140_008": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "968201cffef5b121ad6f32a4f72faaaaa147cc254f86c241273967ff20acd201",
+      "EN": "fb0408764bef46de9ff50c0fac0784d2211f2fa15ce6b59ae13cc95c493ac996"
+     }
+    },
+    "1140_013": {
+     "slots": [
+      1,
+      3
+     ],
+     "sha256": {
+      "JP": "b262c33c0013f5cf0b25affd0016795befa1d75e601ad5d3885904a2a886ba8a",
+      "EN": "f1687d07245b53c3ff0cbca568b2a521e88a4e5804e30f88a4718e7a79e27c75"
+     }
+    }
+   },
+   "voice_id": 7500,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_3170": {
+   "name": {
+    "@text": "b995e2a2a66cdda5350e7c8e6969ce6b1c6dfb947c804cb130320eacf284503f"
+   },
+   "source_id": 3170,
+   "selector_id": 3170,
+   "clip_prefix": "2210",
+   "native_alias": true,
+   "clips": {
+    "2210_001": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "6ed78ff3e3c304d70470af779b9419da3ca5efa5bc6a8a26a72374e9e07af2e0",
+      "EN": "efecdc4bc626bc928f7c5e4b164b91277ac4e30fb4d1c8476fabd5041824ad81"
+     }
+    },
+    "2210_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "c842b290d69fbbbbb8a6099bac43e2f002b54a015a9a86c551ab76fb047a8d9a",
+      "EN": "9b0948dedb645644e310955141e703600703a365fab1e60cdeb973dd49e8ae3f"
+     }
+    },
+    "2210_003": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "ec1e289b5d394c370ba527e53e9d9212dd1516aa13363403e6ee6cbf9fbc3b53",
+      "EN": "cc793c3bf7e3954e7d18f39e151c46f182b92162e31c42245db308275841270e"
+     }
+    },
+    "2210_004": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "57de385bb9ad313b0e72114bd49f15c1dc5c40334bd630aae8b19bc79a707c57",
+      "EN": "4926b26a0e06aa7c68dc0466e9a53c188f363315d351d8ca02f7ce5d304428fc"
+     }
+    },
+    "2210_005": {
+     "slots": [
+      1,
+      3
+     ],
+     "sha256": {
+      "JP": "14b4812c6fdc4e1ba5342a988e23d197b58fd7e07cb4b02302c4b45be2a9dd5a",
+      "EN": "843b7e9f395026e9ff12a7123cc63015e25ef0a84e49b8f80f1b07d6ab7503f1"
+     }
+    },
+    "2210_016": {
+     "slots": [
+      1
+     ],
+     "sha256": {
+      "JP": "ad9fbe016440c98718f93b4078bc7f8b20be1ea2f2081015e8acbb612a56886d",
+      "EN": "e94e84a4b263a0db3d51195e81c221cc7d61cc2637747d38599dc0d84dad7a86"
+     }
+    },
+    "2210_017": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "cff228b0b1f927d36af172b0655bdf345faa2fc525cf127adeb5a2c005784eb2",
+      "EN": "ffd405572aa88646b17972759e5f76cf57f44e3316235cac3ade3f52dd941861"
+     }
+    },
+    "2210_020": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "64b0e33d9b9621911616379ec384c913901f7c0d9c962216b17dd7226dcd0fde",
+      "EN": "b6ad99901b894765c832968ef5933d4e54e94bc03c6b2d459dd77806b0e952ec"
+     }
+    }
+   },
+   "voice_id": 7512,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_3060": {
+   "name": {
+    "@text": "99dd5ae7478fb55e39cc5ad82ca7b688826b7f2a46ec279ff3a5349e907ab955"
+   },
+   "source_id": 3060,
+   "selector_id": 3060,
+   "clip_prefix": "0003",
+   "native_alias": true,
+   "clips": {
+    "0003_005": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "ca4acb103cdc385b3cf9cddcf28545c6a299dd3b15e4119047ff720f5cc74ad8",
+      "EN": "ace01a9c9a333924e45ba1825a52e5ab9592d6edcc78af7c7523c3183c457559"
+     }
+    },
+    "0003_006": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "b700d5f5a60990b679cf6c73db5da2b79e0617122a20501f9270748759e29fd1",
+      "EN": "31343578a18a50b309010e0420ebda3377dc8fb3385c1f1975f294b96d6e6064"
+     }
+    },
+    "0003_013": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "706a57ade243de342436d715c27fe5c2b8d88d2ec563a69730aaa5fd99e2ae2b",
+      "EN": "35eb1c1a0edcde0fb11ca68a2d27a23303f7521193184449cd698f37195bf136"
+     }
+    },
+    "0003_020": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "f0d4a9a5ecb9a28669fb5a9e07df02ba820002dc497d99bb06e560997534b221",
+      "EN": "059170f6bb2cb5a2926e601fb31db10803497383341a65e0b34be31b7d9613b6"
+     }
+    },
+    "0003_021": {
+     "slots": [
+      2,
+      3
+     ],
+     "sha256": {
+      "JP": "db2d2cba6db55f25e6b164530ad583913fe66552c55a533c5eff22b01584a240",
+      "EN": "50dd8a3b96f46a9c14fc640b3540a4051b85ced26341824b1e272d5fd762110b"
+     }
+    },
+    "0003_023": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "387e8c5a90a8dd4d7ed9d5b43165bbbb710970684405a96eabbc2491b72a21cd",
+      "EN": "e714ff4fe9647dba749ae6b8cca07d1341b75231d781a9c024265b2088eb4a95"
+     }
+    },
+    "0003_024": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "0c5ba06943bcfeb4239d26c569a4c5d48dcfbc43c2163b8f00a9c2c74f6c3b18",
+      "EN": "36f6998341363e6c9781599ffde13ef1ec00bb236216e0cd0ce65f3bab1dd507"
+     }
+    },
+    "0003_027": {
+     "slots": [],
+     "drpg_cue": "voice_sp02",
+     "ncc": 0.88,
+     "drpg_ref": "drpg:32:voice_sp02",
+     "sha256": {
+      "JP": "e56156393c661ec8ec1adeb9a47e3ff56c256e5744afaa770028347b44bc3d16",
+      "EN": "dfa75072274f994d5029be71a86a6199151b42cd639bed9e8168b8d17249802f"
+     }
+    },
+    "0003_047": {
+     "slots": [
+      3
+     ],
+     "drpg_cue": "voice_sp03",
+     "ncc": 0.94,
+     "drpg_ref": "drpg:32:voice_sp03",
+     "sha256": {
+      "JP": "db38ac2194757c089f2400d00c560b1b504651cad136def53dc2bb841ed11037",
+      "EN": "1521cf2afa7eb406034fb6a645d8f9ad365cae45d2178d309171e7c960ed2a86"
+     }
+    },
+    "0003_055": {
+     "slots": [
+      1
+     ],
+     "drpg_cue": "voice_sp01",
+     "ncc": 0.88,
+     "drpg_ref": "drpg:32:voice_sp01",
+     "sha256": {
+      "JP": "b3ea59e67908d12f901bc80e19420c0ff2908012c3351bb70972623e452549a4",
+      "EN": "6e9292e00053869849040730156f6df739e4038675d799d53aeaeb5a8fc2cdac"
+     }
+    }
+   },
+   "voice_id": 7509,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_4": {
+   "name": {
+    "@text": "456a845d1b0b1a1bd1929911e44cfacabc4943cb63dfd4179e6f125ecbe4a1aa"
+   },
+   "source_id": 4,
+   "selector_id": 4,
+   "clip_prefix": "0004",
+   "native_alias": false,
+   "clips": {
+    "0004_001": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.97,
+     "drpg_ref": "drpg:44:voice_attack",
+     "sha256": {
+      "JP": "c57412f0e46d51bbd56711ebb80ce6ae75003a467894c50758f1c394c3300b02",
+      "EN": "adf32804ed406d0cc1e0a88b39be9624054b6231a598d286d6fc30d9a56f314a"
+     }
+    },
+    "0004_002": {
+     "slots": [
+      1
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.98,
+     "drpg_ref": "drpg:44:voice_attack",
+     "sha256": {
+      "JP": "4af59ac4367a3921dda6050d88e89a4067df4ec02a16a81a33255b8cda5445dd",
+      "EN": "38f4961a83cef9c85d5a0e2418e0b3020b2e6e1630ef9ed26173155ef90b71de"
+     }
+    },
+    "0004_006": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "4d2336a4fe51030c7312a0d40e33ba0ba9cdecd4fd95562c52460e9d794c55f6",
+      "EN": "787365ae77b4af95fca5ebddfa62ad5c9bf6ea6c74089e278887aef4977fbcb7"
+     }
+    },
+    "0004_013": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "332737d6fc0d755f247082663a25140f8e6161f2bb3b4d9553aacc2d9174f257",
+      "EN": "d15ed352ad80597c5a59d32d04e9408dca25dfa61d03e82515a3bece7104f875"
+     }
+    },
+    "0004_019": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_h_attack",
+     "ncc": 0.95,
+     "drpg_ref": "drpg:44:voice_h_attack",
+     "sha256": {
+      "JP": "bf0a4a111d103653e94abb2fc604a1dc222ae72a9a95f307d09c6acf0595a3d1",
+      "EN": "52c11162157b4917a596a6904ae2a706730a712039afad59f246b564117ca9ad"
+     }
+    },
+    "0004_036": {
+     "slots": [
+      2
+     ],
+     "drpg_cue": "voice_magic",
+     "ncc": 0.97,
+     "drpg_ref": "drpg:44:voice_magic",
+     "sha256": {
+      "JP": "4b3b2cf1c1295c12d50a5742fc41f76dd96da5e4d509d2343a870393d16e3789",
+      "EN": "1d3c824fdd7d8ff6e9315e30d4792f6969e8742cb2c930b00f5e8cda04b1a8b8"
+     }
+    },
+    "0004_037": {
+     "slots": [
+      1
+     ],
+     "sha256": {
+      "JP": "7e7a1034b880e22ca72d1d2b79d15772fde0cef16705ca04bc801d368461d627",
+      "EN": "9e715fb374a8f910b1bf7306e9237a109248ce068bc7dbd4dc84c5c886a84717"
+     }
+    },
+    "0004_063": {
+     "slots": [
+      3
+     ],
+     "sha256": {
+      "JP": "d6217cd2d6323505ff7059e88bb603450b42a70f0b8939a2139be1357a55d428",
+      "EN": "c4fb9644a1f1367a30c993528de8054e4db883d3ef495df2e24f55dac6d0d20f"
+     }
+    },
+    "0004_074": {
+     "slots": [
+      1
+     ],
+     "sha256": {
+      "JP": "822595f10926053fd6fbff5eae717bc43a816ba784fccdba3d355019f1b85d9f",
+      "EN": "6ef086473623c9c63db174ce29dbfbfbd26220d1842e0ebc649e3323c251c246"
+     }
+    }
+   },
+   "voice_id": 7513,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_5": {
+   "name": {
+    "@text": "bda0a01c76aae97ef15d6b792f3dc3cbb6609d611e9c563a54a1393fe685e31b"
+   },
+   "source_id": 5,
+   "selector_id": 5,
+   "clip_prefix": "0005",
+   "native_alias": false,
+   "clips": {
+    "0005_001": {
+     "slots": [
+      0,
+      3
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.93,
+     "drpg_ref": "drpg:45:voice_attack",
+     "sha256": {
+      "JP": "338fabaa54d0ea9aef0ea83d9a10e75efeb75a3bebd190001fee36a3a09d7512",
+      "EN": "a70620a985d4630dd6b29ba9f280948933bdc4622d2a5fc946b0202aaf2b9edb"
+     }
+    },
+    "0005_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "drpg_cue": "voice_recover",
+     "ncc": 0.92,
+     "drpg_ref": "drpg:45:voice_recover",
+     "sha256": {
+      "JP": "8245896d7cf6bcd7eac7adfd89776b68fa984d9a08edc83b8606ac8e31291804",
+      "EN": "dc313c4cf01ba5b28cd081fd4df110d6da4398655367b464b9e98c6a0d1c9011"
+     }
+    },
+    "0005_003": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.97,
+     "drpg_ref": "drpg:45:voice_attack",
+     "sha256": {
+      "JP": "8b27dd34b7215b22fc3e96dd343f9c220c6b06af90bc09c14c1f39f5bf4bec0c",
+      "EN": "28ea26152536c38d965d678c2cdeae9c92ddcf11876c353878c32dd60d053c8b"
+     }
+    },
+    "0005_004": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "6e05052c946fbdb7456ba96697c0cb7d2dda889691664126f4737f5203d82a09",
+      "EN": "9c4fad9e5c252e59e03cbd4c086b9459cb7c1206b40c198317cc7a34d62aa3e0"
+     }
+    },
+    "0005_006": {
+     "slots": [
+      2
+     ],
+     "drpg_cue": "voice_h_attack",
+     "ncc": 0.94,
+     "drpg_ref": "drpg:45:voice_h_attack",
+     "sha256": {
+      "JP": "e73db19645b0ea5d22c42334936505bf4351fac87375cbb923f8a302c3a9d8e2",
+      "EN": "40389daf7acc2a7076432a8c9139bffbd8270af938d90658cbcb6a29345ea7df"
+     }
+    },
+    "0005_009": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "3d0a1a6a20c4ec43254cc550ef2ddf4d36d7fb3effd6ea41e52c22092cb3e043",
+      "EN": "c3e7ce5184d3a197e407b950b7be829539a99c595d907512d8561d1e9c49fc26"
+     }
+    },
+    "0005_029": {
+     "slots": [
+      3
+     ],
+     "sha256": {
+      "JP": "c95f1748ee1c562d8f659e4351072826d0da0adf97e61c37eec0ec57467254a8",
+      "EN": "5a60f7995a5b5526b72ef26b063d0152541351b62c83835e21d2cbce14d2f46b"
+     }
+    },
+    "0005_034": {
+     "slots": [
+      1
+     ],
+     "sha256": {
+      "JP": "92120fb584975c454ee376c7729cf75a6dfc23065ae9259d7f80abe5f139ceb2",
+      "EN": "ba31750591728db4d34a1c797963dc5a8c62612280271621b5fe8829100b5600"
+     }
+    },
+    "0005_040": {
+     "slots": [
+      2
+     ],
+     "drpg_cue": "voice_dead",
+     "ncc": 0.96,
+     "drpg_ref": "drpg:45:voice_dead",
+     "sha256": {
+      "JP": "a6d4c1bb26e4b034eae255b4e123cff2050192ed71b43906ccedb9cd31d6889a",
+      "EN": "593f580ef01517d898f0a788700d539db0f61ecfda190fa17f054bdca33c64a4"
+     }
+    }
+   },
+   "voice_id": 7514,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2216": {
+   "name": {
+    "@text": "1fa3392a716c1334f7e71e7639da08a11206ec4506dbb65771e6c45e1da87084"
+   },
+   "source_id": 2216,
+   "selector_id": 2220,
+   "clip_prefix": "2590",
+   "native_alias": true,
+   "clips": {
+    "2590_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "d93cbea181f8c766ff42defbf8aa82f5109fe05cdafc5fd478c8e96fc4ef438c",
+      "EN": "88764b680db8aa7667d5b9cabaaec72a3020e3a7833819860ef580c025794ef9"
+     }
+    },
+    "2590_004": {
+     "slots": [
+      0,
+      3
+     ],
+     "drpg_cue": "voice_h_attack",
+     "ncc": 0.97,
+     "drpg_ref": "drpg:20014:voice_h_attack",
+     "sha256": {
+      "JP": "55e5498b786db6a5755716d013886c74734ee6fd76fd123b4253833a35c50372",
+      "EN": "f0bdfab847a6d1d72e2e43ca930bc3300793fbe9f3bf7d2c3d6dcac14f18ce61"
+     }
+    },
+    "2590_005": {
+     "slots": [
+      1
+     ],
+     "sha256": {
+      "JP": "9cc46c522f73389ba4323d3c1279defdd7911c04123dda97ec7798e27ec3188c",
+      "EN": "8b959522c28ed3aa53328c4e6f00e694a68e27ff764b12467908926124d01623"
+     }
+    },
+    "2590_006": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "01b11f107c759f36791c42f3c06460acac07bccda3c08222eb5db60b4fe3488a",
+      "EN": "d892d6750f2e4ba3c76fb3a114a2817c86fae923e875acc6dd286c2522c82b56"
+     }
+    },
+    "2590_007": {
+     "slots": [
+      2
+     ],
+     "drpg_cue": "voice_magic",
+     "ncc": 0.96,
+     "drpg_ref": "drpg:20014:voice_magic",
+     "sha256": {
+      "JP": "16e03a26b92396649483d64a7970d8be6f466310103a72bd85467b23a9f5a28d",
+      "EN": "53f791d8784c4940eaf0ecc20f17f96692b3b7ac9507d2d7b7c0d5ed6768e95d"
+     }
+    },
+    "2590_009": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "88f7b9f914f6845ceeb980dc21966c4862e0e4910a7bd9ec2ea45bfef1a8b470",
+      "EN": "4b888a514b78bca7362e7289a6dd2ebaf0bca48feda62a415c0a94071177d35b"
+     }
+    },
+    "2590_021": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "84d1e8038df043b470f078936b2f123b811783432314aebd6e17b0008dbf060f",
+      "EN": "a4a7f8890c623c3cf81f662c4688f337d0b6952ef53d5067cec52a0ffb1e1629"
+     }
+    },
+    "2590_044": {
+     "slots": [
+      1,
+      3
+     ],
+     "sha256": {
+      "JP": "7bc621180f06bd1d4fb5d850d4e713623aca9ac8dbe9d4d19188ec8395206d64",
+      "EN": "631ae81c0fd06eb45e990517ac333485137015ab788935a0f0e57dba4ace2990"
+     }
+    }
+   },
+   "voice_id": 7502,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2590": {
+   "name": {
+    "@text": "1fa3392a716c1334f7e71e7639da08a11206ec4506dbb65771e6c45e1da87084"
+   },
+   "source_id": 2590,
+   "selector_id": 2590,
+   "clip_prefix": "2590",
+   "native_alias": false,
+   "clips": {
+    "2590_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "d93cbea181f8c766ff42defbf8aa82f5109fe05cdafc5fd478c8e96fc4ef438c",
+      "EN": "88764b680db8aa7667d5b9cabaaec72a3020e3a7833819860ef580c025794ef9"
+     }
+    },
+    "2590_004": {
+     "slots": [
+      0,
+      3
+     ],
+     "drpg_cue": "voice_h_attack",
+     "ncc": 0.97,
+     "drpg_ref": "drpg:20014:voice_h_attack",
+     "sha256": {
+      "JP": "55e5498b786db6a5755716d013886c74734ee6fd76fd123b4253833a35c50372",
+      "EN": "f0bdfab847a6d1d72e2e43ca930bc3300793fbe9f3bf7d2c3d6dcac14f18ce61"
+     }
+    },
+    "2590_005": {
+     "slots": [
+      1
+     ],
+     "sha256": {
+      "JP": "9cc46c522f73389ba4323d3c1279defdd7911c04123dda97ec7798e27ec3188c",
+      "EN": "8b959522c28ed3aa53328c4e6f00e694a68e27ff764b12467908926124d01623"
+     }
+    },
+    "2590_006": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "01b11f107c759f36791c42f3c06460acac07bccda3c08222eb5db60b4fe3488a",
+      "EN": "d892d6750f2e4ba3c76fb3a114a2817c86fae923e875acc6dd286c2522c82b56"
+     }
+    },
+    "2590_007": {
+     "slots": [
+      2
+     ],
+     "drpg_cue": "voice_magic",
+     "ncc": 0.96,
+     "drpg_ref": "drpg:20014:voice_magic",
+     "sha256": {
+      "JP": "16e03a26b92396649483d64a7970d8be6f466310103a72bd85467b23a9f5a28d",
+      "EN": "53f791d8784c4940eaf0ecc20f17f96692b3b7ac9507d2d7b7c0d5ed6768e95d"
+     }
+    },
+    "2590_009": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "88f7b9f914f6845ceeb980dc21966c4862e0e4910a7bd9ec2ea45bfef1a8b470",
+      "EN": "4b888a514b78bca7362e7289a6dd2ebaf0bca48feda62a415c0a94071177d35b"
+     }
+    },
+    "2590_021": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "84d1e8038df043b470f078936b2f123b811783432314aebd6e17b0008dbf060f",
+      "EN": "a4a7f8890c623c3cf81f662c4688f337d0b6952ef53d5067cec52a0ffb1e1629"
+     }
+    },
+    "2590_044": {
+     "slots": [
+      1,
+      3
+     ],
+     "sha256": {
+      "JP": "7bc621180f06bd1d4fb5d850d4e713623aca9ac8dbe9d4d19188ec8395206d64",
+      "EN": "631ae81c0fd06eb45e990517ac333485137015ab788935a0f0e57dba4ace2990"
+     }
+    }
+   },
+   "voice_id": 7506,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_3010": {
+   "name": {
+    "@text": "7bc2de40f1c6633d26630637c37449eaf5b488aca39bc52890a1cbd7e7e45856"
+   },
+   "source_id": 3010,
+   "selector_id": 3010,
+   "clip_prefix": "3010",
+   "native_alias": false,
+   "clips": {
+    "3010_002": {
+     "slots": [
+      0,
+      1,
+      3
+     ],
+     "sha256": {
+      "JP": "a01412dfacd7960092e19fa65b0c14b3c9dda77267caf0dd3e39df7ca3f1dfdc",
+      "EN": "7ec3f1b08bdbb877d9d52034b0e1eb25c5665164c638c2e12e0040d0c93f9034"
+     }
+    },
+    "3010_003": {
+     "slots": [
+      0,
+      2,
+      3
+     ],
+     "sha256": {
+      "JP": "ceebca99b5febada79c5520b9e1857e61edea11f17bef78d04a378a7a4ef5fb4",
+      "EN": "a9ba2592f063097ecbc228a3d5127e227cbb1f8f9e447a2f108790d2de2fbf96"
+     }
+    },
+    "3010_004": {
+     "slots": [
+      0,
+      2
+     ],
+     "sha256": {
+      "JP": "585361873efc935b7d08aceedda867618ad42c655f7db30d1e494f431f4a8a44",
+      "EN": "f3bff693d9441f7c591cc34f1ed54ce778a2c104830cbef376e323dfa6ab197f"
+     }
+    },
+    "3010_005": {
+     "slots": [
+      1
+     ],
+     "sha256": {
+      "JP": "6999f36e3b7f13145c412bd65b684b83c42f75438d841905b3cd735f432e5e16",
+      "EN": "5af40449ea4813e60ccfeebec6a1ab8a73cbed43228aa3d4b87c3b060022fd3f"
+     }
+    }
+   },
+   "voice_id": 7508,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2500": {
+   "name": {
+    "@text": "9eb9f98d93773dfdf21bd933a4f35af61fd552a97c6334633d59259e6882f5df"
+   },
+   "source_id": 2500,
+   "selector_id": 2500,
+   "clip_prefix": "2500",
+   "native_alias": false,
+   "clips": {
+    "2500_001": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "3f53332942a0352eca883e9868160ff0b35f4e2c792e23be64a50548daffea41",
+      "EN": "7b32acb47a47317235544df14a015cdf545a7edeb625449e3151bb469dbeed3d"
+     }
+    },
+    "2500_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "bb65134544ce83b7eb9071949b1e985e94573d869642a120c70a593a49bed7c8",
+      "EN": "20de7ce77121e305b706127119a0b9ac84c1fb5b833de4c4a3bd70321c41d569"
+     }
+    },
+    "2500_003": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "62320c1ec096750ec3a13fcab7d7f122c081ec313cf6a519f11433a9784b53c2",
+      "EN": "52253d033dff420930b4518e148e9e463061b474eb669c02c828c8ced2a78f9a"
+     }
+    },
+    "2500_004": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "b1c0f8e54be5350e16c4863134a90a735143e58629b5e4497764c9b3b365409e",
+      "EN": "5f16f886624a67db11efd446d14b3fb6e56eba19cf10814649087438ba9cd3f3"
+     }
+    },
+    "2500_007": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_recover",
+     "ncc": 0.98,
+     "drpg_ref": "drpg:20017:voice_recover",
+     "sha256": {
+      "JP": "17f7951eff142d7585ff65f4253266d315b60e1c422a416910de1bdad200658e",
+      "EN": "ee5239cab27f30c5d9dd96bed2b5ba2835cf4b9de796d277635374cf4b905d66"
+     }
+    },
+    "2500_008": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "3dc837d9c1da9d05cf25135bb02f5d3989f9c248595c79ada272a1b8ed910a80",
+      "EN": "45f818bda14cbfb77c5e541a6876cc0e13e3a52e55f402e7bbd9294f56dc3d62"
+     }
+    },
+    "2500_010": {
+     "slots": [
+      1
+     ],
+     "drpg_cue": "voice_glad",
+     "ncc": 0.96,
+     "drpg_ref": "drpg:20017:voice_glad",
+     "sha256": {
+      "JP": "0985a6ed18f6e5e16f4a2da35ad6dca980beb28abdb714c0cf3693346a5bb1d5",
+      "EN": "0855f05e71522db359995635c710ea7a9d9416b92c9b03dd6c297897935a3b1a"
+     }
+    }
+   },
+   "voice_id": 7503,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_3000": {
+   "name": {
+    "@text": "68095a464c5811446ed4128ab8bf4a2fa0e53ba9da9883f72912119662c958bc"
+   },
+   "source_id": 3000,
+   "selector_id": 3000,
+   "clip_prefix": "3000",
+   "native_alias": false,
+   "clips": {
+    "3000_001": {
+     "slots": [
+      0,
+      1,
+      3
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.89,
+     "drpg_ref": "drpg:112:voice_attack",
+     "sha256": {
+      "JP": "e102ecd0a746cf5281e5189d5034ae98eafdc44ef281b4420be8d7218c10ee88",
+      "EN": "95132d1e02d106966b3232bc80331f601f907db10df5f2261222a01f6fbfb92f"
+     }
+    },
+    "3000_002": {
+     "slots": [
+      2,
+      3
+     ],
+     "drpg_cue": "voice_h_attack",
+     "ncc": 0.89,
+     "drpg_ref": "drpg:112:voice_h_attack",
+     "sha256": {
+      "JP": "37cdc10fe8bf0777f93f2ddcdac281c39a1d782070e8582e268e70d1791a9749",
+      "EN": "266bd85aaa6d075bbd377239108200ad8b9d4748c72696df88ec2c2b938135f9"
+     }
+    },
+    "3000_003": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.92,
+     "drpg_ref": "drpg:112:voice_attack",
+     "sha256": {
+      "JP": "d46aeaec51afc5608f7ee36824635ca566ec7dbc70d9a76926a5a608fb23d877",
+      "EN": "46f3e9d44e16dc80caeceab5d2d4ee4398be19c450dc1b319b1b746e58cef94a"
+     }
+    },
+    "3000_004": {
+     "slots": [],
+     "drpg_cue": "voice_magic",
+     "ncc": 0.96,
+     "drpg_ref": "drpg:112:voice_magic",
+     "sha256": {
+      "JP": "6461461603c0745b755920b4ec0f618538266e13b1a91c25d732505d914d5f2e",
+      "EN": "a033d3383d72aa506dbdceac12ef2351f1cdf0fb3caa5195a7277e70a8015b68"
+     }
+    },
+    "3000_005": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.93,
+     "drpg_ref": "drpg:112:voice_attack",
+     "sha256": {
+      "JP": "e5314304c4e996084899678054347b3387c32f4f59fe187e875f9597571983c3",
+      "EN": "eefdacbe68e79b0d772df3273bf951b1a71100df8c0cd0d032d7baef227b57b2"
+     }
+    },
+    "3000_007": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_sp03",
+     "ncc": 0.93,
+     "drpg_ref": "drpg:112:voice_sp03",
+     "sha256": {
+      "JP": "b2972a4e993fcf1bd705dcc1a86a803c2d26162d264cb695d39b414282f59a86",
+      "EN": "57329205fb6040930ff962d305bdbd29ad7b07cfe89e85ac6246ff2561accbcb"
+     }
+    },
+    "3000_008": {
+     "slots": [
+      1,
+      3
+     ],
+     "drpg_cue": "voice_sp01",
+     "ncc": 0.97,
+     "drpg_ref": "drpg:112:voice_sp01",
+     "sha256": {
+      "JP": "19f02e2017ee988f986e8eee5d94c25689570960c84681636cdc2c10df1954b2",
+      "EN": "5813518228d80975c96e736a9c52a86449fdbc10a2ed0d98f554e51d563c0442"
+     }
+    }
+   },
+   "voice_id": 7507,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_3150": {
+   "name": {
+    "@text": "4298b765727c9f343d639e9d75e81646902bcbefa4e55d4ff3d64ed2dba861e1"
+   },
+   "source_id": 3150,
+   "selector_id": 3150,
+   "clip_prefix": "1130",
+   "native_alias": true,
+   "clips": {
+    "1130_001": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "d6c0dc400eabbe55e75c8b2935de30d4326eaf6bdae8c875ef3d39e1aec83146",
+      "EN": "ce52e74ef184da3d6644dfba0c88b7a2cfff53944336d66bc675d6b068a900a2"
+     }
+    },
+    "1130_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "3fae151aef84b30272df42d271013643a1c1d05099d456ee30d2c4928caa0baa",
+      "EN": "fd74ec62701fd3a0b68eb051674042f8b02775abd78a570735678d9908b6af67"
+     }
+    },
+    "1130_003": {
+     "slots": [
+      2,
+      3
+     ],
+     "sha256": {
+      "JP": "7289406a022b352238af81f06b24e53268bcc2a6a40d364cbaa61b45d7556be2",
+      "EN": "2efd835e9f37af8cfaa8fbb465495a06b74a83534dc302a341502d6893960f69"
+     }
+    },
+    "1130_010": {
+     "slots": [
+      1
+     ],
+     "sha256": {
+      "JP": "c89965d3af4421b6bfe9442c7a6f9f98a15b6400649b51e050742ca487566feb",
+      "EN": "542edf6083c4f901f2bbd88d3b26c0b23db6f00a67ffcd9e456657a0589f6994"
+     }
+    },
+    "1130_012": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "3ec560507b2b7bfaf89c9966f8e9c193182942c23e3359fe900d9bafb2fd2f51",
+      "EN": "2e68f16159ddcb288a20a901b09d54db6fd6a0d514d24ade882ccc3e6edbe708"
+     }
+    }
+   },
+   "voice_id": 7510,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2200": {
+   "name": {
+    "@text": "fc2662062ffdef9610020183ea2b087c21d71150d78a7c7463be8a9050bd3ac9"
+   },
+   "source_id": 2200,
+   "selector_id": 2200,
+   "clip_prefix": "2200",
+   "native_alias": false,
+   "clips": {
+    "2200_001": {
+     "slots": [
+      0,
+      3
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.89,
+     "drpg_ref": "drpg:20008:voice_attack",
+     "sha256": {
+      "JP": "16ab0954bb48409b65a00355dbffa63f62f79d5436094ce5967bed4959dae68f",
+      "EN": "565e0c11b344946cf98cd55680014ef3390728b22ac893206d96a5a8e6f3f57a"
+     }
+    },
+    "2200_002": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.94,
+     "drpg_ref": "drpg:20008:voice_attack",
+     "sha256": {
+      "JP": "ef93d07ae2821c51b442dc158a18572cfca74e4d88ab60bb2a16f46220d29b57",
+      "EN": "6e4c5d09d139952085e0e6127ba21a7a5e217a9bd391613387c00f23b1a6580f"
+     }
+    },
+    "2200_003": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.87,
+     "drpg_ref": "drpg:189:voice_attack",
+     "sha256": {
+      "JP": "b129c2227eda3a6861c8cb675c8dfe139a5e93c3f40e1d61daa9b72c3c501b44",
+      "EN": "b72c3ac5a1d1b253c9e5a4db159423e379d73a9dbb6abe7878deae3246a06d3a"
+     }
+    },
+    "2200_004": {
+     "slots": [
+      3
+     ],
+     "drpg_cue": "voice_h_attack",
+     "ncc": 0.93,
+     "drpg_ref": "drpg:20008:voice_h_attack",
+     "sha256": {
+      "JP": "432a448dee9fe99cc941feb5fa84b92745dfaf9d2495424ec8d8ea3d6920d296",
+      "EN": "35426c6b1ef670892ab934c54981674f62c8e6745e8a3a7589b915021ee71e69"
+     }
+    },
+    "2200_005": {
+     "slots": [
+      1
+     ],
+     "drpg_cue": "voice_h_attack",
+     "ncc": 0.87,
+     "drpg_ref": "drpg:189:voice_h_attack",
+     "sha256": {
+      "JP": "4a9edceebe0adf6b2eedff0b3d18218ae0a68daedce6468da976e974b64752ac",
+      "EN": "488f09455455ddb2fd76cf2640a4bd87f8541232a790ac13b37c774cffcb3403"
+     }
+    },
+    "2200_006": {
+     "slots": [],
+     "drpg_cue": "voice_magic",
+     "ncc": 0.9,
+     "drpg_ref": "drpg:20008:voice_magic",
+     "sha256": {
+      "JP": "c606bfd1097a311d9f0a5c13f94e6330cff3dba0d72a47f8d10bf4f560c47364",
+      "EN": "7a088600eef70b38cbc4bb983244e6cf67ead4af47fdf2f67bcbdc5c31ffcb5a"
+     }
+    },
+    "2200_007": {
+     "slots": [
+      2,
+      3
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.89,
+     "drpg_ref": "drpg:189:voice_attack",
+     "sha256": {
+      "JP": "b1637ab281bcf0e6307828038914b4befeeb5474997dd0b74786c6fb1d26faba",
+      "EN": "1add3bed3b5de77ae5b9f8661ce9f1021d8ef513b56edbeaeb57e62e8424590a"
+     }
+    },
+    "2200_008": {
+     "slots": [
+      2,
+      3
+     ],
+     "sha256": {
+      "JP": "ec696d31f4591616342dc7623d1712f92d0b676b17594d2265b3a689a28b2023",
+      "EN": "020538374cde0828eac9a6926b145242d8e0fa46f8a053f3303d54ee87bb965a"
+     }
+    },
+    "2200_009": {
+     "slots": [
+      2,
+      3
+     ],
+     "drpg_cue": "voice_h_attack",
+     "ncc": 0.92,
+     "drpg_ref": "drpg:20008:voice_h_attack",
+     "sha256": {
+      "JP": "41820509d37195fe512478b0934cebc03842bc8cd06fc6b611f11c9ac70e0fbd",
+      "EN": "bda7bfc18769aa20486748d4841b0598809989a17d90984636a2223ce6c6e7f7"
+     }
+    }
+   },
+   "voice_id": 7501,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_3160": {
+   "name": {
+    "@text": "7ef5b2bf10953bc5916a78d987383c8edad559d3539149068bffa81fd6a796db"
+   },
+   "source_id": 3160,
+   "selector_id": 3160,
+   "clip_prefix": "1160",
+   "native_alias": true,
+   "clips": {
+    "1160_001": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "72e076bc26c84157a2609b23c60015bd2cbd93d3c42aafa5836dea339053ba6f",
+      "EN": "ec18017f05894185f2514c86000ca949f5f9fc1b40e820c352e7771da589df46"
+     }
+    },
+    "1160_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "9926b2051d5d8b43f8df41d2ad0a34de9961d1dbfcd631536f868e481d7904ab",
+      "EN": "631ec1df44dcc5c613b009e4c0b5ef5d33f891a92a6629a83da075b96c74a3c0"
+     }
+    },
+    "1160_003": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "981f212a98d071804fdf377c2b531f5764c3b8ab334c5c43db262c2e02b6ddab",
+      "EN": "bbaaea5db6dfe453d4be768b1fb00ac884639a565b3d573e041730c8081cece3"
+     }
+    },
+    "1160_010": {
+     "slots": [
+      1
+     ],
+     "sha256": {
+      "JP": "68a8104357d085178ded408f4e69cd9bf9284f4fc10f6b309f5bc077b40d4710",
+      "EN": "fc8ac75804b417f8ad10e7c7d460dffbef39c1220798c529f47ab2fe9d5128fc"
+     }
+    },
+    "1160_011": {
+     "slots": [
+      2,
+      3
+     ],
+     "sha256": {
+      "JP": "aa00add618acf48b154d46e2a68030bf2d7174781df647c51f6c46a6763797fe",
+      "EN": "5559d9db4559b8fba988c3f8e482f9ac559c3668182d4a34fd4d5134a533ffa5"
+     }
+    }
+   },
+   "voice_id": 7511,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2570": {
+   "name": {
+    "@text": "a137fc0fbfa1f6b0fb97db04940efb7df9072d8602fccf5b7cae356ed8304c9c"
+   },
+   "source_id": 2570,
+   "selector_id": 2570,
+   "clip_prefix": "2570",
+   "native_alias": false,
+   "clips": {
+    "2570_001": {
+     "slots": [
+      0,
+      3
+     ],
+     "drpg_cue": "voice_attack",
+     "ncc": 0.91,
+     "drpg_ref": "drpg:20013:voice_attack",
+     "sha256": {
+      "JP": "2bff131055dfe37aabbc09d3c4d0f36ffbd2e9b15307d3d1d18f0561de4d3b96",
+      "EN": "ba1e01886dd50f6374ca91560946976561c761dfa1cdf9deacca4831b37b251f"
+     }
+    },
+    "2570_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "8c29f6486b437dbacff0f9d921a98048e6f46852d59dab2a93586282e9109c47",
+      "EN": "158c94ac5223fd9398c170337801bc045a9708728fe4f489b8a7730dba8b0321"
+     }
+    },
+    "2570_006": {
+     "slots": [
+      2
+     ],
+     "drpg_cue": "voice_h_attack",
+     "ncc": 0.95,
+     "drpg_ref": "drpg:20013:voice_h_attack",
+     "sha256": {
+      "JP": "99e59e1ab85fa08f45758b2637eac07a4397265e36004d040fd0239353cba9f5",
+      "EN": "3ab501a359f311bfc8f2555aac349f6a35fc0ce658f82e5b671863027c2f2617"
+     }
+    },
+    "2570_007": {
+     "slots": [
+      1,
+      3
+     ],
+     "drpg_cue": "voice_glad",
+     "ncc": 0.97,
+     "drpg_ref": "drpg:20013:voice_glad",
+     "sha256": {
+      "JP": "1a919a5bdf225407461dd08f133b78f2a77cc4aeb46b687d864d903a7505973d",
+      "EN": "5afbad52338070109ee0f5a38b7338915e3b7c4d5820ed06bd659f5a0a91a3d8"
+     }
+    },
+    "2570_011": {
+     "slots": [
+      3
+     ],
+     "sha256": {
+      "JP": "9d390c6f9e9219d666da599159b31431d4a30711dc61dc81ddda736e0f499735",
+      "EN": "8864888401cf48262ecc3f6e566eaa083337c558444673d3dfa457f3822c27e8"
+     }
+    }
+   },
+   "voice_id": 7505,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2540": {
+   "name": {
+    "@text": "62b4104b37b405a244ba28870e2f82891ae954f4dd337de3aef019cf1f35a8e3"
+   },
+   "source_id": 2540,
+   "selector_id": 2540,
+   "clip_prefix": "2500",
+   "native_alias": true,
+   "clips": {
+    "2500_001": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "3f53332942a0352eca883e9868160ff0b35f4e2c792e23be64a50548daffea41",
+      "EN": "7b32acb47a47317235544df14a015cdf545a7edeb625449e3151bb469dbeed3d"
+     }
+    },
+    "2500_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "bb65134544ce83b7eb9071949b1e985e94573d869642a120c70a593a49bed7c8",
+      "EN": "20de7ce77121e305b706127119a0b9ac84c1fb5b833de4c4a3bd70321c41d569"
+     }
+    },
+    "2500_003": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "62320c1ec096750ec3a13fcab7d7f122c081ec313cf6a519f11433a9784b53c2",
+      "EN": "52253d033dff420930b4518e148e9e463061b474eb669c02c828c8ced2a78f9a"
+     }
+    },
+    "2500_004": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "b1c0f8e54be5350e16c4863134a90a735143e58629b5e4497764c9b3b365409e",
+      "EN": "5f16f886624a67db11efd446d14b3fb6e56eba19cf10814649087438ba9cd3f3"
+     }
+    },
+    "2500_007": {
+     "slots": [
+      0
+     ],
+     "drpg_cue": "voice_recover",
+     "ncc": 0.98,
+     "drpg_ref": "drpg:20017:voice_recover",
+     "sha256": {
+      "JP": "17f7951eff142d7585ff65f4253266d315b60e1c422a416910de1bdad200658e",
+      "EN": "ee5239cab27f30c5d9dd96bed2b5ba2835cf4b9de796d277635374cf4b905d66"
+     }
+    },
+    "2500_008": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "3dc837d9c1da9d05cf25135bb02f5d3989f9c248595c79ada272a1b8ed910a80",
+      "EN": "45f818bda14cbfb77c5e541a6876cc0e13e3a52e55f402e7bbd9294f56dc3d62"
+     }
+    },
+    "2500_010": {
+     "slots": [
+      1
+     ],
+     "drpg_cue": "voice_glad",
+     "ncc": 0.96,
+     "drpg_ref": "drpg:20017:voice_glad",
+     "sha256": {
+      "JP": "0985a6ed18f6e5e16f4a2da35ad6dca980beb28abdb714c0cf3693346a5bb1d5",
+      "EN": "0855f05e71522db359995635c710ea7a9d9416b92c9b03dd6c297897935a3b1a"
+     }
+    }
+   },
+   "voice_id": 7504,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11760": {
+   "name": {
+    "@text": "df1bc4984a055e10b2863eb03abf11701cb63a1e2371dc398889e8291812fb80"
+   },
+   "source_id": 2010,
+   "selector_id": 2010,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_09": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3020,
+     "sha256": {
+      "SE": "6b0a1ab73aef12727e957330f4f55ef061b297eda138c70edbf2c4554534c3ba"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7515,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11770": {
+   "name": {
+    "@text": "7801c2b35bd33a6d0bed2640bbde3bd64ff1939e0f4afcfe73fc907781ec963c"
+   },
+   "source_id": 2020,
+   "selector_id": 2020,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3030,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7516,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11800": {
+   "name": {
+    "@text": "61a51c9fe0700fd2e1a45d6a818fd8c60be80e1ac6696d7b6298bc889c90bc9e"
+   },
+   "source_id": 2050,
+   "selector_id": 2050,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3060,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7517,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11810": {
+   "name": {
+    "@text": "c6c5211a50793ccc36daff5d97003daf1a6c481267f83757a59ca657a5654bef"
+   },
+   "source_id": 2060,
+   "selector_id": 2060,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_09": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3070,
+     "sha256": {
+      "SE": "6b0a1ab73aef12727e957330f4f55ef061b297eda138c70edbf2c4554534c3ba"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7518,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11820": {
+   "name": {
+    "@text": "b44f2738b3701178509513d9c0f0c69eea6de0ee430ca9970ef612e06ee25f08"
+   },
+   "source_id": 2070,
+   "selector_id": 2070,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3080,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7519,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11830": {
+   "name": {
+    "@text": "864e8d565eac5de10aced470ce96018502bebf4262bbb9eb7e3eca8c0e045d10"
+   },
+   "source_id": 2080,
+   "selector_id": 2080,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_09": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3090,
+     "sha256": {
+      "SE": "6b0a1ab73aef12727e957330f4f55ef061b297eda138c70edbf2c4554534c3ba"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7520,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11840": {
+   "name": {
+    "@text": "bb01a030df624241707d6c61aaff0d7c9b70a42e592672e8d9d67dd6ad0321d0"
+   },
+   "source_id": 2090,
+   "selector_id": 2090,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3100,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7521,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11850": {
+   "name": {
+    "@text": "1839e58c86b502352ae66886fe843c479abe517725b1e7f2b22838367860f607"
+   },
+   "source_id": 2100,
+   "selector_id": 2100,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3110,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7522,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11860": {
+   "name": {
+    "@text": "bbe963c645f060d61857b416b39ec5dcf63f659a960bb2dc164b7faad2897783"
+   },
+   "source_id": 2110,
+   "selector_id": 2110,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3120,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7523,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11900": {
+   "name": {
+    "@text": "628bf77a740094a920d6d45f3fe8333df71a77c7719ec23f999a7cb300babac6"
+   },
+   "source_id": 2150,
+   "selector_id": 2150,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3160,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7524,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Class_11930": {
+   "name": {
+    "@text": "ef177717b2d61a6ac74a239f5c3eae9634b65091e35031cebf5d18f0c17b55b4"
+   },
+   "source_id": 2180,
+   "selector_id": 2180,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3190,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7525,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2580": {
+   "name": {
+    "@text": "77d7a1123b0bce4b33cefd306768f72aca4aa3458a941116a057715ed5f27ec5"
+   },
+   "source_id": 2580,
+   "selector_id": 2580,
+   "clip_prefix": "2580",
+   "native_alias": false,
+   "clips": {
+    "2580_001": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "ecfe7879b46c506adbcd391120eacbc4f6fa45120b21feedc4b20b9fad973595",
+      "EN": "4576ffa0f378def45f8bd98d999de5ea8163b2033aa310a25109332445dc0f31"
+     }
+    },
+    "2580_002": {
+     "slots": [
+      0,
+      3
+     ],
+     "sha256": {
+      "JP": "f88212cd33bcb0ebee70db70a3cc4b11c5499537e2b32758f6b4445885161eda",
+      "EN": "52fe01d51a66493709d0e291ee43d005495fe8fae6ab4d5687500e6bb77e1f9d"
+     }
+    },
+    "2580_003": {
+     "slots": [
+      0
+     ],
+     "sha256": {
+      "JP": "e99762a30e2d02295953f81de57bd313703a4b1286d9556dc84d31b87913bb78",
+      "EN": "54c1b0ee9fcee32e58594c90122ed8ba6275078f5484c3e3735f71ad6fd42cc7"
+     }
+    },
+    "2580_004": {
+     "slots": [
+      2
+     ],
+     "sha256": {
+      "JP": "fa28a8f4d3bd4ed161c610084119397c2f0ed22f3c77fe1d1a3f8d5c5e73b7dd",
+      "EN": "69f75990600431ffa45f17b9e90277029925dbc3ed7c046f9c2cdbdb3c49d12b"
+     }
+    },
+    "2580_005": {
+     "slots": [
+      1,
+      3
+     ],
+     "sha256": {
+      "JP": "d60dd71cfaca6a4cdf4e2fba52e5432c8d3a3dfebc175751a11fb4ce935f8027",
+      "EN": "04605208602be983c74b0c9262c6c229a8fe0e67c73a6d2e2aef94a729d3a987"
+     }
+    }
+   },
+   "voice_id": 7526,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_3050": {
+   "name": {
+    "@text": "99ce6cff092c7a5ef45fa77528d7156f3622b695d024808d28bb81543f9cf96c"
+   },
+   "source_id": 3050,
+   "selector_id": 3050,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_10": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3170,
+     "sha256": {
+      "SE": "e8d7fea06215583234c47bcd74ae7cdad9d96817852ea7d188204615c91d12e3"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7527,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_3130": {
+   "name": {
+    "@text": "0dd62ce90c6e3973b3f8d52c1fb4387b4e5e06f49cad6593f36b6b8324eb8448"
+   },
+   "source_id": 3130,
+   "selector_id": 3130,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3100,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7528,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_3140": {
+   "name": {
+    "@text": "4d38d03cf821c9033c07e543df89121a2b5fa729bc2a0a6bfae8c607eb81748d"
+   },
+   "source_id": 3140,
+   "selector_id": 3140,
+   "clip_prefix": "07",
+   "native_alias": false,
+   "clips": {
+    "07_05": {
+     "slots": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "bank": "se",
+     "record": 3200,
+     "sha256": {
+      "SE": "b10ca707ed13a163d7344859a2a201414f72faf64240db1c5c8f149a9bd4100d"
+     },
+     "gain": 138
+    }
+   },
+   "voice_id": 7529,
+   "sound_effect": true,
+   "name_suffix": " (D1C)"
+  }
+ },
+ "silent": {
+  "D1C_Class_11400": {
+   "name": {
+    "@text": "b7c8ad33465655bf7652df1eb04729073fc6e1aecdbe68821e8bf6a378730df0"
+   },
+   "source_id": 1150,
+   "selector_id": 1150,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2300": {
+   "name": {
+    "@text": "ca2db3292857754f776e0437b07e83dfa2b5a65d915ee437119265ebaa13454c"
+   },
+   "source_id": 2300,
+   "selector_id": 2300,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2301": {
+   "name": {
+    "@text": "e68fcc91c7061554b22001446ddc1b6a9c1434bda576524299ab89a9586bc64a"
+   },
+   "source_id": 2301,
+   "selector_id": 2300,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2302": {
+   "name": {
+    "@text": "cdee1f5965f76562041a75b994b299d84ff709957223cff3b5a308a2e007931c"
+   },
+   "source_id": 2302,
+   "selector_id": 2300,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2400": {
+   "name": {
+    "@text": "163a3d552d645271186a11e65ea53b3584579606e21e5c1daceb724083de5b64"
+   },
+   "source_id": 2400,
+   "selector_id": 2400,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2410": {
+   "name": {
+    "@text": "afe426d361fa6743b61381c0d1927db0f0f3fca508dd89b172c82ebe4bff21b8"
+   },
+   "source_id": 2410,
+   "selector_id": 2410,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2420": {
+   "name": {
+    "@text": "3b46e8607f547d93da660019736de5d4d133c422ba626bb1de4d38d1b691c034"
+   },
+   "source_id": 2420,
+   "selector_id": 2420,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2550": {
+   "name": {
+    "@text": "b0286ac030926b931791b6c568ae2be09cbb7bed7103e0d1ca4011fbdc7e1fc2"
+   },
+   "source_id": 2550,
+   "selector_id": 2550,
+   "reason": "selector entry with four empty lists",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2600": {
+   "name": {
+    "@text": "54d139eaf531d58efbaa681344dd07465d3077643684ae3f1f3404a86009bf8b"
+   },
+   "source_id": 2600,
+   "selector_id": 2600,
+   "reason": "selector entry with four empty lists",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2611": {
+   "name": {
+    "@text": "f3983d1f2482488e703246a53b8dc61aa6bd1a31618317a6ff4e3cdba478fa87"
+   },
+   "source_id": 2611,
+   "selector_id": 2610,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2612": {
+   "name": {
+    "@text": "2a0df6a51713590800dab184222f8bbd8f22cac00ee0627c7257dcb818268fac"
+   },
+   "source_id": 2612,
+   "selector_id": 2610,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2613": {
+   "name": {
+    "@text": "1d8098ce9f05d35e4d110d02becac3f6518343366e72a942eb60473a30e10520"
+   },
+   "source_id": 2613,
+   "selector_id": 2610,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2614": {
+   "name": {
+    "@text": "48669ff50f7c340d5a0f08447b9a7ced5666ca395e46fe2389170805d6054e37"
+   },
+   "source_id": 2614,
+   "selector_id": 2610,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2615": {
+   "name": {
+    "@text": "11b6af300afbba1dfa8a102222c770dcec7608dda29effbbb93d978d00fbfe39"
+   },
+   "source_id": 2615,
+   "selector_id": 2610,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2901": {
+   "name": {
+    "@text": "4c6d141cf5d17ba05e3f3c82e6165f0b43eedfddcf0b23727bb0778d00f42a74"
+   },
+   "source_id": 2901,
+   "selector_id": 2900,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2902": {
+   "name": {
+    "@text": "f68139c2d08cfacb4f0469d741ea7e6a7e9db61bf657a0c3d25680a398cfe703"
+   },
+   "source_id": 2902,
+   "selector_id": 2900,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2903": {
+   "name": {
+    "@text": "7ba7568e8ee4ffc46394bc4efe4f754b25d33b3ad01b7a8142f1147cae88ced7"
+   },
+   "source_id": 2903,
+   "selector_id": 2900,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2904": {
+   "name": {
+    "@text": "060417372ee6fe35054c86db7690a5d334dd45f74666b99449b1f8246853f1f3"
+   },
+   "source_id": 2904,
+   "selector_id": 2900,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2905": {
+   "name": {
+    "@text": "831547d9a96b40ebdaf0eccb905ac3ae0ed4d3662225ab4205e30f2ec3ebe02c"
+   },
+   "source_id": 2905,
+   "selector_id": 2900,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2907": {
+   "name": {
+    "@text": "b4053fbdf55448e8ac66387f14362bb3cb05a7d54177df37475b0eb8727c0003"
+   },
+   "source_id": 2907,
+   "selector_id": 2900,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2909": {
+   "name": {
+    "@text": "544bc4a38894b9ef63353d05a158d4b53ded817601d917dffbb85e35058039ee"
+   },
+   "source_id": 2909,
+   "selector_id": 2900,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2910": {
+   "name": {
+    "@text": "1e66ab373880ff92fe5b604fe9d40805e0c0d368f18c30c4c6e578ebb8ec1342"
+   },
+   "source_id": 2910,
+   "selector_id": 2910,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2911": {
+   "name": {
+    "@text": "c84c7c52910260127029babbbde8856ab17004a93e175d3aed0f4a589702eea6"
+   },
+   "source_id": 2911,
+   "selector_id": 2910,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2912": {
+   "name": {
+    "@text": "97e9623661f2970acb41495153876df0836f6894398e2c45bb5a29d109ba9a46"
+   },
+   "source_id": 2912,
+   "selector_id": 2910,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2914": {
+   "name": {
+    "@text": "654906467272c1c6dc49670ee028defd22718228afca7af12402f463f6e90aa0"
+   },
+   "source_id": 2914,
+   "selector_id": 2910,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_2915": {
+   "name": {
+    "@text": "0c7e120ba41e9e85bcc015e40799dc16c3ef0715fd6444fe7110f947b092ec45"
+   },
+   "source_id": 2915,
+   "selector_id": 2910,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_6601": {
+   "name": {
+    "@text": "25eb92ae54cc5089e9b995f4176795d3c67d927069a3009a655c76cf0e447536"
+   },
+   "source_id": 6601,
+   "selector_id": 6600,
+   "reason": "no entry in the voice selector",
+   "name_suffix": " (D1C)"
+  }
+ },
+ "silent_note": "Packs whose Disgaea 1 character has no entry (or four empty lists) in the voice selector: the game plays nothing for them, so the pack is linked to a voice id without lines (drpgvoice.SILENT_VOICE_ID).",
+ "sound_effect_note": "Monsters: all four selector lists hold one audio record of type 1 = a shared sound effect (07_05, 07_09 or 07_10 of sound bank 1; Disgaea PC SUBDATA.DAT -> START.DAT member 66, Ogg). Disgaea 1 plays it where a character would shout, so it is the pack's voice on the same routes; one file serves both dubs. The effect records carry gain 138 where voice records carry 168, so the line volume is scaled by 138/168; it is routed to battle situations only (kind 0).",
+ "no_damage_death": "Disgaea 1 voices only what its scripts request (opcode 0x87, lists 0-3; 632 calls, all in attack / skill / per-character action events). No list and no clip is a damage or death line (0 of 86 clips shared with Disgaea RPG is named voice_damage; the one voice_dead recording is a skill shout in list 2), so damage and death are silent, as in Disgaea 1.",
+ "unchanged": {
+  "D1C_Unique_5390": {
+   "name": {
+    "@text": "1b24eaa48ce1a49136b45f84da175c14afb658d92c256e78ec7eed6ec124c531"
+   },
+   "source_id": 5390,
+   "selector_id": 5390,
+   "reason": "story form of a voiced character (Flonne / Jennifer); which id the game hands the voice selector for the form is not established, so the pack is left as it is",
+   "name_suffix": " (D1C)"
+  },
+  "D1C_Unique_5590": {
+   "name": {
+    "@text": "70d200583af284f6ab9c9bf7dbe508336a1080903a821887f532b1ae577e8cf4"
+   },
+   "source_id": 5590,
+   "selector_id": 5590,
+   "reason": "story form of a voiced character (Flonne / Jennifer); which id the game hands the voice selector for the form is not established, so the pack is left as it is",
+   "name_suffix": " (D1C)"
+  }
+ }
+}

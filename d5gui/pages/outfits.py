@@ -200,6 +200,8 @@ BUTTON_TIPS = {
     "replace": "Convert a new sprite sheet into the selected outfit's sprite (the old sprite is replaced; face and "
                "cut-in stay).",
     "rename": "Change the name shown in the in-game Outfit list.",
+    "own_values": "Give the outfit its own evilities, base stats, aptitudes, weapon mastery, movement or "
+                  "resistances. Groups you don't tick keep following the character.",
     "face": "Set the square face picture (status panel, Status screen, battle, character list).",
     "cutin": "Set the tall cut-in portrait (special attacks, Status screen). White backgrounds are removed.",
     "fix_cutin": "Choose what of the cut-in portrait is see-through: click a white area or paint (left: transparent, "
@@ -395,7 +397,8 @@ class OutfitsPage(QWidget):
                 ("Edit ▾", [("✏ Rename outfit…", self.rename, "rename"), ("🙂 Set face picture…", self.face, "face"),
                             ("🖼 Set cut-in portrait…", self.cutin, "cutin"),
                             ("🧽 Fix cut-in background…", self.fix_cutin, "fix_cutin"),
-                            ("Replace outfit sprite from sheet…", self.replace, "replace")]),
+                            ("Replace outfit sprite from sheet…", self.replace, "replace"), None,
+                            ("⚔ Own evilities, stats & weapons…", self.own_values, "own_values")]),
                 ("Colors ▾", [("🖌 Edit parts (part painter)…", self.paint_parts, "paint_parts"),
                               ("🎨 Edit outfit colors (Sprites & Colors)", self.edit, "edit"),
                               ("🔄 Re-derive color presets from the character", self.presets, "presets"), None,
@@ -553,7 +556,10 @@ class OutfitsPage(QWidget):
             lines.append("colour parts detected (presets follow hair / clothes / skin separately)"
                          if os.path.exists(outfits.parts_path(mod, n)) else "colour presets: simple (re-derive to "
                                                                             "detect parts)")
-        lines.append(f"char.dat row {slot} (a copy of the character: same stats and skills)")
+        from ..outfitown import summary
+        own = summary(mod, slot)
+        lines.append(f"char.dat row {slot} (a copy of the character" + (f"; {own})" if own else
+                                                                      ": same stats and skills)"))
         return "<qt>" + "<br>".join(lines) + (f"<hr>{who}" if who else "") + "</qt>"
 
     def _cur(self):
@@ -578,6 +584,10 @@ class OutfitsPage(QWidget):
         feats = ["own sprite" if n else "no sprite"]
         feats.append("face picture" if os.path.exists(outfits.face_path(mod, slot)) else "normal face")
         feats.append("own list icon" if outfits.own_colour(slot) else "list icon = normal face")
+        from ..outfitown import summary
+        own = summary(mod, slot)
+        if own:
+            feats.append(own)
         who = self.names().get(base, base)
         spr = f", sprite anm{n:05d}" if n else ""
         self.info.setText(f"<b>{who} — “{outfits.outfit_name(mod, slot)}”</b>  (slot {slot}{spr}, mod "
@@ -699,6 +709,25 @@ class OutfitsPage(QWidget):
         if ok and text.strip():
             outfits.set_name(mod, d[1], text)
             self.refresh()
+
+    def own_values(self):
+        d = self._cur()
+        mod = self._mod()
+        if not d or not mod:
+            return
+        from ..outfitown import OwnFieldsDialog
+        try:
+            dlg = OwnFieldsDialog(self.svc, mod, d[0], d[1], self.names().get(d[0], str(d[0])),
+                                  outfits.outfit_name(mod, d[1]), self)
+        except Exception as e:
+            return error_box(self, "Outfits", e)
+        if dlg.exec() != QDialog.DialogCode.Accepted:
+            return
+        kept = dlg.save()
+        self.ws.log(f"outfit slot {d[1]}: " + (", ".join(f"own {outfits.OWN_GROUPS[g][0].lower()}" for g in kept)
+                                                or "follows its character again") + f" (saved in '{mod.name}')")
+        self.refresh()
+        info_box(self, "Outfits", "Saved. Install to apply it in game.")
 
     def face(self):
         d = self._cur()

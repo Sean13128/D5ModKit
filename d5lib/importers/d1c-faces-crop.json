@@ -1,0 +1,693 @@
+{
+ "schema": 1,
+ "game": "d1c",
+ "picture": [
+  336,
+  1080
+ ],
+ "crop": [
+  336,
+  420
+ ],
+ "face": 204,
+ "note": "Per-picture head box for the D1C authored cut-in: the rectangle cut out of the 336x1080 picture and resized to the 204x204 face. A head taller than the picture is wide cannot fit a square crop without losing the chin, so the box is full width (336) and at least 440 px tall (the eyes ~1/3 down), and the resize puts it in the square. Reviewed per picture; regenerate with Research/source-packs/d1c/faces-crop.py. CORED1CC: rows re-framed for the 25 pictures the coordinator rejected or that show a monster; a row may carry \"fit\": the crop is fitted into the 204 cell at its own aspect ratio and padded with its own background instead of being squashed.",
+ "measured": {
+  "11": [
+   50,
+   68,
+   50
+  ],
+  "41": [
+   38,
+   59,
+   50
+  ],
+  "51": [
+   26,
+   47,
+   39
+  ],
+  "1031": [
+   29,
+   55,
+   62
+  ],
+  "1071": [
+   29,
+   47,
+   50
+  ],
+  "1084": [
+   26,
+   39,
+   50
+  ],
+  "1111": [
+   40,
+   60,
+   50
+  ],
+  "2011": [
+   40,
+   49,
+   42
+  ],
+  "1141": [
+   40,
+   66,
+   50
+  ]
+ },
+ "boxes": {
+  "11": {
+   "box": [
+    0,
+    381,
+    336,
+    821
+   ],
+   "characters": [
+    "Dark Cannon",
+    "Mega Cannon",
+    "Astro Cannon"
+   ],
+   "how": "measured on the 10%-grid probe"
+  },
+  "41": {
+   "box": [
+    0,
+    262,
+    336,
+    702
+   ],
+   "characters": [
+    "Gordon"
+   ],
+   "how": "measured on the 10%-grid probe"
+  },
+  "51": {
+   "box": [
+    0,
+    0,
+    336,
+    972
+   ],
+   "characters": [
+    "Jennifer"
+   ],
+   "how": "measured on the grid probe; CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 27,
+    "chin": 50
+   }
+  },
+  "1031": {
+   "box": [
+    40,
+    159,
+    376,
+    645
+   ],
+   "characters": [
+    "Weapon Shop"
+   ],
+   "how": "measured on the 10%-grid probe"
+  },
+  "1071": {
+   "box": [
+    0,
+    154,
+    336,
+    594
+   ],
+   "characters": [
+    "Hospital"
+   ],
+   "how": "measured on the 10%-grid probe"
+  },
+  "1084": {
+   "box": [
+    0,
+    105,
+    336,
+    545
+   ],
+   "characters": [
+    "Sardia"
+   ],
+   "how": "measured on the 10%-grid probe"
+  },
+  "1091": {
+   "box": [
+    0,
+    122,
+    336,
+    562
+   ],
+   "characters": [
+    "Battle Depot"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "1101": {
+   "box": [
+    0,
+    308,
+    336,
+    748
+   ],
+   "characters": [
+    "Music Shop"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "1111": {
+   "box": [
+    0,
+    280,
+    336,
+    720
+   ],
+   "characters": [
+    "Item World"
+   ],
+   "how": "measured on the 10%-grid probe"
+  },
+  "1121": {
+   "box": [
+    0,
+    308,
+    336,
+    748
+   ],
+   "characters": [
+    "Data Shop"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "1131": {
+   "box": [
+    0,
+    0,
+    336,
+    972
+   ],
+   "characters": [
+    "Gatekeeper"
+   ],
+   "how": "measured on the grid probe; CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 27,
+    "chin": 48
+   }
+  },
+  "1136": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Serra Winguard"
+   ],
+   "how": "measured on the grid probe; CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 30,
+    "chin": 49
+   }
+  },
+  "1141": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Strider"
+   ],
+   "how": "measured on the grid probe; CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 43,
+    "chin": 65
+   }
+  },
+  "1151": {
+   "box": [
+    0,
+    0,
+    336,
+    1008
+   ],
+   "characters": [
+    "EDF Soldier"
+   ],
+   "how": "measured on the grid probe (helmet bottom); CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 28,
+    "chin": 68
+   }
+  },
+  "1166": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Vesuvius"
+   ],
+   "how": "measured on the grid probe; CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 31,
+    "chin": 49
+   }
+  },
+  "2011": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Ghost",
+    "Ghoss"
+   ],
+   "how": "measured on the grid probe; CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 40,
+    "chin": 50
+   }
+  },
+  "2021": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Golem",
+    "Goleck"
+   ],
+   "how": "measured on the grid probe; CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 65,
+    "chin": 85
+   }
+  },
+  "2051": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Killer Armor"
+   ],
+   "how": "whole cut-in, head-and-shoulders (CORED1CC re-frame; not individually measured)",
+   "fit": true
+  },
+  "2061": {
+   "box": [
+    0,
+    392,
+    336,
+    832
+   ],
+   "characters": [
+    "Pumpkin"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "2071": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Gargoyle",
+    "Gargo"
+   ],
+   "how": "whole cut-in, head-and-shoulders (CORED1CC re-frame; not individually measured)",
+   "fit": true
+  },
+  "2081": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Nightmare"
+   ],
+   "how": "whole cut-in, head-and-shoulders (CORED1CC re-frame; not individually measured)",
+   "fit": true
+  },
+  "2091": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Serpent"
+   ],
+   "how": "whole cut-in, head-and-shoulders (CORED1CC re-frame; not individually measured)",
+   "fit": true
+  },
+  "2096": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Shark King"
+   ],
+   "how": "FALLBACK: the authored picture frames the shark's head off-centre with the mouth/ jaw outside the cell; the importer keeps the installed face instead of shipping the crop",
+   "fit": true
+  },
+  "2101": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Cyclops"
+   ],
+   "how": "whole cut-in, head-and-shoulders (CORED1CC re-frame; not individually measured)",
+   "fit": true
+  },
+  "2111": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Dragon"
+   ],
+   "how": "whole cut-in, head-and-shoulders (CORED1CC re-frame; not individually measured)",
+   "fit": true
+  },
+  "2113": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Dratti"
+   ],
+   "how": "whole cut-in, head-and-shoulders (CORED1CC re-frame; not individually measured)",
+   "fit": true
+  },
+  "2151": {
+   "box": [
+    0,
+    344,
+    336,
+    784
+   ],
+   "characters": [
+    "Beast",
+    "Manty"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "2162": {
+   "box": [
+    0,
+    104,
+    336,
+    544
+   ],
+   "characters": [
+    "Antoire"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "2181": {
+   "box": [
+    0,
+    260,
+    336,
+    700
+   ],
+   "characters": [
+    "Vampire",
+    "Maderas"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "2191": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Alt. Overlord",
+    "True Overlord"
+   ],
+   "how": "whole cut-in, head-and-shoulders (CORED1CC re-frame; not individually measured)",
+   "fit": true
+  },
+  "2201": {
+   "box": [
+    0,
+    0,
+    336,
+    972
+   ],
+   "characters": [
+    "Thursday"
+   ],
+   "how": "measured on the grid probe (one glowing eye, no mouth); CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 27,
+    "chin": 40
+   }
+  },
+  "2212": {
+   "box": [
+    0,
+    0,
+    336,
+    508
+   ],
+   "characters": [
+    "Dark Durian"
+   ],
+   "how": "measured on the grid probe (beak head); CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 13,
+    "chin": 40
+   }
+  },
+  "2221": {
+   "box": [
+    0,
+    0,
+    336,
+    648
+   ],
+   "characters": [
+    "Kurtis"
+   ],
+   "how": "measured on the grid probe (helmeted: visor eye + jaw); CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 18,
+    "chin": 50
+   }
+  },
+  "2501": {
+   "box": [
+    0,
+    158,
+    336,
+    598
+   ],
+   "characters": [
+    "Mid\u2212Boss",
+    "Vyers"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "2571": {
+   "box": [
+    0,
+    86,
+    336,
+    526
+   ],
+   "characters": [
+    "Vulcanus"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "2591": {
+   "box": [
+    0,
+    236,
+    336,
+    676
+   ],
+   "characters": [
+    "Kurtis"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "2601": {
+   "box": [
+    0,
+    362,
+    336,
+    802
+   ],
+   "characters": [
+    "Don Joaquin"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "2612": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Prism Blue"
+   ],
+   "how": "measured on the grid probe; 2613-2616 are the same art in other palettes; CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 45,
+    "chin": 80
+   }
+  },
+  "2613": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Prism Yellow"
+   ],
+   "how": "same art as 2612 (grid probe); CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 45,
+    "chin": 80
+   }
+  },
+  "2614": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Astro Carter"
+   ],
+   "how": "same art as 2612 (grid probe); CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 45,
+    "chin": 80
+   }
+  },
+  "2615": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Astro-One"
+   ],
+   "how": "same art as 2612 (grid probe); CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 45,
+    "chin": 80
+   }
+  },
+  "2616": {
+   "box": [
+    0,
+    0,
+    336,
+    1080
+   ],
+   "characters": [
+    "Astro-Two"
+   ],
+   "how": "same art as 2612 (grid probe); CORED1CC re-frame (fit)",
+   "fit": true,
+   "measured": {
+    "eyes": 45,
+    "chin": 80
+   }
+  },
+  "3001": {
+   "box": [
+    0,
+    98,
+    336,
+    538
+   ],
+   "characters": [
+    "Priere"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  },
+  "3011": {
+   "box": [
+    0,
+    164,
+    336,
+    604
+   ],
+   "characters": [
+    "Marjoly"
+   ],
+   "how": "local-detail peak (eyes ~30% down the crop)"
+  }
+ },
+ "min_height": 440,
+ "fallback": [
+  "2096"
+ ]
+}

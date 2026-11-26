@@ -1,0 +1,36 @@
+[
+ {
+  "rows": 1037,
+  "learned_id": 8228,
+  "tab": 0,
+  "learned_count": 1,
+  "id_in_learned": true,
+  "learned_head": [
+   8228
+  ],
+  "unknown_count": 58,
+  "unknown_overflow_shorts": 0,
+  "past_array_first64": "3a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "count_after_run": 58,
+  "screen_bytes_written_past_count": 1,
+  "case": "over-cap id, learned via the store",
+  "table_position": 1005
+ },
+ {
+  "rows": 1037,
+  "learned_id": 12,
+  "tab": 0,
+  "learned_count": 1,
+  "id_in_learned": true,
+  "learned_head": [
+   12
+  ],
+  "unknown_count": 58,
+  "unknown_overflow_shorts": 0,
+  "past_array_first64": "3a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "count_after_run": 58,
+  "screen_bytes_written_past_count": 1,
+  "case": "in-bitmap id, learned natively",
+  "table_position": 2
+ }
+]

@@ -1,0 +1,65 @@
+{
+ "exe": {
+  "path": "/Volumes/Data/Projects/D5/D5Modkit/state/games/Disgaea_5_Complete-d8040a88/backups/EXE__disgaea5.exe.full",
+  "bytes": 11303424
+ },
+ "keys_slot": {
+  "known": "0x1408d5640",
+  "translated": "0x1408ce670",
+  "section": ".rdata",
+  "loaded_pointer": "0x9ff9ac"
+ },
+ "A": {
+  "stopped": "fault (Invalid memory read (UC_ERR_READ_UNMAPPED))",
+  "fault": {
+   "access": "write-unmapped",
+   "address": 0,
+   "size": 1,
+   "rip": 5377943152
+  },
+  "rax": 1,
+  "rip": 5377943152,
+  "form": "call <slot address> (WHEELS2)",
+  "executed_bytes": "acf99f0000000000",
+  "registers_at_entry": {
+   "rax": 0,
+   "rsi": 0,
+   "rdi": 0
+  }
+ },
+ "B": {
+  "stopped": "returned",
+  "fault": {},
+  "rax": 1,
+  "rip": 0,
+  "form": "call [slot] (WHEELS3)"
+ },
+ "C": {
+  "form": "the real hook in the built exe: Shift+2 (the D4 page)",
+  "run": {
+   "calls": 1,
+   "rsp_mod16_at_callee": [
+    8
+   ],
+   "count": 6,
+   "page": 1,
+   "families_head": [
+    1270,
+    1290,
+    1270,
+    1290,
+    1270,
+    1290
+   ]
+  },
+  "note": "rsp_mod16_at_callee must be [8]: 16-aligned at the CALL, the Windows x64 contract"
+ },
+ "verdict": {
+  "A_faults_in_data": true,
+  "A_fault_instruction": 5377943152,
+  "B_returns_one": true,
+  "C_call_aligned": true,
+  "C_page_chosen": true,
+  "emulated": true
+ }
+}

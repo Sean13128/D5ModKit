@@ -1,0 +1,32 @@
+{
+ "TEST16 base 5c931430 (Builds/LIVE5_TEST16-20261030)": {
+  "learnable_added_gets_group_category": true,
+  "unique_added_untouched": true,
+  "named_category_kept": true,
+  "no_learnable_row_left_at_zero": true,
+  "vanilla_learnable_rows_still_categorised": true,
+  "file": "/Volumes/Data/Projects/D5/Local/Worktrees/evcap5/d5lib/dbpatch.py",
+  "bytes": 27139,
+  "all_pass": true
+ },
+ "TEST18B base 819818b5 (Builds/LIVE5_TEST18B-20261030)": {
+  "learnable_added_gets_group_category": true,
+  "unique_added_untouched": true,
+  "named_category_kept": true,
+  "no_learnable_row_left_at_zero": true,
+  "vanilla_learnable_rows_still_categorised": true,
+  "file": "/Volumes/Data/ai-tmp/evcap5/bases/dbpatch-test18b.py",
+  "bytes": 33194,
+  "all_pass": true
+ },
+ "installed kit base 1dde5c0c": {
+  "learnable_added_gets_group_category": true,
+  "unique_added_untouched": true,
+  "named_category_kept": true,
+  "no_learnable_row_left_at_zero": true,
+  "vanilla_learnable_rows_still_categorised": true,
+  "file": "/Volumes/Data/ai-tmp/evcap5/bases/dbpatch-installed.py",
+  "bytes": 28024,
+  "all_pass": true
+ }
+}

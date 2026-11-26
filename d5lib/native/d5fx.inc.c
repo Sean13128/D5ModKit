@@ -9,8 +9,17 @@
  *     0x14008ada0 (id at [rcx + 0x10]) -- detoured at their entry;
  * into a free cache entry whose manager slot is below 1100.  With none free, it releases (0x1404001f0) the model
  * that no live model instance uses (512 x 0x258 at 0x141DD7F70: +0x218 active, +0x180 manager slot) and that was
- * asked for longest ago.  Loading = what the game's load job does: the data (YKCMP .obf) -> 0x140306c40(data, slot)
- * -> the cache entry's data, then 0x1402fa580(manager, slot). */
+ * asked for longest ago.  Loading: the data (YKCMP .obf) -> 0x140306c40(data, slot) -> the cache entry's data.
+ *
+ * POOLLEAK1 (2026-11-20): 0x140306c40 already ends with 0x1402fa580(manager, slot), the step that takes the model's
+ * vertex block from the vertex arena (1024 block records in a 25 MB block; in the 9460a641 build the allocator is
+ * 140308c80 -> 140308c10, which writes through NULL when all 1024 records are taken) and stores it at
+ * manager + slot * 0xd0 + 0x12528.  The game's own load job (run only by the start-up preload) calls 0x1402fa580 a
+ * second time; the second block replaces the first in the slot, so the first is never freed (the release
+ * 0x1404001f0 frees only the block at +0x12528).  Copying the job made every on-demand load leak one record (and a
+ * heap box array): a long session crashed in 140308c10 after ~650 loads (LIVE1120G, 2026-11-20).  Now the second
+ * call runs only when the loader did not take a block itself (arena count unchanged), and a load is refused (the
+ * effect is not drawn) instead of crashing when the arena has fewer than FX_ARENA_SPARE records left. */
 #define FX_CACHE_VA 0x140C05A48ULL          /* -> the effect cache (512 x 0x30) */
 #define FX_CACHE_N 0x200
 #define FX_SLOT_BASE 700
@@ -26,6 +35,11 @@
 #define FX_TAB_IDS_VA 0x140A32EE8ULL        /* -> u32 ids (sorted) */
 #define FX_TAB_ROWS_VA 0x140A32EF0ULL       /* -> rows (8 bytes) */
 #define FX_RECENT 90                        /* frames a model asked for stays (it may be about to get an instance) */
+#define FX_ARENA_SPARE 24                   /* vertex-arena records kept for the game's own loads (map objects...) */
+
+/* the vertex arena (found from FX_FINISH's 'lea rcx, [rip + arena]; call alloc'): +0 records (0x400), +4 records
+   in use, +8 capacity in bytes, +0xc bytes in use, +0x28 -> the records (24 bytes each: block, size, alignment) */
+typedef struct { int count, used, cap, bytes; } fx_arena_t;
 
 #define VA_FX_SHOW 0x14018D9F0ULL
 #define VA_FX_GET 0x1401A8A40ULL
@@ -60,6 +74,8 @@ static unsigned *g_fx_ids;
 static unsigned g_fx_stamp[FX_CACHE_N];     /* frame each cache entry was last asked for */
 static int g_fx_stamp_id[FX_CACHE_N];       /* ... and for which model (an entry the game reused starts over) */
 static int g_fx_hooked, g_fx_loaded, g_fx_released, g_fx_failed;
+static int g_fx_finish_called, g_fx_finish_skipped, g_fx_arena_refused;
+static fx_arena_t *g_fx_arena;              /* NULL: not found (the old load sequence runs, no room check) */
 static volatile LONG g_fx_busy;
 static int g_fx_mask = 31;                  /* [fx] hooks: 1 show, 2 get, 4 get2, 8 sys, 16 script start */
 static int g_fx_log;                        /* [fx] log: requests logged (diagnostics) */
@@ -151,10 +167,40 @@ static int fx_free_index(fx_entry *c) {
     return c[best].used ? -1 : best;
 }
 
+/* the vertex arena, from the 'lea rcx, [rip + d]' that FX_FINISH passes to its allocator call; looked up at the
+   first load (the renderer sets it up after the runtime starts) and checked on every use */
+static fx_arena_t *fx_arena(void) {
+    static int tried;
+    if (!g_fx_arena && !tried) {
+        tried = 1;
+        unsigned char *p = (unsigned char *)G(FX_FINISH_VA);
+        for (int i = 0; p && readable(p, 0xa0) && i < 0x80; i++) {
+            if (p[i] != 0x48 || p[i + 1] != 0x8d || p[i + 2] != 0x0d) continue;
+            int call = 0;
+            for (int j = i + 7; j < i + 7 + 16; j++) call |= p[j] == 0xe8;
+            if (!call) continue;
+            g_fx_arena = (fx_arena_t *)(p + i + 7 + *(int *)(p + i + 3));
+            break;
+        }
+        if (!g_fx_arena) logf_("fx: vertex arena not found (old load sequence, no room check)");
+    }
+    fx_arena_t *a = g_fx_arena;
+    if (!a || !readable(a, 0x30) || a->count != 0x400 || a->used < 0 || a->used > a->count) return NULL;
+    return a;
+}
+
 static int fx_load(fx_entry *c, fx_model *m) {
     int k = fx_free_index(c);
     if (k < 0) {
         if (g_fx_failed++ < 20) logf_("fx: no room for effect model %u (every slot's model is on screen)", m->id);
+        return 0;
+    }
+    fx_arena_t *a = fx_arena();
+    if (a && a->count - a->used < FX_ARENA_SPARE) {
+        /* defence in depth: the arena's allocator writes through NULL when it has no record left */
+        if (g_fx_arena_refused++ < 20)
+            logf_("fx: vertex arena nearly full (%d of %d records): effect model %u not loaded", a->used, a->count,
+                  m->id);
         return 0;
     }
     void *buf = malloc(m->size ? m->size : 1);
@@ -171,9 +217,15 @@ static int fx_load(fx_entry *c, fx_model *m) {
     e->slot = slot;
     e->row = fx_row((int)m->id);
     e->ticket = -1;
+    int before = a ? a->used : -1;
     e->data = ((void *(*)(void *, int))G(FX_LOAD_VA))(buf, slot);
     free(buf);
-    ((void (*)(void *, int))G(FX_FINISH_VA))(*(void **)G(FX_MGR_VA), slot);
+    if (a && a->used > before) {
+        g_fx_finish_skipped++;          /* the loader built the vertex block: a second build would orphan it */
+    } else {
+        ((void (*)(void *, int))G(FX_FINISH_VA))(*(void **)G(FX_MGR_VA), slot);
+        g_fx_finish_called++;
+    }
     e->ref = 1;
     g_fx_stamp[k] = (unsigned)g_frame;
     g_fx_stamp_id[k] = e->id;
@@ -324,7 +376,8 @@ static void fx_uninstall(void) {
     if (g_fx_ss_hooked) { write_code(VA_START_SCRIPT, START_SCRIPT_ORIG, 5); g_fx_ss_hooked = 0; }
     g_fx_hooked = 0;
     if (g_fx_file) { fclose(g_fx_file); g_fx_file = NULL; }
-    logf_("fx: %d model(s) loaded on demand, %d released", g_fx_loaded, g_fx_released);
+    logf_("fx: %d model(s) loaded on demand, %d released (vertex build: %d by the loader, %d extra, %d refused)",
+          g_fx_loaded, g_fx_released, g_fx_finish_skipped, g_fx_finish_called, g_fx_arena_refused);
 }
 
 /* harness: fx  -> the counts;  fx stress N ROOM -> N loads of on-demand models with only ROOM cache entries (every
@@ -349,6 +402,10 @@ static void fx_cmd(SB *o, int argc, char **argv) {
     } else sb_put(o, "{", 1);
     int used = 0;
     for (int k = 0; fc && k < FX_CACHE_N; k++) used += fc[k].used != 0;
-    sbf(o, "\"loaded\":%d,\"released\":%d,\"failed\":%d,\"cache_used\":%d,\"room\":%d}", g_fx_loaded,
+    sbf(o, "\"loaded\":%d,\"released\":%d,\"failed\":%d,\"cache_used\":%d,\"room\":%d,", g_fx_loaded,
         g_fx_released, g_fx_failed, used, g_fx_room);
+    fx_arena_t *a = fx_arena();
+    sbf(o, "\"arena\":\"%p\",\"arena_records\":%d,\"arena_used\":%d,\"arena_bytes\":%d,\"finish_called\":%d,"
+        "\"finish_skipped\":%d,\"arena_refused\":%d}", (void *)g_fx_arena, a ? a->count : -1, a ? a->used : -1,
+        a ? a->bytes : -1, g_fx_finish_called, g_fx_finish_skipped, g_fx_arena_refused);
 }

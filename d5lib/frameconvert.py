@@ -54,9 +54,12 @@ MONSTER_ROWS = _both_views({
     4021: "one_arm_up", 1261: "stand"})
 
 # names a sheet row can be assigned to (anything else is ignored)
-ANIM_NAMES = ["stand", "wait", "walk", "dash", "damage", "squat", "two_arm_up_jump", "launch", "one_arm_up",
+# 'walksrc' carries an explicitly supplied shared-bank walk (D1C bank 1 11/17).  It is not a
+# sheet row any animation is matched to: ownanim binds it to D5 11/17 key by key, so the donor
+# animations that share the held walk cells keep their own pictures.
+ANIM_NAMES = ["stand", "wait", "walk", "walksrc", "dmgsrc", "dash", "damage", "squat", "two_arm_up_jump", "launch", "one_arm_up",
               "take_out", "attack_fist", "attack_sword", "attack_lance", "attack_arrow", "attack_gun", "attack_ax",
-              "kabutowari", "landing", "rolling", "roll_landing", "gun_aerial"]
+              "kabutowari", "landing", "rolling", "roll_landing", "gun_aerial", "special", "special2"]
 # rows of small overlay pieces (hands / arms drawn over the weapon), e.g. 'attack_sword_hand'
 HAND_NAMES = [n + "_hand" for n in ANIM_NAMES if n not in ("stand", "wait", "walk")]
 

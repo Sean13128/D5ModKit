@@ -5,7 +5,7 @@ wait front / back (the idle loop).  The frames are the same poses as the labelle
 reads (frameconvert.ANIM_NAMES), but trimmed and packed by size: no row labels and no cell canvas.
 
 Every humanoid DRPG unit shares that frame set, so one labelled unit is the reference
-(data/drpg_ref_humanoid.pickle, made by _research/drpg_make_ref.py): label, view, cell canvas size and where
+(data/drpg_ref_humanoid.pickle, made by tools/drpg_make_ref.py from the labelled sheet): label, view, cell canvas size and where
 the drawing sits in it.  A new unit's frames are matched to the reference frames of the same atlas by
 silhouette (best overlap over small shifts, one-to-one assignment); a matched frame takes the reference's
 label, row position and canvas, placed where its silhouette fits the reference drawing best.  The canvas
@@ -138,6 +138,54 @@ def atlas_pieces(path):
         rgba = a[y0:y1, x0:x1].copy()
         rgba[~sel[y0:y1, x0:x1]] = 0
         out.append(dict(x=int(x0), y=int(y0), rgba=rgba))
+    return out
+
+
+SAT_FRAC = 0.2         # a detached piece with at most this share of a frame's pixels is that frame's satellite
+SAT_GAP = 32           # ... when it lies this close (px) to the frame's box
+
+
+def merge_satellites(pieces, min_box=1500):
+    """Monster atlases: a floating companion of the body (Lord Desdeath's blue orb) is drawn apart from it and is
+    still part of that frame.  Detached pieces of at least `min_box` px (the size monstermap keeps as a region) with at
+    most SAT_FRAC of the nearest frame's pixels, within SAT_GAP of its box, join that frame; specks below `min_box`
+    stay as they are.  -> pieces like atlas_pieces"""
+    px = [int((p["rgba"][..., 3] > 0).sum()) for p in pieces]
+    box = lambda p: (p["x"], p["y"], p["x"] + p["rgba"].shape[1], p["y"] + p["rgba"].shape[0])   # noqa: E731
+    sats = {}
+    for i, p in enumerate(pieces):
+        if p["rgba"].shape[0] * p["rgba"].shape[1] < min_box:
+            continue
+        a = box(p)
+        best = None
+        for j, q in enumerate(pieces):
+            if j == i or px[i] > SAT_FRAC * px[j] or j in sats:
+                continue
+            b = box(q)
+            gap = max(b[0] - a[2], a[0] - b[2], b[1] - a[3], a[1] - b[3], 0)
+            if gap <= SAT_GAP and (best is None or gap < best[0]):
+                best = (gap, j)
+        if best:
+            sats[i] = best[1]
+    out = []
+    for j, q in enumerate(pieces):
+        if j in sats:
+            continue
+        mine = [pieces[i] for i, h in sats.items() if h == j]
+        if not mine:
+            out.append(q)
+            continue
+        ps = [q] + mine
+        x0, y0 = min(p["x"] for p in ps), min(p["y"] for p in ps)
+        x1 = max(p["x"] + p["rgba"].shape[1] for p in ps)
+        y1 = max(p["y"] + p["rgba"].shape[0] for p in ps)
+        img = np.zeros((y1 - y0, x1 - x0, 4), np.uint8)
+        for p in ps:
+            h, w = p["rgba"].shape[:2]
+            sub = img[p["y"] - y0:p["y"] - y0 + h, p["x"] - x0:p["x"] - x0 + w]
+            m = p["rgba"][..., 3] > 0
+            sub[m] = p["rgba"][m]
+        out.append(dict(x=int(x0), y=int(y0), rgba=img))
     return out
 
 

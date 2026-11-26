@@ -17,7 +17,7 @@ Nothing here changes a row the game already has except the ones a mod already ed
 """
 import os
 
-from . import dbpatch
+from . import dbpatch, textfmt
 
 CHAR = "char.dat"
 MAGIC = "magic.dat"
@@ -91,7 +91,7 @@ def preset(key):
 def set_langs(row, prefix, text):
     for L in LANGS:
         if f"{prefix}_{L}" in row.keys():
-            row.set(f"{prefix}_{L}", text, truncate=True)
+            row.set(f"{prefix}_{L}", textfmt.prose(text), truncate=True)
 
 
 # ------------------------------------------------------------------------------------------------ own skills
@@ -109,14 +109,18 @@ def free_skill_id(magic_table, char_id, taken=()):
     return i
 
 
-def all_mod_skill_ids(mods):
-    """magic.dat ids any of these mods adds (so two mods never pick the same new id)"""
-    out = set()
+
+def all_mod_skill_ids(mods, fs=None):
+    """Added magic IDs and IDs whose wrapper triple hits supplied mod/original events."""
+    from . import skills
+    out, events = set(), set()
+    if fs is not None:
+        events.update(skills.Scripts(fs.read(skills.SCRIPT)).ev)
     for m in mods:
         p = m.load_patch("db", "magic.dat.json") or {}
         out.update(int(r["id"]) for r in p.get("added") or [] if isinstance(r, dict) and "id" in r)
-    return out
-
+        events.update(skills.event_ids(m, include_raw=True))
+    return out | skills.skill_ids_for_events(events)
 
 def new_skill(svc, fs, mod, char_row, copy_of, name, desc="", level=1, sp_cost=None, mods=()):
     """A new skill of the character's own: a copy of skill copy_of (numbers and animation) with a new name / id,
@@ -126,7 +130,7 @@ def new_skill(svc, fs, mod, char_row, copy_of, name, desc="", level=1, sp_cost=N
     src_i = magic.index_of(copy_of)
     if src_i < 0:
         raise ValueError(f"no skill {copy_of}")
-    sid = free_skill_id(magic, int(char_row["id"]), all_mod_skill_ids(mods))
+    sid = free_skill_id(magic, int(char_row["id"]), all_mod_skill_ids(mods, fs=fs))
     r = magic.add_row(copy_from=src_i)
     r.set("id", sid)
     set_langs(r, "name", name)
@@ -411,6 +415,12 @@ def new_evility(svc, mod, char_row, works_like, name, desc=None, slot=None, mods
     r.set("kind", 1)                        # a unique evility (like the main cast's)
     r.set("class_order", 0)
     r.set("slot_cost", 0)
+    # source and price as on every character's own evility.  A copied class evility keeps source 3 (sold by class
+    # mastery): the Skill Shop then looks up JobRank `owner + 5`, a character has none, and the game crashes
+    # at 0x1407CDA94 (SKILLTRAINERCRASH1; learned.mastery_faults is the check)
+    r.set("source", 4)
+    r.set("mana_cost", 0)
+    r.set("shop_rank", 0)
     svc.mark_dirty(SKILL)
     al = mod.load_patch("evilities", "aliases.json") or {}
     al[str(eid)] = int(works_like)

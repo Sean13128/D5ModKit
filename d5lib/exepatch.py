@@ -37,6 +37,16 @@ except ImportError:  # pragma: no cover
 IMAGE_BASE = 0x140000000
 SECTION_NAME = b".d5mod"
 
+# A kit section can carry the code of several features: the exe has only 11 section-header slots and
+# vanilla uses 7, so a fresh header per feature would run out. Every appended region therefore ends with a
+# 28-byte claim block naming its feature, and `has_feature` parses that block instead of matching bytes: a
+# claim must sit inside a kit section, name a region that starts inside it, and (if the caller asks) carry the
+# configuration digest the build was made from and still point its hook sites into the section.
+KIT_SECTION_PREFIX = b".d5"
+CLAIM_MAGIC = b"D5KIT\x02"       # version 2: the block also carries the feature's configuration digest
+CLAIM_LEGACY = b"D5KIT\x01"      # installs made before the digest existed; recognised, never written
+CLAIM_SIZE = 28
+
 OPEN_VA = 0x140263875
 OPEN_ORIG = bytes.fromhex("488d8b98bd0000c783c8bd000001000000")
 OPEN_RET = 0x140263886
@@ -91,38 +101,408 @@ def _asm(src, addr):
     return bytes(enc)
 
 
-def add_hook_section(exe: bytes, name: bytes, hooks, shared_src="", writable=False, shared_bytes=b"") -> bytes:
-    """Append a code section `name` to the exe and point hook sites at code inside it.
-    hooks: [(va, original bytes, asm source, opcode 0xE9 jmp / 0xE8 call)].  `shared_src` (a subroutine with its
-    data) is placed first; hook sources reach it as {shared}.  Each source is assembled at its own address, so labels
-    only need to be unique within one source.  shared_bytes: raw data placed first instead (e.g. a zeroed buffer;
-    writable=True makes the section writable)."""
-    from . import exemap
+def _last_section(pe):
+    return max(pe.sections, key=lambda s: s.VirtualAddress)
+
+
+def _growable_section(pe, exe):
+    """the kit section a new code region can be appended to, or None when the exe needs a new header.
+
+    Only the last section can grow: its raw data must end the file (otherwise appending would have to move
+    everything after it), it must be a kit section, and it must be executable. Growing keeps the header table
+    at a fixed size however many features a build enables."""
+    last = _last_section(pe)
+    if not last.Name.startswith(KIT_SECTION_PREFIX):
+        return None
+    if not last.Characteristics & 0x20000000:          # IMAGE_SCN_MEM_EXECUTE
+        return None
+    if last.PointerToRawData + last.SizeOfRawData != len(exe):
+        return None                                    # something (an overlay) was appended after it
+    return last
+
+
+def _section_layout(pe, exe):
+    """where a code section appended to `exe` starts: (base va, grow, offset in the last section)
+
+    The exe has room for only a few more section headers: when the last section is already one of the kit's code
+    sections (and ends the file), the new code is appended to it instead of getting a header of its own. That is
+    the normal path: the first kit section is the only header a build takes, and every later feature shares it."""
+    sec_align = pe.OPTIONAL_HEADER.SectionAlignment
+    last = _growable_section(pe, exe)
+    grow = last is not None
+    last = last or _last_section(pe)
+    if grow:
+        offset = (last.Misc_VirtualSize + 15) // 16 * 16
+        base = IMAGE_BASE + last.VirtualAddress + offset
+        new_rva = last.VirtualAddress
+    else:
+        offset = 0
+        new_rva = (last.VirtualAddress + max(last.Misc_VirtualSize, last.SizeOfRawData) + sec_align - 1) \
+            // sec_align * sec_align
+        base = IMAGE_BASE + new_rva
+    return base, grow, offset, new_rva
+
+
+def code_base(exe: bytes, name: bytes = b"") -> int:
+    """the address a section appended by add_code_section will start at (assemble code for this address)"""
+    pe = pefile.PE(data=exe, fast_load=True)
+    return _section_layout(pe, exe)[0]
+
+
+
+def _extension_functions(code, base, targets, *, label=".d5el", allow_exits=False, allowed_writes=()):
+    """Discover the extension's reachable routines and encode their fixed-frame prologues.
+
+    Deliberately restricted to sections whose entries are CALL targets and whose
+    frames have contiguous push/sub prologues and Windows x64 epilogues. Reject
+    unsupported stack manipulation rather than emit plausible but false unwind
+    records. Decode by CFG so inline tables never become executable ranges.
+
+    `allow_exits` accepts a branch out of the extension as a routine end (.d5cm's
+    sub-class gate is a jump into native code and never returns), and
+    `allowed_writes` names nonvolatile registers a routine is supposed to write
+    because it stands in for a native instruction that wrote them.
+    """
+    from capstone import Cs, CS_ARCH_X86, CS_MODE_64
+    from capstone.x86_const import X86_OP_IMM, X86_OP_REG
+    md = Cs(CS_ARCH_X86, CS_MODE_64)
+    md.detail = True
+    entries = {base + 16, *targets}
+    routines = {}
+    instructions = {}
+    def instruction(pc):
+        if pc not in instructions:
+            decoded = next(md.disasm(code[pc - base:pc - base + 15], pc, count=1), None)
+            if decoded is None:
+                raise ValueError(f"{label}: cannot decode {pc:#x}")
+            instructions[pc] = decoded
+        return instructions[pc]
+    while entries - routines.keys():
+        entry = min(entries - routines.keys())
+        pending, seen = [entry], {}
+        while pending:
+            pc = pending.pop()
+            if pc in seen:
+                continue
+            if not base + 16 <= pc < base + len(code):
+                if allow_exits:
+                    continue
+                raise ValueError(f"{label}: branch outside extension")
+            i = instruction(pc)
+            seen[pc] = i
+            m, ops = i.mnemonic, i.operands
+            nxt = pc + i.size
+            if m == "ret":
+                continue
+            if m == "call":
+                if ops[0].type != X86_OP_IMM:
+                    raise ValueError(f"{label}: indirect call is not supported")
+                target = ops[0].imm
+                if base <= target < base + len(code):
+                    entries.add(target)
+            if m.startswith("j"):
+                if ops[0].type != X86_OP_IMM:
+                    raise ValueError(f"{label}: indirect branch is not supported")
+                pending.append(ops[0].imm)
+                if m == "jmp":
+                    continue
+            pending.append(nxt)
+        routines[entry] = seen
+    regs = {name: n for n, name in enumerate(
+        ("rax", "rcx", "rdx", "rbx", "rsp", "rbp", "rsi", "rdi",
+         "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"))}
+    nonvolatile = {"rbx", "rbp", "rsi", "rdi", "r12", "r13", "r14", "r15"}
+    result = []
+    previous_end = base + 16
+    for entry, seen in sorted(routines.items()):
+        end = max(pc + i.size for pc, i in seen.items())
+        if entry < previous_end:
+            raise ValueError(f"{label}: overlapping/shared-tail functions need separate frames")
+        previous_end = end
+        pc, codes, prologue, saved = entry, [], set(), set()
+        pushes, allocation = [], 0
+        while pc in seen:
+            i = seen[pc]
+            m, ops = i.mnemonic, i.operands
+            off = pc + i.size - entry
+            if off > 255:
+                raise ValueError(f"{label}: prologue too long")
+            if m == "mov" and pc == entry and i.op_str.startswith("r11d, "):
+                pass  # wrapper's build tag, before its fixed frame
+            elif m == "push" and ops[0].type == X86_OP_REG:
+                reg = i.reg_name(ops[0].reg)
+                if reg == "rsp" or reg not in regs:
+                    raise ValueError(f"{label}: unsupported push")
+                if allocation:
+                    raise ValueError(f"{label}: push after allocation")
+                pushes.append(reg)
+                if reg in nonvolatile:
+                    codes.append(bytes((off, regs[reg] << 4)))  # UWOP_PUSH_NONVOL
+                    saved.add(reg)
+                else:
+                    codes.append(bytes((off, 2)))  # UWOP_ALLOC_SMALL, 8 bytes
+            elif m == "sub" and i.op_str.startswith("rsp, ") and ops[1].type == X86_OP_IMM:
+                amount = ops[1].imm
+                if allocation:
+                    raise ValueError(f"{label}: multiple stack allocations")
+                allocation = amount
+                if amount < 8 or amount % 8 or amount > 0x7fff8:
+                    raise ValueError(f"{label}: unsupported stack allocation")
+                if amount <= 128:
+                    codes.append(bytes((off, ((amount // 8 - 1) << 4) | 2)))
+                else:
+                    codes.append(bytes((off, 1)) + struct.pack("<H", amount // 8))
+            else:
+                break
+            prologue.add(pc)
+            pc += i.size
+        prologue_size = pc - entry
+        # RtlVirtualUnwind recognizes only canonical epilogues. Also verify that
+        # every nonvolatile write has a corresponding prologue save.
+        intentional = set(allowed_writes)
+        for address, i in seen.items():
+            if address in prologue:
+                continue
+            m = i.mnemonic
+            writes = {i.reg_name(r) for r in i.regs_access()[1]}
+            aliases = {alias: reg for reg, aliases in (
+                ("rbx", ("ebx", "bx", "bl", "bh")), ("rbp", ("ebp", "bp", "bpl")),
+                ("rsi", ("esi", "si", "sil")), ("rdi", ("edi", "di", "dil")),
+                *((f"r{n}", (f"r{n}d", f"r{n}w", f"r{n}b")) for n in range(12, 16)))
+                for alias in aliases}
+            writes = {aliases.get(r, r) for r in writes}
+            if writes & {f"xmm{n}" for n in range(6, 16)}:
+                raise ValueError(f"{label}: XMM nonvolatile saves require explicit unwind support")
+            if writes & (nonvolatile - saved - intentional):
+                raise ValueError(f"{label}: unsaved nonvolatile write at {address:#x}: {i.mnemonic} {i.op_str}")
+            if "rsp" not in writes or m in ("call", "ret"):
+                continue
+            if m not in ("add", "pop") or (m == "add" and not i.op_str.startswith("rsp, ")):
+                raise ValueError(f"{label}: non-fixed stack at {address:#x}")
+            tail = address + i.size
+            while tail in seen and seen[tail].mnemonic == "pop":
+                tail += seen[tail].size
+            if tail not in seen or seen[tail].mnemonic != "ret":
+                raise ValueError(f"{label}: noncanonical epilogue at {address:#x}")
+        # Every return must undo exactly this prologue. Shape alone would
+        # accept a wrong ADD constant or a reordered/missing POP sequence.
+        predecessors = {address + i.size: i for address, i in seen.items()}
+        for address, i in seen.items():
+            if i.mnemonic != "ret":
+                continue
+            cursor, popped = address, []
+            while cursor in predecessors and predecessors[cursor].mnemonic == "pop":
+                previous = predecessors[cursor]
+                popped.append(previous.op_str)
+                cursor = previous.address
+            actual_allocation = 0
+            previous = predecessors.get(cursor)
+            if previous is not None and previous.mnemonic == "add" and previous.op_str.startswith("rsp, "):
+                actual_allocation = previous.operands[1].imm
+            if popped != pushes or actual_allocation != allocation:
+                raise ValueError(f"{label}: epilogue does not reverse prologue at {address:#x}")
+        encoded = b"".join(reversed(codes))
+        count = len(encoded) // 2
+        if count > 255:
+            raise ValueError(f"{label}: too many unwind codes")
+        info = bytes((1, prologue_size, count, 0)) + encoded
+        info += b"\0" * (-len(info) % 4)
+        result.append((entry - IMAGE_BASE, end - IMAGE_BASE, info))
+    return result
+
+
+def _d5ev_exception_data(pe, code, base, targets, *, label=".d5el", allow_exits=False, allowed_writes=()):
+    """Append xdata and a sorted copy of the existing plus new runtime table."""
+    directory = pe.OPTIONAL_HEADER.DATA_DIRECTORY[3]  # IMAGE_DIRECTORY_ENTRY_EXCEPTION
+    if directory.Size % 12:
+        raise ValueError("invalid PE exception directory size")
+    old = pe.get_data(directory.VirtualAddress, directory.Size) if directory.Size else b""
+    if len(old) != directory.Size:
+        raise ValueError("truncated PE exception directory")
+    entries = list(struct.iter_unpack("<III", old))
+    payload = bytearray(code)
+    payload += b"\0" * (-len(payload) % 4)
+    for start, end, info in _extension_functions(code, base, targets, label=label, allow_exits=allow_exits,
+                                                 allowed_writes=allowed_writes):
+        unwind = base - IMAGE_BASE + len(payload)
+        entries.append((start, end, unwind))
+        payload += info
+    entries.sort()
+    previous_end = 0
+    for start, end, unwind in entries:
+        if start < previous_end or start >= end or not unwind or unwind % 4:
+            raise ValueError("invalid/overlapping PE runtime functions")
+        previous_end = end
+    table_rva = base - IMAGE_BASE + len(payload)
+    for entry in entries:
+        payload += struct.pack("<III", *entry)
+    return bytes(payload), table_rva, len(entries) * 12
+
+
+# Sections that receive fixed-frame unwind records (xdata + a relocated runtime
+# table). .d5cm and .d5pm both carry the sub-class gate (entered by jump, leaves by
+# jump into native code) and the sub-class screen's fetch stub (writes the r15d its
+# native instruction wrote).
+UNWIND_SECTIONS = {
+    b".d5el": dict(label=".d5el"),
+    b".d5cm": dict(label=".d5cm", allow_exits=True, allowed_writes=("r15",)),
+    b".d5pm": dict(label=".d5pm", allow_exits=True, allowed_writes=("r15",)),
+    # EVCAP2: the learned-evility capacity extension (d5lib/learned.py) -- wrappers plus four private
+    # helpers, every one a fixed-frame CALL entry with a canonical epilogue.
+    b".d5lc": dict(label=".d5lc"),
+}
+
+
+def _d5ev_functions(code, base, targets):
+    """The .d5el encoding under its original name (used by the unwind tests)."""
+    return _extension_functions(code, base, targets, **UNWIND_SECTIONS[b".d5el"])
+
+
+def _claim_block(name: bytes, length: int, digest: int = 0) -> bytes:
+    """the 28-byte block that ends one feature's region: magic, feature name, length of its code and a digest of the
+    configuration it was built from (0 when the feature has none)."""
+    return (CLAIM_MAGIC + name[:8].ljust(8, b"\0") + struct.pack("<III", length, digest, 0) + b"\0\0")
+
+
+def _config_digest(value) -> int:
+    """a stable 32-bit digest of a feature's configuration, so a build can tell "installed from these inputs" from
+    "installed from different inputs" (0 = the feature has no configuration to compare)."""
+    if value is None or value == 0:
+        return 0
+    import hashlib
+    if not isinstance(value, (bytes, bytearray)):
+        value = json_dumps(value).encode("utf-8")
+    return struct.unpack("<I", hashlib.sha256(bytes(value)).digest()[:4])[0]
+
+
+def json_dumps(value) -> str:
+    import json
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), default=str)
+
+
+def feature_claims(exe: bytes):
+    """every claim block found in a kit section, as {name, section, rva, length, digest, version, valid}.
+
+    Parsing is bounded: a block must lie wholly inside its section, name a region that starts inside the section
+    and use a known magic, so stray bytes that happen to spell a feature name are not a claim."""
+    pe = pefile.PE(data=exe, fast_load=True)
+    out = []
+    for s in pe.sections:
+        if not s.Name.startswith(KIT_SECTION_PREFIX):
+            continue
+        data = pe.get_data(s.VirtualAddress, s.Misc_VirtualSize)
+        pos = data.find(b"D5KIT")
+        while pos >= 0:
+            chunk = data[pos:pos + CLAIM_SIZE]
+            if len(chunk) < 20 or chunk[:6] not in (CLAIM_MAGIC, CLAIM_LEGACY):
+                pos = data.find(b"D5KIT", pos + 1)
+                continue
+            legacy = chunk[:6] == CLAIM_LEGACY
+            if not legacy and len(chunk) < CLAIM_SIZE:
+                pos = data.find(b"D5KIT", pos + 1)
+                continue
+            name = chunk[6:14].rstrip(b"\0")
+            if legacy:
+                length, digest = struct.unpack_from("<I", chunk, 16), 0
+            else:
+                length, digest, _reserved = struct.unpack_from("<III", chunk, 14)
+            region = pos - length
+            out.append({"name": name, "section": s.Name.rstrip(b"\0").decode("ascii", "replace"),
+                        "rva": s.VirtualAddress + pos, "length": length, "digest": digest,
+                        "version": 1 if legacy else 2,
+                        "valid": bool(name) and region >= 0 and length > 0})
+            pos = data.find(b"D5KIT", pos + 1)
+    return out
+
+
+def _hook_opcode(exe: bytes, pe, va: int, opcode: int) -> bool:
+    """does the byte at `va` start the given hook opcode?  (no opinion when the address is outside the file)"""
+    try:
+        off = pe.get_offset_from_rva(va - IMAGE_BASE)
+    except Exception:
+        return False
+    return off is not None and 0 <= off < len(exe) and exe[off] == opcode
+
+
+def _hook_lands(exe: bytes, pe, va: int, opcode: int, lo: int, hi: int) -> bool:
+    """is the instruction at `va` the jmp/call `opcode` into [lo, hi)?"""
+    try:
+        off = pe.get_offset_from_rva(va - IMAGE_BASE)
+    except Exception:
+        return False
+    if off is None or off + 5 > len(exe) or exe[off] != opcode:
+        return False
+    return lo <= va + 5 + struct.unpack("<i", exe[off + 1:off + 5])[0] < hi
+
+
+def has_feature(exe: bytes, name: bytes, digest=None, hooks=()) -> bool:
+    """whether `exe` carries the kit feature that writes section/claim `name`, *and* that claim is a complete one.
+
+    A section header is shared by every feature that grew into it, so the section name alone is not evidence for the
+    features that did not own the header: the claim block is.  `digest` (see _config_digest) makes a claim built from
+    different inputs count as "not installed", and `hooks` = [(va, opcode)] requires those sites to still jump into
+    the section, so a half-applied or stale patch is rebuilt instead of accepted.  Installs older than the claim
+    block are still recognised by their section header name (there is nothing else to check on them)."""
+    name = name[:8].rstrip(b"\0")
+    want = _config_digest(digest)
+    pe = pefile.PE(data=exe, fast_load=True)
+    if hooks:
+        # the callers name the site in known-build addresses; this exe's own address is what is patched.  Try the
+        # given address and its translation, and check only the candidates that actually hold the hook opcode: when
+        # none does (an exe no translator covers, a payload under inspection) "cannot check" must not read as
+        # "not installed", so the claim alone decides.
+        from . import exemap
+        candidates = []
+        for va, op in hooks:
+            candidates.append((va, op))
+            try:
+                candidates.append((exemap.ACTIVE(va), op))
+            except Exception:
+                pass
+        hooks = [(va, op) for va, op in candidates if _hook_opcode(exe, pe, va, op)]
+        # nothing held the opcode -> no translator covers this exe: the claim alone decides
+    for s in pe.sections:
+        if not s.Name.startswith(KIT_SECTION_PREFIX):
+            continue
+        lo = IMAGE_BASE + s.VirtualAddress
+        hi = lo + s.Misc_VirtualSize
+        for claim in feature_claims(exe):
+            if claim["section"] != s.Name.rstrip(b"\0").decode("ascii", "replace") or claim["name"] != name:
+                continue
+            if not claim["valid"]:
+                continue
+            if claim["version"] >= 2 and want and claim["digest"] != want:
+                continue
+            if hooks and not all(_hook_lands(exe, pe, va, op, lo, hi) for va, op in hooks):
+                continue
+            return True
+    if not want and not hooks:
+        return any(s.Name.rstrip(b"\0") == name for s in pe.sections)
+    return False
+
+
+def add_code_section(exe: bytes, name: bytes, code: bytes, patches, writable=False, digest=None) -> bytes:
+    """Append already-assembled `code` as section `name` and point patch sites at addresses inside it.
+    patches: [(va, original bytes, target va, opcode 0xE9 jmp / 0xE8 call)].  `code` must have been assembled
+    for `code_base(exe, name)`. When the last section is a kit code section, the code is appended to it
+    instead of taking a header (see `_section_layout`); the region ends with a claim block naming `name`.
+    Sections in `UNWIND_SECTIONS` (.d5el, .d5cm) additionally receive fixed-frame
+    unwind records and a relocated exception directory retaining the existing entries."""
     pe = pefile.PE(data=exe)
-    hooks = [(exemap.site(pe, va, orig, "hook site"), orig, body, op) for va, orig, body, op in hooks]
+    base, grow, offset, new_rva = _section_layout(pe, exe)
+    exception = None
+    if name in UNWIND_SECTIONS:
+        code, table_rva, table_size = _d5ev_exception_data(pe, code, base, [p[2] for p in patches],
+                                                          **UNWIND_SECTIONS[name])
+        exception = (table_rva, table_size)
+    length = len(code)
+    code += b"\xCC" * (-len(code) % 4) + _claim_block(name, length, _config_digest(digest))
     sec_align = pe.OPTIONAL_HEADER.SectionAlignment
     file_align = pe.OPTIONAL_HEADER.FileAlignment
     secs = sorted(pe.sections, key=lambda s: s.VirtualAddress)
     last = secs[-1]
     fh = pe.DOS_HEADER.e_lfanew + 4
     sh_base = fh + 20 + pe.FILE_HEADER.SizeOfOptionalHeader
-    # The exe has room for only a few more section headers: when the last section is already one of the kit's code
-    # sections (and ends the file), the new code is appended to it instead of getting a header of its own.
-    grow = (last.Name.startswith(b".d5") and last.Characteristics & 0x20000000
-            and last.PointerToRawData + last.SizeOfRawData == len(exe))
-    if grow:
-        offset = (last.Misc_VirtualSize + 15) // 16 * 16
-        base = IMAGE_BASE + last.VirtualAddress + offset
-    else:
-        new_rva = (last.VirtualAddress + max(last.Misc_VirtualSize, last.SizeOfRawData) + sec_align - 1) \
-            // sec_align * sec_align
-        base = IMAGE_BASE + new_rva
-    code = bytes(shared_bytes) if shared_bytes else (_asm(shared_src, base) if shared_src else b"")
-    starts = []
-    for _, _, body, _ in hooks:
-        code += b"\xCC" * (-len(code) % 16)
-        starts.append(base + len(code))
-        code += _asm(body.replace("{shared}", hex(base)), base + len(code))
     if grow:
         i = pe.sections.index(last)
         sh = sh_base + 40 * i
@@ -145,17 +525,59 @@ def add_hook_section(exe: bytes, name: bytes, hooks, shared_src="", writable=Fal
         nsec = pe.FILE_HEADER.NumberOfSections
         sh_off = sh_base + 40 * nsec
         if sh_off + 40 > pe.OPTIONAL_HEADER.SizeOfHeaders:
-            raise ValueError("no room for another section header")
+            last = _last_section(pe)
+            raise ValueError(
+                f"no room for another section header for {name.decode('ascii', 'replace')}: "
+                f"{pe.FILE_HEADER.NumberOfSections} sections, {pe.OPTIONAL_HEADER.SizeOfHeaders} bytes of headers, "
+                f"and the last section {last.Name.rstrip(bytes(1)).decode('ascii', 'replace')} cannot be grown "
+                "(not a .d5 kit code section, or not at the end of the file)")
         out[sh_off:sh_off + 40] = struct.pack("<8sIIIIIIHHI", name.ljust(8, b"\0"), len(code), new_rva,
                                               len(section), new_raw, 0, 0, 0, 0,
                                               0xE0000020 if writable else 0x60000020)  # code|execute|read(|write)
         struct.pack_into("<H", out, fh + 2, nsec + 1)
         struct.pack_into("<I", out, fh + 20 + 56, (new_rva + len(code) + sec_align - 1) // sec_align * sec_align)
         out += section
-    for (va, orig, _, op), target in zip(hooks, starts):
+    if exception is not None:
+        directory = pe.OPTIONAL_HEADER.DATA_DIRECTORY[3]
+        struct.pack_into("<II", out, directory.get_file_offset(), *exception)
+    from . import exemap
+    for va, orig, target, op in patches:
+        exemap.claim(va, len(orig), f"{name.decode(errors='replace')} patch")   # every in-place patch is in the site ledger
         off = pe.get_offset_from_rva(va - IMAGE_BASE)
         out[off:off + len(orig)] = bytes([op]) + struct.pack("<i", target - (va + 5)) + b"\x90" * (len(orig) - 5)
     return bytes(out)
+
+
+def add_hook_section(exe: bytes, name: bytes, hooks, shared_src="", writable=False, shared_bytes=b"", *,
+                     native_hooks=(), digest=None) -> bytes:
+    """Append a code section `name` to the exe and point hook sites at code inside it.
+    hooks: [(va, original bytes, asm source, opcode 0xE9 jmp / 0xE8 call)].  `shared_src` (a subroutine with its
+    data) is placed first; hook sources reach it as {shared}.  Each source is assembled at its own address, so labels
+    only need to be unique within one source.  shared_bytes: raw data placed first instead (e.g. a zeroed buffer;
+    writable=True makes the section writable).  `hooks` uses known-build VAs; `native_hooks` uses VAs discovered
+    in this input exe and requires exact original bytes (no translation). Assembly in either list still uses
+    known-build hex addresses; write discovered branch targets in decimal, as exemap.at() does.
+
+    Hooks another runtime owns (Overlord's, when its runtime is part of this install) are dropped here, at the
+    one place every feature goes through: see d5lib.overlord_compat."""
+    from . import exemap, overlord_compat
+    hooks, _yielded = overlord_compat.filter_hooks(name, hooks)
+    native_hooks, _native_yielded = overlord_compat.filter_hooks(name, native_hooks, native=True)
+    pe = pefile.PE(data=exe)
+    hooks = [(exemap.site(pe, va, orig, "hook site"), orig, body, op) for va, orig, body, op in hooks]
+    for va, orig, body, op in native_hooks:
+        if pe.get_data(va - IMAGE_BASE, len(orig)) != orig:
+            raise ValueError(f"unexpected exe version: native hook site {va:#x} doesn't match")
+        hooks.append((va, orig, body, op))
+    base = _section_layout(pe, exe)[0]
+    code = bytes(shared_bytes) if shared_bytes else (_asm(shared_src, base) if shared_src else b"")
+    starts = []
+    for _, _, body, _ in hooks:
+        code += b"\xCC" * (-len(code) % 16)
+        starts.append(base + len(code))
+        code += _asm(body.replace("{shared}", hex(base)), base + len(code))
+    patches = [(va, orig, target, op) for (va, orig, _, op), target in zip(hooks, starts)]
+    return add_code_section(exe, name, code, patches, writable, digest=digest)
 
 
 LAYER_SECTION = b".d5ly"
@@ -192,14 +614,48 @@ def build_layer_patch(exe: bytes, own_sprites) -> bytes:
     return add_hook_section(exe, LAYER_SECTION, [(LAYER_VA, LAYER_ORIG, src, 0xE9)])
 
 
-def _jmp(frm, to, total_len):
-    rel = to - (frm + 5)
-    b = b"\xE9" + struct.pack("<i", rel)
-    return b + b"\x90" * (total_len - len(b))
+GFX_SECTION = b".d5gx"
+
+
+def _gfx_src(table, n, entries):
+    """The graphics-id hook (anm_id_for_variant entry, known build 0x14021E9D0): a class in the table returns at once,
+    every other class runs the original function.  A hit returns the class id while every entry is (c, 10000 + c),
+    the code the outfit patch always had; otherwise it returns the entry's second word - 10000 (D4-GFX1: a registry
+    unique's own colour id, which the native rounds to another character's for class ids > 999).  Leaf code: it
+    touches rax, r10 and r11 only and leaves rsp alone."""
+    hit = "mov eax, ecx" if all(a == 10000 + c for c, a in entries) else \
+        "mov eax, dword ptr [r10+4]\n        sub eax, 10000"
+    return f"""
+        lea r10, {table}
+        mov r11d, {max(1, n)}
+    g_loop:
+        cmp dword ptr [r10], ecx
+        je g_hit
+        add r10, 8
+        dec r11d
+        jne g_loop
+        mov qword ptr [rsp+8], rbx
+        jmp {GFX_RET:#x}
+    g_hit:
+        {hit}
+        ret"""
+
+
+def build_gfx_patch(exe: bytes, entries) -> bytes:
+    """Only the graphics-id hook of the outfit patch, for installs without outfits (D4-GFX1).
+    entries: [(class id, 10000 + graphics id)]: anm_id_for_variant returns that graphics id for the class."""
+    entries = sorted({(int(c), int(a)) for c, a in entries})
+    table = "\n".join(f"    .long {c}, {a}" for c, a in entries)
+    src = _gfx_src("[rip + gfx_map]", len(entries), entries) + f"""
+    .align 4
+gfx_map:
+{table}"""
+    return add_hook_section(exe, GFX_SECTION, [(GFX_VA, GFX_ORIG, src, 0xE9)])
 
 
 def is_patched(exe: bytes) -> bool:
-    return SECTION_NAME in exe[:0x400]
+    """the outfit/menu patch is present (by section name or by its claim block, whichever the build kept)"""
+    return has_feature(exe, SECTION_NAME)
 
 
 def colour_swaps(n, a, b):
@@ -219,30 +675,32 @@ def colour_swaps(n, a, b):
 
 
 def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_sprites=(), faces=(),
-                       looks=None, more_label=MORE_LABEL_ID) -> bytes:
+                       looks=None, more_label=MORE_LABEL_ID, gfx_ids=(), own_masks=None) -> bytes:
     """Return a patched copy of a VANILLA exe.
     records: [(group, class id, label string id)] -- every outfit group lists its members in menu order
     (first = the character's normal look, "Default"); label 0 = hidden member (legacy ids that only
     belong to the group).
     faces: [(outfit class id, face animation id)] for outfits with their own face picture.
     looks: {class id: (look index, looks in the group)} -- each look keeps its own custom colours
-    (Strategy Assembly precise colours) in one of the unit's three colour sets; 0 looks = shared."""
+    (Strategy Assembly precise colours) in one of the unit's three colour sets; 0 looks = shared.
+    gfx_ids: [(class id, 10000 + graphics id)] that only the graphics-id hook uses (registry uniques, see
+    build_gfx_patch).
+    own_masks: {outfit class id: outfitapply.OWN_BITS}: outfits with their own stats / evilities ...; a switch
+    to or from one applies the row difference to the unit (OUTFITOWN2, d5lib.outfitapply).  None/empty: the code
+    is exactly what it was without it."""
     from . import exemap
-    pe = pefile.PE(data=exe)
+    pe = pefile.PE(data=exe, fast_load=True)   # headers and sections only: a full parse takes ~1 s
     if is_patched(exe):
         raise ValueError("exe already contains the .d5mod section (patch the vanilla exe)")
     at = {}
     for va, orig in ((OPEN_VA, OPEN_ORIG), (DISPATCH_VA, DISPATCH_ORIG), (HUB_VA, HUB_ORIG),
                      (LAYER_VA, LAYER_ORIG), (FACE_A_VA, FACE_A_ORIG), (FACE_B_VA, FACE_B_ORIG),
                      (GFX_VA, GFX_ORIG)):
-        at[va] = exemap.site(pe, va, orig, "outfit menu patch site")
+        # checked here, claimed where written: add_code_section claims each patch it applies, and the face, layer
+        # and gfx hooks are only written when their features are present
+        at[va] = exemap.site(pe, va, orig, "outfit menu patch site", claim=False)
 
-    sec_align = pe.OPTIONAL_HEADER.SectionAlignment
-    file_align = pe.OPTIONAL_HEADER.FileAlignment
-    last = pe.sections[-1]
-    new_rva = (last.VirtualAddress + last.Misc_VirtualSize + sec_align - 1) // sec_align * sec_align
-    new_raw = (len(exe) + file_align - 1) // file_align * file_align
-    base = IMAGE_BASE + new_rva
+    base = code_base(exe)          # the vanilla exe's first kit section header (.d5mod)
 
     nl = chr(10)
     entries = VANILLA_ENTRIES + [(MENU_VALUE, label_id, help_id)]
@@ -266,6 +724,23 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
     nrec = len(recs)
     faces = [(int(c), int(a)) for c, a in faces]
     flist = nl.join(f"        .long {c}, {a}" for c, a in faces) or "        .long 0, 0"
+    # DRPG-K3: the graphics-id hook (anm_id_for_variant, 0x14021E9D0 in the known build) substitutes the class
+    # id for a unit whose class is in this table.  That is right for an outfit whose own art is named after its
+    # class id (face/banner/portrait at 10000+class, list icon keyed on the class id) -- every low outfit.  It is
+    # WRONG for a declared DRPG costume: its class id is a lease number (30xxx) while its art is named after the
+    # char row's colour (N), and the natives derive the graphics id from the row, not the class id
+    # (anm_id_for_variant 0x14021F4A0 reads row+0xDE; the list-icon pick 0x1401A3010 is called with row+0xDE at
+    # 0x140537232/0x140424917).  Such a look must fall through to the native computation, so only the entries
+    # whose face animation is 10000+class go into the graphics table.  When every entry qualifies (every pack the
+    # kit has built so far) the generated code is byte-identical: same table label, same count.
+    gfx = [(c, a) for c, a in faces if a == 10000 + c] + [(int(c), int(a)) for c, a in gfx_ids]
+    split = gfx != faces
+    glist = nl.join(f"        .long {c}, {a}" for c, a in gfx) or "        .long 0, 0"
+    gfx_lea = "[rip + gfx_map]" if split else "[rip + face_map]"
+    gfx_n = len(gfx) if split else len(faces)
+    gfx_tables = f"    gfx_map:{nl}{glist}{nl}" if split else ""
+    from . import outfitapply
+    own_save, own_call, own_code = outfitapply.src(own_masks or {})
     # Code conventions: every entry point keeps rsp 16-byte aligned at each call; rbx = the character
     # list scene in the dispatch / open hooks; edi = 0 in the dispatch (as the game's own code there).
     src = f"""
@@ -406,11 +881,11 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
         test rax, rax
         je op_done
         mov r12, rax
-        call swap_colours
+        call swap_colours{own_save}
         mov eax, dword ptr [r14+20]
         mov dword ptr [r12+0x2e04], eax
         mov rcx, r12
-        call 0x14015eb80
+        call 0x14015eb80{own_call}
         lea r13, [rip + ACTORS_A]
         mov r14d, 512
         mov r15d, 0x3e0
@@ -619,20 +1094,7 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
         xor r8d, r8d
         jmp {FACE_B_RET:#x}
 
-    gfx_hook:
-        lea r10, [rip + face_map]
-        mov r11d, {max(1, len(faces))}
-    g_loop:
-        cmp dword ptr [r10], ecx
-        je g_hit
-        add r10, 8
-        dec r11d
-        jne g_loop
-        mov qword ptr [rsp+8], rbx
-        jmp {GFX_RET:#x}
-    g_hit:
-        mov eax, ecx
-        ret
+    gfx_hook:{_gfx_src(gfx_lea, gfx_n, gfx)}
 
     face_remap:
         test r10, r10
@@ -692,12 +1154,12 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
     face_map:
 {flist}
         .align 8
-    looks_marker:
+{gfx_tables}    looks_marker:
         .byte 0x44, 0x35, 0x4c, 0x4f, 0x4f, 0x4b, 0x43, 0x42
     looks_cb:
         .quad 0
     outfit_page:
-        .long 0
+        .long 0{own_code}
     ACTORS_A = {ACTORS_A:#x}
     ACTORS_B = {ACTORS_B:#x}
     LEADER = {LEADER:#x}
@@ -721,44 +1183,20 @@ def build_outfit_patch(exe: bytes, records, label_id: int, help_id: int, own_spr
             labels["face_a"] = ins.address
         if ins.mnemonic == "lea" and ins.op_str == "edx, [rax + r10]" and "face_b" not in labels:
             labels["face_b"] = ins.address
-        nf = max(1, len(faces))
+        nf = max(1, gfx_n)
         if ins.mnemonic == "mov" and ins.op_str in ("r11d, " + str(nf), "r11d, " + hex(nf)) and "gfx" not in labels                 and insns[k - 1].mnemonic == "lea":
             labels["gfx"] = insns[k - 1].address
     if len(labels) != 7:
         raise RuntimeError(f"could not locate entry points in assembled code: {labels}")
-    section = code
-    vsize = len(section)
-    section += b"\xCC" * (-len(section) % file_align)
-
-    out = bytearray(exe) + b"\0" * (new_raw - len(exe))
-    nsec = pe.FILE_HEADER.NumberOfSections
-    sh_off = pe.DOS_HEADER.e_lfanew + 4 + 20 + pe.FILE_HEADER.SizeOfOptionalHeader + 40 * nsec
-    if sh_off + 40 > pe.OPTIONAL_HEADER.SizeOfHeaders:
-        raise ValueError("no room for another section header")
-    hdr = struct.pack("<8sIIIIIIHHI", SECTION_NAME.ljust(8, b"\0"), vsize, new_rva, len(section), new_raw,
-                      0, 0, 0, 0, 0xE0000020)  # code | execute | read | write (the outfit list page)
-    out[sh_off:sh_off + 40] = hdr
-    fh = pe.DOS_HEADER.e_lfanew + 4
-    struct.pack_into("<H", out, fh + 2, nsec + 1)
-    oh = fh + 20
-    size_of_image = (new_rva + vsize + sec_align - 1) // sec_align * sec_align
-    struct.pack_into("<I", out, oh + 56, size_of_image)  # SizeOfImage (PE32+ offset 56)
-    out += section
-
-    def put(va, b):
-        off = pe.get_offset_from_rva(va - IMAGE_BASE)
-        out[off:off + len(b)] = b
-
-    def hook(va, label, orig):
-        put(at[va], _jmp(at[va], labels[label], len(orig)))
-
-    hook(DISPATCH_VA, "dispatch", DISPATCH_ORIG)
-    hook(OPEN_VA, "open", OPEN_ORIG)
-    hook(HUB_VA, "hub", HUB_ORIG)
+    patches = [(at[DISPATCH_VA], DISPATCH_ORIG, labels["dispatch"], 0xE9),
+               (at[OPEN_VA], OPEN_ORIG, labels["open"], 0xE9),
+               (at[HUB_VA], HUB_ORIG, labels["hub"], 0xE9)]
     if own_sprites:
-        hook(LAYER_VA, "layer", LAYER_ORIG)
+        patches.append((at[LAYER_VA], LAYER_ORIG, labels["layer"], 0xE9))
     if faces:
-        hook(FACE_A_VA, "face_a", FACE_A_ORIG)
-        hook(FACE_B_VA, "face_b", FACE_B_ORIG)
-        hook(GFX_VA, "gfx", GFX_ORIG)
-    return bytes(out)
+        patches += [(at[FACE_A_VA], FACE_A_ORIG, labels["face_a"], 0xE9),
+                    (at[FACE_B_VA], FACE_B_ORIG, labels["face_b"], 0xE9)]
+    if gfx:
+        patches.append((at[GFX_VA], GFX_ORIG, labels["gfx"], 0xE9))
+    # writable: the outfit list page lives in the section
+    return add_code_section(exe, SECTION_NAME, code, patches, writable=True)

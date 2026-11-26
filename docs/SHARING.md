@@ -72,6 +72,37 @@ person uses Home › More › **Import / update from .zip…**.
 * Rows of the game a mod edits (by index) are the same on every PC and are not moved; two mods editing the same
   row simply layer in load order.
 
+### Sharing many mods at once (`d5lib/modbulk.py`, `tools/share_bulk.py`)
+
+Home › More › **Share all by game…** (tick the games, pick a folder) writes one package per mod into
+`<folder>/<Game>/<mod name>.zip` (the mod's display name, e.g. `Thursday (D1C).zip`; ` [<mod id>]` is added when two mods share a name; the manifest's `file` maps each zip to its mod id) (games: D1C, D4, DD2, DRPG, Overlord, Other; the game comes from the folder prefix,
+else `packs.json`, else `source_import`), a `manifest.json` per game folder (id, name, uid, version, author, requires,
+size, sha256, skipped mods) and a README.txt. The other person uses Home › More › **Import folder…** on that folder.
+
+    python tools/share_bulk.py export OUT_DIR [--games D1C,D4,DD2] [--enabled-only] [--only 'DRPG_Core_Zed_*,Outfit_System']
+    python tools/share_bulk.py import FOLDER [--games D4] [--mods-dir DIR]
+
+On a Mac, double-click **Share by game.command** in the kit folder: it asks for the games (default D1C,D4,DD2) and a
+folder (default `~/Desktop/D5-share-<date>`), runs the export with the kit's `.venv-macos` Python and opens the result.
+Run the CLI with that Python too (`.venv-macos/bin/python tools/share_bulk.py ...`); macOS has no plain `python`.
+
+* Your mods are never changed. Mods made by the importers usually have no stored `uid`; the package then carries a
+  derived one (uuid5 of the folder id; manifest `"uid_stored": false`), so two kits that export the same generated mod
+  (e.g. `D4_Class_2120`) give it the same identity and importing it is an update (the old folder is kept in
+  `state/mod_backups/`). `--stamp-uids` saves the derived uid into the source `mod.json` instead.
+* `requires` names mod folders, which are only names on one PC, so each package also carries `requires_uid` (the uid of
+  each required mod, same order). When the import had to give a required mod another folder name (`X` taken, so `X_2`),
+  `Import folder` points the `requires` of the mods that need it at the new folder. A requirement that is not
+  installed is listed in the summary.
+* Mods that others need are imported first. A mod a chosen mod requires is exported too (flagged `dependency`;
+  `--no-closure` turns that off). One package that fails (unsafe zip, unreadable, ids that cannot move) is listed and
+  the rest still import.
+* Skipped on export: mods imported from someone else with moved ids (`local_ids`), as for a single Share.
+* Package contents are the same as a single Share; `.DS_Store` / `Thumbs.db` are left out.
+* Import needs the vanilla game files read-only (for moving clashing ids); on the command line `--game-dir` and
+  `--kit-dir` (whose `state/` holds the vanilla backups) override the defaults.
+* Importing moves clashing sprite numbers inside LZS-compressed anm files and keeps them compressed.
+
 ## Sharing the whole kit (for other modders)
 
     python tools/make_release.py D:\Release --zip

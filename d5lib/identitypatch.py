@@ -9,7 +9,16 @@ Killia wears an outfit -- a crash.
 Each site gets a stub that compares the unit's BASE class instead: the outfit slot (and the legacy rows that lead
 back to a character) -> the character, by a table built at install from the outfit groups.  Find-a-unit loops map
 both sides.  Unit setup / copy code that needs the exact class is left alone (see the finder's EXCLUDE).
+
+One more check is not a +0x2E04 compare, so the finder cannot see it: the story title override (Sorrow's
+lifecycle_collab_class_title_override, Steam 0x1401C3A90) takes the class id as its argument and switches on it
+(Killia 10 -> "Cryo Blood Overlord" once the story flag is set, else "Wanderer"; 0x3C, 0x46, 100, 0x78, 0xBE, 0xDC and
+five more likewise).  Its callers first copy the ROW's title into the unit (+0xBFC) -- data_lifecycle_refresh_class_titles
+does it for every roster unit on every save load and base entry -- so a unit in an outfit came back as the row's
+plain title (OUTFITTITLE1).  The stub maps the argument at the function's entry (title_site), found in the exe by its
+bytes, so every caller sees the character.
 """
+import re
 import json
 import os
 
@@ -50,6 +59,35 @@ def sites():
         return json.load(f)["sites"]
 
 
+# lifecycle_collab_class_title_override(class id ecx, title rdx): prologue, then "mov r8, rdx; cmp ecx, 0xdc; jg; je;
+# add ecx, -10; cmp ecx, 0xb4" (its switch).  The hook replaces "mov r8, rdx; cmp ecx, 0xdc" (9 bytes).
+_TITLE_RE = re.compile(re.escape(bytes.fromhex("48895c2408" "4889742410" "48897c2418")) + b"(" +
+                       re.escape(bytes.fromhex("4c8bc2" "81f9dc000000")) + b")" +
+                       re.escape(b"\x0f\x8f") + b"....\x0f\x84...." + re.escape(bytes.fromhex("83c1f6" "81f9b4000000")),
+                       re.S)
+TITLE_ORIG = bytes.fromhex("4c8bc281f9dc000000")
+
+
+def title_site(exe: bytes, pe=None):
+    """the va of the title override's "mov r8, rdx; cmp ecx, 0xdc" in this exe (one match in the game's own
+    sections), or None"""
+    import pefile
+    pe = pe or pefile.PE(data=exe, fast_load=True)
+    hits = []
+    for sec in pe.sections:
+        if sec.Name.startswith(exepatch.KIT_SECTION_PREFIX) or not sec.Characteristics & 0x20000000:      # game code only
+            continue
+        raw = exe[sec.PointerToRawData:sec.PointerToRawData + sec.SizeOfRawData]
+        hits += [exepatch.IMAGE_BASE + sec.VirtualAddress + m.start(1) for m in _TITLE_RE.finditer(raw)]
+    return hits[0] if len(hits) == 1 else None
+
+
+def _title_src(va):
+    # flags of the cmp survive the pop; the jump back is written in decimal (a native address: no translation)
+    return "\n".join(["push rax", "mov eax, ecx", "call {shared}", "mov ecx, eax", "pop rax",
+                      "mov r8, rdx", "cmp ecx, 0xdc", f"jmp {va + len(TITLE_ORIG)}"])
+
+
 def patch(exe: bytes, mapping, log=print) -> bytes:
     """exe with the identity stubs (only when some class maps to another)"""
     if not mapping:
@@ -66,6 +104,11 @@ def patch(exe: bytes, mapping, log=print) -> bytes:
             missing.append(s["va"])          # another patch owns these bytes (or this build lacks it): left alone
             continue
         hooks.append((va, orig, s["src"], 0xE9))
+    tva = title_site(exe, pe)
+    if tva is None:
+        log("  identity: story title override not found in this exe: outfits show their row's title")
+    else:
+        hooks.append((exemap.Native(tva), TITLE_ORIG, _title_src(tva), 0xE9))
     if missing:
         log(f"  identity: {len(missing)} site(s) already patched elsewhere, left alone: {', '.join(missing)}")
     log(f"  identity: {len(hooks)} character checks see outfits as their character ({len(mapping)} classes)")

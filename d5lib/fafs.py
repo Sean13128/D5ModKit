@@ -19,7 +19,6 @@ holds the lines of voice set NNNNNN (d5lib.voices).
 Mods add packs by appending them after the vanilla end with a new index + name table behind them (the vanilla bytes
 stay as they are; restoring = the vanilla header back + truncate)."""
 import struct
-import time
 
 from . import sound
 
@@ -124,11 +123,13 @@ def build_pack(files):
 
 def append_patch(path, vanilla_header, vanilla_size, members, log=None):
     """Write `members` ({'voice_en/NNNNNN.dat': bytes}, new or replacing) after the vanilla end of the archive at
-    `path`, then a new index + name table, then the header.  Identical member data is stored once."""
+    `path`, then a new index + name table, then the header.  Identical member data is stored once.
+    The output depends only on the inputs: a new entry's time field is the newest vanilla entry's (the game never
+    reads it; a wall-clock value made the archive's sha differ on every install, SOUNDVOICE1)."""
     with open(path, "r+b") as f:
         entries = read_index(f, vanilla_header)
         by_name = {e.name.lower(): e for e in entries}
-        stamp = int(time.time())
+        stamp = max((e.stamp for e in entries), default=0)
         end = (vanilla_size + ALIGN - 1) // ALIGN * ALIGN
         f.seek(vanilla_size)
         f.write(b"\0" * (end - vanilla_size))

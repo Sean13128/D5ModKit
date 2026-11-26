@@ -1,0 +1,185 @@
+{
+ "version": 1,
+ "strings_budget": "descriptions carry one %s, D5's Magichange prefix",
+ "characters": [
+  {
+   "mod": "D4_Unique_50",
+   "character": {
+    "@text": "da62457d3a0b2d3f0988930e24911eff240be9130c0958c663630f894c1a42c3"
+   },
+   "identity": 10350,
+   "donor": 20611,
+   "new_ids": [],
+   "learn": [
+    [
+     20611,
+     30
+    ],
+    [
+     20612,
+     70
+    ]
+   ],
+   "user1": 610
+  },
+  {
+   "mod": "D4_Unique_190",
+   "character": {
+    "@text": "1a2eb37ff75ce1d8d54a49180a27cbea73c7ec40187eb4304c44d38e9fc7d729"
+   },
+   "identity": 10230,
+   "donor": 22021,
+   "new_ids": [
+    20234,
+    20235,
+    20236
+   ],
+   "learn": [
+    [
+     20234,
+     30
+    ],
+    [
+     20235,
+     70
+    ],
+    [
+     20236,
+     1
+    ]
+   ],
+   "user1": 10230
+  },
+  {
+   "mod": "D4_Unique_230",
+   "character": {
+    "@text": "12df16bf7105705576db9e4470d62abc97fc12588612d74a931a61e9b4c8cc6b"
+   },
+   "identity": 10280,
+   "donor": 22101,
+   "new_ids": [
+    20285,
+    20286
+   ],
+   "learn": [
+    [
+     20285,
+     10
+    ],
+    [
+     20286,
+     50
+    ]
+   ],
+   "user1": 10280
+  },
+  {
+   "mod": "D4_Unique_300",
+   "character": {
+    "@text": "bd38ed7732402b1a93261916c5906016cdccd1a9600b3864208246f6a3299bd0"
+   },
+   "identity": 10380,
+   "donor": 22021,
+   "new_ids": [
+    20385,
+    20386,
+    20387
+   ],
+   "learn": [
+    [
+     20385,
+     15
+    ],
+    [
+     20386,
+     75
+    ],
+    [
+     20387,
+     1
+    ]
+   ],
+   "user1": 10380
+  },
+  {
+   "mod": "D4_Unique_340",
+   "character": {
+    "@text": "908cd52f814794cec51a559f616cbafde4983806836bf9b1e1e6bb209b794bb0"
+   },
+   "identity": 10410,
+   "donor": 22021,
+   "new_ids": [
+    20414,
+    20415,
+    20416
+   ],
+   "learn": [
+    [
+     20414,
+     15
+    ],
+    [
+     20415,
+     75
+    ],
+    [
+     20416,
+     1
+    ]
+   ],
+   "user1": 10410
+  },
+  {
+   "mod": "D4_Unique_420",
+   "character": {
+    "@text": "d70b489bb97ec09dbafa72e461c8320d04e13ad160dd74c8e69a60ea62dc8ffd"
+   },
+   "identity": 18130,
+   "donor": 22141,
+   "new_ids": [
+    28135,
+    28136
+   ],
+   "learn": [
+    [
+     28135,
+     15
+    ],
+    [
+     28136,
+     75
+    ]
+   ],
+   "user1": 18130
+  },
+  {
+   "mod": "D4_Unique_430",
+   "character": {
+    "@text": "4b4cedb8a0da30f786551c15c7df7ab1662c7bef636f4a08fce55c863ef9d795"
+   },
+   "identity": 18140,
+   "donor": 20611,
+   "new_ids": [
+    28144,
+    28145,
+    28146
+   ],
+   "learn": [
+    [
+     28144,
+     30
+    ],
+    [
+     28145,
+     70
+    ],
+    [
+     28146,
+     1
+    ]
+   ],
+   "user1": 18140
+  }
+ ],
+ "problems": []
+}

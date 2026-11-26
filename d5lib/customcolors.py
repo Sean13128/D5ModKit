@@ -19,7 +19,7 @@ import struct
 
 from . import database, exemap
 from .dbpatch import DB_ARCHIVE
-from .exepatch import add_hook_section
+from .exepatch import add_hook_section, has_feature
 from .gamefs import EXE_FILE
 from .modsys import KIT_DIR, register_finalizer, register_patch_handler
 
@@ -126,7 +126,7 @@ def _finalize(ctx):
     counts = palette_counts(ctx, sorted({n for _, n in uniques}))
     deny = sorted({c for c, n in uniques if counts.get(n, 0) < 5})
     exe = ctx.get(EXE_FILE)
-    if SECTION_NAME in exe[:0x400]:
+    if has_feature(exe, SECTION_NAME, hooks=[(EC4_VA, 0xE9)]):
         return
     ctx.put(EXE_FILE, add_hook_section(exe, SECTION_NAME, [(EC4_VA, _ec4_form()[0], _ec4_src(deny), 0xE9)]))
     ctx.log(f"  colours: Extra Color 4 for unique characters ({len(deny)} class(es) without a 5th palette keep 3)")

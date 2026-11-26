@@ -1,0 +1,35 @@
+{
+ "lane": "CARRIERS-20261030",
+ "note": "The D4 evilities this lane's carriers unlock, as shipped rows. One source for the Skill.dat row and the .d5el rule; tools/carriers_rows.py is the only writer. `carrier` names the Kit effect family, `family` is what d5lib.evility compiles. Evidence classes are on every row: `text` (D4's own description), `value` (the D4 data row's parameter), `decomp` (D4/D5 function that proves the mechanic), `slots` (the D5 accumulator words D5's own evilities write).",
+ "rows": [
+  {
+   "d4_id": 230,
+   "d4_name": {"@text": "7afe30bf6f1e43e2e65c2ce5efe3b8f02045bf045e3fdcdfc1759bffe120d469"},
+   "row_id": 8230,
+   "pack": "D4_Class_2190",
+   "class_row": 14690,
+   "role": "learnable",
+   "slot": 0,
+   "verdict": "adapted",
+   "carrier": "element_resistance",
+   "desc": {"@template": "fe858afe449b393fab0655df603c538268b1b092f2a2bf1357775698e8a4baff", "args": [50], "percent": "％"},
+   "value1": 50,
+   "value2": 0,
+   "mana": 1000,
+   "family": "element_resistance",
+   "effects": [{"stat": "all", "value": 50}],
+   "condition": {"kind": "hp_at_or_below", "id": 25},
+   "evidence": [
+    {"@segments": ["text: D4 '", {"@template": "fe858afe449b393fab0655df603c538268b1b092f2a2bf1357775698e8a4baff", "args": [50], "percent": "%", "trim": 1}, "' (mvp-successor-inputs-v1/source-profiles.json, owners[69], id 230)"]},
+    "value: D4 data row parameter 50 (mvp-evility-sweep/catalogs.json d4.230.value)",
+    "decomp: D4 recalc 1401b4010 adds FUN_14010de70(unit,0xe6,0) to its three element slots (line 1985); FUN_14010de70 scales the maximum HP by the row's second byte /100 and refuses the value when that is under min(hp,max) -- inclusive, absolute HP",
+    "slots: D5 unit_stats_evil_percent 1401f2a10 writes the same three aggregate words (8/9/10) for its own Fire Body / Windy Body / Cool Body (4008/4009/4010, lines 1007/1030/1053) and Elemental Rise (1161, lines 614-616)",
+    "carrier: evility/offline_proof_resistance.py 17/17 normal and 17/17 --abi from the game's own CALL 0x14021D964 -> 0x1401F2A10"
+   ],
+   "not_proven": [
+    "the D4 row's second byte is inferred to be 25 from the description's literal; the byte itself was not read out of D4's table",
+    "the two games' element-slot consumption (how the damage formula reads words 8/9/10) is not re-derived offline"
+   ]
+  }
+ ]
+}

@@ -40,7 +40,9 @@ kit writes the table sorted by id.
 
 `Sound_Voice_0.dat` ('FAFULLFS', d5lib/fafs.py): header {magic, u32 count, u64 name table offset, u64 name table size,
 u64 index offset}, index of 48-byte entries {u64 hash, u64 name offset, 0, u64 size, u64 offset, u64 time} sorted by
-hash, then the names. The game finds a file by hash + name (0x1408770b0); hash = 8 bytes, byte i starting as
+hash, then the names. The game's FAFULLFS readers (fs_lookup_name, fs_open_file, fs_seek) use hash, name, +0x10,
+size and offset, never the time field; the kit gives added packs the newest vanilla time so an install of the same mods
+writes the same bytes. The game finds a file by hash + name (0x1408770b0); hash = 8 bytes, byte i starting as
 `len(name) ^ (54 a3 8a 2b 36 70 de ef)[i]`, then `byte[k % 8] ^= name[k]`. Packs are 'DSARC FL' archives of
 `.vag` lines (28-byte header + RIFF MS-ADPCM, mono 48 kHz, 128 samples per block).
 
@@ -60,3 +62,15 @@ copied line a recording replaced. The build writes the rows (EN and JP tables) a
 
 Install: the packs and a new index are appended to `Sound_Voice_0.dat`; the vanilla bytes are not touched (the
 backup is the 0x200-byte header; restoring writes it back and truncates the file).
+
+## Explicit locale recordings
+
+Advanced/imported lines may use `"files": {"EN": "english.vag", "JP": "japanese.vag"}`
+instead of `file` or `src`. The two files remain separate in builds and VoiceBank
+lookups. A locale absent from that map requires `"missing_locale": "silence"` or
+`"fallback_language": "EN"` (naming a present key). Fallback is explicit; no donor
+is substituted. Single-file recordings keep the existing mirrored behavior.
+All referenced locale files survive normal mod save/export. This is a mod-data
+API; locale authoring controls in the custom voice editor are not added here.
+
+Explicit locale records are validated before saving changes or pruning recordings. A declared fallback must name a present file even when both locales already have files; `file`/`src` cannot be mixed with `files`.

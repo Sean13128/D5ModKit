@@ -1,0 +1,687 @@
+EVCAP2 machine-code census of the learned-evility bitmap (pinned exe sha256 49a7530baa1c3e15...)
+
+bitmap: unit record +0x2e70..+0x2eec (125 bytes, 1000 bits)
+id -> position: key array 0x140a04e48, max index 0x140a04e38, rows 0x140a04e50
+
+A. API call sites -- hooked by .d5lc
+   getter 0x14015e630: 20 sites in 32 functions
+   setter 0x14015e6d0: 123 sites
+   0x14018a537  script_cmd_unit_skill_learn (+0xb7)
+   0x1401afc6d  damage_after_hit_evaluate (+0x115d)
+   0x1401d230c  evility_22_learn (+0x18c)
+   0x1402890e1  FUN_140287a10 (+0x16d1)
+   0x140294bed  FUN_140294aa0 (+0x14d)
+   0x1402c0359  FUN_1402c0220 (+0x139)
+   0x1402c0451  FUN_1402c0220 (+0x231)
+   0x1407cd986  FUN_1407cd960 (+0x26)
+   0x1407cdb08  FUN_1407cd9c0 (+0x148)
+   0x1407cdc2c  FUN_1407cdb30 (+0xfc)
+   0x1407d0513  FUN_1407cfa40 (+0xad3)
+   0x1407d1525  FUN_1407d1480 (+0xa5)
+   0x1407d43d1  FUN_1407d3910 (+0xac1)
+   0x14080a1de  s31_sub43_result_reward_screen_update (+0x3ce)
+   0x1408321dc  FUN_140832120 (+0xbc)
+   0x14083221f  FUN_140832120 (+0xff)
+   0x140833265  FUN_1408331c0 (+0xa5)
+   0x1408422de  FUN_140841e00 (+0x4de)
+   0x14084f1ec  FUN_14084eb50 (+0x69c)
+   0x14084f22e  FUN_14084eb50 (+0x6de)
+   0x14018a54c  script_cmd_unit_skill_learn (+0xcc)
+   0x1401afc85  damage_after_hit_evaluate (+0x1175)
+   0x1401d2321  evility_22_learn (+0x1a1)
+   0x1401dadad  FUN_1401da4e0 (+0x8cd)
+   0x1401dadd5  FUN_1401da4e0 (+0x8f5)
+   0x1401dade6  FUN_1401da4e0 (+0x906)
+   0x1401dae09  FUN_1401da4e0 (+0x929)
+   0x140218d51  unit_stats_evil_rebuild_list (+0xc1)
+   0x1402194fe  FUN_140219440 (+0xbe)
+   0x1402890f3  FUN_140287a10 (+0x16e3)
+   0x1403bf08f  FUN_1403bee00 (+0x28f)
+   0x1403bf0b5  FUN_1403bee00 (+0x2b5)
+   0x1403bf0db  FUN_1403bee00 (+0x2db)
+   0x1403bf101  FUN_1403bee00 (+0x301)
+   0x1403bf127  FUN_1403bee00 (+0x327)
+   0x1403bf14d  FUN_1403bee00 (+0x34d)
+   0x1403bf173  FUN_1403bee00 (+0x373)
+   0x1403bf199  FUN_1403bee00 (+0x399)
+   0x1403bf1bf  FUN_1403bee00 (+0x3bf)
+   0x1403bf1e5  FUN_1403bee00 (+0x3e5)
+   0x1403d1a8a  FUN_1403d1520 (+0x56a)
+   0x1403d1aaf  FUN_1403d1520 (+0x58f)
+   0x1403d1ad4  FUN_1403d1520 (+0x5b4)
+   0x1403d1af9  FUN_1403d1520 (+0x5d9)
+   0x1403d1bd6  FUN_1403d1520 (+0x6b6)
+   0x1403d1c86  FUN_1403d1520 (+0x766)
+   0x1404d3b11  FUN_1404d29c0 (+0x1151)
+   0x1404d620b  specials_spawn_reinforcements (+0x6b)
+   0x1404d6257  specials_spawn_reinforcements (+0xb7)
+   0x1404d62b2  specials_spawn_reinforcements (+0x112)
+   0x1404d62fe  specials_spawn_reinforcements (+0x15e)
+   0x1404d634a  specials_spawn_reinforcements (+0x1aa)
+   0x1404d639d  specials_spawn_reinforcements (+0x1fd)
+   0x1404d63f8  specials_spawn_reinforcements (+0x258)
+   0x1404d6444  specials_spawn_reinforcements (+0x2a4)
+   0x1404d6490  specials_spawn_reinforcements (+0x2f0)
+   0x1404d64eb  specials_spawn_reinforcements (+0x34b)
+   0x1404d6537  specials_spawn_reinforcements (+0x397)
+   0x1404d6583  specials_spawn_reinforcements (+0x3e3)
+   0x1404d65d6  specials_spawn_reinforcements (+0x436)
+   0x1404d6631  specials_spawn_reinforcements (+0x491)
+   0x1404d667d  specials_spawn_reinforcements (+0x4dd)
+   0x1404d66d8  specials_spawn_reinforcements (+0x538)
+   0x1404d6724  specials_spawn_reinforcements (+0x584)
+   0x1404d677a  specials_spawn_reinforcements (+0x5da)
+   0x1404d6796  specials_spawn_reinforcements (+0x5f6)
+   0x1404d67f1  specials_spawn_reinforcements (+0x651)
+   0x1404d683d  specials_spawn_reinforcements (+0x69d)
+   0x1404d6898  specials_spawn_reinforcements (+0x6f8)
+   0x1404d68e4  specials_spawn_reinforcements (+0x744)
+   0x1404d693f  specials_spawn_reinforcements (+0x79f)
+   0x1404d6987  specials_spawn_reinforcements (+0x7e7)
+   0x1404d69da  specials_spawn_reinforcements (+0x83a)
+   0x1404d6a2d  specials_spawn_reinforcements (+0x88d)
+   0x1404d6a80  specials_spawn_reinforcements (+0x8e0)
+   0x1404d6ad3  specials_spawn_reinforcements (+0x933)
+   0x1404d6af8  specials_spawn_reinforcements (+0x958)
+   0x1404d6b53  specials_spawn_reinforcements (+0x9b3)
+   0x1404d6b78  specials_spawn_reinforcements (+0x9d8)
+   0x1404d6bc4  specials_spawn_reinforcements (+0xa24)
+   0x1404d6be9  specials_spawn_reinforcements (+0xa49)
+   0x1404d6c35  specials_spawn_reinforcements (+0xa95)
+   0x1404d6c5a  specials_spawn_reinforcements (+0xaba)
+   0x1404d6cb1  specials_spawn_reinforcements (+0xb11)
+   0x1404d6cd6  specials_spawn_reinforcements (+0xb36)
+   0x1404d6cfb  specials_spawn_reinforcements (+0xb5b)
+   0x1404d6d5b  specials_spawn_reinforcements (+0xbbb)
+   0x1404d6d80  specials_spawn_reinforcements (+0xbe0)
+   0x1404d6da5  specials_spawn_reinforcements (+0xc05)
+   0x1404d6dca  specials_spawn_reinforcements (+0xc2a)
+   0x1404d6def  specials_spawn_reinforcements (+0xc4f)
+   0x1404d6e14  specials_spawn_reinforcements (+0xc74)
+   0x1404d6e39  specials_spawn_reinforcements (+0xc99)
+   0x1404d6e5e  specials_spawn_reinforcements (+0xcbe)
+   0x1404d6e83  specials_spawn_reinforcements (+0xce3)
+   0x1404d6ea8  specials_spawn_reinforcements (+0xd08)
+   0x1404d6ecd  specials_spawn_reinforcements (+0xd2d)
+   0x1404d6ef2  specials_spawn_reinforcements (+0xd52)
+   0x1404d6f0f  specials_spawn_reinforcements (+0xd6f)
+   0x1404d6f34  specials_spawn_reinforcements (+0xd94)
+   0x1404d6f59  specials_spawn_reinforcements (+0xdb9)
+   0x1404d6fac  specials_spawn_reinforcements (+0xe0c)
+   0x1404d703d  specials_spawn_reinforcements (+0xe9d)
+   0x1404d7093  specials_spawn_reinforcements (+0xef3)
+   0x1404d70b8  specials_spawn_reinforcements (+0xf18)
+   0x1404d70dd  specials_spawn_reinforcements (+0xf3d)
+   0x1404d711f  specials_spawn_reinforcements (+0xf7f)
+   0x1404d7144  specials_spawn_reinforcements (+0xfa4)
+   0x1404d7169  specials_spawn_reinforcements (+0xfc9)
+   0x1404d71ab  specials_spawn_reinforcements (+0x100b)
+   0x1404d71d0  specials_spawn_reinforcements (+0x1030)
+   0x1404d71f5  specials_spawn_reinforcements (+0x1055)
+   0x1404d7237  specials_spawn_reinforcements (+0x1097)
+   0x1404d725c  specials_spawn_reinforcements (+0x10bc)
+   0x1404d7281  specials_spawn_reinforcements (+0x10e1)
+   0x1404d72c3  specials_spawn_reinforcements (+0x1123)
+   0x1404d72e8  specials_spawn_reinforcements (+0x1148)
+   0x1404d730d  specials_spawn_reinforcements (+0x116d)
+   0x1404d734c  specials_spawn_reinforcements (+0x11ac)
+   0x1404d7371  specials_spawn_reinforcements (+0x11d1)
+   0x1404d7396  specials_spawn_reinforcements (+0x11f6)
+   0x1404d7427  specials_spawn_reinforcements (+0x1287)
+   0x1404d744c  specials_spawn_reinforcements (+0x12ac)
+   0x1404d7471  specials_spawn_reinforcements (+0x12d1)
+   0x1405530dc  sequencer_ctl_s4_update (+0x3bc)
+   0x140553101  sequencer_ctl_s4_update (+0x3e1)
+   0x140553115  sequencer_ctl_s4_update (+0x3f5)
+   0x14055313a  sequencer_ctl_s4_update (+0x41a)
+   0x1406a0ccc  FUN_1406a0b80 (+0x14c)
+   0x1406a0e1c  FUN_1406a0b80 (+0x29c)
+   0x1407c0bd9  FUN_1407c0bb0 (+0x29)
+   0x1407c0bf6  FUN_1407c0bb0 (+0x46)
+   0x1407c0c69  FUN_1407c0c40 (+0x29)
+   0x1407c0c86  FUN_1407c0c40 (+0x46)
+   0x1407c0ea9  FUN_1407c0e80 (+0x29)
+   0x1407c0eb6  FUN_1407c0e80 (+0x36)
+   0x1407c156b  FUN_1407c1540 (+0x2b)
+   0x1407c1588  FUN_1407c1540 (+0x48)
+   0x1407c15f2  FUN_1407c15d0 (+0x22)
+   0x1407cfac9  FUN_1407cfa40 (+0x89)
+   0x1407d3999  FUN_1407d3910 (+0x89)
+   0x140809f29  s31_sub43_result_reward_screen_update (+0x119)
+   0x14085a2db  s31_evility_skill_learning_screen_update (+0x72b)
+
+B. inlined id->bit consumers (no call to hook)
+   FUN_14015bb30
+      0x14015bbbb  movzx eax, byte ptr [rcx + r11 + 0x2e70]
+   FUN_14015e630
+      0x14015e6ad  movzx eax, byte ptr [rax + rbx + 0x2e70]
+   FUN_140295ba0
+      0x140296053  mov byte ptr [rdi + 0x2ece], bl
+   FUN_1403b7a30
+      0x1403b8127  movzx eax, byte ptr [r11 + rbx + 0x2e70]
+      0x1403b8133  mov byte ptr [r11 + rbx + 0x2e70], al
+      0x1403b8196  mov word ptr [rbx + r15 + 0x2e70], di
+      0x1403b8297  movzx eax, byte ptr [r11 + rbx + 0x2e70]
+      0x1403b82a3  mov byte ptr [r11 + rbx + 0x2e70], al
+   FUN_1407c0a00
+      0x1407c0ad5  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c0ae0  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c0b53  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c0b5e  mov byte ptr [rcx + rbx + 0x2e70], al
+   FUN_1407c0cd0
+      0x1407c0da5  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c0db0  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c0e23  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c0e2e  mov byte ptr [rcx + rbx + 0x2e70], al
+   FUN_1407c0f00
+      0x1407c0fb9  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c0fc4  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c1033  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c103e  mov byte ptr [rcx + rbx + 0x2e70], al
+   FUN_1407c1090
+      0x1407c1165  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c1170  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c11f5  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c1200  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c1275  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c1280  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c12f5  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c1300  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c1375  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c1380  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c13f5  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c1400  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c1475  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c1480  mov byte ptr [rcx + rbx + 0x2e70], al
+      0x1407c14e3  movzx eax, byte ptr [rcx + rbx + 0x2e70]
+      0x1407c14ee  mov byte ptr [rcx + rbx + 0x2e70], al
+   reinforcement_spawn_247d0
+      0x14052599c  movzx eax, byte ptr [rcx + r15 + 0x2e70]
+      0x1405259a8  mov byte ptr [rcx + r15 + 0x2e70], al
+   unitstats_set_clear_bit_idx_skill
+      0x14015e753  movzx ecx, byte ptr [rdx + 0x2e70]
+      0x14015e765  mov byte ptr [rdx + 0x2e70], cl
+      0x14015e77d  mov byte ptr [rdx + 0x2e70], cl
+
+C. bitmap pointer taken (copies / resets / clones)
+   FUN_14015e170
+      0x14015e1f7  lea rdi, [rcx + 0x2e70]
+      0x14015e239  lea rdi, [r9 + 0x2e70]
+   FUN_14015e4b0
+      0x14015e520  lea rcx, [rbx + 0x2e70]
+      0x14015e53b  lea rcx, [rbx + 0x2e70]
+   FUN_14015faa0
+      0x14015faca  lea rcx, [rbx + 0x2e70]
+   FUN_1401623e0
+      0x140162439  lea rcx, [rbx + 0x2e70]
+   FUN_1401b17d0
+      0x1401b1b67  lea rcx, [rbx + 0x2e70]
+   FUN_14020d1c0
+      0x1402108cf  lea rcx, [r13 + 0x2e70]
+      0x1402108db  lea rcx, [r13 + 0x2e70]
+   FUN_140219c40
+      0x140219f1f  lea r13, [rbx + 0x2e70]
+      0x14021a005  lea rax, [rdi + 0x2e70]
+   FUN_14028f3c0
+      0x14029068e  lea r10, [r9 + 0x2e70]
+   FUN_1402914c0
+      0x1402924ae  lea r10, [rdx + 0x2e70]
+   FUN_1402e7b30
+      0x1402e7b8d  lea rcx, [rbx + 0x2e70]
+   FUN_1403b7430
+      0x1403b78e7  lea rcx, [rbx + 0x2e70]
+      0x1403b78fa  lea rax, [rdi + 0x2e70]
+   FUN_1403ecba0
+      0x1403ee757  lea rcx, [rbx + 0x2eb0]
+   FUN_140673380
+      0x140673a7f  lea rcx, [rsi + 0x2e70]
+   FUN_1407139c0
+      0x140713c18  lea r9, [rip + 0x2ee1]
+   data_unit_construct_empty
+      0x140064042  lea rbx, [rdi + 0x2e70]
+   database_table_character_name
+      0x140217f28  lea rcx, [rbx + 0x2e70]
+   hubmgr_allocate_dynamic_roster_record
+      0x1402ea6e7  lea rcx, [rbx + 0x2e70]
+   model_update_sweep_units
+      0x1404a99d4  lea rcx, [rdi + 0x2e70]
+   unit_construct
+      0x14021b591  lea rcx, [rbx + 0x2e70]
+
+D. unproven base (not provably the unit record) -- listed, not classified
+   ?
+      0x14009a0ca  mov ecx, dword ptr [rdi + 0x2ec8]
+      0x14009a0d4  movss xmm3, dword ptr [rdi + 0x2ecc]
+      0x14009a0e4  mov edx, dword ptr [rdi + 0x2ed0]
+      0x14015e618  movzx eax, byte ptr [rax + r8 + 0x2e70]
+   FUN_140065370
+      0x140067906  mov qword ptr [rcx + 0x2e70], rax
+      0x14006790d  mov dword ptr [rcx + 0x2e78], eax
+      0x140067913  mov byte ptr [rcx + 0x2e80], al
+      0x140067919  mov qword ptr [rcx + 0x2e84], rax
+      0x140067920  mov qword ptr [rcx + 0x2e90], rax
+      0x140067927  mov dword ptr [rcx + 0x2e98], eax
+      0x14006792d  mov qword ptr [rcx + 0x2ea0], rax
+      0x140067934  mov dword ptr [rcx + 0x2ea8], eax
+      0x14006793a  mov byte ptr [rcx + 0x2eb0], al
+      0x140067940  mov qword ptr [rcx + 0x2eb4], rax
+      0x140067947  mov qword ptr [rcx + 0x2ec0], rax
+      0x14006794e  mov dword ptr [rcx + 0x2ec8], eax
+      0x140067954  mov qword ptr [rcx + 0x2ed0], rax
+      0x14006795b  mov dword ptr [rcx + 0x2ed8], eax
+      0x140067961  mov byte ptr [rcx + 0x2ee0], al
+      0x140067967  mov qword ptr [rcx + 0x2ee4], rax
+   FUN_14006a160
+      0x14006b15d  mov qword ptr [rbx + 0x2ed8], rdi
+      0x14006b16b  mov dword ptr [rbx + 0x2ee0], edi
+      0x14006b175  mov byte ptr [rbx + 0x2ee4], dil
+      0x14006b17e  mov qword ptr [rbx + 0x2ee8], rdi
+   FUN_1400997c0
+      0x140099879  mov dword ptr [rdi + 0x2ea0], esi
+      0x14009987f  mov qword ptr [rdi + 0x2ea8], rsi
+      0x140099886  mov qword ptr [rdi + 0x2ec0], rsi
+      0x14009988d  mov qword ptr [rdi + 0x2ec8], rsi
+      0x140099894  mov qword ptr [rdi + 0x2ed0], rsi
+      0x14009989b  mov byte ptr [rdi + 0x2ed8], bpl
+      0x1400998a2  mov qword ptr [rdi + 0x2eb0], rsi
+      0x1400998a9  mov qword ptr [rdi + 0x2eb8], rsi
+      0x1400998c0  mov word ptr [rdi + 0x2ea4], cx
+      0x14009997f  movsx ecx, word ptr [rdi + 0x2ea4]
+      0x140099993  mov dword ptr [rdi + 0x2ec4], r13d
+      0x14009999a  mov byte ptr [rdi + 0x2ed8], 1
+      0x1400999c4  mov dword ptr [rdi + 0x2ec0], 0x82
+      0x1400999ce  mov dword ptr [rdi + 0x2ec4], 0x96
+      0x1400999dd  movsx eax, word ptr [rdi + 0x2ea4]
+      0x140099a04  mov dword ptr [rdi + 0x2ec0], 0x28
+      0x140099a0e  mov dword ptr [rdi + 0x2ec4], 0x46
+      0x140099a1d  mov dword ptr [rdi + 0x2ec0], 0x32
+      0x140099a27  mov dword ptr [rdi + 0x2ec4], 0x50
+      0x140099a36  mov dword ptr [rdi + 0x2ec0], 0x3c
+      0x140099a40  mov dword ptr [rdi + 0x2ec4], 0x5a
+      0x140099a4f  mov dword ptr [rdi + 0x2ec0], 0xdc
+      0x140099a59  mov dword ptr [rdi + 0x2ec4], 0xbe
+      0x140099a68  mov dword ptr [rdi + 0x2ec0], 0xe6
+      0x140099a72  mov dword ptr [rdi + 0x2ec4], 0xc8
+      0x140099a81  mov dword ptr [rdi + 0x2ec0], 0xf0
+      0x140099ab3  mov dword ptr [rdi + 0x2ec0], 0x14
+      0x140099abd  mov dword ptr [rdi + 0x2ec4], 0x50
+      0x140099acc  mov dword ptr [rdi + 0x2ec0], 0xa0
+      0x140099ad6  mov dword ptr [rdi + 0x2ec4], 0xbe
+      0x140099ae5  mov dword ptr [rdi + 0x2ec0], 0xaa
+      0x140099aef  mov dword ptr [rdi + 0x2ec4], 0xc8
+      0x140099afe  mov dword ptr [rdi + 0x2ec0], 0xb4
+      0x140099b30  mov dword ptr [rdi + 0x2ec0], 0xa
+      0x140099b3a  mov dword ptr [rdi + 0x2ec4], 0x46
+      0x140099b46  mov dword ptr [rdi + 0x2ec0], 0x1e
+      0x140099b50  mov dword ptr [rdi + 0x2ec4], 0x5a
+      0x140099b5c  mov dword ptr [rdi + 0x2ec0], 0x1e
+      0x140099b66  mov dword ptr [rdi + 0x2ec4], 0xbe
+      0x140099b72  mov dword ptr [rdi + 0x2ec0], 0x1e
+      0x140099b7c  mov dword ptr [rdi + 0x2ec4], 0xc8
+      0x140099b88  mov dword ptr [rdi + 0x2ec0], 0x1e
+      0x140099b94  mov dword ptr [rdi + 0x2ec0], 0xa
+      0x140099b9e  mov dword ptr [rdi + 0x2ec4], 0xd2
+      0x140099ba8  mov eax, dword ptr [rdi + 0x2ec4]
+      0x140099bb5  mov dword ptr [rdi + 0x2ec4], eax
+      0x140099bc5  mov dword ptr [rdi + 0x2ea0], ecx
+      0x140099bd2  mov dword ptr [rdi + 0x2ec8], eax
+      0x140099be1  movss dword ptr [rdi + 0x2ecc], xmm0
+      0x140099be9  mov dword ptr [rdi + 0x2ed0], esi
+      0x140099bef  mov dword ptr [rdi + 0x2ea8], esi
+      0x140099bf5  mov dword ptr [rdi + 0x2eac], r12d
+      0x140099bfc  mov dword ptr [rdi + 0x2ed4], 0x276
+      0x140099c06  cmp si, word ptr [rdi + 0x2ea4]
+      0x140099c53  mov r8d, dword ptr [rdi + 0x2ed4]
+      0x140099c9b  mov dword ptr [rdi + 0x2ed4], r8d
+      0x140099ca4  movsx eax, word ptr [rdi + 0x2ea4]
+   FUN_140099da0
+      0x140099dc1  mov rcx, qword ptr [rcx + 0x2eb0]
+      0x140099dce  mov rcx, qword ptr [rbx + 0x2eb8]
+   FUN_140099e20
+      0x140099e3b  cmp dword ptr [rcx + 0x2ec4], -1
+      0x140099e58  mov ecx, dword ptr [rdi + 0x2ec4]
+      0x140099e61  mov qword ptr [rdi + 0x2eb8], rax
+      0x140099e76  mov r10, qword ptr [rdi + 0x2eb8]
+      0x140099ead  mov rax, qword ptr [rdi + 0x2eb8]
+      0x140099ebb  mov rax, qword ptr [rdi + 0x2eb8]
+      0x140099ef3  mov rcx, qword ptr [rdi + 0x2eb8]
+      0x140099f01  mov rax, qword ptr [rdi + 0x2eb8]
+      0x140099f1a  mov ecx, dword ptr [rdi + 0x2ec0]
+      0x140099f25  mov qword ptr [rdi + 0x2eb0], rax
+      0x140099f3a  mov r10, qword ptr [rdi + 0x2eb0]
+      0x140099f75  mov rax, qword ptr [rdi + 0x2eb0]
+      0x140099f83  mov rax, qword ptr [rdi + 0x2eb0]
+      0x140099fb6  mov rcx, qword ptr [rdi + 0x2eb0]
+      0x140099fc4  mov rax, qword ptr [rdi + 0x2eb0]
+   FUN_14009a310
+      0x14009a316  inc dword ptr [rcx + 0x2ea8]
+      0x14009a31f  mov rax, qword ptr [rcx + 0x2eb0]
+      0x14009a459  mov eax, dword ptr [rbx + 0x2ea8]
+      0x14009a462  mov dword ptr [rbx + 0x2eac], eax
+      0x14009a477  mov eax, dword ptr [rbx + 0x2eac]
+      0x14009a480  cmp dword ptr [rbx + 0x2ea8], eax
+      0x14009a488  mov rax, qword ptr [rbx + 0x2eb0]
+      0x14009a4af  mov rdx, qword ptr [rbx + 0x2eb8]
+      0x14009a4dd  mov ecx, dword ptr [rbx + 0x2eac]
+      0x14009a4e8  cmp dword ptr [rbx + 0x2ea8], ecx
+      0x14009a4fb  mov rax, qword ptr [rbx + 0x2eb0]
+   FUN_14009a550
+      0x14009a5e3  movzx ecx, word ptr [rdi + 0x2ea4]
+      0x14009a6fc  mov r8d, dword ptr [rdi + 0x2ed4]
+      0x14009a756  mov r8d, dword ptr [rdi + 0x2ed4]
+      0x14009a809  mov r11d, dword ptr [rdi + 0x2ed4]
+      0x14009a8ab  mov r11d, dword ptr [rdi + 0x2ed4]
+      0x14009a8c6  mov ecx, dword ptr [rdi + 0x2ea0]
+      0x14009a972  movzx eax, byte ptr [rdi + 0x2ed8]
+      0x14009a9a0  mov r9, qword ptr [rdi + 0x2eb8]
+      0x14009a9c7  mov eax, dword ptr [rdi + 0x2ec0]
+      0x14009ab9c  movsx ecx, word ptr [rdi + 0x2ea4]
+   FUN_14009ad90
+      0x14009afd9  mov dword ptr [rdi + 0x2eec], eax
+      0x14009b016  mov qword ptr [rdi + 0x2ee0], rsi
+      0x14009b01d  mov dword ptr [rdi + 0x2ee8], edx
+   FUN_14009b040
+      0x14009b046  mov edx, dword ptr [rcx + 0x2ee8]
+      0x14009b067  mov r10, qword ptr [rbx + 0x2ee0]
+      0x14009b08c  mov qword ptr [rbx + 0x2ee0], rax
+      0x14009b0b1  mov rax, qword ptr [rbx + 0x2ee0]
+      0x14009b0b8  mov ecx, dword ptr [rbx + 0x2ee8]
+      0x14009b0cb  mov rax, qword ptr [rbx + 0x2ee0]
+      0x14009b118  movzx eax, word ptr [rbx + 0x2ee8]
+      0x14009b12d  mov r10, qword ptr [rbx + 0x2ee0]
+      0x14009b185  mov rcx, qword ptr [rbx + 0x2ee0]
+      0x14009b191  mov rax, qword ptr [rbx + 0x2ee0]
+      0x14009b1d6  mov rax, qword ptr [rbx + 0x2ee0]
+      0x14009b1f5  mov rax, qword ptr [rbx + 0x2ee0]
+      0x14009b1fc  mov ecx, dword ptr [rbx + 0x2eec]
+      0x14009b21e  mov rax, qword ptr [rbx + 0x2ee0]
+      0x14009b22c  mov rax, qword ptr [rbx + 0x2ee0]
+      0x14009b268  mov r10, qword ptr [rbx + 0x2ee0]
+      0x14009b27c  mov r10, qword ptr [rbx + 0x2ee0]
+      0x14009b2b5  mov r10, qword ptr [rbx + 0x2ee0]
+      0x14009b2c7  add eax, dword ptr [rbx + 0x2ed4]
+   FUN_14009b350
+      0x14009b37d  mov rcx, qword ptr [rcx + 0x2ee0]
+      0x14009b38a  mov edi, dword ptr [rbx + 0x2ee8]
+   FUN_1400b7ea0
+      0x1400ba42c  mov qword ptr [rcx + 0x2e70], rax
+      0x1400ba433  mov dword ptr [rcx + 0x2e78], eax
+      0x1400ba439  mov qword ptr [rcx + 0x2e80], rax
+      0x1400ba440  mov dword ptr [rcx + 0x2e88], eax
+      0x1400ba446  mov qword ptr [rcx + 0x2e90], rax
+      0x1400ba44d  mov dword ptr [rcx + 0x2e98], eax
+      0x1400ba453  mov qword ptr [rcx + 0x2ea0], rax
+      0x1400ba45a  mov dword ptr [rcx + 0x2ea8], eax
+      0x1400ba460  mov qword ptr [rcx + 0x2eb0], rax
+      0x1400ba467  mov dword ptr [rcx + 0x2eb8], eax
+      0x1400ba46d  mov qword ptr [rcx + 0x2ec0], rax
+      0x1400ba474  mov dword ptr [rcx + 0x2ec8], eax
+      0x1400ba47a  mov qword ptr [rcx + 0x2ed0], rax
+      0x1400ba481  mov dword ptr [rcx + 0x2ed8], eax
+      0x1400ba487  mov qword ptr [rcx + 0x2ee0], rax
+      0x1400ba48e  mov dword ptr [rcx + 0x2ee8], eax
+   FUN_1402c0220
+      0x1402c04cd  movsx ecx, word ptr [rdx + rsi + 0x2e70]
+      0x1402c04f2  inc word ptr [rcx + rsi + 0x2e70]
+      0x1402c04fe  add word ptr [rdx + rsi + 0x2e70], ax
+   FUN_14064e960
+      0x14064ec2e  mov dword ptr [rdi + 0x2ed8], 0xffffffff
+   FUN_140666920
+      0x140666c56  mov rcx, qword ptr [rbx + 0x2e80]
+      0x140666c7e  mov r11, qword ptr [rbx + 0x2e80]
+      0x140666c93  cmp dword ptr [rbx + 0x2e94], -1
+      0x140666ca5  mov dword ptr [rbx + 0x2e9c], r10d
+      0x140666cb2  mov dword ptr [rbx + 0x2ea0], edx
+      0x140666cf8  mov rax, qword ptr [rbx + 0x2e80]
+      0x140666d12  mov rax, qword ptr [rbx + 0x2e80]
+      0x140666d5a  mov rax, qword ptr [rbx + 0x2e80]
+      0x140666d73  mov rax, qword ptr [rbx + 0x2e80]
+      0x140666d88  mov rax, qword ptr [rbx + 0x2e88]
+   FUN_1406674f0
+      0x1406677b0  mov rax, qword ptr [r15 + 0x2e80]
+      0x1406677c9  mov rax, qword ptr [r15 + 0x2e80]
+      0x1406677dd  mov rax, qword ptr [r15 + 0x2e88]
+   FUN_1406678d0
+      0x140667e11  mov rax, qword ptr [rdi + 0x2e80]
+      0x140667e30  mov rax, qword ptr [rdi + 0x2e88]
+   FUN_1407264d0
+      0x14072a482  mov qword ptr [rcx + 0x2e70], 0
+      0x14072a48d  mov qword ptr [rcx + 0x2e78], 0
+      0x14072a498  mov qword ptr [rcx + 0x2e80], 0
+      0x14072a4a3  mov qword ptr [rcx + 0x2e88], 0
+      0x14072a4ae  mov qword ptr [rcx + 0x2e90], 0
+      0x14072a4b9  mov qword ptr [rcx + 0x2e98], 0
+      0x14072a4c4  mov qword ptr [rcx + 0x2ea0], 0
+      0x14072a4cf  mov qword ptr [rcx + 0x2ea8], 0
+      0x14072a4da  mov qword ptr [rcx + 0x2eb0], 0
+      0x14072a4e5  mov qword ptr [rcx + 0x2eb8], 0
+      0x14072a4f0  mov qword ptr [rcx + 0x2ec0], 0
+      0x14072a4fb  mov qword ptr [rcx + 0x2ec8], 0
+      0x14072a506  mov qword ptr [rcx + 0x2ed0], 0
+      0x14072a511  mov qword ptr [rcx + 0x2ed8], 0
+      0x14072a51c  mov qword ptr [rcx + 0x2ee0], 0
+      0x14072a527  mov qword ptr [rcx + 0x2ee8], 0
+   FUN_140749000
+      0x140749fd9  mov qword ptr [rdi + 0x2ee8], rsi
+   FUN_14074f0a0
+      0x1407500c4  mov qword ptr [rdi + 0x2ee8], r15
+   FUN_1407569a0
+      0x1407579c4  mov qword ptr [rdi + 0x2ee8], r15
+   field_ground_load_terrain
+      0x14022a8b9  movups xmm1, xmmword ptr [rbx + 0x2e70]
+      0x14022a8c7  movups xmm0, xmmword ptr [rbx + 0x2e80]
+      0x14022a8d5  movups xmm1, xmmword ptr [rbx + 0x2e90]
+      0x14022a8e3  movups xmm0, xmmword ptr [rbx + 0x2ea0]
+      0x14022a8f1  movups xmm1, xmmword ptr [rbx + 0x2eb0]
+      0x14022a8ff  movups xmm0, xmmword ptr [rbx + 0x2ec0]
+      0x14022a90d  movups xmm1, xmmword ptr [rbx + 0x2ed0]
+      0x14022a91b  movups xmm0, xmmword ptr [rbx + 0x2ee0]
+      0x14022e0a7  movups xmm1, xmmword ptr [rbx + 0x2e70]
+      0x14022e0b5  movups xmm0, xmmword ptr [rbx + 0x2e80]
+      0x14022e0c3  movups xmm1, xmmword ptr [rbx + 0x2e90]
+      0x14022e0d1  movups xmm0, xmmword ptr [rbx + 0x2ea0]
+      0x14022e0df  movups xmm1, xmmword ptr [rbx + 0x2eb0]
+      0x14022e0ed  movups xmm0, xmmword ptr [rbx + 0x2ec0]
+      0x14022e0fb  movups xmm1, xmmword ptr [rbx + 0x2ed0]
+      0x14022e109  movups xmm0, xmmword ptr [rbx + 0x2ee0]
+      0x140231895  movups xmm1, xmmword ptr [rbx + 0x2e70]
+      0x1402318a3  movups xmm0, xmmword ptr [rbx + 0x2e80]
+      0x1402318b1  movups xmm1, xmmword ptr [rbx + 0x2e90]
+      0x1402318bf  movups xmm0, xmmword ptr [rbx + 0x2ea0]
+      0x1402318cd  movups xmm1, xmmword ptr [rbx + 0x2eb0]
+      0x1402318db  movups xmm0, xmmword ptr [rbx + 0x2ec0]
+      0x1402318e9  movups xmm1, xmmword ptr [rbx + 0x2ed0]
+      0x1402318f7  movups xmm0, xmmword ptr [rbx + 0x2ee0]
+      0x14023542a  movups xmm1, xmmword ptr [rbx + 0x2e70]
+      0x140235438  movups xmm0, xmmword ptr [rbx + 0x2e80]
+      0x140235446  movups xmm1, xmmword ptr [rbx + 0x2e90]
+      0x140235454  movups xmm0, xmmword ptr [rbx + 0x2ea0]
+      0x140235462  movups xmm1, xmmword ptr [rbx + 0x2eb0]
+      0x140235470  movups xmm0, xmmword ptr [rbx + 0x2ec0]
+      0x14023547e  movups xmm1, xmmword ptr [rbx + 0x2ed0]
+      0x14023548c  movups xmm0, xmmword ptr [rbx + 0x2ee0]
+      0x140238c00  movups xmm1, xmmword ptr [rbx + 0x2e70]
+      0x140238c0e  movups xmm0, xmmword ptr [rbx + 0x2e80]
+      0x140238c1c  movups xmm1, xmmword ptr [rbx + 0x2e90]
+      0x140238c2a  movups xmm0, xmmword ptr [rbx + 0x2ea0]
+      0x140238c38  movups xmm1, xmmword ptr [rbx + 0x2eb0]
+      0x140238c46  movups xmm0, xmmword ptr [rbx + 0x2ec0]
+      0x140238c54  movups xmm1, xmmword ptr [rbx + 0x2ed0]
+      0x140238c62  movups xmm0, xmmword ptr [rbx + 0x2ee0]
+   map_object_stamp_terrain_and_bind
+      0x140242289  movups xmm1, xmmword ptr [rdi + 0x2e70]
+      0x140242297  movups xmm0, xmmword ptr [rdi + 0x2e80]
+      0x1402422a5  movups xmm1, xmmword ptr [rdi + 0x2e90]
+      0x1402422b3  movups xmm0, xmmword ptr [rdi + 0x2ea0]
+      0x1402422c1  movups xmm1, xmmword ptr [rdi + 0x2eb0]
+      0x1402422cf  movups xmm0, xmmword ptr [rdi + 0x2ec0]
+      0x1402422dd  movups xmm1, xmmword ptr [rdi + 0x2ed0]
+      0x1402422eb  movups xmm0, xmmword ptr [rdi + 0x2ee0]
+
+stack-relative mentions excluded (301): not a unit record
+
+key-array / max-index / row-array references
+   0x14008d0f0  row_array damage_skill_dat (+0x0)  cmp qword ptr [rip + 0x977d58], 0
+   0x14008d0fd  key_array damage_skill_dat (+0xd)  mov r11, qword ptr [rip + 0x977d44]
+   0x14008d109  max_index damage_skill_dat (+0x19)  movzx ecx, word ptr [rip + 0x977d28]
+   0x14008d14e  row_array damage_skill_dat (+0x5e)  add rax, qword ptr [rip + 0x977cfb]
+   0x14015bb3c  key_array FUN_14015bb30 (+0xc)  mov r10, qword ptr [rip + 0x8a9305]
+   0x14015bb4e  max_index FUN_14015bb30 (+0x1e)  movzx r8d, word ptr [rip + 0x8a92e2]
+   0x14015e635  key_array FUN_14015e630 (+0x5)  mov r11, qword ptr [rip + 0x8a680c]
+   0x14015e647  max_index FUN_14015e630 (+0x17)  movzx r8d, word ptr [rip + 0x8a67e9]
+   0x14015e6da  key_array unitstats_set_clear_bit_idx_skill (+0xa)  mov rbx, qword ptr [rip + 0x8a6767]
+   0x14015e6ec  max_index unitstats_set_clear_bit_idx_skill (+0x1c)  movzx r9d, word ptr [rip + 0x8a6744]
+   0x1401afd36  row_array damage_after_hit_evaluate (+0x1226)  cmp qword ptr [rip + 0x855112], 0
+   0x1401d24e8  row_array evility_22_learn (+0x368)  cmp qword ptr [rip + 0x832960], 0
+   0x14027f909  row_array FUN_14027f540 (+0x3c9)  cmp qword ptr [rip + 0x785540], rsi
+   0x14028391b  row_array FUN_140283690 (+0x28b)  cmp qword ptr [rip + 0x78152e], rsi
+   0x14028910d  row_array FUN_140287a10 (+0x16fd)  cmp qword ptr [rip + 0x77bd3b], 0
+   0x1402933b6  row_array FUN_140293280 (+0x136)  mov rdi, qword ptr [rip + 0x771a93]
+   0x1402933c8  key_array FUN_140293280 (+0x148)  mov rbx, qword ptr [rip + 0x771a79]
+   0x1402933d4  max_index FUN_140293280 (+0x154)  movzx r8d, word ptr [rip + 0x771a5c]
+   0x140293974  row_array FUN_140293280 (+0x6f4)  cmp qword ptr [rip + 0x7714d5], r14
+   0x140293d6f  row_array FUN_140293280 (+0xaef)  mov rsi, qword ptr [rip + 0x7710da]
+   0x140293d7b  key_array FUN_140293280 (+0xafb)  mov r11, qword ptr [rip + 0x7710c6]
+   0x140293d87  max_index FUN_140293280 (+0xb07)  movzx r8d, word ptr [rip + 0x7710a9]
+   0x14029453b  row_array FUN_140293280 (+0x12bb)  cmp qword ptr [rip + 0x77090e], r14
+   0x140294b8a  row_array FUN_140294aa0 (+0xea)  mov r15, qword ptr [rip + 0x7702bf]
+   0x140294ba1  max_index FUN_140294aa0 (+0x101)  movzx eax, word ptr [rip + 0x770290]
+   0x140294c95  row_array FUN_140294aa0 (+0x1f5)  mov r15, qword ptr [rip + 0x7701b4]
+   0x140294fdc  row_array FUN_140294e80 (+0x15c)  mov r14, qword ptr [rip + 0x76fe6d]
+   0x140294fe3  key_array FUN_140294e80 (+0x163)  mov rdi, qword ptr [rip + 0x76fe5e]
+   0x14029503e  max_index FUN_140294e80 (+0x1be)  movzx r8d, word ptr [rip + 0x76fdf2]
+   0x1402950b5  row_array FUN_140294e80 (+0x235)  mov r14, qword ptr [rip + 0x76fd94]
+   0x1402950bc  key_array FUN_140294e80 (+0x23c)  mov rdi, qword ptr [rip + 0x76fd85]
+   0x14029510a  row_array FUN_140294e80 (+0x28a)  mov r15, qword ptr [rip + 0x76fd3f]
+   0x140295111  key_array FUN_140294e80 (+0x291)  mov rdi, qword ptr [rip + 0x76fd30]
+   0x14029516e  max_index FUN_140294e80 (+0x2ee)  movzx r8d, word ptr [rip + 0x76fcc2]
+   0x1402951e5  row_array FUN_140294e80 (+0x365)  mov r15, qword ptr [rip + 0x76fc64]
+   0x1402951ec  key_array FUN_140294e80 (+0x36c)  mov rdi, qword ptr [rip + 0x76fc55]
+   0x140296964  row_array FUN_140295ba0 (+0xdc4)  mov rbx, qword ptr [rip + 0x76e4e5]
+   0x14029696e  key_array FUN_140295ba0 (+0xdce)  mov r11, qword ptr [rip + 0x76e4d3]
+   0x140296a28  max_index FUN_140295ba0 (+0xe88)  movzx r9d, word ptr [rip + 0x76e408]
+   0x140296c9a  max_index FUN_140295ba0 (+0x10fa)  movzx r9d, word ptr [rip + 0x76e196]
+   0x140296d26  max_index FUN_140295ba0 (+0x1186)  movzx r8d, word ptr [rip + 0x76e10a]
+   0x140296f9b  row_array FUN_140295ba0 (+0x13fb)  mov rbx, qword ptr [rip + 0x76deae]
+   0x140296faa  key_array FUN_140295ba0 (+0x140a)  mov r11, qword ptr [rip + 0x76de97]
+   0x140297137  key_array FUN_140295ba0 (+0x1597)  mov r11, qword ptr [rip + 0x76dd0a]
+   0x14029713e  row_array FUN_140295ba0 (+0x159e)  mov rbx, qword ptr [rip + 0x76dd0b]
+   0x140297691  key_array FUN_140297670 (+0x21)  mov r11, qword ptr [rip + 0x76d7b0]
+   0x1402976a5  row_array FUN_140297670 (+0x35)  mov rbp, qword ptr [rip + 0x76d7a4]
+   0x14029771f  max_index FUN_140297670 (+0xaf)  movzx ecx, word ptr [rip + 0x76d712]
+   0x14029eca9  row_array FUN_14029ea20 (+0x289)  cmp qword ptr [rip + 0x7661a0], r15
+   0x1402a5097  row_array FUN_1402a4d30 (+0x367)  mov rdi, qword ptr [rip + 0x75fdb2]
+   0x1402a50a3  key_array FUN_1402a4d30 (+0x373)  mov r11, qword ptr [rip + 0x75fd9e]
+   0x1402a50af  max_index FUN_1402a4d30 (+0x37f)  movzx r9d, word ptr [rip + 0x75fd81]
+   0x1402a5687  row_array FUN_1402a4d30 (+0x957)  mov rdi, qword ptr [rip + 0x75f7c2]
+   0x1402a5693  key_array FUN_1402a4d30 (+0x963)  mov r11, qword ptr [rip + 0x75f7ae]
+   0x1402a569f  max_index FUN_1402a4d30 (+0x96f)  movzx r9d, word ptr [rip + 0x75f791]
+   0x1402bef46  row_array hud_unit_name_read (+0x86)  cmp qword ptr [rip + 0x745f02], 0
+   0x1403b80c6  key_array FUN_1403b7a30 (+0x696)  cmp qword ptr [rip + 0x64cd7a], 0
+   0x1403b80d0  max_index FUN_1403b7a30 (+0x6a0)  movzx r8d, word ptr [rip + 0x64cd60]
+   0x1403b80e0  key_array FUN_1403b7a30 (+0x6b0)  mov rcx, qword ptr [rip + 0x64cd61]
+   0x1403b8235  key_array FUN_1403b7a30 (+0x805)  cmp qword ptr [rip + 0x64cc0b], 0
+   0x1403b823f  max_index FUN_1403b7a30 (+0x80f)  movzx r8d, word ptr [rip + 0x64cbf1]
+   0x1403b8250  key_array FUN_1403b7a30 (+0x820)  mov rcx, qword ptr [rip + 0x64cbf1]
+   0x140426400  row_array FUN_140426220 (+0x1e0)  cmp qword ptr [rip + 0x5dea48], 0
+   0x140468ee3  row_array FUN_140468cf0 (+0x1f3)  cmp qword ptr [rip + 0x59bf66], rbx
+   0x140475efd  row_array character_name_read_75250 (+0xcad)  cmp qword ptr [rip + 0x58ef4c], r15
+   0x140476cc0  row_array character_name_read_75250 (+0x1a70)  cmp qword ptr [rip + 0x58e188], 0
+   0x14047fe52  row_array FUN_14047f1c0 (+0xc92)  cmp qword ptr [rip + 0x584ff7], r12
+   0x140480e17  row_array FUN_14047f1c0 (+0x1c57)  cmp qword ptr [rip + 0x584031], 0
+   0x1405258a1  row_array reinforcement_spawn_247d0 (+0x10d1)  mov r15, qword ptr [rip + 0x4df5a8]
+   0x1405258ac  key_array reinforcement_spawn_247d0 (+0x10dc)  mov r10, qword ptr [rip + 0x4df595]
+   0x1405258df  max_index reinforcement_spawn_247d0 (+0x110f)  movzx esi, word ptr [rip + 0x4df552]
+   0x1405259c8  key_array reinforcement_spawn_247d0 (+0x11f8)  mov r10, qword ptr [rip + 0x4df479]
+   0x1405259cf  row_array reinforcement_spawn_247d0 (+0x11ff)  mov r15, qword ptr [rip + 0x4df47a]
+   0x140660b72  row_array FUN_14065feb0 (+0xcc2)  cmp qword ptr [rip + 0x3a42d7], r12
+   0x140661c85  row_array FUN_14065feb0 (+0x1dd5)  cmp qword ptr [rip + 0x3a31c3], 0
+   0x140663103  row_array FUN_140662ce0 (+0x423)  cmp qword ptr [rip + 0x3a1d46], r15
+   0x1406a0c13  row_array FUN_1406a0b80 (+0x93)  mov r14, qword ptr [rip + 0x364236]
+   0x1406a0c1a  key_array FUN_1406a0b80 (+0x9a)  mov rbx, qword ptr [rip + 0x364227]
+   0x1406a0c5a  max_index FUN_1406a0b80 (+0xda)  movzx r10d, word ptr [rip + 0x3641d6]
+   0x1406a0cd1  row_array FUN_1406a0b80 (+0x151)  mov r14, qword ptr [rip + 0x364178]
+   0x1406a0cd8  key_array FUN_1406a0b80 (+0x158)  mov rbx, qword ptr [rip + 0x364169]
+   0x1406a0da7  max_index FUN_1406a0b80 (+0x227)  movzx r9d, word ptr [rip + 0x364089]
+   0x1406a0e21  row_array FUN_1406a0b80 (+0x2a1)  mov r14, qword ptr [rip + 0x364028]
+   0x1406a0e28  key_array FUN_1406a0b80 (+0x2a8)  mov rbx, qword ptr [rip + 0x364019]
+   0x14073b8f3  row_array FUN_14073b660 (+0x293)  cmp qword ptr [rip + 0x2c9556], r14
+   0x1407a1cf3  row_array s13subs_sub2_shop_rosen_queen_draw (+0x123)  cmp qword ptr [rip + 0x263156], rsi
+   0x1407a540a  row_array FUN_1407a50e0 (+0x32a)  cmp qword ptr [rip + 0x25fa3f], rsi
+   0x1407b14b0  row_array FUN_1407b1470 (+0x40)  cmp qword ptr [rip + 0x253998], 0
+   0x1407c0a73  key_array FUN_1407c0a00 (+0x73)  mov r11, qword ptr [rip + 0x2443ce]
+   0x1407c0a7f  max_index FUN_1407c0a00 (+0x7f)  movzx r8d, word ptr [rip + 0x2443b1]
+   0x1407c0af4  key_array FUN_1407c0a00 (+0xf4)  mov r10, qword ptr [rip + 0x24434d]
+   0x1407c0b00  max_index FUN_1407c0a00 (+0x100)  movzx r8d, word ptr [rip + 0x244330]
+   0x1407c0d43  key_array FUN_1407c0cd0 (+0x73)  mov r11, qword ptr [rip + 0x2440fe]
+   0x1407c0d4f  max_index FUN_1407c0cd0 (+0x7f)  movzx r8d, word ptr [rip + 0x2440e1]
+   0x1407c0dc4  key_array FUN_1407c0cd0 (+0xf4)  mov r10, qword ptr [rip + 0x24407d]
+   0x1407c0dd0  max_index FUN_1407c0cd0 (+0x100)  movzx r8d, word ptr [rip + 0x244060]
+   0x1407c0f5d  key_array FUN_1407c0f00 (+0x5d)  mov r11, qword ptr [rip + 0x243ee4]
+   0x1407c0f69  max_index FUN_1407c0f00 (+0x69)  movzx r8d, word ptr [rip + 0x243ec7]
+   0x1407c0fd8  key_array FUN_1407c0f00 (+0xd8)  mov r10, qword ptr [rip + 0x243e69]
+   0x1407c0fe4  max_index FUN_1407c0f00 (+0xe4)  movzx r8d, word ptr [rip + 0x243e4c]
+   0x1407c1103  key_array FUN_1407c1090 (+0x73)  mov r11, qword ptr [rip + 0x243d3e]
+   0x1407c110f  max_index FUN_1407c1090 (+0x7f)  movzx r8d, word ptr [rip + 0x243d21]
+   0x1407c1184  key_array FUN_1407c1090 (+0xf4)  mov r8, qword ptr [rip + 0x243cbd]
+   0x1407c119c  max_index FUN_1407c1090 (+0x10c)  movzx esi, word ptr [rip + 0x243c95]
+   0x1407c1207  key_array FUN_1407c1090 (+0x177)  mov r8, qword ptr [rip + 0x243c3a]
+   0x1407c120e  max_index FUN_1407c1090 (+0x17e)  movzx esi, word ptr [rip + 0x243c23]
+   0x1407c1287  key_array FUN_1407c1090 (+0x1f7)  mov r8, qword ptr [rip + 0x243bba]
+   0x1407c128e  max_index FUN_1407c1090 (+0x1fe)  movzx esi, word ptr [rip + 0x243ba3]
+   0x1407c1307  key_array FUN_1407c1090 (+0x277)  mov r8, qword ptr [rip + 0x243b3a]
+   0x1407c130e  max_index FUN_1407c1090 (+0x27e)  movzx esi, word ptr [rip + 0x243b23]
+   0x1407c1387  key_array FUN_1407c1090 (+0x2f7)  mov r8, qword ptr [rip + 0x243aba]
+   0x1407c138e  max_index FUN_1407c1090 (+0x2fe)  movzx esi, word ptr [rip + 0x243aa3]
+   0x1407c1407  key_array FUN_1407c1090 (+0x377)  mov r8, qword ptr [rip + 0x243a3a]
+   0x1407c140e  max_index FUN_1407c1090 (+0x37e)  movzx esi, word ptr [rip + 0x243a23]
+   0x1407c1487  key_array FUN_1407c1090 (+0x3f7)  mov r8, qword ptr [rip + 0x2439ba]
+   0x1407c148e  max_index FUN_1407c1090 (+0x3fe)  movzx esi, word ptr [rip + 0x2439a3]
+   0x1407cdb87  max_index FUN_1407cdb30 (+0x57)  movzx edi, word ptr [rip + 0x2372aa]
+   0x1407cdbc0  row_array FUN_1407cdb30 (+0x90)  mov rbx, qword ptr [rip + 0x237289]
+   0x1407cdbca  max_index FUN_1407cdb30 (+0x9a)  movzx ebp, word ptr [rip + 0x237267]
+   0x1407cdd28  row_array FUN_1407cdb30 (+0x1f8)  mov rbx, qword ptr [rip + 0x237121]
+   0x1407cdd2f  max_index FUN_1407cdb30 (+0x1ff)  movzx ebp, word ptr [rip + 0x237102]
+   0x1407cde31  row_array FUN_1407cdb30 (+0x301)  mov rbx, qword ptr [rip + 0x237018]
+   0x1407cde38  max_index FUN_1407cdb30 (+0x308)  movzx ebp, word ptr [rip + 0x236ff9]
+   0x1407cde9c  max_index FUN_1407cde50 (+0x4c)  movzx r13d, word ptr [rip + 0x236f94]
+   0x1407cdecb  row_array FUN_1407cde50 (+0x7b)  mov rbx, qword ptr [rip + 0x236f7e]
+   0x1407cded4  max_index FUN_1407cde50 (+0x84)  movzx ebp, word ptr [rip + 0x236f5d]
+   0x1407ce022  row_array FUN_1407cde50 (+0x1d2)  mov rbx, qword ptr [rip + 0x236e27]
+   0x1407ce02b  max_index FUN_1407cde50 (+0x1db)  movzx ebp, word ptr [rip + 0x236e06]
+   0x1407ce14a  row_array FUN_1407cde50 (+0x2fa)  mov rbx, qword ptr [rip + 0x236cff]
+   0x1407ce153  max_index FUN_1407cde50 (+0x303)  movzx ebp, word ptr [rip + 0x236cde]
+   0x1407ce4b0  row_array FUN_1407ce3e0 (+0xd0)  cmp qword ptr [rip + 0x236999], rbx
+   0x1407d054b  row_array FUN_1407cfa40 (+0xb0b)  cmp qword ptr [rip + 0x2348fe], rsi
+   0x1407d14e6  max_index FUN_1407d1480 (+0x66)  movzx r14d, word ptr [rip + 0x23394a]
+   0x1407d14f5  row_array FUN_1407d1480 (+0x75)  mov r15, qword ptr [rip + 0x233954]
+   0x1407d237b  row_array FUN_1407d22b0 (+0xcb)  cmp qword ptr [rip + 0x232ace], rbx
+   0x1407d4406  row_array FUN_1407d3910 (+0xaf6)  cmp qword ptr [rip + 0x230a43], rsi
+   0x1407d8892  max_index FUN_1407d8830 (+0x62)  movzx esi, word ptr [rip + 0x22c59f]
+   0x1407d88a2  row_array FUN_1407d8830 (+0x72)  mov rbp, qword ptr [rip + 0x22c5a7]
+   0x1407db1f7  max_index FUN_1407dafb0 (+0x247)  movzx esi, word ptr [rip + 0x229c3a]
+   0x1407db20a  row_array FUN_1407dafb0 (+0x25a)  mov r14, qword ptr [rip + 0x229c3f]
+   0x1407db3e2  max_index FUN_1407dafb0 (+0x432)  movzx esi, word ptr [rip + 0x229a4f]
+   0x1407db3f5  row_array FUN_1407dafb0 (+0x445)  mov r14, qword ptr [rip + 0x229a54]
+   0x1407e50b2  row_array FUN_1407e4920 (+0x792)  cmp qword ptr [rip + 0x21fd96], 0
+   0x1407ed55a  row_array FUN_1407ed230 (+0x32a)  cmp qword ptr [rip + 0x2178ef], rbx
+   0x1407ef72d  row_array FUN_1407ef420 (+0x30d)  cmp qword ptr [rip + 0x21571b], 0
+   0x140809f60  row_array s31_sub43_result_reward_screen_update (+0x150)  cmp qword ptr [rip + 0x1faee9], rbx
+   0x14080a227  row_array s31_sub43_result_reward_screen_update (+0x417)  cmp qword ptr [rip + 0x1fac22], rbx
+   0x14080a7ed  row_array s31_sub43_result_reward_screen_update (+0x9dd)  cmp qword ptr [rip + 0x1fa65c], rbx
+   0x14081248d  row_array s31_sub13_item_menu_draw (+0x24d)  cmp qword ptr [rip + 0x1f29bc], rbx
+   0x14083216d  max_index FUN_140832120 (+0x4d)  movzx r14d, word ptr [rip + 0x1d2cc3]
+   0x140832192  row_array FUN_140832120 (+0x72)  cmp qword ptr [rip + 0x1d2cb7], r15
+   0x1408321a0  max_index FUN_140832120 (+0x80)  movzx eax, word ptr [rip + 0x1d2c91]
+   0x1408321ba  row_array FUN_140832120 (+0x9a)  add rcx, qword ptr [rip + 0x1d2c8f]
+   0x1408331f8  max_index FUN_1408331c0 (+0x38)  movzx r12d, word ptr [rip + 0x1d1c38]
+   0x140833226  row_array FUN_1408331c0 (+0x66)  mov r13, qword ptr [rip + 0x1d1c23]
+   0x1408333e1  row_array FUN_1408331c0 (+0x221)  cmp qword ptr [rip + 0x1d1a68], rsi
+   0x140834434  max_index FUN_140834420 (+0x14)  movzx edi, word ptr [rip + 0x1d09fd]
+   0x14083443e  row_array FUN_140834420 (+0x1e)  mov rsi, qword ptr [rip + 0x1d0a0b]
+   0x1408454fc  row_array FUN_140843a80 (+0x1a7c)  cmp qword ptr [rip + 0x1bf94d], r14
+   0x140845c84  row_array FUN_140843a80 (+0x2204)  cmp qword ptr [rip + 0x1bf1c5], r14
+   0x14084f179  max_index FUN_14084eb50 (+0x629)  movzx r12d, word ptr [rip + 0x1b5cb7]
+   0x14084f1a0  row_array FUN_14084eb50 (+0x650)  cmp qword ptr [rip + 0x1b5ca9], rbx
+   0x14084f1ae  max_index FUN_14084eb50 (+0x65e)  movzx eax, word ptr [rip + 0x1b5c83]
+   0x14084f1ca  row_array FUN_14084eb50 (+0x67a)  add rcx, qword ptr [rip + 0x1b5c7f]

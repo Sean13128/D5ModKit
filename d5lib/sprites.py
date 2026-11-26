@@ -30,17 +30,25 @@ def all_sprite_numbers(fs: GameFS):
 
 
 def resident_block_ids(fs: GameFS):
-    """Block ids inside anm_resident (cached on disk).  The anm cache looks there before the loose files, so a
-    sprite number that is also a resident block shows the resident picture (vanilla 9030-9032 are effects)."""
-    path = os.path.join(CACHE_DIR, "resident_ids.pickle")
-    if os.path.exists(path):
+    """Block ids inside anm_resident.  The anm cache looks there before the loose files, so a sprite number that is
+    also a resident block shows the resident picture (vanilla 9030-9032 are effects).  The ids come from the supplied
+    FS: the disk cache is keyed by the SHA-256 of the resolved member, so a pickle made from a modded archive can never
+    pass for the original's (the old unkeyed resident_ids.pickle did, and failed four D4 packs on their own N+2)."""
+    import hashlib
+    data = fs.read("Anime/ANM_HI_JP.dat/anm_resident.lzs")
+    path = os.path.join(CACHE_DIR, "resident_ids-%s.pickle" % hashlib.sha256(data).hexdigest()[:24])
+    try:
         with open(path, "rb") as f:
             return pickle.load(f)
-    res = anm.parse(fs.read("Anime/ANM_HI_JP.dat/anm_resident.lzs"))
-    ids = sorted(b.id for b in res.blocks)
-    os.makedirs(CACHE_DIR, exist_ok=True)
-    with open(path, "wb") as f:
-        pickle.dump(ids, f)
+    except (OSError, pickle.UnpicklingError, EOFError):
+        pass
+    ids = sorted(b.id for b in anm.parse(data).blocks)
+    try:
+        os.makedirs(CACHE_DIR, exist_ok=True)
+        with open(path, "wb") as f:
+            pickle.dump(ids, f)
+    except OSError:
+        pass
     return ids
 
 

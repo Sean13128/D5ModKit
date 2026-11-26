@@ -1,5 +1,72 @@
 # D5 Mod Kit — changes
 
+## Unreleased
+
+**Disgaea 4 faces (D4FACE1)**
+* **D4 class packs show the class face on every rank.** The game draws one face per class (the char.dat colour id
+  rounded down to tens: Armor Knight 1081 -> swf1080); the importer shipped a face per rank colour (swf1081 ...) or,
+  when a neighbour face did not exist (Medic, Necromancer), none for ranks 1-5. All ten colour slots now hold the class
+  face (`--no-d4-face-rule` selects the old path).
+* **D4 NPC uniques use their class face** (Chief 1154 -> swf1150, Kojiro 1142 -> 1140, Arsailles 2144 -> 2140); the
+  cut-in keeps the colour key. `d4screenart.game_face_number` is the rule (FUN_14047bfb0 / FUN_1401b1430).
+* **`tools/d4_face_audit.py`**: source-versus-built face audit of every D4 pack, usable as a report and as a gate
+  (`--gate`).
+
+**Disgaea 4 mesh nodes (D4MESH1)**
+* **Death, Hugo, Des X and Prinny Kurtis draw their mesh parts as D4 does.** D4 nodes flagged "mesh" (node +4 = 1) carry
+  four stored vertices; the importer read them as pivoted rectangles (37 motions, one cell away from the game's quad).
+  Disgaea 5's bank has the same mesh flag, so the vertices are now carried as they are (option `--no-d4-mesh-nodes`
+  selects the old path). `tools/d4_motion_audit.py` reads the source with mesh nodes, so the old placement now fails it.
+
+**Disgaea 4 sprite motions (D4IDLE1)**
+* **D4 humanoids stand where D4 draws them.** The importer re-rooted D4's own idle stub and rebuilt it at (0, 0), so the
+  map idle (1001/1007) was drawn 9 px low and 3 px right in 26 packs; D4's stub placement is now kept
+  (option `--no-d4-stub-xform` selects the old path).
+* **Death and Hugo keep the scythe shaft between the hands.** DEATH2's duplicate-part rule and the Death part reorder
+  removed it; the rule now judges the picture the game draws and D4's part order stays (`--no-d4-death-game-view`).
+* **Toro, Kuro and Politan use their own D4 motions** (stand, walk, hurt, pose 3, with D4's timing and ground line);
+  D5 states D4 never drew hold the source stand picture and are labelled in `mod.json` `motion_origin`
+  (`--no-d4-source-tracks`). This changes these three banks' shape (texture size, animation count).
+* **`tools/d4_motion_audit.py`**: source-versus-built audit of every D4 pack's motions, usable as a report and as a gate
+  (`--gate`); `docs/D4_MOTIONS.md`.
+
+**Outfits**
+* **Outfits with their own evilities, stats and weapons** (Outfits › Edit › *Own evilities, stats & weapons…*): tick
+  a group (evilities, base stats, aptitudes, weapon mastery, movement, elemental or weapon resistances) to give an
+  outfit values of its own; unticked groups keep following the character. Every group changes as soon as the unit
+  switches outfit and switching back restores the unit exactly: the switch adds the difference between the outfit's
+  and the character's values to the unit (as a rank-up does), swaps the outfit's own evilities in, and recomputes
+  the unit. Packs without own values build the same exe as before. Verified in game 2026-11-18 (Save1's Killia,
+  outfit Awakened, switched through the Outfit menu and back).
+* **A unit saved in an outfit keeps its story title.** Killia saved in an outfit came back from the save (and from
+  every visit to the base) as "Wanderer" instead of "Cryo Blood Overlord": the game re-reads the title from the
+  class id, and the outfit's class had none. The outfit now counts as its character there too.
+
+## 1.5.9 (2026-11-02)
+
+**Characters & Classes**
+* **New monster (and class) invisible in battle, a tiny Prinny when hit, then a crash: fixed (Steam).** Once a new
+  class needs a class slot of its own (the 13th new monster, or the 10th new human class, or any monster family
+  past the game's spare rows), the Steam version's install left out the whole new-class game patch (only a warning
+  in the install log). The game then didn't treat the class as a generic class: the unit showed only its
+  base-panel picture, was invisible on the field and fell apart when hit. Seen in game on the old install and
+  fixed on the new one (a new monster in its own slot stands, idles, takes hits and counters).
+
+**Profiles**
+* **Separate projects.** Profile ▾ › New profile… can start a profile from the plain game: it sees only its own
+  mods (the mods of your other profiles stay out of its lists, its Install and its new ids: classes, characters,
+  sprites … are picked among its own mods only), and remembers its own "New edits go to" mod. The old kind, a
+  modpack of the shared mods, is still there.
+* **Profile ▾ › Import mods from another profile…**: tick mods of your other profiles to copy them in. They come
+  in like a shared mod you import: ids that clash with this profile's mods are moved, and importing again updates
+  the copy. Deleting a separate project puts its mods into `state/deleted_profiles` with it.
+
+**Stages & Maps**
+* **From the game… now gives a whole block skin.** A Netherworld ground is two pictures: the top (with its outline
+  pieces) and the side texture made for it (`NNN_amap_02`). Picking one puts the top with its outline on the
+  block's top and its own side texture on the walls; the walls were a stretched or cut piece of the top before. The
+  gallery shows each ground's top over its side.
+
 ## 1.5.8 (2026-10-21)
 
 **Stages & Maps**

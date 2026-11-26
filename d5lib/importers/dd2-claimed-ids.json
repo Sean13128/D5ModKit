@@ -1,0 +1,2737 @@
+{
+ "about": "Ids claimed by every mod installed on the canonical kit (2026-11-19), so the reviewed DD2 layer can refuse a lease collision without an installed mods folder. Ids only.",
+ "claims": {
+  "0": [
+   "Overlord Rebalance"
+  ],
+  "1": [
+   "Overlord Rebalance"
+  ],
+  "10": [
+   "Overlord Rebalance"
+  ],
+  "100": [
+   "Overlord Rebalance"
+  ],
+  "10100": [
+   "DD2_Unique_100"
+  ],
+  "102": [
+   "Overlord Rebalance"
+  ],
+  "103": [
+   "Overlord Rebalance"
+  ],
+  "107": [
+   "Overlord Rebalance"
+  ],
+  "109": [
+   "Overlord Rebalance"
+  ],
+  "11": [
+   "Overlord Rebalance"
+  ],
+  "112": [
+   "Overlord Rebalance"
+  ],
+  "113": [
+   "Overlord Rebalance"
+  ],
+  "115": [
+   "Overlord Rebalance"
+  ],
+  "116": [
+   "Overlord Rebalance"
+  ],
+  "118": [
+   "Overlord Rebalance"
+  ],
+  "125": [
+   "Overlord Rebalance"
+  ],
+  "130": [
+   "Overlord Rebalance"
+  ],
+  "131": [
+   "Overlord Rebalance"
+  ],
+  "132": [
+   "Overlord Rebalance"
+  ],
+  "133": [
+   "Overlord Rebalance"
+  ],
+  "134": [
+   "Overlord Rebalance"
+  ],
+  "136": [
+   "Overlord Rebalance"
+  ],
+  "138": [
+   "Overlord Rebalance"
+  ],
+  "139": [
+   "Overlord Rebalance"
+  ],
+  "14": [
+   "Overlord Rebalance"
+  ],
+  "140": [
+   "Overlord Rebalance"
+  ],
+  "142": [
+   "Overlord Rebalance"
+  ],
+  "143": [
+   "Overlord Rebalance"
+  ],
+  "145": [
+   "Overlord Rebalance"
+  ],
+  "148": [
+   "Overlord Rebalance"
+  ],
+  "149": [
+   "Overlord Rebalance"
+  ],
+  "152": [
+   "Overlord Rebalance"
+  ],
+  "154": [
+   "Overlord Rebalance"
+  ],
+  "156": [
+   "Overlord Rebalance"
+  ],
+  "159": [
+   "Overlord Rebalance"
+  ],
+  "16": [
+   "Overlord Rebalance"
+  ],
+  "161": [
+   "Overlord Rebalance"
+  ],
+  "162": [
+   "Overlord Rebalance"
+  ],
+  "163": [
+   "Overlord Rebalance"
+  ],
+  "164": [
+   "Overlord Rebalance"
+  ],
+  "165": [
+   "Overlord Rebalance"
+  ],
+  "167": [
+   "Overlord Rebalance"
+  ],
+  "168": [
+   "Overlord Rebalance"
+  ],
+  "17": [
+   "Overlord Rebalance"
+  ],
+  "170": [
+   "Overlord Rebalance"
+  ],
+  "174": [
+   "Overlord Rebalance"
+  ],
+  "175": [
+   "Overlord Rebalance"
+  ],
+  "176": [
+   "Overlord Rebalance"
+  ],
+  "178": [
+   "Overlord Rebalance"
+  ],
+  "179": [
+   "Overlord Rebalance"
+  ],
+  "18": [
+   "Overlord Rebalance"
+  ],
+  "180": [
+   "Overlord Rebalance"
+  ],
+  "181": [
+   "Overlord Rebalance"
+  ],
+  "184": [
+   "Overlord Rebalance"
+  ],
+  "185": [
+   "Overlord Rebalance"
+  ],
+  "187": [
+   "Overlord Rebalance"
+  ],
+  "19": [
+   "Overlord Rebalance"
+  ],
+  "190": [
+   "Overlord Rebalance"
+  ],
+  "196": [
+   "Overlord Rebalance"
+  ],
+  "2": [
+   "Overlord Rebalance"
+  ],
+  "20": [
+   "Overlord Rebalance"
+  ],
+  "200": [
+   "Overlord Rebalance"
+  ],
+  "20000": [
+   "Overlord Evilities"
+  ],
+  "20010": [
+   "Overlord Evilities"
+  ],
+  "20011": [
+   "Overlord Evilities"
+  ],
+  "20012": [
+   "Overlord Evilities"
+  ],
+  "20013": [
+   "Overlord Evilities"
+  ],
+  "20014": [
+   "Overlord Evilities"
+  ],
+  "20016": [
+   "Overlord Evilities"
+  ],
+  "202": [
+   "Overlord Rebalance"
+  ],
+  "203": [
+   "Overlord Rebalance"
+  ],
+  "20300": [
+   "Overlord Evilities"
+  ],
+  "20301": [
+   "Overlord Evilities"
+  ],
+  "20302": [
+   "Overlord Evilities"
+  ],
+  "20310": [
+   "Overlord Evilities"
+  ],
+  "204": [
+   "Overlord Rebalance"
+  ],
+  "205": [
+   "Overlord Rebalance"
+  ],
+  "20500": [
+   "Overlord Evilities"
+  ],
+  "20501": [
+   "Overlord Evilities"
+  ],
+  "20502": [
+   "Overlord Evilities"
+  ],
+  "20503": [
+   "Overlord Evilities"
+  ],
+  "206": [
+   "Overlord Rebalance"
+  ],
+  "207": [
+   "Overlord Rebalance"
+  ],
+  "210": [
+   "Overlord Rebalance"
+  ],
+  "212": [
+   "Overlord Rebalance"
+  ],
+  "217": [
+   "Future_Pleinair"
+  ],
+  "218": [
+   "Future_Pleinair"
+  ],
+  "219": [
+   "Future_Pleinair"
+  ],
+  "220": [
+   "Overlord Rebalance"
+  ],
+  "225": [
+   "Overlord Rebalance"
+  ],
+  "226": [
+   "Overlord Rebalance"
+  ],
+  "228": [
+   "Overlord Rebalance"
+  ],
+  "229": [
+   "Overlord Rebalance"
+  ],
+  "230": [
+   "Overlord Rebalance"
+  ],
+  "231": [
+   "Overlord Rebalance"
+  ],
+  "234": [
+   "Overlord Rebalance"
+  ],
+  "236": [
+   "Overlord Rebalance"
+  ],
+  "24": [
+   "Overlord Rebalance"
+  ],
+  "240": [
+   "Overlord Rebalance"
+  ],
+  "24010": [
+   "DD2_Unique_10"
+  ],
+  "24030": [
+   "DD2_Unique_30"
+  ],
+  "24050": [
+   "DD2_Unique_50"
+  ],
+  "24060": [
+   "DD2_Unique_60"
+  ],
+  "242": [
+   "Overlord Rebalance"
+  ],
+  "24210": [
+   "DD2_Unique_210"
+  ],
+  "24270": [
+   "DD2_Unique_270"
+  ],
+  "243": [
+   "Overlord Rebalance"
+  ],
+  "24300": [
+   "DD2_Unique_300"
+  ],
+  "24320": [
+   "DD2_Unique_320"
+  ],
+  "24480": [
+   "DD2_Unique_480"
+  ],
+  "246": [
+   "Overlord Rebalance"
+  ],
+  "247": [
+   "Overlord Rebalance"
+  ],
+  "248": [
+   "Overlord Rebalance"
+  ],
+  "249": [
+   "Overlord Rebalance"
+  ],
+  "251": [
+   "Overlord Rebalance"
+  ],
+  "252": [
+   "Overlord Rebalance"
+  ],
+  "25210": [
+   "DD2_Class_22210"
+  ],
+  "25211": [
+   "DD2_Class_22210"
+  ],
+  "258": [
+   "Overlord Rebalance"
+  ],
+  "26020": [
+   "DD2_Class_22520"
+  ],
+  "26040": [
+   "DD2_Class_22540"
+  ],
+  "26041": [
+   "DD2_Class_22540"
+  ],
+  "26042": [
+   "DD2_Class_22540"
+  ],
+  "26050": [
+   "DD2_Class_22550"
+  ],
+  "26051": [
+   "DD2_Class_22550"
+  ],
+  "26052": [
+   "DD2_Class_22550"
+  ],
+  "26091": [
+   "DD2_Class_22590"
+  ],
+  "26092": [
+   "DD2_Class_22590"
+  ],
+  "26131": [
+   "DD2_Class_22630"
+  ],
+  "26170": [
+   "DD2_Class_22670"
+  ],
+  "26171": [
+   "DD2_Class_22670"
+  ],
+  "26172": [
+   "DD2_Class_22670"
+  ],
+  "26180": [
+   "DD2_Class_22680"
+  ],
+  "26182": [
+   "DD2_Class_22680"
+  ],
+  "26200": [
+   "DD2_Class_22700"
+  ],
+  "263": [
+   "Overlord Rebalance"
+  ],
+  "26300": [
+   "DD2_Class_22620"
+  ],
+  "26301": [
+   "DD2_Class_22630"
+  ],
+  "26302": [
+   "DD2_Class_22590"
+  ],
+  "26303": [
+   "DD2_Unique_430"
+  ],
+  "26304": [
+   "DD2_Unique_570"
+  ],
+  "26305": [
+   "DD2_Unique_420"
+  ],
+  "26306": [
+   "DD2_Unique_941"
+  ],
+  "26307": [
+   "DD2_Unique_640"
+  ],
+  "265": [
+   "Overlord Rebalance"
+  ],
+  "271": [
+   "Overlord Rebalance"
+  ],
+  "27115": [
+   "D4_Class_2110"
+  ],
+  "27121": [
+   "D4_Class_1200"
+  ],
+  "27129": [
+   "D4_Unique_5388"
+  ],
+  "272": [
+   "Overlord Rebalance"
+  ],
+  "273": [
+   "Overlord Rebalance"
+  ],
+  "276": [
+   "Overlord Rebalance"
+  ],
+  "27663": [
+   "D4_Class_2170"
+  ],
+  "27690": [
+   "D4_Class_1170"
+  ],
+  "27691": [
+   "D4_Class_2120"
+  ],
+  "27692": [
+   "D4_Class_2130"
+  ],
+  "27693": [
+   "D4_Class_2190"
+  ],
+  "277": [
+   "Overlord Rebalance"
+  ],
+  "27802": [
+   "D4_Class_1190"
+  ],
+  "27807": [
+   "D4_Class_2090"
+  ],
+  "27820": [
+   "D4_Unique_220"
+  ],
+  "27836": [
+   "D4_Class_2200"
+  ],
+  "27844": [
+   "D4_Unique_350"
+  ],
+  "27851": [
+   "D4_Unique_340"
+  ],
+  "27864": [
+   "D4_Class_1240"
+  ],
+  "27868": [
+   "D4_Class_1250"
+  ],
+  "27875": [
+   "D4_Unique_440"
+  ],
+  "27878": [
+   "D4_Unique_450"
+  ],
+  "27881": [
+   "D4_Unique_460"
+  ],
+  "27892": [
+   "D4_Unique_490"
+  ],
+  "280": [
+   "Overlord Rebalance"
+  ],
+  "28000": [
+   "DRPG_Core_Barbara_15"
+  ],
+  "28002": [
+   "DRPG_Core_Barbara_15"
+  ],
+  "28003": [
+   "DRPG_Core_Barbara_15"
+  ],
+  "28004": [
+   "DRPG_Core_MasterBigStar_23"
+  ],
+  "28006": [
+   "DRPG_Core_MasterBigStar_23"
+  ],
+  "28007": [
+   "DRPG_Core_MasterBigStar_23"
+  ],
+  "28008": [
+   "DRPG_Core_MrChamploo_46"
+  ],
+  "28012": [
+   "DRPG_Core_Yukimaru_47"
+  ],
+  "28014": [
+   "DRPG_Core_Yukimaru_47"
+  ],
+  "28015": [
+   "DRPG_Core_Yukimaru_47"
+  ],
+  "28016": [
+   "DRPG_Core_Fubuki_48"
+  ],
+  "28017": [
+   "DRPG_Core_Fubuki_48"
+  ],
+  "28018": [
+   "DRPG_Core_Fubuki_48"
+  ],
+  "28020": [
+   "DRPG_Sample_Noel"
+  ],
+  "28021": [
+   "DRPG_Sample_Noel"
+  ],
+  "28023": [
+   "DRPG_Sample_Noel"
+  ],
+  "28024": [
+   "DRPG_Core_LoveOracle_59"
+  ],
+  "28026": [
+   "DRPG_Core_LoveOracle_59"
+  ],
+  "28027": [
+   "DRPG_Core_LoveOracle_59"
+  ],
+  "28028": [
+   "DRPG_Core_Ayame_63"
+  ],
+  "28030": [
+   "DRPG_Core_Ayame_63"
+  ],
+  "28031": [
+   "DRPG_Core_Ayame_63"
+  ],
+  "28032": [
+   "DRPG_Core_Virunga_64"
+  ],
+  "28033": [
+   "DRPG_Core_Virunga_64"
+  ],
+  "28034": [
+   "DRPG_Core_Virunga_64"
+  ],
+  "28035": [
+   "DRPG_Core_Virunga_64"
+  ],
+  "28036": [
+   "DRPG_Core_Torachiyo_65"
+  ],
+  "28037": [
+   "DRPG_Core_Torachiyo_65"
+  ],
+  "28038": [
+   "DRPG_Core_Torachiyo_65"
+  ],
+  "28040": [
+   "DRPG_Core_Diez_66"
+  ],
+  "28041": [
+   "DRPG_Core_Diez_66"
+  ],
+  "28044": [
+   "DRPG_Core_Lucy_67"
+  ],
+  "28045": [
+   "DRPG_Core_Lucy_67"
+  ],
+  "28046": [
+   "DRPG_Core_Lucy_67"
+  ],
+  "28048": [
+   "DRPG_Core_Marlene_72"
+  ],
+  "28049": [
+   "DRPG_Core_Marlene_72"
+  ],
+  "28050": [
+   "DRPG_Core_Marlene_72"
+  ],
+  "28051": [
+   "DRPG_Core_Marlene_72"
+  ],
+  "28052": [
+   "DRPG_Core_FukaXENO_73"
+  ],
+  "28053": [
+   "DRPG_Core_FukaXENO_73"
+  ],
+  "28055": [
+   "DRPG_Core_FukaXENO_73"
+  ],
+  "28056": [
+   "DRPG_Core_RaspberylXENO_74"
+  ],
+  "28057": [
+   "DRPG_Core_RaspberylXENO_74"
+  ],
+  "28058": [
+   "DRPG_Core_RaspberylXENO_74"
+  ],
+  "28060": [
+   "DRPG_Core_Hibana_77"
+  ],
+  "28063": [
+   "DRPG_Core_Hibana_77"
+  ],
+  "28064": [
+   "DRPG_Core_CuteChacha_88"
+  ],
+  "28065": [
+   "DRPG_Core_CuteChacha_88"
+  ],
+  "28067": [
+   "DRPG_Core_CuteChacha_88"
+  ],
+  "28068": [
+   "DRPG_Core_CuteMeiLing_89"
+  ],
+  "28070": [
+   "DRPG_Core_CuteMeiLing_89"
+  ],
+  "28071": [
+   "DRPG_Core_CuteMeiLing_89"
+  ],
+  "28072": [
+   "DRPG_Core_MaoXENO_90"
+  ],
+  "28073": [
+   "DRPG_Core_MaoXENO_90"
+  ],
+  "28074": [
+   "DRPG_Core_MaoXENO_90"
+  ],
+  "28075": [
+   "DRPG_Core_MaoXENO_90"
+  ],
+  "28076": [
+   "DRPG_Core_Zed_94"
+  ],
+  "28077": [
+   "DRPG_Core_Zed_94"
+  ],
+  "28078": [
+   "DRPG_Core_Zed_94"
+  ],
+  "28079": [
+   "DRPG_Core_Zed_94"
+  ],
+  "28080": [
+   "DRPG_Core_Majolene_95"
+  ],
+  "28082": [
+   "DRPG_Core_Majolene_95"
+  ],
+  "28084": [
+   "DRPG_Core_ThunderlordLaharl_99"
+  ],
+  "28085": [
+   "DRPG_Core_ThunderlordLaharl_99"
+  ],
+  "28086": [
+   "DRPG_Core_ThunderlordLaharl_99"
+  ],
+  "28087": [
+   "DRPG_Core_ThunderlordLaharl_99"
+  ],
+  "28088": [
+   "DRPG_Core_SicilyXENO_100"
+  ],
+  "28089": [
+   "DRPG_Core_SicilyXENO_100"
+  ],
+  "28092": [
+   "DRPG_Sample_Melodia"
+  ],
+  "28093": [
+   "DRPG_Sample_Melodia"
+  ],
+  "28095": [
+   "DRPG_Sample_Melodia"
+  ],
+  "28096": [
+   "DRPG_Core_Ivar_107"
+  ],
+  "28097": [
+   "DRPG_Core_Ivar_107"
+  ],
+  "28098": [
+   "DRPG_Core_Ivar_107"
+  ],
+  "28099": [
+   "DRPG_Core_Ivar_107"
+  ],
+  "28100": [
+   "DRPG_Core_SweetOmega_111"
+  ],
+  "28101": [
+   "DRPG_Core_SweetOmega_111"
+  ],
+  "28104": [
+   "DRPG_Core_Bieko_116"
+  ],
+  "28108": [
+   "DRPG_Core_Piyori_117"
+  ],
+  "28109": [
+   "DRPG_Core_Piyori_117"
+  ],
+  "28111": [
+   "DRPG_Core_Piyori_117"
+  ],
+  "28112": [
+   "DRPG_Core_Misedor_118"
+  ],
+  "28113": [
+   "DRPG_Core_Misedor_118"
+  ],
+  "28116": [
+   "DRPG_Core_EmizelXENO_120"
+  ],
+  "28117": [
+   "DRPG_Core_EmizelXENO_120"
+  ],
+  "28118": [
+   "DRPG_Core_EmizelXENO_120"
+  ],
+  "28119": [
+   "DRPG_Core_EmizelXENO_120"
+  ],
+  "28120": [
+   "DRPG_Core_IceEmpressRozalin_121"
+  ],
+  "28121": [
+   "DRPG_Core_IceEmpressRozalin_121"
+  ],
+  "28122": [
+   "DRPG_Core_IceEmpressRozalin_121"
+  ],
+  "28123": [
+   "DRPG_Core_IceEmpressRozalin_121"
+  ],
+  "28124": [
+   "DRPG_Core_FlameEmpressMajorita_122"
+  ],
+  "28125": [
+   "DRPG_Core_FlameEmpressMajorita_122"
+  ],
+  "28128": [
+   "DRPG_Core_Merome_123"
+  ],
+  "28129": [
+   "DRPG_Core_Merome_123"
+  ],
+  "28130": [
+   "DRPG_Core_Merome_123"
+  ],
+  "28131": [
+   "DRPG_Core_Merome_123"
+  ],
+  "28132": [
+   "DRPG_Core_Amane_129"
+  ],
+  "28133": [
+   "DRPG_Core_Amane_129"
+  ],
+  "28134": [
+   "DRPG_Core_Amane_129"
+  ],
+  "28135": [
+   "DRPG_Core_Amane_129"
+  ],
+  "28136": [
+   "DRPG_Core_Siedl_135"
+  ],
+  "28137": [
+   "DRPG_Core_Siedl_135"
+  ],
+  "28138": [
+   "DRPG_Core_Siedl_135"
+  ],
+  "28139": [
+   "DRPG_Core_Siedl_135"
+  ],
+  "28140": [
+   "DRPG_Core_Wise_136"
+  ],
+  "28143": [
+   "DRPG_Core_Wise_136"
+  ],
+  "28144": [
+   "DRPG_Core_Keke_137"
+  ],
+  "28145": [
+   "DRPG_Core_Keke_137"
+  ],
+  "28146": [
+   "DRPG_Core_Keke_137"
+  ],
+  "28148": [
+   "DRPG_Core_Timmy_138"
+  ],
+  "28149": [
+   "DRPG_Core_Timmy_138"
+  ],
+  "28151": [
+   "DRPG_Core_Timmy_138"
+  ],
+  "28152": [
+   "DRPG_Core_Aiko_139"
+  ],
+  "28153": [
+   "DRPG_Core_Aiko_139"
+  ],
+  "28155": [
+   "DRPG_Core_Aiko_139"
+  ],
+  "28156": [
+   "DRPG_Core_Kagemaru_147"
+  ],
+  "28157": [
+   "DRPG_Core_Kagemaru_147"
+  ],
+  "28160": [
+   "DRPG_Core_Ryubence_158"
+  ],
+  "28161": [
+   "DRPG_Core_Ryubence_158"
+  ],
+  "28162": [
+   "DRPG_Core_Ryubence_158"
+  ],
+  "28163": [
+   "DRPG_Core_Ryubence_158"
+  ],
+  "28164": [
+   "DRPG_Core_BlackRabbitUsa_161"
+  ],
+  "28166": [
+   "DRPG_Core_BlackRabbitUsa_161"
+  ],
+  "28167": [
+   "DRPG_Core_BlackRabbitUsa_161"
+  ],
+  "28168": [
+   "DRPG_Core_WhiteRabbitSalia_162"
+  ],
+  "28170": [
+   "DRPG_Core_WhiteRabbitSalia_162"
+  ],
+  "28171": [
+   "DRPG_Core_WhiteRabbitSalia_162"
+  ],
+  "28172": [
+   "DRPG_Core_GreatDemonFistLiezerota_163"
+  ],
+  "28173": [
+   "DRPG_Core_GreatDemonFistLiezerota_163"
+  ],
+  "28176": [
+   "DRPG_Core_SeraphinaXENO_164"
+  ],
+  "28178": [
+   "DRPG_Core_SeraphinaXENO_164"
+  ],
+  "28179": [
+   "DRPG_Core_SeraphinaXENO_164"
+  ],
+  "28180": [
+   "DRPG_Core_SapphireXENO_165"
+  ],
+  "28181": [
+   "DRPG_Core_SapphireXENO_165"
+  ],
+  "28182": [
+   "DRPG_Core_SapphireXENO_165"
+  ],
+  "28184": [
+   "DRPG_Core_SummonerAdell_166"
+  ],
+  "28185": [
+   "DRPG_Core_SummonerAdell_166"
+  ],
+  "28186": [
+   "DRPG_Core_SummonerAdell_166"
+  ],
+  "28187": [
+   "DRPG_Core_SummonerAdell_166"
+  ],
+  "28188": [
+   "DRPG_Core_Yasuko_167"
+  ],
+  "28191": [
+   "DRPG_Core_Yasuko_167"
+  ],
+  "28192": [
+   "DRPG_Core_AsagiAsagiri_173"
+  ],
+  "28193": [
+   "DRPG_Core_AsagiAsagiri_173"
+  ],
+  "28194": [
+   "DRPG_Core_AsagiAsagiri_173"
+  ],
+  "28195": [
+   "DRPG_Core_AsagiAsagiri_173"
+  ],
+  "28196": [
+   "DRPG_Core_LoveMistAsagi_175"
+  ],
+  "28197": [
+   "DRPG_Core_LoveMistAsagi_175"
+  ],
+  "28199": [
+   "DRPG_Core_LoveMistAsagi_175"
+  ],
+  "28200": [
+   "DRPG_Core_FightingGameAsagi_176"
+  ],
+  "28201": [
+   "DRPG_Core_FightingGameAsagi_176"
+  ],
+  "28203": [
+   "DRPG_Core_FightingGameAsagi_176"
+  ],
+  "28204": [
+   "DRPG_Core_Nagisa_183"
+  ],
+  "28206": [
+   "DRPG_Core_Nagisa_183"
+  ],
+  "28207": [
+   "DRPG_Core_Nagisa_183"
+  ],
+  "28208": [
+   "DRPG_Core_Alexander_194"
+  ],
+  "28210": [
+   "DRPG_Core_Alexander_194"
+  ],
+  "28212": [
+   "DRPG_Core_Trenia_196"
+  ],
+  "28213": [
+   "DRPG_Core_Trenia_196"
+  ],
+  "28214": [
+   "DRPG_Core_Trenia_196"
+  ],
+  "28216": [
+   "DRPG_Core_ArtinaXENO_218"
+  ],
+  "28220": [
+   "DRPG_Core_Fuji_221"
+  ],
+  "28221": [
+   "DRPG_Core_Fuji_221"
+  ],
+  "28222": [
+   "DRPG_Core_Fuji_221"
+  ],
+  "28224": [
+   "DRPG_Core_HiganZesshosai_222"
+  ],
+  "28225": [
+   "DRPG_Core_HiganZesshosai_222"
+  ],
+  "28228": [
+   "DRPG_Core_Pirilika_224"
+  ],
+  "28229": [
+   "DRPG_Core_Pirilika_224"
+  ],
+  "28231": [
+   "DRPG_Core_Pirilika_224"
+  ],
+  "28232": [
+   "DRPG_Core_Ao_225"
+  ],
+  "28233": [
+   "DRPG_Core_Ao_225"
+  ],
+  "28234": [
+   "DRPG_Core_Ao_225"
+  ],
+  "28236": [
+   "DRPG_Core_FallenLordValvatorez_228"
+  ],
+  "28238": [
+   "DRPG_Core_FallenLordValvatorez_228"
+  ],
+  "28239": [
+   "DRPG_Core_FallenLordValvatorez_228"
+  ],
+  "28240": [
+   "DRPG_Core_Aileen_232"
+  ],
+  "28241": [
+   "DRPG_Core_Aileen_232"
+  ],
+  "28244": [
+   "DRPG_Core_Ceefore_239"
+  ],
+  "28245": [
+   "DRPG_Core_Ceefore_239"
+  ],
+  "28247": [
+   "DRPG_Core_Ceefore_239"
+  ],
+  "28248": [
+   "DRPG_Core_Yeyasu_240"
+  ],
+  "28249": [
+   "DRPG_Core_Yeyasu_240"
+  ],
+  "28250": [
+   "DRPG_Core_Yeyasu_240"
+  ],
+  "28252": [
+   "DRPG_Core_Mizuki_246"
+  ],
+  "28253": [
+   "DRPG_Core_Mizuki_246"
+  ],
+  "28255": [
+   "DRPG_Core_Mizuki_246"
+  ],
+  "28256": [
+   "DRPG_Core_BreezySatina_273"
+  ],
+  "28257": [
+   "DRPG_Core_BreezySatina_273"
+  ],
+  "28258": [
+   "DRPG_Core_BreezySatina_273"
+  ],
+  "28260": [
+   "DRPG_Core_Visco_275"
+  ],
+  "28263": [
+   "DRPG_Core_Visco_275"
+  ],
+  "28264": [
+   "DRPG_Core_LavilyLalulaLa_276"
+  ],
+  "28265": [
+   "DRPG_Core_LavilyLalulaLa_276"
+  ],
+  "28268": [
+   "DRPG_Core_Malia_277"
+  ],
+  "28269": [
+   "DRPG_Core_Malia_277"
+  ],
+  "28271": [
+   "DRPG_Core_Malia_277"
+  ],
+  "28272": [
+   "DRPG_Core_Freyja_279"
+  ],
+  "28273": [
+   "DRPG_Core_Freyja_279"
+  ],
+  "28275": [
+   "DRPG_Core_Freyja_279"
+  ],
+  "28276": [
+   "DRPG_Core_Haatan_281"
+  ],
+  "28277": [
+   "DRPG_Core_Haatan_281"
+  ],
+  "28280": [
+   "DRPG_Core_Lanzarote_290"
+  ],
+  "28281": [
+   "DRPG_Core_Lanzarote_290"
+  ],
+  "28282": [
+   "DRPG_Core_Lanzarote_290"
+  ],
+  "28283": [
+   "DRPG_Core_Lanzarote_290"
+  ],
+  "28284": [
+   "DRPG_Core_MagistrateAkuma_302"
+  ],
+  "28285": [
+   "DRPG_Core_MagistrateAkuma_302"
+  ],
+  "28288": [
+   "DRPG_Core_MaleficArchdemonOverlordZenon_305"
+  ],
+  "28289": [
+   "DRPG_Core_MaleficArchdemonOverlordZenon_305"
+  ],
+  "28292": [
+   "DRPG_Core_TinoShade_307"
+  ],
+  "28293": [
+   "DRPG_Core_TinoShade_307"
+  ],
+  "28296": [
+   "DRPG_Core_LizSmart_308"
+  ],
+  "28297": [
+   "DRPG_Core_LizSmart_308"
+  ],
+  "28299": [
+   "DRPG_Core_LizSmart_308"
+  ],
+  "283": [
+   "Overlord Rebalance"
+  ],
+  "28300": [
+   "DRPG_Core_KraiAndrey_310"
+  ],
+  "28301": [
+   "DRPG_Core_KraiAndrey_310"
+  ],
+  "28303": [
+   "DRPG_Core_KraiAndrey_310"
+  ],
+  "28304": [
+   "DRPG_Sample_Citri"
+  ],
+  "28305": [
+   "DRPG_Sample_Citri"
+  ],
+  "28308": [
+   "DRPG_Core_Remilia_319"
+  ],
+  "28309": [
+   "DRPG_Core_Remilia_319"
+  ],
+  "28311": [
+   "DRPG_Core_Remilia_319"
+  ],
+  "28312": [
+   "DRPG_Core_Henna_334"
+  ],
+  "28313": [
+   "DRPG_Core_Henna_334"
+  ],
+  "28315": [
+   "DRPG_Core_Henna_334"
+  ],
+  "28316": [
+   "DRPG_Core_Apricot_337"
+  ],
+  "28317": [
+   "DRPG_Core_Apricot_337"
+  ],
+  "28320": [
+   "DRPG_Core_SongstressSeashore_338"
+  ],
+  "28321": [
+   "DRPG_Core_SongstressSeashore_338"
+  ],
+  "28324": [
+   "DRPG_Core_Nitra_340"
+  ],
+  "28325": [
+   "DRPG_Core_Nitra_340"
+  ],
+  "28328": [
+   "DRPG_Core_SongstressOfficerSakura_341"
+  ],
+  "28329": [
+   "DRPG_Core_SongstressOfficerSakura_341"
+  ],
+  "28330": [
+   "DRPG_Core_SongstressOfficerSakura_341"
+  ],
+  "28332": [
+   "DRPG_Core_FenrichXENO_343"
+  ],
+  "28333": [
+   "DRPG_Core_FenrichXENO_343"
+  ],
+  "28334": [
+   "DRPG_Core_FenrichXENO_343"
+  ],
+  "28336": [
+   "DRPG_Core_Liam_347"
+  ],
+  "28337": [
+   "DRPG_Core_Liam_347"
+  ],
+  "28339": [
+   "DRPG_Core_Liam_347"
+  ],
+  "28340": [
+   "DRPG_Core_Tia_349"
+  ],
+  "28341": [
+   "DRPG_Core_Tia_349"
+  ],
+  "28342": [
+   "DRPG_Core_Tia_349"
+  ],
+  "28344": [
+   "DRPG_Core_Urumi_356"
+  ],
+  "28348": [
+   "DRPG_Core_Mayfair_358"
+  ],
+  "28349": [
+   "DRPG_Core_Mayfair_358"
+  ],
+  "28351": [
+   "DRPG_Core_Mayfair_358"
+  ],
+  "28352": [
+   "DRPG_Core_Rouen_359"
+  ],
+  "28353": [
+   "DRPG_Core_Rouen_359"
+  ],
+  "28356": [
+   "DRPG_Core_Berkanan_371"
+  ],
+  "28357": [
+   "DRPG_Core_Berkanan_371"
+  ],
+  "28360": [
+   "DRPG_Core_Garbage_372"
+  ],
+  "28361": [
+   "DRPG_Core_Garbage_372"
+  ],
+  "28364": [
+   "DRPG_Core_Ainikki_374"
+  ],
+  "28365": [
+   "DRPG_Core_Ainikki_374"
+  ],
+  "28368": [
+   "DRPG_Core_BeyondX_377"
+  ],
+  "28369": [
+   "DRPG_Core_BeyondX_377"
+  ],
+  "28372": [
+   "DRPG_Core_HatterSicilyXENO_391"
+  ],
+  "28373": [
+   "DRPG_Core_HatterSicilyXENO_391"
+  ],
+  "28376": [
+   "DRPG_Core_CheshireCatMajorita_392"
+  ],
+  "28377": [
+   "DRPG_Core_CheshireCatMajorita_392"
+  ],
+  "28380": [
+   "DRPG_Core_MarchUsalia_394"
+  ],
+  "28381": [
+   "DRPG_Core_MarchUsalia_394"
+  ],
+  "28384": [
+   "DRPG_Core_RedQueenSeraphina_395"
+  ],
+  "28385": [
+   "DRPG_Core_RedQueenSeraphina_395"
+  ],
+  "28388": [
+   "DRPG_Core_Tichelle_396"
+  ],
+  "28389": [
+   "DRPG_Core_Tichelle_396"
+  ],
+  "28392": [
+   "DRPG_Core_Rozala_397"
+  ],
+  "28393": [
+   "DRPG_Core_Rozala_397"
+  ],
+  "28396": [
+   "DRPG_Core_NA_398"
+  ],
+  "284": [
+   "Overlord Rebalance"
+  ],
+  "28400": [
+   "DRPG_Core_PiyoriXENO_400"
+  ],
+  "28401": [
+   "DRPG_Core_PiyoriXENO_400"
+  ],
+  "28404": [
+   "DRPG_Core_StrategistHigan_402"
+  ],
+  "28405": [
+   "DRPG_Core_StrategistHigan_402"
+  ],
+  "28408": [
+   "DRPG_Core_PrismGreen_1004"
+  ],
+  "28409": [
+   "DRPG_Core_PrismGreen_1004"
+  ],
+  "28410": [
+   "DRPG_Core_PrismGreen_1004"
+  ],
+  "28411": [
+   "DRPG_Core_PrismGreen_1004"
+  ],
+  "28412": [
+   "DRPG_Core_PrismPurple_1005"
+  ],
+  "28413": [
+   "DRPG_Core_PrismPurple_1005"
+  ],
+  "28414": [
+   "DRPG_Core_PrismPurple_1005"
+  ],
+  "28415": [
+   "DRPG_Core_PrismPurple_1005"
+  ],
+  "28416": [
+   "DRPG_Core_PrismOrange_1006"
+  ],
+  "28417": [
+   "DRPG_Core_PrismOrange_1006"
+  ],
+  "28418": [
+   "DRPG_Core_PrismOrange_1006"
+  ],
+  "28419": [
+   "DRPG_Core_PrismOrange_1006"
+  ],
+  "28420": [
+   "DRPG_Core_PrismIndigo_1007"
+  ],
+  "28422": [
+   "DRPG_Core_PrismIndigo_1007"
+  ],
+  "28423": [
+   "DRPG_Core_PrismIndigo_1007"
+  ],
+  "28424": [
+   "DRPG_Core_PrismPink_1008"
+  ],
+  "28426": [
+   "DRPG_Core_PrismPink_1008"
+  ],
+  "28427": [
+   "DRPG_Core_PrismPink_1008"
+  ],
+  "28428": [
+   "DRPG_Core_PrismWhite_1009"
+  ],
+  "28430": [
+   "DRPG_Core_PrismWhite_1009"
+  ],
+  "28431": [
+   "DRPG_Core_PrismWhite_1009"
+  ],
+  "28432": [
+   "DRPG_Core_PrismBlack_1010"
+  ],
+  "28434": [
+   "DRPG_Core_PrismBlack_1010"
+  ],
+  "28435": [
+   "DRPG_Core_PrismBlack_1010"
+  ],
+  "28436": [
+   "DRPG_Core_PringerV3_20006"
+  ],
+  "28437": [
+   "DRPG_Core_PringerV3_20006"
+  ],
+  "28438": [
+   "DRPG_Core_PringerV3_20006"
+  ],
+  "28440": [
+   "DRPG_Core_Taro_20009"
+  ],
+  "28441": [
+   "DRPG_Core_Taro_20009"
+  ],
+  "28442": [
+   "DRPG_Core_Taro_20009"
+  ],
+  "28443": [
+   "DRPG_Core_Taro_20009"
+  ],
+  "28444": [
+   "DRPG_Core_Hanako_20010"
+  ],
+  "28447": [
+   "DRPG_Core_Hanako_20010"
+  ],
+  "28448": [
+   "DRPG_Core_Tink_20011"
+  ],
+  "28450": [
+   "DRPG_Core_Tink_20011"
+  ],
+  "28451": [
+   "DRPG_Core_Tink_20011"
+  ],
+  "28452": [
+   "DRPG_Core_OverlordAsagi_20023"
+  ],
+  "28456": [
+   "DRPG_Core_CreatorAsagi_20024"
+  ],
+  "28460": [
+   "DRPG_Core_DescoXENO_20026"
+  ],
+  "28461": [
+   "DRPG_Core_DescoXENO_20026"
+  ],
+  "28463": [
+   "DRPG_Core_DescoXENO_20026"
+  ],
+  "28464": [
+   "DRPG_Core_SaintEtna_20031"
+  ],
+  "28465": [
+   "DRPG_Core_SaintEtna_20031"
+  ],
+  "28466": [
+   "DRPG_Core_SaintEtna_20031"
+  ],
+  "28468": [
+   "DRPG_Core_Sakuya_20032"
+  ],
+  "28470": [
+   "DRPG_Core_Sakuya_20032"
+  ],
+  "28471": [
+   "DRPG_Core_Sakuya_20032"
+  ],
+  "28472": [
+   "DRPG_Core_Beatrice_20033"
+  ],
+  "28475": [
+   "DRPG_Core_Beatrice_20033"
+  ],
+  "28476": [
+   "DRPG_Core_TinkXENO_20037"
+  ],
+  "28478": [
+   "DRPG_Core_TinkXENO_20037"
+  ],
+  "28480": [
+   "DRPG_Core_Tria_20039"
+  ],
+  "28481": [
+   "DRPG_Core_Tria_20039"
+  ],
+  "28483": [
+   "DRPG_Core_Tria_20039"
+  ],
+  "28484": [
+   "DRPG_Core_HundredKnight_20048"
+  ],
+  "28485": [
+   "DRPG_Core_HundredKnight_20048"
+  ],
+  "28486": [
+   "DRPG_Core_HundredKnight_20048"
+  ],
+  "28487": [
+   "DRPG_Core_HundredKnight_20048"
+  ],
+  "28488": [
+   "DRPG_Core_Nezaria_20049"
+  ],
+  "28489": [
+   "DRPG_Core_Nezaria_20049"
+  ],
+  "28492": [
+   "DRPG_Core_AsagiGhost_20054"
+  ],
+  "28493": [
+   "DRPG_Core_AsagiGhost_20054"
+  ],
+  "28494": [
+   "DRPG_Core_AsagiGhost_20054"
+  ],
+  "28496": [
+   "DRPG_Core_PringerV8_20060"
+  ],
+  "28497": [
+   "DRPG_Core_PringerV8_20060"
+  ],
+  "28498": [
+   "DRPG_Core_PringerV8_20060"
+  ],
+  "285": [
+   "Overlord Rebalance"
+  ],
+  "28500": [
+   "DRPG_Core_Piichan_20072"
+  ],
+  "28501": [
+   "DRPG_Core_Piichan_20072"
+  ],
+  "28504": [
+   "DRPG_Core_Suisen_20077"
+  ],
+  "28505": [
+   "DRPG_Core_Suisen_20077"
+  ],
+  "28507": [
+   "DRPG_Core_Suisen_20077"
+  ],
+  "28508": [
+   "DRPG_Core_HadoZesshosai_20078"
+  ],
+  "28509": [
+   "DRPG_Core_HadoZesshosai_20078"
+  ],
+  "28511": [
+   "DRPG_Core_HadoZesshosai_20078"
+  ],
+  "28512": [
+   "DRPG_Core_GelatoValentine_20085"
+  ],
+  "28516": [
+   "DRPG_Core_Surtr_20087"
+  ],
+  "28517": [
+   "DRPG_Core_Surtr_20087"
+  ],
+  "28520": [
+   "DRPG_Core_Yubana_20092"
+  ],
+  "28521": [
+   "DRPG_Core_Yubana_20092"
+  ],
+  "28522": [
+   "DRPG_Core_Yubana_20092"
+  ],
+  "28523": [
+   "DRPG_Core_Yubana_20092"
+  ],
+  "28524": [
+   "DRPG_Core_MochiSaber_20096"
+  ],
+  "28525": [
+   "DRPG_Core_MochiSaber_20096"
+  ],
+  "28527": [
+   "DRPG_Core_MochiSaber_20096"
+  ],
+  "28528": [
+   "DRPG_Core_Jusoso_20100"
+  ],
+  "28529": [
+   "DRPG_Core_Jusoso_20100"
+  ],
+  "28532": [
+   "DRPG_Core_SardineThiefIII_20101"
+  ],
+  "28533": [
+   "DRPG_Core_SardineThiefIII_20101"
+  ],
+  "28535": [
+   "DRPG_Core_SardineThiefIII_20101"
+  ],
+  "28536": [
+   "DRPG_Core_LiamsPringer_20103"
+  ],
+  "28537": [
+   "DRPG_Core_LiamsPringer_20103"
+  ],
+  "28538": [
+   "DRPG_Core_LiamsPringer_20103"
+  ],
+  "28539": [
+   "DRPG_Core_LiamsPringer_20103"
+  ],
+  "28540": [
+   "DRPG_Core_Amagi_20104"
+  ],
+  "28541": [
+   "DRPG_Core_Amagi_20104"
+  ],
+  "28544": [
+   "DRPG_Core_LordDesdeath_20108"
+  ],
+  "28545": [
+   "DRPG_Core_LordDesdeath_20108"
+  ],
+  "28548": [
+   "DRPG_Core_Nyandamonchan_20112"
+  ],
+  "28549": [
+   "DRPG_Core_Nyandamonchan_20112"
+  ],
+  "28551": [
+   "DRPG_Core_Nyandamonchan_20112"
+  ],
+  "28552": [
+   "DRPG_Core_Bruist_20114"
+  ],
+  "28553": [
+   "DRPG_Core_Bruist_20114"
+  ],
+  "28556": [
+   "DRPG_Core_PuddingDesco_20115"
+  ],
+  "28557": [
+   "DRPG_Core_PuddingDesco_20115"
+  ],
+  "28559": [
+   "DRPG_Core_PuddingDesco_20115"
+  ],
+  "28560": [
+   "DRPG_Core_BlackPiichan_20116"
+  ],
+  "28561": [
+   "DRPG_Core_BlackPiichan_20116"
+  ],
+  "28564": [
+   "DRPG_Core_Haru_20117"
+  ],
+  "28565": [
+   "DRPG_Core_Haru_20117"
+  ],
+  "28568": [
+   "DRPG_Core_Yui_20118"
+  ],
+  "28569": [
+   "DRPG_Core_Yui_20118"
+  ],
+  "28572": [
+   "DRPG_Core_Rainier_21002"
+  ],
+  "28573": [
+   "DRPG_Core_Rainier_21002"
+  ],
+  "28574": [
+   "DRPG_Core_Rainier_21002"
+  ],
+  "28576": [
+   "DRPG_Core_ColossalPrinnyBlue_60019"
+  ],
+  "28577": [
+   "DRPG_Core_ColossalPrinnyBlue_60019"
+  ],
+  "28578": [
+   "DRPG_Core_ColossalPrinnyBlue_60019"
+  ],
+  "28579": [
+   "DRPG_Core_ColossalPrinnyBlue_60019"
+  ],
+  "28580": [
+   "DRPG_Core_DarkLordValvolga_60025"
+  ],
+  "28581": [
+   "DRPG_Core_DarkLordValvolga_60025"
+  ],
+  "28582": [
+   "DRPG_Core_DarkLordValvolga_60025"
+  ],
+  "28583": [
+   "DRPG_Core_DarkLordValvolga_60025"
+  ],
+  "286": [
+   "Overlord Rebalance"
+  ],
+  "287": [
+   "Overlord Rebalance"
+  ],
+  "288": [
+   "Overlord Rebalance"
+  ],
+  "289": [
+   "Overlord Rebalance"
+  ],
+  "29": [
+   "Overlord Rebalance"
+  ],
+  "290": [
+   "Overlord Rebalance"
+  ],
+  "291": [
+   "Overlord Rebalance"
+  ],
+  "297": [
+   "Overlord Rebalance"
+  ],
+  "3": [
+   "Overlord Rebalance"
+  ],
+  "302": [
+   "Overlord Rebalance"
+  ],
+  "306": [
+   "Overlord Rebalance"
+  ],
+  "307": [
+   "Overlord Rebalance"
+  ],
+  "309": [
+   "Overlord Rebalance"
+  ],
+  "310": [
+   "Overlord Rebalance"
+  ],
+  "311": [
+   "Overlord Rebalance"
+  ],
+  "315": [
+   "Overlord Rebalance"
+  ],
+  "319": [
+   "Overlord Rebalance"
+  ],
+  "320": [
+   "Overlord Rebalance"
+  ],
+  "324": [
+   "Overlord Rebalance"
+  ],
+  "325": [
+   "Overlord Rebalance"
+  ],
+  "326": [
+   "Overlord Rebalance"
+  ],
+  "327": [
+   "Overlord Rebalance"
+  ],
+  "329": [
+   "Overlord Rebalance"
+  ],
+  "331": [
+   "Overlord Rebalance"
+  ],
+  "333": [
+   "Overlord Rebalance"
+  ],
+  "336": [
+   "Overlord Rebalance"
+  ],
+  "338": [
+   "Overlord Rebalance"
+  ],
+  "339": [
+   "Overlord Rebalance"
+  ],
+  "356": [
+   "Overlord Rebalance"
+  ],
+  "37": [
+   "Overlord Rebalance"
+  ],
+  "38": [
+   "Overlord Rebalance"
+  ],
+  "397": [
+   "Overlord Rebalance"
+  ],
+  "398": [
+   "Overlord Rebalance"
+  ],
+  "399": [
+   "Overlord Rebalance"
+  ],
+  "4": [
+   "Overlord Rebalance"
+  ],
+  "400": [
+   "Overlord Rebalance"
+  ],
+  "401": [
+   "Overlord Rebalance"
+  ],
+  "402": [
+   "Overlord Rebalance"
+  ],
+  "403": [
+   "Overlord Rebalance"
+  ],
+  "408": [
+   "Overlord Rebalance"
+  ],
+  "409": [
+   "Overlord Rebalance"
+  ],
+  "410": [
+   "Overlord Rebalance"
+  ],
+  "411": [
+   "Overlord Rebalance"
+  ],
+  "412": [
+   "Overlord Rebalance"
+  ],
+  "413": [
+   "Overlord Rebalance"
+  ],
+  "416": [
+   "Overlord Rebalance"
+  ],
+  "417": [
+   "Overlord Rebalance"
+  ],
+  "420": [
+   "Overlord Rebalance"
+  ],
+  "421": [
+   "Overlord Rebalance"
+  ],
+  "424": [
+   "Overlord Rebalance"
+  ],
+  "425": [
+   "Overlord Rebalance"
+  ],
+  "428": [
+   "Overlord Rebalance"
+  ],
+  "429": [
+   "Overlord Rebalance"
+  ],
+  "43": [
+   "Overlord Rebalance"
+  ],
+  "430": [
+   "Overlord Rebalance"
+  ],
+  "431": [
+   "Overlord Rebalance"
+  ],
+  "432": [
+   "Overlord Rebalance"
+  ],
+  "433": [
+   "Overlord Rebalance"
+  ],
+  "434": [
+   "Overlord Rebalance"
+  ],
+  "435": [
+   "Overlord Rebalance"
+  ],
+  "436": [
+   "Overlord Rebalance"
+  ],
+  "438": [
+   "Overlord Rebalance"
+  ],
+  "439": [
+   "Overlord Rebalance"
+  ],
+  "44": [
+   "Overlord Rebalance"
+  ],
+  "441": [
+   "Overlord Rebalance"
+  ],
+  "450": [
+   "Overlord Rebalance"
+  ],
+  "46": [
+   "Overlord Rebalance"
+  ],
+  "460": [
+   "Overlord Rebalance"
+  ],
+  "461": [
+   "Overlord Rebalance"
+  ],
+  "463": [
+   "Overlord Rebalance"
+  ],
+  "464": [
+   "Overlord Rebalance"
+  ],
+  "465": [
+   "Overlord Rebalance"
+  ],
+  "468": [
+   "Overlord Rebalance"
+  ],
+  "469": [
+   "Overlord Rebalance"
+  ],
+  "473": [
+   "Overlord Rebalance"
+  ],
+  "477": [
+   "Overlord Rebalance"
+  ],
+  "478": [
+   "Overlord Rebalance"
+  ],
+  "479": [
+   "Overlord Rebalance"
+  ],
+  "48": [
+   "Overlord Rebalance"
+  ],
+  "480": [
+   "Overlord Rebalance"
+  ],
+  "481": [
+   "Overlord Rebalance"
+  ],
+  "486": [
+   "Overlord Rebalance"
+  ],
+  "491": [
+   "Overlord Rebalance"
+  ],
+  "496": [
+   "Overlord Rebalance"
+  ],
+  "5": [
+   "Overlord Rebalance"
+  ],
+  "50": [
+   "Overlord Rebalance"
+  ],
+  "501": [
+   "Overlord Rebalance"
+  ],
+  "506": [
+   "Overlord Rebalance"
+  ],
+  "51": [
+   "Overlord Rebalance"
+  ],
+  "511": [
+   "Overlord Rebalance"
+  ],
+  "516": [
+   "Overlord Rebalance"
+  ],
+  "534": [
+   "Overlord Rebalance"
+  ],
+  "535": [
+   "Overlord Rebalance"
+  ],
+  "536": [
+   "Overlord Rebalance"
+  ],
+  "537": [
+   "Overlord Rebalance"
+  ],
+  "538": [
+   "Overlord Rebalance"
+  ],
+  "539": [
+   "Overlord Rebalance"
+  ],
+  "540": [
+   "Overlord Rebalance"
+  ],
+  "541": [
+   "Overlord Rebalance"
+  ],
+  "542": [
+   "Overlord Rebalance"
+  ],
+  "543": [
+   "Overlord Rebalance"
+  ],
+  "544": [
+   "Overlord Rebalance"
+  ],
+  "545": [
+   "Overlord Rebalance"
+  ],
+  "546": [
+   "Overlord Rebalance"
+  ],
+  "547": [
+   "Overlord Rebalance"
+  ],
+  "548": [
+   "Overlord Rebalance"
+  ],
+  "549": [
+   "Overlord Rebalance"
+  ],
+  "55": [
+   "Overlord Rebalance"
+  ],
+  "550": [
+   "Overlord Rebalance"
+  ],
+  "551": [
+   "Overlord Rebalance"
+  ],
+  "552": [
+   "Overlord Rebalance"
+  ],
+  "553": [
+   "Overlord Rebalance"
+  ],
+  "554": [
+   "Overlord Rebalance"
+  ],
+  "555": [
+   "Overlord Rebalance"
+  ],
+  "556": [
+   "Overlord Rebalance"
+  ],
+  "557": [
+   "Overlord Rebalance"
+  ],
+  "558": [
+   "Overlord Rebalance"
+  ],
+  "559": [
+   "Overlord Rebalance"
+  ],
+  "56": [
+   "Overlord Rebalance"
+  ],
+  "560": [
+   "Overlord Rebalance"
+  ],
+  "561": [
+   "Overlord Rebalance"
+  ],
+  "562": [
+   "Overlord Rebalance"
+  ],
+  "563": [
+   "Overlord Rebalance"
+  ],
+  "564": [
+   "Overlord Rebalance"
+  ],
+  "565": [
+   "Overlord Rebalance"
+  ],
+  "566": [
+   "Overlord Rebalance"
+  ],
+  "567": [
+   "Overlord Rebalance"
+  ],
+  "568": [
+   "Overlord Rebalance"
+  ],
+  "569": [
+   "Overlord Rebalance"
+  ],
+  "570": [
+   "Overlord Rebalance"
+  ],
+  "571": [
+   "Overlord Rebalance"
+  ],
+  "572": [
+   "Overlord Rebalance"
+  ],
+  "573": [
+   "Overlord Rebalance"
+  ],
+  "574": [
+   "Overlord Rebalance"
+  ],
+  "575": [
+   "Overlord Rebalance"
+  ],
+  "577": [
+   "Overlord Rebalance"
+  ],
+  "578": [
+   "Overlord Rebalance"
+  ],
+  "584": [
+   "Overlord Rebalance"
+  ],
+  "588": [
+   "Overlord Rebalance"
+  ],
+  "599": [
+   "Overlord Rebalance"
+  ],
+  "6": [
+   "Overlord Rebalance"
+  ],
+  "60": [
+   "Overlord Rebalance"
+  ],
+  "600": [
+   "Overlord Rebalance"
+  ],
+  "601": [
+   "Overlord Rebalance"
+  ],
+  "602": [
+   "Overlord Rebalance"
+  ],
+  "603": [
+   "Overlord Rebalance"
+  ],
+  "604": [
+   "Overlord Rebalance"
+  ],
+  "605": [
+   "Overlord Rebalance"
+  ],
+  "607": [
+   "Overlord Rebalance"
+  ],
+  "62": [
+   "Overlord Rebalance"
+  ],
+  "6307": [
+   "Overlord Evilities"
+  ],
+  "6308": [
+   "Overlord Evilities"
+  ],
+  "6309": [
+   "Overlord Evilities"
+  ],
+  "6310": [
+   "Overlord Evilities"
+  ],
+  "6311": [
+   "Overlord Evilities"
+  ],
+  "6312": [
+   "Overlord Evilities"
+  ],
+  "6313": [
+   "Overlord Evilities"
+  ],
+  "6314": [
+   "Overlord Evilities"
+  ],
+  "639": [
+   "Overlord Rebalance"
+  ],
+  "64": [
+   "Overlord Rebalance"
+  ],
+  "640": [
+   "Overlord Rebalance"
+  ],
+  "642": [
+   "Overlord Rebalance"
+  ],
+  "645": [
+   "Overlord Rebalance"
+  ],
+  "647": [
+   "Overlord Rebalance"
+  ],
+  "650": [
+   "Overlord Rebalance"
+  ],
+  "654": [
+   "Overlord Rebalance"
+  ],
+  "655": [
+   "Overlord Rebalance"
+  ],
+  "657": [
+   "Overlord Rebalance"
+  ],
+  "66": [
+   "Overlord Rebalance"
+  ],
+  "660": [
+   "Overlord Rebalance"
+  ],
+  "661": [
+   "Overlord Rebalance"
+  ],
+  "663": [
+   "Overlord Rebalance"
+  ],
+  "664": [
+   "Overlord Rebalance"
+  ],
+  "665": [
+   "Overlord Rebalance"
+  ],
+  "673": [
+   "Overlord Rebalance"
+  ],
+  "676": [
+   "Overlord Rebalance"
+  ],
+  "679": [
+   "Overlord Rebalance"
+  ],
+  "681": [
+   "Overlord Rebalance"
+  ],
+  "682": [
+   "Overlord Rebalance"
+  ],
+  "684": [
+   "Overlord Rebalance"
+  ],
+  "685": [
+   "Overlord Rebalance"
+  ],
+  "686": [
+   "Overlord Rebalance"
+  ],
+  "687": [
+   "Overlord Rebalance"
+  ],
+  "688": [
+   "Overlord Rebalance"
+  ],
+  "689": [
+   "Overlord Rebalance"
+  ],
+  "690": [
+   "Overlord Rebalance"
+  ],
+  "691": [
+   "Overlord Rebalance"
+  ],
+  "692": [
+   "Overlord Rebalance"
+  ],
+  "694": [
+   "Overlord Rebalance"
+  ],
+  "698": [
+   "Overlord Rebalance"
+  ],
+  "699": [
+   "Overlord Rebalance"
+  ],
+  "70": [
+   "Overlord Rebalance"
+  ],
+  "7000": [
+   "D4_Class_2090"
+  ],
+  "7001": [
+   "D4_Class_1140"
+  ],
+  "7002": [
+   "D4_Class_1140"
+  ],
+  "7003": [
+   "D4_Class_2050"
+  ],
+  "7004": [
+   "D4_Class_2120"
+  ],
+  "7005": [
+   "D4_Class_2150"
+  ],
+  "7006": [
+   "D4_Class_2050"
+  ],
+  "7007": [
+   "D4_Class_2050"
+  ],
+  "7008": [
+   "D4_Class_2090"
+  ],
+  "7009": [
+   "D4_Class_2150"
+  ],
+  "7010": [
+   "D4_Class_2110"
+  ],
+  "7011": [
+   "D4_Class_2110"
+  ],
+  "7012": [
+   "D4_Class_2120"
+  ],
+  "7013": [
+   "D4_Class_2120"
+  ],
+  "7014": [
+   "D4_Class_2130"
+  ],
+  "7015": [
+   "D4_Class_2130"
+  ],
+  "7016": [
+   "D4_Class_2150"
+  ],
+  "7017": [
+   "D4_Class_2190"
+  ],
+  "7018": [
+   "Future_Pleinair"
+  ],
+  "7019": [
+   "D4_Class_2150"
+  ],
+  "7022": [
+   "D4_Class_2150"
+  ],
+  "7024": [
+   "D4_Class_2160"
+  ],
+  "7025": [
+   "D4_Class_2160"
+  ],
+  "7027": [
+   "D4_Class_2170"
+  ],
+  "7028": [
+   "D4_Class_2170"
+  ],
+  "7029": [
+   "D4_Class_2170"
+  ],
+  "7031": [
+   "D4_Class_2190"
+  ],
+  "7044": [
+   "D4_Unique_4390"
+  ],
+  "7045": [
+   "D4_Unique_4390"
+  ],
+  "7048": [
+   "D4_Class_1190"
+  ],
+  "7049": [
+   "D4_Class_1190"
+  ],
+  "705": [
+   "Overlord Rebalance"
+  ],
+  "7050": [
+   "D4_Class_1200"
+  ],
+  "706": [
+   "Overlord Rebalance"
+  ],
+  "7092": [
+   "D4_Unique_180"
+  ],
+  "7093": [
+   "D4_Unique_180"
+  ],
+  "7094": [
+   "D4_Unique_190"
+  ],
+  "7099": [
+   "D4_Unique_490"
+  ],
+  "71": [
+   "Overlord Rebalance"
+  ],
+  "711": [
+   "Overlord Rebalance"
+  ],
+  "7123": [
+   "D4_Unique_490"
+  ],
+  "7124": [
+   "D4_Unique_490"
+  ],
+  "7125": [
+   "D4_Unique_4390"
+  ],
+  "7126": [
+   "D4_Unique_5305"
+  ],
+  "7127": [
+   "D4_Unique_5306"
+  ],
+  "7128": [
+   "D4_Unique_5307"
+  ],
+  "7129": [
+   "D4_Unique_5308"
+  ],
+  "7130": [
+   "DRPG_Sample_Noel"
+  ],
+  "7131": [
+   "DRPG_Sample_Noel"
+  ],
+  "7132": [
+   "DRPG_Sample_Melodia"
+  ],
+  "7133": [
+   "DRPG_Sample_Citri"
+  ],
+  "716": [
+   "Overlord Rebalance"
+  ],
+  "717": [
+   "Overlord Rebalance"
+  ],
+  "720": [
+   "Overlord Rebalance"
+  ],
+  "7206": [
+   "D4_Class_1190"
+  ],
+  "7207": [
+   "D4_Class_1200"
+  ],
+  "726": [
+   "Overlord Rebalance"
+  ],
+  "727": [
+   "Overlord Rebalance"
+  ],
+  "728": [
+   "Overlord Rebalance"
+  ],
+  "736": [
+   "Overlord Rebalance"
+  ],
+  "737": [
+   "Overlord Rebalance"
+  ],
+  "738": [
+   "Overlord Rebalance"
+  ],
+  "744": [
+   "Overlord Rebalance"
+  ],
+  "746": [
+   "Overlord Rebalance"
+  ],
+  "751": [
+   "Overlord Rebalance"
+  ],
+  "754": [
+   "Overlord Rebalance"
+  ],
+  "756": [
+   "Overlord Rebalance"
+  ],
+  "758": [
+   "Overlord Rebalance"
+  ],
+  "76": [
+   "Overlord Rebalance"
+  ],
+  "760": [
+   "Overlord Rebalance"
+  ],
+  "761": [
+   "Overlord Rebalance"
+  ],
+  "789": [
+   "Overlord Rebalance"
+  ],
+  "79": [
+   "Overlord Rebalance"
+  ],
+  "792": [
+   "Overlord Rebalance"
+  ],
+  "8002": [
+   "D4_Class_1170"
+  ],
+  "8013": [
+   "D4_Class_2170"
+  ],
+  "8014": [
+   "D4_Class_2130"
+  ],
+  "8016": [
+   "D4_Class_2190"
+  ],
+  "8019": [
+   "D4_Class_2150"
+  ],
+  "8022": [
+   "D4_Class_1170"
+  ],
+  "8061": [
+   "D4_Class_1170"
+  ],
+  "8062": [
+   "D4_Class_1080"
+  ],
+  "8063": [
+   "D4_Class_1140"
+  ],
+  "8064": [
+   "D4_Class_1170"
+  ],
+  "8067": [
+   "D4_Class_1080"
+  ],
+  "8075": [
+   "D4_Class_1200"
+  ],
+  "8085": [
+   "D4_Class_1080"
+  ],
+  "8094": [
+   "D4_Class_2130"
+  ],
+  "8096": [
+   "D4_Class_2050"
+  ],
+  "8097": [
+   "D4_Class_2120"
+  ],
+  "81": [
+   "Overlord Rebalance"
+  ],
+  "8109": [
+   "D4_Unique_180"
+  ],
+  "8118": [
+   "D4_Class_2110"
+  ],
+  "8135": [
+   "D4_Class_2190"
+  ],
+  "8173": [
+   "D4_Class_2160"
+  ],
+  "8176": [
+   "D4_Class_1170"
+  ],
+  "8178": [
+   "D4_Unique_360"
+  ],
+  "8179": [
+   "D4_Unique_350"
+  ],
+  "8181": [
+   "D4_Class_1220"
+  ],
+  "8182": [
+   "D4_Class_1220"
+  ],
+  "8183": [
+   "D4_Class_1220"
+  ],
+  "8184": [
+   "D4_Class_1220"
+  ],
+  "8185": [
+   "D4_Class_1220"
+  ],
+  "8186": [
+   "D4_Class_1220"
+  ],
+  "82": [
+   "Overlord Rebalance"
+  ],
+  "8211": [
+   "D4_Unique_5309"
+  ],
+  "8215": [
+   "D4_Unique_170"
+  ],
+  "8223": [
+   "D4_Class_2050"
+  ],
+  "8228": [
+   "D4_Class_1080"
+  ],
+  "8230": [
+   "D4_Class_2190"
+  ],
+  "8274": [
+   "D4_Class_2050"
+  ],
+  "8304": [
+   "D4_Unique_5301"
+  ],
+  "8351": [
+   "D4_Unique_5310"
+  ],
+  "8391": [
+   "D4_Class_1080"
+  ],
+  "8392": [
+   "D4_Class_1080"
+  ],
+  "84": [
+   "Overlord Rebalance"
+  ],
+  "8421": [
+   "D4_Class_2160"
+  ],
+  "8429": [
+   "D4_Class_1200"
+  ],
+  "86": [
+   "Overlord Rebalance"
+  ],
+  "8625": [
+   "D4_Unique_310"
+  ],
+  "8627": [
+   "D4_Unique_310"
+  ],
+  "8667": [
+   "D4_Unique_210"
+  ],
+  "8697": [
+   "D4_Class_1140"
+  ],
+  "87": [
+   "Overlord Rebalance"
+  ],
+  "88": [
+   "Overlord Rebalance"
+  ],
+  "8809": [
+   "D4_Class_2090"
+  ],
+  "8840": [
+   "D4_Class_1220"
+  ],
+  "8841": [
+   "D4_Class_1220"
+  ],
+  "8845": [
+   "D4_Unique_350"
+  ],
+  "8846": [
+   "D4_Unique_360"
+  ],
+  "8872": [
+   "D4_Unique_220"
+  ],
+  "8873": [
+   "D4_Unique_170"
+  ],
+  "8880": [
+   "D4_Unique_450"
+  ],
+  "8882": [
+   "D4_Unique_460"
+  ],
+  "8884": [
+   "D4_Unique_470"
+  ],
+  "8891": [
+   "D4_Unique_610"
+  ],
+  "8894": [
+   "D4_Unique_490"
+  ],
+  "89": [
+   "Overlord Rebalance"
+  ],
+  "9": [
+   "Overlord Rebalance"
+  ],
+  "9000": [
+   "DD2_Class_22210"
+  ],
+  "9001": [
+   "DD2_Class_22550"
+  ],
+  "9002": [
+   "DD2_Class_22590"
+  ],
+  "91": [
+   "Overlord Rebalance"
+  ],
+  "92": [
+   "Overlord Rebalance"
+  ],
+  "93": [
+   "Overlord Rebalance"
+  ],
+  "95": [
+   "Overlord Rebalance"
+  ],
+  "96": [
+   "Overlord Rebalance"
+  ],
+  "98": [
+   "Overlord Rebalance"
+  ]
+ },
+ "exported_from": "installed DD2 pack export, 2026-11-19; ids and owner folders only",
+ "schema": "dd2-claimed-ids/1"
+}

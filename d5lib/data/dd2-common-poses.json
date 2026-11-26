@@ -1,0 +1,1397 @@
+{
+ "common_sha256": "34f83f315f9554829ce753df55098ca358f6301dcf411647b46e28156677cb47",
+ "format": "character-forge-d2-poses/1",
+ "poses": {
+  "back/attack_arrow02": {
+   "canvas_offset": [
+    0,
+    -24
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 183,
+   "reference_size": [
+    112,
+    200
+   ],
+   "support": 3
+  },
+  "back/attack_arrow03": {
+   "canvas_offset": [
+    0,
+    -24
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 184,
+   "reference_size": [
+    112,
+    200
+   ],
+   "support": 3
+  },
+  "back/attack_arrow04": {
+   "canvas_offset": [
+    0,
+    -24
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 185,
+   "reference_size": [
+    112,
+    200
+   ],
+   "support": 3
+  },
+  "back/attack_ax02": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 219,
+   "reference_size": [
+    120,
+    168
+   ],
+   "support": 3
+  },
+  "back/attack_ax03": {
+   "canvas_offset": [
+    -8,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 220,
+   "reference_size": [
+    136,
+    168
+   ],
+   "support": 3
+  },
+  "back/attack_ax04": {
+   "canvas_offset": [
+    -8,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 221,
+   "reference_size": [
+    136,
+    168
+   ],
+   "support": 3
+  },
+  "back/attack_fist02": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 123,
+   "reference_size": [
+    120,
+    176
+   ],
+   "support": 3
+  },
+  "back/attack_fist03": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 124,
+   "reference_size": [
+    128,
+    176
+   ],
+   "support": 3
+  },
+  "back/attack_fist04": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 125,
+   "reference_size": [
+    128,
+    176
+   ],
+   "support": 3
+  },
+  "back/attack_gun02": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 199,
+   "reference_size": [
+    120,
+    184
+   ],
+   "support": 3
+  },
+  "back/attack_gun03": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 200,
+   "reference_size": [
+    120,
+    184
+   ],
+   "support": 3
+  },
+  "back/attack_gun04": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 201,
+   "reference_size": [
+    120,
+    184
+   ],
+   "support": 3
+  },
+  "back/attack_lance02": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 165,
+   "reference_size": [
+    112,
+    184
+   ],
+   "support": 3
+  },
+  "back/attack_lance03": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 168,
+   "reference_size": [
+    120,
+    184
+   ],
+   "support": 3
+  },
+  "back/attack_lance04": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 169,
+   "reference_size": [
+    120,
+    184
+   ],
+   "support": 3
+  },
+  "back/attack_sword02": {
+   "canvas_offset": [
+    -16,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 151,
+   "reference_size": [
+    128,
+    176
+   ],
+   "support": 3
+  },
+  "back/attack_sword03": {
+   "canvas_offset": [
+    0,
+    -11
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 148,
+   "reference_size": [
+    112,
+    176
+   ],
+   "support": 3
+  },
+  "back/attack_sword04": {
+   "canvas_offset": [
+    0,
+    -11
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 149,
+   "reference_size": [
+    112,
+    176
+   ],
+   "support": 3
+  },
+  "back/attack_sword_hand01": {
+   "canvas_offset": [
+    -16,
+    19
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 140,
+   "reference_size": [
+    112,
+    72
+   ],
+   "support": 3
+  },
+  "back/attack_sword_hand02": {
+   "canvas_offset": [
+    -18,
+    21
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 141,
+   "reference_size": [
+    112,
+    72
+   ],
+   "support": 2
+  },
+  "back/damage": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 1,
+   "rectangle": 89,
+   "reference_size": [
+    176,
+    112
+   ],
+   "support": 3
+  },
+  "back/dash": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 73,
+   "reference_size": [
+    144,
+    160
+   ],
+   "support": 3
+  },
+  "back/dash_hand": {
+   "canvas_offset": [
+    -2,
+    -15
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 70,
+   "reference_size": [
+    88,
+    88
+   ],
+   "support": 3
+  },
+  "back/gun_aerial": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 257,
+   "reference_size": [
+    128,
+    176
+   ],
+   "support": 3
+  },
+  "back/kabutowari": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 253,
+   "reference_size": [
+    128,
+    176
+   ],
+   "support": 3
+  },
+  "back/landing02": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 106,
+   "reference_size": [
+    112,
+    168
+   ],
+   "support": 3
+  },
+  "back/launch02": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 243,
+   "reference_size": [
+    112,
+    184
+   ],
+   "support": 3
+  },
+  "back/launch03": {
+   "canvas_offset": [
+    -8,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 246,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "back/launch04": {
+   "canvas_offset": [
+    -8,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 247,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "back/launch_hand01": {
+   "canvas_offset": [
+    -5,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 236,
+   "reference_size": [
+    48,
+    56
+   ],
+   "support": 3
+  },
+  "back/launch_hand02": {
+   "canvas_offset": [
+    4,
+    -2
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 237,
+   "reference_size": [
+    48,
+    56
+   ],
+   "support": 3
+  },
+  "back/one_arm_up": {
+   "canvas_offset": [
+    -16,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 93,
+   "reference_size": [
+    128,
+    192
+   ],
+   "support": 3
+  },
+  "back/roll_landing02": {
+   "canvas_offset": [
+    -8,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 283,
+   "reference_size": [
+    128,
+    144
+   ],
+   "support": 3
+  },
+  "back/rolling01": {
+   "canvas_offset": [
+    -16,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 1,
+   "rectangle": 272,
+   "reference_size": [
+    152,
+    112
+   ],
+   "support": 3
+  },
+  "back/rolling02": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 273,
+   "reference_size": [
+    128,
+    121
+   ],
+   "support": 3
+  },
+  "back/rolling03": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 275,
+   "reference_size": [
+    136,
+    136
+   ],
+   "support": 3
+  },
+  "back/rolling_hand": {
+   "canvas_offset": [
+    5,
+    -10
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 268,
+   "reference_size": [
+    48,
+    56
+   ],
+   "support": 3
+  },
+  "back/squat": {
+   "canvas_offset": [
+    -16,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 72,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "back/stand": {
+   "canvas_offset": [
+    -16,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 8,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "back/take_out": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 82,
+   "reference_size": [
+    112,
+    168
+   ],
+   "support": 3
+  },
+  "back/two_arm_up_jump02": {
+   "canvas_offset": [
+    -8,
+    -16
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 105,
+   "reference_size": [
+    120,
+    200
+   ],
+   "support": 3
+  },
+  "back/two_arm_up_jump03": {
+   "canvas_offset": [
+    -16,
+    0
+   ],
+   "flip_x": true,
+   "quarter_turns": 1,
+   "rectangle": 86,
+   "reference_size": [
+    191,
+    104
+   ],
+   "support": 3
+  },
+  "back/walk01": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 50,
+   "reference_size": [
+    96,
+    184
+   ],
+   "support": 3
+  },
+  "back/walk02": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 51,
+   "reference_size": [
+    112,
+    184
+   ],
+   "support": 3
+  },
+  "back/walk03": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 52,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "back/walk04": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 53,
+   "reference_size": [
+    104,
+    184
+   ],
+   "support": 3
+  },
+  "back/walk05": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 54,
+   "reference_size": [
+    104,
+    184
+   ],
+   "support": 3
+  },
+  "back/walk06": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": true,
+   "quarter_turns": 0,
+   "rectangle": 55,
+   "reference_size": [
+    104,
+    184
+   ],
+   "support": 3
+  },
+  "front/attack_arrow02": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 175,
+   "reference_size": [
+    96,
+    184
+   ],
+   "support": 3
+  },
+  "front/attack_arrow03": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 176,
+   "reference_size": [
+    104,
+    184
+   ],
+   "support": 3
+  },
+  "front/attack_arrow04": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 177,
+   "reference_size": [
+    104,
+    184
+   ],
+   "support": 3
+  },
+  "front/attack_ax02": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 211,
+   "reference_size": [
+    120,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_ax03": {
+   "canvas_offset": [
+    -8,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 212,
+   "reference_size": [
+    144,
+    168
+   ],
+   "support": 3
+  },
+  "front/attack_ax04": {
+   "canvas_offset": [
+    -8,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 213,
+   "reference_size": [
+    144,
+    168
+   ],
+   "support": 3
+  },
+  "front/attack_ax_hand01": {
+   "canvas_offset": [
+    3,
+    4
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 204,
+   "reference_size": [
+    80,
+    72
+   ],
+   "support": 3
+  },
+  "front/attack_ax_hand02": {
+   "canvas_offset": [
+    0,
+    8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 205,
+   "reference_size": [
+    88,
+    72
+   ],
+   "support": 3
+  },
+  "front/attack_fist02": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 115,
+   "reference_size": [
+    120,
+    184
+   ],
+   "support": 3
+  },
+  "front/attack_fist03": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 116,
+   "reference_size": [
+    128,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_fist04": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 117,
+   "reference_size": [
+    128,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_gun02": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 191,
+   "reference_size": [
+    112,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_gun03": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 192,
+   "reference_size": [
+    128,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_gun04": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 193,
+   "reference_size": [
+    112,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_lance02": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 157,
+   "reference_size": [
+    96,
+    192
+   ],
+   "support": 3
+  },
+  "front/attack_lance03": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 158,
+   "reference_size": [
+    104,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_lance04": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 159,
+   "reference_size": [
+    104,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_sword02": {
+   "canvas_offset": [
+    0,
+    -17
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 135,
+   "reference_size": [
+    112,
+    184
+   ],
+   "support": 3
+  },
+  "front/attack_sword03": {
+   "canvas_offset": [
+    1,
+    -7
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 136,
+   "reference_size": [
+    104,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_sword04": {
+   "canvas_offset": [
+    0,
+    -6
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 137,
+   "reference_size": [
+    104,
+    176
+   ],
+   "support": 3
+  },
+  "front/attack_sword_hand01": {
+   "canvas_offset": [
+    -16,
+    14
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 128,
+   "reference_size": [
+    104,
+    72
+   ],
+   "support": 3
+  },
+  "front/attack_sword_hand02": {
+   "canvas_offset": [
+    -14,
+    13
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 129,
+   "reference_size": [
+    104,
+    72
+   ],
+   "support": 3
+  },
+  "front/damage": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 1,
+   "rectangle": 88,
+   "reference_size": [
+    176,
+    112
+   ],
+   "support": 3
+  },
+  "front/damage_hand": {
+   "canvas_offset": [
+    -15,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 87,
+   "reference_size": [
+    112,
+    72
+   ],
+   "support": 3
+  },
+  "front/dash": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 68,
+   "reference_size": [
+    144,
+    168
+   ],
+   "support": 3
+  },
+  "front/dash_hand": {
+   "canvas_offset": [
+    -14,
+    2
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 65,
+   "reference_size": [
+    96,
+    88
+   ],
+   "support": 3
+  },
+  "front/gun_aerial": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 255,
+   "reference_size": [
+    120,
+    176
+   ],
+   "support": 3
+  },
+  "front/kabutowari": {
+   "canvas_offset": [
+    0,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 251,
+   "reference_size": [
+    128,
+    176
+   ],
+   "support": 3
+  },
+  "front/kabutowari_hand": {
+   "canvas_offset": [
+    6,
+    4
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 249,
+   "reference_size": [
+    104,
+    80
+   ],
+   "support": 3
+  },
+  "front/landing02": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 98,
+   "reference_size": [
+    120,
+    176
+   ],
+   "support": 3
+  },
+  "front/launch02": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 231,
+   "reference_size": [
+    112,
+    184
+   ],
+   "support": 3
+  },
+  "front/launch03": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 232,
+   "reference_size": [
+    104,
+    184
+   ],
+   "support": 3
+  },
+  "front/launch04": {
+   "canvas_offset": [
+    0,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 233,
+   "reference_size": [
+    104,
+    184
+   ],
+   "support": 3
+  },
+  "front/launch_hand01": {
+   "canvas_offset": [
+    3,
+    9
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 224,
+   "reference_size": [
+    48,
+    56
+   ],
+   "support": 3
+  },
+  "front/launch_hand02": {
+   "canvas_offset": [
+    -2,
+    6
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 225,
+   "reference_size": [
+    56,
+    56
+   ],
+   "support": 3
+  },
+  "front/one_arm_up": {
+   "canvas_offset": [
+    -8,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 91,
+   "reference_size": [
+    120,
+    200
+   ],
+   "support": 3
+  },
+  "front/roll_landing02": {
+   "canvas_offset": [
+    -8,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 279,
+   "reference_size": [
+    128,
+    144
+   ],
+   "support": 3
+  },
+  "front/rolling01": {
+   "canvas_offset": [
+    -16,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 1,
+   "rectangle": 264,
+   "reference_size": [
+    160,
+    120
+   ],
+   "support": 3
+  },
+  "front/rolling02": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 265,
+   "reference_size": [
+    128,
+    144
+   ],
+   "support": 3
+  },
+  "front/rolling03": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 266,
+   "reference_size": [
+    128,
+    120
+   ],
+   "support": 3
+  },
+  "front/squat": {
+   "canvas_offset": [
+    -16,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 67,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "front/stand": {
+   "canvas_offset": [
+    -16,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 3,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "front/take_out": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 80,
+   "reference_size": [
+    112,
+    168
+   ],
+   "support": 3
+  },
+  "front/two_arm_up_jump02": {
+   "canvas_offset": [
+    -8,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 97,
+   "reference_size": [
+    112,
+    200
+   ],
+   "support": 3
+  },
+  "front/two_arm_up_jump03": {
+   "canvas_offset": [
+    0,
+    0
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 84,
+   "reference_size": [
+    112,
+    176
+   ],
+   "support": 3
+  },
+  "front/walk01": {
+   "canvas_offset": [
+    -8,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 20,
+   "reference_size": [
+    112,
+    192
+   ],
+   "support": 3
+  },
+  "front/walk02": {
+   "canvas_offset": [
+    -8,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 21,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "front/walk03": {
+   "canvas_offset": [
+    -8,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 22,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "front/walk04": {
+   "canvas_offset": [
+    -8,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 23,
+   "reference_size": [
+    112,
+    192
+   ],
+   "support": 3
+  },
+  "front/walk05": {
+   "canvas_offset": [
+    -8,
+    -8
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 24,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  },
+  "front/walk06": {
+   "canvas_offset": [
+    -8,
+    -16
+   ],
+   "flip_x": false,
+   "quarter_turns": 0,
+   "rectangle": 25,
+   "reference_size": [
+    120,
+    192
+   ],
+   "support": 3
+  }
+ },
+ "teachers": [
+  10,
+  30,
+  50
+ ]
+}

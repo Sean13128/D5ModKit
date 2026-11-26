@@ -1,0 +1,43 @@
+{
+ "note": "Kit and OLEFFECTS-lane patch sites in VA space (image base 0x140000000 + RVA), transcribed from the cited evidence files. Every entry is re-read from the pinned vanilla executable at run time, so a wrong address or length shows up in the audit output. Overlord's sites are NOT listed here: arbitrate.py parses them from the WIP source so his numbers are never re-typed.",
+ "image_base": "0x140000000",
+ "kit": [
+  {"name": ".d5fi", "va": "0x1401a0880", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md confirmed interactions; d5lib/outfits.py:2017-2019 emits rel32 E9"},
+  {"name": ".d5fi", "va": "0x1401a3010", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md confirmed interactions (0x1a3010-0x1a3017)"},
+  {"name": ".d5cl", "va": "0x1401c62a0", "len": 10, "kind": "mid-function", "evidence": "p2-collision/SITES.md (0x1c62a0-0x1c62a9); newclasses.py:524-527"},
+  {"name": ".d5id", "va": "0x14029f753", "len": 6, "kind": "mid-function", "evidence": "p2-collision/SITES.md (0x29f753-0x29f758); identitypatch.py:54-74"},
+  {"name": ".d5c4", "va": "0x1404552f1", "len": 13, "kind": "mid-function", "evidence": "p2-collision/SITES.md (0x4552f1-0x4552fd); customcolors.py:28-30"},
+  {"name": ".d5cm", "va": "0x1407cda8c", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table (0x7cd9c0-0x7cdabd)"},
+  {"name": ".d5id", "va": "0x14015dbff", "len": 5, "kind": "mid-function", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5ul", "va": "0x14015dc73", "len": 5, "kind": "mid-function", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5el", "va": "0x1401bec5c", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5el", "va": "0x1401bf0f0", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5el", "va": "0x1401bf6dd", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5el", "va": "0x1401bfa23", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md confirmed interactions (call into 0x1ff070)"},
+  {"name": ".d5el", "va": "0x1401c2318", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5el", "va": "0x1401f7fb5", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5el", "va": "0x1401f81ca", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5id", "va": "0x14021befd", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5id", "va": "0x14044ab84", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5id", "va": "0x14044ab95", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5cl", "va": "0x140664f06", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5cl", "va": "0x140664f24", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"},
+  {"name": ".d5cl", "va": "0x140664f40", "len": 5, "kind": "call-site", "evidence": "p2-collision/SITES.md same-function table"}
+ ],
+ "oleffects": [
+  {"name": "permanent_revenge", "va": "0x1405f8ffc", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6 (call of turn_per_unit_end_round_upkeep 0x1401E5AF0)"},
+  {"name": "steal_on_kill_percent", "va": "0x1401af6a2", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6 (call of 0x140203A40 in the defeat path)"},
+  {"name": "sp_drain_per_turn", "va": "0x140552083", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6 (call of the SP percentage 0x1401EE010)"},
+  {"name": "block_overload", "va": "0x14014fd17", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6, the 11 callers of 0x14015DBF0"},
+  {"name": "block_overload", "va": "0x140161983", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"},
+  {"name": "block_overload", "va": "0x1401a5a48", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"},
+  {"name": "block_overload", "va": "0x1401dd278", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"},
+  {"name": "block_overload", "va": "0x1401dd369", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"},
+  {"name": "block_overload", "va": "0x1402a9540", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"},
+  {"name": "block_overload", "va": "0x14044ab2a", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"},
+  {"name": "block_overload", "va": "0x1404cbf0d", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"},
+  {"name": "block_overload", "va": "0x140554d4c", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"},
+  {"name": "block_overload", "va": "0x1405555fc", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"},
+  {"name": "block_overload", "va": "0x1405fb784", "len": 5, "kind": "call-site", "evidence": "OLEFFECTS-REPORT.md section 6"}
+ ]
+}

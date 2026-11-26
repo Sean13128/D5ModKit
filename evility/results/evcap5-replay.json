@@ -1,0 +1,56 @@
+{
+ "table_rows": 1050,
+ "evility": 8228,
+ "table_position": 1010,
+ "serial": "0x2f3b",
+ "section": "0x14808f010",
+ "put_called": true,
+ "rebuild": {
+  "learned_count": 1,
+  "ids": [
+   8228
+  ],
+  "evility_in_learned": true,
+  "not_learned_count": 58
+ },
+ "pick": {
+  "default": {
+   "count": 1,
+   "head": [
+    8228
+   ],
+   "evility_in_list": true
+  },
+  "sorted-by-cost": {
+   "count": 1,
+   "head": [
+    8228
+   ],
+   "evility_in_list": true
+  },
+  "category tab 1": {
+   "count": 0,
+   "head": [],
+   "evility_in_list": false
+  },
+  "category tab 5": {
+   "count": 0,
+   "head": [],
+   "evility_in_list": false
+  },
+  "category tab 9 (its own)": {
+   "count": 1,
+   "head": [
+    8228
+   ],
+   "evility_in_list": true
+  },
+  "sorted + tab 9": {
+   "count": 1,
+   "head": [
+    8228
+   ],
+   "evility_in_list": true
+  }
+ }
+}

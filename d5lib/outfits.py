@@ -26,6 +26,11 @@ from . import anm, database, dbpatch, exemap, exepatch, sprites
 from .gamefs import EXE_FILE
 from .modsys import register_patch_handler, register_finalizer
 
+# Source screen pictures (cut-in / status portrait) are pasted with their own background: the automatic white
+# removal left outlines semi-transparent on the imported art (owner decision 2026-10-27, playtest PT1027 S3).
+# The previous settings stay available as an opt-in: D5MODKIT_D4_MATTE=1 (imgtools.screen_picture).
+PORTRAIT_MATTE = dict(threshold=246, spread=10, upper=0.25)
+
 LABEL_ID = 40006        # "Outfit"
 HELP_ID = 40007         # help line of the outfit entries
 DEFAULT_ID = 40008      # "Default"
@@ -80,20 +85,186 @@ def load_names(mod):
     return {int(k): v for k, v in _data(mod).get("names", {}).items()}
 
 
+def load_colours(mod):
+    """Declared looks: {class id: colour id}.  A declared outfit is ONE look whose graphics key on the colour the
+    mod declares (a source-game costume at its own high art number N), not on its class id: no sibling ranks
+    (it is not a generic family even when its class id is >= 1000), no colour copies at cid+1..+9.  An id that is
+    not declared keeps the Kit's own rules (colour id = the slot)."""
+    return {int(k): int(v) for k, v in (_data(mod).get("colours") or {}).items()}
+
+
+def load_bodies(mod):
+    """Declared looks whose BODY KIND differs from their character's: {class id: the vanilla sprite whose body,
+    motion set and (for a monster) companion the look is built on}.  2000..2999 = a monster body (the Kit's own
+    convention, scalepatch/newclasses), any other sprite = a humanoid body.  The declaration is what tells
+    `_finalize_outfits` which sprite the monster normal-attack events (12010000 + sprite) are copied from: the
+    character's own sprite has no monster scripts when the character is humanoid."""
+    return {int(k): int(v) for k, v in (_data(mod).get("bodies") or {}).items()}
+
+
+def load_portraits(mod):
+    """Declared looks' portrait provenance: {class id: "own" | "donor"}.
+
+    K2C/DECISIONS 2026-11-06: a source look with no cut-in keeps the base character's portrait, and that is LABELLED
+    (`donor`) in the pack and its receipt instead of passing as the look's own art.  The tracker reads it."""
+    return {int(k): str(v) for k, v in (_data(mod).get("portraits") or {}).items()}
+
+
+def load_own_voice(mod):
+    """Declared looks that speak with their OWN voice: [class id] (`outfits.json` `own_voice`).
+
+    VOICE1b: an outfit row follows its character's row in everything but the look (`_follow_base`), voice included,
+    so a later mod that changes the character's voice changes it whatever the character wears.  A source-game costume
+    with its own voice bank is the exception and must say so here; an outfit that is not listed follows as before."""
+    return [int(x) for x in _data(mod).get("own_voice") or []]
+
+
+def set_own_voice(mod, slots):
+    """Record which of the pack's outfit rows keep their own voice_id (replaces the list; empty removes the key)."""
+    data = dict(_data(mod))
+    have = {int(p[1]) for p in data.get("pairs", [])}
+    keep = sorted({int(x) for x in slots} & have)
+    if keep:
+        data["own_voice"] = keep
+    else:
+        data.pop("own_voice", None)
+    mod.save_patch("outfits", "outfits.json", data)
+    return keep
+
+
+# OUTFITOWN1: field groups an outfit may keep values of its own for (`outfits.json` `own_fields`), instead of following
+# its character's row.  {group: (label, char.dat fields)}; the order is the GUI's.
+_STATS = ("HP", "SP", "ATK", "DEF", "INT", "RES", "HIT", "SPD")
+OWN_GROUPS = {
+    "evilities": ("Evilities", tuple(dbpatch.EVILITIES)),
+    "base_stats": ("Base stats", tuple(f"base_{s}" for s in _STATS)),
+    "aptitudes": ("Aptitudes", tuple(f"apt_{s}" for s in _STATS)),
+    "weapon_mastery": ("Weapon mastery", ("mastery_fist", "mastery_sword", "mastery_spear", "mastery_bow",
+                                          "mastery_gun", "mastery_axe", "mastery_staff", "mastery_monster_phys",
+                                          "mastery_monster_mag")),
+    "movement": ("Movement", ("MOV", "JMP", "counter", "throw", "crit")),
+    "resistances": ("Elemental resistances", ("res_fire", "res_wind", "res_ice", "res_star")),
+    "weapon_resistances": ("Weapon resistances", ("wres_fist", "wres_sword", "wres_spear", "wres_bow", "wres_gun",
+                                                  "wres_axe", "wres_staff", "wres_monster")),
+}
+
+# what a switch to the outfit does with each group in game (shown in the GUI; OUTFITOWN1 research, OUTFITOWN2 switch
+# hook d5lib.outfitapply, see docs/OUTFITS.md "Own values")
+_SWITCH = ("Changes as soon as the unit switches outfit: the difference between this outfit's value and its "
+           "character's is added to the unit, and switching back takes it off again, so what the unit earned "
+           "on top stays.")
+OWN_TIMING = {
+    "evilities": ("Changes as soon as the unit switches outfit: the character's own evilities that this outfit "
+                  "lacks give their place to the outfit's, and switching back gives them back. Evilities the unit "
+                  "learned are not touched."),
+    "base_stats": _SWITCH + " Stats move by the difference x (level + 1) / 2 (how the game sizes a new unit's "
+                            "stats); later level-ups grow by the outfit's values.",
+    "aptitudes": _SWITCH,
+    "weapon_mastery": _SWITCH,
+    "movement": _SWITCH,
+    "resistances": _SWITCH,
+    "weapon_resistances": "Changes as soon as the unit switches outfit (the game reads it from the outfit every "
+                          "time damage is worked out).",
+}
+
+
+def load_own_fields(mod):
+    """Outfits that keep their own values for some field groups: {slot: {group: {field: int}}}.
+
+    OUTFITOWN1: by default an outfit row follows its character's row (`_follow_base`); a group listed here keeps the
+    values given (an outfit with its own evilities, stats or weapon mastery).  Unknown groups / fields are dropped."""
+    out = {}
+    for k, groups in (_data(mod).get("own_fields") or {}).items():
+        g = _clean_groups(groups)
+        if g:
+            out[int(k)] = g
+    return out
+
+
+def _clean_groups(groups):
+    out = {}
+    for name, vals in (groups or {}).items():
+        if name not in OWN_GROUPS or not isinstance(vals, dict):
+            continue
+        fields = OWN_GROUPS[name][1]
+        v = {f: int(vals[f]) for f in fields if f in vals}
+        if v:
+            out[name] = v
+    return out
+
+
+def set_own_fields(mod, slot, groups):
+    """Record outfit `slot`'s own values ({group: {field: value}}; empty/None: it follows its character again).
+    -> the groups kept"""
+    data = dict(_data(mod))
+    slot = int(slot)
+    if slot not in {int(p[1]) for p in data.get("pairs", [])}:
+        raise ValueError(f"{slot} is not an outfit of this mod")
+    own = {str(k): v for k, v in (data.get("own_fields") or {}).items() if int(k) != slot}
+    g = _clean_groups(groups)
+    if g:
+        own[str(slot)] = g
+    if own:
+        data["own_fields"] = own
+    else:
+        data.pop("own_fields", None)
+    mod.save_patch("outfits", "outfits.json", data)
+    return g
+
+
+PORTRAIT_DONOR = "donor (source has no cut-in)"
+# DRPGCUTIN2: "illustration" = made from the look's own illustration (d5lib/drpgcutin.py), no source cut-in file
+
+
+def set_portrait(mod, slot, mode, log=None):
+    """Record a declared look's portrait provenance in the pack (`outfits.json` `portraits`)."""
+    data = dict(_data(mod))
+    p = {str(k): v for k, v in (data.get("portraits") or {}).items()}
+    p[str(int(slot))] = str(mode)
+    data["portraits"] = p
+    mod.save_patch("outfits", "outfits.json", data)
+    if log:
+        log(f"  outfit {slot}: portrait {mode if mode in ('own', 'illustration') else PORTRAIT_DONOR}")
+    return mode
+
+
 def outfit_name(mod, slot):
     return load_names(mod).get(int(slot)) or "Outfit"
 
 
-def save(mod, pairs, own_sprites=None, names=None):
+def save(mod, pairs, own_sprites=None, names=None, colours=None, bodies=None):
     if own_sprites is None:
         own_sprites = load_own(mod)
     if names is None:
         names = load_names(mod)
-    data = {"pairs": [list(map(int, p)) for p in pairs]}
+    if colours is None:
+        colours = load_colours(mod)
+    if bodies is None:
+        bodies = load_bodies(mod)
+    portraits = load_portraits(mod)
+    data: dict = {"pairs": [list(map(int, p)) for p in pairs]}
     slots = {int(p[1]) for p in pairs}
+    colours = {str(k): int(v) for k, v in colours.items() if int(k) in slots}
+    if colours:
+        data["colours"] = colours
+    bodies = {str(k): int(v) for k, v in bodies.items() if int(k) in slots}
+    if bodies:
+        data["bodies"] = bodies
     names = {str(k): v for k, v in names.items() if int(k) in slots and v}
     if names:
         data["names"] = names
+    portraits = {str(k): v for k, v in portraits.items() if int(k) in slots}
+    if portraits:
+        data["portraits"] = portraits
+    icons = {str(k): list(v) for k, v in (_data(mod).get("icons") or {}).items() if int(k) in slots}
+    if icons:
+        data["icons"] = icons
+    own_voice = sorted({int(x) for x in load_own_voice(mod)} & slots)
+    if own_voice:
+        data["own_voice"] = own_voice
+    own_fields = {str(k): v for k, v in load_own_fields(mod).items() if k in slots}
+    if own_fields:
+        data["own_fields"] = own_fields
     if own_sprites:
         data["own_sprites"] = sorted({int(x) for x in own_sprites})
     hide = _data(mod).get("hide")
@@ -173,9 +344,11 @@ def _ensure_strings(ctx, names):
     ctx.put(STRINGS, t.to_bytes())
 
 
-def _groups(pairs, names, rows=None, hidden=()):
+def _groups(pairs, names, rows=None, hidden=(), declared=()):
     """-> ([(group, class id, label id)] menu records, {string id: text}, bases, {base: [slots]}, {slot: outfit
     key}).  A generic pair [F, T] gives one group per rank: F+k with T+k (outfit key T: name, face).
+    declared: outfit keys that are single declared looks (d5lib.outfits.load_colours): they never expand into
+    ranks, whatever their class id.
     hidden: outfit keys taken out of the list (records with label 0: still members of the group, like legacy ids,
     so a unit wearing one keeps its character's identity and can switch back)."""
     bases, members, aliases, key_of = [], {}, [], {}
@@ -184,7 +357,7 @@ def _groups(pairs, names, rows=None, hidden=()):
         if a >= 1000 and b < 1000:      # legacy row that only leads back to a character
             aliases.append((a, b))
             continue
-        ks = generic_tiers(rows, a) if (a >= 1000 and rows is not None) else [0]
+        ks = generic_tiers(rows, a) if (a >= 1000 and rows is not None and b not in declared) else [0]
         for k in ks:
             base, slot = a + k, b + k
             key_of[slot] = b
@@ -328,12 +501,27 @@ def _handler(ctx, mod, patch_dir):
     hidden = getattr(ctx, "_outfit_hidden", set())
     hidden.update(int(x) for x in _data(mod).get("hide", []))
     ctx._outfit_hidden = hidden
+    own_voice = getattr(ctx, "_outfit_own_voice", set())
+    own_voice.update(load_own_voice(mod))
+    ctx._outfit_own_voice = own_voice
+    own_fields = getattr(ctx, "_outfit_own_fields", {})
+    own_fields.update(load_own_fields(mod))
+    ctx._outfit_own_fields = own_fields
     own = getattr(ctx, "_outfit_own", set())
     own.update(int(x) for x in load_own(mod))
     ctx._outfit_own = own
     names = getattr(ctx, "_outfit_names", {})
     names.update(load_names(mod))
     ctx._outfit_names = names
+    colours = getattr(ctx, "_outfit_colours", {})
+    colours.update(load_colours(mod))
+    ctx._outfit_colours = colours
+    colour_mods = getattr(ctx, "_outfit_colour_mods", {})
+    colour_mods.update({int(v): mod for v in load_colours(mod).values()})   # keyed on the look's colour (its art N)
+    ctx._outfit_colour_mods = colour_mods
+    bodies = getattr(ctx, "_outfit_bodies", {})
+    bodies.update(load_bodies(mod))
+    ctx._outfit_bodies = bodies
     faces = getattr(ctx, "_outfit_faces", {})
     for a, b in load(mod):
         if os.path.exists(face_path(mod, b)):
@@ -364,29 +552,35 @@ def _finalize(ctx):
     t = database.load_table("char.dat", ctx.get(CHAR))
     rows = {r["id"]: r for r in t.rows}
     vanilla_chars = database.load_table("char.dat", ctx.fs.read(CHAR))
-    synced = _follow_base(rows, pairs)
+    synced = _follow_base(rows, pairs, getattr(ctx, "_outfit_own_voice", ()),
+                          getattr(ctx, "_outfit_own_fields", {}))
     if synced:
         ctx.log(f"  outfits: {synced} outfit row(s) follow their character's changes (stats, skills, evilities ...)")
-    chars = newchars.find(t, database.load_table("char.dat", ctx.fs.read(CHAR)), outfit_ids) \
+    registry = getattr(ctx, "_char_uniques", {})
+    chars = newchars.find(t, database.load_table("char.dat", ctx.fs.read(CHAR)), outfit_ids, registry) \
         if OWN_COLOUR_IDS else {}
     classes = getattr(ctx, "_class_specs", {})
+    declared_owner = {int(b): int(a) for a, b in pairs
+                      if int(b) in {int(k) for k in getattr(ctx, "_outfit_colours", {})}}
     if not pairs and not chars and not classes:
-        filled = [n for n in _portraits_for_sprites(ctx, t, vanilla_chars) if n >= 10000]
+        filled = [n for n in _portraits_for_sprites(ctx, t, vanilla_chars, declared_owner) if n >= 10000]
         if filled:                  # sprites numbered 10000+ (and their portraits 20000+) at the game's sizes
             from . import scalepatch
             ctx.put(EXE_FILE, scalepatch.patch(ctx.get(EXE_FILE), {m for n in filled for m in (n, n + 1)},
                                                log=ctx.log))
         return
-    class_sprites = {n for fam in classes for n in (fam, fam + 1)}
+    class_sprites = {n for fam, spec in classes.items()
+                     for n in (int(spec.get('sprite_family', fam)), int(spec.get('sprite_family', fam)) + 1)}
     exe, face_list, banners, icon_owners, changed = None, [], [], [], False
+    gfx = registry_gfx(chars, rows)
     if pairs:
         ctx._outfit_own = set(getattr(ctx, "_outfit_own", set())) | class_sprites
-        exe, face_list, banners, icon_owners, changed = _finalize_outfits(ctx, pairs, t, rows)
+        exe, face_list, banners, icon_owners, changed = _finalize_outfits(ctx, pairs, t, rows, gfx)
     if chars:
         changed |= _finalize_characters(ctx, chars, rows, face_list, banners, icon_owners)
     if classes:
         _finalize_classes(ctx, classes, face_list, icon_owners)
-    filled = [n for n in _portraits_for_sprites(ctx, t, vanilla_chars) if n >= 10000]
+    filled = [n for n in _portraits_for_sprites(ctx, t, vanilla_chars, declared_owner) if n >= 10000]
     if changed or synced:
         ctx.put(CHAR, t.to_bytes())
     if exe is None:
@@ -394,8 +588,14 @@ def _finalize(ctx):
         lone = set(getattr(ctx, "_outfit_own", set())) | class_sprites     # new characters' own animation sets too
         if lone:
             exe = exepatch.build_layer_patch(exe, lone)
+        if gfx:
+            exe = exepatch.build_gfx_patch(exe, gfx)
+    if gfx:
+        ctx.log(f"  new characters: own graphics id for {', '.join(f'{c} ({a - 10000})' for c, a in gfx)}")
     if icon_owners:
         exe = _install_icons(ctx, exe, icon_owners)
+        # K5: the assigned pairs are a claim the pack must carry, so a share can move them (see _declare_icon_cells)
+        _declare_icon_cells(ctx, {int(v) for v in getattr(ctx, "_outfit_colours", {}).values()})
     if pairs:
         # the game recognises its characters by class id: a unit in an outfit must still count as its character
         from . import identitypatch
@@ -406,7 +606,10 @@ def _finalize(ctx):
     own_all = set(getattr(ctx, "_outfit_own", set())) | class_sprites | {m for n in filled for m in (n, n + 1)}
     exe = scalepatch.patch(exe, own_all, log=ctx.log)
     # humanoid own sprites numbered above 2000 must not count as monsters (monster families keep their companion file)
-    monsters = {n for fam, spec in classes.items() if 2000 <= int(spec.get("template", 0)) < 3000 for n in (fam, fam + 1)}
+    # a spec may borrow another family's sprites (`sprite_family`) and may say outright what it is (`kind`)
+    monsters = {n for fam, spec in classes.items()
+                if spec.get('kind', 'monster' if 2000 <= int(spec.get('template', 0)) < 3000 else 'humanoid') == 'monster'
+                for n in (int(spec.get('sprite_family', fam)), int(spec.get('sprite_family', fam)) + 1)}
     exe = scalepatch.humanoid_patch(exe, own_all - monsters, log=ctx.log)
     # skill scripts branch on the caster's sprite number (event poses, offsets, hit timings per character)
     exe = scalepatch.script_sprite_patch(exe, _script_sprites(ctx, pairs, rows, chars, classes, own_all),
@@ -416,6 +619,9 @@ def _finalize(ctx):
         from . import eventpose
         slots = {int(b) for _, b in pairs}
         exe = eventpose.patch(exe, [x for x in getattr(ctx, "_outfit_events", ()) if x[0] in slots], log=ctx.log)
+    # a draw packet whose texture is NULL is skipped instead of faulting (PAGECRASH1: the Recruiter D4-page crash)
+    from . import anmguard
+    exe = anmguard.patch(exe, log=ctx.log)
     ctx.put(EXE_FILE, exe)
     for vp in (RESIDENT if face_list or banners else ()):
         try:
@@ -429,11 +635,15 @@ def _finalize(ctx):
 LOOK_FIELDS = {"id", "sprite_id", "color_id"}
 
 
-def _follow_base(rows, pairs):
+def _follow_base(rows, pairs, own_voice=(), own_fields=None):
     """An outfit is its character in other clothes: its char.dat row (a copy of the character's, made when the outfit
     was) follows the character's row as all the mods left it -- stats, aptitudes, skills, evilities, Overload, names
     -- so a change to the character applies whatever it wears.  Its own: the look (sprite, colour id) and, for a
-    humanoid outfit of a monster-type character, the body fields it got from its humanoid template.  -> rows changed"""
+    humanoid outfit of a monster-type character, the body fields it got from its humanoid template; its voice_id
+    ONLY when its pack declares it in `own_voice` (a source costume with its own voice bank); and the field groups
+    its pack gives values for in `own_fields` (OUTFITOWN1: own evilities, stats, weapon mastery ...).
+    -> rows changed"""
+    own_fields = own_fields or {}
     n = 0
     for a, b in pairs:
         a, b = int(a), int(b)
@@ -441,12 +651,35 @@ def _follow_base(rows, pairs):
             continue
         A, B = rows[a], rows[b]
         keep = set(LOOK_FIELDS)
+        if b in own_voice:
+            keep.add("voice_id")
         if A["body_type"] != B["body_type"]:
             keep |= set(HUMANOID_FIELDS) | {k for k in A.keys() if k.startswith("mastery_")}
+        own = own_fields.get(b) or {}
+        values = {f: v for g in own.values() for f, v in g.items()}
+        keep |= set(values)
+        if "evilities" in own:
+            keep.add("evility_count")
         changed = False
         for f in A.keys():
             if f not in keep and A[f] != B[f]:
                 B.set(f, A[f])
+                changed = True
+        for f, v in values.items():
+            if f in B.keys() and B[f] != v:
+                B.set(f, v)
+                changed = True
+        if "evilities" in own:
+            # the game reads evility1..evility_count: own evilities are packed to the front, the count follows
+            evs = [B[f] for f in dbpatch.EVILITIES if B[f]]
+            evs += [0] * (len(dbpatch.EVILITIES) - len(evs))
+            for f, v in zip(dbpatch.EVILITIES, evs):
+                if B[f] != v:
+                    B.set(f, v)
+                    changed = True
+            cnt = sum(1 for v in evs if v)
+            if B["evility_count"] != cnt:
+                B.set("evility_count", cnt)
                 changed = True
         n += changed
     return n
@@ -477,24 +710,37 @@ def _script_sprites(ctx, pairs, rows, chars, classes, own):
             for slot in members[b]:
                 if slot in rows:
                     put(rows[slot]["sprite_id"], target)
+    # K4: a look whose body kind is its own (a monster costume of a humanoid character) is not an "own sprite", so
+    # `put` skips it -- but it is still a kit sprite above 10000 whose scripts must see the donor body they were
+    # built on (the monster's normal attack and every v62199 branch), not a number no vanilla branch knows.
+    bodies = {int(k): int(v) for k, v in getattr(ctx, "_outfit_bodies", {}).items()}
+    for slot, donor in bodies.items():
+        sprite = int(rows[slot]["sprite_id"]) if slot in rows else None
+        if sprite is not None and sprite != donor:
+            out.setdefault(sprite, donor)
     for fam, spec in classes.items():
-        put(fam, vanilla_sprite(int(spec.get("template", 0))))
+        put(int(spec.get('sprite_family', fam)), vanilla_sprite(int(spec.get("template", 0))))
     return out
 
 
-def _finalize_outfits(ctx, pairs, t, rows):
+def _finalize_outfits(ctx, pairs, t, rows, gfx=()):
     """-> (exe, face list, banners, list icon owners, char.dat changed)"""
     own = getattr(ctx, "_outfit_own", set())
     names = getattr(ctx, "_outfit_names", {})
     faces = getattr(ctx, "_outfit_faces", {})
     faces_by_key = dict(faces)
-    records, strings, bases, members, key_of = _groups(pairs, names, rows, getattr(ctx, "_outfit_hidden", ()))
+    colours = {int(k): int(v) for k, v in getattr(ctx, "_outfit_colours", {}).items()}
+    declared = {int(b) for _, b in pairs} & set(colours)
+    records, strings, bases, members, key_of = _groups(pairs, names, rows, getattr(ctx, "_outfit_hidden", ()),
+                                                       declared)
     _ensure_strings(ctx, strings)
     changed = False
     for base in bases:
         for slot in members[base]:
             if slot in rows and base in rows:
-                want = slot if own_colour(slot) else rows[base]["color_id"]
+                # a declared look takes the colour the mod declares (a source costume's own art number N);
+                # every other outfit keys on its slot
+                want = colours.get(slot, slot if own_colour(slot) else rows[base]["color_id"])
                 if rows[slot]["color_id"] != want:
                     rows[slot].set("color_id", want)
                     changed = True
@@ -503,12 +749,33 @@ def _finalize_outfits(ctx, pairs, t, rows):
     # character's face animation showing the picture) and the exe picks it while the outfit is worn
     from PIL import Image
     face_list, face_map, banners = [], [], []
+    declared_icons = {}
     anims = face_anim_ids(ctx.fs)
     faces = {slot: faces[key_of.get(slot, slot)] for b_ in bases for slot in members[b_]
              if key_of.get(slot, slot) in faces}
     for base in bases:
         tmpl = rows[base]["color_id"] if base in rows else base
         for slot in members[base]:
+            if int(slot) in colours:
+                # declared look: ONE colour-keyed look at the declared colour N (never a generic rank, whatever
+                # its class id); this is the row's own art, shared with its sprite
+                key = colours[int(slot)]
+                img = Image.open(faces[slot]).convert("RGBA") if slot in faces else None
+                banners.append((key, tmpl))
+                face_list.append((10000 + key, 10000 + tmpl, img))   # status panel / Status screen
+                face_list.append((key, tmpl, img))                   # framed face (battle)
+                face_map.append((slot, 10000 + key))
+                # K3: this entry is for the face redirect only.  exepatch.build_outfit_patch keeps a declared look
+                # out of the graphics-id table (the natives derive the graphics id from the row's colour/sprite,
+                # never from the class id), so the costume keeps graphics id = N and the list icon keyed on N.
+                if img is not None:
+                    # K2: the small list icon is ASSIGNED, never derived from the colour (the native
+                    # `10835 + colour/10` is meaningless at N >= 14560).  The build allocates a dedicated
+                    # texturedatabase row pair for this look's colour and paints the DRPG face into it, by the
+                    # Kit's own new-icon path (_new_icons/_install_icons, the mechanism low outfit slots already
+                    # use when the game has no cell); _declared_icon_cells reads the allocation back.
+                    declared_icons[key] = (int(slot), img)
+                continue
             if is_generic(slot):
                 # generic rank: face anims of its own colour id, from the base rank's
                 img = Image.open(faces[slot]).convert("RGBA") if slot in faces else None
@@ -532,12 +799,18 @@ def _finalize_outfits(ctx, pairs, t, rows):
                 face_map.append((slot, 10000 + slot))
                 if slot in SMALL_FACE_IDS:
                     _paint_small_faces(ctx, SMALL_FACE_IDS[slot], img)
-    monster_pairs = [(int(rows[b_]["sprite_id"]), int(rows[sl]["sprite_id"])) for b_ in bases for sl in members[b_]
-                     if b_ in rows and sl in rows and int(rows[b_]["body_type"]) == 1
-                     and rows[sl]["sprite_id"] != rows[b_]["sprite_id"]]
+    # A monster body's normal attack is a script event keyed on the SPRITE (12010000 + sprite); a humanoid body has
+    # none.  Key the copies on the LOOK's body kind (its char.dat row), never on the character's: a monster costume
+    # worn by a humanoid character needs them too, and a humanoid costume of a monster must not get monster scripts.
+    # The donor is the sprite the look was built on (its `bodies` declaration -- for a mixed look the character's own
+    # sprite has no monster scripts), else the character's sprite as before.
+    bodies = {int(k): int(v) for k, v in getattr(ctx, "_outfit_bodies", {}).items()}
+    monster_pairs = _monster_attack_pairs(rows, bases, members, bodies)
     if monster_pairs:
         _monster_scripts(ctx, monster_pairs)
     exe = ctx.fs.read(EXE_FILE)  # vanilla exe (installer backup when already patched)
+    from . import exemap
+    exemap.reset_ledger()        # every earlier exe patch is dropped with the exe it was made on
     looks = _looks(records, rows)
     # generic families: the extra colours (ids T+6 .. T+9) get faces like the ranks
     for a, b in pairs:
@@ -550,14 +823,47 @@ def _finalize_outfits(ctx, pairs, t, rows):
                 for new, src in ((b + j, a + j), (10000 + b + j, 10000 + a + j)):
                     if src in anims:
                         face_list.append((new, src, img))
+    # OUTFITOWN2: outfits with their own stats / evilities ... apply them to the unit when it switches
+    from . import outfitapply
+    own_slots = {int(b) for _, b in pairs}
+    own_masks = outfitapply.masks({k: v for k, v in getattr(ctx, "_outfit_own_fields", {}).items()
+                                   if int(k) in own_slots})
+    if own_masks:
+        ctx.log(f"  outfits: {len(own_masks)} outfit(s) change the unit's own values when it switches to or from "
+                f"them ({', '.join(map(str, sorted(own_masks)))})")
     exe = exepatch.build_outfit_patch(exe, records, LABEL_ID, HELP_ID, sorted(own), face_map, looks=looks,
-                                      more_label=MORE_ID)
+                                      more_label=MORE_ID, gfx_ids=gfx, own_masks=own_masks)
     owners = _outfit_icon_owners(ctx, pairs, rows, faces_by_key) if OWN_COLOUR_IDS else []
+    # K2: one assigned list icon per declared costume look (its DRPG face), allocated by the same new-icon path
+    owners += [(key, [key], img) for key, (_slot, img) in sorted(declared_icons.items())]
+    if declared_icons:
+        ctx.log(f"  outfits: {len(declared_icons)} declared costume icon(s) assigned a list-icon cell of their own")
     if any(n > 3 for _, n in looks.values()):
         ctx.needs_runtime = True        # more looks than colour sets: the runtime keeps each look's colours
     ctx.log(f"  outfits: {sum(len(m) for m in members.values())} outfit(s) for {len(bases)} character(s), "
             f"{len(faces)} face picture(s), {len(own)} own-animation sprite(s)")
     return exe, face_list, banners, owners, changed
+
+
+def _declare_icon_cells(ctx, declared_icons):
+    """K5: write each declared look's assigned list-icon pair into the pack that declared it
+    (`outfits.json` "icons": {class id: [48 px row, 64 px row]}).  The pair is allocated at build time from this
+    machine's texturedatabase, so a shared pack must carry it as a claim for `modshare` to move it on import --
+    otherwise two packs imported together point at the same rows."""
+    cells = getattr(ctx, "_icon_cells", {})
+    mods_of = getattr(ctx, "_outfit_colour_mods", {})
+    by_mod = {}
+    for key in declared_icons:
+        pair = cells.get(int(key))
+        mod = mods_of.get(int(key))
+        if not pair or mod is None:
+            continue
+        by_mod.setdefault(id(mod), (mod, {}))[1][str(int(key))] = [int(pair[0]), int(pair[1])]
+    for mod, decl in by_mod.values():
+        data = dict(_data(mod))
+        data["icons"] = dict(data.get("icons") or {}, **decl)
+        mod.save_patch("outfits", "outfits.json", data)
+        ctx.log(f"  outfits: {len(decl)} list-icon claim(s) recorded in '{mod.name}'")
 
 
 def _anm_data(ctx, n):
@@ -584,23 +890,32 @@ def _copy_anm(ctx, src, dst):
     return True
 
 
-def _portraits_for_sprites(ctx, t, vanilla):
+def _portraits_for_sprites(ctx, t, vanilla, owners=None):
     """Every unique character a mod adds or changes needs anm (sprite number + 10000): the Status screen and the
     skill cut-ins draw it, and the Status screen crashes when it is missing (a look picked from a sprite that has no
     portrait).  A missing one is copied from the character's colour portrait (anm 10000 + colour id), else from its
-    vanilla row's.  -> the sprite numbers given a portrait"""
+    vanilla row's.  owners: {declared look: its base character} -- a declared costume's class id is high and has no
+    char.dat row of its own in the vanilla table, but its sprite is a real high N and needs the same portrait.
+    -> the sprite numbers given a portrait"""
     van = {r["id"]: r for r in vanilla.rows}
+    declared = {int(k) for k in (owners or {})}
+    owners = {int(k): int(v) for k, v in (owners or {}).items()}
     done = []
     for r in t.rows:
         cid, s = r["id"], r["sprite_id"]
-        if cid >= 1000 or s <= 0 or s + 10000 > 32767:
+        if (cid >= 1000 and cid not in declared) or s <= 0 or s + 10000 > 32767:
             continue
-        v = van.get(cid)
+        v = van.get(cid) or van.get(owners.get(cid))
         if v is not None and v["sprite_id"] == s:
             continue
         if _anm_data(ctx, s + 10000) is not None:
             continue
-        for src in (r["color_id"] + 10000, 10000 + cid, (v["sprite_id"] + 10000) if v is not None else None, 10010):
+        # a declared look's own colour portrait is its sprite's (colour == sprite); take its base's colour portrait
+        picks = [r["color_id"] + 10000]
+        if owners.get(cid):
+            picks.insert(0, (van[owners[cid]]["color_id"] if owners[cid] in van else r["color_id"]) + 10000)
+        picks += [10000 + cid, (v["sprite_id"] + 10000) if v is not None else None, 10010]
+        for src in picks:
             if src and src != s + 10000 and _copy_anm(ctx, src, s + 10000):
                 ctx.log(f"  portrait: {r['name_EN']} ({cid}) uses sprite {s}, which had no portrait "
                         f"(anm{s + 10000:05d}: the Status screen would crash); copied from anm{src:05d}")
@@ -615,15 +930,27 @@ def _finalize_classes(ctx, classes, face_list, owners):
     from PIL import Image
     anims = face_anim_ids(ctx.fs)
     for fam, s in sorted(classes.items()):
+        fam = int(s.get('sprite_family', fam))
         tmpl = int(s["template"])
         img = Image.open(s["_face"]).convert("RGBA") if s.get("_face") else None
+        own = {int(j): Image.open(p).convert("RGBA") for j, p in (s.get("_faces") or {}).items()}
         for j in range(GENERIC_COLOURS):
             for new, src in ((fam + j, tmpl + j), (10000 + fam + j, 10000 + tmpl + j)):
                 if src in anims:
-                    face_list.append((new, src, img))
+                    face_list.append((new, src, own.get(j, img)))    # a colour's own face, else the class's
         icon = img if img is not None else base_face_image(ctx.fs, tmpl)
         if icon is not None:
             owners.append((fam, [fam + j for j in range(GENERIC_COLOURS)], icon))
+
+
+def registry_gfx(chars, rows):
+    """D4-GFX1: [(class id, 10000 + colour id)] for the graphics-id hook, one per new character with a class id >= 1000
+    (a registry unique) whose colour id does not end in 0.  For such a class anm_id_for_variant (0x14021F4A0) returns
+    palette + colour / 10 * 10: another character's graphics id (Pringer X 643 -> Mao's 640), so his status, battle
+    and cut-in faces were Mao's.  The hook returns the row's own colour instead, as the game does for a low unique.
+    The entries are built before the outfit patch, which carries the same hook (_finalize)."""
+    return sorted((cid, 10000 + int(rows[cid]["color_id"])) for cid in chars
+                  if cid >= 1000 and int(rows[cid]["color_id"]) % 10)
 
 
 def _finalize_characters(ctx, chars, rows, face_list, banners, owners):
@@ -637,43 +964,53 @@ def _finalize_characters(ctx, chars, rows, face_list, banners, owners):
     laid = []
     for cid, tmpl in sorted(chars.items()):
         r = rows[cid]
-        img = Image.open(pics[cid]).convert("RGBA") if cid in pics else None
-        if f"anime/anm_hi_jp.dat/anm{10000 + cid:05d}.lzs" in ctx.outputs:
+        # Graphics are keyed by colour id: the class id itself for a legacy low unique, the leased
+        # physical row for a registry unique (its class id is >= 10000 and keys nothing).
+        key = cid if cid < 1000 else int(r["color_id"])
+        img = Image.open(pics[key]).convert("RGBA") if key in pics else (
+            Image.open(pics[cid]).convert("RGBA") if cid in pics else None)
+        if img is None and cid >= 1000:
+            # a registry unique without face_<physical>.png would silently get the template's face, i.e. another
+            # character's picture, at every colour-keyed lookup (U1, playtest 2026-10-29): say so at install time
+            ctx.log(f"  warning: unique {cid} has no patches/characters/face_{key}.png: "
+                    f"its faces and list icon show template colour {tmpl}'s picture")
+        if cid < 1000 and f"anime/anm_hi_jp.dat/anm{10000 + key:05d}.lzs" in ctx.outputs:
             # a portrait of its own (Characters › Portrait…): the Status screen and the cut-ins draw anm
             # sprite + 10000, so a sprite only this character has gets the same picture there
             s = r["sprite_id"]
             if s != cid and sum(1 for x in rows.values() if x["sprite_id"] == s) == 1 and s + 10000 <= 32767:
                 _copy_anm(ctx, 10000 + cid, s + 10000)
         if tmpl is not None:
-            r.set("color_id", cid)
+            if cid < 1000:
+                r.set("color_id", cid)
             changed = True
-            for new, src in ((10000 + cid, 10000 + tmpl), (cid, tmpl)):
+            for new, src in ((10000 + key, 10000 + tmpl), (key, tmpl)):
                 if src in anims:
                     face_list.append((new, src, img))
-            banners.append((cid, tmpl))
+            banners.append((key, tmpl))
             # cut-in / status portrait by colour id: the character's own portrait (sprite + 10000), else the template's
-            vp = f"Anime/ANM_HI_JP.dat/anm{10000 + cid:05d}.lzs"
-            if _anm_data(ctx, 10000 + cid) is None:
+            vp = f"Anime/ANM_HI_JP.dat/anm{10000 + key:05d}.lzs"
+            if _anm_data(ctx, 10000 + key) is None:
                 for src in (r["sprite_id"] + 10000, 10000 + tmpl):
                     data = _anm_data(ctx, src)
                     if data is not None:
                         a = anm.load(data)
                         for b in a.blocks:
                             if b.id == src:
-                                b.id = 10000 + cid
+                                b.id = 10000 + key
                         ctx.put(vp, a.to_bytes())
                         break
         # the small standing picture by colour id (menus, the quest shop's 'has joined'), like an outfit's slot + 2:
         # its own sprite's (sprite + 2), else the template's -- without one the game showed another picture
-        if _anm_data(ctx, cid + 2) is None:
+        if _anm_data(ctx, key + 2) is None:
             for src in (r["sprite_id"] + 2, (tmpl if tmpl is not None else r["color_id"]) + 2):
-                data = _anm_data(ctx, src) if src != cid + 2 else None
+                data = _anm_data(ctx, src) if src != key + 2 else None
                 if data is not None:
                     a = anm.load(data)
                     for b in a.blocks:
                         if b.id == src:
-                            b.id = cid + 2
-                    ctx.put(f"Anime/ANM_HI_JP.dat/anm{cid + 2:05d}.lzs", a.to_bytes())
+                            b.id = key + 2
+                    ctx.put(f"Anime/ANM_HI_JP.dat/anm{key + 2:05d}.lzs", a.to_bytes())
                     break
         # the Quest Shop's 'has joined' banner draws sprite + 1 with the shared humanoid motion: the stand picture
         # where that motion looks (ownanim.banner_layout; the mod's own files are only re-packed in the game's copy)
@@ -686,9 +1023,10 @@ def _finalize_characters(ctx, chars, rows, face_list, banners, owners):
                     laid.append(n)
         icon = img if img is not None else (_small_face_image(ctx, tmpl) if tmpl is not None else None)
         if icon is not None:
-            owners.append((cid, [cid], icon))
+            owners.append((key, [key], icon))
     ctx.log(f"  new characters: own colour ids for {', '.join(map(str, sorted(chars)))} "
-            f"({sum(1 for c in chars if c in pics)} face picture(s))"
+            f"({sum(1 for c in chars if c in pics or (c >= 1000 and int(rows[c]['color_id']) in pics))} "
+            f"face picture(s))"
             + (f"; 'has joined' picture laid out in anm {', '.join(map(str, laid))}" if laid else ""))
     return changed
 
@@ -896,19 +1234,38 @@ def create_outfit(fs, mod, base_id, sheet_sequences=None, log=print, name=None):
     return {"slot": slot, "sprite": N}
 
 
-def create_drpg_outfit(fs, mod, base_id, uid, name, log=print, roots=None, hybrid=None, template=None):
+def create_drpg_outfit(fs, mod, base_id, uid, name, log=print, roots=None, hybrid=None, template=None,
+                       slot=None, colour=None, body=None, body_template=None):
     """Outfit of unique character `base_id` from Disgaea RPG unit `uid`: the character's complete animation set
     (shared motions + its own idle and skill poses) drawn with the unit's drawings by the exact pose map
     (drpgmap.build, specials=True; the character's own poses must have been learned from its DRPG twin first:
     drpgmap.learn_unique / tools/drpg_outfits.py learn), colour presets per part from the character's presets, the
     small standing picture, and the unit's face icon (mirrored) and cut-in when the DRPG assets have them.
+    slot / colour: a DECLARED look (d5lib.importers.drpg-leases.json): the row is written at the leased class id
+    `slot` (a high id is fine -- it is one look, not a generic family) with `sprite_id = color_id = colour` = its
+    leased high art number N.  Its files are the art group only (anm N, N+1, N+2, N+10000); no slot-keyed
+    (slot+2 / slot+10000) copies and no sibling rows are written, and the colour declaration is saved in
+    outfits.json so the build keys every colour-keyed resource on N instead of on the class id.
     Monster-type characters (char.dat body_type 1, e.g. Usalia) need `hybrid`: dict(template=humanoid template
     sprite drawing the unit, sources=animation table, keep=animation ids drawn as in the game) -- the outfit keeps
     the character's own animation set drawn by the humanoid unit (d5lib.hybridanim).
+    body / body_template: a look that CHANGES body kind (the 8 mixed DRPG identities).  body='monster' builds the
+    unit's own monster set on `body_template` (a 2000..2999 vanilla monster sprite: its motion set and companion),
+    body='humanoid' patches the row humanoid on `body_template` (a humanoid sprite) and keeps the Kit's own-animation
+    path.  The kind is recorded in outfits.json (`bodies`) so the finalize step copies the monster normal-attack
+    events from the right donor and never lists a monster body as a humanoid sprite.
     template: the vanilla character sprite whose animation set the sprite gets (default: the character's own; a
     character a mod adds has its sprite only in the mod -- create_drpg_character passes its template).
     Returns dict(slot, sprite, report)."""
     from . import colorvariants, drpg, drpgmap, ownanim
+    declared = slot is not None
+    dslot = int(slot) if slot is not None else None
+    dcolour = int(colour) if colour is not None else dslot
+    if dslot is not None:
+        if dslot < 1000 or dcolour < 1000 or dcolour % 10:
+            raise ValueError(f"declared look {dslot}: needs a high class id and a step-10 colour id (= its art N)")
+        if any(int(b) == dslot for _, b in load(mod)):
+            raise ValueError(f"declared class id {dslot} is already an outfit of this mod")
     if base_id in outfit_slots(mod):
         base_id = base_of(mod, base_id) or base_id
     van, ed = _char_tables(fs, mod)
@@ -917,20 +1274,35 @@ def create_drpg_outfit(fs, mod, base_id, uid, name, log=print, roots=None, hybri
         raise ValueError(f"unique character id {base_id} not found")
     base_sprite = int(template) if template else base_row["sprite_id"]
     monster = int(base_row["body_type"]) == 1
-    if monster and not hybrid:
+    # a look that changes body kind: the LOOK's kind decides the row and the art set, not the character's
+    mixed = body in ("monster", "humanoid") and (body == "monster") != monster
+    look_monster = (body == "monster") if mixed else monster
+    if monster and not hybrid and not mixed:
         raise ValueError(f"{base_row['name_EN']} is a monster-type unit: a humanoid DRPG unit needs hybrid=... "
                          f"(d5lib.hybridanim)")
-    if not monster and not os.path.exists(drpgmap.own_map_path(base_sprite)):
+    if not monster and not mixed and not os.path.exists(drpgmap.own_map_path(base_sprite)):
         raise ValueError(f"{base_row['name_EN']}'s own poses are not mapped yet: run drpgmap.learn_unique "
                          f"(tools/drpg_outfits.py learn {base_id})")
     drpg.unit_sheets(uid, roots)                        # the unit's sprites must exist
-    slot = free_slot(mod, fs)
+    if dslot is None:
+        slot = free_slot(mod, fs)
+        N = _free_sprite(fs, mod)
+    else:
+        slot, N = dslot, int(dcolour)
     si = next((i for i, r in enumerate(ed.rows) if r["id"] == slot), None)
-    N = _free_sprite(fs, mod)
     twin = base_row.copy()
     twin.set("id", slot)
     twin.set("sprite_id", N)
-    if monster and hybrid.get("template"):  # a humanoid drawing: the name tag / cursor height of the template
+    if declared:                    # the declared colour is the row's own art; nothing keyed on the class id
+        twin.set("color_id", N)
+    if mixed:
+        # the look's own body: the body fields (type, size, height, magichange, overload, motion group) and the
+        # weapon masteries come from the vanilla sprite the look was built on, not from the character's row
+        brow = next((r for r in van.rows if r["id"] == int(body_template or (2010 if look_monster else 40))), None)
+        if brow is not None:
+            for f in HUMANOID_FIELDS + tuple(k for k in brow.keys() if k.startswith("mastery_")):
+                twin.set(f, brow[f])
+    if monster and (hybrid or {}).get("template"):  # a humanoid drawing: the name tag / cursor height of the template
         hrow = next((r for r in van.rows if r["id"] == hybrid["template"]), None)
         if hrow is not None:
             twin.set("height2", hrow["height2"])
@@ -941,11 +1313,19 @@ def create_drpg_outfit(fs, mod, base_id, uid, name, log=print, roots=None, hybri
     mod.save_patch("db", "char.dat.json", dbpatch.diff_table(van, ed))
     names = load_names(mod)
     names[slot] = name
-    save(mod, load(mod) + [[base_id, slot]], names=names)
-    log(f"outfit '{name}': slot {slot} (copy of {base_row['name_EN']}), DRPG unit {uid} -> sprite anm{N:05d}")
-    if monster:
+    colours = load_colours(mod)
+    if declared:
+        colours[slot] = N
+    bodies = load_bodies(mod)
+    if mixed:
+        bodies[slot] = int(body_template or (2010 if look_monster else 40))
+    save(mod, load(mod) + [[base_id, slot]], names=names, colours=colours, bodies=bodies)
+    log(f"outfit '{name}': slot {slot} (copy of {base_row['name_EN']}), DRPG unit {uid} -> sprite anm{N:05d}"
+        + (f", declared colour {N} (one look)" if declared else "")
+        + (f", {body or ('monster' if monster else 'humanoid')} body set on sprite {bodies[slot]}" if mixed else ""))
+    if monster and not mixed:
         try:
-            _create_hybrid_files(fs, mod, base_row, slot, N, uid, hybrid, log, roots)
+            _create_hybrid_files(fs, mod, base_row, slot, N, uid, hybrid, log, roots, slot_files=not declared)
         except BaseException:
             try:
                 remove_outfit(fs, mod, slot)
@@ -953,31 +1333,45 @@ def create_drpg_outfit(fs, mod, base_id, uid, name, log=print, roots=None, hybri
                 pass
             raise
         return {"slot": slot, "sprite": N, "report": _create_hybrid_files.report}
+    ref_sprite = int(body_template) if mixed and body_template else int(base_sprite)   # the look's own body/motion set
     try:
         motion = sprites.motion_block(fs, 1, log)
-        base = anm.parse(fs.read(sprites.sprite_vpath(fs, base_sprite, "EN")))
+        base = anm.parse(fs.read(sprites.sprite_vpath(fs, ref_sprite, "EN")))
         known = int(uid) in drpgmap.load_hands()
-        out, rep = drpgmap.build(fs, uid, base_sprite, N, log=log, roots=roots, auto_hands=not known, specials=True)
+        out, rep = drpgmap.build(fs, uid, ref_sprite, N, log=log, roots=roots, auto_hands=not known, specials=True)
         save_source(mod, N, out)
         _save_parts(mod, N, colorvariants.repartition(out, base, fs=fs))
         mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N:05d}.lzs", out.to_bytes())
-        mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 1:05d}.lzs", ownanim.with_id(out, N + 1).to_bytes())
-        save(mod, load(mod), set(load_own(mod)) | {N, N + 1})
-        icon = _resident_icon(fs, base_sprite + 2)
+        if look_monster:
+            # a monster body: N+1 is its companion (exactly the donor companion's animation ids -- a full copy hangs
+            # counterattacks), and neither file is an "own sprite": monster units play their sprite's own animations
+            from . import newclasses
+            mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 1:05d}.lzs",
+                           newclasses.monster_companion(fs, out, ref_sprite, N).to_bytes())
+        else:
+            mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 1:05d}.lzs", ownanim.with_id(out, N + 1).to_bytes())
+            save(mod, load(mod), set(load_own(mod)) | {N, N + 1})
+        icon = _resident_icon(fs, ref_sprite + 2)
         if icon is not None:
             icon = repaint_stand_icon(pickle.loads(pickle.dumps(icon)), base, motion, out)
-            for new_id in (N + 2, slot + 2):
+            for new_id in ((N + 2,) if declared else (N + 2, slot + 2)):
                 f = pickle.loads(pickle.dumps(icon))
                 f.blocks[0].id = new_id
                 mod.write_file(f"Anime/ANM_HI_JP.dat/anm{new_id:05d}.lzs", f.to_bytes())
         portrait = base_row["color_id"] + 10000 if not template else int(template) + 10000
         _clone(fs, mod, portrait, N + 10000)
-        _clone(fs, mod, portrait, slot + 10000)
+        if not declared:            # a declared look owns only its art group: nothing keyed on the class id
+            _clone(fs, mod, portrait, slot + 10000)
         ex = drpg.unit_extras(uid, roots)
+        portrait_mode = "own"
+        if declared:                # K2C: a look with no source cut-in keeps the base's portrait -- labelled, not silent
+            from . import drpgcutin
+            portrait_mode = set_portrait(mod, slot, ("illustration" if drpgcutin.is_own(ex["cutin"]) else "own")
+                                         if "cutin" in ex else "donor", log)
         if "icon" in ex:
             set_face(mod, slot, ex["icon"], True)       # DRPG faces look right, the game's look left
         if "cutin" in ex:
-            set_cutin(fs, mod, slot, ex["cutin"], drpg=True)
+            set_cutin(fs, mod, slot, ex["cutin"], drpg=True, portrait=(N + 10000 if declared else None))
     except BaseException:
         try:
             remove_outfit(fs, mod, slot)
@@ -1181,20 +1575,21 @@ def _set_portrait(mod, anm_id, image):
     """the cut-in / status portrait file anm `anm_id` (in the mod) painted with the Disgaea RPG cut-in `image`"""
     import numpy as np
     from PIL import Image
-    from .imgtools import remove_white_background
+    from .imgtools import screen_picture
     vp = f"Anime/ANM_HI_JP.dat/anm{anm_id:05d}.lzs"
     a = anm.load(mod.read_file(vp))
     t = a.textures[0]
     img = Image.open(image) if isinstance(image, str) else image
-    img = fit_portrait(remove_white_background(img, threshold=246, spread=10, upper=0.25), (t.width, t.height))
+    img = fit_portrait(screen_picture(img, PORTRAIT_MATTE), (t.width, t.height))
     t.data = anm._rgba_to_argb(np.asarray(img)).tobytes()
     mod.write_file(vp, a.to_bytes())
     from . import portraitfix
     portraitfix.remember_source(mod, anm_id, image)
 
 
-def _create_hybrid_files(fs, mod, base_row, slot, N, uid, hybrid, log, roots=None):
-    """sprite files of a monster-type character's outfit drawn by a humanoid DRPG unit (create_drpg_outfit)"""
+def _create_hybrid_files(fs, mod, base_row, slot, N, uid, hybrid, log, roots=None, slot_files=True):
+    """sprite files of a monster-type character's outfit drawn by a humanoid DRPG unit (create_drpg_outfit).
+    slot_files: write the slot-keyed copies (slot+2, slot+10000); a declared look owns only its art group."""
     from . import colorvariants, drpg, drpgmap, hybridanim, newclasses
     base_sprite = base_row["sprite_id"]
     tmpl = anm.parse(fs.read(sprites.sprite_vpath(fs, base_sprite, "EN")))
@@ -1219,18 +1614,37 @@ def _create_hybrid_files(fs, mod, base_row, slot, N, uid, hybrid, log, roots=Non
     icon = _resident_icon(fs, base_sprite + 2)
     if icon is not None:
         icon = repaint_stand_icon(pickle.loads(pickle.dumps(icon)), tmpl, None, out)
-        for new_id in (N + 2, slot + 2):
+        for new_id in ((N + 2,) if not slot_files else (N + 2, slot + 2)):
             f = pickle.loads(pickle.dumps(icon))
             f.blocks[0].id = new_id
             mod.write_file(f"Anime/ANM_HI_JP.dat/anm{new_id:05d}.lzs", f.to_bytes())
     _clone(fs, mod, base_row["color_id"] + 10000, N + 10000)
-    _clone(fs, mod, base_row["color_id"] + 10000, slot + 10000)
+    if slot_files:
+        _clone(fs, mod, base_row["color_id"] + 10000, slot + 10000)
     ex = drpg.unit_extras(uid, roots)
     if "icon" in ex:
         set_face(mod, slot, ex["icon"], True)
     if "cutin" in ex:
-        set_cutin(fs, mod, slot, ex["cutin"], drpg=True)
+        set_cutin(fs, mod, slot, ex["cutin"], drpg=True, portrait=(N + 10000 if not slot_files else None))
     _create_hybrid_files.report = rep
+
+
+def _monster_attack_pairs(rows, bases, members, bodies=None):
+    """[(donor sprite, look sprite)]: every look whose char.dat row is a MONSTER body (body_type 1) and whose sprite
+    differs from its donor.  Keyed on the look's body kind, not the character's -- a monster costume worn by a
+    humanoid character gets the copies too, and a humanoid costume of a monster does not.  donor: the `bodies`
+    declaration (the vanilla sprite the look's body/motion set was built on), else the character's sprite
+    (unchanged for every existing outfit)."""
+    bodies = bodies or {}
+    out = []
+    for b_ in bases:
+        for sl in members[b_]:
+            if b_ not in rows or sl not in rows or int(rows[sl]["body_type"]) != 1:
+                continue
+            donor = bodies.get(int(sl), int(rows[b_]["sprite_id"]))
+            if int(rows[sl]["sprite_id"]) != donor:
+                out.append((donor, int(rows[sl]["sprite_id"])))
+    return out
 
 
 def _monster_scripts(ctx, sprite_pairs):
@@ -1376,40 +1790,88 @@ def repaint_stand_icon(icon: anm.AnmFile, base_sprite: anm.AnmFile, motion_block
     return icon
 
 
+def repaint_single_cell_monster_icon(icon: anm.AnmFile, new_sprite: anm.AnmFile):
+    """Paint complete monster stands into a resident icon with one cell per view.
+
+    Some resident icons draw several independent pieces and cannot be repainted
+    as two halves of an atlas. This variant requires a single-cell template and
+    fits each complete rendered pose inside its actual cell, without clipping.
+    """
+    import numpy as np
+    from PIL import Image
+
+    ids = {x['id']: x['index'] for x in anm.list_animations(icon)}
+    source_ids = {x['id']: x['index'] for x in anm.list_animations(new_sprite)}
+    tex = icon.textures[0]
+    out = np.zeros((tex.height, tex.width, 4), dtype=np.uint8)
+    occupied = []
+    for aid in (1, 7):
+        if aid not in ids or aid not in source_ids:
+            raise ValueError(f'missing resident stand motion {aid}')
+        items = anm.evaluate(icon, ids[aid], 0)
+        if len(items) != 1 or items[0].tex_global != 0:
+            raise ValueError(f'resident stand motion {aid} is not single-cell')
+        c = items[0].cell
+        rect = (c.x, c.y, c.x + c.w, c.y + c.h)
+        if not c.w or not c.h or rect[2] > tex.width or rect[3] > tex.height:
+            raise ValueError('resident stand cell outside texture')
+        if any(rect[0] < r[2] and r[0] < rect[2] and rect[1] < r[3] and r[1] < rect[3] for r in occupied):
+            raise ValueError('resident stand cells overlap')
+        occupied.append(rect)
+        img = anm.render_frame(new_sprite, source_ids[aid], time=0, bounds=(-320, -440, 320, 140))
+        bbox = img.getchannel('A').getbbox()
+        if not bbox or bbox[0] == 0 or bbox[1] == 0 or bbox[2] == img.width or bbox[3] == img.height:
+            raise ValueError(f'empty or clipped source stand motion {aid}')
+        img = img.crop(bbox)
+        scale = min(c.w / img.width, c.h / img.height)
+        size = (max(1, min(c.w, round(img.width * scale))), max(1, min(c.h, round(img.height * scale))))
+        img = img.resize(size, Image.Resampling.LANCZOS)
+        x, y = c.x + (c.w - size[0]) // 2, c.y + c.h - size[1]
+        out[y:y + size[1], x:x + size[0]] = np.asarray(img)
+    idx, pals = _quantize_variants(out, len(icon.palettes))
+    tex.data = idx.tobytes()
+    for p, pal in enumerate(pals):
+        anm.set_palette(icon, p, pal)
+    return icon
+
+
 def base_of(mod, slot):
     """the character (or generic family) an outfit belongs to"""
     return next((int(a) for a, b in load(mod) if int(b) == int(slot) and (int(a) < 1000 or int(b) >= 1000)), None)
 
 
-def set_cutin(fs, mod, slot, image, drpg=False):
+def set_cutin(fs, mod, slot, image, drpg=False, portrait=None):
     """Replace the outfit's cut-in / status portrait (anm 10000 + slot, one tall ARGB picture) with
     `image` (path or PIL image), resized to the original picture's size.  drpg: a Disgaea RPG cut-in (pure
-    white background, close-up): only the white around it goes, scaled to fill (fit_portrait)."""
+    white background, close-up): only the white around it goes, scaled to fill (fit_portrait).  portrait: the
+    portrait file's number when it is not class id + 10000 (a declared look's portrait is colour id + 10000).
+    (The parameter is not called `anm`: it would shadow this module's `anm` import.)"""
     import numpy as np
     from PIL import Image
-    vp = f"Anime/ANM_HI_JP.dat/anm{slot + 10000:05d}.lzs"
+    target = slot + 10000 if portrait is None else int(portrait)
+    vp = f"Anime/ANM_HI_JP.dat/anm{target:05d}.lzs"
     if not mod.has_file(vp):
         base = base_of(mod, slot)
-        if base is None or not _clone(fs, mod, base + 10000, slot + 10000):
+        if base is None or not _clone(fs, mod, base + 10000, target):
             raise ValueError("the base character has no portrait file to start from")
     a = anm.load(mod.read_file(vp))
     t = a.textures[0]
     N = next((int(r["sprite_id"]) for r in _char_tables(fs, mod)[1].rows if r["id"] == slot), None)
     img = Image.open(image) if isinstance(image, str) else image
-    from .imgtools import remove_white_background
+    from .imgtools import screen_picture
     if drpg:
-        img = fit_portrait(remove_white_background(img, threshold=246, spread=10, upper=0.25), (t.width, t.height))
+        img = fit_portrait(screen_picture(img, PORTRAIT_MATTE), (t.width, t.height))
     else:
-        img = remove_white_background(img).resize((t.width, t.height), Image.LANCZOS)
+        img = screen_picture(img, PORTRAIT_MATTE).resize((t.width, t.height), Image.LANCZOS)
     if t.indexed:
         raise ValueError("unexpected indexed portrait texture")
     t.data = anm._rgba_to_argb(np.asarray(img)).tobytes()
     mod.write_file(vp, a.to_bytes())
     from . import portraitfix
-    portraitfix.remember_source(mod, slot + 10000, image, fit="cover" if drpg else "stretch")
-    if N:                                      # the copy the game loads by sprite number
+    portraitfix.remember_source(mod, target, image, fit="cover" if drpg else "stretch")
+    if N and target != N + 10000:              # the copy the game loads by sprite number
         for b in a.blocks:
-            if b.id == slot + 10000:
+            if b.id == target:
                 b.id = N + 10000
         mod.write_file(f"Anime/ANM_HI_JP.dat/anm{N + 10000:05d}.lzs", a.to_bytes())
 
@@ -1473,7 +1935,8 @@ def remove_outfit(fs, mod, slot):
         return
     N = outfit_sprite(fs, mod, slot)
     van, ed = _char_tables(fs, mod)
-    ids = set(range(slot, slot + 10)) if is_generic(slot) else {slot}
+    family = is_generic(slot) and int(slot) not in load_colours(mod)   # a declared look is one row, not a family
+    ids = set(range(slot, slot + 10)) if family else {slot}
     vrows = {r["id"]: r for r in van.rows}
     keep = []
     for r in ed.rows:
@@ -1485,14 +1948,14 @@ def remove_outfit(fs, mod, slot):
     ed.rows[:] = keep
     d = dbpatch.diff_table(van, ed)
     mod.save_patch("db", "char.dat.json", None if dbpatch.is_empty(d) else d)
-    if is_generic(slot):
+    if family:
         jvan, jed = _jobrank_tables(fs, mod)
         jed.rows[:] = [r for r in jed.rows if r["id"] not in ids]
         d = dbpatch.diff_table(jvan, jed)
         mod.save_patch("db", "JobRank.dat.json", None if dbpatch.is_empty(d) else d)
     if N:
-        extra = range(N + 10000, N + 10000 + GENERIC_COLOURS) if is_generic(slot) else (N + 10000, N + 10001)
-        for n in [N, N + 1, N + 2, *extra] + ([] if is_generic(slot) else [slot + 2, slot + 10000]):
+        extra = range(N + 10000, N + 10000 + GENERIC_COLOURS) if family else (N + 10000, N + 10001)
+        for n in [N, N + 1, N + 2, *extra] + ([] if family else [slot + 2, slot + 10000]):
             mod.remove_file(f"Anime/ANM_HI_JP.dat/anm{n:05d}.lzs")
     if os.path.exists(face_path(mod, slot)):
         os.remove(face_path(mod, slot))
@@ -1979,9 +2442,21 @@ def _small_face_image(ctx, colour):
     return txf.to_image(cell[1]).crop((x, y, x + w, y + h)).convert("RGBA")
 
 
+def _declared_icon_cells(ctx, colour):
+    """Small list-icon texture cells of a declared look's colour id -> (48 px row, 64 px row), or () .
+
+    K2: at N >= 14560 the native `10835 + colour/10` derivation is meaningless, so the cell is ASSIGNED by the
+    build, not derived.  `_finalize_outfits` collects one face picture per declared colour and hands it to the
+    Kit's own new-icon path (`_install_icons` -> `_new_icons`, the mechanism list-icon-less low slots already
+    use); `_install_icons` records the allocated row pair here, so a build can read back exactly which cell the
+    look got (the art contract in d5lib/importers/drpg_art.py checks it has pixels)."""
+    return tuple(getattr(ctx, "_icon_cells", {}).get(int(colour), ()))
+
+
 def _outfit_icon_owners(ctx, pairs, rows, faces):
     """[(outfit key, [colour ids], image)] for every outfit without a game cell of its own.  faces: {key: path}"""
     from PIL import Image
+    declared = set(int(k) for k in getattr(ctx, "_outfit_colours", {}))
     owners = []
     for a, b in pairs:
         a, b = int(a), int(b)
@@ -1989,6 +2464,8 @@ def _outfit_icon_owners(ctx, pairs, rows, faces):
             continue                 # legacy link
         if b in SMALL_FACE_IDS or (b not in rows):
             continue
+        if b in declared:
+            continue                 # K2: a declared look's icon cell is declared, not derived from its colour
         if b in faces:
             img = Image.open(faces[b]).convert("RGBA")
         elif a >= 1000:
@@ -2007,6 +2484,12 @@ def _install_icons(ctx, exe, owners):
     keys = [k for k, _, _ in owners]
     rows_of, first, count = _new_icons(ctx, keys, {k: img for k, _, img in owners})
     row_of = dict(rows_of)
+    # K2: record the assigned list-icon cells per outfit key, so a declared look's cell can be read back
+    cells = getattr(ctx, "_icon_cells", None)
+    if cells is None:
+        ctx._icon_cells = cells = {}
+    for k, r48 in rows_of:
+        cells[int(k)] = (int(r48), int(r48) + ICON_64)
     table = [(c, row_of[k]) for k, cs, _ in owners if k in row_of for c in cs]
     exe = exepatch.add_hook_section(exe, ICON_SECTION, [
         (ICON_PICK_VA, ICON_PICK_ORIG, _icon_src(table), 0xE9),
@@ -2127,10 +2610,11 @@ def create_generic_outfit(fs, mod, base_id, sheet_sequences=None, log=print, nam
     return {"slot": T, "sprite": N}
 
 
-def _face_file(fs=None):
-    """the game's face block 9017 as an AnmFile (cached)"""
+def _face_file(fs=None, fresh=False):
+    """the game's face block 9017 as an AnmFile (cached).  fresh: read it from `fs` as it is NOW (an installed game's
+    resident pack holds the imported characters' faces; the cache holds the clean game's block) and leave the cache alone"""
     path = os.path.join(sprites.CACHE_DIR, "face_block_9017.pickle")
-    if os.path.exists(path):
+    if not fresh and os.path.exists(path):
         with open(path, "rb") as f:
             return pickle.load(f)
     res = anm.parse(fs.read("Anime/ANM_HI_JP.dat/anm_resident.lzs"))
@@ -2139,6 +2623,9 @@ def _face_file(fs=None):
     nb = pickle.loads(pickle.dumps(b))
     nb.tex_base = nb.pal_base = 0
     out = anm.AnmFile([nb], tex, [])
+    if fresh:
+        return out
+    os.makedirs(os.path.dirname(path), exist_ok=True)   # a fresh kit has no cache/ yet
     with open(path, "wb") as f:
         pickle.dump(out, f)
     return out
@@ -2148,10 +2635,10 @@ def face_anim_ids(fs=None):
     return {a.id for a in _face_file(fs).blocks[0].animations}
 
 
-def base_face_image(fs, colour):
-    """the game's 204 px face picture of a colour id (status panel), or None"""
+def base_face_image(fs, colour, fresh=False):
+    """the game's 204 px face picture of a colour id (status panel), or None.  fresh: see `_face_file`"""
     try:
-        f = _face_file(fs)
+        f = fresh if hasattr(fresh, "blocks") else _face_file(fs, fresh)      # fresh may also be an AnmFile already read
         items = anm.evaluate(f, ("id", 10000 + int(colour)), 0)
     except Exception:
         return None

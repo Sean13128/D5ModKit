@@ -17,6 +17,61 @@ humanoid outfit of a monster-type character also its body fields and weapon mast
 row. A change any mod makes to the character -- stats, skills, evilities, Overload, names -- applies whatever outfit
 it wears (verified in game: Killia in a DRPG outfit got her new evility and skill). Before, outfit rows kept the
 values of the moment they were made.
+**Own values** (OUTFITOWN1, 2026-11-18; Outfits › Edit › *Own evilities, stats & weapons…*): an outfit can keep
+values of its own for whole groups instead of following its character -- evilities, base stats, aptitudes, weapon
+mastery, movement (MOV/JMP/counter/throw/crit), elemental resistances, weapon resistances. They are stored in
+`outfits.json` `own_fields` `{"<slot>": {"<group>": {"<char.dat field>": value}}}` (groups: `outfits.OWN_GROUPS`) and
+`_follow_base` writes them after following (own evilities are packed to the front, `evility_count` follows). An
+outfit without the key behaves exactly as before.
+
+What a switch does with them in game.  The game keeps its own copies of a class row's values in the unit record,
+filled when the unit is made (`unit_construct` 0x14021B510, `unit_init_stats` 0x140218590), ranks up (0x14021EEE0)
+or is reincarnated (innate evilities 0x140219C40) -- Steam addresses.  OUTFITOWN2 (`d5lib/outfitapply.py`): when
+some outfit keeps own values for one of the groups below, the outfit switch (`outfit_pick`) keeps the old class id
+and row index, lets the game set the new row (0x14015F930, kit 0x14015eb80) and calls `outfit_apply`: for each
+group the old OR the new outfit owns, the new row minus the old row is added to the unit's copy, then `unit_recalc`
+(0x14021BFB0) rebuilds the finals and the evility list.  Switching back adds the opposite difference, so the record
+comes back byte for byte (Unicorn proof on Killia from Save1, `tests/test_outfitown2.py`).  Groups no outfit owns,
+and packs without `own_fields`, build exactly the exe they built before.
+
+| group | unit field (offset, type) | rule |
+|---|---|---|
+| base_stats | growth bytes +0x2DA0+k (u8) | + difference, clamp 1..255 (rank-up's own rule) |
+| | base stats +0x2D18+8k (i64) | + difference x (level+1) / 2 (unit_init_stats' share at its mean 50% roll), min 1 |
+| aptitudes | +0x3078+2k (u16) | + difference, clamp 0..65535 |
+| weapon_mastery | base aptitude +0x2DAE+8k, 9 weapons (u8) | + difference, clamp 0..127 |
+| movement | MOV +0x2E1C, JMP +0x2E1A, counter +0x2E1E, row+0x37D -> +0x2E20, row+0x380 -> +0x2E22 (u8) | + difference, clamp 0..255 |
+| resistances | +0x2E12..+0x2E15 (i8) | + difference, clamp -128..127 |
+| evilities | innate slots +0x2EEE (u16 x5, count +0x2EF8, 9999 empty) | see below |
+| weapon_resistances | none: read from the current row on every damage calculation (0x14015C490) | changes at once |
+
+Evilities: those both rows have stay where they are.  The character's own evilities the outfit lacks give their
+slot to the outfit's own ones, pair by pair in row order; one the unit does not hold (a story-gated one such as
+Killia's Hero before it is unlocked) passes nothing on, so switching back hands nothing out either.  A surplus old
+one is removed (slots stay packed); a surplus new one goes in right after its predecessor in the outfit's row while
+the unit has a free innate slot (+0x2EFA).  Learned evilities are never touched; when the unit has the outfit's
+evility equipped as a learned one too, the active list holds it twice while the outfit is worn.
+
+Verified in game 2026-11-18 (OUTFITOWN2, Steam build, installed exe f9b6551b): Save1's Killia (Lv9999), outfit
+473 "Awakened" with own values, switched through Characters › Killia › Outfit.  Read from the unit record and the
+Status screen: ATK growth 52 -> 92 and ATK 36,079,158 -> 36,339,158; INT aptitude 100 -> 160; Gun and Staff mastery
+C -> S; MOV 5 -> 8; fire resistance -25 -> 50; vs Sword 20 -> 60 (row-live); unique evility War Demon -> Wild Cry
+(Evilities page).  Back to Default: every group returned exactly; the only bytes that differed from before the
+first switch were six sword skills (11161-11166) and the skill count, which the recompute grants from Killia's
+unchanged sword level -- any battle or level-up does the same.
+
+Persistence (2026-11-18): the save stores the unit record verbatim (Save1's Killia = the live record byte for
+byte), and a save holding Killia in "Awakened" (her live record after the switch, written into a test slot with
+`d5lib.savegame`) loaded through the game's own load with every group intact (class 473, ATK 36,339,158, INT 160,
+Gun/Staff S, MOV 8, fire 50, Wild Cry) -- the load's recompute re-derives nothing from the row.  One difference,
+not from own values: the unit's title text (+0xBFC) was reset from the earned "Cryo Blood Overlord" to the row title
+"Wanderer" by the load, because the save was made in an outfit.  Cause and fix (OUTFITTITLE1) under "Story
+titles" below: the title is not stored, the game re-derives it from the class id on every load.
+
+Limits: a clamp that bites does not come back exactly (the clamped amount is lost, as with rank-up).  Base stats move
+by (level+1)/2 x difference at the level of the switch, so a unit that levels up in the outfit returns with its own
+gains, not the exact old value.  An outfit's values are compared against the CURRENT install: switch units back to
+their normal look before changing an outfit's own values or removing its pack, or the unit keeps the difference.
 * `face_<slot>.png` — the outfit's face picture (optional).
 * files: `anmN` (outfit sprite), `anmN+1` (copy), `anmN+2` / `anm<slot+2>` (small standing picture),
   `anm<N+10000>` and `anm<slot+10000>` (portrait / cut-in).
@@ -38,7 +93,7 @@ Two kinds of input:
 * **DRPG atlases** (`DRPG Assets (Updated)/Characters/Sprites/{front,back,wait_front,wait_back}/<id>.png`, or the
   older `Sprites/Standard/...`): packed, trimmed frames without labels.  `d5lib/drpg.py` cuts the pieces and matches
   them to the poses of a reference built from Girl Laharl's labelled Swimsuit sheet (`d5lib/data/drpg_ref_humanoid.pickle`,
-  `_research/drpg_make_ref.py`) by silhouette + skin + hair masks, then assigns them one-to-one; each frame keeps
+  rebuilt by `tools/drpg_make_ref.py`: one entry per non-empty labelled cell, see the tool's docstring) by silhouette + skin + hair masks, then assigns them one-to-one; each frame keeps
   its original canvas and offset.  **Exact frames (2026-10-02):** DRPG atlases are not trimmed -- every frame sits in a fixed rectangle at its canvas
 position, and the rectangles are the same for every humanoid unit.  `d5lib/data/drpg_slots.json` holds them (made from
 Girl Laharl's labelled frames by `_research/drpg_make_slots.py`); `drpg.slot_unit(uid)` cuts each frame out of its
@@ -68,7 +123,7 @@ the game's own. Idle frames are pinned to one place (no jitter).
 | 0x14014d354 | outfit sprites animate with their own block |
 | 0x1402ae881 / 0x14043088e | status panel / Status screen face → animation 10000 + outfit class |
 | 0x14021e9d0 | graphics id of outfits with a face = their class id (battle face) |
-| 95 sites (`.d5id`, `d5lib/identitypatch.py`) | "is this unit character X?" checks see an outfit as its character (below) |
+| 95 sites + the story title override (`.d5id`, `d5lib/identitypatch.py`) | "is this unit character X?" checks see an outfit as its character (below) |
 | 0x1402f1a6f / 0x1402f200f (`.d5sc`, `d5lib/scalepatch.py`) | own sprites numbered 10000+ drawn at full size, their portraits 20000+ at portrait size (below) |
 | 0x140159f37 / 0x14014e0f1 (`.d5hm`, `scalepatch.humanoid_patch`) | own humanoid sprites numbered above 2000 are not monsters (below) |
 | 0x14015b1b0 (`.d5ss`, `scalepatch.script_sprite_patch`) | skill scripts see an outfit's sprite as its character's (below) |
@@ -85,6 +140,22 @@ the game's own. Idle frames are pinned to one place (no jitter).
   needs the exact class (0x14015e907, 0x14021908a, 0x140219cab) and a site next to the runtime Custom Color hook
   are left alone.  Verified in game: Killia in Tyrant Overlord Killidia clears a stage, the lookup runs (traced) and
   the game reaches the hub.
+* **Story titles (OUTFITTITLE1, 2026-11-18).** A unit's title text (+0xBFC, 0x44 bytes) is not kept from the save:
+  every load (`lifecycle_flows_load_apply` -> `data_lifecycle_refresh_class_titles`, Steam 0x1401C3800; also base
+  entry, NG+, battle scene start) copies each roster unit's row title from char.dat (row+0x1FC + language x 0x44) and
+  then calls the story title override (Sorrow's `lifecycle_collab_class_title_override`, Steam 0x1401C3A90) with the
+  unit's class id.  It switches on that id -- Killia 10 gets StringList 0x3180 "Cryo Blood Overlord" once her story
+  flag (0x144FCCB65 & 0x20) is set, else 0x317F "Wanderer"; 0x3C, 0x46, 100, 0x78, 0xBE, 0xDC and 0x14A..0x172 have
+  cases too -- so an outfit class (473) fell through to the row's plain "Wanderer".  The finder above only sees
+  `+0x2e04` compares; this check takes the class as an argument, so it was missing.  `identitypatch` now also hooks
+  the override's entry ("mov r8, rdx; cmp ecx, 0xdc", Steam 0x1401C3A9F, found by its bytes: `title_site`,
+  claimed in the site ledger) and maps the class argument through the outfit table, for every caller.  Normal
+  classes and generic classes get the same title as before.  Proved in Unicorn (`tests/test_outfittitle1.py`: the
+  game's refresh on Killia's live record; vanilla 473 -> "Wanderer", patched 473 -> "Cryo Blood Overlord", class
+  10 and Warrior unchanged with and without the story flag).  An outfit row's own title shows only for characters
+  without a story title.
+  Verified in game 2026-11-18 (exe b4dd297e): a save holding Killia in "Awakened" (class 473) loads with "Cryo
+  Blood Overlord", and keeps it at the base and in the character list (before the fix: "Wanderer").
 * **Two-thirds size.** The game draws animation blocks 10000-19999 / 30000-39999 at 0.67 (portraits, cut-ins), and an
   own-animation sprite is drawn from its own block, numbered like the sprite: every outfit / new character sprite
   numbered 10000+ (Laharl's DRPG outfits on, Girl Laharl's Magical Girl .. Young Thunderlady, Future Usalia,
@@ -361,3 +432,10 @@ Killia's stats, DRPG 163 "Great Demon Fist", quest 190 "The Demon Fist's Daughte
 2026-10-09 for both: Characters list (name, class title, DRPG face and list icon), Outfit menu and switching, fist
 attack (charge, punch), enemy phase.  The monster-type Santa Usalia (`hybridanim`, `monster_outfits_experimental`) is
 not built: its layers doubled.
+
+## Animation ids above 32767 never draw (2026-11-08, DRPG K6)
+`ui_sprite_play_motion` (0x14014A0E0) takes the animation id as a **signed short**, and the Characters panel builds the
+face id as `(short)(unit+0x2E36) + 10000` (`prompt_refresh` 0x1402AE700).  A face at 10000 + a 30xxx class id (40170 for
+class 30170) is therefore never found and the panel face stays blank, while the list icon and the Status bust (24940, the
+art number path) draw.  Faces and banners are keyed on the look's art number N (10000 + N, well under 32767); `facepatch.add_faces`
+now refuses any face or banner id above 32767 instead of writing something the game cannot play.

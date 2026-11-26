@@ -1,0 +1,478 @@
+{
+ "save": "Save_001.sav",
+ "source": "/Volumes/Data/SteamLibrary/steamapps/common/Disgaea 5 Complete/D5ModKit/profiles/.shared_saves/27885847/SaveData/Save_001.sav",
+ "scratch": "/Volumes/Data/ai-tmp/evcap2/saves",
+ "table_rows": 998,
+ "generation": 3541151643,
+ "units": [
+  {
+   "slot": 0,
+   "serial": 1,
+   "name": "Killia",
+   "learned": 172
+  },
+  {
+   "slot": 1,
+   "serial": 2259,
+   "name": "Pleinair",
+   "learned": 0
+  },
+  {
+   "slot": 2,
+   "serial": 844,
+   "name": "Laharl",
+   "learned": 0
+  },
+  {
+   "slot": 3,
+   "serial": 75,
+   "name": "Metallia",
+   "learned": 0
+  },
+  {
+   "slot": 4,
+   "serial": 7,
+   "name": "Christo",
+   "learned": 1
+  },
+  {
+   "slot": 5,
+   "serial": 72,
+   "name": "Magical \u2606 Prinny",
+   "learned": 1
+  },
+  {
+   "slot": 6,
+   "serial": 6607,
+   "name": "Mara",
+   "learned": 41
+  },
+  {
+   "slot": 7,
+   "serial": 66,
+   "name": "Tyrant Prinio",
+   "learned": 2
+  },
+  {
+   "slot": 8,
+   "serial": 67,
+   "name": "Bankai Prinny",
+   "learned": 2
+  },
+  {
+   "slot": 9,
+   "serial": 68,
+   "name": "N2 Prinny",
+   "learned": 2
+  },
+  {
+   "slot": 10,
+   "serial": 69,
+   "name": "H252 Prinny",
+   "learned": 2
+  },
+  {
+   "slot": 11,
+   "serial": 70,
+   "name": "Poor Clever Prinny",
+   "learned": 8
+  },
+  {
+   "slot": 12,
+   "serial": 71,
+   "name": "Pringer?",
+   "learned": 2
+  },
+  {
+   "slot": 13,
+   "serial": 64,
+   "name": "Value Your Life",
+   "learned": 2
+  },
+  {
+   "slot": 14,
+   "serial": 73,
+   "name": "Girl Laharl",
+   "learned": 0
+  },
+  {
+   "slot": 15,
+   "serial": 74,
+   "name": "Nisa",
+   "learned": 0
+  },
+  {
+   "slot": 16,
+   "serial": 4,
+   "name": "Raphael",
+   "learned": 0
+  },
+  {
+   "slot": 17,
+   "serial": 168,
+   "name": "Ren",
+   "learned": 0
+  },
+  {
+   "slot": 18,
+   "serial": 6,
+   "name": "Red Magnus",
+   "learned": 1
+  },
+  {
+   "slot": 19,
+   "serial": 3,
+   "name": "Hunter",
+   "learned": 0
+  },
+  {
+   "slot": 20,
+   "serial": 845,
+   "name": "Etna",
+   "learned": 0
+  },
+  {
+   "slot": 21,
+   "serial": 846,
+   "name": "Flonne",
+   "learned": 0
+  },
+  {
+   "slot": 22,
+   "serial": 847,
+   "name": "Sicily",
+   "learned": 0
+  },
+  {
+   "slot": 23,
+   "serial": 5,
+   "name": "Keren",
+   "learned": 0
+  },
+  {
+   "slot": 24,
+   "serial": 14,
+   "name": "Geese",
+   "learned": 0
+  },
+  {
+   "slot": 25,
+   "serial": 2,
+   "name": "Seraphina",
+   "learned": 1
+  },
+  {
+   "slot": 26,
+   "serial": 4137,
+   "name": "Dwight",
+   "learned": 0
+  },
+  {
+   "slot": 27,
+   "serial": 4186,
+   "name": "Yumi",
+   "learned": 0
+  },
+  {
+   "slot": 28,
+   "serial": 5639,
+   "name": "Valvatorez",
+   "learned": 0
+  },
+  {
+   "slot": 29,
+   "serial": 5640,
+   "name": "Fenrich",
+   "learned": 0
+  },
+  {
+   "slot": 30,
+   "serial": 5641,
+   "name": "Artina",
+   "learned": 0
+  },
+  {
+   "slot": 31,
+   "serial": 5756,
+   "name": "Fuka",
+   "learned": 0
+  },
+  {
+   "slot": 32,
+   "serial": 5757,
+   "name": "Desco",
+   "learned": 0
+  },
+  {
+   "slot": 33,
+   "serial": 5758,
+   "name": "Emizel",
+   "learned": 0
+  },
+  {
+   "slot": 34,
+   "serial": 5854,
+   "name": "Mao",
+   "learned": 0
+  },
+  {
+   "slot": 35,
+   "serial": 5855,
+   "name": "Raspberyl",
+   "learned": 0
+  },
+  {
+   "slot": 36,
+   "serial": 5856,
+   "name": "Salvatore",
+   "learned": 0
+  },
+  {
+   "slot": 37,
+   "serial": 5935,
+   "name": "Almaz",
+   "learned": 0
+  },
+  {
+   "slot": 38,
+   "serial": 5936,
+   "name": "Sapphire",
+   "learned": 0
+  },
+  {
+   "slot": 39,
+   "serial": 6016,
+   "name": "Adell",
+   "learned": 0
+  },
+  {
+   "slot": 40,
+   "serial": 6017,
+   "name": "Rozalin",
+   "learned": 0
+  },
+  {
+   "slot": 41,
+   "serial": 6018,
+   "name": "Axel",
+   "learned": 0
+  },
+  {
+   "slot": 42,
+   "serial": 6088,
+   "name": "Zetta",
+   "learned": 0
+  },
+  {
+   "slot": 43,
+   "serial": 6089,
+   "name": "Pram",
+   "learned": 0
+  },
+  {
+   "slot": 44,
+   "serial": 6090,
+   "name": "Petta",
+   "learned": 0
+  },
+  {
+   "slot": 45,
+   "serial": 6140,
+   "name": "Overlord Priere",
+   "learned": 0
+  },
+  {
+   "slot": 46,
+   "serial": 65,
+   "name": "Martian Prinny",
+   "learned": 2
+  },
+  {
+   "slot": 47,
+   "serial": 15,
+   "name": "Hedler",
+   "learned": 0
+  },
+  {
+   "slot": 48,
+   "serial": 8,
+   "name": "Usalia",
+   "learned": 1
+  },
+  {
+   "slot": 49,
+   "serial": 9,
+   "name": "Zeroken",
+   "learned": 1
+  },
+  {
+   "slot": 50,
+   "serial": 17,
+   "name": "Izuna",
+   "learned": 0
+  },
+  {
+   "slot": 51,
+   "serial": 13,
+   "name": "Logan",
+   "learned": 0
+  },
+  {
+   "slot": 52,
+   "serial": 16,
+   "name": "Erynder Z",
+   "learned": 0
+  },
+  {
+   "slot": 53,
+   "serial": 18,
+   "name": "Drumdawn",
+   "learned": 0
+  },
+  {
+   "slot": 54,
+   "serial": 11,
+   "name": "Majorita",
+   "learned": 0
+  },
+  {
+   "slot": 55,
+   "serial": 19,
+   "name": "Brave",
+   "learned": 0
+  },
+  {
+   "slot": 56,
+   "serial": 20,
+   "name": "Asagi",
+   "learned": 0
+  },
+  {
+   "slot": 57,
+   "serial": 12,
+   "name": "Void",
+   "learned": 0
+  },
+  {
+   "slot": 127,
+   "serial": 10,
+   "name": "Goldion",
+   "learned": 0
+  }
+ ],
+ "checks": [
+  {
+   "name": "save-parsed",
+   "ok": true,
+   "detail": {
+    "units": 59,
+    "army": 58,
+    "reserve": 1
+   }
+  },
+  {
+   "name": "every-learned-bit-has-a-table-row",
+   "ok": true,
+   "detail": {
+    "learned_total": 241
+   }
+  },
+  {
+   "name": "serial-unique-and-nonzero",
+   "ok": true,
+   "detail": {
+    "serials": 59
+   }
+  },
+  {
+   "name": "manifest-keeps-every-save-bit-native",
+   "ok": true,
+   "detail": {
+    "base_count": 998,
+    "extra_rows": 0
+   }
+  },
+  {
+   "name": "writer-roundtrip-state-identical",
+   "ok": true,
+   "detail": {
+    "state_sha": "08487420929aa23a"
+   }
+  },
+  {
+   "name": "learned-sets-identical-after-roundtrip",
+   "ok": true,
+   "detail": {
+    "units": 59,
+    "learned_total": 241
+   }
+  },
+  {
+   "name": "bitmap-untouched-by-write",
+   "ok": true,
+   "detail": {
+    "bitmaps": 59
+   }
+  },
+  {
+   "name": "sidecar-validates",
+   "ok": true,
+   "detail": {
+    "problems": [],
+    "units": 2
+   }
+  },
+  {
+   "name": "sidecar-refuses-a-renamed-save",
+   "ok": true,
+   "detail": {
+    "problems": [
+     "the companion does not match these save bytes"
+    ]
+   }
+  },
+  {
+   "name": "sidecar-refuses-a-different-generation",
+   "ok": true,
+   "detail": {
+    "problems": [
+     "the companion was written for a different Skill table generation"
+    ]
+   }
+  },
+  {
+   "name": "sidecar-quarantines-an-unknown-id",
+   "ok": true,
+   "detail": {
+    "quarantine": [
+     {
+      "serial": 1,
+      "id": 999999
+     }
+    ]
+   }
+  },
+  {
+   "name": "sidecar-refuses-an-unknown-schema",
+   "ok": true,
+   "detail": {
+    "problems": [
+     "unknown companion format 'd5modkit.learned' schema 99"
+    ]
+   }
+  },
+  {
+   "name": "source-save-unchanged",
+   "ok": true,
+   "detail": {
+    "sha256": "285fc3e1ffe39efc7c0dc786becbf61d0f8cb66b823e9bd96992ec0ba05cc3f6"
+   }
+  }
+ ],
+ "passed": true,
+ "limitations": [
+  "Offline: the save is parsed and re-written by the kit's own reader/writer; the game does not run, so \"loads\" here means the save still parses to the same state and the decoded learned sets are unchanged.",
+  "The companion is written and validated beside a scratch copy only; the game cannot read a companion yet (applying it to the in-memory store needs the native load path, which is phase 2).",
+  "Save2 is known-bad and is not opened."
+ ]
+}

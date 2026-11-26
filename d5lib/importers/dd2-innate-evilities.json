@@ -1,0 +1,942 @@
+{
+ "schema": "dd2-innate-evilities/1",
+ "source": "tools/build_dd2_innates.py (EVILFX3); DD2 mskill.dat text and values via d5lib.dd2source; applied by d5lib/importers/_dd2_innates.py after the reviewed-abilities layer",
+ "id_rule": "24000 + DD2 id when no installed learnable row moves, else the DD2 late band 26300+ (recorded per row)",
+ "packs": {
+  "DD2_Unique_100": {
+   "dd2_id": 100,
+   "name": {
+    "@text": "379ebac16d2eac8eb7b94980724924e846760735aaf8c8a59b1928993c88b0a5"
+   },
+   "link": 10100,
+   "relation": "exact",
+   "label": {
+    "@authored": "evility Passiveness (100): the pack already ships row 10100 with its rule; it was never linked on the char row. Innate link only"
+   },
+   "id": 10100
+  },
+  "DD2_Class_22700": {
+   "dd2_id": 2200,
+   "name": {
+    "@text": "0a84a844de6bf94e3d85807b6314a27e2b757f0cd064a32831d4559fad1a6fef"
+   },
+   "relation": "exact",
+   "alias": 4015,
+   "row": {
+    "id": 26200,
+    "name_JP": {
+     "@text": "0a84a844de6bf94e3d85807b6314a27e2b757f0cd064a32831d4559fad1a6fef"
+    },
+    "name_EN": {
+     "@text": "0a84a844de6bf94e3d85807b6314a27e2b757f0cd064a32831d4559fad1a6fef"
+    },
+    "name_FR": {
+     "@text": "0a84a844de6bf94e3d85807b6314a27e2b757f0cd064a32831d4559fad1a6fef"
+    },
+    "name_CHN": {
+     "@text": "0a84a844de6bf94e3d85807b6314a27e2b757f0cd064a32831d4559fad1a6fef"
+    },
+    "name_KOR": {
+     "@text": "0a84a844de6bf94e3d85807b6314a27e2b757f0cd064a32831d4559fad1a6fef"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@text": "ee9b6577b350a4239f1397d1110b4d74298d9cf07bb4b9de58e5e18cd88a6685"
+    },
+    "desc_EN": {
+     "@text": "ee9b6577b350a4239f1397d1110b4d74298d9cf07bb4b9de58e5e18cd88a6685"
+    },
+    "desc_FR": {
+     "@text": "ee9b6577b350a4239f1397d1110b4d74298d9cf07bb4b9de58e5e18cd88a6685"
+    },
+    "desc_CHN": {
+     "@text": "ee9b6577b350a4239f1397d1110b4d74298d9cf07bb4b9de58e5e18cd88a6685"
+    },
+    "desc_KOR": {
+     "@text": "ee9b6577b350a4239f1397d1110b4d74298d9cf07bb4b9de58e5e18cd88a6685"
+    },
+    "kind": 1,
+    "effect_group": 29,
+    "value1": 0,
+    "value2": 0,
+    "source": 4,
+    "category": 2,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 22700,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "label": {
+    "@authored": "evility Wind Dominance (2200): D5 equivalent - D5 Wind Management (4015) 'Nullify wind element damage'; alias row 26200 (24000 + DD2 id), innate on all six ranks"
+   },
+   "id": 26200
+  },
+  "DD2_Class_22620": {
+   "dd2_id": 2120,
+   "name": {
+    "@text": "38f3745a7708ef883364b727b0385b3d01da03fd609fdea08374c46558a3e17b"
+   },
+   "relation": "adapted",
+   "alias": 1143,
+   "late": true,
+   "row": {
+    "id": 26300,
+    "name_JP": {
+     "@text": "38f3745a7708ef883364b727b0385b3d01da03fd609fdea08374c46558a3e17b"
+    },
+    "name_EN": {
+     "@text": "38f3745a7708ef883364b727b0385b3d01da03fd609fdea08374c46558a3e17b"
+    },
+    "name_FR": {
+     "@text": "38f3745a7708ef883364b727b0385b3d01da03fd609fdea08374c46558a3e17b"
+    },
+    "name_CHN": {
+     "@text": "38f3745a7708ef883364b727b0385b3d01da03fd609fdea08374c46558a3e17b"
+    },
+    "name_KOR": {
+     "@text": "38f3745a7708ef883364b727b0385b3d01da03fd609fdea08374c46558a3e17b"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "D5 adaptation: normal attacks deathblow targets with less than 25％ HP. Uses D5 Euthanasia's rule and number."
+    },
+    "desc_EN": {
+     "@authored": "D5 adaptation: normal attacks deathblow targets with less than 25％ HP. Uses D5 Euthanasia's rule and number."
+    },
+    "desc_FR": {
+     "@authored": "D5 adaptation: normal attacks deathblow targets with less than 25％ HP. Uses D5 Euthanasia's rule and number."
+    },
+    "desc_CHN": {
+     "@authored": "D5 adaptation: normal attacks deathblow targets with less than 25％ HP. Uses D5 Euthanasia's rule and number."
+    },
+    "desc_KOR": {
+     "@authored": "D5 adaptation: normal attacks deathblow targets with less than 25％ HP. Uses D5 Euthanasia's rule and number."
+    },
+    "kind": 1,
+    "effect_group": 19,
+    "value1": 25,
+    "value2": 0,
+    "source": 4,
+    "category": 1,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 22620,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "label": {
+    "@authored": "evility Soul Reaper (2120): adapted - DD2 'Deathblow units under 25% HP'; D5 Euthanasia (1143) has the same 25 but for normal attacks only; alias row 26300 (DD2 late band), innate on all six ranks"
+   },
+   "id": 26300
+  },
+  "DD2_Class_22630": {
+   "dd2_id": 2130,
+   "name": {
+    "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+   },
+   "relation": "adapted",
+   "alias": 2065,
+   "late": true,
+   "row": {
+    "id": 26301,
+    "name_JP": {
+     "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+    },
+    "name_EN": {
+     "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+    },
+    "name_FR": {
+     "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+    },
+    "name_CHN": {
+     "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+    },
+    "name_KOR": {
+     "@text": "37bf02bbdd8aba1434ca006f9f785ee664822d32d1561e2a618b840f4b08d132"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "D5 adaptation: increase ATK by 10％ every time attacked by a non-elemental attack. Uses D5 Impact Charge's rule."
+    },
+    "desc_EN": {
+     "@authored": "D5 adaptation: increase ATK by 10％ every time attacked by a non-elemental attack. Uses D5 Impact Charge's rule."
+    },
+    "desc_FR": {
+     "@authored": "D5 adaptation: increase ATK by 10％ every time attacked by a non-elemental attack. Uses D5 Impact Charge's rule."
+    },
+    "desc_CHN": {
+     "@authored": "D5 adaptation: increase ATK by 10％ every time attacked by a non-elemental attack. Uses D5 Impact Charge's rule."
+    },
+    "desc_KOR": {
+     "@authored": "D5 adaptation: increase ATK by 10％ every time attacked by a non-elemental attack. Uses D5 Impact Charge's rule."
+    },
+    "kind": 1,
+    "effect_group": 14,
+    "value1": 10,
+    "value2": 0,
+    "source": 4,
+    "category": 1,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 22630,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "label": {
+    "@authored": "evility Patience (2130): adapted - DD2 'Increase Attack Power by 10% each time unit is hit (Max 200%)'; D5 Impact Charge (2065) has the same 10 but counts non-elemental attacks only; alias row 26301 (DD2 late band), innate on all six ranks"
+   },
+   "id": 26301
+  },
+  "DD2_Class_22590": {
+   "dd2_id": 2090,
+   "name": {
+    "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+   },
+   "relation": "adapted",
+   "late": true,
+   "row": {
+    "id": 26302,
+    "name_JP": {
+     "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+    },
+    "name_EN": {
+     "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+    },
+    "name_FR": {
+     "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+    },
+    "name_CHN": {
+     "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+    },
+    "name_KOR": {
+     "@text": "483e48333b0f9151220da17e4730786616943135a0c94e3da1fc38b32f09604d"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "As long as unit doesn't move, increase DEF by 100％."
+    },
+    "desc_EN": {
+     "@authored": "As long as unit doesn't move, increase DEF by 100％."
+    },
+    "desc_FR": {
+     "@authored": "As long as unit doesn't move, increase DEF by 100％."
+    },
+    "desc_CHN": {
+     "@authored": "As long as unit doesn't move, increase DEF by 100％."
+    },
+    "desc_KOR": {
+     "@authored": "As long as unit doesn't move, increase DEF by 100％."
+    },
+    "kind": 1,
+    "effect_group": 0,
+    "value1": 100,
+    "value2": 0,
+    "source": 4,
+    "category": 0,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 22590,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "behavior": {
+    "family": "stats",
+    "effects": [
+     {
+      "stat": "def",
+      "value": 100
+     }
+    ],
+    "conditions": [
+     {
+      "kind": "not_moved"
+     }
+    ]
+   },
+   "label": {
+    "@authored": "evility Stone Statue (2090): adapted - DD2 'As long as unit doesn't move, increase Defense Power by 100%'; row 26302 is DEF +100% while D5's panels-moved counter is 0 (kit stats + not_moved; Defense Power read as DEF, as for Passiveness 10100). DD2 does not store which of the family's three evilities is innate: the family base, by D5's numbering. DD2 late band, innate on all six ranks"
+   },
+   "id": 26302
+  },
+  "DD2_Unique_570": {
+   "dd2_id": 570,
+   "name": {
+    "@text": "5912dcc06555626c90aa528c60e7d4759710164440934b5b8e99de83214926e7"
+   },
+   "relation": "adapted",
+   "late": true,
+   "row": {
+    "id": 26304,
+    "name_JP": {
+     "@text": "5912dcc06555626c90aa528c60e7d4759710164440934b5b8e99de83214926e7"
+    },
+    "name_EN": {
+     "@text": "5912dcc06555626c90aa528c60e7d4759710164440934b5b8e99de83214926e7"
+    },
+    "name_FR": {
+     "@text": "5912dcc06555626c90aa528c60e7d4759710164440934b5b8e99de83214926e7"
+    },
+    "name_CHN": {
+     "@text": "5912dcc06555626c90aa528c60e7d4759710164440934b5b8e99de83214926e7"
+    },
+    "name_KOR": {
+     "@text": "5912dcc06555626c90aa528c60e7d4759710164440934b5b8e99de83214926e7"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "Allies gain 10％ Attack Power per defeat the holder has made, max 200％."
+    },
+    "desc_EN": {
+     "@authored": "Allies gain 10％ Attack Power per defeat the holder has made, max 200％."
+    },
+    "desc_FR": {
+     "@authored": "Allies gain 10％ Attack Power per defeat the holder has made, max 200％."
+    },
+    "desc_CHN": {
+     "@authored": "Allies gain 10％ Attack Power per defeat the holder has made, max 200％."
+    },
+    "desc_KOR": {
+     "@authored": "Allies gain 10％ Attack Power per defeat the holder has made, max 200％."
+    },
+    "kind": 1,
+    "effect_group": 0,
+    "value1": 10,
+    "value2": 200,
+    "source": 4,
+    "category": 0,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 10520,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "behavior": [
+    {
+     "family": [
+      "power",
+      "aura"
+     ],
+     "effects": [
+      {
+       "value": 10,
+       "per": "holder_kills",
+       "max": 200
+      }
+     ],
+     "filter": 26304,
+     "conditions": [
+      {
+       "kind": "near_has",
+       "of": 1,
+       "radius": 65535,
+       "id": 26304
+      }
+     ]
+    },
+    {
+     "family": "kill_counter"
+    }
+   ],
+   "label": {
+    "@authored": "evility Brave Battle Princess (570): adapted - rule carried from EBOOT: each holder's OWN count of defeats it made as the attacker (+0x19CE, raised at 0xE9170; allies and any team count), summed over the OTHER same-team holders (0xF6290 / 0xFA6CC; the holder gets nothing from her own count), +10% each, capped at +200% on the sum; values 10 and 200 read by dd2source.decode_evility (value/value2, mskill.dat +0x0C/+0x0E). Kit row 26304 = power aura (scale holder_kills, filter 26304) + kill_counter (wrap_atkcount after the real damage_apply_damage; stat record +0x5D8, D5's Impact Charge counter, read only for a unit that has 2065, which Plume does not). Not proved equal to DD2: its object test 0x1035B0 also skips unit types 51/52 (0x100FE8) where the kit skips the Geo Symbol family only; reset is D5's stat-record attach/wipe against DD2's unit-data init 0x20F78 (callers not all traced); a skill-id branch at 0xE84E4 was not followed; a defeat is read from the unit's HP after the apply. DD2 late band, innate only"
+   },
+   "id": 26304
+  },
+  "DD2_Unique_430": {
+   "dd2_id": 430,
+   "name": {
+    "@text": "797ce7d8dedfae2e509e17901f5d2424201382154a0fc0e88a7051a4a2c05511"
+   },
+   "relation": "exact",
+   "late": true,
+   "row": {
+    "id": 26303,
+    "name_JP": {
+     "@text": "797ce7d8dedfae2e509e17901f5d2424201382154a0fc0e88a7051a4a2c05511"
+    },
+    "name_EN": {
+     "@text": "797ce7d8dedfae2e509e17901f5d2424201382154a0fc0e88a7051a4a2c05511"
+    },
+    "name_FR": {
+     "@text": "797ce7d8dedfae2e509e17901f5d2424201382154a0fc0e88a7051a4a2c05511"
+    },
+    "name_CHN": {
+     "@text": "797ce7d8dedfae2e509e17901f5d2424201382154a0fc0e88a7051a4a2c05511"
+    },
+    "name_KOR": {
+     "@text": "797ce7d8dedfae2e509e17901f5d2424201382154a0fc0e88a7051a4a2c05511"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "Within 3 panels, allies deal 10％ more damage, and enemies take 10％ more."
+    },
+    "desc_EN": {
+     "@authored": "Within 3 panels, allies deal 10％ more damage, and enemies take 10％ more."
+    },
+    "desc_FR": {
+     "@authored": "Within 3 panels, allies deal 10％ more damage, and enemies take 10％ more."
+    },
+    "desc_CHN": {
+     "@authored": "Within 3 panels, allies deal 10％ more damage, and enemies take 10％ more."
+    },
+    "desc_KOR": {
+     "@authored": "Within 3 panels, allies deal 10％ more damage, and enemies take 10％ more."
+    },
+    "kind": 1,
+    "effect_group": 0,
+    "value1": 10,
+    "value2": 0,
+    "source": 4,
+    "category": 0,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 10500,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "behavior": [
+    {
+     "family": [
+      "dealt",
+      "aura"
+     ],
+     "effects": [
+      {
+       "value": 10
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "near_has",
+       "of": 1,
+       "radius": 3,
+       "id": 26303
+      }
+     ]
+    },
+    {
+     "family": [
+      "taken",
+      "aura"
+     ],
+     "effects": [
+      {
+       "value": 10
+      }
+     ],
+     "conditions": [
+      {
+       "kind": "near_has",
+       "of": 2,
+       "radius": 3,
+       "id": 26303
+      }
+     ]
+    }
+   ],
+   "label": {
+    "@authored": "evility Demon Experiments (430): exact text and number - allies within 3 panels of Mao deal +10% damage and enemies within 3 panels take +10% (two kit aura rows; Mao himself is not an ally of his own aura); row 26303 (DD2 late band), innate"
+   },
+   "id": 26303
+  },
+  "DD2_Class_22210": {
+   "dd2_id": 1210,
+   "name": {
+    "@text": "c0ba8c4299ab98a8eca80c5ba33f7a94e7f2077e27fd15deead4615e0f9803c8"
+   },
+   "relation": "exact",
+   "drop_alias": true,
+   "row": {
+    "id": 25210,
+    "name_JP": {
+     "@text": "c0ba8c4299ab98a8eca80c5ba33f7a94e7f2077e27fd15deead4615e0f9803c8"
+    },
+    "name_EN": {
+     "@text": "c0ba8c4299ab98a8eca80c5ba33f7a94e7f2077e27fd15deead4615e0f9803c8"
+    },
+    "name_FR": {
+     "@text": "c0ba8c4299ab98a8eca80c5ba33f7a94e7f2077e27fd15deead4615e0f9803c8"
+    },
+    "name_CHN": {
+     "@text": "c0ba8c4299ab98a8eca80c5ba33f7a94e7f2077e27fd15deead4615e0f9803c8"
+    },
+    "name_KOR": {
+     "@text": "c0ba8c4299ab98a8eca80c5ba33f7a94e7f2077e27fd15deead4615e0f9803c8"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "Increase evasion rate by panels moved x 2％. (Max 64％)"
+    },
+    "desc_EN": {
+     "@authored": "Increase evasion rate by panels moved x 2％. (Max 64％)"
+    },
+    "desc_FR": {
+     "@authored": "Increase evasion rate by panels moved x 2％. (Max 64％)"
+    },
+    "desc_CHN": {
+     "@authored": "Increase evasion rate by panels moved x 2％. (Max 64％)"
+    },
+    "desc_KOR": {
+     "@authored": "Increase evasion rate by panels moved x 2％. (Max 64％)"
+    },
+    "kind": 1,
+    "effect_group": 0,
+    "value1": 0,
+    "value2": 0,
+    "source": 4,
+    "category": 4,
+    "subcategory": 11,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 22210,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "behavior": {
+    "family": "evasion",
+    "effects": [
+     {
+      "value": 2,
+      "per": "movement_cost",
+      "max": 64,
+      "mode": "after"
+     }
+    ]
+   },
+   "label": {
+    "@authored": "evility Rapid Movement (1210): exact rule - DD2 EBOOT hit-chance function 0xFB0EC clamps the percent to 1..100, then subtracts min(64, 2 x panels moved) (2 = mskill value, 64 = a constant in that code); kit evasion row 25210, mode after, per movement_cost, max 64, replaces the alias to D5 1060 (3 per panel). Not carried: DD2 counts path steps (unit +0x522) where D5 counts movement cost (+0x61C), equal on cost-1 panels; D5 floors the chance at 1, the DD2 function has no floor (callers not read). 1211 Blazing Start is D5 Start Dash (1024), same 3 (learnable row 25211, exact); 1212 Heart of a Flea has no D5 equivalent and is not built"
+   },
+   "id": 25210
+  },
+  "DD2_Class_22680": {
+   "dd2_id": 2180,
+   "name": {
+    "@text": "62ba3e3521772075e83870e1c9d21605c08e363fb1df00f3226338907522b3be"
+   },
+   "link": 26180,
+   "relation": "exact",
+   "label": {
+    "@authored": "evility Water Dominance (2180): D5 equivalent - D5 Water Management (4016) 'Nullify water element damage' via alias row 26180, no number in either. 2182 Aqua Depression is learnable row 26182 on D5 Kill With Water (4013), same 15 but 'other units on the map' where the source says enemy units (adapted). 2181 Cold Charge is not built (needs a per-unit counter of water skills used on the map)"
+   },
+   "id": 26180
+  },
+  "DD2_Unique_480": {
+   "dd2_id": 480,
+   "name": {
+    "@text": "0305ddd21bcd50acb665d1fc1016786e1e78df70fa10a43231c25caa7d4d6a78"
+   },
+   "relation": "adapted",
+   "row": {
+    "id": 24480,
+    "name_JP": {
+     "@text": "0305ddd21bcd50acb665d1fc1016786e1e78df70fa10a43231c25caa7d4d6a78"
+    },
+    "name_EN": {
+     "@text": "0305ddd21bcd50acb665d1fc1016786e1e78df70fa10a43231c25caa7d4d6a78"
+    },
+    "name_FR": {
+     "@text": "0305ddd21bcd50acb665d1fc1016786e1e78df70fa10a43231c25caa7d4d6a78"
+    },
+    "name_CHN": {
+     "@text": "0305ddd21bcd50acb665d1fc1016786e1e78df70fa10a43231c25caa7d4d6a78"
+    },
+    "name_KOR": {
+     "@text": "0305ddd21bcd50acb665d1fc1016786e1e78df70fa10a43231c25caa7d4d6a78"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "Deal damage to a random number (1 to 5) of enemy units at end of turn."
+    },
+    "desc_EN": {
+     "@authored": "Deal damage to a random number (1 to 5) of enemy units at end of turn."
+    },
+    "desc_FR": {
+     "@authored": "Deal damage to a random number (1 to 5) of enemy units at end of turn."
+    },
+    "desc_CHN": {
+     "@authored": "Deal damage to a random number (1 to 5) of enemy units at end of turn."
+    },
+    "desc_KOR": {
+     "@authored": "Deal damage to a random number (1 to 5) of enemy units at end of turn."
+    },
+    "kind": 1,
+    "effect_group": 27,
+    "value1": 0,
+    "value2": 0,
+    "source": 4,
+    "category": 1,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 10560,
+    "class_order": 0,
+    "version_group": 150
+   },
+   "alias": 6112,
+   "behavior": {
+    "family": "random_victims",
+    "effects": [
+     {
+      "value": 5
+     }
+    ]
+   },
+   "label": {
+    "@authored": "evility God of Destruction (480): adapted - DD2 'Deal damage to a random number of enemy units at end of turn' (value 5): EBOOT 0xFB984 draws the count 0x1A0CCC(5) + 1 (1..5) and picks that many DISTINCT random hostile units. Rule carried: D5 Punishing Prophecy (6112, alias 24480) still hits its one drawn victim at the holder's end of turn, then kit row 24480 (random_victims 5, wrap_victims at the game's append call) adds game_rng_draw(5) more distinct hostile victims, so the count is 1..5, same candidate rules as D5's own list. Not carried: the damage per victim is D5's own Punishing Prophecy action (magic row 21, power 100); DD2's action row 10484 differs from Plum's 10474 in two bytes (+0x112 2 vs 3, +0x127 130 vs 100) whose meaning was not decoded, so DD2's damage is not reproduced"
+   },
+   "id": 24480
+  },
+  "DD2_Unique_320": {
+   "dd2_id": 320,
+   "name": {
+    "@text": "49e66298f9854089e532e26398ef06b7ed33a35e78d864381d1a6f9827570845"
+   },
+   "relation": "exact",
+   "drop_alias": true,
+   "row": {
+    "id": 24320,
+    "name_JP": {
+     "@text": "49e66298f9854089e532e26398ef06b7ed33a35e78d864381d1a6f9827570845"
+    },
+    "name_EN": {
+     "@text": "49e66298f9854089e532e26398ef06b7ed33a35e78d864381d1a6f9827570845"
+    },
+    "name_FR": {
+     "@text": "49e66298f9854089e532e26398ef06b7ed33a35e78d864381d1a6f9827570845"
+    },
+    "name_CHN": {
+     "@text": "49e66298f9854089e532e26398ef06b7ed33a35e78d864381d1a6f9827570845"
+    },
+    "name_KOR": {
+     "@text": "49e66298f9854089e532e26398ef06b7ed33a35e78d864381d1a6f9827570845"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "Increase movement of ally units by 1."
+    },
+    "desc_EN": {
+     "@authored": "Increase movement of ally units by 1."
+    },
+    "desc_FR": {
+     "@authored": "Increase movement of ally units by 1."
+    },
+    "desc_CHN": {
+     "@authored": "Increase movement of ally units by 1."
+    },
+    "desc_KOR": {
+     "@authored": "Increase movement of ally units by 1."
+    },
+    "kind": 1,
+    "effect_group": 0,
+    "value1": 0,
+    "value2": 0,
+    "source": 4,
+    "category": 11,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 10480,
+    "class_order": 0,
+    "version_group": 110
+   },
+   "behavior": {
+    "family": "ally_move",
+    "effects": [
+     {
+      "value": 1
+     }
+    ]
+   },
+   "label": {
+    "@authored": "evility Acceleration Mascot (320): exact rule - DD2 'Increase movement of ally units by 1' (value 1): EBOOT 0xF7938 / 0xFC724 add value x 0xF6290(...) to the unit's move, 0xF6290 counting the OTHER units of the unit's team byte that hold the evility, no range, one per holder (several holders add up); kit row 24320 (ally_move 1, wrap_move) does that and replaces the alias to D5 6024 (+2). Not carried: D5 adds it after the game's own move-range clamp and to a unit whose range is above 0; liveness tests of the holder differ (D5 active / not carried / HP above 0 against DD2's 0x31A1C, 0x1035B0, +0x262)"
+   },
+   "id": 24320
+  },
+  "DD2_Unique_420": {
+   "dd2_id": 420,
+   "name": {
+    "@text": "e0db5ecd97861c8b2c887c37620a3dda8c48d713a16eebe379ea812bf4e3879e"
+   },
+   "relation": "adapted",
+   "late": true,
+   "row": {
+    "id": 26305,
+    "name_JP": {
+     "@text": "e0db5ecd97861c8b2c887c37620a3dda8c48d713a16eebe379ea812bf4e3879e"
+    },
+    "name_EN": {
+     "@text": "e0db5ecd97861c8b2c887c37620a3dda8c48d713a16eebe379ea812bf4e3879e"
+    },
+    "name_FR": {
+     "@text": "e0db5ecd97861c8b2c887c37620a3dda8c48d713a16eebe379ea812bf4e3879e"
+    },
+    "name_CHN": {
+     "@text": "e0db5ecd97861c8b2c887c37620a3dda8c48d713a16eebe379ea812bf4e3879e"
+    },
+    "name_KOR": {
+     "@text": "e0db5ecd97861c8b2c887c37620a3dda8c48d713a16eebe379ea812bf4e3879e"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "Ally units (including self) recover 2％ HP per panel they move."
+    },
+    "desc_EN": {
+     "@authored": "Ally units (including self) recover 2％ HP per panel they move."
+    },
+    "desc_FR": {
+     "@authored": "Ally units (including self) recover 2％ HP per panel they move."
+    },
+    "desc_CHN": {
+     "@authored": "Ally units (including self) recover 2％ HP per panel they move."
+    },
+    "desc_KOR": {
+     "@authored": "Ally units (including self) recover 2％ HP per panel they move."
+    },
+    "kind": 1,
+    "effect_group": 0,
+    "value1": 0,
+    "value2": 0,
+    "source": 4,
+    "category": 1,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 10170,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "behavior": {
+    "family": "move_heal_percent",
+    "effects": [
+     {
+      "value": 2
+     }
+    ]
+   },
+   "label": {
+    "@authored": "evility Healing Barrier (420): adapted - DD2 'Ally units (including self) recover 2% HP per panel they move' (value 2): EBOOT 0xF64C0 = 2 x (other holders on the unit's team) + 2 if the unit holds it, no range, healed at EVERY STEP of the walk by that percent of max HP (0x219ED0, 0x21AC3C). Kit row 26305 (move_heal_percent 2, evil_move_heal at wrap_endturn; DD2 late band, a new row at 24420 would shift installed learnable rows) heals the same percent once per panel moved at the END of the unit's own turn. Not carried: per-step timing (a unit that dies after moving is not healed), D5 movement cost where DD2 counts steps, DD2's panel flags (0x1B800 ids 0x2A / 0x25: an SP panel heals SP instead, a reversing panel damages) and the evility 0x804 test"
+   },
+   "id": 26305
+  },
+  "DD2_Unique_941": {
+   "dd2_id": 80,
+   "name": {
+    "@text": "ed1d08294a21cc37ad03ac2c44fc0c8e8c69ca2b6f2f8f620a25a6e2308aa196"
+   },
+   "relation": "adapted",
+   "late": true,
+   "row": {
+    "id": 26306,
+    "name_JP": {
+     "@text": "ed1d08294a21cc37ad03ac2c44fc0c8e8c69ca2b6f2f8f620a25a6e2308aa196"
+    },
+    "name_EN": {
+     "@text": "ed1d08294a21cc37ad03ac2c44fc0c8e8c69ca2b6f2f8f620a25a6e2308aa196"
+    },
+    "name_FR": {
+     "@text": "ed1d08294a21cc37ad03ac2c44fc0c8e8c69ca2b6f2f8f620a25a6e2308aa196"
+    },
+    "name_CHN": {
+     "@text": "ed1d08294a21cc37ad03ac2c44fc0c8e8c69ca2b6f2f8f620a25a6e2308aa196"
+    },
+    "name_KOR": {
+     "@text": "ed1d08294a21cc37ad03ac2c44fc0c8e8c69ca2b6f2f8f620a25a6e2308aa196"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "Deals damage equal to 20％ of max HP to attackers of this unit."
+    },
+    "desc_EN": {
+     "@authored": "Deals damage equal to 20％ of max HP to attackers of this unit."
+    },
+    "desc_FR": {
+     "@authored": "Deals damage equal to 20％ of max HP to attackers of this unit."
+    },
+    "desc_CHN": {
+     "@authored": "Deals damage equal to 20％ of max HP to attackers of this unit."
+    },
+    "desc_KOR": {
+     "@authored": "Deals damage equal to 20％ of max HP to attackers of this unit."
+    },
+    "kind": 1,
+    "effect_group": 5,
+    "value1": 10,
+    "value2": 0,
+    "source": 4,
+    "category": 1,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 941,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "alias": 143,
+   "behavior": {
+    "family": "max_hp_reflect",
+    "effects": [
+     {
+      "value": 20
+     }
+    ]
+   },
+   "label": {
+    "@authored": "evility The Artifact (80): adapted - DD2 'Deals damage equal to N% of max HP to attackers of this unit' (value 20; mskill text and value from dd2source). the percent is of the ATTACKER's max HP per the community evility list (GameFAQs 'Disgaea D2: A Brighter Darkness - Evility List', Dark_Cecil: attackers lose 20% of THEIR max HP) and the Disgaea wiki; the Disgaea D2 code for this effect was NOT FOUND (EBOOT evility accessors, DD2EVIL1 section 3), so this is community evidence, not source code, and which attacks trigger it is unsettled. Carried by D5's own Malicious Reflect (143, alias row 26306) with kit row 26306 (max_hp_reflect 20): at the one damage_skill_dat call of the reflect rider in FUN_1401ADA40 (0x1401AE531, wrap_maxrefl) the hurt amount becomes 20% of the attacker's max HP (truncated, float arithmetic of the game) instead of 10% of the damage taken. D5's own rules stay: every damaging hit that reaches the rider triggers it (melee and ranged, as Malicious Reflect does), the game's clamp keeps the attacker at 1 HP or more (it never kills), and a unit holding the real 143 alone is unchanged. Not carried: the source's conditions for counters and special attacks (unknown), damage that is not a hit (poison, geo)"
+   },
+   "id": 26306
+  },
+  "DD2_Unique_640": {
+   "dd2_id": 640,
+   "name": {
+    "@text": "87fb36c0d55dbcffd2478dd22c9a64f0ad45f50c9eb4d1532ccd5e8add063ae8"
+   },
+   "relation": "adapted",
+   "late": true,
+   "row": {
+    "id": 26307,
+    "name_JP": {
+     "@text": "87fb36c0d55dbcffd2478dd22c9a64f0ad45f50c9eb4d1532ccd5e8add063ae8"
+    },
+    "name_EN": {
+     "@text": "87fb36c0d55dbcffd2478dd22c9a64f0ad45f50c9eb4d1532ccd5e8add063ae8"
+    },
+    "name_FR": {
+     "@text": "87fb36c0d55dbcffd2478dd22c9a64f0ad45f50c9eb4d1532ccd5e8add063ae8"
+    },
+    "name_CHN": {
+     "@text": "87fb36c0d55dbcffd2478dd22c9a64f0ad45f50c9eb4d1532ccd5e8add063ae8"
+    },
+    "name_KOR": {
+     "@text": "87fb36c0d55dbcffd2478dd22c9a64f0ad45f50c9eb4d1532ccd5e8add063ae8"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@authored": "D5 adaptation: allies deal no damage to this unit, and this unit deals no damage to allies."
+    },
+    "desc_EN": {
+     "@authored": "D5 adaptation: allies deal no damage to this unit, and this unit deals no damage to allies."
+    },
+    "desc_FR": {
+     "@authored": "D5 adaptation: allies deal no damage to this unit, and this unit deals no damage to allies."
+    },
+    "desc_CHN": {
+     "@authored": "D5 adaptation: allies deal no damage to this unit, and this unit deals no damage to allies."
+    },
+    "desc_KOR": {
+     "@authored": "D5 adaptation: allies deal no damage to this unit, and this unit deals no damage to allies."
+    },
+    "kind": 1,
+    "effect_group": 29,
+    "value1": 0,
+    "value2": 0,
+    "source": 4,
+    "category": 2,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 10580,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "alias": 2072,
+   "behavior": {
+    "family": "nullify_dealt"
+   },
+   "label": {
+    "@authored": "evility Basic Principles (640): adapted - DD2 'Won't target allies when attacking, and won't be targeted by allies' (value 0, no number; the Disgaea D2 targeting code was not opened). Two halves on D5's rules. (1) 'won't be targeted by allies' = D5 Softening Aura (2072, 'Nullify damage taken from ally units'; alias row 26307): the game's own test at the top of damage_nullify_predicate nullifies a hit whose attacker is on the holder's side. (2) 'won't target allies when attacking' = kit row 26307 (nullify_dealt, wrap_nullify): a hit with positive damage by the holder on a unit the SAME game test (events_env_team_of through cmdmenu_preds_p_2d8e00: team groups 0/4, 1/5, 3) calls an ally is nullified. Not carried: an ally can still be SELECTED as a target and the animation plays, only the damage is removed; heals and buffs to allies are untouched (the source says 'attacking'); the AI is not told; damage that is not a hit (poison, geo) and the seven other call sites of damage_nullify_predicate that the kit does not redirect (evility.py NULLIFY comment) are not covered; a hit on the holder itself by the holder counts as an ally hit (the game's test says so for 2072)"
+   },
+   "id": 26307
+  },
+  "DD2_Unique_300": {
+   "dd2_id": 300,
+   "name": {
+    "@text": "7dd75748fd3262649d0e8fc0644ae8ac7bf7e2726af552ee32c8871bf6a8e2bf"
+   },
+   "relation": "exact",
+   "drop_alias": true,
+   "row": {
+    "id": 24300,
+    "name_JP": {
+     "@text": "7dd75748fd3262649d0e8fc0644ae8ac7bf7e2726af552ee32c8871bf6a8e2bf"
+    },
+    "name_EN": {
+     "@text": "7dd75748fd3262649d0e8fc0644ae8ac7bf7e2726af552ee32c8871bf6a8e2bf"
+    },
+    "name_FR": {
+     "@text": "7dd75748fd3262649d0e8fc0644ae8ac7bf7e2726af552ee32c8871bf6a8e2bf"
+    },
+    "name_CHN": {
+     "@text": "7dd75748fd3262649d0e8fc0644ae8ac7bf7e2726af552ee32c8871bf6a8e2bf"
+    },
+    "name_KOR": {
+     "@text": "7dd75748fd3262649d0e8fc0644ae8ac7bf7e2726af552ee32c8871bf6a8e2bf"
+    },
+    "slot_cost": 0,
+    "desc_JP": {
+     "@text": "12da0d9c60db532eaa2ec8919e08d9b958fb0c59c7432f62a2f71b8e066f3051"
+    },
+    "desc_EN": {
+     "@text": "12da0d9c60db532eaa2ec8919e08d9b958fb0c59c7432f62a2f71b8e066f3051"
+    },
+    "desc_FR": {
+     "@text": "12da0d9c60db532eaa2ec8919e08d9b958fb0c59c7432f62a2f71b8e066f3051"
+    },
+    "desc_CHN": {
+     "@text": "12da0d9c60db532eaa2ec8919e08d9b958fb0c59c7432f62a2f71b8e066f3051"
+    },
+    "desc_KOR": {
+     "@text": "12da0d9c60db532eaa2ec8919e08d9b958fb0c59c7432f62a2f71b8e066f3051"
+    },
+    "kind": 1,
+    "effect_group": 0,
+    "value1": 0,
+    "value2": 0,
+    "source": 4,
+    "category": 5,
+    "subcategory": 0,
+    "mana_cost": 0,
+    "shop_rank": 0,
+    "owner": 10570,
+    "class_order": 0,
+    "version_group": 100
+   },
+   "behavior": {
+    "family": "flight"
+   },
+   "label": {
+    "@authored": "evility Heavy Stance (300): exact rule - DD2 'Cannot be lifted' (value 0, no number); kit flight row 24300 makes D5's own can't-be-carried test (the 124/1224/5000 check in cannot_be_carried_by) true for the holder, with none of D5 Heavy Stance's stats +30%; replaces the alias to D5 1224. DD2's own predicate also counts 580 T.O. Analyze (not Pringer Z)"
+   },
+   "id": 24300
+  }
+ },
+ "needs_new_effect": {
+  "DD2_Unique_140": {
+   "dd2_id": 140,
+   "name": {
+    "@text": "94e8d52d4e5d2441cb47a675641b11065bbeba32b0240152761ccc9002d581ec"
+   },
+   "why": "Increase stats of ally angels by 50%: D5 has no angel unit type to select by"
+  },
+  "DD2_Unique_400": {
+   "dd2_id": 400,
+   "name": {
+    "@text": "8688ac3e3e07a1e58e3199d4cf0060ce9ec32a2e476d029818185fe61a2652f3"
+   },
+   "why": "ATK/DEF +5% each time the unit attacks or is targeted, with a maximum: a per-unit event counter"
+  },
+  "DD2_Unique_550": {
+   "dd2_id": 550,
+   "name": {
+    "@text": "29a9992083338f9695a6ac1ae2442d6ac2eece59542c084685b843c154d95419"
+   },
+   "why": "stats +5% per 'flat' unit in the party: no measured flat-chest field to count"
+  }
+ }
+}

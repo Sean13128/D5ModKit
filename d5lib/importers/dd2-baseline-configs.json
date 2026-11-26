@@ -1,0 +1,23 @@
+{
+ "schema": "dd2-baseline-configs/1",
+ "uniques": {
+  "100": {
+   "config": "config100v2.json",
+   "note": "Frozen DD2GEN/DD2NAMED baseline packet rows replayed by _dd2_baseline._worker (originally codex/dd2-20261029/pipeline/*.json).",
+   "source": {
+    "ranks": [
+     {}
+    ]
+   }
+  },
+  "30": {
+   "config": "config30.json",
+   "note": "Frozen DD2GEN/DD2NAMED baseline packet rows replayed by _dd2_baseline._worker (originally codex/dd2-20261029/pipeline/*.json).",
+   "source": {
+    "ranks": [
+     {}
+    ]
+   }
+  }
+ }
+}

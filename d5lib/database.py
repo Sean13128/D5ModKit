@@ -110,6 +110,8 @@ class Schema:
         self.record_size = int(d["record_size"])
         self.fields = [Field(f) for f in _auto_offsets(d["fields"])]
         self.by_name = {f.name: f for f in self.fields}
+        # legacy names (a field renamed after packs were built): "aliases" in the schema; rows accept both
+        self.alias = {a: f.name for f in self.fields for a in f.extra.get("aliases", ())}
         self.header_by_name = {f.name: f for f in self.header_fields}
         self.key = d.get("key")
         self.display = d.get("display")
@@ -183,15 +185,16 @@ def _norm(name: str) -> str:
 
 
 def schemas() -> Dict[str, Schema]:
-    """all schemas keyed by lower-case archive member name"""
+    """all schemas keyed by lower-case archive member name (built once, published atomically)"""
     global _SCHEMAS
     if _SCHEMAS is None:
-        _SCHEMAS = {}
+        built = {}
         for p in sorted(glob.glob(os.path.join(SCHEMA_DIR, "*.json"))):
             with open(p, "r", encoding="utf-8") as fh:
                 d = json.load(fh)
             s = Schema(d, p)
-            _SCHEMAS[_norm(s.file)] = s
+            built[_norm(s.file)] = s
+        _SCHEMAS = built          # a concurrent caller must never see the half-filled dict
     return _SCHEMAS
 
 
@@ -236,23 +239,26 @@ class Row:
         self.strs = strs if strs is not None else {}
 
     # --- access
+    def _n(self, name):
+        return name if name in self._fields else self._schema.alias.get(name, name)
+
     def field(self, name) -> Field:
-        return self._fields[name]
+        return self._fields[self._n(name)]
 
     def get(self, name, default=None):
-        f = self._fields.get(name)
+        f = self._fields.get(self._n(name))
         if f is None:
             return default
         return self._get(f)
 
     def __getitem__(self, name):
-        return self._get(self._fields[name])
+        return self._get(self._fields[self._n(name)])
 
     def __setitem__(self, name, value):
         self.set(name, value)
 
     def __contains__(self, name):
-        return name in self._fields
+        return self._n(name) in self._fields
 
     def keys(self):
         return list(self._fields.keys())
@@ -272,6 +278,7 @@ class Row:
         return struct.unpack_from(_FMT[t], self.raw, f.offset)[0]
 
     def set(self, name, value, truncate=False):
+        name = self._n(name)
         f = self._fields[name]
         t = f.type
         if t == "str":

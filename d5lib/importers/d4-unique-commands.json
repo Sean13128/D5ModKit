@@ -1,0 +1,1354 @@
+{
+ "schema": "d4-unique-commands/1",
+ "uniques": {
+  "10": {
+   "source_id": 10,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "cast",
+   "recorded_by": "d4uniq2",
+   "identity": 10310,
+   "physical": 226,
+   "face_ids": [
+    10
+   ],
+   "cutin_ids": [
+    10
+   ]
+  },
+  "20": {
+   "source_id": 20,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "cast",
+   "recorded_by": "d4uniq2",
+   "identity": 10320,
+   "physical": 236,
+   "face_ids": [
+    20
+   ],
+   "cutin_ids": [
+    20
+   ]
+  },
+  "30": {
+   "source_id": 30,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "cast",
+   "recorded_by": "d4uniq2",
+   "identity": 10330,
+   "physical": 336,
+   "face_ids": [
+    30
+   ],
+   "cutin_ids": [
+    30
+   ]
+  },
+  "40": {
+   "source_id": 40,
+   "template_id": 1020,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "cast",
+   "recorded_by": "d4uniq2",
+   "identity": 10340,
+   "physical": 347,
+   "face_ids": [
+    40
+   ],
+   "cutin_ids": [
+    40
+   ]
+  },
+  "50": {
+   "source_id": 50,
+   "template_id": 2020,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "cast",
+   "recorded_by": "d4uniq2",
+   "identity": 10350,
+   "physical": 356,
+   "face_ids": [
+    50
+   ],
+   "cutin_ids": [
+    50
+   ]
+  },
+  "60": {
+   "source_id": 60,
+   "template_id": 1020,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [
+    "D4_Unique_"
+   ],
+   "style": "cast",
+   "recorded_by": "d4uniq",
+   "identity": 10220,
+   "physical": 919,
+   "face_ids": [
+    60
+   ],
+   "cutin_ids": [
+    60
+   ]
+  },
+  "70": {
+   "source_id": 70,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18100,
+   "physical": 461,
+   "face_ids": [
+    70
+   ],
+   "cutin_ids": [
+    70
+   ]
+  },
+  "80": {
+   "source_id": 80,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "cast",
+   "recorded_by": "d4uniq2",
+   "identity": 10360,
+   "physical": 363,
+   "face_ids": [
+    80
+   ],
+   "cutin_ids": [
+    80
+   ]
+  },
+  "170": {
+   "source_id": 170,
+   "template_id": 2140,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [
+    "D4_Unique_"
+   ],
+   "style": "v3",
+   "recorded_by": "d4uniq",
+   "identity": 10270,
+   "physical": 937,
+   "face_ids": [
+    170
+   ],
+   "cutin_ids": [
+    170
+   ]
+  },
+  "180": {
+   "source_id": 180,
+   "template_id": 610,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [
+    "D4_Unique_"
+   ],
+   "style": "v3",
+   "recorded_by": "d4uniq",
+   "identity": 10250,
+   "physical": 928,
+   "face_ids": [
+    54
+   ],
+   "cutin_ids": [
+    54
+   ]
+  },
+  "190": {
+   "source_id": 190,
+   "template_id": 2020,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [
+    "D4_Unique_"
+   ],
+   "style": "v3",
+   "recorded_by": "d4uniq",
+   "identity": 10230,
+   "physical": 922,
+   "face_ids": [
+    190
+   ],
+   "cutin_ids": [
+    190
+   ]
+  },
+  "210": {
+   "source_id": 210,
+   "template_id": 2020,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [
+    "D4_Unique_"
+   ],
+   "style": "v3",
+   "recorded_by": "d4uniq",
+   "identity": 10260,
+   "physical": 934,
+   "face_ids": [
+    210
+   ],
+   "cutin_ids": [
+    210
+   ]
+  },
+  "220": {
+   "source_id": 220,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18110,
+   "physical": 464,
+   "face_ids": [
+    74
+   ],
+   "cutin_ids": [
+    74
+   ]
+  },
+  "230": {
+   "source_id": 230,
+   "template_id": 2100,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [
+    "D4_Unique_"
+   ],
+   "style": "v3",
+   "recorded_by": "d4uniq",
+   "identity": 10280,
+   "physical": 944,
+   "face_ids": [
+    2048
+   ],
+   "cutin_ids": [
+    2048
+   ]
+  },
+  "240": {
+   "source_id": 240,
+   "template_id": 2100,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [
+    "D4_Unique_"
+   ],
+   "style": "v3",
+   "recorded_by": "d4uniq",
+   "identity": 10290,
+   "physical": 947,
+   "face_ids": [
+    240
+   ],
+   "cutin_ids": [
+    240
+   ]
+  },
+  "250": {
+   "source_id": 250,
+   "template_id": 2100,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [
+    "D4_Unique_"
+   ],
+   "style": "v3",
+   "recorded_by": "d4uniq",
+   "identity": 10300,
+   "physical": 904,
+   "face_ids": [
+    250
+   ],
+   "cutin_ids": [
+    250
+   ]
+  },
+  "300": {
+   "source_id": 300,
+   "template_id": 2020,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq2",
+   "identity": 10380,
+   "physical": 373,
+   "face_ids": [
+    300
+   ],
+   "cutin_ids": [
+    300
+   ]
+  },
+  "310": {
+   "source_id": 310,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq2",
+   "identity": 10390,
+   "physical": 376,
+   "face_ids": [
+    310
+   ],
+   "cutin_ids": [
+    310
+   ]
+  },
+  "320": {
+   "source_id": 320,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq2",
+   "identity": 10400,
+   "physical": 383,
+   "face_ids": [
+    320
+   ],
+   "cutin_ids": [
+    320
+   ]
+  },
+  "340": {
+   "source_id": 340,
+   "template_id": 2020,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq2",
+   "identity": 10410,
+   "physical": 386,
+   "face_ids": [
+    340
+   ],
+   "cutin_ids": [
+    340
+   ]
+  },
+  "350": {
+   "source_id": 350,
+   "template_id": 1020,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq2",
+   "identity": 10420,
+   "physical": 393,
+   "face_ids": [
+    350
+   ],
+   "cutin_ids": [
+    350
+   ]
+  },
+  "360": {
+   "source_id": 360,
+   "template_id": 1020,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq2",
+   "identity": 10430,
+   "physical": 396,
+   "face_ids": [
+    360
+   ],
+   "cutin_ids": [
+    360
+   ]
+  },
+  "410": {
+   "source_id": 410,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18120,
+   "physical": 467,
+   "face_ids": [
+    70
+   ],
+   "cutin_ids": [
+    70
+   ]
+  },
+  "420": {
+   "source_id": 420,
+   "template_id": 2140,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18130,
+   "physical": 513,
+   "face_ids": [
+    170
+   ],
+   "cutin_ids": [
+    170
+   ]
+  },
+  "430": {
+   "source_id": 430,
+   "template_id": 610,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18140,
+   "physical": 606,
+   "face_ids": [
+    54
+   ],
+   "cutin_ids": [
+    54
+   ]
+  },
+  "440": {
+   "source_id": 440,
+   "template_id": 1020,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18150,
+   "physical": 613,
+   "face_ids": [
+    440
+   ],
+   "cutin_ids": [
+    440
+   ]
+  },
+  "450": {
+   "source_id": 450,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18160,
+   "physical": 616,
+   "face_ids": [
+    450
+   ],
+   "cutin_ids": [
+    450
+   ]
+  },
+  "460": {
+   "source_id": 460,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18170,
+   "physical": 503,
+   "face_ids": [
+    460
+   ],
+   "cutin_ids": [
+    460
+   ]
+  },
+  "470": {
+   "source_id": 470,
+   "template_id": 1010,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18180,
+   "physical": 623,
+   "face_ids": [
+    470
+   ],
+   "cutin_ids": [
+    470
+   ]
+  },
+  "490": {
+   "source_id": 490,
+   "template_id": 1020,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [
+    "D4_Unique_"
+   ],
+   "style": "v3",
+   "recorded_by": "d4uniq",
+   "identity": 10240,
+   "physical": 925,
+   "face_ids": [
+    490
+   ],
+   "cutin_ids": [
+    490
+   ]
+  },
+  "500": {
+   "source_id": 500,
+   "template_id": 1020,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "cast",
+   "recorded_by": "d4uniq2",
+   "identity": 10370,
+   "physical": 366,
+   "face_ids": [
+    500
+   ],
+   "cutin_ids": [
+    500
+   ]
+  },
+  "510": {
+   "source_id": 510,
+   "template_id": 1020,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "cast",
+   "recorded_by": "mvp-breadth",
+   "target_id": 393,
+   "face_ids": [
+    510
+   ],
+   "cutin_ids": [
+    510
+   ]
+  },
+  "520": {
+   "source_id": 520,
+   "template_id": 1020,
+   "exclude_source_ids": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    500,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "cast",
+   "recorded_by": "mvp-breadth",
+   "target_id": 396,
+   "face_ids": [
+    520
+   ],
+   "cutin_ids": [
+    520
+   ]
+  },
+  "610": {
+   "source_id": 610,
+   "template_id": 2020,
+   "exclude_source_ids": [
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    200,
+    260,
+    270,
+    280,
+    290,
+    330,
+    370,
+    380,
+    390,
+    400,
+    480,
+    600
+   ],
+   "supersede_prefix": [],
+   "style": "v3",
+   "recorded_by": "d4uniq3",
+   "identity": 18190,
+   "physical": 506,
+   "face_ids": [
+    610
+   ],
+   "cutin_packet_frame": "1/0000.png"
+  }
+ }
+}

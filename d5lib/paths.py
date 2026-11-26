@@ -2,7 +2,8 @@
 
 The kit can live anywhere: inside the game folder (the simplest: `<game>\\D5ModKit`) or elsewhere.  The game folder
 is, in this order: the one saved in settings.json ("game_dir", set on the Home page), the folder the kit sits in,
-then Disgaea 5 Complete found through Steam (every Steam library) or the usual install places.
+then Disgaea 5 Complete found through Steam (every Steam library: the Windows registry and the macOS/Linux default
+roots with their ``libraryfolders.vdf``) or the usual install places.
 
     from d5lib import paths
     game = paths.game_dir()          # None when no game folder was found (the GUI then asks for it)
@@ -34,8 +35,25 @@ def _reg(root, key, value):
         return None
 
 
+def _add_library_folders(root, libs):
+    """append root and every ``steamapps/libraryfolders.vdf`` path under it (deduplicated)"""
+    root = os.path.normpath(root)
+    if root not in libs:
+        libs.append(root)
+    vdf = os.path.join(root, "steamapps", "libraryfolders.vdf")
+    try:
+        with open(vdf, encoding="utf-8", errors="ignore") as f:
+            text = f.read()
+    except OSError:
+        return
+    for m in re.finditer(r'"path"\s+"([^"]+)"', text):
+        p = os.path.normpath(m.group(1).replace("\\\\", "\\"))
+        if p not in libs:
+            libs.append(p)
+
+
 def steam_libraries():
-    """every Steam library folder of this PC (main install first)"""
+    """every Steam library folder of this PC, from the Windows registry (main install first)"""
     try:
         import winreg
     except ImportError:
@@ -45,22 +63,40 @@ def steam_libraries():
              _reg(winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Valve\Steam", "InstallPath")]
     libs = []
     for root in roots:
-        if not root:
-            continue
-        root = os.path.normpath(root)
-        if root not in libs:
-            libs.append(root)
-        vdf = os.path.join(root, "steamapps", "libraryfolders.vdf")
-        try:
-            with open(vdf, encoding="utf-8", errors="ignore") as f:
-                text = f.read()
-        except OSError:
-            continue
-        for m in re.finditer(r'"path"\s+"([^"]+)"', text):
-            p = os.path.normpath(m.group(1).replace("\\\\", "\\"))
-            if p not in libs:
-                libs.append(p)
+        if root:
+            _add_library_folders(root, libs)
     return libs
+
+
+def platform_steam_roots():
+    """the default Steam roots on macOS and Linux (no registry there)"""
+    home = os.path.expanduser("~")
+    out = []
+    for candidate in (os.path.join(home, "Library/Application Support/Steam"),
+                      os.path.join(home, ".steam/steam"),
+                      os.path.join(home, ".local/share/Steam"),
+                      os.path.join(home, ".var/app/com.valvesoftware.Steam/data/Steam")):
+        candidate = os.path.normpath(candidate)
+        if os.path.isdir(candidate) and candidate not in out:
+            out.append(candidate)
+    return out
+
+
+def steam_libraries_all():
+    """every Steam library folder of this machine: registry (Windows) plus macOS/Linux defaults and their vdf"""
+    libs = list(steam_libraries())
+    for root in platform_steam_roots():
+        _add_library_folders(root, libs)
+    return libs
+
+
+def steam_app(appid, folder):
+    """the installed folder of one Steam app (``folder`` is its steamapps/common name), or None"""
+    for library in steam_libraries_all():
+        game = os.path.join(library, "steamapps", "common", folder)
+        if os.path.isdir(game):
+            return game
+    return None
 
 
 def candidates():
@@ -76,7 +112,7 @@ def candidates():
                     out.append(p)
     except ImportError:
         pass
-    out += [os.path.join(lib, "steamapps", "common", GAME_FOLDER) for lib in steam_libraries()]
+    out += [os.path.join(lib, "steamapps", "common", GAME_FOLDER) for lib in steam_libraries_all()]
     for drive in "CDEFGH":
         out += [rf"{drive}:\Program Files (x86)\Steam\steamapps\common\{GAME_FOLDER}",
                 rf"{drive}:\Program Files\Steam\steamapps\common\{GAME_FOLDER}",

@@ -504,8 +504,10 @@ class Assets:
             return self.chain(num, target, t - end, depth + 1)
         return aid, t
 
-    def sprite_items(self, num, aid, t, wtype=None):
-        """[(file, DrawItem)] of a sprite at animation time t (loops like the game), cached per whole frame"""
+    def sprite_items(self, num, aid, t, wtype=None, sub_wtype=None):
+        """[(file, DrawItem)] of a sprite at animation time t (loops like the game), cached per whole frame.
+        wtype: main weapon (hand, nodes 11-16); sub_wtype: optional sub weapon type (second slot, nodes 111-116, the
+        game draws it only for a unit with Double Bladed) -- without it only the main weapon is drawn"""
         a, ids = self.sprite(num)
         if a is None or aid not in ids:
             return []
@@ -516,12 +518,13 @@ class Assets:
         if loop and t > loop[1] and loop[1] > loop[0]:
             t = loop[0] + (t - loop[0]) % (loop[1] - loop[0])
         t = int(max(0, min(t, length)))
-        key = (num, aid, t, wtype)
+        key = (num, aid, t, wtype, sub_wtype)
         hit = self.items.get(key)
         if hit is None:
             w = self.weapon(wtype) if wtype else None
             try:
-                hit = grips.evaluate(self.file_of(num, aid), aid, t, w, wtype or 16, nested=True)
+                hit = grips.evaluate(self.file_of(num, aid), aid, t, w, wtype or 16, nested=True,
+                                     sub_weapon=self.weapon(sub_wtype) if sub_wtype else None, sub_wtype=sub_wtype)
             except Exception:
                 hit = []
             if len(self.items) > 20000:

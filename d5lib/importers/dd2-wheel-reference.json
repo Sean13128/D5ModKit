@@ -1,0 +1,871 @@
+{
+ "about": "Image-header shapes (textures, palettes) of the shipped DD2 packs, so the wheel-freeze check can compare a build on a machine with no installed pack. Header counts only, no art.",
+ "exported_from": "installed DD2 pack export, 2026-11-19; ANM header counts only",
+ "folders": {
+  "DD2_Class_22210": {
+   "Anime/ANM_HI_JP.dat/anm01550.lzs": [
+    9,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm01551.lzs": [
+    9,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm01552.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm11550.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm11551.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm11552.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm11553.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm11554.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm11555.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm11556.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm11557.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm11558.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm11559.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Class_22520": {
+   "Anime/ANM_HI_JP.dat/anm02760.lzs": [
+    3,
+    9
+   ],
+   "Anime/ANM_HI_JP.dat/anm02761.lzs": [
+    3,
+    9
+   ],
+   "Anime/ANM_HI_JP.dat/anm02762.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm12760.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12761.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12762.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12763.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12764.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12765.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12766.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12767.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12768.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12769.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Class_22540": {
+   "Anime/ANM_HI_JP.dat/anm02770.lzs": [
+    5,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02771.lzs": [
+    5,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02772.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm12770.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12771.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12772.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12773.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12774.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12775.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12776.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12777.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12778.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12779.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Class_22550": {
+   "Anime/ANM_HI_JP.dat/anm02780.lzs": [
+    7,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02781.lzs": [
+    7,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02782.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm12780.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12781.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12782.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12783.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12784.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12785.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12786.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12787.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12788.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12789.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Class_22590": {
+   "Anime/ANM_HI_JP.dat/anm02790.lzs": [
+    9,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02791.lzs": [
+    9,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02792.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm12790.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12791.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12792.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12793.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12794.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12795.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12796.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12797.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12798.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12799.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Class_22620": {
+   "Anime/ANM_HI_JP.dat/anm02800.lzs": [
+    5,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02801.lzs": [
+    5,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02802.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm12800.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12801.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12802.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12803.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12804.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12805.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12806.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12807.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12808.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12809.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Class_22630": {
+   "Anime/ANM_HI_JP.dat/anm02810.lzs": [
+    6,
+    9
+   ],
+   "Anime/ANM_HI_JP.dat/anm02811.lzs": [
+    6,
+    9
+   ],
+   "Anime/ANM_HI_JP.dat/anm02812.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm12810.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12811.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12812.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12813.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12814.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12815.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12816.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12817.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12818.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12819.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Class_22670": {
+   "Anime/ANM_HI_JP.dat/anm02820.lzs": [
+    4,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02821.lzs": [
+    4,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02822.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm12820.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12821.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12822.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12823.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12824.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12825.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12826.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12827.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12828.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12829.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Class_22680": {
+   "Anime/ANM_HI_JP.dat/anm02640.lzs": [
+    3,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02641.lzs": [
+    3,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02642.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm12640.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12641.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12642.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12643.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12644.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12645.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12646.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12647.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12648.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12649.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Class_22700": {
+   "Anime/ANM_HI_JP.dat/anm02830.lzs": [
+    4,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02831.lzs": [
+    4,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm02832.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm12830.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12831.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12832.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12833.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12834.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12835.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12836.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12837.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12838.lzs": [
+    2,
+    1
+   ],
+   "Anime/ANM_HI_JP.dat/anm12839.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_10": {
+   "Anime/ANM_HI_JP.dat/anm00626.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00627.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00628.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10626.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_100": {
+   "Anime/ANM_HI_JP.dat/anm00406.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00407.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00408.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10406.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_140": {
+   "Anime/ANM_HI_JP.dat/anm00416.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00417.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00418.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10416.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_210": {
+   "Anime/ANM_HI_JP.dat/anm00426.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00427.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00428.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10426.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_270": {
+   "Anime/ANM_HI_JP.dat/anm00433.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00434.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00435.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10433.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_30": {
+   "Anime/ANM_HI_JP.dat/anm00423.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00424.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00425.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10423.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_300": {
+   "Anime/ANM_HI_JP.dat/anm00676.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00677.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00678.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10676.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_320": {
+   "Anime/ANM_HI_JP.dat/anm00436.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00437.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00438.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10436.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_400": {
+   "Anime/ANM_HI_JP.dat/anm00443.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00444.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00445.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10443.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_420": {
+   "Anime/ANM_HI_JP.dat/anm00413.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00414.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00415.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10413.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_430": {
+   "Anime/ANM_HI_JP.dat/anm00446.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00447.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00448.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10446.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_480": {
+   "Anime/ANM_HI_JP.dat/anm00673.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00674.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00675.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10673.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_50": {
+   "Anime/ANM_HI_JP.dat/anm00633.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00634.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00635.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10633.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_550": {
+   "Anime/ANM_HI_JP.dat/anm00453.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00454.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00455.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10453.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_570": {
+   "Anime/ANM_HI_JP.dat/anm00456.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00457.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00458.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10456.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_60": {
+   "Anime/ANM_HI_JP.dat/anm00636.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00637.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00638.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10636.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_640": {
+   "Anime/ANM_HI_JP.dat/anm00683.lzs": [
+    8,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00684.lzs": [
+    8,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00685.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10683.lzs": [
+    2,
+    1
+   ]
+  },
+  "DD2_Unique_941": {
+   "Anime/ANM_HI_JP.dat/anm00941.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00942.lzs": [
+    2,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm00943.lzs": [
+    1,
+    10
+   ],
+   "Anime/ANM_HI_JP.dat/anm10941.lzs": [
+    2,
+    1
+   ]
+  }
+ },
+ "schema": "dd2-wheel-reference/1"
+}

@@ -1,5 +1,31 @@
 # New generic classes (`d5lib/newclasses.py`)
 
+## Registry identities and physical leases
+
+An imported generic can keep a community registry class ID while leasing an existing Kit sprite slot. Its class
+spec must record both namespaces explicitly, for example:
+
+```json
+{"family":14080,"kind":"humanoid","sprite_family":1360,"template":1010,"unlocked":true,"unlocked_ranks":6}
+```
+
+`family` remains the identity in char.dat, JobRank.dat, recruitment lists, class-owned skills, help descriptions
+and roster/save records. `sprite_family` owns body/companion/standing resources, colour/icon/portrait keys and the
+physical slot's existing six unlock flags. Pass `sprite_family=` to `fill_class`; use the physical number when
+building body and portrait files, and the registry family for `set_face` and the spec filename. The finalizers
+resolve physical resources from the descriptor. `flag_of(class_id, specs)` accepts a keyed spec map or spec list.
+
+Leases must be persisted in the package and never reassigned after recruitment. `validate_specs` refuses duplicate
+physical slots (including a legacy low-ID class sharing a slot), mismatched human/monster types, missing registry
+descriptors and the reserved 20000–21999 identity range. Allocation must also check disabled mods and installed
+resource occupancy before choosing slots. Existing low-ID mods retain their exact flag assignments.
+
+The native generic predicates admit only the declared registry families and their six ranks, by kind; no broad
+high-ID range becomes a generic. This preserves the existing **119 physical slots**, 512-entry carousel and
+512-entry Class tab. Registry numbering does not expand those capacities or implement custom class mastery.
+Source tests cover stable leases, native patch address domains and synthetic in-memory save-codec roundtrips;
+native recruitment, rendering and save/reload still require a game playtest.
+
 New recruitable generic classes go first into the game's reserved **Human Dummy** / **Monster Dummy** families
 (char.dat 1270 ... 1350, 2220 ... 2330: six rank rows each, already in comb.dat; the rows are edited in place, so old
 saves stay valid), then into **families of their own**: humanoids 1360 ... 1990, monsters 2340 ... 2390 and
@@ -100,7 +126,9 @@ Learning the map again: `_research/drpg_learn_map.py` (about 5 min per twin), th
 
 * **Unlock flags.** `0x14008d3f0` is the class → flag lookup used by "is this rank unlocked" (`0x1401c5790`).
   `0x1401c5920` is "unlock rank". Our ranks get flags `17283 + 6 * (index in ALL_FAMILIES) + rank`. A class with
-  `"unlocked": true` gets rank 1 unlocked from the start.
+  `"unlocked": true` gets `"unlocked_ranks"` ranks unlocked from the start -- **6 by default**, so every imported
+  rank is offered by the Recruiter and by Reincarnation without levelling the class first; `"unlocked_ranks": 1-5`
+  keeps a lower ceiling for a partial import.
 * **Class carousel** (Hire Character, Reincarnation, Sub Class).
   * The builder `0x1406673b0` lists 47 fixed families. Our families are added after them (hook `0x140667500`).
   * The descriptions come from StringListDataBase `41000 + n` (hook `0x140667c61`).
@@ -129,6 +157,96 @@ Learning the map again: `_research/drpg_learn_map.py` (about 5 min per twin), th
 
 All absolute addresses in the hook asm are RIP-relative symbols defined after use, because the exe runs with ASLR.
 An absolute `movabs 0x140...` crashes.
+
+## Ranks and colours in the Recruiter and Reincarnation
+
+What decides how many ranks a class offers (checked 2026-10-26 against the pinned exe; only the unlock flags do):
+
+* The native list builder `0x140664df0` walks the 47 hireable families. A family whose first rank is locked is
+  skipped; otherwise it writes one 8-byte entry `{class, highest unlocked rank}` into the scene list (`+0x90`, count
+  `+0x208`) -- `entry+4` is the number of offered ranks, 1 to 6.
+* The Hire Character (Recruiter) rank row stops at that count and previews `entry.class + option`
+  (`0x140661e60`: `entry[+4] < 1` shows no row; the loop ends at `entry[+4] <= option + 1`).
+* The Reincarnation window reads the same word (`0x14047f1c0`), so both screens offer exactly the same ranks.
+* Nothing else gates them: `JobRank.dat` holds the mastery threshold and the per-rank stat bonuses only (rank 6's
+  `next_id` wraps to rank 1 exactly as vanilla families do), and the class's mastery level is not consulted.
+
+So six unlocked flags = six ranks on both screens. `newclasses.auto_ranks` returns all six by default
+(`"unlocked_ranks"` in the class spec lowers it).
+
+Colours follow the rank, not a picker: `fill_class` writes `color_id = sprite_family + rank`, so rank *k* is drawn
+with sprite palette *k*. A class whose ten palettes are copies of palette 0 shows the same colour at every rank --
+the D4 importer maps D4's own ten palettes when it is given the D4 install (`--d4-root`), and
+`tools/verify_d4_import.py` now fails a build whose banks are identical or hold colours outside the matching D4
+palette.
+
+### Why a family can be missing from the wheel although the install is right
+
+`FUN_1401c6110` ("is this class rank unlocked") starts with a class-id range test -- `(id - 2010) <= 0x122`
+(monsters 2010..2300) or `(id - 1000) <= 0x136` (humans 1000..1310) -- and returns 0 *before* the (hooked) table
+lookup for anything else. So a family of its own (1360+, 2340+, and the reserved dummy rows 1320-1350 / 2310-2330)
+needs three things, in this order:
+
+1. `generic_patch` widening the id tests at install (`cmp eax, 0x3E7` for the human test, a stub taking
+   2010..2390 and 2620..2990 for the monster one). Visible in the installed exe: the bytes `3D E7 03 00 00`.
+2. the lookup / setter / carousel / hire hooks (the `.d5*` section).
+3. `char.dat` rows for the family, which the game loads at **boot** -- so the game has to be restarted after
+   Install before the class can appear or before its unlock flags can be set.
+
+The rank flags themselves are not a precondition: the lookup hook sets them (`au_set`) the first time the class is
+asked about, so a save with every class flag at 0 still lists an unlocked class. A live diagnostic must read them at
+`exemap.ACTIVE(0x144FFA9AE)` (`0x144FCCB0E` on the pinned build), not at the kit's own address.
+`tests/test_recruit_runtime.py` runs the real unlock code and the real list builder on the pinned exe and fails if
+any of 1-2 is missing; note the saved state must come from a *relaunched* game.
+
+## One wheel, every class
+
+The Recruiter (Create Character) and the Rebirth menu build their class list in one native function
+(`0x140664df0`, shared by both), and the Kit moves that list into a 512-entry buffer: D5's own 47 families
+first, then every enabled class mod's family, appended by the carousel hook while there is a free slot.  There
+is **one** list; imported classes stand beside D5's.
+
+A class mod may still declare which game it came from, and the metadata is validated even though it no longer
+routes anything:
+
+```json
+{ "category": "classes",
+  "wheel": "d4",                       // d5 | d4 | d1c | dd2 | overlord (lowercase; anything else fails)
+  "source_import": { "identity": { "source": "d4", "..." : "..." } } }
+```
+
+`wheel` wins when present; otherwise the name comes from `source_import.identity.source` (or
+`source_import.source_game`); a class mod with neither is recorded as D5.  `d5lib/wheelmeta.py` validates it:
+an unknown name fails the install, and one family declared on two different values fails it too, whichever mod
+is enabled first (`tests/test_wheelmeta.py`).  The value is bookkeeping, not a menu page.
+
+**Why there is no paging.**  WHEELS2/WHEELS3 put a Shift-key page filter into the same hook.  TEST17 shipped
+it and, live, opening Hire Character wedged the game's main thread twice — with the page key held and with no
+key at all (`live-verify/LIVE14-REPORT.md`).  TEST16's single list had already been walked live: 101 entries,
+all 13 D1C classes, no freeze.  TEST18B is that behaviour with the larger class set, and the capacity is
+measured (`tests/test_wheel_single.py`: 47 + 67 families, well inside 512).
+
+The list is rebuilt at the same point in the build as the vanilla one, guarded against re-entry (one buffer is
+shared by every scene that builds it), and a family is listed once with its six rank flags folded in.  Class
+ids, ranks, flags and mastery slots are untouched.
+
+## Sub-class
+
+The Strategy Assembly's "Set a Sub Class" list keeps its rows inside its own screen object and has room for 47 (see
+`docs/EXE_ANALYSIS.md`, Sub-class lists): a unit with most vanilla classes unlocked sees few or no imported classes
+there. The Status **Class** tab lists every class (512 entries), so the Kit makes it the place to choose one, as
+Cryswar's Overlord does (The Unlicense; `d5lib/subclasstab.py`, section `.d5sb`, on whenever the build has class mods):
+
+* Status -> a unit -> Class tab -> highlight a class -> **Confirm**. The unit's sub-class becomes that class at its
+  highest unlocked rank; a class whose first rank is locked is refused (the Assembly list would not show it), and so
+  is the unit's own class.
+* Only units of the army (the persistent roster) are changed; nothing happens on other tabs or in battle copies.
+* What is saved: the unit's own sub-class u16 (`+0x35AC`), the same field the Assembly screen writes. Nothing else.
+  Without the class mod the id stays in the save and the game finds no `char.dat` row for it. The Assembly's sub-class
+  screen would then draw the "current sub-class" name from the null page (a crash); `d5lib/subclassguard.py`
+  (section `.d5sv`, in every build) skips that panel instead. Choosing a vanilla sub-class before removing a class mod
+  is still the tidy way.
+* Class experience for the sub-class follows the mastery hooks (`docs/MASTERY.md`): only families they carry gain it.
 
 ## Skills and evilities
 

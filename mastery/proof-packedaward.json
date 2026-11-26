@@ -1,0 +1,255 @@
+{
+ "mode": "behaviour",
+ "build": {
+  "families": [
+   1350,
+   1360
+  ],
+  "section": ".d5pm",
+  "base": "0x14808f000",
+  "size": 251488,
+  "patched_sha256": "e32d404b8d5bedff3c48f90e4d12c6669146aab7342fac33508a7f7c9b3429e3",
+  "original_sha256": "49a7530baa1c3e15e4bf9c63c56fefd71d7e51a6e641bce80280b37b2db282ce"
+ },
+ "checks": [
+  {
+   "name": "award-one-family",
+   "ok": true,
+   "detail": {
+    "1": {
+     "families": 1,
+     "target": 1355,
+     "counters": [
+      7,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "pool_header": "c5018700",
+     "section_bytes": 251468,
+     "patched_sha256": "4fda484a30d0e7c38cbe06757cf4c7e850cc30a7764edc3011632ad905bca666",
+     "unpatched_unchanged": true
+    },
+    "7": {
+     "families": 7,
+     "target": 1385,
+     "counters": [
+      7,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "pool_header": "c5018a00",
+     "section_bytes": 251636,
+     "patched_sha256": "addbdffdd865a24377b3af350ff672fd46c6740fa9f58caa2e4ff4f8569f818e",
+     "unpatched_unchanged": true
+    },
+    "45": {
+     "families": 45,
+     "target": 1575,
+     "counters": [
+      7,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "pool_header": "c5019d00",
+     "section_bytes": 253024,
+     "patched_sha256": "7a13aec5a60753d5acbb8041a5bfadf9fbb73a033d7d70886d110f530bfdc1b4",
+     "unpatched_unchanged": true
+    }
+   }
+  },
+  {
+   "name": "award-six-ranks",
+   "ok": true,
+   "detail": {
+    "from_rank_0": [
+     24,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "from_rank_5": [
+     24,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "target_ids": "1350..1355"
+   }
+  },
+  {
+   "name": "award-completion",
+   "ok": true,
+   "detail": {
+    "after_first": [
+     64,
+     36,
+     0,
+     0,
+     0,
+     0
+    ],
+    "bonuses_first": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "after_second": [
+     64,
+     256,
+     8,
+     0,
+     0,
+     0
+    ],
+    "model_agrees": [
+     64,
+     36,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "name": "award-two-units",
+   "ok": true,
+   "detail": {
+    "unit_a": [
+     7,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "unit_b": [
+     9,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "name": "award-pool-full",
+   "ok": true,
+   "detail": {
+    "pool_entries": 39,
+    "record_unchanged": true,
+    "reader_answers": 0
+   }
+  },
+  {
+   "name": "award-capacity-first",
+   "ok": true,
+   "detail": {
+    "entries": 38,
+    "staged": 1350,
+    "record_unchanged": true,
+    "control_award": [
+     64,
+     36,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "name": "award-round-trip",
+   "ok": true,
+   "detail": {
+    "after_award": [
+     64,
+     36,
+     0,
+     0,
+     0,
+     0
+    ],
+    "packed_header": "0x12087",
+    "packed_value": 36,
+    "restored": [
+     64,
+     36,
+     0,
+     0,
+     0,
+     0
+    ],
+    "reader": {
+     "1350": 64,
+     "1351": 36,
+     "1360": 3
+    },
+    "unpatched_reads_zero": true
+   }
+  },
+  {
+   "name": "unlock-custom-noop",
+   "ok": true,
+   "detail": {
+    "1350": {
+     "writes_outside_stack": 0,
+     "rax": 350
+    },
+    "1355": {
+     "writes_outside_stack": 0,
+     "rax": 355
+    },
+    "1360": {
+     "writes_outside_stack": 0,
+     "rax": 360
+    },
+    "1400": {
+     "writes_outside_stack": 0,
+     "rax": 400
+    },
+    "writer_globals_written": 0,
+    "vanilla_flag_writes": 1
+   }
+  },
+  {
+   "name": "writer-r10-and-vanilla",
+   "ok": true,
+   "detail": {
+    "1355": 1350,
+    "1350": 1350,
+    "1015": 4660,
+    "1300": 4660,
+    "1370": 4660,
+    "vanilla_record_identical": true
+   }
+  }
+ ],
+ "passed": true,
+ "limitations": [
+  "The real writer (0x14015F480) and the real reader (0x140217230) are executed; the JobRank rows, the unit records and the writer's global gates are fixtures.",
+  "mark_character_seen (0x1C62A0) is executed for its range gate only; the trophy and achievement paths behind it belong to vanilla ids and are compared, not re-implemented.",
+  "--abi replaces the original mapper with a clobbering stub so the wrapper's own register contract (and the r10 it hands the writer) is proven independently of the game's code.",
+  "Executed paths only: Windows unwind dispatch, the battle/menu frames above the writer and native gameplay are not executed here.",
+  "The notification path (writer param 5) is not exercised: every run passes 0."
+ ]
+}

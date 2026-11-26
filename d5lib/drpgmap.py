@@ -69,11 +69,14 @@ def regions(uid, roots=None, pieces_only=False):
     """{(sheet, kind, index): dict(img=RGBA, org=(left, top) in region coordinates, size=(w, h))}
     kind 'slot': drpg slot index (region coordinates = slot coordinates); 'loose': pieces outside every slot,
     numbered by their position in the atlas (region coordinates = atlas coordinates of the piece's own box).
-    pieces_only: no slot layouts at all, every piece is a loose region (monster atlases)"""
+    pieces_only: no slot layouts at all, every piece is a loose region (monster atlases); "satellites": also the
+    floating companions of a frame are joined to it (drpg.merge_satellites)"""
     out = {}
     sheets = drpg.unit_sheets(uid, roots)
     for sheet, path in sheets.items():
         pieces = drpg.atlas_pieces(path)
+        if pieces_only == "satellites":
+            pieces = drpg.merge_satellites(pieces)
         # the atlas layout whose slots hold this sheet (standard or the second one, same slot order); a sheet no
         # layout fits is cut by the standard slots as before
         layout, sl, _ = (None, [], None) if pieces_only else drpg.fit_layout(pieces, sheet)

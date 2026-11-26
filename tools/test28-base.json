@@ -1,0 +1,83 @@
+{
+  "description": "TEST28 pre-finalizer base banks for D1CMOTION3; each verified equal to Local/Installed D5ModKit/mods at generation time",
+  "class_base": "Builds/LIFTSLOT1-20261101/mods",
+  "unique_base": "Builds/UNIQWALK1-20261101/mods",
+  "banks": {
+    "D1C_Class_11390": {
+      "anm01540.lzs": "382327353a5a1f09ae879bb66eaf3e28ef4a2f1097aaae026641a9f6bc30058b",
+      "anm01541.lzs": "ec14365d032fc7ce7600697c92876d5ea4d169bef8b9dba84d5cf18b1ab0e257"
+    },
+    "D1C_Class_11400": {
+      "anm01530.lzs": "699d3ce653b2ae7e9c09eeb66933af04b0bd02f15a283048def2357901c8b21b",
+      "anm01531.lzs": "fca7ecc754f0738396bae15b2cd64d663aca25d28abe03d74bf8026ae66d6f63"
+    },
+    "D1C_Unique_2300": {
+      "anm00533.lzs": "052dc6c2bd08ea015f49a956061b6c4f7dedc8474cb18af457216e044539c4f5",
+      "anm00534.lzs": "f913f22903a70258da2fafb797a3ff3fe9bfac9881e9303e130ffea61b5c4f35"
+    },
+    "D1C_Unique_2301": {
+      "anm00536.lzs": "58e3146379f4539f9bd4caf784819533f44374762790a8d578cdba3d4122aa03",
+      "anm00537.lzs": "8186a94c80a0898f1da901fcdd102b418495a5b9dfd2a35fa8125f60ca40df7a"
+    },
+    "D1C_Unique_2302": {
+      "anm00543.lzs": "54c1d072bd767b60e3bf7099decd23562419e029d7e84c6b58fd919947e3f7be",
+      "anm00544.lzs": "1a71d2a603f8a27b6ebd8041000d8000a0af6ac8ea970de756f117cd35af5251"
+    },
+    "D1C_Unique_2410": {
+      "anm00856.lzs": "d59a6412b943fa55ad6ab5a8eeb244ab9b02385fecf355c47ce7bd311a1c473c",
+      "anm00857.lzs": "aa15bfd4a5443b65593d8ad84e71876578cd92223f2c4e51e42f7c3ebe4bb061"
+    },
+    "D1C_Unique_2907": {
+      "anm00880.lzs": "ecdd4c626e357ceb4de934da521f0c1fb8bad6f1da95fe2f73f25b8e376cb7d9",
+      "anm00881.lzs": "9322e043ff85b4243715392d421bf729c263c9e61fc013001b3fa5e9b910f4e1"
+    },
+    "D1C_Unique_2909": {
+      "anm00883.lzs": "6acb71cd8726d36f65fea44ca76c0118028f61e60266ad5518f7516850bb8fde",
+      "anm00884.lzs": "973ca8b17bfdd7ca84a750b463047d796b97bf772e05d863caa221894c0d748d"
+    },
+    "D1C_Unique_2910": {
+      "anm00886.lzs": "9b5316c1f87547eca9c4a890b3abbb8c5ec878942ae43bebe815217f851223c6",
+      "anm00887.lzs": "e740f105d98d96b3dfaf27a42db4a629bc7efd974c98de4a40bec33d8c864b4f"
+    },
+    "D1C_Unique_2911": {
+      "anm00889.lzs": "8a2840e9038bbbf2180fa28e438d56066927e2cb3d745c6882e2a01c0352011d",
+      "anm00890.lzs": "dd5c44b29cf1c2712e3a795a191af28b4488860ff51ca5fd36efb7f72bf334df"
+    },
+    "D1C_Unique_2912": {
+      "anm00892.lzs": "e447aafcef8a31ab4390f81127216a93c72eab00f85e113354d610361edfc565",
+      "anm00893.lzs": "31eae7e223983b1a39ce457e676d5a45dd4c12faa8dd25be3cad1afe2c0699c9"
+    },
+    "D1C_Unique_2914": {
+      "anm00895.lzs": "9f51518c48392063acb374a848020886718241de03389316c104626826d894fa",
+      "anm00896.lzs": "4fcca7671ce391e8339f2a640a6fe86717cd64ed1ec7dda7b3c9db0e05b7614b"
+    },
+    "D1C_Unique_2915": {
+      "anm00898.lzs": "7ba0d51d928081443bda720ee0786f3421c0fef3d30fcb81b717e93c26c05fc6",
+      "anm00899.lzs": "27522e4720eebc41ba0b1464388bc8dfa9cc16ba298c1f1f53c92386c317b6c9"
+    },
+    "D1C_Unique_3060": {
+      "anm00596.lzs": "eb9bd31856e54cd683a15ebb5eb41ee9ed2021b1873094f58530c80a1b06ad81",
+      "anm00597.lzs": "b9643fe45b7223a2ba700da3b8376c2441ef9960d65f6ff928eb0d2af55b2d57"
+    },
+    "D1C_Unique_3150": {
+      "anm00910.lzs": "b53ffb9360ad992235d9711d8f932a74804cb1c7d6030d81a0c2472e0cdf45ae",
+      "anm00911.lzs": "6a41c9244709bbe2bd459eeb2ca4c555a457e32f1be24599c4dc25565af3a67d"
+    },
+    "D1C_Unique_3160": {
+      "anm00913.lzs": "84ff91303fc678825134e367f618106ff563febea7dec30cc42eb3b7bab2f040",
+      "anm00914.lzs": "8b84574fffdc16edceb7c1c3c71c810f6894ce6c302246bbb50dda7de4e4951c"
+    },
+    "D1C_Unique_4": {
+      "anm00516.lzs": "8ac9ba385dd12f0df8c44c697c4d313e0d5ccd539f6cc06dea450123951014a1",
+      "anm00517.lzs": "3e341f2e067c87414d5bde3b767af06f75e333fde4d5f5fb24d0c70c4143ced6"
+    },
+    "D1C_Unique_5": {
+      "anm00523.lzs": "cb403e90cda495717a6a3f3658d14cb1b590e47db0f1099637d322eec5be733f",
+      "anm00524.lzs": "4196b74565cdd5025d826fd3c5e004f882ead89e8a8d8bcfe19822b26f90b5dc"
+    },
+    "D1C_Unique_5590": {
+      "anm00603.lzs": "2791ec05c83d809cee646e6a9f728c62d7384f9343a0989ef11b629e38fa03c2",
+      "anm00604.lzs": "751f35d569c1d251fecd37c1bf3c806837d1a8567481bd9521bea7f327241068"
+    }
+  }
+}

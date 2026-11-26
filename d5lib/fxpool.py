@@ -18,7 +18,8 @@ So any number of effect models works; at most ~400 can be on screen at the same 
 d5fx.dat: 'D5FX', u32 version 1, u32 n, n x (u32 id, u32 offset, u32 size)   sorted by id
           u32 m, m x (u32 event, u32 first, u32 count)                       sorted by event
           u32 k, k x u32 id                                                    the events' lists
-          then the models' data (the archive member: YKCMP-compressed .obf)
+          then the models' data (the archive member: YKCMP-compressed .obf); ids whose bytes are identical
+          share one copy (same offset)
 """
 import struct
 
@@ -121,11 +122,14 @@ def build_file(models, lists):
     out = bytearray(b"D5FX" + struct.pack("<I", 1) + struct.pack("<I", len(ids)))
     off = head_len
     blobs = []
-    for i in ids:
+    stored = {}                        # identical model bytes are written once and shared (SPECBULK2: the same
+    for i in ids:                      # D4 effect converted for several packs, or a copied stock model)
         d = models[i]
-        out += struct.pack("<III", i, off, len(d))
-        blobs.append(d)
-        off += len(d)
+        if d not in stored:
+            stored[d] = off
+            blobs.append(d)
+            off += len(d)
+        out += struct.pack("<III", i, stored[d], len(d))
     out += struct.pack("<I", len(events))
     for e, first, n in heads:
         out += struct.pack("<III", e, first, n)

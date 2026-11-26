@@ -1,0 +1,504 @@
+{
+ "schema": "kit-unique-art-carve/1",
+ "note": "Every unique whose art is keyed into the third lease run (404-852) records its physical number here, because that band is vanilla ground: tools/build_ownership_manifest.py carves exactly these windows out of the vanilla bands, and refuses a record outside the run. Proof that each window is free: Research/source-packs/d1c/batches/prove_art_leases.py and Subprojects/Engine-Extensions/D1C2-REPORT.md.",
+ "run": [
+  404,
+  852
+ ],
+ "leases": {
+  "D1C_Unique_2216": {
+   "physical": 526,
+   "identity": 10640,
+   "name": {
+    "@text": "1fa3392a716c1334f7e71e7639da08a11206ec4506dbb65771e6c45e1da87084"
+   },
+   "listing": 2216
+  },
+  "D1C_Unique_2300": {
+   "physical": 533,
+   "identity": 10650,
+   "name": {
+    "@text": "ca2db3292857754f776e0437b07e83dfa2b5a65d915ee437119265ebaa13454c"
+   },
+   "listing": 2300
+  },
+  "D1C_Unique_2301": {
+   "physical": 536,
+   "identity": 10660,
+   "name": {
+    "@text": "e68fcc91c7061554b22001446ddc1b6a9c1434bda576524299ab89a9586bc64a"
+   },
+   "listing": 2301
+  },
+  "D1C_Unique_2302": {
+   "physical": 543,
+   "identity": 10670,
+   "name": {
+    "@text": "cdee1f5965f76562041a75b994b299d84ff709957223cff3b5a308a2e007931c"
+   },
+   "listing": 2302
+  },
+  "D1C_Unique_2570": {
+   "physical": 546,
+   "identity": 10680,
+   "name": {
+    "@text": "a137fc0fbfa1f6b0fb97db04940efb7df9072d8602fccf5b7cae356ed8304c9c"
+   },
+   "listing": 2570
+  },
+  "D1C_Unique_2590": {
+   "physical": 553,
+   "identity": 10690,
+   "name": {
+    "@text": "1fa3392a716c1334f7e71e7639da08a11206ec4506dbb65771e6c45e1da87084"
+   },
+   "listing": 2590
+  },
+  "D1C_Unique_2600": {
+   "physical": 556,
+   "identity": 10700,
+   "name": {
+    "@text": "54d139eaf531d58efbaa681344dd07465d3077643684ae3f1f3404a86009bf8b"
+   },
+   "listing": 2600
+  },
+  "D1C_Unique_2611": {
+   "physical": 563,
+   "identity": 10710,
+   "name": {
+    "@text": "f3983d1f2482488e703246a53b8dc61aa6bd1a31618317a6ff4e3cdba478fa87"
+   },
+   "listing": 2611
+  },
+  "D1C_Unique_2612": {
+   "physical": 566,
+   "identity": 10720,
+   "name": {
+    "@text": "2a0df6a51713590800dab184222f8bbd8f22cac00ee0627c7257dcb818268fac"
+   },
+   "listing": 2612
+  },
+  "D1C_Unique_2613": {
+   "physical": 573,
+   "identity": 10730,
+   "name": {
+    "@text": "1d8098ce9f05d35e4d110d02becac3f6518343366e72a942eb60473a30e10520"
+   },
+   "listing": 2613
+  },
+  "D1C_Unique_2614": {
+   "physical": 576,
+   "identity": 10740,
+   "name": {
+    "@text": "1ecb3207238c01121c05168d0666ff856c6c1c65770707915764caaed2f44a1c"
+   },
+   "listing": 2614
+  },
+  "D1C_Unique_2615": {
+   "physical": 583,
+   "identity": 10750,
+   "name": {
+    "@text": "0fd516b599c8bbb5e79896571df82a79aa8d9a1c292dfceb1942ce34a4c3174a"
+   },
+   "listing": 2615
+  },
+  "D1C_Unique_3000": {
+   "physical": 586,
+   "identity": 10760,
+   "name": {
+    "@text": "68095a464c5811446ed4128ab8bf4a2fa0e53ba9da9883f72912119662c958bc"
+   },
+   "listing": 3000
+  },
+  "D1C_Unique_3010": {
+   "physical": 593,
+   "identity": 10770,
+   "name": {
+    "@text": "7bc2de40f1c6633d26630637c37449eaf5b488aca39bc52890a1cbd7e7e45856"
+   },
+   "listing": 3010
+  },
+  "D1C_Unique_3060": {
+   "physical": 596,
+   "identity": 10780,
+   "name": {
+    "@text": "99dd5ae7478fb55e39cc5ad82ca7b688826b7f2a46ec279ff3a5349e907ab955"
+   },
+   "listing": 3060
+  },
+  "D1C_Unique_4": {
+   "physical": 516,
+   "identity": 10620,
+   "name": {
+    "@text": "456a845d1b0b1a1bd1929911e44cfacabc4943cb63dfd4179e6f125ecbe4a1aa"
+   },
+   "listing": 4
+  },
+  "D1C_Unique_5": {
+   "physical": 523,
+   "identity": 10630,
+   "name": {
+    "@text": "bda0a01c76aae97ef15d6b792f3dc3cbb6609d611e9c563a54a1393fe685e31b"
+   },
+   "listing": 5
+  },
+  "D1C_Unique_5590": {
+   "physical": 603,
+   "identity": 10790,
+   "name": {
+    "@text": "70d200583af284f6ab9c9bf7dbe508336a1080903a821887f532b1ae577e8cf4"
+   },
+   "listing": 5590
+  },
+  "DD2_Unique_100": {
+   "physical": 406,
+   "identity": 10800,
+   "name": {
+    "@text": "d01926adf94597454516e441789dba45148c4360a90c6eaddad59823881ab7c0"
+   },
+   "listing": 100,
+   "measured": "2026-10-29 (SPECIALS): 406,407,408,10406,10407 absent from the pristine ANM archive and from every installed mod; no vanilla char.dat row at 406-408; recorded in Builds/DD2B-20261029/LEASES.json",
+   "source_id": 100
+  },
+  "DD2_Unique_140": {
+   "physical": 416,
+   "identity": 10450,
+   "name": {
+    "@text": "855250ab9c815e25780a0e1adc83c2dcd194d468ee701fb6a4fb885ad74fe51d"
+   },
+   "source_id": 140
+  },
+  "DD2_Unique_210": {
+   "physical": 426,
+   "identity": 10460,
+   "name": {
+    "@text": "dc86d290d14390a8b29e00ab3e5eaed12009d4d3ed1f01e6a97a52227d50ef29"
+   },
+   "source_id": 210
+  },
+  "DD2_Unique_270": {
+   "physical": 433,
+   "identity": 10470,
+   "name": {
+    "@text": "4006d169b9202b9a024081b4c400711e0b917c849edbf5591ca61d774d085248"
+   },
+   "source_id": 270
+  },
+  "DD2_Unique_30": {
+   "physical": 423,
+   "identity": 10820,
+   "name": {
+    "@text": "40ede8445092e43118daf16eacc7be7daa689990772d7bf8f71ba4a05b4348e5"
+   },
+   "listing": 30,
+   "measured": "2026-10-29 (SPECIALS): 423,424,425,10423,10424 absent from the pristine ANM archive and from every installed mod; no vanilla char.dat row at 423-425; recorded in Builds/DD2B-20261029/LEASES.json",
+   "source_id": 30
+  },
+  "DD2_Unique_320": {
+   "physical": 436,
+   "identity": 10480,
+   "name": {
+    "@text": "a4a2899ef6f76ef71ac0dceefc25029c493642ac306959a8cacc8f9cadb67801"
+   },
+   "source_id": 320
+  },
+  "DD2_Unique_400": {
+   "physical": 443,
+   "identity": 10490,
+   "name": {
+    "@text": "21d9243a90ba66ed48bb3d70c9fa6ddfedd2ab8b50ec85cf06aff5fa776eb025"
+   },
+   "source_id": 400
+  },
+  "DD2_Unique_420": {
+   "physical": 413,
+   "identity": 10170,
+   "name": {
+    "@text": "5f1942df6113cef3dd04a1bd89d0e921700f622aca82ae1d93418bef9ed61b4c"
+   },
+   "source_id": 420
+  },
+  "DD2_Unique_430": {
+   "physical": 446,
+   "identity": 10500,
+   "name": {
+    "@text": "7610c7695faa5426203b76df3b74ec72008528e1322b967ed26005b8b99cad3b"
+   },
+   "source_id": 430
+  },
+  "DD2_Unique_550": {
+   "physical": 453,
+   "identity": 10510,
+   "name": {
+    "@text": "ecc8be01821e7544558bb163f1f681654265cc759a600e92c34485d543a60fb0"
+   },
+   "source_id": 550
+  },
+  "DD2_Unique_570": {
+   "physical": 456,
+   "identity": 10520,
+   "name": {
+    "@text": "324b7ca1312182bf601625ff0bbf5b05c7303116a05065e8bd0a039e8ff79c2b"
+   },
+   "source_id": 570
+  },
+  "D4_Unique_70": {
+   "physical": 461,
+   "identity": 18100,
+   "name": {
+    "@text": "624b14e41e07b1843b7fa7241724b143fae584f31173a4596645a2c1357a90f4"
+   },
+   "listing": 70
+  },
+  "D4_Unique_220": {
+   "physical": 464,
+   "identity": 18110,
+   "name": {
+    "@text": "624b14e41e07b1843b7fa7241724b143fae584f31173a4596645a2c1357a90f4"
+   },
+   "listing": 220
+  },
+  "D4_Unique_410": {
+   "physical": 467,
+   "identity": 18120,
+   "name": {
+    "@text": "624b14e41e07b1843b7fa7241724b143fae584f31173a4596645a2c1357a90f4"
+   },
+   "listing": 410
+  },
+  "D4_Unique_460": {
+   "physical": 503,
+   "identity": 18170,
+   "name": {
+    "@authored": "Pirohiko"
+   },
+   "listing": 460
+  },
+  "D4_Unique_610": {
+   "physical": 506,
+   "identity": 18190,
+   "name": {
+    "@text": "05cc42e7377995025572f789f47683c7831c30f9b1d332a585b63307bb21386e"
+   },
+   "listing": 610
+  },
+  "D4_Unique_420": {
+   "physical": 513,
+   "identity": 18130,
+   "name": {
+    "@text": "d70b489bb97ec09dbafa72e461c8320d04e13ad160dd74c8e69a60ea62dc8ffd"
+   },
+   "listing": 420
+  },
+  "D4_Unique_430": {
+   "physical": 606,
+   "identity": 18140,
+   "name": {
+    "@text": "4b4cedb8a0da30f786551c15c7df7ab1662c7bef636f4a08fce55c863ef9d795"
+   },
+   "listing": 430
+  },
+  "D4_Unique_440": {
+   "physical": 613,
+   "identity": 18150,
+   "name": {
+    "@text": "e1f4728d9ee22b6dbde41b0ffe66e167fb5b9d268786ba90c56068ce46507bcb"
+   },
+   "listing": 440
+  },
+  "D4_Unique_450": {
+   "physical": 616,
+   "identity": 18160,
+   "name": {
+    "@text": "bda94d3dce78637e7e47c7ea19824b93a643d023947dbf12ab3afc7032bb2597"
+   },
+   "listing": 450
+  },
+  "D4_Unique_470": {
+   "physical": 623,
+   "identity": 18180,
+   "name": {
+    "@text": "8612926f8ad15585b926d8041f30834b7de4412f669446d1c6c2a389e92a7b2b"
+   },
+   "listing": 470
+  },
+  "DD2_Unique_10": {
+   "physical": 626,
+   "identity": 10530,
+   "name": {
+    "@text": "c81b908686124770595b26664df1d4cc8186333725320740e4fabd54e58c6695"
+   },
+   "listing": 10
+  },
+  "DD2_Unique_50": {
+   "physical": 633,
+   "identity": 10540,
+   "name": {
+    "@text": "26c6cdb6e2dfeb14cbd9fc599f7791824cc2916347e3608620395c09abeb6955"
+   },
+   "listing": 50
+  },
+  "DD2_Unique_60": {
+   "physical": 636,
+   "identity": 10550,
+   "name": {
+    "@text": "6b59fa8b73b5692c33c4a24a09c41ed34fc62ae8b23b4ae8ce7e85f28565b5ab"
+   },
+   "listing": 60
+  },
+  "D4_Unique_210": {
+   "physical": 643,
+   "identity": 10260,
+   "name": {
+    "@text": "cba46298d4ff04ece989104bd8df2f52778c36355bc117d829fc1e05c49df21b"
+   },
+   "listing": 210,
+   "supersedes": 934,
+   "why": "re-leased 2026-11-03 (CORED4C): 934 is not named in the P1OWN 853..999 lease list and its monster attack scripts 12010934/12110934/12210934 collided with the recorded D1C_Unique_3130 (Shark King, art 931, skills 10932-10935); 643 is the first window slots.unique_sprite_pool measures free of every game file and installed mod file"
+  },
+  "DD2_Unique_480": {
+   "physical": 673,
+   "identity": 10560,
+   "name": {
+    "@text": "db74c940d447e877d119df613edd2700c4a84cd1cf08beb7cbc319bcfaeab97a"
+   },
+   "listing": 480
+  },
+  "DD2_Unique_300": {
+   "physical": 676,
+   "identity": 10570,
+   "name": {
+    "@text": "f1818107faa1e9bf5a54c4c85b3f70b757013ca647f81212dec7096a5aec8911"
+   },
+   "listing": 300
+  },
+  "DD2_Unique_640": {
+   "physical": 683,
+   "identity": 10580,
+   "name": {
+    "@text": "ade6ede4c4bb79e2e9a56361d58858e889c36d58d31afd4652344a17d8551076"
+   },
+   "listing": 640
+  },
+  "D1C_Unique_2400": {
+   "physical": 686,
+   "identity": 10590,
+   "name": {
+    "@text": "163a3d552d645271186a11e65ea53b3584579606e21e5c1daceb724083de5b64"
+   },
+   "listing": 2400
+  },
+  "D1C_Unique_2580": {
+   "physical": 693,
+   "identity": 10600,
+   "name": {
+    "@text": "77d7a1123b0bce4b33cefd306768f72aca4aa3458a941116a057715ed5f27ec5"
+   },
+   "listing": 2580
+  },
+  "D1C_Unique_2500": {
+   "physical": 786,
+   "identity": 18200,
+   "name": {
+    "@text": "63707b0e4f777ae3a78697cb54e5b88e5a825fc8c7051f1adebeceef5952b031"
+   },
+   "listing": 2500
+  },
+  "D1C_Unique_5390": {
+   "physical": 793,
+   "identity": 10810,
+   "name": {
+    "@text": "1b24eaa48ce1a49136b45f84da175c14afb658d92c256e78ec7eed6ec124c531"
+   },
+   "listing": 5390
+  },
+  "D1C_Unique_6601": {
+   "physical": 796,
+   "identity": 10830,
+   "name": {
+    "@text": "25eb92ae54cc5089e9b995f4176795d3c67d927069a3009a655c76cf0e447536"
+   },
+   "listing": 6601
+  },
+  "D4_Unique_4390": {
+   "physical": 646,
+   "identity": 18210,
+   "name": {
+    "@text": "d504f19307a561ee7bffb33cebfb6f33dc56be802574eb5cff349d170553d5b9"
+   },
+   "listing": 4390
+  },
+  "D4_Unique_5301": {
+   "physical": 653,
+   "identity": 18220,
+   "name": {
+    "@text": "b0f33cba0616d39321e0d15ee4369beae9735714a96589a25464e4c71361499d"
+   },
+   "listing": 5301
+  },
+  "D4_Unique_5305": {
+   "physical": 656,
+   "identity": 18230,
+   "name": {
+    "@text": "eedef7e2febf770d297c308b69b069d4f347c848afdc5dc90a50a0a4cfc1a0ca"
+   },
+   "listing": 5305
+  },
+  "D4_Unique_5306": {
+   "physical": 823,
+   "identity": 18240,
+   "name": {
+    "@text": "3f3aad4b4332a6b9dba996aae5741b86816a3877507534a4a15671731e83d45b"
+   },
+   "listing": 5306
+  },
+  "D4_Unique_5307": {
+   "physical": 826,
+   "identity": 18250,
+   "name": {
+    "@text": "e10bd55d3f37879653ea2a3fa4c88cf8e6d1ec3e94219370297a71120b2b9d3f"
+   },
+   "listing": 5307
+  },
+  "D4_Unique_5308": {
+   "physical": 833,
+   "identity": 18260,
+   "name": {
+    "@text": "697a683d18be19f324be4d93b9fb10ddefa701df41077d0a0e35be8ea312b79d"
+   },
+   "listing": 5308
+  },
+  "D4_Unique_5309": {
+   "physical": 836,
+   "identity": 18270,
+   "name": {
+    "@text": "462e0e7c94782c8dcb3553b1c87dd94bbea18fdcdff9f3ce4479c5fb323c48b3"
+   },
+   "listing": 5309
+  },
+  "D4_Unique_5310": {
+   "physical": 843,
+   "identity": 18280,
+   "name": {
+    "@text": "1b67bd135fc4598c4fdd4dca53c5aeb52ae5cf5d4405e9f17505b4744bc00ebc"
+   },
+   "listing": 5310
+  },
+  "D4_Unique_5388": {
+   "physical": 846,
+   "identity": 18290,
+   "name": {
+    "@text": "fb306f1ca3a5b8e768a2171ace73dc85ee5ee802398503b1bb73c1759d690666"
+   },
+   "listing": 5388
+  },
+  "Overlord Character - Majin": {
+   "physical": 663,
+   "identity": 10850,
+   "name": {
+    "@text": "351e7634bcc6947b61ab748df49225bb71cb2da5c1b7db2fbbac887507a151ef"
+   },
+   "listing": 20500
+  }
+ }
+}

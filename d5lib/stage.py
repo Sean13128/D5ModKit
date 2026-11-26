@@ -964,10 +964,11 @@ def _h_place_at(st, a, f, m):
         ac.dir = src.dir.copy()
 
 
-def _h_face_as(st, a, f, m):
-    ac, src = st.actor(a[0]), st.actor(a[1], create=False)
-    if src is not None:
-        ac.dir = src.dir.copy()
+def _h_warp(st, a, f, m):
+    """cmd_6630 actor, to: object_warp_to 0x1401707a0 is a tail call of object_place (6642) with no offset and 0
+    frames (D4 0x1401311b0 tail-calls its 6642 handler the same way): the actor is put there at once. Scenes end
+    with `6630 a, a` to put a moved unit back on its own base place (SPECBULK3)."""
+    _h_move(st, [a[0], a[1], 0, 0, 0, 0, 0], f, m)
 
 
 def _h_home(st, a, f, m):
@@ -1365,7 +1366,7 @@ _HANDLERS = {
     0x6510: _h_motion, 0x6500: _h_anim, 0x6402: _h_sprite, 0x6405: _h_sprite, 0x6c04: _h_follow, 0x6c08: _h_unfollow,
     0x6c00: _h_attach_at,
     0x6410: _h_copy, 0x6412: _h_copy, 0x640a: _h_new, 0x65f4: _h_place_at, 0x65f6: _h_place_at,
-    0x6630: _h_face_as, 0x6620: _h_home, 0x6411: _h_cutin, 0x6460: _h_screen,
+    0x6630: _h_warp, 0x6620: _h_home, 0x6411: _h_cutin, 0x6460: _h_screen,
     0x6482: _h_actor_fade, 0x6660: _h_screen_place, 0x6664: _h_screen_move, 0x6570: _h_speed, 0x6560: _h_pause,
     0x6530: _h_motion_frame, 0x6470: _h_shadow,
     0x6642: _h_move, 0x6672: _h_move_eased, 0x6680: _h_jump,

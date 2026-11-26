@@ -17,16 +17,13 @@ the hash of the sources.  Installed files are removed on restore.
 """
 import hashlib
 import os
-import struct
 import subprocess
 import sys
 
-import pefile
-
+from . import exepatch
 from .gamefs import EXE_FILE
 from .modsys import register_finalizer
 
-IMAGE_BASE = 0x140000000
 SECTION_NAME = b".d5auto"
 FRAME_VA = 0x14022124F                       # call 0x1408a50c0 (input poll) inside the per-frame update
 FRAME_ORIG = bytes.fromhex("e86c3e6800")
@@ -54,14 +51,8 @@ def has_autobattle(native=NATIVE):
 
 # ------------------------------------------------------------------------------------------ exe
 def is_hooked(exe: bytes) -> bool:
-    return SECTION_NAME in exe[:0x400]
-
-
-def _asm(src, addr):
-    from keystone import Ks, KS_ARCH_X86, KS_MODE_64
-    from . import exemap
-    enc, _ = Ks(KS_ARCH_X86, KS_MODE_64).asm(exemap.ACTIVE.text(src), addr)
-    return bytes(enc)
+    """the per-frame DLL hook is present, however the section was appended (see exepatch.has_feature)"""
+    return exepatch.has_feature(exe, SECTION_NAME, hooks=[(FRAME_VA, 0xE8)])
 
 
 def build_exe_hook(exe: bytes) -> bytes:
@@ -69,15 +60,6 @@ def build_exe_hook(exe: bytes) -> bytes:
     if is_hooked(exe):
         return exe
     from . import exemap
-    pe = pefile.PE(data=exe)
-    frame_va = exemap.site(pe, FRAME_VA, FRAME_ORIG, "the runtime's hook site")
-    sec_align = pe.OPTIONAL_HEADER.SectionAlignment
-    file_align = pe.OPTIONAL_HEADER.FileAlignment
-    last = max(pe.sections, key=lambda s: s.VirtualAddress)
-    new_rva = (last.VirtualAddress + max(last.Misc_VirtualSize, last.SizeOfRawData) + sec_align - 1) \
-        // sec_align * sec_align
-    new_raw = (len(exe) + file_align - 1) // file_align * file_align
-    base = IMAGE_BASE + new_rva
     nl = chr(10)
     # stub: call the input poll, then (lazily loaded) d5_frame().  Data lives in the same RWX section.
     src = nl.join([
@@ -120,25 +102,9 @@ def build_exe_hook(exe: bytes) -> bytes:
         f"    IAT_LOADLIBRARYA = {IAT_LOADLIBRARYA:#x}",
         f"    IAT_GETPROCADDRESS = {IAT_GETPROCADDRESS:#x}",
     ])
-    code = _asm(src, base)
-    section = code + b"\xCC" * (-len(code) % file_align)
-    out = bytearray(exe) + b"\0" * (new_raw - len(exe))
-    nsec = pe.FILE_HEADER.NumberOfSections
-    sh_off = pe.DOS_HEADER.e_lfanew + 4 + 20 + pe.FILE_HEADER.SizeOfOptionalHeader + 40 * nsec
-    if sh_off + 40 > pe.OPTIONAL_HEADER.SizeOfHeaders:
-        raise ValueError("no room for another section header")
-    hdr = struct.pack("<8sIIIIIIHHI", SECTION_NAME.ljust(8, b"\0"), len(code), new_rva, len(section), new_raw,
-                      0, 0, 0, 0, 0xE0000020)  # code | execute | read | write
-    out[sh_off:sh_off + 40] = hdr
-    fh = pe.DOS_HEADER.e_lfanew + 4
-    struct.pack_into("<H", out, fh + 2, nsec + 1)
-    size_of_image = (new_rva + len(code) + sec_align - 1) // sec_align * sec_align
-    struct.pack_into("<I", out, fh + 20 + 56, size_of_image)
-    out += section
-    # the hooked call: same length (5 bytes), now calls our stub
-    off = pe.get_offset_from_rva(frame_va - IMAGE_BASE)
-    out[off:off + 5] = b"\xE8" + struct.pack("<i", base - (frame_va + 5))
-    return bytes(out)
+    # add_hook_section owns the section layout (it grows the last kit section when it can, so the hook costs no
+    # section header) and writes the 5-byte call at FRAME_VA.
+    return exepatch.add_hook_section(exe, SECTION_NAME, [(FRAME_VA, FRAME_ORIG, src, 0xE8)], writable=True)
 
 
 # ------------------------------------------------------------------------------------------ dll
@@ -166,8 +132,9 @@ def cached_name(sources, out_name):
     return f"{os.path.splitext(out_name)[0]}-{h}.dll"
 
 
-def _compile(sources, out_name, main, libs, log, cache=CACHE):
-    """compile one DLL with Zig (cached by the hash of its sources)"""
+def _compile(sources, out_name, main, libs, log, cache=None):
+    """compile one DLL with Zig (cached by the hash of its sources; cache None = CACHE, read at call time)"""
+    cache = cache or CACHE
     os.makedirs(cache, exist_ok=True)
     out = os.path.join(cache, cached_name(sources, out_name))
     if not os.path.exists(out):
@@ -203,12 +170,12 @@ def loader_sources(native=NATIVE):
     return [os.path.join(native, os.path.basename(LOADER_SOURCE))]
 
 
-def build_core(log=print, native=NATIVE, cache=CACHE) -> bytes:
+def build_core(log=print, native=NATIVE, cache=None) -> bytes:
     """d5core.dll: every runtime feature (hot-reloadable, see d5load.c)"""
     return _compile(core_sources(native), CORE_NAME, os.path.join(native, "d5auto.c"), LIBS, log, cache)
 
 
-def build_loader(log=print, native=NATIVE, cache=CACHE) -> bytes:
+def build_loader(log=print, native=NATIVE, cache=None) -> bytes:
     """d5auto.dll: the small loader the exe patch loads"""
     src = loader_sources(native)
     return _compile(src, DLL_NAME, src[0], [], log, cache)
@@ -220,10 +187,19 @@ def build_dll(log=print) -> bytes:
 
 
 # -------------------------------------------------------------------------------------- settings
+def silent_text(v) -> str:
+    """[audio] silent: 1 / 0 / auto (auto = silent while [debug] remote=1, i.e. a game the harness drives)."""
+    if v in (True, 1, "1", "on", "yes"):
+        return "1"
+    if v in (False, 0, "0", "off", "no"):
+        return "0"
+    return "auto"
+
+
 def ini_text(s, auto=None) -> str:
     """d5auto.ini.  s: the runtime's own switches (_colors, _live_skills, remote, research, test_anywhere,
-    battle_speed); auto: the auto-battle's settings (d5lib.autobattle) or None (its sections are left out and the
-    feature is off)."""
+    battle_speed, silent); auto: the auto-battle's settings (d5lib.autobattle) or None (its sections are left out
+    and the feature is off)."""
     cc = s.get("_colors") or {}
     lines = [
         "; D5 Mod Kit runtime settings (written by D5 Mod Kit)",
@@ -270,6 +246,10 @@ def ini_text(s, auto=None) -> str:
         "; speed: actions in battle (skit fast-forward): 0 = the game's Options, 1 = normal (holding the fast-forward",
         ";        button still speeds up), 2-4 = always fast-forward at xN.  Memory only: the save's Options stay as they are",
         f"speed={int(s.get('battle_speed') or 0)}",
+        "[audio]",
+        "; silent: the game's BGM/SE/voice volumes 0, so a game an agent launched makes no sound (memory only: the",
+        ";         save's Options are read, never written).  1 = always, 0 = never, auto = while [debug] remote=1",
+        f"silent={silent_text(s.get('silent'))}",
         "",
     ]
     return "\r\n".join(lines)

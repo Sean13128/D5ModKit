@@ -192,97 +192,113 @@
    "offset": 84,
    "type": "u16",
    "desc": "level at which learn<N>_skill is learned (1..9999; 10000 seen = effectively never / special unlock)",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[0] PROBABLE"
   },
   {
    "name": "learn2_level",
    "offset": 86,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[1] PROBABLE"
   },
   {
    "name": "learn3_level",
    "offset": 88,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[2] PROBABLE"
   },
   {
    "name": "learn4_level",
    "offset": 90,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[3] PROBABLE"
   },
   {
    "name": "learn5_level",
    "offset": 92,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[4] PROBABLE"
   },
   {
    "name": "learn6_level",
    "offset": 94,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[5] PROBABLE"
   },
   {
    "name": "learn7_level",
    "offset": 96,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[6] PROBABLE"
   },
   {
    "name": "learn8_level",
    "offset": 98,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[7] PROBABLE"
   },
   {
    "name": "learn9_level",
    "offset": 100,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[8] PROBABLE"
   },
   {
    "name": "learn10_level",
    "offset": 102,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[9] PROBABLE"
   },
   {
    "name": "learn11_level",
    "offset": 104,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[10] PROBABLE"
   },
   {
    "name": "learn12_level",
    "offset": 106,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[11] PROBABLE"
   },
   {
    "name": "learn13_level",
    "offset": 108,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[12] PROBABLE"
   },
   {
    "name": "learn14_level",
    "offset": 110,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[13] PROBABLE"
   },
   {
    "name": "learn15_level",
    "offset": 112,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[14] PROBABLE"
   },
   {
    "name": "learn16_level",
    "offset": 114,
    "type": "u16",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow skill_learn_level[15] PROBABLE"
   },
   {
    "name": "learn_count",
@@ -321,7 +337,8 @@
    "type": "u32",
    "ref": "Skill.dat",
    "desc": "always 0 - presumed further innate Evility slot",
-   "confidence": "low"
+   "confidence": "low",
+   "candidate": "Sorrow innate_evility_id[2] VERIFIED"
   },
   {
    "name": "evility4",
@@ -329,7 +346,8 @@
    "type": "u32",
    "ref": "Skill.dat",
    "desc": "always 0 - presumed further innate Evility slot",
-   "confidence": "low"
+   "confidence": "low",
+   "candidate": "Sorrow innate_evility_id[3] VERIFIED"
   },
   {
    "name": "evility_count",
@@ -339,11 +357,15 @@
    "confidence": "high"
   },
   {
-   "name": "unk_0CA",
+   "name": "torture_id",
    "offset": 202,
    "type": "u16",
    "desc": "group id 100..189 shared by visually related characters: 100 = Killia/dummies/misc, 101 Seraphina, 102 Red Magnus, 103 Christo, 104 Usalia+family+Yellow Prinny, 105 Zeroken, 117..142 = the human classes in order (Warrior 117 .. Sorcerer 189 for DLC classes 187-189), 140 Prinny (+helper Prinnies), 141 Imp .. 160 Horseman, 161..186 DLC guest characters; NPCs share their class group (e.g. Memoria=Witch 120). 0 for objects/NPCs without. Not an anm id and not a charhelp id; maybe a cut-in/motion/effect set.",
-   "confidence": "low"
+   "confidence": "high",
+   "aliases": [
+    "unk_0CA"
+   ],
+   "candidate": "Sorrow torture_id VERIFIED; kit type u16 kept (Sorrow u16)"
   },
   {
    "name": "overload_id",
@@ -373,14 +395,16 @@
    "offset": 214,
    "type": "u16",
    "desc": "5..21: grows with body size (Prinny 5, humans 6, Bear 8, Dragon 9, Horseman 12, Proto Darkdeath 18, UFO 21). Probably shadow/footprint size",
-   "confidence": "low"
+   "confidence": "low",
+   "candidate": "Sorrow model_size_a PROBABLE"
   },
   {
    "name": "height",
    "offset": 216,
    "type": "u16",
    "desc": "unit height (Prinny 11, humans 14, Succubus 17, Tree 38, Pillar 36) - probably used for lift/tower/marker placement",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow model_size_b PROBABLE"
   },
   {
    "name": "height2",
@@ -402,14 +426,19 @@
    "offset": 222,
    "type": "u16",
    "desc": "look/palette variant: for classes = sprite_id + tier (Warrior 1010..1015 -> tier palettes), special forms sprite+n (2158, 2027); objects = own id; 9999 ship parts. Probably selects palette/appearance record",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow char_id_group PROBABLE"
   },
   {
-   "name": "unk_0E0",
+   "name": "exp_yield_weight",
    "offset": 224,
    "type": "u16",
    "desc": "3..9: class grade-like value, constant over tiers for most classes (Warrior/Magician/Cleric 4, Thief/Archer/Gunner/Ninja 5, Samurai/Armor Knight/Magic Knight/Professor 6, Pirate/Sage/Dark Knight 7) but Asagi class 3..8 by tier, Item God 9. Unknown",
-   "confidence": "low"
+   "confidence": "high",
+   "aliases": [
+    "unk_0E0"
+   ],
+   "candidate": "Sorrow exp_yield_weight VERIFIED; kit type u16 kept (Sorrow i16)"
   },
   {
    "name": "MOV",
@@ -449,14 +478,16 @@
    "offset": 234,
    "type": "u16",
    "desc": "EXP reward base when defeated: Lucky Board \"EXP Man\" 200/\"EXP Prince\" 750, generic tiers 20..25",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow exp_yield_rate_b PROBABLE"
   },
   {
    "name": "unk_0EC",
    "offset": 236,
    "type": "u16",
    "desc": "% value, 100 for most; Killia 130, Bear 150, Bloodis 165, Liezerota Dark 300, Lucky Boards 500, Christo 75, Armor Knight 60, Celestial Host 50, objects/Bottlemail 0. Maybe Revenge-gauge gain rate",
-   "confidence": "low"
+   "confidence": "low",
+   "candidate": "Sorrow mana_yield_rate PROBABLE"
   },
   {
    "name": "unk_0EE",
@@ -470,14 +501,16 @@
    "offset": 240,
    "type": "u16",
    "desc": "Mana-related value: Lucky Board \"Mana Man\" 2000/\"Mana Prince\" 7500; generic tiers 100,85,70,55,40,25 (Prinny 200..125). Likely Mana reward base (or Mana gain rate)",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow kill_reward_rate PROBABLE"
   },
   {
    "name": "dlc_group",
    "offset": 242,
    "type": "u16",
    "desc": "100 = base game; 110/120/130/140/150 = DLC content packs (Disgaea 1 / D4 / D3 / D2 / other guest characters and the DLC classes Celestial Hostess 110, Kunoichi 120, Sorcerer 130)",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow series_group VERIFIED"
   },
   {
    "name": "magichange_weapon",
@@ -492,7 +525,8 @@
    "offset": 246,
    "type": "u16",
    "desc": "voice/sound set: Sound_Voice ids are (voice_id/10)*100000+n; charPersonal voice_group = voice_id/10 for generics (Warrior 1010 -> 101). Variant forms reuse (Dark Killia 30 = Killidia, helper Prinnies 2010); objects 5100.. (break sounds)",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow base_char_id VERIFIED"
   },
   {
    "name": "name_JP",
@@ -685,81 +719,94 @@
    "offset": 874,
    "type": "u16",
    "desc": "10th value in the mastery block: 10 typical, Armor Knight 18..23, Dark Knight 15..20, Horseman 14..19, Wrestler 4..6, grows with tier. Probably armor mastery/aptitude (HABIT.dat equip order is weapons.., Armor ...)",
-   "confidence": "low"
+   "confidence": "low",
+   "candidate": "Sorrow weapon_mastery_aptitude[9] VERIFIED"
   },
   {
    "name": "res_fire",
    "offset": 876,
    "type": "i8",
    "desc": "elemental resistance % (signed) Fire Wind Ice Star: Magician +25/+25/+25/0, Sludge -75 x4, Dragon King fire +50, Sea Angel fire -75",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow element_resistance[0] PROBABLE"
   },
   {
    "name": "res_wind",
    "offset": 877,
    "type": "i8",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow element_resistance[1] PROBABLE"
   },
   {
    "name": "res_ice",
    "offset": 878,
    "type": "i8",
-   "confidence": "high"
+   "confidence": "high",
+   "candidate": "Sorrow element_resistance[2] PROBABLE"
   },
   {
    "name": "res_star",
    "offset": 879,
    "type": "i8",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow element_resistance[3] PROBABLE"
   },
   {
    "name": "wres_fist",
    "offset": 880,
    "type": "i8",
    "desc": "weapon-type resistance % (signed) vs attacks of Fist Sword Spear Bow Gun Axe Staff Monster (D5 \"weapon resistance\"): Armor Knight +30/+30/+20/+20/+20/-20/-40/-30, Sludge resists physical but weak to staff, Bottlemail +50 all, Lucky Board -25 all. Correlates with own weapon mastery (r 0.4-0.8)",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow ailment_resistance[0] PROBABLE"
   },
   {
    "name": "wres_sword",
    "offset": 881,
    "type": "i8",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow ailment_resistance[1] PROBABLE"
   },
   {
    "name": "wres_spear",
    "offset": 882,
    "type": "i8",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow ailment_resistance[2] PROBABLE"
   },
   {
    "name": "wres_bow",
    "offset": 883,
    "type": "i8",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow ailment_resistance[3] PROBABLE"
   },
   {
    "name": "wres_gun",
    "offset": 884,
    "type": "i8",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow ailment_resistance[4] PROBABLE"
   },
   {
    "name": "wres_axe",
    "offset": 885,
    "type": "i8",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow ailment_resistance[5] PROBABLE"
   },
   {
    "name": "wres_staff",
    "offset": 886,
    "type": "i8",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow ailment_resistance[6] PROBABLE"
   },
   {
    "name": "wres_monster",
    "offset": 887,
    "type": "i8",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow ailment_resistance[7] PROBABLE"
   },
   {
    "name": "kind_gender",
@@ -824,14 +871,16 @@
    "offset": 895,
    "type": "u8",
    "desc": "0 objects/Baal, 1 default, 2 melee classes (Killia, Warrior, Valkyrie, Martial Artist, Lady Samurai, Magic Knight, Wrestler, Dark Knight, Rabbit, Laharl ...), 3 Maid, Armor Knight, Red Magnus, Bloodis, Goldion, Fenrich. Unknown",
-   "confidence": "low"
+   "confidence": "low",
+   "candidate": "Sorrow story_progress_gate PROBABLE"
   },
   {
    "name": "crit",
    "offset": 896,
    "type": "u8",
    "desc": "0..20, grows slowly with tier (Warrior 5-6, Thief 9-11, Ninja/Kunoichi/Fuka 15, Asagi 12, objects 0). Probably base critical rate %",
-   "confidence": "low"
+   "confidence": "low",
+   "candidate": "Sorrow throw VERIFIED"
   },
   {
    "name": "unk_381",
@@ -865,11 +914,15 @@
    "confidence": "high"
   },
   {
-   "name": "unk_384",
+   "name": "is_unique",
    "offset": 900,
    "type": "u8",
    "desc": "1 = uniques + special enemies (Bottlemail, Lucky Board, Mr. Egg), 2 = generic classes, NPC shopkeepers, objects",
-   "confidence": "low"
+   "confidence": "high",
+   "aliases": [
+    "unk_384"
+   ],
+   "candidate": "Sorrow is_unique VERIFIED; kit type u8 kept (Sorrow u8)"
   },
   {
    "name": "unk_385",
@@ -888,7 +941,8 @@
     "2": "object"
    },
    "desc": "0 humanoid, 1 monster-type (monster classes, Christo, Usalia, story monsters; all Magichange users), 2 object",
-   "confidence": "medium"
+   "confidence": "medium",
+   "candidate": "Sorrow model_kind VERIFIED"
   },
   {
    "name": "pad_387",
@@ -902,7 +956,8 @@
    "offset": 904,
    "type": "u8",
    "desc": "1 for scenery objects (cactus, tables, pillars, mushrooms, item symbols...), 0 otherwise (incl. boxes/barrels/bombs)",
-   "confidence": "low"
+   "confidence": "low",
+   "candidate": "Sorrow map_part_flag VERIFIED"
   },
   {
    "name": "pad_389",

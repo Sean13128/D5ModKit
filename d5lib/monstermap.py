@@ -56,10 +56,40 @@ NEW = {30085: "Spirit", 30089: "Gargoyle", 30097: "Death", 30105: "Dragon Zombie
 
 
 # ------------------------------------------------------------------------------------------ regions
-def regions(uid, roots=None):
-    """{(sheet, 'loose', key): dict(img, org, size)}: every pose-sized piece of the unit's atlases"""
-    regs = drpgmap.regions(uid, roots, pieces_only=True)
+_TEMPLATE_UIDS = set(TWINS.values()) | set(NEW)
+
+
+def _cut(uid, roots, pieces_only):
+    regs = drpgmap.regions(uid, roots, pieces_only=pieces_only)
     return {k: r for k, r in regs.items() if r["img"].shape[0] * r["img"].shape[1] >= MIN_AREA}
+
+
+def _paired(regs):
+    """the back sheets are read by the front sheets' reading order ('grid'): front / back and wait front / wait back
+    must hold as many pieces each"""
+    n = lambda s: sum(k[0] == s for k in regs)      # noqa: E731
+    return n("front") == n("back") and n("wait_front") == n("wait_back")
+
+
+# REPROFIX1 froze units whose atlases stay as cut before SHEETFIX1, because the merged satellites make the bank one
+# atlas page bigger than the installed one (the wheel-freeze rule compares image-header counts for equality).
+# ASAGI4P (Sean, 2026-11-18, ASK-AD0982): "take the merged 4-page Creator Asagi atlas" -- look 20055 takes the
+# SHEETFIX1 merge and the bank's approved shape is 4 pages, declared in importcore.APPROVED_SHAPE_CHANGES so the
+# wheel gate still pins it.  Empty again; add a uid only with an owner-approved shape declaration.
+_FROZEN_UIDS = set()
+
+
+def regions(uid, roots=None):
+    """{(sheet, 'loose', key): dict(img, org, size)}: every pose-sized piece of the unit's atlases.  A floating
+    companion drawn apart from the body (Lord Desdeath's orb) is its own piece, which breaks the front <-> back
+    pairing and makes an idle loop show the orb alone; its pieces are joined to their frame
+    (drpg.merge_satellites) when that is what makes the sheets pair up (SHEETFIX1).  The template twins' region
+    numbers are stored in data/monster_twins: their atlases stay as cut before."""
+    base = _cut(uid, roots, True)
+    if int(uid) in _TEMPLATE_UIDS or int(uid) in _FROZEN_UIDS or _paired(base):
+        return base
+    joined = _cut(uid, roots, "satellites")
+    return joined if _paired(joined) else base
 
 
 def _key(region):

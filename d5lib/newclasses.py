@@ -18,6 +18,16 @@ no entries, so they never show.  Two hooks (section .d5cl):
 Flags: 17283 + 6 * (index in ALL_FAMILIES) + rank -- the rest of the game's class unlock block 17001 .. 17999 (named
 up to 17282, unused after): dummies 17283-17408, then the families of their own up to 17996.
 
+Two things a live check must know (both cost a session on 2026-10-26, EX-LIVE2 check 3):
+
+* The flag bitmap is at the *game build's* address, not the kit's: it is ``exemap.ACTIVE(FLAGS_VA)``
+  (``0x144FCCB0E`` on the pinned build; the kit's ``0x144FFA9AE`` is the known build's).  Reading or writing
+  ``0x144FFA9AE`` in the running game touches unrelated bytes, so "the flags read 0" says nothing.
+* ``char.dat`` is loaded at boot, so a class family is only known to the game -- and its flags can only be set --
+  after the game is *relaunched* following the install.  A wheel opened in a process that was already running when
+  Install ran cannot show an imported class, whatever the exe on disk says.  The first unlock lookup sets the rank
+  flags itself (the ``au_set`` path above), so a save with every class flag at 0 is normal and still lists the class.
+
 Evility aliases (section .d5cl as well)
 ---------------------------------------
 Evility effects are checked by id against the unit's sorted active evility list (unit +0x2f30, count +0x3030,
@@ -36,7 +46,7 @@ import json
 import os
 import pickle
 
-from . import anm, database, dbpatch, exemap, sprites
+from . import anm, database, dbpatch, exemap, sprites, textfmt
 from .modsys import register_finalizer, register_patch_handler
 
 FOLDER = "classes"
@@ -57,16 +67,69 @@ COLOURS = 10
 LANGS = ("JP", "EN", "FR", "CHN", "KOR")
 
 
-def flag_of(cls):
-    return FLAG_BASE + 6 * ALL_FAMILIES.index(cls // 10 * 10) + cls % 10
+def _spec_map(specs):
+    return specs if isinstance(specs, dict) else {int(s['family']): s for s in (specs or ())}
+
+
+def sprite_family(family, spec=None):
+    return int((spec or {}).get('sprite_family', family))
+
+
+def class_kind(family, spec=None):
+    return (spec or {}).get('kind', 'monster' if 2000 <= int(family) < 3000 else 'humanoid')
+
+
+def validate_specs(specs):
+    """Registry identities lease existing physical slots and their persistent flags.
+
+    Leases belong in the mod manifest and must stay fixed after recruitment. Two
+    enabled definitions cannot share a lease, including a legacy low-ID class.
+    This retains the existing 119-slot capacity; it does not allocate save bits.
+    """
+    specs = _spec_map(specs)
+    used = {}
+    for family, spec in specs.items():
+        family = int(family)
+        if int(spec.get('family', family)) != family:
+            raise ValueError('class descriptor key disagrees with its family')
+        if family % 10 or family < 1000 or family > 32760 or 20000 <= family < 22000:
+            raise ValueError(f'unsupported or reserved class family {family}')
+        if family not in ALL_FAMILIES and not 10000 <= family:
+            raise ValueError(f'class family {family} is neither a Kit slot nor a registry identity')
+        if family not in ALL_FAMILIES and not {'kind', 'sprite_family'} <= spec.keys():
+            raise ValueError(f'registry class {family} requires kind and sprite_family')
+        slot = sprite_family(family, spec)
+        kind = class_kind(family, spec)
+        if slot not in ALL_FAMILIES or kind not in ('humanoid', 'monster'):
+            raise ValueError(f'invalid physical class lease for {family}')
+        if (slot in MONSTER_FAMILIES) != (kind == 'monster'):
+            raise ValueError(f'class {family} kind disagrees with physical sprite slot {slot}')
+        if family in ALL_FAMILIES and (slot != family or kind != class_kind(family)):
+            raise ValueError(f'legacy class {family} cannot change its persistent slot')
+        if slot in used and used[slot] != family:
+            raise ValueError(f'class families {used[slot]} and {family} share physical slot {slot}')
+        used[slot] = family
+    return specs
+
+
+def flag_of(cls, specs=None):
+    family = cls // 10 * 10
+    spec = _spec_map(specs).get(family)
+    if family not in ALL_FAMILIES and spec is None:
+        raise ValueError(f'registry class {family} requires an explicit persistent slot lease')
+    if family not in ALL_FAMILIES and cls % 10 >= 6:
+        raise ValueError('registry rank digits 6-9 are reserved')
+    return FLAG_BASE + 6 * ALL_FAMILIES.index(sprite_family(family, spec)) + cls % 10
 
 
 def spec_path(mod, family):
     return os.path.join(mod.patches_dir, FOLDER, f"class_{int(family)}.json")
 
 
-def face_path(mod, family):
-    return os.path.join(mod.patches_dir, FOLDER, f"face_{int(family)}.png")
+def face_path(mod, family, colour=0):
+    """the class's face picture (colour 0: every colour without one of its own), or colour n's own (1-9)"""
+    name = f"face_{int(family)}.png" if not colour else f"face_{int(family)}_{int(colour)}.png"
+    return os.path.join(mod.patches_dir, FOLDER, name)
 
 
 def load_specs(mod):
@@ -81,18 +144,19 @@ def load_specs(mod):
 
 
 def save_spec(mod, spec):
+    validate_specs([spec])
     p = spec_path(mod, spec["family"])
     os.makedirs(os.path.dirname(p), exist_ok=True)
     with open(p, "w", encoding="utf-8") as f:
         json.dump(spec, f, indent=1, ensure_ascii=False)
 
 
-def set_face(mod, family, image, mirror=False):
+def set_face(mod, family, image, mirror=False, colour=0):
     from PIL import Image
     img = (Image.open(image) if isinstance(image, str) else image).convert("RGBA")
     if mirror:
         img = img.transpose(Image.FLIP_LEFT_RIGHT)
-    p = face_path(mod, family)
+    p = face_path(mod, family, colour)
     os.makedirs(os.path.dirname(p), exist_ok=True)
     img.save(p)
 
@@ -116,12 +180,18 @@ def set_langs(row, field, text):
     for L in LANGS:
         k = f"{field}_{L}"
         if k in row:
-            row.set(k, text, truncate=True)
+            row.set(k, textfmt.prose(text), truncate=True)
 
 
-def fill_class(fs, mod, family, template, name, titles, help_lines=(), edit=None, log=print):
+def fill_class(fs, mod, family, template, name, titles, help_lines=(), edit=None, log=print,
+               sprite_family=None):
     """Rows family .. family+5 = copies of the template class's rank rows (in place: the dummy rows), with the class's
     own sprite / colour ids, names, description and the JobRank chain.  edit(row, rank) customises each row."""
+    if family not in ALL_FAMILIES:
+        if sprite_family is None:
+            raise ValueError('registry rows require an explicit physical sprite_family')
+        validate_specs([dict(family=family, sprite_family=sprite_family,
+                             kind='monster' if 2000 <= template < 3000 else 'humanoid')])
     van, ed = _tables(fs, mod, CHAR)
     rows = {r["id"]: i for i, r in enumerate(ed.rows)}
     trows = {r["id"]: r for r in ed.rows}
@@ -129,8 +199,9 @@ def fill_class(fs, mod, family, template, name, titles, help_lines=(), edit=None
         src = trows[template + k]
         new = src.copy()
         new.set("id", family + k)
-        new.set("sprite_id", family)
-        new.set("color_id", family + k)
+        physical = family if sprite_family is None else int(sprite_family)
+        new.set("sprite_id", physical)
+        new.set("color_id", physical + k)
         new.set("help_id", family)
         new.set("voice_id", src["voice_id"])
         new.set("is_dummy_slot", 0)
@@ -181,7 +252,8 @@ def add_skill(fs, mod, new_id, copy_of, name, desc, users=(), **fields):
     r = next(x for x in ed.rows if x["id"] == copy_of).copy()
     r.set("id", new_id)
     set_langs(r, "name", name)
-    set_langs(r, "desc", desc)
+    if desc is not None:                              # None: keep the copied skill's description
+        set_langs(r, "desc", desc)
     for k, v in fields.items():
         r.set(k, v)
     if users:
@@ -203,7 +275,8 @@ def add_evility(fs, mod, new_id, alias_of, name, desc, owner, order, **fields):
     r = src.copy()
     r.set("id", new_id)
     set_langs(r, "name", name)
-    set_langs(r, "desc", desc)
+    if desc is not None:                              # None: keep the aliased evility's description (its numbers)
+        set_langs(r, "desc", textfmt.format_text(desc))
     r.set("owner", owner)
     r.set("class_order", order)
     if order == 6:
@@ -220,13 +293,27 @@ def add_evility(fs, mod, new_id, alias_of, name, desc, owner, order, **fields):
 PERSONAL = "Database/Database_0.dat/charPersonal.dat"
 
 
+def personality_names(fs, template):
+    """The donor class's own three personality names (charPersonal.dat group = template // 10)."""
+    table = database.load_table(PERSONAL.split("/")[-1], fs.read(PERSONAL))
+    group = int(template) // 10
+    rows = sorted((r for r in table.rows if int(r["voice_group"]) == group), key=lambda r: r["variant"])
+    if len(rows) < 3:
+        raise ValueError(f"template {template} has fewer than three personality rows")
+    return [r["name_EN"] or r["name_JP"] for r in rows[:3]]
+
+
 def add_personalities(fs, mod, family, template, names):
     """Character creation's personality choices (charPersonal.dat, 3 per class): voice group = 100 + (family - 1000)
     / 10.  Rows copied from the template class's group with new names; without them the creation screen crashes."""
     van, ed = _tables(fs, mod, PERSONAL)
     group, tgroup = 100 + (family - 1000) // 10, 100 + (template - 1000) // 10
-    ed.rows[:] = [r for r in ed.rows if r["voice_group"] != group]
     src = sorted((r for r in ed.rows if r["voice_group"] == tgroup), key=lambda r: r["variant"])
+    # Cryswar's Overlord checks the same three-row requirement before the
+    # Recruiter personality page, which dereferences all three choices.
+    if len(src) < 3:
+        raise ValueError(f"template {template} has fewer than three personality rows")
+    ed.rows[:] = [r for r in ed.rows if r["voice_group"] != group]
     nid = max(r["id"] for r in ed.rows) + 1
     for k, s in enumerate(src[:3]):
         r = s.copy()
@@ -313,7 +400,8 @@ def build_monster_sprite(fs, mod, template_sprite, N, uid, pairs, log=print):
 
 
 def used_families(mods):
-    return {int(s["family"]) for m in mods for s in load_specs(m)}
+    return {n for m in mods for s in load_specs(m)
+            for n in (int(s['family']), sprite_family(s['family'], s))}
 
 
 def is_monster(family):
@@ -381,8 +469,8 @@ def create_class(fs, mm, uid, template, name, family=None, titles=None, hire_des
     titles = list(titles or [name] * 6)
     add_personalities(fs, mod, family, template, personalities or ["Diligent", "Proud", "Newbie"])
     fill_class(fs, mod, family, template, name, titles, help_lines)
-    save_spec(mod, dict(family=family, template=template, name=name, unlocked=unlocked, hire_desc=hire_desc,
-                        evility_alias={}))
+    save_spec(mod, dict(family=family, template=template, name=name, unlocked=unlocked, unlocked_ranks=6,
+                        hire_desc=hire_desc, evility_alias={}))
     log(f"class {name}: mod {mod.id}, class ids {family}-{family + 5}, sprite anm{family:05d}")
     return mod
 
@@ -411,20 +499,29 @@ def create_monster(fs, mm, uid, template, name, pairs, family=None, titles=None,
     titles = list(titles or [name] * 6)
     add_personalities(fs, mod, family, template, personalities or ["Diligent", "Proud", "Newbie"])
     fill_class(fs, mod, family, template, name, titles, help_lines)
-    save_spec(mod, dict(family=family, template=template, name=name, unlocked=unlocked, hire_desc=hire_desc,
-                        evility_alias={}, drpg=uid))
+    save_spec(mod, dict(family=family, template=template, name=name, unlocked=unlocked, unlocked_ranks=6,
+                        hire_desc=hire_desc, evility_alias={}, drpg=uid))
     log(f"monster {name}: mod {mod.id}, class ids {family}-{family + 5}, sprite anm{family:05d}")
     return mod
 
 
-def set_portraits(fs, mod, family, template, image):
-    """anm 10000 + family + j (j = 0..9): the template class's portrait files with `image` (cut-in) drawn in."""
+def set_portraits(fs, mod, family, template, image, matte=None, fit="stretch"):
+    """anm 10000 + family + j (j = 0..9): the template class's portrait files with `image` (cut-in) drawn in;
+    `image` may be a list of one picture per colour.  Background handling goes through
+    imgtools.screen_picture: the picture is pasted as it is (white background kept) unless the caller names
+    matte options AND the D5MODKIT_D4_MATTE=1 opt-in is set -- owner decision 2026-10-27, playtest PT1027 S3.
+    False keeps the picture (the historical spelling, still allowed).
+    `fit` is imgtools.cutin_placement's mode ("stretch" = the historical whole-texture resize); returns one
+    placement record per file written (DD2CUTIN1)."""
     import numpy as np
     from PIL import Image
-    from .imgtools import remove_white_background
-    img = Image.open(image) if isinstance(image, str) else image
-    img = remove_white_background(img.convert("RGBA"))
+    from .imgtools import fit_cutin, screen_picture
+    placements = []
+    pictures = list(image) if isinstance(image, (list, tuple)) else [image]
+    pictures = [(Image.open(p) if isinstance(p, str) else p).convert("RGBA") for p in pictures]
+    pictures = [screen_picture(p, matte) for p in pictures]
     for j in range(COLOURS):
+        img = pictures[j] if j < len(pictures) else pictures[0]
         src = 10000 + template + j
         try:
             a = anm.parse(fs.read(sprites.sprite_vpath(fs, src, "EN")))
@@ -435,8 +532,11 @@ def set_portraits(fs, mod, family, template, image):
                 b.id = 10000 + family + j
         t = a.textures[0]
         if not t.indexed:
-            t.data = anm._rgba_to_argb(np.asarray(img.resize((t.width, t.height), Image.LANCZOS))).tobytes()
+            fitted, place = fit_cutin(img, (t.width, t.height), fit)
+            t.data = anm._rgba_to_argb(np.asarray(fitted)).tobytes()
+            placements.append(dict(place, source_size=list(img.size), texture=[t.width, t.height], bank=10000 + family + j))
         mod.write_file(f"Anime/ANM_HI_JP.dat/anm{10000 + family + j:05d}.lzs", a.to_bytes())
+    return placements
 
 
 # ------------------------------------------------------------------------------------------ exe hooks
@@ -453,13 +553,13 @@ EVI_ORIG = bytes.fromhex("486397303000" + "00")
 EVI_RET = 0x140218793
 
 
-def _table_src(classes):
+def _table_src(classes, specs=None):
     nl = chr(10)
-    return nl.join(["    .align 8", "cls_table:"] + [f"    .long {c}, {flag_of(c)}" for c in classes] +
+    return nl.join(["    .align 8", "cls_table:"] + [f"    .long {c}, {flag_of(c, specs)}" for c in classes] +
                    ["    .long 0, 0"])
 
 
-def _lookup_src(classes, auto):
+def _lookup_src(classes, auto, specs=None):
     nl = chr(10)
     return nl.join([
         "    lea r10, [rip + cls_table]",
@@ -503,13 +603,13 @@ def _lookup_src(classes, auto):
         "    .align 4",
         "auto_ids:",
         "    .long " + ", ".join(str(c) for c in list(auto) + [0]),
-        _table_src(classes),
+        _table_src(classes, specs),
         f"table_sym = {TABLE_VA:#x}",
         f"flags_sym = {FLAGS_VA:#x}",
     ])
 
 
-def _setter_src(classes):
+def _setter_src(classes, specs=None):
     nl = chr(10)
     return nl.join([
         "    sub rsp, 0x28",
@@ -534,7 +634,7 @@ def _setter_src(classes):
         "st_orig:",
         "    lea eax, [rcx - 0x7da]",
         f"    jmp {exemap.at(SETTER_VA, len(SETTER_ORIG))}",
-        _table_src(classes),
+        _table_src(classes, specs),
         "base_sym = 0x140000000",
         f"table_sym = {TABLE_VA:#x}",
     ])
@@ -610,10 +710,222 @@ CAROUSEL_DONE = 0x140667506
 IS_UNLOCKED = 0x1401C5790
 
 
-def _carousel_src(families):
+def _wheel_page_src(state=None):
+    """asm: choose the wheel page and rebuild the entry list from the snapshot (see WHEEL_PAGES).
+
+    Runs at the end of the native list builder -- the instruction at CAROUSEL_VA -- after the vanilla entries and the
+    mods' families are in the relocated buffer and the unfiltered list was captured.  The page is chosen only here,
+    when the list is built, which is Cryswar's page key in d5_custom_classes.c (The Unlicense): the menu never has
+    its actors replaced under it, and nothing reads an entry this code has not written.
+
+      Shift held as the wheel opens -> the next wheel (cycles, 5 wheels)
+      Shift + 1..5                  -> that wheel directly (1 = D5, 2 = D4, 3 = D1C, 4 = DD2, 5 = Overlord)
+      no key                        -> all entries initially, then the previous selected wheel
+
+    A page with no class returns to the full captured list. Fewer than six entries are repeated in whole cycles,
+    as Cryswar's CC_GRID_MIN does, because the grid
+    indexes `(cursor - 6 + count) % count` and a shorter list reads before its start.  `rdi` is the window, `rbp` the
+    builder's loop index (saved), `rsp%16 == 0` on entry; only volatile registers are used.
+
+    The key is read straight from the game's own per-frame key state (`state`, WHEEL_KEY_STATE; `_asm` translates
+    it), the array the input update fills from GetKeyboardState / DirectInput every frame -- no call, no stack
+    switch, no code of another module running inside the list builder.  WHEELS2 called the GetKeyboardState import
+    slot as an address and WHEELS3 called through it; TEST17 (which ships WHEELS3) still froze the game on the first
+    Hire Character build with the filter in, so the call itself is what WHEELS4 removed -- the page key never needed
+    it (Cryswar reads the same state with GetAsyncKeyState; The Unlicense, credit Cryswar).  See WHEELS4-REPORT.md.
+    """
+    h = WHEEL_HEADER
+    if state is None:
+        raise ValueError("the wheel page needs the game's key state array for this build")
+    return [
+        "# ---- one wheel per game: page from the game's own key state, list rebuilt from the capture ----",
+        f"    mov r10, {state:#x}",           # the game's per-frame key state (no call: see WHEEL_KEY_STATE)
+        "    lea r11, [rip + carousel_buf]",
+        f"    cmp dword ptr [r11 + {h + WHEEL_ENABLED}], 0",
+        "    je wh_done",
+        f"    cmp dword ptr [r11 + {h + WHEEL_NSNAP}], 0",
+        "    je wh_done",
+        f"    mov r9d, dword ptr [r11 + {h + WHEEL_PAGE}]",
+        f"    cmp r9d, {WHEEL_PAGES}",
+        "    jbe wh_page_ok",                   # WHEEL_PAGES means the initial unfiltered list
+        f"    mov r9d, {WHEEL_PAGES}",
+        "wh_page_ok:",
+        # The pointer immediately before the state array selects its indexing scheme.
+        "    cmp qword ptr [r10 - 8], 0",
+        "    je wh_vk_keys",
+        f"    test byte ptr [r10 + {DIK_LSHIFT}], 0x80",
+        "    jnz wh_di_shift",
+        f"    test byte ptr [r10 + {DIK_RSHIFT}], 0x80",
+        "    jz wh_page",
+        "wh_di_shift:",
+        f"    mov eax, {DIK_DIGIT_1}",
+        "    jmp wh_keys_ready",
+        "wh_vk_keys:",
+        f"    test byte ptr [r10 + {KEY_SHIFT}], 0x80",
+        "    jz wh_page",
+        f"    mov eax, {KEY_DIGIT_1}",
+        "wh_keys_ready:",
+        "    xor ecx, ecx",
+        "wh_digit:",
+        "    lea rdx, [r10 + rax]",
+        "    movzx edx, byte ptr [rdx + rcx]",
+        "    test dl, 0x80",
+        "    jnz wh_digit_hit",
+        "    inc ecx",
+        f"    cmp ecx, {WHEEL_PAGES}",
+        "    jb wh_digit",
+        "    inc r9d",                          # Shift alone: the next wheel
+        f"    cmp r9d, {WHEEL_PAGES}",
+        "    jb wh_page",
+        "    xor r9d, r9d",
+        "    jmp wh_page",
+        "wh_digit_hit:",
+        "    mov r9d, ecx",
+        "wh_page:",
+        f"    cmp r9d, {WHEEL_PAGES}",
+        "    je wh_done",                      # no key on first opening: keep the entire captured list
+        "    push rbp",
+        "    xor ebp, ebp",
+        "wh_try:",
+        "    xor esi, esi",                     # n: entries kept
+        "    xor ecx, ecx",                     # i: entry in the capture
+        "wh_entry:",
+        f"    cmp ecx, dword ptr [r11 + {h + WHEEL_NSNAP}]",
+        "    jae wh_built",
+        f"    mov eax, dword ptr [r11 + rcx*8 + {WHEEL_SNAPSHOT}]",
+        "    xor r8d, r8d",
+        "    xor edx, edx",                     # the family's wheel: 0 (the D5 wheel) unless a mod owns it
+        "wh_owner:",
+        f"    cmp r8d, dword ptr [r11 + {h + WHEEL_NOWNERS}]",
+        "    jae wh_owner_done",
+        f"    lea r10, [r11 + r8*4 + {WHEEL_OWNERS}]",
+        "    cmp ax, word ptr [r10]",
+        "    jne wh_owner_next",
+        "    movzx edx, byte ptr [r10 + 2]",
+        "    jmp wh_owner_done",
+        "wh_owner_next:",
+        "    inc r8d",
+        "    jmp wh_owner",
+        "wh_owner_done:",
+        "    cmp edx, r9d",
+        "    jne wh_next",
+        f"    mov eax, dword ptr [r11 + rcx*8 + {WHEEL_SNAPSHOT}]",
+        "    mov dword ptr [r11 + rsi*8], eax",
+        f"    mov edx, dword ptr [r11 + rcx*8 + {WHEEL_SNAPSHOT + 4}]",
+        "    mov dword ptr [r11 + rsi*8 + 4], edx",
+        "    inc esi",
+        "wh_next:",
+        "    inc ecx",
+        "    jmp wh_entry",
+        "wh_built:",
+        "    test esi, esi",
+        "    jnz wh_filled",
+        f"    mov dword ptr [r11 + {h + WHEEL_PAGE}], {WHEEL_PAGES}",
+        f"    mov dword ptr [r11 + {h + WHEEL_PAGE2}], {WHEEL_PAGES}",
+        "    pop rbp",                          # empty page: retain the full captured list
+        "    jmp wh_done",
+        "wh_filled:",
+        "    pop rbp",
+        "    mov edx, esi",                     # one whole cycle of the wheel
+        "wh_cycle:",
+        "    cmp esi, 6",
+        "    jae wh_count",
+        "    xor ecx, ecx",
+        "wh_repeat:",
+        "    cmp esi, 6",
+        "    jae wh_count",
+        "    mov eax, dword ptr [r11 + rcx*8]",
+        "    mov dword ptr [r11 + rsi*8], eax",
+        "    mov eax, dword ptr [r11 + rcx*8 + 4]",
+        "    mov dword ptr [r11 + rsi*8 + 4], eax",
+        "    inc esi",
+        "    inc ecx",
+        "    cmp ecx, edx",
+        "    jb wh_repeat",
+        "    jmp wh_cycle",
+        "wh_count:",
+        "    mov ecx, esi",                     # the entries the vanilla list left behind are -1, as at init
+        "    mov edx, dword ptr [rdi + 0x208]",
+        f"    cmp edx, {CAROUSEL_CAP}",
+        "    jbe wh_clear",
+        f"    mov edx, {CAROUSEL_CAP}",
+        "wh_clear:",
+        "    cmp ecx, edx",
+        "    jae wh_clear_done",
+        "    mov dword ptr [r11 + rcx*8], 0xffffffff",
+        "    mov dword ptr [r11 + rcx*8 + 4], 0xffffffff",
+        "    inc ecx",
+        "    jmp wh_clear",
+        "wh_clear_done:",
+        "    mov dword ptr [rdi + 0x208], esi",
+        f"    mov dword ptr [r11 + {h + WHEEL_PAGE}], r9d",
+        f"    mov dword ptr [r11 + {h + WHEEL_PAGE2}], r9d",
+        "wh_done:",
+    ]
+
+
+def stack_mod16(exe, va_known, site=None):
+    """RSP % 16 where the hook for `va_known` runs: decoded from the containing function's prologue.
+
+    The hook replaces one instruction in the middle of a function entered by CALL: RSP%16 is 8 there, and the
+    prologue's pushes/sub leave it at a fixed value for the rest of the body.  Windows x64 wants RSP%16 == 0 at a CALL
+    instruction, so a stub that calls needs this.  A function whose stack the decoder cannot follow raises: a silently
+    misaligned call would corrupt the caller.
+    """
+    import capstone
+    import pefile
+    from .exepatch import IMAGE_BASE
+    site = site or (exemap.ACTIVE(va_known) if hasattr(exemap, "ACTIVE") else va_known)
+    pe = pefile.PE(data=exe, fast_load=True)
+    pe.parse_data_directories(directories=[pefile.DIRECTORY_ENTRY["IMAGE_DIRECTORY_ENTRY_EXCEPTION"]])
+    base = pe.OPTIONAL_HEADER.ImageBase
+    start = None
+    for f in getattr(pe, "DIRECTORY_ENTRY_EXCEPTION", []):
+        s, e = base + f.struct.BeginAddress, base + f.struct.EndAddress
+        if s <= site < e:
+            start = s
+            break
+    if start is None:
+        raise ValueError(f"no unwind entry covers the hook site {site:#x}")
+    rva = start - base
+    for s in pe.sections:
+        if s.VirtualAddress <= rva < s.VirtualAddress + max(s.Misc_VirtualSize, s.SizeOfRawData):
+            code = s.get_data()[rva - s.VirtualAddress:rva - s.VirtualAddress + (site - start) + 16]
+            break
+    else:
+        raise ValueError("the hook site is not in a section")
+    md = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_64)
+    delta = 8                                       # the CALL that entered the function pushed the return address
+    for i in md.disasm(code, start):
+        if i.address >= site:
+            break
+        m, o = i.mnemonic, i.op_str
+        dest = o.split(",", 1)[0].strip()
+        if m == "push":
+            delta -= 8
+        elif m == "pop" and dest != "rsp":
+            delta += 8
+        elif m in ("sub", "add") and dest == "rsp":
+            delta += (-1 if m == "sub" else 1) * int(o.split(",", 1)[1], 0)
+        elif dest == "rsp" or m in ("leave", "ret"):
+            raise ValueError(f"unfollowed stack write at {i.address:#x}: {m} {o}")
+    return delta % 16
+
+
+def _carousel_src(families, capture=False, page_filter=False, key_state=None):
+    # One buffer serves every Hire Character / Reincarnation / Sub Class scene, so two builds at once would overwrite
+    # a list the other scene is still showing.  The kit cannot prove that only one scene exists, so it at least
+    # refuses to rebuild while another build is inside this hook: the inner scene keeps the outer scene's list (a
+    # wrong list) instead of corrupting the buffer under it.  A per-scene buffer is the real fix and needs a scene
+    # key the relocated read stubs can see -- they only get `base + idx*8`, not the scene.
+    filter_src = _wheel_page_src(key_state) if page_filter else []
     return chr(10).join([
-        "    cmp rbp, 0x2f",
+        "    cmp rbp, 0x2f",                  # rcx must stay untouched until the vanilla path is taken
         f"    jl {CAROUSEL_LOOP:#x}",
+        "    lea rcx, [rip + carousel_buf]",
+        f"    cmp dword ptr [rcx + {BUF_GUARD}], 0",
+        "    jne cr_busy",
+        f"    mov dword ptr [rcx + {BUF_GUARD}], 1",
         "    lea rbx, [rip + new_fams]",
         "cr_next:",
         "    mov esi, dword ptr [rbx]",
@@ -622,7 +934,9 @@ def _carousel_src(families):
         f"    cmp dword ptr [rdi + 0x208], {CAROUSEL_CAP}",
         "    jge cr_done",
         "    mov ecx, esi",
+        "    sub rsp, 0x20",                 # the callee's home space: the Windows x64 CALL contract
         f"    call {IS_UNLOCKED:#x}",
+        "    add rsp, 0x20",
         "    test al, al",
         "    je cr_skip",
         "    movsxd rax, dword ptr [rdi + 0x208]",
@@ -632,7 +946,9 @@ def _carousel_src(families):
         "    mov r15d, 1",
         "cr_rank:",
         "    lea ecx, [rsi + r15]",
+        "    sub rsp, 0x20",
         f"    call {IS_UNLOCKED:#x}",
+        "    add rsp, 0x20",
         "    test al, al",
         "    je cr_rank_next",
         "    lea eax, [r15 + 1]",
@@ -648,6 +964,34 @@ def _carousel_src(families):
         "    add rbx, 4",
         "    jmp cr_next",
         "cr_done:",
+    ] + ([
+        # Preserve volatile registers that the original continuation may use.
+        "    push r8", "    push r9", "    push r10",
+        "    lea rcx, [rip + carousel_buf]",
+        f"    mov dword ptr [rcx + {WHEEL_HEADER + WHEEL_NSNAP}], 0",   # only a completed capture publishes
+        "    mov r9d, dword ptr [rdi + 0x208]",
+        f"    cmp r9d, {CAROUSEL_CAP}",
+        "    ja cr_capture_done",
+        "    xor r8d, r8d",
+        "cr_capture_loop:",
+        "    cmp r8d, r9d", "    jae cr_capture_publish",
+        "    mov eax, dword ptr [rcx + r8*8]",
+        "    test eax, eax", "    jz cr_capture_done",
+        "    cmp eax, 65535", "    ja cr_capture_done",
+        "    mov edx, dword ptr [rcx + r8*8 + 4]",
+        "    lea r10d, [rdx - 1]", "    cmp r10d, 5", "    ja cr_capture_done",
+        f"    mov dword ptr [rcx + r8*8 + {WHEEL_SNAPSHOT}], eax",
+        f"    mov dword ptr [rcx + r8*8 + {WHEEL_SNAPSHOT + 4}], edx",
+        "    inc r8d", "    jmp cr_capture_loop",
+        "cr_capture_publish:",
+        f"    mov dword ptr [rcx + {WHEEL_HEADER + WHEEL_NSNAP}], r9d",
+        "cr_capture_done:",
+        "    pop r10", "    pop r9", "    pop r8",
+    ] if capture else []) + filter_src + [
+        "    lea rcx, [rip + carousel_buf]",
+        f"    mov dword ptr [rcx + {BUF_GUARD}], 0",
+        f"    jmp {CAROUSEL_DONE:#x}",
+        "cr_busy:",                       # another build owns the buffer: leave its list alone
         f"    jmp {CAROUSEL_DONE:#x}",
         "    .align 4",
         "new_fams:",
@@ -662,7 +1006,31 @@ DESC_VA = 0x140667C61             # mov eax, 0x27ab / jmp done
 DESC_ORIG = bytes.fromhex("b8ab270000eb07")
 DESC_DONE = 0x140667C6F
 DESC_BASE = 41000
+DESC_TEXT_MAX = 255               # bytes the menu's 0x100 description field can hold (classcheck R9)
 STRINGS = "Database/Database_0.dat/StringListDataBase.dat"
+
+
+def desc_text(text, limit=DESC_TEXT_MAX):
+    """The wheel's one-line class description, bounded to the menu's fixed text field.
+
+    The game copies this string into `msgbox_object + 0x1c2c` with a NUL loop and no length check
+    (`0x140663200 movzx eax,[rcx]` / `0x140663203 mov [rcx+rdx+0x1c2c],al` / `jne`; the same copy in
+    the panel draw at 0x14065feb0), then writes the dirty byte at `+0x1d2c` - one byte past the
+    256-byte field.  Past that sit the two floats at +0x1d30/+0x1d34 (17.0f / 16.0f, 0x1403ea680)
+    and the list-pane pointer at +0x1d38 that the s28to33 screens call through (vt+0xa8), so a long
+    description is a memory-corruption bug, not a layout choice.  A text that does not fit is cut on
+    a word boundary and marked with " ...".
+    """
+    raw = str(text or "")
+    if len(raw.encode("utf-8")) <= limit:
+        return raw
+    room = limit - 4                       # " ..."
+    cut = raw.encode("utf-8")[:room].decode("utf-8", "ignore")
+    space = cut.rfind(" ")
+    if space > room // 2:
+        cut = cut[:space]
+    return cut.rstrip(" ,.;:-") + " ..."
+
 
 
 def _desc_src(pairs):
@@ -699,7 +1067,104 @@ CLASSTAB_CAP = 512
 BUF_CAROUSEL = 0                          # offsets in the section's leading buffer
 BUF_CLASSTAB = CAROUSEL_CAP * 8
 BUF_PROF = BUF_CLASSTAB + CLASSTAB_CAP * 4
-BUF_SIZE = BUF_PROF + CLASSTAB_CAP * 4
+BUF_GUARD = BUF_PROF + CLASSTAB_CAP * 4   # "a carousel build is running" flag (see _carousel_src)
+BUF_SIZE = BUF_GUARD + 16
+# Wheel metadata and staging follow the existing shared buffers. The original
+# offsets remain unchanged for all existing relocation hooks.
+WHEEL_HEADER = (BUF_SIZE + 7) & ~7
+# header fields (WHEEL_HEADER + n); the pack format below and the asm offsets both come from these names
+WHEEL_MAGIC = 0          # 8 bytes "D5WHEEL1"
+WHEEL_ENABLED = 8        # u32 1: filter the carousel by wheel page (a mod declared a wheel)
+WHEEL_NOWNERS = 12       # u32 owner rows
+WHEEL_NSNAP = 16         # u32 entries captured by the last build (the unfiltered list)
+WHEEL_PAGE = 20          # u32 the wheel page the next build shows (kept across openings)
+WHEEL_PAGE2 = 24         # u32 same for the other menu; the kit shows one wheel in both
+WHEEL_HEADER_SIZE = 28
+WHEEL_OWNERS = WHEEL_HEADER + WHEEL_HEADER_SIZE
+WHEEL_SNAPSHOT = WHEEL_OWNERS + CAROUSEL_CAP * 4
+WHEEL_STAGE = WHEEL_SNAPSHOT + CAROUSEL_CAP * 8
+WHEEL_KEYS = WHEEL_STAGE + CAROUSEL_CAP * 8      # 256 bytes: the page-test buffer of WHEELS2/WHEELS3 (now unused)
+WHEEL_SHARED_SIZE = WHEEL_KEYS + 256
+# GetKeyboardState's IMPORT ADDRESS SLOT in the game exe: the 8-byte pointer in .rdata that the loader fills (the
+# same address d5lib/native/d5auto.c replaces to see injected keys).  It is data, not code -- a `call` to this
+# address runs the pointer's bytes.  WHEELS2 did that (the scene-enter thread died there, wheels/WHEELS3-DIAGNOSIS.md)
+# and WHEELS3 called THROUGH it; TEST17 still wedged the Hire Character list build, so WHEELS4 stopped calling the
+# import altogether and reads the game's own key state (WHEEL_KEY_STATE).  Kept for the WHEELS3 A/B proofs.
+KEYS_SLOT = 0x1408D5640
+# The game's OWN per-frame key state: 256 bytes, 0x80 = held, refreshed every frame by the input
+# update `FUN_14089d890` (decomp /Volumes/Data/Decomp/d5/functions/14089d890_FUN_14089d890.c):
+#
+#     if (!DAT_147b100a0) GetKeyboardState(local_118);          // no DirectInput pad/keyboard -> Win32
+#     else (*DAT_147b100a0->vtbl[0x48])(DAT_147b100a0, 0x100, local_118);   // DirectInput
+#     do {
+#         bVar1 = local_118[i];
+#         (&DAT_147b101a8)[i] = (bVar1 ^ (&DAT_147b100a8)[i]) & bVar1;      // pressed this frame
+#         (&DAT_147b103a8)[i] = ~bVar1 & (bVar1 ^ (&DAT_147b100a8)[i]);      // released
+#         ...
+#         (&DAT_147b100a8)[i] = bVar1;                                        // <-- the state we read
+#     } while (...);
+#
+# The array uses DIK scan codes when the device pointer is nonzero, otherwise VK codes. It is already there when a
+# menu builds its list. Reading it is Cryswar's d5_custom_classes.c page key in spirit
+# (his `GetAsyncKeyState(g_cc_page_key)` is a read of the game's input state at build time; The Unlicense, credit
+# Cryswar) -- but with no call: the list builder runs inside the menu thread, and a filter that calls into the
+# runtime's Win32 input path there is what TEST17 could not survive (WHEELS4-REPORT.md).
+# Reference (known) venue: 0x147b100a8.  .data did not move between the reference build and this one, and
+# wheel_key_state() checks the mapped address before a build uses it.
+WHEEL_KEY_STATE = 0x147B100A8
+KEY_SHIFT = 0x10
+KEY_DIGIT_1 = 0x31                                   # VK_1 .. VK_5 pick a wheel directly
+DIK_LSHIFT = 0x2A
+DIK_RSHIFT = 0x36
+DIK_DIGIT_1 = 0x02                                  # DIK_1 .. DIK_5
+WHEEL_PAGES = 5
+
+
+def wheel_key_state(exe):
+    """The game's per-frame key state array (WHEEL_KEY_STATE) in the build being patched.
+
+    Raises when exemap does not know the address for this build, or when it does not land in a writable section
+    with the preceding device pointer and 256 key bytes inside it.
+    """
+    import struct
+    va = exemap.ACTIVE(WHEEL_KEY_STATE)
+    pe = __import__("pefile").PE(data=exe, fast_load=True)
+    for s in pe.sections:
+        start = pe.OPTIONAL_HEADER.ImageBase + s.VirtualAddress
+        if start <= va - 8 and va + 256 <= start + max(s.Misc_VirtualSize, s.SizeOfRawData):
+            if not s.Characteristics & 0x80000000:          # IMAGE_SCN_MEM_WRITE
+                break
+            return va
+    raise ValueError(f"the key state array {va:#x} is not in a writable section of this build")
+
+
+def wheel_shared_bytes(entries, page=WHEEL_PAGES):
+    """Build the shared section with a validated immutable family owner map.
+
+    Header: magic, filter enabled, owner count, snapshot count, Recruiter page, Rebirth page.
+    Owner rows are <u16 family, u8 wheel, u8 zero>; snapshot/stage are
+    512 <u32 family, u32 rank count> rows each, initially empty; the last 256
+    bytes are reserved from the earlier keyboard-state buffer.
+    `page` is the initial selection (WHEEL_PAGES = all entries; 0 = the D5 wheel).
+    """
+    import struct
+    from .wheelmeta import WHEELS
+    entries = list(entries)
+    if len(entries) > CAROUSEL_CAP:
+        raise ValueError("too many wheel family owners")
+    previous = 0
+    for family, wheel in entries:
+        if (isinstance(family, bool) or not isinstance(family, int) or
+                family <= previous or family > 65535 or
+                isinstance(wheel, bool) or not isinstance(wheel, int) or
+                not 0 <= wheel < len(WHEELS)):
+            raise ValueError("invalid or unsorted wheel family owners")
+        previous = family
+    data = bytearray(WHEEL_SHARED_SIZE)
+    struct.pack_into("<8sIIIII", data, WHEEL_HEADER, b"D5WHEEL1", 1 if entries else 0, len(entries), 0, page, page)
+    for i, (family, wheel) in enumerate(entries):
+        struct.pack_into("<HBB", data, WHEEL_OWNERS + 4 * i, family, wheel, 0)
+    return bytes(data)
 CAROUSEL_SITES = [                       # [base + idx*8 + 0x90 / 0x94]
     0x140472260, 0x1404724E9, 0x140472949, 0x140476126, 0x140476887, 0x140476E61, 0x140476F7E, 0x1404779E4,
     0x140477EAD, 0x140477F50, 0x140477FB3, 0x140478063, 0x1404783B0, 0x140478BF0, 0x140480323, 0x140480A62,
@@ -813,7 +1278,7 @@ def outside_vanilla(fam):
     return not (1000 <= fam <= 1310 or 2010 <= fam <= 2300)
 
 
-def _generic_sites(exe):
+def _generic_sites(exe, human_sites=False):
     """-> (monster tests [(va, length, r1, mem, [mid instructions], jcc va)], human tests with a register bound [same],
     human immediates [file offset of the imm32 0x136])"""
     import re
@@ -888,11 +1353,13 @@ def _generic_sites(exe):
             mid.append(f"{i.mnemonic} {i.op_str}")
         return None
 
+    # The scanner yields this exe's VAs, not the known build's VAs.
+    skip = {exemap.ACTIVE(va) for va in GEN_SKIP}
     mon, hum_reg, hum_imm = [], [], []
     for m in re.finditer(re.escape(b"\x26\xf8\xff\xff"), code):          # disp32 -0x7da
         lea = lea_before(m.start(), "0x7da")
         t = lea and test(lea, "0x122")
-        if not t or t[0] in GEN_SKIP:
+        if not t or t[0] in skip:
             continue
         nxt = at(t[5])
         after = at(t[5] + nxt.size)
@@ -908,71 +1375,103 @@ def _generic_sites(exe):
         i = lea and at(lea.address + lea.size)
         if i is not None and i.mnemonic == "cmp" and i.op_str == f"{lea.op_str.split(',')[0]}, 0x136":
             k = bytes(i.bytes).find(b"\x36\x01\x00\x00")
-            hum_imm.append(text.PointerToRawData + (i.address - start) + k)
+            site = test(lea, "0x136")
+            if human_sites:
+                if site:
+                    hum_imm.append(site[:6])
+            else:
+                hum_imm.append(text.PointerToRawData + (i.address - start) + k)
     return mon, hum_reg, hum_imm
 
 
-def _mon_stub(r1, mem, mid, back):
+def _mon_stub(r1, mem, mid, back, families=()):
     lines = []
     for k, (lo, span) in enumerate(GEN_MON):
         lines += [f"    lea {r1}, {mem.replace('0x7da', hex(lo))}", f"    cmp {r1}, {span:#x}", "    jbe g_yes"]
+    for lo in families:
+        lines += [f"    lea {r1}, {mem.replace('0x7da', hex(lo))}", f"    cmp {r1}, 5", "    jbe g_yes"]
     lines += [f"    mov {r1}, -1", f"    cmp {r1}, 0x122", "    jmp g_out",
               "g_yes:", f"    xor {r1}, {r1}", f"    cmp {r1}, 0x122",
               "g_out:", f"    lea {r1}, {mem}"]             # the value it had (lea keeps the flags)
-    lines += [f"    {x}" for x in mid] + [f"    jmp {back:#x}"]
+    lines += [f"    {x}" for x in mid] + [f"    jmp {back}"]  # native VA: don't translate again
     return chr(10).join(lines)
 
 
-def _hum_stub(r1, mem, mid, back):
-    return chr(10).join([f"    lea {r1}, {mem}", f"    cmp {r1}, {GEN_HUM_SPAN:#x}"] + [f"    {x}" for x in mid]
-                        + [f"    jmp {back:#x}"])
+def _hum_stub(r1, mem, mid, back, families=()):
+    if not families:
+        return chr(10).join([f"    lea {r1}, {mem}", f"    cmp {r1}, {GEN_HUM_SPAN:#x}"] + [f"    {x}" for x in mid]
+                            + [f"    jmp {back}"])
+    lines = [f"    lea {r1}, {mem}", f"    cmp {r1}, {GEN_HUM_SPAN:#x}", "    jbe g_yes"]
+    for lo in families:
+        lines += [f"    lea {r1}, {mem.replace('0x3e8', hex(lo))}", f"    cmp {r1}, 5", "    jbe g_yes"]
+    lines += [f"    mov {r1}, -1", f"    cmp {r1}, {GEN_HUM_SPAN:#x}", "    jmp g_out",
+              'g_yes:', f'    xor {r1}, {r1}', f'    cmp {r1}, {GEN_HUM_SPAN:#x}',
+              'g_out:', f'    lea {r1}, {mem}']
+    return chr(10).join(lines + [f"    {x}" for x in mid] + [f"    jmp {back}"])
 
 
-def generic_patch(exe, taken=()):
+def generic_patch(exe, taken=(), specs=None):
     """-> (exe with the human tests widened in place, [hooks] for the others); sites inside `taken` [(va, length)]
-    (other hooks) are left alone"""
+    (other hooks) are left alone. Both `taken` and returned hook VAs belong to this exe, not the known build."""
     import pefile
     from .exepatch import IMAGE_BASE
-    mon, hum_reg, hum_imm = _generic_sites(exe)
+    specs = validate_specs(specs or {})
+    registry = {kind: sorted(f for f, s in specs.items() if f not in ALL_FAMILIES and class_kind(f, s) == kind)
+                for kind in ('humanoid', 'monster')}
+    high = any(registry.values())
+    mon, hum_reg, hum_imm = _generic_sites(exe, human_sites=high)
     out = bytearray(exe)
-    for off in hum_imm:
-        out[off:off + 4] = GEN_HUM_SPAN.to_bytes(4, "little")
     pe = pefile.PE(data=exe, fast_load=True)
+    if not high:
+        for off in hum_imm:
+            exemap.claim(IMAGE_BASE + pe.get_rva_from_offset(off), 4, "human test immediate")   # written in place
+            out[off:off + 4] = GEN_HUM_SPAN.to_bytes(4, "little")
     busy = [(va, va + n) for va, n in taken]
     hooks = []
-    for kind, lst in (("mon", mon), ("hum", hum_reg)):
+    for kind, lst in (("mon", mon), ("hum", hum_reg + (hum_imm if high else []))):
         for va, n, r1, mem, mid, back in lst:
             if any(a < va + n and va < b for a, b in busy):
                 continue
             off = pe.get_offset_from_rva(va - IMAGE_BASE)
-            src = (_mon_stub if kind == "mon" else _hum_stub)(r1, mem, mid, back)
+            src = (_mon_stub if kind == "mon" else _hum_stub)(r1, mem, mid, back,
+                    registry['monster' if kind == 'mon' else 'humanoid'])
             hooks.append((va, bytes(exe[off:off + n]), src, 0xE9))
             busy.append((va, va + n))
     return bytes(out), hooks, (len(mon), len(hum_reg), len(hum_imm))
 
 
-def build_hooks(exe, classes, auto, aliases, descs=()):
+def build_hooks(exe, classes, auto, aliases, descs=(), specs=None, wheel_entries=None, wheel_page=WHEEL_PAGES):
     """classes: every modded class rank id; auto: ranks unlocked from the start; aliases {new evility: existing}"""
     from .exepatch import add_hook_section
+    specs = validate_specs(specs or {})
+    if any(c // 10 * 10 not in ALL_FAMILIES and c // 10 * 10 not in specs for c in classes):
+        raise ValueError('registry class hooks require explicit physical slot leases')
     hooks = []
+    native_hooks = []
+    wheels = bool(wheel_entries)
     if classes:
         fams = sorted({c // 10 * 10 for c in classes})
-        hooks += [(LOOKUP_VA, LOOKUP_ORIG, _lookup_src(classes, auto), 0xE9),
-                  (SETTER_VA, SETTER_ORIG, _setter_src(classes), 0xE9),
+        hooks += [(LOOKUP_VA, LOOKUP_ORIG, _lookup_src(classes, auto, specs), 0xE9),
+                  (SETTER_VA, SETTER_ORIG, _setter_src(classes, specs), 0xE9),
                   (HIRE_VA, HIRE_ORIG, _hire_src(fams[:CLASSTAB_CAP - 1 - len(HIRE_LIST)]), 0xE9),
-                  (CAROUSEL_VA, CAROUSEL_ORIG, _carousel_src(fams), 0xE9)]
+                  (CAROUSEL_VA, CAROUSEL_ORIG, _carousel_src(fams, capture=wheel_entries is not None,
+                                                             page_filter=wheels,
+                                                             key_state=wheel_key_state(exe) if wheels else None),
+                   0xE9)]
         hooks += _reloc_hooks(exe)
     if descs:
         hooks.append((DESC_VA, DESC_ORIG, _desc_src(descs), 0xE9))
     if aliases:
         hooks.append((EVI_VA, EVI_ORIG, _evility_src(aliases), 0xE9))
     if any(outside_vanilla(c // 10 * 10) for c in classes):
-        exe, gen, _ = generic_patch(exe, [(va, len(orig)) for va, orig, _, _ in hooks])
-        hooks += gen
+        exe, native_hooks, _ = generic_patch(exe, [(exemap.ACTIVE(va), len(orig))
+                                                  for va, orig, _, _ in hooks], specs=specs)
     if not hooks:
         return exe
-    return add_hook_section(exe, SECTION, hooks, writable=True,
-                            shared_bytes=bytes(BUF_SIZE) if classes else b"")
+    return add_hook_section(exe, SECTION, hooks, writable=True, native_hooks=native_hooks,
+                            shared_bytes=(wheel_shared_bytes(wheel_entries, page=wheel_page)
+                                          if wheel_entries is not None else bytes(BUF_SIZE))
+                            if classes else b"")
 
 
 CLASS_SCRIPTS = (3100000,)                        # + class id, per rank (class-specific sequence)
@@ -997,12 +1496,12 @@ def add_class_scripts(sf, vanilla, specs):
     add = {}
     for fam, s in specs.items():
         t = int(s["template"])
-        for p in CLASS_SCRIPTS + (MONSTER_SCRIPTS if is_monster(fam) else ()):
+        for p in CLASS_SCRIPTS + (MONSTER_SCRIPTS if class_kind(fam, s) == 'monster' else ()):
             for k in range(10):
                 src = vev.get(p + t + k)
                 if src is None:
                     continue
-                nid = p + int(fam) + k
+                nid = p + (sprite_family(fam, s) if p in MONSTER_SCRIPTS else int(fam)) + k
                 if nid in cur and (nid not in vev or cur[nid].encode() != vev[nid].encode()):
                     continue                    # a mod made its own
                 add[str(nid)] = scriptpatch.event_text(src, annotate=False).replace(f"event {src.id}", f"event {nid}", 1)
@@ -1030,20 +1529,32 @@ def vanilla_script(ctx):
     return ctx._vanilla_script
 
 
+def auto_ranks(family, spec):
+    """the rank ids of a class unlocked from the start: none unless "unlocked"; then the first "unlocked_ranks"
+    (1-6, default 6) ranks.  The Recruiter and Reincarnation rank rows offer exactly the classes whose unlock flag
+    is set (vanilla list builder 0x140664df0 writes entry+4 = highest unlocked rank; the hire screen's option loop and
+    the rebirth window both read it), so six flags = six ranks, recruit and rebirth, without levelling the class
+    first.  An explicit "unlocked_ranks": 1-5 keeps a lower ceiling for a partial import."""
+    if not spec.get("unlocked", True):
+        return []
+    return [family + k for k in range(max(1, min(6, int(spec.get("unlocked_ranks", 6)))))]
+
+
 def _finalize(ctx):
     from .gamefs import EXE_FILE
     specs = getattr(ctx, "_class_specs", {})
     own_aliases = getattr(ctx, "_evility_aliases", {})        # characters' own evilities (patches/evilities)
     if not specs and not own_aliases:
+        _monster_pictures(ctx, specs)                 # registry monster uniques need theirs without any class
         return
+    validate_specs(specs)
     n_scripts = _class_scripts(ctx, specs) if specs else 0
     if specs:
         _comb_slots(ctx, specs)
     classes, auto, aliases = [], [], dict(own_aliases)
     for fam, s in sorted(specs.items()):
         classes += [fam + k for k in range(6)]
-        if s.get("unlocked", True):
-            auto.append(fam)
+        auto += auto_ranks(fam, s)
         aliases.update({int(a): int(b) for a, b in (s.get("evility_alias") or {}).items()})
     if len(specs) + len(HIRE_LIST) > CAROUSEL_CAP:
         ctx.log(f"  warning: the class lists have room for {CAROUSEL_CAP - len(HIRE_LIST)} new classes")
@@ -1054,6 +1565,10 @@ def _finalize(ctx):
         if not s.get("hire_desc"):
             continue
         sid = DESC_BASE + n
+        text = desc_text(s["hire_desc"])
+        if text != s["hire_desc"]:
+            ctx.log("  warning: class %s description is %d bytes; the menu field holds %d, "
+                    "written truncated" % (fam, len(s["hire_desc"].encode("utf-8")), DESC_TEXT_MAX))
         row = next((r for r in st.rows if r["id"] == sid), None)
         if row is None:
             row = st.new_row()
@@ -1061,12 +1576,16 @@ def _finalize(ctx):
             st.rows.append(row)
         for L in LANGS:
             if f"name_{L}" in row:
-                row.set(f"name_{L}", s["hire_desc"], truncate=True)
+                row.set(f"name_{L}", text, truncate=True)
+
         descs.append((fam, sid))
     if descs:
         st.rows.sort(key=lambda r: r["id"])
         ctx.put(STRINGS, st.to_bytes())
-    ctx.put(EXE_FILE, build_hooks(ctx.get(EXE_FILE), classes, auto, aliases, descs))
+    from .wheelmeta import runtime_entries
+    wheel_entries = runtime_entries(getattr(ctx, "_wheel_mod_specs", []))
+    ctx.put(EXE_FILE, build_hooks(ctx.get(EXE_FILE), classes, auto, aliases, descs, specs=specs,
+                                 wheel_entries=wheel_entries, wheel_page=getattr(ctx, "_wheel_page", WHEEL_PAGES)))
     _monster_pictures(ctx, specs)
     # Skill.dat is binary-searched in file order: new evility rows (appended by the db patches) go in id order
     vp = "Database/Database_0.dat/Skill.dat"
@@ -1077,7 +1596,7 @@ def _finalize(ctx):
             ctx.put(vp, t.to_bytes())
     if specs:
         ctx.log(f"  classes: {', '.join(s.get('name', str(f)) for f, s in sorted(specs.items()))} "
-                f"(unlock flags {flag_of(classes[0])}+, {len(aliases)} evility alias(es), {n_scripts} class script(s))")
+                f"(unlock flags {flag_of(classes[0], specs)}+, {len(aliases)} evility alias(es), {n_scripts} class script(s))")
     else:
         ctx.log(f"  evilities of their own: {len(aliases)} (each works like the evility it names)")
 
@@ -1086,26 +1605,49 @@ COMB = "Database/Database_0.dat/comb.dat"
 RESIDENT = ("Anime/ANM_HI_JP.dat/anm_resident.lzs", "Anime/ANM_HI_EN.dat/anm_resident.lzs")
 
 
+def registry_monster_sprites(declared):
+    """{identity: unique.json doc} -> physical sprite numbers of the registry uniques declared kind "monster"."""
+    return sorted({int(d["physical"]) for d in declared.values()
+                   if d.get("kind") == "monster" and d.get("physical") is not None
+                   and not d.get("shares_art_with")})          # D4-NPC1: the owner already keeps N+2 resident
+
+
+def row_monster_sprites(rows, members, k=2):
+    """sprite N of every monster-kind char row (body_type 1, unit_set_appearance 0x14014ea10 reads row+0x386) whose
+    anm N+k is among `members` (lower-case ANM_HI_JP vpaths).  k=2: the build ships the placeholder loose, so it must
+    go into anm_resident; k=0: the row has a body bank of its own.  NODRAW2: plain char.dat monster uniques (the 37
+    DRPG monster-template packs) were neither class specs nor registry uniques and stayed invisible in battle."""
+    out = []
+    for r in rows:
+        n = int(r["sprite_id"] or 0)
+        if int(r["body_type"] or 0) == 1 and n and f"anime/anm_hi_jp.dat/anm{n + k:05d}.lzs" in members \
+                and n not in out:
+            out.append(n)
+    return sorted(out)
+
+
+def char_monster_sprites(ctx):
+    """row_monster_sprites over the build's char.dat (every mod's rows applied), placeholders the build ships"""
+    rows = getattr(ctx, "_monster_rows", None)
+    if rows is None:
+        if not hasattr(ctx, "get"):
+            return []
+        rows = database.load_table("char.dat", ctx.get(CHAR)).rows
+    return row_monster_sprites(rows, ctx.outputs)
+
+
 def _monster_pictures(ctx, specs):
     """a monster family's standing picture (sprite family + 2) as a block of the resident pack: the game takes it
     from there only (the Hire Character list crashed on a monster family without one: 2250, 2340 tested; the dummies
-    2220-2240 have placeholders, which the class's own picture replaces)"""
-    from . import facepatch, outfits
-    blocks = {}
-    for fam in sorted(specs):
-        if not is_monster(fam):
-            continue
-        data = outfits._anm_data(ctx, fam + 2)
-        if data is None:
-            ctx.log(f"  warning: monster class {fam} has no standing picture anm{fam + 2:05d}")
-            continue
-        a = anm.load(data)
-        b = next((x for x in a.blocks if x.id == fam + 2), a.blocks[0])
-        i = a.blocks.index(b)
-        tex = a.textures[b.tex_base:b.tex_base + len(b.texture_infos)]
-        pal = a.palettes[b.pal_base:b.pal_base + len(b.palette_infos)]
-        b.tex_base = b.pal_base = 0
-        blocks[fam + 2] = anm.AnmFile([b], tex, pal) if i or len(a.blocks) > 1 else a
+    2220-2240 have placeholders, which the class's own picture replaces).
+
+    A registry monster unique (patches/characters/unique.json, kind "monster") needs the same for its leased physical
+    sprite N: in battle `ui_sprite_set_anm` (0x14014e7e0) binds the unit to anim N+2 while bank N loads, and for a
+    monster that is the owner's own anim, found only among loaded records.  A loose N+2 misses (0x1402f4b3a) and the
+    body never draws (D4BANK-ID: Pringer X 643/645; every vanilla monster's N+2 is resident).  Design after
+    Cryswar's Overlord d5_anm_resident.c (a placeholder per custom family merged into anm_resident; The Unlicense)."""
+    from . import facepatch
+    blocks = monster_picture_blocks(ctx, specs)
     if not blocks:
         return
     for vp in RESIDENT:
@@ -1115,6 +1657,48 @@ def _monster_pictures(ctx, specs):
         except KeyError:
             continue
         ctx.put(vp, facepatch.add_resident_blocks(raw, blocks, log=ctx.log if vp == RESIDENT[0] else None))
+
+
+def humanoid_class_pictures(ctx, specs):
+    """sprite family N of every humanoid class whose build ships anm N+2 loose (PAGECRASH2).
+
+    A humanoid unit binds part slot 0 to N+2 while bank N loads (unit_bind_anm_owner 0x14014dfd0 ->
+    unit_bind_part_anm 0x14014ed00); the render node caches that record by id (anm_node_resolve_bindings
+    0x1402f6870, node+0x40) without a reference.  A loose N+2 package is released when its last holder lets go
+    (game_frame -> anm_release_package 0x1402eee00), and the node keeps drawing from the freed record: a NULL texture
+    (flush 0x1402f3744) or junk texture headers (anm_emit_node_geometry 0x1402f7a4c), the Recruiter D4-page crashes.
+    Every vanilla humanoid row keeps N+2 in anm_resident, and anm_acquire_lzs (0x1403ffcb0) finds a resident id
+    before it would load the loose file, so a resident N+2 is never released.  Families whose N+2 the build does
+    not ship (a vanilla family's is already resident) are left alone."""
+    out = getattr(ctx, "outputs", {}) or {}
+    return [f for f in (sprite_family(i, s) for i, s in sorted(specs.items()) if class_kind(i, s) != 'monster')
+            if f"anime/anm_hi_jp.dat/anm{f + 2:05d}.lzs" in out]
+
+
+def monster_picture_blocks(ctx, specs):
+    """{block id N+2: one-block AnmFile} that _monster_pictures adds to anm_resident (monster classes' families,
+    humanoid classes that ship N+2 loose, registry monster uniques' physical sprites; the build's own anm N+2, else
+    the game's)"""
+    from . import outfits
+    blocks = {}
+    fams = [sprite_family(identity, spec) for identity, spec in sorted(specs.items())
+            if class_kind(identity, spec) == 'monster']
+    fams += humanoid_class_pictures(ctx, specs)
+    fams += registry_monster_sprites(getattr(ctx, "_char_uniques", {}))
+    fams += [n for n in char_monster_sprites(ctx) if n not in fams]
+    for fam in fams:
+        data = outfits._anm_data(ctx, fam + 2)
+        if data is None:
+            ctx.log(f"  warning: monster sprite {fam} has no standing picture anm{fam + 2:05d}")
+            continue
+        a = anm.load(data)
+        b = next((x for x in a.blocks if x.id == fam + 2), a.blocks[0])
+        i = a.blocks.index(b)
+        tex = a.textures[b.tex_base:b.tex_base + len(b.texture_infos)]
+        pal = a.palettes[b.pal_base:b.pal_base + len(b.palette_infos)]
+        b.tex_base = b.pal_base = 0
+        blocks[fam + 2] = anm.AnmFile([b], tex, pal) if i or len(a.blocks) > 1 else a
+    return blocks
 
 
 def _comb_slots(ctx, specs):
@@ -1167,13 +1751,26 @@ def _comb_slots(ctx, specs):
 
 # ------------------------------------------------------------------------------------------ build
 def _handler(ctx, mod, patch_dir):
+    from .wheelmeta import runtime_entries
+    loaded = load_specs(mod)
+    wheel_mod_specs = list(getattr(ctx, "_wheel_mod_specs", [])) + [(dict(mod.meta), loaded)]
+    # Validate across all enabled definitions before a later mod can replace one.
+    runtime_entries(wheel_mod_specs)
     specs = getattr(ctx, "_class_specs", {})
-    for s in load_specs(mod):
+    for s in loaded:
         s = dict(s)
         if os.path.exists(face_path(mod, s["family"])):
             s["_face"] = face_path(mod, s["family"])
+        s["_faces"] = {j: face_path(mod, s["family"], j) for j in range(1, COLOURS)
+                       if os.path.exists(face_path(mod, s["family"], j))}      # colours with a face of their own
+        existing = specs.get(int(s['family']))
+        if existing and int(s['family']) not in ALL_FAMILIES and (
+                sprite_family(s['family'], existing) != sprite_family(s['family'], s)
+                or class_kind(s['family'], existing) != class_kind(s['family'], s)):
+            raise ValueError(f"registry class {s['family']} has conflicting persistent leases")
         specs[int(s["family"])] = s
     ctx._class_specs = specs
+    ctx._wheel_mod_specs = wheel_mod_specs
 
 
 def _evility_handler(ctx, mod, patch_dir):

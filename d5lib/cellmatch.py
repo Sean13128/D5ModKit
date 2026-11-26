@@ -121,7 +121,8 @@ def lock_sequences(groups, cells, frames):
     return out
 
 
-def match(cells, frames, log=None, locked=None, groups=None, prefer=None, twins=None):
+def match(cells, frames, log=None, locked=None, groups=None, prefer=None, twins=None,
+          anchor_feet=False, uniform_offset=False):
     """cells:  {key: dict(rgba=array, view='front'|'back', pose=bool, anims={animation ids})}
     frames: [dict(rgba=array (full canvas), view, row=name, hand=bool)]
     locked: {cell key: frame index} fixed beforehand (see lock_sequences)
@@ -136,6 +137,18 @@ def match(cells, frames, log=None, locked=None, groups=None, prefer=None, twins=
     original pose (global assignment), sharing costs a little.  Overlay cells (pose=False) only take
     exact-size 'hand' frames."""
     from scipy.optimize import linear_sum_assignment
+
+    def feet_offset(o, f):
+        """(dy, dx) that puts the frame's feet where the original pose's feet are.
+
+        A whole-pose source drawing is not a copy of the donor's cell: its silhouette is a
+        different shape, so the best-overlap shift that suits an outfit repaint drifts with the
+        pose.  The invariant a pose keeps is where it stands, so a source import is placed by its
+        bottom-centre (the feet pivot d1cart renders around) instead.
+        """
+        oy, ox = _bottom_center(o)
+        fy, fx = _bottom_center(f)
+        return int(round(oy - fy)), int(round(ox - fx))
     fmasks = [_mask(f["rgba"]) for f in frames]
     cmasks = {k: _mask(c["rgba"]) for k, c in cells.items()}
     locked = dict(locked or {})
@@ -278,6 +291,23 @@ def match(cells, frames, log=None, locked=None, groups=None, prefer=None, twins=
               for k, v in raw.items() if v[4] and cells[k]["pose"] and cells[k]["view"] == view]
         if sh:
             offsets[view] = (int(np.median([s[0] for s in sh])), int(np.median([s[1] for s in sh])))
+    if uniform_offset:
+        # The prepared-source reader renders every row into ONE bounds box (d1cart.poses), so a
+        # source frame's place inside that canvas *is* the motion and the canvas is the pivot.
+        # A per-animation median (or a per-view one) re-centres each animation separately, which is
+        # why a D1C class could stand 26 px lower in its stand than in its walk.  One offset for the
+        # whole import keeps the source's own relative placement.
+        out = {}
+        poses = [(v[2], v[3]) for k, v in raw.items() if cells[k]['pose']]
+        if poses:
+            oy = int(np.median([p[0] for p in poses]))
+            ox = int(np.median([p[1] for p in poses]))
+            for k, (score, i, dy, dx, exact, s) in raw.items():
+                cy, cx = corigin(frames[i])
+                out[k] = dict(frame=i, dy=oy-cy, dx=ox-cx, score=round(score, 3), exact=exact,
+                              group=None, anchored='canvas')
+            match.offsets = {(vy): (oy, ox) for vy in ("front", "back")}
+            return out
     out = {}
     for k, (score, i, dy, dx, exact, s) in raw.items():
         view = cells[k]["view"]
@@ -287,9 +317,12 @@ def match(cells, frames, log=None, locked=None, groups=None, prefer=None, twins=
             # keep the constant offset unless it is clearly worse than the free fit
             if iou_at(cmasks[k], fmasks[i], gy, gx) >= s - 0.12:
                 dy, dx = gy, gx
+        if anchor_feet:
+            dy, dx = feet_offset(cmasks[k], fmasks[i])
         if k in group_shift:
             dy, dx = group_shift[k]
-        out[k] = dict(frame=i, dy=dy, dx=dx, score=round(score, 3), exact=exact, group=group_of.get(k))
+        out[k] = dict(frame=i, dy=dy, dx=dx, score=round(score, 3), exact=exact,
+                      group=group_of.get(k), anchored='feet' if anchor_feet else 'overlap')
     if log:
         log(f"cell matching: {len(out)} of {len(cells)} cells, drawing offsets {offsets}")
     match.offsets = offsets

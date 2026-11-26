@@ -15,13 +15,27 @@
  *                                 value scanner over writable memory (SIZE 1/2/4/8/f; OP eq ne gt lt changed
  *                                 unchanged inc dec)
  *   trace ADDR LEN RW LABEL ... | trace off
+ *   watch ADDR LEN [tf|spin] | watch status|dump|off|selftest
+ *                                 software write-watch (page protection + trap flag; d5wwatch.inc.c): names the
+ *                                 instruction that writes a range; works where `trace` does not (CrossOver)
  *                                 hardware watchpoints (RW 1 = write, 3 = read/write), hits go to d5auto.log
  *   auto on|off                   switch auto-battle (ignores the Item World check with "auto force")
  *   focus on|off                  the game believes it has focus (GetForegroundWindow) and ignores the real
  *                                 keyboard, so it can be driven while another window is in front
+ *   (input guard)                 [debug] input_guard (default 1 with remote=1; d5inputguard.h): from the first frame
+ *                                 the real keyboard, mouse and pads (XInput, DirectInput) never reach the game, only
+ *                                 the harness's presses; `state` counts the dropped polls (guard_kb, guard_pad).
+ *                                 `set input_guard 0` (plus `focus off`) lets a person's input through again
+ *   win offscreen [X Y] | hide | show | state
+ *                                 move the game window off every screen / hide it / put it back (d5winhide.h);
+ *                                 `set input_guard 0` puts it back too
+ *   silent on|off|status          the game's four volume masters 0 (nothing is written to a save); status
+ *                                 reads them back -- agent launches are silent by default (d5sound.inc.c)
  *   set NAME VALUE                tweak a setting at run time (sp_saving, kill_margin, deploy, ...)
  *   prof MS                       sample the game thread for MS ms: where its time goes (leaf / inclusive)
  *   mem                           the process's memory, handles, heaps
+ *   dlg                           the process's windows and the texts of their children (reads a stuck error box)
+ *   stk [N]                       the frame thread's stack words that point into modules (module+offset)
  */
 #define CTL_PIPE "\\\\.\\pipe\\d5auto_ctl"
 
@@ -69,7 +83,7 @@ static unsigned char *ctl_addr(unsigned long long a) {
 static int dik_of(const char *n) {
     static const struct { const char *n; int d; } T[] = {
         {"ESC", DIK_ESCAPE}, {"ENTER", DIK_RETURN}, {"SPACE", DIK_SPACE}, {"TAB", DIK_TAB}, {"BACK", DIK_BACK},
-        {"UP", DIK_UP}, {"DOWN", DIK_DOWN}, {"LEFT", DIK_LEFT}, {"RIGHT", DIK_RIGHT}, {"LSHIFT", DIK_LSHIFT},
+        {"UP", DIK_UP}, {"DOWN", DIK_DOWN}, {"LEFT", DIK_LEFT}, {"RIGHT", DIK_RIGHT}, {"LSHIFT", DIK_LSHIFT}, {"RSHIFT", DIK_RSHIFT},
         {"LCTRL", DIK_LCONTROL}, {"F1", DIK_F1}, {"F2", DIK_F2}, {"F3", DIK_F3}, {"F4", DIK_F4}, {"F9", DIK_F9},
         {"F10", DIK_F10}, {"F11", DIK_F11}, {"F12", DIK_F12}, {"PGUP", DIK_PRIOR}, {"PGDN", DIK_NEXT},
         {"HOME", DIK_HOME}, {"END", DIK_END}, {"DEL", DIK_DELETE}, {"INS", DIK_INSERT},
@@ -95,7 +109,7 @@ static int dik_of(const char *n) {
 static BOOL CALLBACK find_game_window(HWND w, LPARAM lp) {
     DWORD pid = 0;
     GetWindowThreadProcessId(w, &pid);
-    if (pid == GetCurrentProcessId() && IsWindowVisible(w) && !GetWindow(w, GW_OWNER)) {
+    if (pid == GetCurrentProcessId() && (IsWindowVisible(w) || g_wh_mode) && !GetWindow(w, GW_OWNER)) {
         char cls[64];
         GetClassNameA(w, cls, sizeof cls);
         if (strcmp(cls, "d5auto_dummy")) { *(HWND *)lp = w; return FALSE; }
@@ -123,7 +137,7 @@ static HWND WINAPI hkGetForegroundWindow(void) {
 typedef BOOL(WINAPI *GetCursorPos_t)(LPPOINT);
 static GetCursorPos_t oGetCursorPos;
 static BOOL WINAPI hkGetCursorPos(LPPOINT pt) {
-    if (g_fake_focus && pt) {
+    if (input_guarded() && pt) {
         pt->x = -32000;
         pt->y = -32000;
         return TRUE;
@@ -260,6 +274,8 @@ static void install_focus_hook(void) {
     patch_slot((void **)G(VA_IAT_DELETEFILEA), (void *)hkDeleteFileA, (void **)&oDeleteFileA);
     patch_slot((void **)G(VA_IAT_DELETEFILEW), (void *)hkDeleteFileW, (void **)&oDeleteFileW);
     logf_("ctl: GetForegroundWindow / GetCursorPos hooked; saves blocked while the harness is on");
+    logf_("input: guard %s (real keyboard, mouse and pads %s; [debug] input_guard)", g_input_guard ? "on" : "off",
+          g_input_guard ? "never reach the game, only the harness's presses" : "reach the game");
 }
 
 static const char *rest_after(const char *line, int n);
@@ -679,8 +695,9 @@ static void ctl_state(SB *o) {
     sbf(o, "\"cursor\":[%.2f,%.2f,%.2f],\"cpanel\":[%d,%d],\"base\":[%d,%d],\"gate\":[%d,%d],",
         *(const float *)(c + 8), *(const float *)(c + 12), *(const float *)(c + 16), cx, cz, bx, bz,
         (int)(gx / 12.0f), (int)(gz / 12.0f));
-    sbf(o, "\"dep\":%d,\"nav\":%d,\"astate\":%d,\"focus\":%d,\"fake_focus\":%ld,\"grid_base\":%d,\"units\":[",
-        g_dep_on, g_nav, g_astate, game_focused(), (long)g_fake_focus, grid_at(bx, bz));
+    sbf(o, "\"dep\":%d,\"nav\":%d,\"astate\":%d,\"focus\":%d,\"fake_focus\":%ld,\"input_guard\":%d,"
+        "\"guard_kb\":%ld,\"guard_pad\":%ld,\"grid_base\":%d,\"units\":[", g_dep_on, g_nav, g_astate, game_focused(),
+        (long)g_fake_focus, g_input_guard, (long)g_guard_kb, (long)g_guard_pad, grid_at(bx, bz));
     UNIT u[64];
     int n = read_units(u, 64);
     for (int i = 0; i < n; i++) {
@@ -695,6 +712,241 @@ static void ctl_state(SB *o) {
             to_static((DWORD64)u[i].unit));
     }
     sb_put(o, "]}", 2);
+}
+
+/* ------------------------------------------------------------------ facility / giveup (FACILITY1)
+ * Two harness commands that replace keypress walks with the game's own routines:
+ *   facility [list | NAME | INDEX]  open one of the 18 Pocket Netherworld facilities directly.  A port of Cryswar's
+ *       Overlord "Facility Hotkeys" (d5_facility_hotkeys_integrated.cpp, The Unlicense -- thanks, Cryswar): the same
+ *       table, the same native unlock / first-visit flag gates, the same "Pocket Netherworld fully idle" test, the
+ *       same four byte signatures, and the same three routes (script_cmd_menu_open 0x18AE20 for the shops inside
+ *       the base, the task manager's pending task for the top-level facilities, the guide/shop selector bytes,
+ *       restored once the game has read them).  It runs on the game thread at the start of a frame (his ran on a
+ *       worker thread).
+ *   giveup  leave the battle for the base and lose its progress: what Give Up -> "Return to the Pocket Netherworld"
+ *       -> Yes does (system_ctl s4 0x620DF0: restore mode 2, world-map globals cleared, script 2013) plus the
+ *       battle-manager request {9001, 1} the item-capacity exit (S37 0x4A1F1F) queues, which parks the battle in
+ *       its dispatcher while script 2013 fades out.  Cryswar's overlord/09_giveup.c reroutes the same s4 path; this
+ *       takes it without the menu.
+ * Addresses are RVAs of the Steam build (PE timestamp 0x5C4E7571, the kit's pinned exe 49a7530b...), written
+ * relative to the image so exemap does not translate them as launch-build VAs.  Each command checks the build and
+ * its byte signatures at run time and refuses with the reason on anything else. */
+#define FAC_TIMESTAMP 0x5C4E7571u
+#define FAC_TASK_MANAGER 0x00BDFD08u      /* -> {i32 pending, i32 selected, ..., u8 +0xA18, u8 +0xA19} */
+#define FAC_POCKET 0x07B58EC0u            /* -> the base (state 13) object */
+#define FAC_FLAGS 0x04FCCB0Eu             /* the game's event flag bitmap */
+#define FAC_MENU_OPEN 0x0018AE20u         /* script_cmd_menu_open(?, ?, short id) */
+#define FAC_MENU_FORWARD 0x06A07FA8u      /* byte: menu_open forwards to the state-32 object */
+#define FAC_GUIDE_BYTE 0x04FCCFF0u
+#define FAC_SHOP_MODE 0x04FCCC2Du
+#define FAC_SHOP_OBJECT 0x07B59848u
+#define GU_BATTLE 0x07B58E68u             /* -> the state-5 battle object (vtable FAC rva 0x98BF00) */
+#define GU_BATTLE_VT 0x0098BF00u
+#define GU_BM 0x07B58E70u                 /* -> the battle manager (request queue at +0, count +0x80, pending +0xB5) */
+#define GU_BM_ALIVE 0x07A65474u
+#define GU_SCRIPTS 0x00A67CF0u            /* -> the script manager */
+#define GU_SCRIPT_CREATE 0x00190140u      /* script_context_create */
+#define GU_BITS_A 0x04FCD261u
+#define GU_WORLD_MODE 0x07B58E88u
+#define GU_WORLD_RECORD 0x07A678A8u
+#define GU_WORLD_INDEX 0x07B58E8Cu
+#define RVA(r) (g_base + (r))
+#ifndef FAC_CALL_MENU_OPEN    /* test seams: tests/test_facility1.py builds this block on the host with stand-ins */
+#define FAC_CALL_MENU_OPEN(id) ((long long (*)(void *, void *, short))RVA(FAC_MENU_OPEN))(NULL, NULL, (short)(id))
+#define GU_CALL_SCRIPT(id, out) ((int (*)(long long, int, long long, long long, long long, int, long long, \
+    long long *))RVA(GU_SCRIPT_CREATE))(*(long long *)RVA(GU_SCRIPTS), (id), 0, 0, 0, 0, 0, (out))
+#endif
+
+typedef struct { unsigned rva; unsigned char n; unsigned char b[124]; } FACSIG;
+static const FACSIG FAC_SIGS[] = {      /* Cryswar's four */
+    {0x00222131u, 12, {0x48,0x8B,0x1D,0xD0,0xDB,0x9B,0x00,0x8B,0x13,0x83,0xFA,0xFF}},
+    {0x0018AE20u, 11, {0x48,0x83,0xEC,0x28,0x80,0x3D,0x7D,0xD1,0x87,0x06,0x00}},
+    {0x00646E27u, 15, {0x44,0x84,0x25,0xC2,0x61,0x98,0x04,0x41,0x0F,0xB6,0xC7,0x41,0x0F,0x45,0xC4}},
+    {0x006ABDE0u, 15, {0x48,0x83,0xEC,0x28,0x0F,0xB6,0x05,0x42,0x0E,0x92,0x04,0xA8,0x40,0x74,0x04}},
+};
+static const FACSIG GU_SIGS[] = {       /* the code giveup mirrors: s4 "Yes", the S37 queue, the battle exit */
+    {0x00620E28u, 124, {0x48,0x8B,0x05,0x41,0x80,0x53,0x07,0x74,0x11,0x48,0x85,0xC0,0x74,0x1B,0xC7,0x80,0x10,0x06,
+        0x0C,0x00,0x03,0x00,0x00,0x00,0xEB,0x0F,0x48,0x85,0xC0,0x74,0x0A,0xC7,0x80,0x10,0x06,0x0C,0x00,0x02,0x00,0x00,
+        0x00,0x48,0x8B,0x0D,0x98,0x6E,0x44,0x00,0x48,0x8D,0x44,0x24,0x58,0x80,0x25,0xFD,0xC3,0x9A,0x04,0xFB,0x33,0xFF,
+        0x80,0x25,0x83,0xC1,0x9A,0x04,0xFB,0x45,0x33,0xC9,0x48,0x89,0x44,0x24,0x38,0x45,0x33,0xC0,0x48,0x89,0x7C,0x24,
+        0x30,0xBA,0xDD,0x07,0x00,0x00,0x89,0x7C,0x24,0x28,0x48,0x89,0x7C,0x24,0x20,0x89,0x3D,0xF7,0x7F,0x53,0x07,0x48,
+        0x89,0x3D,0x10,0x6A,0x44,0x07,0x66,0x89,0x3D,0xED,0x7F,0x53,0x07,0xE8,0x9C,0xF2,0xB6,0xFF}},
+    {0x004A1F1Fu, 98, {0x38,0x1D,0x4F,0x35,0x5C,0x07,0x74,0x5A,0x48,0x8B,0x0D,0x42,0x6F,0x6B,0x07,0x48,0x85,0xC9,
+        0x74,0x34,0x48,0x63,0x81,0x80,0x00,0x00,0x00,0xC7,0x04,0xC1,0x29,0x23,0x00,0x00,0x48,0x63,0x81,0x80,0x00,0x00,
+        0x00,0xC7,0x44,0xC1,0x04,0x01,0x00,0x00,0x00,0xFF,0x81,0x80,0x00,0x00,0x00,0xC6,0x81,0xB5,0x00,0x00,0x00,0x01,
+        0x8B,0x01,0x89,0x81,0x88,0x00,0x00,0x00,0xEB,0x03,0x48,0x8B,0xCB,0x88,0x99,0x3E,0x0D,0x00,0x00,0xC7,0x81,0x8C,
+        0x00,0x00,0x00,0xFF,0xFF,0xFF,0xFF,0x48,0x89,0x99,0x90,0x00,0x00,0x00}},
+    {0x004AF036u, 33, {0x48,0x8B,0x1D,0x2B,0x9E,0x6A,0x07,0x48,0x85,0xDB,0x0F,0x84,0xC2,0x01,0x00,0x00,0x48,0x8B,0x03,
+        0x48,0x8D,0x0D,0xB0,0xCE,0x4D,0x00,0x48,0x8B,0x50,0x18,0x48,0x3B,0xC1}},
+};
+
+enum { FAC_NESTED, FAC_SHOP, FAC_TOP, FAC_GUIDE };
+static const char *const FAC_KIND[] = {"nested", "shop", "top", "guide"};
+typedef struct { const char *name; int kind, route, unlock, first_talk, selector; unsigned vt; } FACDEF;
+static const FACDEF FACS[] = {          /* Cryswar's table, in his order (INDEX = position) */
+    {"equipment_shop", FAC_SHOP, 50, 14020, 9621, 0x10, 0x0098F168u},
+    {"item_shop", FAC_SHOP, 50, 14020, 9626, 0x40, 0x0098ED08u},
+    {"hospital", FAC_NESTED, 60, 14021, 9631, 0, 0},
+    {"skill_shop", FAC_NESTED, 140, 14010, 9685, 0, 0},
+    {"quest_shop", FAC_NESTED, 145, 14009, 9680, 0, 0},
+    {"interrogation", FAC_NESTED, 135, 14003, 9690, 0, 0},
+    {"alchemist", FAC_NESTED, 130, 14006, 9715, 0, 0},
+    {"curry_shop", FAC_NESTED, 310, 14015, 9725, 0, 0},
+    {"cheat_shop", FAC_NESTED, 190, 14005, 9651, 0, 0},
+    {"strategy_assembly", FAC_TOP, 7, 14008, 9635, 0, 0},
+    {"item_world", FAC_TOP, 14, 14000, 9610, 0, 0},
+    {"squad_shop", FAC_TOP, 37, 14001, 9670, 0, 0},
+    {"netherworld_research", FAC_TOP, 33, 14014, 9675, 0, 0},
+    {"innocent_shop", FAC_TOP, 35, 14007, 9705, 0, 0},
+    {"recruiter", FAC_TOP, 36, 14016, 9695, 0, 0},
+    {"chara_world", FAC_TOP, 31, 14011, 9665, 0, 0},
+    {"dimension_guide", FAC_GUIDE, 9, 0, 0, 0, 0},
+    {"carnage_dimension_guide", FAC_GUIDE, 9, 14018, 9710, 1, 0},
+};
+#define FAC_N ((int)(sizeof FACS / sizeof FACS[0]))
+
+/* a pending selector-byte restore (shop / guide routes): the byte goes back once the game has read it */
+static struct { int on, index; LONG frame; unsigned rva; unsigned char saved; } g_fac;
+
+/* NULL = this exe is the build and every signature matches; else why not (static text) */
+static const char *fac_build_check(const FACSIG *sigs, int n) {
+    static char why[96];
+    IMAGE_NT_HEADERS64 *nt = (IMAGE_NT_HEADERS64 *)(g_base + ((IMAGE_DOS_HEADER *)g_base)->e_lfanew);
+    if (nt->FileHeader.TimeDateStamp != FAC_TIMESTAMP) return "unsupported game build (PE timestamp)";
+    for (int i = 0; i < n; i++)
+        if (!readable(RVA(sigs[i].rva), sigs[i].n) || memcmp(RVA(sigs[i].rva), sigs[i].b, sigs[i].n)) {
+            snprintf(why, sizeof why, "signature mismatch at rva 0x%X", sigs[i].rva);
+            return why;
+        }
+    return NULL;
+}
+
+static int fac_flag(int id) {
+    return !id || (*(volatile unsigned char *)RVA(FAC_FLAGS + (id >> 3)) >> (id & 7) & 1);
+}
+
+static void fac_restore(void) {
+    if (!g_fac.on) return;
+    *(volatile unsigned char *)RVA(g_fac.rva) = g_fac.saved;
+    g_fac.on = 0;
+}
+
+/* every frame: put a shop/guide selector byte back once the game has taken it (Cryswar's poll_request) */
+static void fac_poll(void) {
+    if (!g_fac.on) return;
+    const FACDEF *f = &FACS[g_fac.index];
+    LONG age = g_frame - g_fac.frame;
+    if (f->kind == FAC_GUIDE) {
+        unsigned char *m = *(unsigned char **)RVA(FAC_TASK_MANAGER);
+        if (age > 120 || !m || *(int *)m != f->route) fac_restore();    /* pending consumed (or 2 s) */
+    } else {
+        unsigned char *s = *(unsigned char **)RVA(FAC_SHOP_OBJECT);
+        if (age > 180 || (s && *(unsigned char **)s == RVA(f->vt))) fac_restore();   /* its shop exists (or 3 s) */
+    }
+}
+
+static void ctl_facility(SB *o, int argc, char **argv) {
+    if (argc < 2 || !strcmp(argv[1], "list")) {
+        sbf(o, "{\"ok\":1,\"facilities\":[");
+        for (int i = 0; i < FAC_N; i++)
+            sbf(o, "%s{\"index\":%d,\"name\":\"%s\",\"kind\":\"%s\",\"route\":%d,\"open\":%d}", i ? "," : "", i,
+                FACS[i].name, FAC_KIND[FACS[i].kind], FACS[i].route,
+                fac_flag(FACS[i].unlock) && fac_flag(FACS[i].first_talk));
+        sbf(o, "]}");
+        return;
+    }
+    int i = -1;
+    char *end;
+    long k = strtol(argv[1], &end, 10);
+    if (*argv[1] && !*end) i = (k >= 0 && k < FAC_N) ? (int)k : -1;
+    else for (int j = 0; j < FAC_N; j++) if (!_stricmp(argv[1], FACS[j].name)) i = j;
+    if (i < 0) { sbf(o, "{\"error\":\"unknown facility\",\"reason\":\"no facility %s (facility list)\"}", argv[1]); return; }
+    const FACDEF *f = &FACS[i];
+    const char *why = fac_build_check(FAC_SIGS, 4);
+    unsigned char *m = why ? NULL : *(unsigned char **)RVA(FAC_TASK_MANAGER);
+    unsigned char *p = why ? NULL : *(unsigned char **)RVA(FAC_POCKET);
+    if (why) ;
+    else if (g_fac.on) why = "another facility request is still in flight";
+    else if (!fac_flag(f->unlock)) why = "native unlock flag not set";
+    else if (!fac_flag(f->first_talk)) why = "native first-visit flag not set";
+    else if (!m || !p) why = "not in the Pocket Netherworld (no task manager / base object)";
+    else if (*(int *)m != -1 || *(int *)(m + 4) != 13 || m[0xA18] || m[0xA19]) why = "Pocket Netherworld not idle (task manager)";
+    /* base +0xB0 is NOT tested (Cryswar tests it == -1): it is the talk TARGET the base re-picks every frame
+     * (base_interact_pick_target 0x6A8AB0: nearest talkable actor index, -1 = none), so it is >= 0 whenever the
+     * leader stands next to an NPC -- right after a load, and exactly where the NPC walk opens a facility.  +0xB8
+     * is the talk actually running (base_s0_update 0x6A9D10: base_interact_start_talk's result, reset to -1 each
+     * frame no talk runs), so that one stays a busy state.  FACILITY1 run 3: [+0x14,+0x30,+0xB0,+0xB8] = [0,0,0,-1]. */
+    else if (*(int *)(p + 0x14) || *(int *)(p + 0x30) || *(int *)(p + 0xB8) != -1)
+        why = "Pocket Netherworld not idle (a facility is open or transitioning)";
+    else if ((f->kind == FAC_NESTED || f->kind == FAC_SHOP) && *(volatile unsigned char *)RVA(FAC_MENU_FORWARD))
+        why = "menus are routed to the state-32 object";
+    else if (f->kind == FAC_GUIDE && (*(volatile unsigned char *)RVA(FAC_GUIDE_BYTE) & 1))
+        why = "guide context already active";
+    if (why) {
+        sbf(o, "{\"error\":\"refused\",\"facility\":\"%s\",\"reason\":", f->name);
+        sb_str(o, why);
+        if (m && p)                                    /* what the idle test read (FACILITY1 run 2: diagnose) */
+            sbf(o, ",\"manager\":[%d,%d,%d,%d],\"base\":[%d,%d,%d,%d]", *(int *)m, *(int *)(m + 4), m[0xA18],
+                m[0xA19], *(int *)(p + 0x14), *(int *)(p + 0x30), *(int *)(p + 0xB0), *(int *)(p + 0xB8));
+        sbf(o, "}");
+        return;
+    }
+    if (f->kind == FAC_GUIDE || f->kind == FAC_SHOP) {
+        volatile unsigned char *b = RVA(f->kind == FAC_GUIDE ? FAC_GUIDE_BYTE : FAC_SHOP_MODE);
+        g_fac.on = 1; g_fac.index = i; g_fac.frame = g_frame; g_fac.saved = *b;
+        g_fac.rva = f->kind == FAC_GUIDE ? FAC_GUIDE_BYTE : FAC_SHOP_MODE;
+        *b = f->kind == FAC_GUIDE ? (unsigned char)((*b & 0xFE) | (f->selector & 1))
+                                  : (unsigned char)((*b & ~0x50) | f->selector);
+    }
+    if (f->kind == FAC_NESTED || f->kind == FAC_SHOP) {
+        FAC_CALL_MENU_OPEN(f->route);
+    } else {
+        *(volatile int *)m = f->route;                  /* the task manager's pending task */
+    }
+    logf_("facility %s (route %d, %s)", f->name, f->route, FAC_KIND[f->kind]);
+    sbf(o, "{\"ok\":1,\"facility\":\"%s\",\"index\":%d,\"route\":%d,\"kind\":\"%s\"}", f->name, i, f->route,
+        FAC_KIND[f->kind]);
+}
+
+static void ctl_giveup(SB *o) {
+    const char *why = fac_build_check(GU_SIGS, 3);
+    unsigned char *battle = why ? NULL : *(unsigned char **)RVA(GU_BATTLE);
+    unsigned char *bm = why ? NULL : *(unsigned char **)RVA(GU_BM);
+    int cur = battle ? *(int *)(battle + 0x14) : -1;
+    if (why) ;
+    else if (!battle || *(unsigned char **)battle != RVA(GU_BATTLE_VT)) why = "not in a battle";
+    else if (!bm || !*(volatile unsigned char *)RVA(GU_BM_ALIVE)) why = "no battle manager";
+    else if (cur == 42) why = "the battle is in its dispatcher (already leaving?)";
+    else if (cur == 28) why = "the turn runner is active (enemy phase or an action playing)";
+    else if (bm[0xB5]) why = "a battle request is already pending";
+    else if (*(int *)(bm + 0x80) < 0 || *(int *)(bm + 0x80) > 15) why = "the battle request queue is full";
+    if (why) {
+        sbf(o, "{\"error\":\"refused\",\"reason\":");
+        sb_str(o, why);
+        sbf(o, ",\"substate\":%d}", cur);
+        return;
+    }
+    /* system_ctl s4 "Yes" (0x620E21..0x620E9F): lose progress, clear the world-map resume, script 2013 */
+    *(int *)(bm + 0xC0610) = 2;
+    *(volatile unsigned char *)RVA(GU_BITS_A) &= 0xFB;
+    *(volatile unsigned char *)RVA(FAC_GUIDE_BYTE) &= 0xFB;
+    *(volatile int *)RVA(GU_WORLD_MODE) = 0;
+    *(volatile long long *)RVA(GU_WORLD_RECORD) = 0;
+    *(volatile short *)RVA(GU_WORLD_INDEX) = 0;
+    long long ctx = 0;
+    int r = GU_CALL_SCRIPT(2013, &ctx);
+    /* S37's exit (0x4A1F33..0x4A1F7A): request {9001, 1} on the battle manager -> the dispatcher S42 */
+    int n = *(int *)(bm + 0x80);
+    ((int *)bm)[n * 2] = 9001;
+    ((int *)bm)[n * 2 + 1] = 1;
+    *(int *)(bm + 0x80) = n + 1;
+    bm[0xB5] = 1;
+    *(int *)(bm + 0x88) = *(int *)bm;
+    bm[0xD3E] = 0;
+    *(int *)(bm + 0x8C) = -1;
+    *(long long *)(bm + 0x90) = 0;
+    logf_("giveup: battle sub-state %d -> script 2013 (%d), request 9001", cur, r);
+    sbf(o, "{\"ok\":1,\"substate\":%d,\"script\":%d}", cur, r);
 }
 
 /* ------------------------------------------------------------------ command dispatch */
@@ -712,6 +964,10 @@ static void ctl_finish(void) {
 }
 
 static void fx_cmd(SB *o, int argc, char **argv);   /* d5fx.inc.c */
+static void ctl_anmtrace(SB *o, int argc, char **argv), ctl_actorprobe(SB *o, int argc, char **argv);
+static void at_tick(void), at_off(void);             /* d5anmtrace.inc.c */
+static void ctl_voicetrace(SB *o, int argc, char **argv), vt_off(void);   /* d5anmtrace.inc.c (VOICE2) */
+static void ctl_watch(SB *o, int argc, char **argv), ww_off(void);        /* d5wwatch.inc.c (WRITEWATCH1) */
 
 /* runs on the game thread (d5_frame) */
 static void ctl_tick(void) {
@@ -720,6 +976,8 @@ static void ctl_tick(void) {
     if (g_skitff == -2) g_skitff = g_battle_speed ? g_battle_speed : (g_remote ? 2 : -1);
     if (!(g_frame % 30) && (g_remote || g_skitff != -1)) skitff_apply();
     if (!g_remote) return;
+    fac_poll();
+    at_tick();                                 /* actorprobe */
     if (!g_cmd_pending) return;
     if (g_cmd_wait_keys) { if (!keys_busy()) ctl_finish(); return; }
     if (g_cmd_wait_frames) { if (--g_cmd_wait_frames <= 0) ctl_finish(); return; }
@@ -817,7 +1075,8 @@ static void ctl_tick(void) {
     } else if (!strcmp(c, "hold") && argc > 2) {   /* hold KEY 1 / hold KEY 0 */
         int d = dik_of(argv[1]);
         if (d < 0) sbf(o, "{\"error\":\"unknown key\"}");
-        else { g_dik[d] = (BYTE)(atoi(argv[2]) != 0); sbf(o, "{\"ok\":1}"); }
+        else if (d >= 256) sbf(o, "{\"error\":\"key out of range\"}");
+        else { g_hold_dik[d] = (BYTE)(atoi(argv[2]) != 0); sbf(o, "{\"ok\":1}"); }
     } else if (!strcmp(c, "wait") && argc > 1) {
         g_cmd_wait_frames = atoi(argv[1]);
         if (g_cmd_wait_frames > 36000) g_cmd_wait_frames = 36000;   /* 10 minutes */
@@ -841,6 +1100,18 @@ static void ctl_tick(void) {
         FN4 f = (FN4)ctl_addr(strtoull(argv[1], NULL, 16));
         unsigned long long r = f(a[0], a[1], a[2], a[3]);
         sbf(o, "{\"ok\":1,\"rax\":\"0x%llx\"}", r);
+    } else if (!strcmp(c, "facility")) {             /* facility [list | NAME | INDEX]: open it natively */
+        ctl_facility(o, argc, argv);
+    } else if (!strcmp(c, "giveup")) {               /* leave the battle for the base (progress lost) */
+        ctl_giveup(o);
+    } else if (!strcmp(c, "anmtrace")) {             /* anmtrace on|guard|off|status: animation hooks (ANMTRACE1) */
+        ctl_anmtrace(o, argc, argv);
+    } else if (!strcmp(c, "actorprobe")) {           /* actorprobe <slot> <frames> | off: per-frame actor reads */
+        ctl_actorprobe(o, argc, argv);
+    } else if (!strcmp(c, "voicetrace")) {           /* voicetrace on|off|status: log every voice line request */
+        ctl_voicetrace(o, argc, argv);
+    } else if (!strcmp(c, "watch")) {                /* watch ADDR LEN | status|dump|off|selftest (WRITEWATCH1) */
+        ctl_watch(o, argc, argv);
     } else if (!strcmp(c, "auto") && argc > 1 && !D5_AUTO) {
         sbf(o, "{\"error\":\"this runtime has no auto-battle\"}");
     } else if (!strcmp(c, "auto") && argc > 1) {
@@ -853,6 +1124,17 @@ static void ctl_tick(void) {
             if (on) log_battlefield("switched on (remote)");
             sbf(o, "{\"ok\":1}");
         }
+    } else if (!strcmp(c, "silent")) {              /* silent on | off | status: the game's volumes 0, memory only */
+        char b[512];
+        if (argc > 1 && !strcmp(argv[1], "off")) sound_set(0);
+        else if (argc > 1 && !strcmp(argv[1], "on")) sound_set(1);
+        sound_report(b, sizeof b);
+        sbf(o, "%s", b);
+    } else if (!strcmp(c, "win")) {                 /* win offscreen [X Y] | hide | show | state */
+        char b[256];
+        game_window();
+        winhide_cmd(g_hwnd, argc, argv, b, sizeof b);
+        sbf(o, "%s", b);
     } else if (!strcmp(c, "focus") && argc > 1) {
         game_window();
         InterlockedExchange(&g_fake_focus, !strcmp(argv[1], "on"));
@@ -862,10 +1144,15 @@ static void ctl_tick(void) {
         if (!strcmp(argv[1], "sp_saving")) g_sp_saving = v;
         else if (!strcmp(argv[1], "kill_margin")) g_kill_margin = v;
         else if (!strcmp(argv[1], "reach")) g_reach = v;
+        else if (!strcmp(argv[1], "input_guard")) {
+            g_input_guard = v != 0;
+            if (!v && g_wh_mode && g_hwnd) { char *a[2] = {"win", "show"}, b[64]; winhide_cmd(g_hwnd, 2, a, b, sizeof b); }
+        }
         else if (!strcmp(argv[1], "heal_below")) g_heal_below = v;
         else if (!strcmp(argv[1], "deploy")) g_deploy = v;
         else if (!strcmp(argv[1], "deploy_max")) g_deploy_max = v;
         else if (!strcmp(argv[1], "skitff")) { g_skitff = v; skitff_apply(); }
+        else if (!strcmp(argv[1], "msgbox_dismiss")) g_msgbox_dismiss = v != 0;
         else ok = 0;
         sbf(o, ok ? "{\"ok\":1}" : "{\"error\":\"unknown setting\"}");
     } else if (!strcmp(c, "record") && argc > 1) {  /* record EVENT EVERY SCALE MAX DIR | record stop | status */
@@ -974,7 +1261,7 @@ static void pf_put_addr(SB *o, unsigned long long a) {
         sbf(o, "\"%s+0x%llx\"", name, a - (unsigned long long)m);
     } else sbf(o, "\"0x%llx\"", a);
 }
-static volatile DWORD g_game_tid;
+
 static volatile LONG g_pf_sampling;            /* a profile is being taken (harness or perf report) */
 
 static void ctl_prof(SB *o, int ms) {
@@ -1059,6 +1346,171 @@ static void ctl_mem(SB *o) {
         GetGuiResources(GetCurrentProcess(), 0), GetGuiResources(GetCurrentProcess(), 1));
 }
 
+/* ------------------------------------------------------------------ SOAKFREEZE2: read the dialog that freezes the game
+ * The wheel soak sometimes stops the frame thread inside a modal message loop (SOAKFREEZE1: GetMessage under the draw
+ * frames, a 320x117 window).  Three tools, all harness-only (remote=1), none changes what the game does by default:
+ *   - MessageBoxA/W are hooked (import slots found by name): text, caption, flags, the caller and the exe return
+ *     addresses on the stack go to d5auto.log BEFORE the box opens.  [debug] msgbox_dismiss=1 / 'set msgbox_dismiss 1'
+ *     answers MB_OK boxes with OK and MB_YESNO boxes with No instead of showing them (a soak then goes on).
+ *   - 'dlg' (pipe thread, works while the frame thread is blocked): every window of the process with its class, text,
+ *     rectangle and thread, plus the texts of dialog children: reads any dialog, not only MessageBox.
+ *   - 'stk [N]': the first N stack words of the frame thread that point into a module (module+offset), with their
+ *     distance from the stack pointer, and the thread's RIP/RSP: the whole stack, not prof's first eight. */
+typedef int(WINAPI *MessageBoxW_t)(HWND, LPCWSTR, LPCWSTR, UINT);
+typedef int(WINAPI *MessageBoxA_t)(HWND, LPCSTR, LPCSTR, UINT);
+static MessageBoxW_t oMessageBoxW;
+static MessageBoxA_t oMessageBoxA;
+
+static void **iat_slot(const char *dll, const char *fn) {       /* the import slot of DLL!FN in the game's exe */
+    IMAGE_DOS_HEADER *dos = (IMAGE_DOS_HEADER *)g_base;
+    IMAGE_NT_HEADERS64 *nt = (IMAGE_NT_HEADERS64 *)(g_base + dos->e_lfanew);
+    IMAGE_DATA_DIRECTORY *dd = &nt->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
+    if (!dd->VirtualAddress) return NULL;
+    for (IMAGE_IMPORT_DESCRIPTOR *d = (IMAGE_IMPORT_DESCRIPTOR *)(g_base + dd->VirtualAddress); d->Name; d++) {
+        if (_stricmp((const char *)g_base + d->Name, dll)) continue;
+        IMAGE_THUNK_DATA64 *nm = (IMAGE_THUNK_DATA64 *)(g_base + (d->OriginalFirstThunk ? d->OriginalFirstThunk : d->FirstThunk));
+        void **iat = (void **)(g_base + d->FirstThunk);
+        for (; nm->u1.AddressOfData; nm++, iat++) {
+            if (nm->u1.Ordinal & IMAGE_ORDINAL_FLAG64) continue;
+            if (!strcmp((const char *)((IMAGE_IMPORT_BY_NAME *)(g_base + nm->u1.AddressOfData))->Name, fn)) return iat;
+        }
+    }
+    return NULL;
+}
+
+static void sb_wstr(SB *s, const wchar_t *w) {                    /* JSON string from UTF-16 */
+    sb_put(s, "\"", 1);
+    for (; w && *w; w++) {
+        if (*w == '"' || *w == '\\') { char e[2] = {'\\', (char)*w}; sb_put(s, e, 2); }
+        else if (*w < 32 || *w > 126) sbf(s, "\\u%04x", (unsigned)*w);
+        else { char c = (char)*w; sb_put(s, &c, 1); }
+    }
+    sb_put(s, "\"", 1);
+}
+
+static void msgbox_log(const char *api, const wchar_t *text, const wchar_t *cap, UINT flags, const void *ret,
+                       const unsigned long long *sp) {
+    SB s = {0};
+    sb_wstr(&s, text);
+    SB c = {0};
+    sb_wstr(&c, cap);
+    char chain[400];
+    int n = 0;
+    for (int i = 0; i < 256 && n < (int)sizeof chain - 24; i++) {         /* exe return addresses above this call */
+        if (pf_after_call((const unsigned char *)sp[i])) n += snprintf(chain + n, sizeof chain - n, " %llx", to_static(sp[i]));
+    }
+    chain[n] = 0;
+    logf_("MSGBOX %s flags=0x%x from %llx caption=%s text=%s | exe frames:%s", api, flags, to_static((DWORD64)ret),
+          c.p ? c.p : "\"\"", s.p ? s.p : "\"\"", chain);
+    free(s.p);
+    free(c.p);
+}
+static int WINAPI hkMessageBoxW(HWND h, LPCWSTR t, LPCWSTR c, UINT f) {
+    msgbox_log("W", t, c, f, __builtin_return_address(0), (const unsigned long long *)__builtin_frame_address(0));
+    if (g_msgbox_dismiss && ((f & 0xf) == MB_OK || (f & 0xf) == MB_YESNO)) return (f & 0xf) == MB_OK ? IDOK : IDNO;
+    return oMessageBoxW(h, t, c, f);
+}
+static int WINAPI hkMessageBoxA(HWND h, LPCSTR t, LPCSTR c, UINT f) {
+    wchar_t wt[512], wc[128];
+    MultiByteToWideChar(CP_ACP, 0, t ? t : "", -1, wt, 512);
+    MultiByteToWideChar(CP_ACP, 0, c ? c : "", -1, wc, 128);
+    msgbox_log("A", wt, wc, f, __builtin_return_address(0), (const unsigned long long *)__builtin_frame_address(0));
+    if (g_msgbox_dismiss && ((f & 0xf) == MB_OK || (f & 0xf) == MB_YESNO)) return (f & 0xf) == MB_OK ? IDOK : IDNO;
+    return oMessageBoxA(h, t, c, f);
+}
+static void install_msgbox_hook(void) {
+    void **w = iat_slot("user32.dll", "MessageBoxW"), **a = iat_slot("user32.dll", "MessageBoxA");
+    if (w) patch_slot(w, (void *)hkMessageBoxW, (void **)&oMessageBoxW);
+    if (a) patch_slot(a, (void *)hkMessageBoxA, (void **)&oMessageBoxA);
+    logf_("ctl: MessageBox hooked (W slot %llx, A slot %llx), dismiss %s ([debug] msgbox_dismiss)",
+          w ? to_static((DWORD64)w) : 0ULL, a ? to_static((DWORD64)a) : 0ULL, g_msgbox_dismiss ? "on" : "off");
+}
+
+typedef struct { SB *o; int n; } DLGCTX;
+static BOOL CALLBACK dlg_child(HWND w, LPARAM lp) {
+    DLGCTX *x = (DLGCTX *)lp;
+    wchar_t cls[48] = L"", txt[256] = L"";
+    DWORD_PTR r = 0;
+    GetClassNameW(w, cls, 48);
+    SendMessageTimeoutW(w, WM_GETTEXT, 256, (LPARAM)txt, SMTO_ABORTIFHUNG, 300, &r);
+    sbf(x->o, "%s[", x->n++ ? "," : "");
+    sb_wstr(x->o, cls);
+    sb_put(x->o, ",", 1);
+    sb_wstr(x->o, txt);
+    sb_put(x->o, "]", 1);
+    return x->n < 24;
+}
+static BOOL CALLBACK dlg_top(HWND w, LPARAM lp) {
+    DLGCTX *x = (DLGCTX *)lp;
+    DWORD pid = 0, tid = GetWindowThreadProcessId(w, &pid);
+    if (pid != GetCurrentProcessId() || x->n >= 32) return TRUE;
+    wchar_t cls[64] = L"", txt[256] = L"";
+    DWORD_PTR r = 0;
+    RECT rc = {0, 0, 0, 0};
+    GetClassNameW(w, cls, 64);
+    GetWindowRect(w, &rc);
+    SendMessageTimeoutW(w, WM_GETTEXT, 256, (LPARAM)txt, SMTO_ABORTIFHUNG, 300, &r);
+    sbf(x->o, "%s{\"hwnd\":\"%p\",\"tid\":%lu,\"vis\":%d,\"owner\":\"%p\",\"rect\":[%ld,%ld,%ld,%ld],\"class\":",
+        x->n++ ? "," : "", (void *)w, (unsigned long)tid, IsWindowVisible(w) ? 1 : 0, (void *)GetWindow(w, GW_OWNER),
+        (long)rc.left, (long)rc.top, (long)rc.right, (long)rc.bottom);
+    sb_wstr(x->o, cls);
+    sb_put(x->o, ",\"text\":", 8);
+    sb_wstr(x->o, txt);
+    sb_put(x->o, ",\"children\":[", 13);
+    DLGCTX k = {x->o, 0};
+    EnumChildWindows(w, dlg_child, (LPARAM)&k);
+    sb_put(x->o, "]}", 2);
+    return TRUE;
+}
+static void ctl_dlg(SB *o) {
+    sbf(o, "{\"ok\":1,\"game_tid\":%lu,\"windows\":[", (unsigned long)g_game_tid);
+    DLGCTX x = {o, 0};
+    EnumWindows(dlg_top, (LPARAM)&x);
+    sb_put(o, "]}", 2);
+}
+
+#define STK_MAX 1024
+static void ctl_stk(SB *o, int n) {
+    if (!g_game_tid) { sbf(o, "{\"error\":\"no game frame yet\"}"); return; }
+    HANDLE th = OpenThread(THREAD_SUSPEND_RESUME | THREAD_GET_CONTEXT | THREAD_QUERY_INFORMATION, FALSE, g_game_tid);
+    if (!th) { sbf(o, "{\"error\":\"OpenThread %lu\"}", GetLastError()); return; }
+    unsigned long long w[STK_MAX], rip = 0, rsp = 0;
+    int got = 0;
+    if (n < 1) n = 256;
+    if (n > STK_MAX) n = STK_MAX;
+    if (SuspendThread(th) != (DWORD)-1) {
+        CONTEXT cx;
+        memset(&cx, 0, sizeof cx);
+        cx.ContextFlags = CONTEXT_CONTROL | CONTEXT_INTEGER;
+        if (GetThreadContext(th, &cx)) {
+            rip = cx.Rip;
+            rsp = cx.Rsp;
+            const unsigned long long *sp = (const unsigned long long *)cx.Rsp;
+            MEMORY_BASIC_INFORMATION mi;
+            if (VirtualQuery(sp, &mi, sizeof mi) && mi.State == MEM_COMMIT) {
+                const unsigned long long *end = (const unsigned long long *)((char *)mi.BaseAddress + mi.RegionSize);
+                while (got < n && sp + got < end) { w[got] = sp[got]; got++; }
+            }
+        }
+        ResumeThread(th);
+    }
+    CloseHandle(th);
+    sbf(o, "{\"ok\":1,\"rsp\":\"0x%llx\",\"rip\":", rsp);
+    pf_put_addr(o, rip);
+    sb_put(o, ",\"words\":[", 10);
+    int k = 0;
+    for (int i = 0; i < got; i++) {                    /* code addresses only: [words from SP, address, after-a-call] */
+        HMODULE m = NULL;
+        unsigned long long a = w[i];
+        if (a < 0x10000 || !GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                                               GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)a, &m) || !m) continue;
+        sbf(o, "%s[%d,", k++ ? "," : "", i);
+        pf_put_addr(o, a);
+        sbf(o, ",%d]", pf_after_call((const unsigned char *)a));
+    }
+    sb_put(o, "]}", 2);
+}
+
 /* commands that the pipe thread answers itself (no game-thread work) */
 static int ctl_direct(const char *line, SB *o) {
     char buf[4096], *argv[16];
@@ -1076,6 +1528,8 @@ static int ctl_direct(const char *line, SB *o) {
         return 1;
     }
     if (!strcmp(argv[0], "mem")) { ctl_mem(o); return 1; }
+    if (!strcmp(argv[0], "dlg")) { ctl_dlg(o); return 1; }
+    if (!strcmp(argv[0], "stk")) { ctl_stk(o, argc > 1 ? atoi(argv[1]) : 256); return 1; }
     if (!strcmp(argv[0], "rd") && argc > 2) {
         unsigned char *a = ctl_addr(strtoull(argv[1], NULL, 16));
         int n = atoi(argv[2]);
@@ -1227,11 +1681,16 @@ static void ctl_start(void) {
     g_shot_done = CreateEventA(NULL, TRUE, FALSE, NULL);
     g_cmd_done = CreateEventA(NULL, TRUE, FALSE, NULL);
     install_focus_hook();
+    install_msgbox_hook();
     g_ctl_thread = CreateThread(NULL, 0, ctl_thread, NULL, 0, NULL);
     logf_("ctl: remote control on %s", CTL_PIPE);
 }
 
 static void ctl_stop(void) {
+    fac_restore();                             /* a shop/guide selector byte still set (hot reload) */
+    at_off();                                  /* anmtrace hooks out (hot reload) */
+    vt_off();                                  /* voicetrace hook out */
+    ww_off();                                  /* write-watch: pages writable, handler out */
     if (!g_ctl_thread) return;
     InterlockedExchange(&g_ctl_quit, 1);
     SetEvent(g_cmd_done);

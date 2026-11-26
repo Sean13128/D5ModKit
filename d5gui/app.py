@@ -18,8 +18,11 @@ PAGES = [
     # (section, key, label, module, class)
     ("", "home", "🏠  Home", "home", "HomePage"),
     ("", "browse", "🛍  Browse Mods", "browse", "BrowsePage"),
+    ("CONTENT", "gamepacks", "📦  Game Content Packs", "gamepacks", "GamePacksPage"),
     ("CONTENT", "characters", "🧙  Characters && Classes", "characters", "CharactersPage"),
     ("CONTENT", "quests", "📜  Quests", "quests", "QuestsPage"),
+    ("CONTENT", "charbank", "🗃  Character Bank", "charbank", "CharBankPage"),
+    ("CONTENT", "recruitpage", "🤝  Recruiter (Dark Assembly)", "recruitpage", "RecruitPage"),
     ("CONTENT", "outfits", "👗  Outfits", "outfits", "OutfitsPage"),
     ("CONTENT", "database", "📊  Database Editor", "database", "DatabasePage"),
     ("CONTENT", "skills", "✨  Skills && Animations", "skills", "SkillsPage"),

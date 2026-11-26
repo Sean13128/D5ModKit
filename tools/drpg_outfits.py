@@ -67,26 +67,67 @@ def cmd_learn(chars, workers):
                 json.dump(reps, f, indent=1)
 
 
+def base_units(c):
+    """The catalog row's own DRPG units: a character's twin, or a new character's own `unit`.
+
+    `twin` only exists for rows that attach outfits to a D5 character; a `new_character` row (Future
+    Usalia, Liezerota) has no D5 twin and carries its own RPG unit number in `unit` instead, so reading
+    `c['twin']` unconditionally raised KeyError and `check` could not iterate its own catalog
+    (QUICKFIX1, 2026-11-03)."""
+    ids = []
+    if c.get("twin") is not None:
+        ids.append(c["twin"])
+    if c.get("unit") is not None:
+        ids.append(c["unit"])
+    return ids
+
+
+def catalog_units(c):
+    """every DRPG unit a catalog row draws from: its base unit(s) plus its outfits."""
+    return base_units(c) + [u for u, n in c.get("outfits") or []]
+
+
 def cmd_check(chars):
     bad = 0
+    units = missing = 0
+    print(f"art roots: {', '.join(drpg.ROOTS)}")
     for c in chars:
-        for uid in [c["twin"]] + [u for u, n in c["outfits"]]:
+        own = catalog_units(c)
+        if not own:
+            print(f"{c['name']}: no twin/unit and no outfits in the catalog row")
+            bad += 1
+            continue
+        for uid in own:
+            units += 1
             try:
                 sheets = drpg.unit_sheets(uid)
             except FileNotFoundError:
                 print(f"{c['name']}: DRPG {uid} has no sprites")
                 bad += 1
+                missing += 1
                 continue
-            lay = []
-            for key in ("front", "back", "wait_front", "wait_back"):
-                name, _, own = drpg.fit_layout(drpg.atlas_pieces(sheets[key]), key)
-                lay.append(name or "?")
-            ex = drpg.unit_extras(uid)
-            miss = [k for k in ("icon", "cutin") if k not in ex]
+            except Exception as exc:                    # noqa: BLE001 - one bad unit must not stop the catalog
+                print(f"{c['name']}: DRPG {uid} could not be read ({type(exc).__name__}: {exc})")
+                bad += 1
+                continue
+            try:
+                lay = []
+                for key in ("front", "back", "wait_front", "wait_back"):
+                    lay_name, _, _ = drpg.fit_layout(drpg.atlas_pieces(sheets[key]), key)
+                    lay.append(lay_name or "?")
+                ex = drpg.unit_extras(uid)
+                miss = [k for k in ("icon", "cutin") if k not in ex]
+            except Exception as exc:                    # noqa: BLE001 - incomplete sheet set, reported
+                print(f"{c['name']:12s} {uid:5d} incomplete sheets ({type(exc).__name__}: "
+                      f"{os.path.basename(str(exc))})")
+                bad += 1
+                missing += 1
+                continue
             if "?" in lay[:2] or miss:
                 bad += 1
             print(f"{c['name']:12s} {uid:5d} layouts {'/'.join(lay)}" + (f"  missing {miss}" if miss else ""))
-    print(f"{bad} problem(s)")
+    print(f"{len(chars)} catalog row(s), {units} unit(s): {missing} with no sprite in the art roots, "
+          f"{bad} problem(s) in total")
 
 
 def main():
@@ -96,7 +137,12 @@ def main():
     ap.add_argument("--only")
     ap.add_argument("--rebuild", action="store_true")
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--art-root", action="append",
+                    help="read the DRPG sprites from this folder instead of the kit's DRPG Assets* folders "
+                         "(repeatable; the checkout has none, the derived art lives in Assets/)")
     a = ap.parse_args()
+    if a.art_root:
+        drpg.ROOTS[:] = list(a.art_root)
     chars = [c for c in catalog() if not a.classes or c["class"] in a.classes]
     if a.cmd == "check":
         cmd_check(chars)
@@ -104,8 +150,9 @@ def main():
         cmd_learn(chars, a.workers)
     elif a.cmd == "list":
         for c in chars:
-            print(f"{c['class']:4d} {c['name']:12s} twin {c['twin']:4d}  {len(c['outfits'])} outfits -> {c['mod']}")
-        print(sum(len(c["outfits"]) for c in chars), "outfits")
+            base = ",".join(str(u) for u in base_units(c)) or "-"
+            print(f"{c['class']:4d} {c['name']:12s} twin {base:>4s}  {len(c.get('outfits') or [])} outfits -> {c['mod']}")
+        print(sum(len(c.get("outfits") or []) for c in chars), "outfits")
     elif a.cmd == "build":
         cmd_build(chars, {int(x) for x in a.only.split(",")} if a.only else None, a.rebuild)
     elif a.cmd == "events":

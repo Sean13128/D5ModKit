@@ -1,0 +1,28 @@
+{
+  "source": "claims of the content installed on the live profile on 2026-10-26, as documented in Research/ASSESSMENT-20261026/p2-overlord-v3/ROSTER-DEDUPE.md §2-4. Offline fixture: nothing was read from Local/Installed D5ModKit in this lane. Physical mastery slot leases per mod are NOT included (they live in the installed kit's mastery_slots.json, which this lane must not touch).",
+  "claims": [
+    {"holder": "kit:d4-armor-knight-pilot", "namespace": "char_dat_row", "start": 1350, "end": 1355,
+     "label": "D4 Armor Knight pilot: six rank rows 1350-1355", "evidence": "ROSTER-DEDUPE.md §4"},
+    {"holder": "kit:d4-armor-knight-pilot", "namespace": "job_class_id", "start": 1350, "end": 1355,
+     "label": "D4 Armor Knight pilot class ids", "evidence": "ROSTER-DEDUPE.md §4"},
+    {"holder": "kit:d4-armor-knight-pilot", "namespace": "unlock_flag", "start": 17331, "end": 17336,
+     "label": "unlock flags for family index 8 (1350), six ranks", "evidence": "d5lib/newclasses.flag_of"},
+
+    {"holder": "kit:d4-class-14080", "namespace": "job_class_id", "start": 14080, "end": 14085,
+     "label": "D4 Armor Knight (breadth pack A), 6 ranks", "evidence": "ROSTER-DEDUPE.md §2"},
+    {"holder": "kit:d4-class-14190", "namespace": "job_class_id", "start": 14190, "end": 14195,
+     "label": "D4 Battle Suit, 6 ranks", "evidence": "ROSTER-DEDUPE.md §2"},
+    {"holder": "kit:d4-class-14510", "namespace": "job_class_id", "start": 14510, "end": 14515,
+     "label": "D4 monster class family, 6 ranks", "evidence": "ROSTER-DEDUPE.md §2"},
+    {"holder": "kit:d4-class-14190", "namespace": "evility_id", "start": 7048, "end": 7049,
+     "label": "aliased evilities 7048->1091, 7049->2203", "evidence": "ROSTER-DEDUPE.md §3"},
+    {"holder": "kit:d4-class-14200", "namespace": "evility_id", "start": 7050, "end": 7050,
+     "label": "aliased evility 7050->1091 (Android)", "evidence": "ROSTER-DEDUPE.md §3"},
+    {"holder": "kit:d4-unique-393", "namespace": "char_dat_row", "start": 393, "end": 393,
+     "label": "Rutile (D4 unique)", "evidence": "ROSTER-DEDUPE.md §2"},
+    {"holder": "kit:d2-class-22680", "namespace": "job_class_id", "start": 22680, "end": 22685,
+     "label": "Shark Dragon (D2/DD2), 6 ranks", "evidence": "ROSTER-DEDUPE.md §2"},
+    {"holder": "kit:d2-unique-80", "namespace": "char_dat_row", "start": 80, "end": 80,
+     "label": "Xenolith (DD2 unique)", "evidence": "ROSTER-DEDUPE.md §2"}
+  ]
+}

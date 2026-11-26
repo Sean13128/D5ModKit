@@ -4,6 +4,11 @@ A profile is a named load order: which mods are switched on, in which order.  Th
 switched on in two profiles is the same folder), so a profile costs nothing and switching is instant; the game gets
 the active profile's mods at the next Install.
 
+A separate profile ("isolated") is a project of its own: it starts from the plain game and sees only its own mods
+(mod.json "profile" = its id), none of the shared ones or another project's; their ids (classes, characters,
+sprites ...) are picked among its own mods only.  Mods come over from another profile as copies (Import from another
+profile: export + import, ids that clash are moved).  The shared mods are the ones without an owner.
+
     profiles/<id>/profile.json     {"name", "description", "separate_saves", "created"}
     profiles/<id>/load_order.json  the enabled mods, first = lowest priority (what mods/load_order.json was)
     profiles/<id>/saves/           the profile's own saves (only with separate_saves)
@@ -58,6 +63,11 @@ class Profile:
     @property
     def name(self):
         return self.meta.get("name") or self.id
+
+    @property
+    def isolated(self):
+        """a project of its own: only its own mods (see the module doc)"""
+        return bool(self.meta.get("isolated"))
 
     @property
     def separate_saves(self):
@@ -131,16 +141,22 @@ class Profiles:
             pid, i = f"{base}_{i}", i + 1
         return pid
 
-    def create(self, name, copy_from=None, separate_saves=False, description=""):
-        """a new profile: the load order of copy_from (a Profile), else none switched on"""
+    def isolated_ids(self):
+        return {p.id for p in self.all() if p.isolated}
+
+    def create(self, name, copy_from=None, separate_saves=False, description="", isolated=False):
+        """a new profile: the load order of copy_from (a Profile), else none switched on.  isolated: a project of its
+        own that starts from the plain game (the other profiles' mods are copied over with Import)"""
         name = name.strip() or "Profile"
         if any(p.name.lower() == name.lower() for p in self.all()):
             raise ValueError(f"there is a profile called '{name}' already")
         p = Profile(os.path.join(self.dir, self._new_id(name)))
         os.makedirs(p.folder)
         p.meta = {"name": name, "description": description, "separate_saves": False, "created": time.time()}
+        if isolated:
+            p.meta["isolated"] = True
         p.save_meta()
-        _write_json(p.order_file, copy_from.load_order() if copy_from else [])
+        _write_json(p.order_file, copy_from.load_order() if copy_from and not isolated else [])
         return p
 
     def rename(self, pid, name):
@@ -169,6 +185,13 @@ class Profiles:
         trash = os.path.join(self.kit_dir, "state", "deleted_profiles", f"{pid}-{time.strftime('%Y%m%d_%H%M%S')}")
         os.makedirs(os.path.dirname(trash), exist_ok=True)
         shutil.move(p.folder, trash)            # kept (with its saves): deleting a profile never loses a save
+        if p.isolated:                          # its own mods go with it (nobody else sees them)
+            mods = os.path.join(self.kit_dir, "mods")
+            for d in sorted(os.listdir(mods)) if os.path.isdir(mods) else []:
+                meta = _json(os.path.join(mods, d, "mod.json"), {}) or {}
+                if isinstance(meta, dict) and meta.get("profile") == pid:
+                    os.makedirs(os.path.join(trash, "mods"), exist_ok=True)
+                    shutil.move(os.path.join(mods, d), os.path.join(trash, "mods", d))
         return trash
 
     def without_mod(self, mod_id):

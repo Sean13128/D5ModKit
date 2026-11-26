@@ -1,0 +1,6 @@
+{
+ "schema": "drpg-pose-reference/1",
+ "about": "Pin of d5lib/data/drpg_ref_humanoid.pickle (not in Git; upstream release file; tools/drpg_make_ref.py rebuilds it byte for byte from the release zip's labelled Girl Laharl Swimsuit sheet). Hash and size only.",
+ "sha256": "d600135b861c2efc7621a0328520a5515bcf0f2c78307163bab51b796c4da415",
+ "size": 18327890
+}

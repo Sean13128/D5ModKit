@@ -16,9 +16,19 @@ A battle sprite has attachment nodes for the weapon:
 | 15 / 115 | Axe | 3500 |
 | 16 / 116 | Staff | 3600 |
 
-* **Slot A** (11–16) is the hand. **Slot B** (111–116) carries the weapon across the body or back in a few motions.
-* The game draws the **main weapon** (Equip → Main Weapon) there. In the idle (seen in game 2026-10-08) the sub
-  weapon isn't drawn at all.
+* **Slot A** (11–16) is the hand and takes the **main weapon** (Equip → Main Weapon). **Slot B** (111–116) is the
+  second hand and takes the **sub weapon** (Equip → Sub Weapon).
+* Read from the exe (WEAPONSLOT1, decomp `unit_equip_from_record` 0x14014e4c0, `unit_equip_slot_bind` 0x14014dc00):
+  the unit's two equipment slots are bound to the animation's weapon nodes by weapon type, slot 0 (main) to group A
+  and slot 1 (sub) to group B. The sub slot is bound **only for a unit that has the evility Double Bladed (4503,
+  "dual wield with main weapon and sub weapon")** and only if it holds a weapon (item category 1–7). The nodes of
+  every other type, and all of group B otherwise, are disabled, whatever the animation's keys say. The animations
+  of the game show both groups at once in nearly every attack frame (2011 sword: 111 and 11 are both shown from
+  frame 16 on), because they are made for a dual wielder; a unit with one weapon shows only slot A. A script
+  command (`unit_equip_switch_wait`, flag at unit +0x24c) swaps the two groups (main to B, sub to A). Whether a
+  vanilla event uses it is not checked. The kit preview follows this: `grips.evaluate` draws slot A only unless a
+  sub weapon type is given (`sub_weapon`, `sub_wtype`; `glrender.Assets.sprite_items(..., sub_wtype=)`). The Weapon
+  Grips page passes the hand explicitly, so it still edits both slots.
 * Every weapon item has its own model: item.dat `weapon_anm` (Staff of Logic 3618, Guilty Axe 3516). All models of
   a type share one grip point, which is why one grip edit fits every staff.
 * The weapon sprite is drawn with its grip on the node's origin, turned and mirrored with the node.

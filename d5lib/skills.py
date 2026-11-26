@@ -175,6 +175,41 @@ class Scripts:
         return found
 
 
+
+def event_ids(mod, *, include_raw=False):
+    """The structured event claims used by preflight; optionally include a raw carrier."""
+    from pathlib import Path
+    from . import newclasses, scriptpatch
+    out = set()
+    for spec in newclasses.load_specs(mod):
+        family = int(spec['family'])
+        for base in newclasses.CLASS_SCRIPTS:
+            out.update(base + family + k for k in range(10))
+        if newclasses.class_kind(family, spec) == 'monster':
+            physical = newclasses.sprite_family(family, spec)
+            for base in newclasses.MONSTER_SCRIPTS:
+                out.update(base + physical + k for k in range(10))
+    for path in sorted((Path(mod.patches_dir) / 'script').glob('*.json')):
+        for eid, text in json.loads(path.read_text()).get('events', {}).items():
+            event = scriptpatch.parse_event_text(text)
+            if event.id != int(eid):
+                raise ValueError('Script patch key/event identity mismatch')
+            out.add(event.id)
+    data = mod.load_patch(FOLDER, DATA_FILE) or {}
+    for key in data.get('skills', {}):
+        sid = int(key)
+        out.update(base + sid for base in (SKILL_SCRIPT, SKIP_SCRIPT, SKIPPED_SCRIPT))
+    out.update(int(key) for key in data.get('events', {}))
+    if include_raw and mod.has_file(SCRIPT):
+        out.update(Scripts(mod.read_file(SCRIPT)).ev)
+    return out
+
+
+def skill_ids_for_events(events):
+    """IDs whose normal, skip or mid-skip wrapper would overwrite an existing event."""
+    return {int(eid) - base for eid in events
+            for base in (SKILL_SCRIPT, SKIP_SCRIPT, SKIPPED_SCRIPT) if int(eid) > base}
+
 def remap(text, mapping):
     """event ids in call_event / spawn_event lines and the 'event <id>' header -> mapping"""
     out = []

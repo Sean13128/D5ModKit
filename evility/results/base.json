@@ -1,0 +1,253 @@
+{
+ "original_sha256": "49a7530baa1c3e15e4bf9c63c56fefd71d7e51a6e641bce80280b37b2db282ce",
+ "patched_sha256": "cb2bbef1632daf2ffbbbb496a09cc898306e689b6622c2796a45fbb2913eb05e",
+ "section_base": "0x14808f010",
+ "section_size": 254656,
+ "wrappers": {
+  "0x14021cd02": "0x14808fff3",
+  "0x14021c15d": "0x148090063",
+  "0x1401b9575": "0x148090027"
+ },
+ "rows": {
+  "7001": {
+   "family": "potency",
+   "effects": [
+    {
+     "stat": "atk",
+     "value": 30
+    }
+   ]
+  },
+  "7002": {
+   "family": "potency",
+   "effects": [
+    {
+     "stat": 3,
+     "value": -10
+    }
+   ],
+   "condition": {
+    "kind": "has",
+    "id": 121
+   }
+  },
+  "7004": {
+   "family": "potency",
+   "effects": [
+    {
+     "stat": 0,
+     "value": 1000
+    }
+   ]
+  },
+  "7003": {
+   "family": "growth",
+   "effects": [
+    {
+     "stat": 5,
+     "value": 7
+    }
+   ]
+  },
+  "7005": {
+   "family": "stats",
+   "effects": [
+    {
+     "stat": "all",
+     "value": 5
+    }
+   ]
+  }
+ },
+ "checks": [
+  {
+   "name": "vanilla-potency-identical",
+   "ok": true,
+   "original": [
+    25,
+    12,
+    16,
+    40,
+    11,
+    13,
+    15,
+    14
+   ],
+   "patched": [
+    25,
+    12,
+    16,
+    40,
+    11,
+    13,
+    15,
+    14
+   ],
+   "instructions": 2222
+  },
+  {
+   "name": "vanilla-single-id-identical",
+   "ok": true,
+   "original": [
+    25,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "patched": [
+    25,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "name": "new-id-own-value",
+   "ok": true,
+   "patched": [
+    25,
+    12,
+    46,
+    40,
+    11,
+    13,
+    15,
+    14
+   ],
+   "want": [
+    25,
+    12,
+    46,
+    40,
+    11,
+    13,
+    15,
+    14
+   ]
+  },
+  {
+   "name": "new-id-ignored-by-vanilla-code",
+   "ok": true,
+   "original": [
+    25,
+    12,
+    16,
+    40,
+    11,
+    13,
+    15,
+    14
+   ],
+   "vanilla_words": [
+    25,
+    12,
+    16,
+    40,
+    11,
+    13,
+    15,
+    14
+   ]
+  },
+  {
+   "name": "condition-not-met",
+   "ok": true,
+   "patched": [
+    25,
+    12,
+    16,
+    40,
+    11,
+    13,
+    15,
+    14
+   ]
+  },
+  {
+   "name": "condition-met",
+   "ok": true,
+   "patched": [
+    25,
+    12,
+    16,
+    30,
+    11,
+    13,
+    15,
+    14
+   ],
+   "base": [
+    25,
+    12,
+    16,
+    40,
+    11,
+    13,
+    15,
+    14
+   ]
+  },
+  {
+   "name": "clamped-to-game-maximum",
+   "ok": true,
+   "words": [
+    300,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "fault": null
+  },
+  {
+   "name": "growth-k5-plus-7",
+   "ok": true,
+   "original": 0,
+   "patched": 7
+  },
+  {
+   "name": "growth-other-stat-identical",
+   "ok": true,
+   "original": 0,
+   "patched": 0
+  },
+  {
+   "name": "status-aggregate-all-eight-stats",
+   "ok": true,
+   "fault": null,
+   "agg": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "applier": "0x14808fbff"
+  }
+ ],
+ "passed": true
+}

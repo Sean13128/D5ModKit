@@ -1,0 +1,56 @@
+{
+ "schema": "overlord-conv-leases/1",
+ "note": "Ids held by the converted Overlord characters (OLCONV2). Written by tools/overlord_port/leases_unique.py from the used-id index; read by importcore.lease_claims. Never recomputed at build time.",
+ "entries": {
+  "Overlord Character - Stella": {
+   "identity": 10610,
+   "physical": 255,
+   "evilities": [
+    29000,
+    29001,
+    29002,
+    29003
+   ],
+   "specials": [
+    20610,
+    20614,
+    20615
+   ],
+   "voice": 9000,
+   "bill": 22000,
+   "help_id": 22922,
+   "third_run": false
+  },
+  "Overlord Character - Rutile": {
+   "identity": 10840,
+   "physical": 934,
+   "evilities": [
+    29004
+   ],
+   "specials": [
+    20840,
+    20841,
+    20842
+   ],
+   "voice": 9001,
+   "bill": 22001,
+   "help_id": 22923,
+   "third_run": false
+  },
+  "Overlord Character - Majin": {
+   "identity": 10850,
+   "physical": 663,
+   "evilities": [
+    29005,
+    29006,
+    29007,
+    29008
+   ],
+   "specials": [],
+   "voice": 9002,
+   "bill": 22002,
+   "help_id": 22924,
+   "third_run": true
+  }
+ }
+}

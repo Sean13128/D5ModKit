@@ -1,0 +1,1111 @@
+{
+ "lane": "COREDD2",
+ "build": "Builds/COREDD2-20261103",
+ "notes": "Offline-staged reviewed DD2 abilities candidate: rebuild all 23 active DD2 packs (9 families and 14 uniques); exclude parked D2_Class_22680 and D2_Unique_941. One boot with a 72-press Recruiter wheel soak; no hits. Native acceptance remains pending.",
+ "min_disk_gb": 280,
+ "base": {
+  "profile": "MAIN",
+  "mods": 206,
+  "exe_sha256": "10e46d6ccf02141b2bcbf2a6ca7be87f5f18c14e6ce85cd083e2f3431986e795",
+  "banks": {
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm01550.lzs": "43690f54371a8936dfe9c5cd471697ddae81586d6518cba4934af0f4833387c1",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm01551.lzs": "2808922c3a8a20f1beb32d95ba36f677602b2f1b609f2018fbe5d4840a123fbd",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm01552.lzs": "6f2cf2f7e12376ba55d2eb71a071acf38cc1aae74b950dc3e6f7a957b788bbc3",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11550.lzs": "fced6a0b5eb2608338339c983348a46daa507e38504025f49324e35051f8bcfb",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11551.lzs": "b10dfdf537274b8be385798675bf45d06564f87761b88efa4f28aa1b5d1b7aa6",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11552.lzs": "27a278e9e5234682d536f4afe315448c74973bdd75556283e4570bd0b67960ba",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11553.lzs": "8d88c0cffcecb4257f516b694ba8091d8efeb4adc069e0954311003579dcc98a",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11554.lzs": "43f412579c11c189c59892a80ffe8bcc0cabe971223d5eba8a153c7863aa0d88",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11555.lzs": "a55935b8769dbd770e7de6975bd3e8ea8c1fc3ed75cdbd9656ad6422d5e24f31",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11556.lzs": "a2caf719498640e3825454951b199c20600ca242f071c2b5ca5999b88a0889ff",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11557.lzs": "439d41511d3bd3e20603da10e5ed7f2e2eaaab54147730f8179c3cd96bea0ebf",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11558.lzs": "f490b5c9bfd68977db91751c4280d6457fc4141305d5d269d23f6a703fb93b1e",
+   "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11559.lzs": "03beb1abb008df326efbbeccf8e32d0fe0250e2130f44fd2b0fe3eb6f2519d91",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm02760.lzs": "93688597d9153d555e75065c98e902d4b0cc8e54761e05948084cd6286b94c07",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm02761.lzs": "1a6a0191d0a8777cc89a523bde90f6a0028580286f0b8941b9487599eb9d6f76",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm02762.lzs": "63e9937fd0a1893a5e679e42c9b7e4563d4eaf8be35ae335bed52c2417af400b",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12760.lzs": "2f193f0c5bd2750e1a800ccc6265b19b7c3824c50f7af0865577fb290bfe4b3b",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12761.lzs": "1742a6d6d3a49ef9bd7c359d306789365a5f379056c9e3a855e58fc70e669c5f",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12762.lzs": "07db643866c83efc1c3e2480bb242a25260eae17612f461d9c6644202e08d1a7",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12763.lzs": "c891edb713ac8cf5306c0eebbd0786ebc6f820347135dd5c005192b17f805157",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12764.lzs": "5fdcb358e5fb4b3a197f97c64e89cf850239402bf615a3db5879161fc4fdb45e",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12765.lzs": "71e8e7a3e1bff123261594f68743fd110bd24bd9d5183f191f97a74172e6ff71",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12766.lzs": "e52f41d6eb0d02732a0cd316c9dc2b18b0261da2b0bb40b42fa381ab8ea718f6",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12767.lzs": "a7dc4ecd0b493e98df103f9b61323b580611a9d2fb6f60130dc34a420c55c964",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12768.lzs": "d18c42ccfc180e4ab5c0705fc548da046ff0cb1aa7a212941c86d866101a22d0",
+   "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12769.lzs": "b0aa40365349eca009e8e9f58dc59152c4d9754c25297ee51d27faa76f205061",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm02770.lzs": "b46522a7bbd4f56f7475a7ef3fcf21ddc8b6ecccb5c9ed308c363b6b294c4ab0",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm02771.lzs": "0f2fa6b341594073df62a91bb0b75311c1cf779fb03b3ff57e4c91ee5dac0435",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm02772.lzs": "8b3754248a0eada6a8e5cc81c4882878e852a0837394baa37518873303b19e47",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12770.lzs": "ee36ed55f7ca282ba91f81d20e1c90233eb3529cd3324b85786a515aa4bf4479",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12771.lzs": "c46b7b82ac03994dbdf1e7fbc04481a1a2aa24b9cf9480e0e67414a378b48e02",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12772.lzs": "26c2e922a08ef79fa20aef871604c22adf98dd1fb113fd889af3d3cc5cf7f326",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12773.lzs": "bd5c55ec1e4381fa6a1549f5553027776a242b6b63d2b4735f31c2a0b7232cef",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12774.lzs": "d0f36bc4ca1b37e39be395b55cde888b817f934177b2d1513608e267c5bbf771",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12775.lzs": "903991e05aa3b945fb4cc7f21362735250b9881f394e8a9c995ed79d763bf718",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12776.lzs": "77e26b07009bb8da741364b42481bfa391b9fc69f7e157ee2845c2dcc9519986",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12777.lzs": "17985c6c3905b6012e72841259f7feaff91af0b164a6c570ed8f9a70fc76d804",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12778.lzs": "5cd240bd0bfc94784e770d83c14b0a6824beca374a984d8eb5d76e9fb4cc1579",
+   "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12779.lzs": "4ad07cb0e73c72c69d47cfebfc56bb57d16c51758b3a0f59d7989a912745c75c",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm02780.lzs": "c7e54fe691c94d9a3ffb34cda3d9e60e5938ea935625b47e4f673cbdf4097dfa",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm02781.lzs": "7961346b2483eec8253437574e8c1bdbb9d52140678d98705bf9aec6dbabaee2",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm02782.lzs": "b517c2bce1fb6f98186b73eeac7b870078341406cf910f117c3250ddb4ea263b",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12780.lzs": "ecfeb87b33a4037d4e5d13aa5449c37f8024125d6b8b0b6a41ac5b77cea2bcf7",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12781.lzs": "cd5f5af80b9259dfe13fe3ed21ab2c85243374a1ee29cc315b5a2e34f7436582",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12782.lzs": "8abf13bc6cccdf5ed352571e67b4fd8c62fe784b0b6418341b3caf4a6f1bb7ca",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12783.lzs": "1e650460fa2ce6865b8a4a58df74184b8327eb8fdebcbd9bd46ef324a66c5cf5",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12784.lzs": "22d6fe714ca6ddeb9ad8c47405576812de01582687257de307c84888104bb090",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12785.lzs": "9c10dfa4991789055876a60c19e1bdc5b8b704665f5df5b8a7e21fb27f4836fd",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12786.lzs": "3a7639c833db5b88d772df3f59eb8e10063f1f05c756b48850989edc0a700b19",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12787.lzs": "a612a016037ca0c38b187a4436aec1eed3d0cbe102765bbb7820a400e2a1019a",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12788.lzs": "f9ba9b3d9098ff781a650dbaf8a6fa9bb294610e1c4bf021a59c5542f674358d",
+   "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12789.lzs": "c2bd32ec2fd0e6fa591480abf1a4b019df8849f2f64f4d638e609ba65ac568aa",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm02790.lzs": "8334d6f4c2ee3205e37af175febd39d9e3e4ef8e5b8f025abbc235a134262048",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm02791.lzs": "86b65848b0580c6f26a6954e593e9e9dd8ea744feea9161d3c68d9686420754e",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm02792.lzs": "64dae4bb0de3e06162117eb59dd75bdb41eda94b3dddfc13e77f4f2eb9561476",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12790.lzs": "a364146b46e4144ac543f40f62d184b10d0d4cd3b8a677bd5591380003bc299e",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12791.lzs": "8c74f0eaa721b2f1b1267a178d6e5cbcdbacc0b16e7c651755d0e7cf17c58d72",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12792.lzs": "d0fc6e93eb0798b519e32bc77aea82b69886cf54186d7a98153c5bb99e771f22",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12793.lzs": "24b2dd9f7e403710257c718bd1cdf60da8d2b89f27bad9be858f5e10d77d9be2",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12794.lzs": "5c44cd6ab42a0e97a10fe3afa93af194600546a266e453cc9d2cb01af24661ac",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12795.lzs": "1276064e965de37779f4501a100d5c6f1eceab84ce6475cd9f600dadce230999",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12796.lzs": "2481bece4c30b9219d1a5e081cc3993eb2ee8a7fd7877496867c4291d25a1295",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12797.lzs": "1ca60896de76dd2c949ed3a79665daefc8354adc0aeb9671ab1baf069370ca77",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12798.lzs": "958654f60e9994466c052a955cdad0f7b5532b11848f4e67c097b8b54fa7141c",
+   "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12799.lzs": "c325cb0d9dcc5616e25085acea48e15196cc2b6ef0fd530824985f1940898b93",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm02800.lzs": "3d2fe344aa159d66e5c36aee8d25febd31adbbbcac204a73f23a7539fd6430c8",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm02801.lzs": "4429464c678c8991ea637ad6f357c71681b114b73d5760cd8ef4c93d1b575ad0",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm02802.lzs": "d8368aa0e0fd5e4161448be9c4e27038a9a017445e8a8dd94035249be2d62b35",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12800.lzs": "72b284df69c0bbfae42b04af9e15d7eec5a55689a3cf90a2ea6070533a8ef632",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12801.lzs": "6e737fdaecd184ab993d53e45236bb12b7a38fdcb1daa6dc062e1ce0bef5e92d",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12802.lzs": "93a1579af85b38017c156388639214cadfab6310b337e0166544e80a5d8dbd99",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12803.lzs": "2ff4b5fdecd994ce4817e73fdf2d9cfdd5c2285cd5fb9c260903a119ee51bc5a",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12804.lzs": "70f87405f082c04773bae623ba20bcd182d373cb4cebf669cb52e5330eb75b3f",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12805.lzs": "10002cb5b0938d199e10f13f7f71debdd97e43327e177039fc4d152809586c18",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12806.lzs": "0661ecdd831d8a76b3b6c55bf6b2aa44607ba08511471e06027f418d2c505d0b",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12807.lzs": "54777c459c73ddf0306e053f57d41b4ceac054a6cd5b9e237de430d8232e08cd",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12808.lzs": "b7c6bbe0647a7acfb77b29084e96fae6aab53064dc7f3e2d47eef9a1068dae27",
+   "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12809.lzs": "be259bdae8f74d4d12bceb50f7881894361a3c628884cad524876a76c99fd547",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm02810.lzs": "7b341449e2adaeeb4706f09068412a3111fa417cddad4fa6c847fd4470893420",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm02811.lzs": "d129a2701c0d71beb170784718158d0125362b061f13d7583f522271eb359567",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm02812.lzs": "7afbed9ffd88d56620c1f1ee122db44e7acc8e995c7ecf5285d9063c73fdf1bf",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12810.lzs": "485198043fcdd4bd21f344a5ffeb0c8854f4a889c48a47598843b0eb2f25238c",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12811.lzs": "f179133aadc25111d29d28f83f52fbae85936c6507b1fb2c40cbd6497077c5c9",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12812.lzs": "815f2f15f0d36edf13fb739352bb7fdb386ce9dc566c3528c119bd559324ae7b",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12813.lzs": "c021b544e95b59957d6fef75333bc4e0891ab124b6629d5df25fc5fc703792a3",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12814.lzs": "df541bae117956358fed29bc3be6672d08df69f8efcc7cf27db401cd4fdc591e",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12815.lzs": "73a3b552205bfc0412d8d3b8b27b0a82ed0fd1908a9c021c54544313ecc86d57",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12816.lzs": "27854c14be8a5ed0e94f09c37e04773c4a713fdcb8ea163e78bc6f6e18e3fec7",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12817.lzs": "4d893f4b555ff74cdecbaf862ff2726e4b9436b8e37496c2b4cb17d1f89deb96",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12818.lzs": "02a7fb814074e958f79ec68c8736aae5a1f5cd8cf9e63e5d7149733249d23f3c",
+   "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12819.lzs": "792530066a47f547e697540a54e4ec4739ba7ffb5602ffb8e4ff8f87521e6eb0",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm02820.lzs": "ea4b359ad321ab213a97b28d0f855ecf6d3dfbd31f52cd53f5f80f488591faf0",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm02821.lzs": "68873e4c4359c166f7cd92798c129ee474ec002792aa2eed39f0d200f42b10d3",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm02822.lzs": "1c2029d60f063f9a815390c91b67dde58aa8065029f8bcab30e6d6e373c7bbfb",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12820.lzs": "1d7852c36d46d08d3d15ad4ac04b241aaffe41b019e956e7d769e7a889599433",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12821.lzs": "ca7b2d53961d3ce47d2e934ccf488dcfe6ebcee32f4b72ef74a24c949df38148",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12822.lzs": "80eb9f0240e56e4adb56f8c0e5e47f507b97daeac0aca98cf1e284ec87caba81",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12823.lzs": "d88cc52fcaa0cc00a34bec5453e76218396b60979a73282460b6be9c432b4d37",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12824.lzs": "52850c0461fa9c1016cb398f6afc7ba2c4b5d03b702f5b1d545cec4eee7bc58c",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12825.lzs": "a6ced194000443a08ed6ac75df5c9d3c5c0adc9683ad906607eb489ffbfa7a31",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12826.lzs": "dbe1dbb2cbb19c936d65bcc07feda8c03f9b4f5af27a04289e046583ec398ce4",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12827.lzs": "85ad5a3ef756fba7f5e8a82d4ec0d9f05a5f550bb1f7dc31f0c859619aa2a8a9",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12828.lzs": "a882a655311fe61d60ca13f25341d808f70017c8e7354baed59f4529e07b1108",
+   "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12829.lzs": "8e6c3c21c0fe05297f1314f10c010be4d74dafe36e4f439fa29150695f2bb369",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm02830.lzs": "3f345300d038c4f858107c26c5649b64c716ba533685a4a90e8f8e5c121e4e56",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm02831.lzs": "2e5df450a6044d99ed396ba2ad8c097ff0413e8a87bbac18f6f51ff745220068",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm02832.lzs": "7ec3977bec872ae291bf3ec395d7ddd2bdb4163d80f07f35ac85dd982b6d6cc8",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12830.lzs": "7757692669f3c6cabe356eb76a31af6a3dafe9ac052c85e149ae7ca8aea0734c",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12831.lzs": "78428159a4fb028cdad67bf6088611a9ed39f95632f2857c4992b533ebab98be",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12832.lzs": "8098ccfe3acf4cc7dc141073722558202afdb57fd936b72b63d753c65809381b",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12833.lzs": "69bcadcc5aabba5b94540df6038bcfd67cf9b4625020d9481c3af12f2eed3175",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12834.lzs": "329b4c3a7048153c7324d7ec3b129ceee2dc58e6c966aacef59ed9470ead3ae0",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12835.lzs": "55f99a43dbbd3daf4262454d5d2ba67fcce08510153cbc705b9323a3a763b4b2",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12836.lzs": "c8a76587345b3f13350aa938b26572cbed9e0278d7de8cfe8981bf6d846fcc5d",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12837.lzs": "9710a2a79448660112fcd7af74558667d8c7c4e6558e03aaa62fc347c2559de9",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12838.lzs": "94e543d1258bdc7ef4c2c4cad72d0f770a4e4735555feb7bc423c58ac8ffec5b",
+   "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12839.lzs": "3582a930c6f91ea5883e8daf96cf6f6b6d9d29db12d3241c385ecee19e2f83cd",
+   "mods/DD2_Unique_10/files/Anime/ANM_HI_JP.dat/anm00626.lzs": "a5cf4db8ea69333a655556f487229af5f1b59a3bb5bcf1678e1e008c0edeec6b",
+   "mods/DD2_Unique_10/files/Anime/ANM_HI_JP.dat/anm00627.lzs": "7020de33f6cd2d2444322f00d3f609932f740cd80784b9ab3178997768520b4e",
+   "mods/DD2_Unique_10/files/Anime/ANM_HI_JP.dat/anm00628.lzs": "825c23489530d047c872107171f416b1a632606cdf2ed2ea7ae62b24faa065aa",
+   "mods/DD2_Unique_10/files/Anime/ANM_HI_JP.dat/anm10626.lzs": "cf287ba997ee733cf4551e3db4e3c41a4f9cba80b62dca36af57baaa253cbcaa",
+   "mods/DD2_Unique_100/files/Anime/ANM_HI_JP.dat/anm00406.lzs": "77d62102edf56a5c310359a05b07b51a283902d1f240ac3df8471ad0f8ff5471",
+   "mods/DD2_Unique_100/files/Anime/ANM_HI_JP.dat/anm00407.lzs": "d38809c379716bac2b30b89ea71c96bc5b3b9ff3ef8c16005cd2dd940c5a64a3",
+   "mods/DD2_Unique_100/files/Anime/ANM_HI_JP.dat/anm00408.lzs": "a6a75ad802034ca9c58b58551e52997222ac49d1226159e13ed19975a6f33086",
+   "mods/DD2_Unique_100/files/Anime/ANM_HI_JP.dat/anm10406.lzs": "f555d0afb15ac0afb9641ce15916de0169a19119c647d38f15bcac7914a50b89",
+   "mods/DD2_Unique_140/files/Anime/ANM_HI_JP.dat/anm00416.lzs": "b57bc9952d9bee3b88ee03f109d079742d38f09098db35fde7458ee468f97583",
+   "mods/DD2_Unique_140/files/Anime/ANM_HI_JP.dat/anm00417.lzs": "9da2e8e58af425cf08db8bc80b9020bbca96379ce7628f47ef67fad6afea21f8",
+   "mods/DD2_Unique_140/files/Anime/ANM_HI_JP.dat/anm00418.lzs": "ea9355a4c2278693e53b92a3067015d397240da5281e85df252f81a5f083e6cb",
+   "mods/DD2_Unique_140/files/Anime/ANM_HI_JP.dat/anm10416.lzs": "4a5a4620ad41e43d8e8f7abb6552d2b563663ff19e2c215042724c7384846c66",
+   "mods/DD2_Unique_210/files/Anime/ANM_HI_JP.dat/anm00426.lzs": "995b63e9e125771a296ed454cd2fb39bbd973a67068e53b0eb868aaba59d5c0a",
+   "mods/DD2_Unique_210/files/Anime/ANM_HI_JP.dat/anm00427.lzs": "9e8d64f7b70aec3b856b6ca9cfb6f83af3012fb9d99c55b902a96c07a3d1ec71",
+   "mods/DD2_Unique_210/files/Anime/ANM_HI_JP.dat/anm00428.lzs": "ac2437d4333e30f8eda5c8e3d033538e02c4b79fe1b5573b4de6647924b8fe6b",
+   "mods/DD2_Unique_210/files/Anime/ANM_HI_JP.dat/anm10426.lzs": "324349fb09e63b2dfc273d7f2b858f0cb48a65181e267a1f1d2bba812dfcfdd0",
+   "mods/DD2_Unique_270/files/Anime/ANM_HI_JP.dat/anm00433.lzs": "d91e09cc5b6c6b2a637634bd1e209d90bc5a8d50149261e1ddff5d43b4924d66",
+   "mods/DD2_Unique_270/files/Anime/ANM_HI_JP.dat/anm00434.lzs": "b7c2a5b56d4f52a9f8c2872f786b54cc7d20a5ffc87867c55a061322422c77a3",
+   "mods/DD2_Unique_270/files/Anime/ANM_HI_JP.dat/anm00435.lzs": "06fc424401633799cd43865ddf514d3914ec6d0d9b1ac9a60fac4d02ae49c8d9",
+   "mods/DD2_Unique_270/files/Anime/ANM_HI_JP.dat/anm10433.lzs": "023e78fc513a86b284e283a5bc3245771cee73b6955aac4a7bbddc517e4bd9fe",
+   "mods/DD2_Unique_30/files/Anime/ANM_HI_JP.dat/anm00423.lzs": "1592165e9d78716abd607a385eba36807ad6f9234f8b74a25c5bef98764d35f8",
+   "mods/DD2_Unique_30/files/Anime/ANM_HI_JP.dat/anm00424.lzs": "b68d8dc1208c102f2a518d888ac898d95b9262fc08c90e08e7d89d10139f0c53",
+   "mods/DD2_Unique_30/files/Anime/ANM_HI_JP.dat/anm00425.lzs": "e6a0942488b5a80cf9e36760c4e198f75b5ea9bfaf1653ca2df9a54fa5fccfb7",
+   "mods/DD2_Unique_30/files/Anime/ANM_HI_JP.dat/anm10423.lzs": "45bcea152e0a6167214fe1eb428243ba98f1c482c290c38c2df9570265fa66ae",
+   "mods/DD2_Unique_320/files/Anime/ANM_HI_JP.dat/anm00436.lzs": "0bc68d1d5dd30acb7350e7f86cc18e38f75e0fe890fa46b2f868682519959af4",
+   "mods/DD2_Unique_320/files/Anime/ANM_HI_JP.dat/anm00437.lzs": "f7a0a9deabcca2c6eb26675d535809f1960bda9dbb4719b3598b1f8275ae1428",
+   "mods/DD2_Unique_320/files/Anime/ANM_HI_JP.dat/anm00438.lzs": "0cfbbe4a557e1c8c20130d3e0d589cbb90edc72169e9579eb971692424d985f2",
+   "mods/DD2_Unique_320/files/Anime/ANM_HI_JP.dat/anm10436.lzs": "1fffca6cf74125fa7e29c99af46a6576699b75ecc372a3eb4c9ec008eb1e0ac5",
+   "mods/DD2_Unique_400/files/Anime/ANM_HI_JP.dat/anm00443.lzs": "fcea89c17b90687296a91665ae9baca0516cc0d213194c4d801a8774503d8f3d",
+   "mods/DD2_Unique_400/files/Anime/ANM_HI_JP.dat/anm00444.lzs": "a5b23d5b2f625dd868e46c5f46c4b9c26f6c90d4e876b92c4724a14b6c6f9d30",
+   "mods/DD2_Unique_400/files/Anime/ANM_HI_JP.dat/anm00445.lzs": "afa14ce079b78dad18852c660033838d412262621f1e1c68403949decc649c11",
+   "mods/DD2_Unique_400/files/Anime/ANM_HI_JP.dat/anm10443.lzs": "2f9407d0b2e5582dec0b46bbacee906e0ab5fe30be21d963fe137f850df23634",
+   "mods/DD2_Unique_420/files/Anime/ANM_HI_JP.dat/anm00413.lzs": "6987f12dd630609f382a41a37dc489900dad4436e0c8a4cf8e08e446701a0705",
+   "mods/DD2_Unique_420/files/Anime/ANM_HI_JP.dat/anm00414.lzs": "5bad2a40c10f289ad4301de9e78105eb730d473be2f04b98bfac24d0b5b86ab4",
+   "mods/DD2_Unique_420/files/Anime/ANM_HI_JP.dat/anm00415.lzs": "78711dcf6ec903d6e03fa138ebc686fa48b9c9812aadf7a71f60124226c16f05",
+   "mods/DD2_Unique_420/files/Anime/ANM_HI_JP.dat/anm10413.lzs": "a58d299a266e66354149a831e9b6d290b5574d61059e2f823ada9b8705ad1bfc",
+   "mods/DD2_Unique_430/files/Anime/ANM_HI_JP.dat/anm00446.lzs": "0be26656e9e7630b26966c37814c6e40cd6b4ee389665c8478ab2f1a4ce49f87",
+   "mods/DD2_Unique_430/files/Anime/ANM_HI_JP.dat/anm00447.lzs": "47c9e067a9fa2ab2234881b7b9e776649319135929e5992a5ef223c79cc6c798",
+   "mods/DD2_Unique_430/files/Anime/ANM_HI_JP.dat/anm00448.lzs": "74d35be2757ad63599b5ed3b8dc4c7ad996cdf846e46d0f560f965b4606b8590",
+   "mods/DD2_Unique_430/files/Anime/ANM_HI_JP.dat/anm10446.lzs": "3a07cd8dc3fa395a7707ced35336a9b40952296ee5d49c7caf48ca2604ebcc40",
+   "mods/DD2_Unique_50/files/Anime/ANM_HI_JP.dat/anm00633.lzs": "f5dbf60697ae8e69d03568c3a6989fd86dd2eeeb168574330ce750c18ef8b26b",
+   "mods/DD2_Unique_50/files/Anime/ANM_HI_JP.dat/anm00634.lzs": "20df96bbaf7d49f5a2b415a1160b3aa4f14bb88cfcc3dded86bde0cc476ddec1",
+   "mods/DD2_Unique_50/files/Anime/ANM_HI_JP.dat/anm00635.lzs": "88be9c0226fcf50b291b670825c612d062b0923f9a6a674d16f58449deede715",
+   "mods/DD2_Unique_50/files/Anime/ANM_HI_JP.dat/anm10633.lzs": "7446d6c5d78f7129a4c636b93f79375fd1f5c4948f7ea5681260a3c2e9de8aff",
+   "mods/DD2_Unique_550/files/Anime/ANM_HI_JP.dat/anm00453.lzs": "4181dd8b25bb4acf9d998548372aa92d5130e915fe402df167d5f3c5952f7c65",
+   "mods/DD2_Unique_550/files/Anime/ANM_HI_JP.dat/anm00454.lzs": "8bf84bb96b0ed93adc98de94741f70393c1bfdfba3f8ccebd6a1d816093b2885",
+   "mods/DD2_Unique_550/files/Anime/ANM_HI_JP.dat/anm00455.lzs": "ac93f11bee337250b67dac4b78da523d6f0eeb8d8d56e7a7010dab3bce58eda6",
+   "mods/DD2_Unique_550/files/Anime/ANM_HI_JP.dat/anm10453.lzs": "a5fe939733d4eb26d2e661a493a5c19ab0328ca924c37d847cc455acf2bdf900",
+   "mods/DD2_Unique_570/files/Anime/ANM_HI_JP.dat/anm00456.lzs": "c2c8331c01970e51df714437664cb7ad6ebb3ec9af8c5a81e863652d0b6af454",
+   "mods/DD2_Unique_570/files/Anime/ANM_HI_JP.dat/anm00457.lzs": "73d064e28ad2f85186f214e3524f95e898cd3b6c6ac4ef995e0a4cb184eeab10",
+   "mods/DD2_Unique_570/files/Anime/ANM_HI_JP.dat/anm00458.lzs": "f1b8701d098c73857858807444bf529b5ec4a24fe1b4a8ce1a126ccb70208da7",
+   "mods/DD2_Unique_570/files/Anime/ANM_HI_JP.dat/anm10456.lzs": "0b87b2917866e52bdf864591de4c5ff63229bf4b0b11148a2a93b3a351de1084",
+   "mods/DD2_Unique_60/files/Anime/ANM_HI_JP.dat/anm00636.lzs": "3632329863115858b02cfe5713694c9fb70a7ededac85d04055295d952a1c707",
+   "mods/DD2_Unique_60/files/Anime/ANM_HI_JP.dat/anm00637.lzs": "d6245335b0e228e755759932d1704ce44ef2730ac107981ac362d7398c77c6f4",
+   "mods/DD2_Unique_60/files/Anime/ANM_HI_JP.dat/anm00638.lzs": "f56bbe1c2a2cc5f0605b228637243b116157bb8fa5e3ed2114ec770606e72a9f",
+   "mods/DD2_Unique_60/files/Anime/ANM_HI_JP.dat/anm10636.lzs": "01a97d0d41758415082fb3b917cc6be7e8959f627c0dc054d5dfbb3ec9a19772"
+  }
+ },
+ "folders": [
+  "Builds/COREDD2-20261103/mods/DD2_Class_22210",
+  "Builds/COREDD2-20261103/mods/DD2_Class_22520",
+  "Builds/COREDD2-20261103/mods/DD2_Class_22540",
+  "Builds/COREDD2-20261103/mods/DD2_Class_22550",
+  "Builds/COREDD2-20261103/mods/DD2_Class_22590",
+  "Builds/COREDD2-20261103/mods/DD2_Class_22620",
+  "Builds/COREDD2-20261103/mods/DD2_Class_22630",
+  "Builds/COREDD2-20261103/mods/DD2_Class_22670",
+  "Builds/COREDD2-20261103/mods/DD2_Class_22700",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_10",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_100",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_140",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_210",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_270",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_30",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_320",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_400",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_420",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_430",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_50",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_550",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_570",
+  "Builds/COREDD2-20261103/mods/DD2_Unique_60"
+ ],
+ "profile": {
+  "name": "MAIN"
+ },
+ "expect": {
+  "mods_after": 206,
+  "banks": [
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm01550.lzs",
+    "palettes": 10,
+    "headers": 19
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm01551.lzs",
+    "palettes": 10,
+    "headers": 19
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm01552.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11550.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11551.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11552.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11553.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11554.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11555.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11556.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11557.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11558.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22210/files/Anime/ANM_HI_JP.dat/anm11559.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm02760.lzs",
+    "palettes": 9,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm02761.lzs",
+    "palettes": 9,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm02762.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12760.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12761.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12762.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12763.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12764.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12765.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12766.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12767.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12768.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22520/files/Anime/ANM_HI_JP.dat/anm12769.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm02770.lzs",
+    "palettes": 10,
+    "headers": 15
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm02771.lzs",
+    "palettes": 10,
+    "headers": 15
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm02772.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12770.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12771.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12772.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12773.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12774.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12775.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12776.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12777.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12778.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22540/files/Anime/ANM_HI_JP.dat/anm12779.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm02780.lzs",
+    "palettes": 10,
+    "headers": 17
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm02781.lzs",
+    "palettes": 10,
+    "headers": 17
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm02782.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12780.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12781.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12782.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12783.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12784.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12785.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12786.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12787.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12788.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22550/files/Anime/ANM_HI_JP.dat/anm12789.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm02790.lzs",
+    "palettes": 10,
+    "headers": 19
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm02791.lzs",
+    "palettes": 10,
+    "headers": 19
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm02792.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12790.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12791.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12792.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12793.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12794.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12795.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12796.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12797.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12798.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22590/files/Anime/ANM_HI_JP.dat/anm12799.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm02800.lzs",
+    "palettes": 10,
+    "headers": 15
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm02801.lzs",
+    "palettes": 10,
+    "headers": 15
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm02802.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12800.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12801.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12802.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12803.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12804.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12805.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12806.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12807.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12808.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22620/files/Anime/ANM_HI_JP.dat/anm12809.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm02810.lzs",
+    "palettes": 9,
+    "headers": 15
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm02811.lzs",
+    "palettes": 9,
+    "headers": 15
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm02812.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12810.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12811.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12812.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12813.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12814.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12815.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12816.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12817.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12818.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22630/files/Anime/ANM_HI_JP.dat/anm12819.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm02820.lzs",
+    "palettes": 10,
+    "headers": 14
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm02821.lzs",
+    "palettes": 10,
+    "headers": 14
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm02822.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12820.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12821.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12822.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12823.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12824.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12825.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12826.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12827.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12828.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22670/files/Anime/ANM_HI_JP.dat/anm12829.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm02830.lzs",
+    "palettes": 10,
+    "headers": 14
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm02831.lzs",
+    "palettes": 10,
+    "headers": 14
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm02832.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12830.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12831.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12832.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12833.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12834.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12835.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12836.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12837.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12838.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Class_22700/files/Anime/ANM_HI_JP.dat/anm12839.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_10/files/Anime/ANM_HI_JP.dat/anm00626.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_10/files/Anime/ANM_HI_JP.dat/anm00627.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_10/files/Anime/ANM_HI_JP.dat/anm00628.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_10/files/Anime/ANM_HI_JP.dat/anm10626.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_100/files/Anime/ANM_HI_JP.dat/anm00406.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_100/files/Anime/ANM_HI_JP.dat/anm00407.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_100/files/Anime/ANM_HI_JP.dat/anm00408.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_100/files/Anime/ANM_HI_JP.dat/anm10406.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_140/files/Anime/ANM_HI_JP.dat/anm00416.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_140/files/Anime/ANM_HI_JP.dat/anm00417.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_140/files/Anime/ANM_HI_JP.dat/anm00418.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_140/files/Anime/ANM_HI_JP.dat/anm10416.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_210/files/Anime/ANM_HI_JP.dat/anm00426.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_210/files/Anime/ANM_HI_JP.dat/anm00427.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_210/files/Anime/ANM_HI_JP.dat/anm00428.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_210/files/Anime/ANM_HI_JP.dat/anm10426.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_270/files/Anime/ANM_HI_JP.dat/anm00433.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_270/files/Anime/ANM_HI_JP.dat/anm00434.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_270/files/Anime/ANM_HI_JP.dat/anm00435.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_270/files/Anime/ANM_HI_JP.dat/anm10433.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_30/files/Anime/ANM_HI_JP.dat/anm00423.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_30/files/Anime/ANM_HI_JP.dat/anm00424.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_30/files/Anime/ANM_HI_JP.dat/anm00425.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_30/files/Anime/ANM_HI_JP.dat/anm10423.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_320/files/Anime/ANM_HI_JP.dat/anm00436.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_320/files/Anime/ANM_HI_JP.dat/anm00437.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_320/files/Anime/ANM_HI_JP.dat/anm00438.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_320/files/Anime/ANM_HI_JP.dat/anm10436.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_400/files/Anime/ANM_HI_JP.dat/anm00443.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_400/files/Anime/ANM_HI_JP.dat/anm00444.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_400/files/Anime/ANM_HI_JP.dat/anm00445.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_400/files/Anime/ANM_HI_JP.dat/anm10443.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_420/files/Anime/ANM_HI_JP.dat/anm00413.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_420/files/Anime/ANM_HI_JP.dat/anm00414.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_420/files/Anime/ANM_HI_JP.dat/anm00415.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_420/files/Anime/ANM_HI_JP.dat/anm10413.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_430/files/Anime/ANM_HI_JP.dat/anm00446.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_430/files/Anime/ANM_HI_JP.dat/anm00447.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_430/files/Anime/ANM_HI_JP.dat/anm00448.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_430/files/Anime/ANM_HI_JP.dat/anm10446.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_50/files/Anime/ANM_HI_JP.dat/anm00633.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_50/files/Anime/ANM_HI_JP.dat/anm00634.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_50/files/Anime/ANM_HI_JP.dat/anm00635.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_50/files/Anime/ANM_HI_JP.dat/anm10633.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_550/files/Anime/ANM_HI_JP.dat/anm00453.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_550/files/Anime/ANM_HI_JP.dat/anm00454.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_550/files/Anime/ANM_HI_JP.dat/anm00455.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_550/files/Anime/ANM_HI_JP.dat/anm10453.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_570/files/Anime/ANM_HI_JP.dat/anm00456.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_570/files/Anime/ANM_HI_JP.dat/anm00457.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_570/files/Anime/ANM_HI_JP.dat/anm00458.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_570/files/Anime/ANM_HI_JP.dat/anm10456.lzs",
+    "palettes": 1,
+    "headers": 3
+   },
+   {
+    "bank": "mods/DD2_Unique_60/files/Anime/ANM_HI_JP.dat/anm00636.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_60/files/Anime/ANM_HI_JP.dat/anm00637.lzs",
+    "palettes": 10,
+    "headers": 12
+   },
+   {
+    "bank": "mods/DD2_Unique_60/files/Anime/ANM_HI_JP.dat/anm00638.lzs",
+    "palettes": 10,
+    "headers": 11
+   },
+   {
+    "bank": "mods/DD2_Unique_60/files/Anime/ANM_HI_JP.dat/anm10636.lzs",
+    "palettes": 1,
+    "headers": 3
+   }
+  ]
+ },
+ "boot": {
+  "timeout": 300,
+  "silent_budget": 15
+ },
+ "load": {
+  "slot": "(04)",
+  "units_min": 58,
+  "min_level": 999
+ },
+ "soak": {
+  "boots": 1,
+  "campaigns": 1,
+  "presses": 72,
+  "page_keys": [
+   "LSHIFT",
+   "3"
+  ],
+  "freeze_silent_s": 20
+ },
+ "hits": [],
+ "crops": [],
+ "shortcuts": {
+  "class_swap_by_memory": true,
+  "hp_sp_by_memory": true,
+  "restart": "kill"
+ },
+ "keep_if": "all_pass"
+}

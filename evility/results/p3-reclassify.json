@@ -1,0 +1,222 @@
+{
+ "families": {
+  "range": [
+   "Enlarge"
+  ],
+  "move": [
+   "Evasive Maneuvers",
+   "Adjacent Catapult"
+  ],
+  "power": [
+   "Violent Courage"
+  ]
+ },
+ "d4": {
+  "48": {
+   "name": "Enlarge",
+   "family": "range",
+   "row": {
+    "family": "range",
+    "effects": [
+     {
+      "value": 1
+     }
+    ]
+   },
+   "source": "Magic range increased by 1 panel(s).",
+   "why": "Enlarge: \"Magic range increased by 1 panel\" -- unconditional",
+   "verdict": "covered-by-extension"
+  },
+  "229": {
+   "name": "Evasive Maneuvers",
+   "family": "move",
+   "row": {
+    "family": "move",
+    "effects": [
+     {
+      "value": 3
+     }
+    ],
+    "conditions": [
+     {
+      "kind": "hp_below",
+      "id": 25
+     }
+    ]
+   },
+   "source": "MV increased by 3 when HP is under 25%.",
+   "why": "Evasive Maneuvers: \"MV increased by 3 when HP is under 25%\" -- one effect, hp_below",
+   "verdict": "covered-by-extension"
+  },
+  "341": {
+   "name": "Violent Courage",
+   "family": "power",
+   "row": {
+    "family": "power",
+    "effects": [
+     {
+      "value": 3,
+      "per": "map_enemy"
+     }
+    ]
+   },
+   "source": "Attack power increased by number of enemy units on map x 3%.",
+   "why": "Violent Courage: \"Attack power increased by # of enemy units on map x 3%\" -- per=map_enemy",
+   "verdict": "covered-by-extension"
+  },
+  "842": {
+   "name": "Adjacent Catapult",
+   "family": "move",
+   "row": {
+    "family": "move",
+    "effects": [
+     {
+      "value": 1,
+      "per": "adjacent_ally"
+     }
+    ]
+   },
+   "source": "Move range increased by 1 x the # of adjacent ally units.",
+   "why": "Adjacent Catapult: \"Move range increased by 1 x # of adjacent ally units\" -- per=adjacent_ally",
+   "verdict": "covered-by-extension"
+  },
+  "176": {
+   "name": "Chicken Heart",
+   "source": "MV increased by 3, stats decreased by 30%.",
+   "why": "Chicken Heart: MV +3 *and* stats -30% in one evility -- one row per id cannot carry two passes",
+   "verdict": "unsupported"
+  },
+  "180": {
+   "name": "Rapid Move",
+   "source": "MV increased by 2 when SP is at max.",
+   "why": "Rapid Move: needs \"SP is at maximum\", which is not a condition kind",
+   "verdict": "unsupported"
+  },
+  "337": {
+   "name": "Accel Shot",
+   "source": "Attack power increased by range (panels) x 5%.",
+   "why": "Accel Shot: power + distance(panels) x 5% -- no per=distance scale and no distance measure",
+   "verdict": "unsupported"
+  },
+  "344": {
+   "name": "Calm Waters",
+   "source": "Attack power increased by 30% when attacking single target.",
+   "why": "Calm Waters: power +30% on a single target -- target_count needs an action context the pass lacks",
+   "verdict": "unsupported"
+  },
+  "407": {
+   "name": "Magic Bundle",
+   "source": "Special skill power increased by 30%, but 50% more SP used.",
+   "why": "Magic Bundle: skill power +30% *and* 50% more SP -- two passes and an SP-cost family we lack",
+   "verdict": "unsupported"
+  },
+  "413": {
+   "name": "Law by Range",
+   "source": "Magic range increased by 2, but 50% more SP used.",
+   "why": "Law by Range: magic range +2 *and* 50% more SP -- two passes and an SP-cost family we lack",
+   "verdict": "unsupported"
+  },
+  "464": {
+   "name": "Sky High",
+   "source": "Movement type becomes Flying type.",
+   "why": "Sky High: changes movement type to flying, which is the existing `flight` predicate, not a range",
+   "verdict": "unsupported"
+  },
+  "692": {
+   "name": "Accel Element",
+   "source": "Increase the power of an elemental ATK by 10% x moved panels.",
+   "why": "Accel Element: elemental ATK +10% x panels moved -- needs a distance measure and an element context",
+   "verdict": "unsupported"
+  },
+  "809": {
+   "name": "Stone Wall",
+   "source": "Increase DEF/RES by 30%, MV -2.",
+   "why": "Stone Wall: DEF/RES +30% *and* MV -2 in one evility -- two passes, one row",
+   "verdict": "unsupported"
+  },
+  "829": {
+   "name": "Flying Bullets",
+   "source": "Attack range is limitless when gun is equipped.",
+   "why": "Flying Bullets: \"limitless\" range with a gun -- a sentinel, not an amount the game adds",
+   "verdict": "unsupported"
+  },
+  "862": {
+   "name": "All Range +",
+   "source": "Adjacent allies' attacks and magic gain 2 more panels in range.",
+   "why": "All Range +: an aura that raises adjacent allies' range -- additive passes take no aura",
+   "verdict": "unsupported"
+  },
+  "867": {
+   "name": "Transportation",
+   "source": "Allows you to transport allies to the Base Panel.",
+   "why": "Transportation: carry/transport rule, not a move-range amount",
+   "verdict": "unsupported"
+  },
+  "41": {
+   "name": "Fist Range UP",
+   "source": "Attack range increased by 1 panel(s) when fist is equipped.",
+   "why": "Fist Range UP: +1 panel with a fist -- needs a verified equipped-weapon category id",
+   "verdict": "blocked-on-evidence"
+  },
+  "44": {
+   "name": "Bow Range UP",
+   "source": "Attack range increased by 1 panel(s) when bow is equipped.",
+   "why": "Bow Range UP: +1 panel with a bow -- needs a verified equipped-weapon category id",
+   "verdict": "blocked-on-evidence"
+  }
+ },
+ "dd2": {
+  "needs_new_logic": 27,
+  "covered_by_the_new_passes": 0,
+  "still_unsupported": 27,
+  "reviewed_against_the_new_vocabulary": {},
+  "unreviewed_names": [
+   "Bomb Conversion",
+   "Cold Charge",
+   "Corpse Heal",
+   "Corrupting Body",
+   "Dark Breeder",
+   "Defensive Formation",
+   "Demon Experiments",
+   "Dig Shop",
+   "Dirty Things Shop",
+   "Element Force",
+   "Feel Around Shop",
+   "Final Boss Barrier",
+   "Fold Shop",
+   "Fortitude",
+   "Great Wall",
+   "Ha\uff01 Shop",
+   "Head Slap Shop",
+   "Love Love Shop",
+   "Near Death Reaper",
+   "Passiveness",
+   "Pringer Protection",
+   "Reverse Ailment",
+   "Stone Statue",
+   "Sun Tanning Shop",
+   "Transform Shop",
+   "Tsuntsun Shop",
+   "T\uff0eO\uff0e Despair"
+  ]
+ },
+ "emitted": {
+  "rows": 4,
+  "conditions": 1,
+  "effects": 4,
+  "by_family": {
+   "move": 2,
+   "range": 1,
+   "power": 1
+  }
+ },
+ "d4_resistance": "resistance and resistance-aura rows (5) need a resistance accumulator, which is not built",
+ "totals": {
+  "d4_primary": 306,
+  "d4_covered_by_extension": 4,
+  "d4_rejected_in_the_new_families": 12,
+  "d4_blocked_on_evidence": 2,
+  "dd2_needs_new_logic": 27,
+  "dd2_moved": 0
+ }
+}

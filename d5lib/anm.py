@@ -84,7 +84,7 @@ class Key:                # table 2, 12 bytes: keyframe of a node
     cell: int             # u16 index into table 5 (0 = nothing drawn)
     xform: int            # u16 index into table 6
     color: int            # u16 index into table 8
-    param: int            # u16 index into table 9: list of (anim_id, 0) pairs terminated by -1.
+    param: int            # u16 index into table 9: nested keys reference (motion_id, start, duration).
                           #     Named/attachment nodes: animation the attached object plays;
                           #     control nodes: linked animation id
     FMT = "<HHHHHH"
@@ -320,6 +320,9 @@ class AnmFile:
     palettes: List[Image8]
     hdr_unk: bytes = b"\0" * 12        # bytes 0x14..0x20 of the file header (always 0)
     trailing: bytes = b""              # bytes after the image data (never seen)
+    # is_stub() answers, per (block, animation); belongs to this object so two files can never share an
+    # answer (a module cache keyed by id() did: CPython reuses ids - see is_stub)
+    _stub_cache: dict = field(default_factory=dict, init=False, repr=False, compare=False)
 
     # ---------------------------------------------------------------- parse / write
     @classmethod
@@ -410,6 +413,218 @@ def load(src) -> AnmFile:
         data = lzs.decompress(data)
     return AnmFile.parse(data)
 
+
+def check_structure(anm_file: AnmFile) -> list:
+    """Report invalid indices and reachable nested-motion records, without rendering.
+
+    Results are JSON-serializable dictionaries. A nested key is reported once even
+    when several animation roots reach it; unreachable parameter leftovers are ignored.
+    """
+    problems = []
+    for bi, block in enumerate(anm_file.blocks):
+        def problem(kind, **details):
+            problems.append(dict(block=bi, block_id=block.id, kind=kind, **details))
+
+        # Header counts are u16; node links and first_key are signed i16.
+        for table, records in zip(('animations', 'nodes', 'keys', 'palette_infos',
+                                   'texture_infos', 'cells', 'transforms', 'pivots',
+                                   'colors', 'params'), block.tables()):
+            if len(records) > 0xffff:
+                problem('count_overflow', table=table, count=len(records), limit=0xffff)
+        if len(block.nodes) > 0x8000:
+            problem('count_overflow', table='nodes', count=len(block.nodes), limit=0x8000)
+
+        for ai, animation in enumerate(block.animations):
+            if not 0 <= animation.root < len(block.nodes) or animation.root > 0xffff:
+                problem('root_out_of_range', animation=ai, root=animation.root)
+        for ni, node in enumerate(block.nodes):
+            for field_name in ('child', 'next'):
+                value = getattr(node, field_name)
+                if value != -1 and not (0 <= value < len(block.nodes) and value <= 0x7fff):
+                    problem('node_link_out_of_range', node=ni, field=field_name, value=value)
+            if not (0 <= node.num_keys <= 0xffff):
+                problem('key_count_overflow', node=ni, count=node.num_keys)
+            if node.first_key == -1 and node.num_keys == 0:
+                continue
+            if not (0 <= node.first_key <= 0x7fff and
+                    0 <= node.num_keys <= 0xffff and
+                    node.first_key + node.num_keys <= len(block.keys)):
+                problem('key_span_out_of_range', node=ni, first_key=node.first_key,
+                        num_keys=node.num_keys)
+
+        def tree(root):
+            seen, todo = set(), [root]
+            while todo:
+                ni = todo.pop()
+                if ni in seen or not 0 <= ni < len(block.nodes):
+                    continue
+                seen.add(ni)
+                node = block.nodes[ni]
+                todo.extend((node.child, node.next))
+            return seen
+
+        # A node's packed ID selects a bank, or a dynamic binding; only an
+        # anonymous node unambiguously selects this same block. External banks
+        # may not be loaded in the file being checked.
+        contexts = {}
+        lengths = {}
+        for animation in block.animations:
+            for ni in tree(animation.root):
+                node = block.nodes[ni]
+                if node.first_key < 0 or node.num_keys < 0:
+                    continue
+                for ki in range(node.first_key, min(node.first_key + node.num_keys, len(block.keys))):
+                    contexts.setdefault(ki, set()).add(ni)
+                    lengths[animation.id] = max(lengths.get(animation.id, 0), block.keys[ki].time)
+        ids = {a.id for a in block.animations}
+        for ki, nodes in sorted(contexts.items()):
+            key = block.keys[ki]
+            if not key.flags & NESTED:
+                continue
+            p = key.param
+            reasons = []
+            if not 0 <= p <= 0xffff or p + 3 > len(block.params):
+                reasons.append('record_out_of_range')
+            record = block.params[p:p + 3] if 0 <= p < len(block.params) else []
+            # An explicitly selected/dynamically bound bank cannot be inferred
+            # from this file. The native selector uses abs(motion_id).
+            local = any((block.nodes[ni].id | (block.nodes[ni].flags << 16)) & 0x0fffffff == 0
+                        for ni in nodes)
+            target = abs(record[0]) if record else None
+            if local and record and target not in ids:
+                reasons.append('missing_target')
+            if len(record) == 3:
+                start, duration = record[1:]
+                # start is shifted to signed Q16 at the native spawn call.
+                invalid = not 0 <= start <= 0x7fff or not (-1 <= duration <= 0x7fff)
+                if local and target in lengths:
+                    invalid |= start > lengths[target]
+                if invalid:
+                    reasons.append('invalid_timing')
+            if reasons or p % 3:
+                problem('nested_record', key=ki, nodes=sorted(nodes), param=p, record=record, reasons=reasons,
+                        warnings=['misaligned'] if p % 3 else [])
+    return problems
+
+
+
+def _reachable_nested(anm_file):
+    """Map semantic root-to-node/key paths to each reachable record."""
+    result = {}
+    for bi, block in enumerate(anm_file.blocks):
+        for animation in block.animations:
+            seen, todo = set(), [(animation.root, ())]
+            while todo:
+                ni, path = todo.pop()
+                if ni in seen or not 0 <= ni < len(block.nodes):
+                    continue
+                seen.add(ni)
+                node = block.nodes[ni]
+                todo.extend(((node.next, path + ('next',)), (node.child, path + ('child',))))
+                if node.first_key < 0 or node.num_keys < 0:
+                    continue
+                for offset in range(node.num_keys):
+                    ki = node.first_key + offset
+                    if ki >= len(block.keys):
+                        break
+                    key = block.keys[ki]
+                    if key.flags & NESTED:
+                        p = key.param
+                        record = block.params[p:p + 3] if 0 <= p < len(block.params) else []
+                        identity = (bi, animation.id, path, offset)
+                        result[identity] = dict(block=bi, animation_id=animation.id,
+                                                path=list(path), key_offset=offset,
+                                                key=ki, param=p, record=list(record))
+    return result
+
+
+def compare_structure(baseline: AnmFile, rebuilt: AnmFile) -> dict:
+    """Classify rebuilt findings by reachable animation/path/value, and report warnings.
+
+    Overlap is a failure only when an existing reachable key's reading changed
+    and its rebuilt record overlaps another reachable key's record.
+    """
+    old_paths, new_paths = _reachable_nested(baseline), _reachable_nested(rebuilt)
+
+    def expand(bank, paths):
+        findings, warnings = [], []
+        for item in check_structure(bank):
+            if item['kind'] != 'nested_record':
+                findings.append(item)
+                continue
+            matches = [v for v in paths.values()
+                       if v['block'] == item['block'] and v['key'] == item['key']]
+            for entry in matches:
+                for reason in item['reasons']:
+                    findings.append(dict(entry, kind='nested_record', reason=reason))
+                for warning in item['warnings']:
+                    warnings.append(dict(entry, kind='nested_record', warning=warning))
+        return findings, warnings
+
+    old_findings, _ = expand(baseline, old_paths)
+    findings, warnings = expand(rebuilt, new_paths)
+    # Physical positions can move; identity is the semantic path, value and reason.
+    def signature(item):
+        if item['kind'] == 'nested_record':
+            return (item['block'], item['animation_id'], tuple(item['path']),
+                    item['key_offset'], tuple(item['record']), item['reason'])
+        return tuple(sorted((k, str(v)) for k, v in item.items()))
+    old_signatures = {signature(item) for item in old_findings}
+    new, inherited = [], []
+    for item in findings:
+        (inherited if signature(item) in old_signatures else new).append(item)
+
+    # Compare physical ranges per block, deduplicating paths that share the same key.
+    by_block = {}
+    for identity, entry in new_paths.items():
+        by_block.setdefault(entry['block'], {}).setdefault(entry['key'], []).append((identity, entry))
+    for groups in by_block.values():
+        keys = list(groups.values())
+        for group in keys:
+            for identity, entry in group:
+                old = old_paths.get(identity)
+                if old is None or old['record'] == entry['record'] or len(entry['record']) != 3:
+                    continue
+                p = entry['param']
+                for other in keys:
+                    if other is group:
+                        continue
+                    q = other[0][1]['param']
+                    if q != p and p < q + 3 and q < p + 3:
+                        new.append(dict(entry, kind='nested_record', reason='overlap_changed_reading',
+                                        overlapping_key=other[0][1]['key']))
+                        break
+    def group_paths(items):
+        # A single physical key may be reached by many animation paths. Preserve
+        # those paths for review without counting the same defect repeatedly.
+        grouped, result = {}, []
+        for item in items:
+            if item['kind'] != 'nested_record':
+                result.append(item)
+                continue
+            identity = (item['block'], item['key'], tuple(item['record']))
+            path = dict(animation_id=item['animation_id'], path=item['path'],
+                        key_offset=item['key_offset'])
+            if identity not in grouped:
+                entry = {k: v for k, v in item.items()
+                         if k not in ('animation_id', 'path', 'key_offset', 'reason', 'warning')}
+                entry['reasons'] = []
+                entry['warnings'] = []
+                entry['reachable_paths'] = []
+                grouped[identity] = entry
+                result.append(entry)
+            entry = grouped[identity]
+            if path not in entry['reachable_paths']:
+                entry['reachable_paths'].append(path)
+            if item.get('reason') and item['reason'] not in entry['reasons']:
+                entry['reasons'].append(item['reason'])
+            if item.get('warning') and item['warning'] not in entry['warnings']:
+                entry['warnings'].append(item['warning'])
+        return result
+
+    return dict(structural_problems=group_paths(new),
+                inherited_structural_problems=group_paths(inherited),
+                structural_warnings=group_paths(warnings))
 
 def parse(data: bytes) -> AnmFile:
     return AnmFile.parse(data)
@@ -865,19 +1080,22 @@ def is_nested(k) -> bool:
     return (k.flags & 0xFF00) == NESTED and not k.cell
 
 
-_STUBS = {}
-
-
 def is_stub(anm: AnmFile, bi: int, ai: int) -> bool:
     """an animation that draws no picture of its own (the shared poses that show another animation through a
-    0x100 key); in ordinary animations 0x100 keys mean something else (weapon / part references)"""
-    key = (id(anm), bi, ai)
-    hit = _STUBS.get(key)
+    0x100 key); in ordinary animations 0x100 keys mean something else (weapon / part references).
+
+    The answer is cached on the AnmFile object itself.  A module-level cache keyed by `id(anm)` served a
+    freed file's answer for a different file - CPython reuses object ids after collection - which showed up
+    as flaky pixel mismatches between two identical runs (ANIMALL2, 2026-10-29: motions 10021, 10001, 1001
+    failing on different packs each run)."""
+    cache = getattr(anm, "_stub_cache", None)
+    if cache is None:
+        cache = anm._stub_cache = {}
+    key = (bi, ai)
+    hit = cache.get(key)
     if hit is None:
         b = anm.blocks[bi]
-        hit = _STUBS[key] = animation_info(b, b.animations[ai])["layers"] == 0
-        if len(_STUBS) > 50000:
-            _STUBS.clear()
+        hit = cache[key] = animation_info(b, b.animations[ai])["layers"] == 0
     return hit
 
 
@@ -889,18 +1107,21 @@ def has_animation(anm: AnmFile, anim_id) -> bool:
         return False
 
 
-def evaluate(anm: AnmFile, anim_index, time: float, nested: bool = False, _depth: int = 0) -> List[DrawItem]:
+def evaluate(anm: AnmFile, anim_index, time: float, nested: bool = False, _depth: int = 0,
+             game: bool = False) -> List[DrawItem]:
     """Evaluate the node tree of an animation at `time` (frames). Returns draw items in
     painting order (back to front).  nested: a stub animation (no pictures of its own) shows the animation its 0x100
     keys name (the shared humanoid poses: a hurt / guard animation with a shake around it) -- for showing only:
-    those items belong to the other animation (editing tools leave nested off)."""
+    those items belong to the other animation (editing tools leave nested off).
+    game: draw what the game draws -- node root+1 and its children only (see render_root_problems); the default
+    walks the root's own child/next links, which is the same picture for every native animation."""
     bi, ai = _resolve_anim(anm, anim_index)
     b = anm.blocks[bi]
     a = b.animations[ai]
     items: List[DrawItem] = []
     nest = nested and _depth < 3 and is_stub(anm, bi, ai)
 
-    def rec(ni, parent_m, depth, seen):
+    def rec(ni, parent_m, depth, seen, siblings=True):
         while 0 <= ni < len(b.nodes) and ni not in seen:
             seen.add(ni)
             n = b.nodes[ni]
@@ -924,18 +1145,70 @@ def evaluate(anm: AnmFile, anim_index, time: float, nested: bool = False, _depth
                 elif nest and is_nested(k):
                     sub_id = b.params[k.param] if 0 <= k.param < len(b.params) else None
                     if sub_id is not None and sub_id != a.id and has_animation(anm, sub_id):
-                        sub = evaluate(anm, ("id", sub_id), max(0.0, time - k.time), True, _depth + 1)
+                        sub = evaluate(anm, ("id", sub_id), max(0.0, time - k.time), True, _depth + 1, game)
                         items.extend(reversed([DrawItem(it.node, it.depth + depth, it.key, it.cell, _apply(m, it.quad),
                                                         it.color, it.tex_global, it.pal_local, it.block)
                                                for it in sub]))
             if visible and n.child >= 0:
                 rec(n.child, m, depth + 1, seen)
+            if not siblings:
+                break
             ni = n.next
 
-    rec(a.root, np.eye(3), 0, set())
+    if game:        # past the node table the game reads the key table as a node: nothing sensible -> nothing
+        rec(a.root + 1, np.eye(3), 0, set(), siblings=False)
+    else:
+        rec(a.root, np.eye(3), 0, set())
     # file order = front to back (the first node is drawn on top) -> reverse for painting
     items.reverse()
     return items
+
+
+def render_root_problems(block: AnmBlock) -> List[Tuple[int, str]]:
+    """[(animation id, reason)] for animations the game does not draw the way evaluate()'s default walk does.
+
+    The game builds an animation's drawing from node root+1 and that node's children only
+    (anm_actor_build_render_root 0x1402f5450 -> anm_node_build_tree 0x1402f6950); the root itself is only the control
+    track (anm_actor_seek / anm_actor_advance read its keys).  It never follows the root's child or next link.  Every
+    native animation (all 5,484 in anm_resident) is laid out that way: root.child -1, root.next = root+1, and node
+    root+1 has no siblings.  A stub built as [body][root -> child body] (BACKVIEW1: PT1030ANIM's wheel stubs) makes
+    1001 draw node root+1 = 1007's body (the back idle, shown from the front) and 1007 read past the node table
+    (nothing on screen), although the kit's walk draws both."""
+    return [(a.id, why) for a in block.animations for why in [render_root_problem(block, a)] if why]
+
+
+def render_root_problem(block: AnmBlock, a: Animation) -> Optional[str]:
+    """render_root_problems() for one animation: the reason, or None when the game draws what the kit draws."""
+    r, n = a.root, len(block.nodes)
+    if not 0 <= r + 1 < n:
+        return f"node root+1 ({r + 1}) is past the node table ({n})"
+    if block.nodes[r].child != -1 or block.nodes[r].next != r + 1:
+        return (f"root {r} links child {block.nodes[r].child} / next {block.nodes[r].next}; "
+                f"the game draws node {r + 1}")
+    if block.nodes[r + 1].next != -1:
+        return f"node {r + 1} has siblings the game never draws"
+    return None
+
+
+def render_root_mismatches(anm_file: AnmFile) -> List[Tuple[int, int, str]]:
+    """[(block id, animation id, reason)]: animations whose picture in the game (evaluate(game=True)) differs from the
+    kit's at some key time, nested stubs shown.  render_root_problems() with the harmless cases (an empty animation
+    that draws nothing either way) left out."""
+    out = []
+    sig = lambda its: sorted((it.block, it.node, it.key.cell) for it in its)   # noqa: E731
+    for bi, b in enumerate(anm_file.blocks):
+        for ai, a in enumerate(b.animations):
+            why = render_root_problem(b, a)
+            if not why:
+                continue
+            for t in frame_times(anm_file, (bi, ai)):
+                kit = evaluate(anm_file, (bi, ai), t, nested=True)
+                game = evaluate(anm_file, (bi, ai), t, nested=True, game=True)
+                if sig(kit) != sig(game):
+                    out.append((b.id, a.id, f"{why}; at frame {t} the kit draws {len(kit)} part(s), the game "
+                                            f"{len(game)}" + (" other ones" if len(kit) == len(game) else "")))
+                    break
+    return out
 
 
 def frame_times(anm: AnmFile, anim_index) -> List[int]:

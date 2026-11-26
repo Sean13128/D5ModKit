@@ -11,14 +11,18 @@ added by pull request and reviewed before they are listed):
                "download": "https://github.com/<owner>/<repo>/releases/download/<tag>/<file>.zip",
                "size": 1234567, "sha256": "<hex>", "updated": "2026-10-21"}]}
 
-Safety (a mod is data; the kit makes every piece of code itself):
+Safety (a mod is data; the kit makes every piece of code itself, except `patches/exe` byte patches, which need consent):
   * the list and the previews come from raw.githubusercontent.com over HTTPS; a download only from github.com /
     its release storage or raw.githubusercontent.com (the final address after redirects is checked too);
   * a download must have the listed size (at most MAX_DOWNLOAD) and SHA-256, else it is thrown away;
   * the zip is checked before anything is unpacked (check_zip): one mod folder, plain relative paths, only the
     file types mods use (game data, pictures, sound, text), no program files for the game folder, size limits
     against zip bombs;
-  * then it goes through the normal import (modshare.import_package: updates by uid, moved ids, backups).
+  * then it goes through the normal import (modshare.import_package: updates by uid, moved ids, backups);
+  * a package carrying `patches/exe` (machine code written into the game's program, at most 256 bytes per patch and
+    4 KB per mod) is imported OFF and stays off, with a "Changes the game's program" label, until the player
+    approves it in the import dialog (default No); the approval is bound to the exact patch bytes and settings and
+    stored outside the mod (d5lib.exebytes).
 """
 import hashlib
 import json

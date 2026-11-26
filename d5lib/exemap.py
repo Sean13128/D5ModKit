@@ -16,6 +16,7 @@ address the kit uses in another exe, without shipping anything of the game:
 
 An exe wrapped by Steam's DRM (its code encrypted on disk, section .bind) can't be read this way: report() says so.
 """
+import contextlib
 import gzip
 import hashlib
 import json
@@ -377,6 +378,10 @@ class Unmapped(KeyError):
     """a game address the kit uses that this build of the game doesn't have (the feature can't be installed)"""
 
 
+class Native(int):
+    """an address already in the build being patched (a site found by scanning that exe): site() takes it as it is"""
+
+
 class Translator:
     """old (known build) va -> this build's va.  identity for the known build; else the shipped map
     (data/exe_map_<sha1[:12]>.json, made by tools/exe_port.py and checked) or one found by locate()"""
@@ -542,14 +547,75 @@ def same_code(t, old_va, orig, new_va, new_bytes):
     return True
 
 
-def site(pe, va, orig, what="patch site"):
-    """the translated address of a hook site whose original instructions are `orig` (checked) -> new va"""
-    t = ACTIVE
+class SiteClash(ValueError):
+    """two owners patch the same exe bytes (a ValueError, so an install leaves the later feature out with a note)"""
+
+
+# Site ledger: every exe range a patch writes, with who wrote it.  site() claims [va, va+len) for the current owner
+# (default "kit"; modsys sets the finalizer's / mod's name); a range another owner already holds raises SiteClash.
+LEDGER = []
+RESERVED = []     # ranges held for a runtime that patches the exe itself (a runtime that patches the exe itself): survive reset_ledger() unless asked
+_owner = ["kit"]
+
+
+@contextlib.contextmanager
+def owner(name):
+    old, _owner[0] = _owner[0], name
+    try:
+        yield
+    finally:
+        _owner[0] = old
+
+
+def reserve(start, length, owner):
+    """hold [start, start+length) for `owner`: every other owner's claim there raises SiteClash"""
+    RESERVED.append({"start": start, "end": start + length, "owner": owner, "what": "reserved"})
+
+
+def claim(start, length, what):
+    end = start + length
+    me = _owner[0]
+    for e in LEDGER + RESERVED:
+        if e["owner"] != me and start < e["end"] and e["start"] < end:
+            raise SiteClash(f"exe patch clash at {max(start, e['start']):#x}: {me} ({what}, {start:#x}..{end:#x}) "
+                            f"overlaps {e['owner']} ({e['what']}, {e['start']:#x}..{e['end']:#x})")
+    if not any(e["owner"] == me and e["start"] == start and e["end"] == end for e in LEDGER):
+        LEDGER.append({"start": start, "end": end, "owner": me, "what": what})
+
+
+_claim = claim      # site() has a `claim` parameter that hides the function
+
+
+def reset_ledger(reserved=False):
+    LEDGER.clear()
+    if reserved:
+        RESERVED.clear()
+
+
+def release(owner):
+    """drop every range `owner` claimed (a feature that left itself out whole)"""
+    LEDGER[:] = [e for e in LEDGER if e["owner"] != owner]
+
+
+def site(pe, va, orig, what="patch site", length=None, claim=True):
+    """the translated address of a hook site whose original instructions are `orig` (checked) -> new va.  The bytes
+    written there (length, default len(orig)) are claimed in the site ledger, unless claim=False: a caller that only
+    checks the site (and may not write it) claims exactly what it writes with exemap.claim()."""
+    t, claim_ = ACTIVE, claim
+    n = length or len(orig)
+    if isinstance(va, Native):
+        if pe.get_data(int(va) - IMAGE_BASE, len(orig)) != bytes(orig):
+            raise ValueError(f"unexpected exe version: {what} {int(va):#x} doesn't match")
+        if claim_:
+            _claim(int(va), n, what)
+        return int(va)
     nva = t(va)
     cur = pe.get_data(nva - IMAGE_BASE, len(orig))
     if not same_code(t, va, orig, nva, cur):
         raise ValueError(f"unexpected exe version: {what} {va:#x} doesn't match"
                          + ("" if t.identity else f" in this build of the game ({t.sha1[:12]})"))
+    if claim_:
+        _claim(nva, n, what)
     return nva
 
 

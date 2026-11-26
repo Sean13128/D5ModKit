@@ -15,6 +15,7 @@ from PIL import Image
 from . import anm, lzs, lzs_splice
 
 FACE_BLOCK = 9017
+MAX_ANIM_ID = 32767                 # ui_sprite_play_motion takes a signed short
 BANNER_BLOCK = 9018     # name banners of the skill cut-ins, animation = colour id
 FACE_SIZE = 204
 PAD = 4
@@ -116,6 +117,17 @@ def add_faces(old_raw: bytes, faces, log=None, banners=(), grow_now=False) -> by
     have no room left, they grow taller, one after the other (GROW_TEX first, then the others, widest first, up to
     16384 each: thousands of faces; grow_now: grow even when there is room, and put the new faces there -- for
     testing)."""
+    # The game's motion player takes the animation id as a SIGNED 16-bit number (ui_sprite_play_motion
+    # 0x14014A0E0, `short param_2`; the Characters panel reads unit+0x2E36 as short and adds 10000 in
+    # prompt_refresh 0x1402AE700).  A face or banner above 32767 is therefore never found and draws nothing:
+    # DRPG K6 (2026-11-08) shipped class 30170's face at 10000 + 30170 = 40170 and the panel stayed blank.
+    # Key such faces on the art number (10000 + N), never on a high class id.
+    bad = sorted({int(f[0]) for f in faces if int(f[0]) > MAX_ANIM_ID}
+                 | {int(b[0]) for b in banners if int(b[0]) > MAX_ANIM_ID})
+    if bad:
+        raise ValueError(f"face/banner animation id(s) {bad} exceed {MAX_ANIM_ID}: the game reads animation ids as a "
+                         f"signed 16-bit number, so these would never draw. Key the face on 10000 + the look's art "
+                         f"number instead of 10000 + its class id.")
     data = lzs.decompress(old_raw)
     reps = []                        # (old offset, old length, new bytes): replaced / inserted spans
     edits = []                       # (absolute offset in the OLD data, bytes)

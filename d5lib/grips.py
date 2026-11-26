@@ -344,17 +344,27 @@ def _visible(ks, t):
     return vis
 
 
-def evaluate(a, aid, t, weapon=None, wtype=16, groups=("A", "B"), grips=None, nested=False, _depth=0):
+def evaluate(a, aid, t, weapon=None, wtype=16, groups=None, grips=None, nested=False, _depth=0,
+             sub_weapon=None, sub_wtype=None):
     """draw items [(AnmFile, DrawItem)] in painting order: the character at frame t with the weapon AnmFile drawn on
-    the shown nodes 10 + wtype (group A) / 110 + wtype (group B).  grips (a list) receives (node id, group, (x, y),
-    shown, world matrix) of every weapon node of that type.
+    the shown node wtype (11 sword .. 16 staff; group A, the main weapon in the hand) and, when a sub weapon is given,
+    `sub_weapon` drawn on the shown node 100 + sub_wtype (group B).  The game binds the sub weapon to group B only
+    for a unit that has Double Bladed and a weapon in the sub slot (unit_equip_from_record, docs/WEAPON_GRIPS.md), so
+    by default (groups None) group B is drawn only when sub_wtype is given.  An explicit `groups` (the Weapon Grips
+    page, which edits one hand at a time) draws exactly those groups; group B then shows `sub_weapon` (or `weapon`
+    when there is no sub weapon).
+    grips (a list) receives (node id, group, (x, y), shown, world matrix) of every weapon node of that type.
     nested: a stub animation shows the animation its 0x100 keys name (anm.NESTED; the shared poses 114-125,
     155-160 … are the character's own hurt / guard … animation with a little shake around it) -- for showing only."""
     bi, ai = anm._resolve_anim(a, ("id", aid))
     b = a.blocks[bi]
     an = b.animations[ai]
     nest = nested and _depth < 3 and anm.is_stub(a, bi, ai)
-    want = {g: (wtype if g == "A" else wtype + 100) for g in groups}
+    if groups is None:
+        groups = ("A", "B") if sub_wtype else ("A",)
+    want = {"A": wtype, "B": 100 + (sub_wtype or wtype)}
+    want = {g: want[g] for g in groups}
+    pick = {wtype: weapon, 100 + (sub_wtype or wtype): sub_weapon if sub_wtype else weapon}
     items = []
 
     def rec(ni, pm, depth, seen):
@@ -379,7 +389,8 @@ def evaluate(a, aid, t, weapon=None, wtype=16, groups=("A", "B"), grips=None, ne
                 elif nest and anm.is_nested(k):
                     sub_id = b.params[k.param] if 0 <= k.param < len(b.params) else None
                     if sub_id is not None and sub_id != aid and anm.has_animation(a, sub_id):
-                        sub = evaluate(a, sub_id, max(0.0, t - k.time), weapon, wtype, groups, None, True, _depth + 1)
+                        sub = evaluate(a, sub_id, max(0.0, t - k.time), weapon, wtype, groups, None, True, _depth + 1,
+                                       sub_weapon, sub_wtype)
                         items.extend(reversed([(f, anm.DrawItem(it.node, it.depth + depth, it.key, it.cell,
                                                                 anm._apply(m, it.quad), it.color, it.tex_global,
                                                                 it.pal_local, it.block)) for f, it in sub]))
@@ -387,13 +398,14 @@ def evaluate(a, aid, t, weapon=None, wtype=16, groups=("A", "B"), grips=None, ne
                     shown = bool(_visible(ks, t))
                     if grips is not None:
                         grips.append((n.id, group_of(n.id), tuple(m[:2, 2]), shown, m))
-                    if shown and weapon is not None:
+                    wf = pick[n.id]
+                    if shown and wf is not None:
                         prm = b.params[k.param] if 0 <= k.param < len(b.params) else 1
-                        wb = weapon.blocks[0]
+                        wb = wf.blocks[0]
                         wid = prm if any(x.id == prm for x in wb.animations) else wb.animations[0].id
-                        sub = [(weapon, anm.DrawItem(it.node, it.depth, it.key, it.cell, anm._apply(m, it.quad),
+                        sub = [(wf, anm.DrawItem(it.node, it.depth, it.key, it.cell, anm._apply(m, it.quad),
                                                      it.color, it.tex_global, it.pal_local, it.block))
-                               for it in anm.evaluate(weapon, ("id", wid), 0)]
+                               for it in anm.evaluate(wf, ("id", wid), 0)]
                         items.extend(reversed(sub))
             if (not ks or act is not None) and n.child >= 0:
                 rec(n.child, m, depth + 1, seen)

@@ -1,0 +1,1372 @@
+{
+ "schema": "d4-specials/1",
+ "mapping": {
+  "13081": {
+   "copy_of": 915,
+   "relation": "omit"
+  },
+  "13082": {
+   "copy_of": 1502,
+   "relation": "lookalike"
+  },
+  "701": {
+   "copy_of": 1001,
+   "relation": "adapted"
+  },
+  "702": {
+   "copy_of": 1002,
+   "relation": "adapted"
+  },
+  "703": {
+   "copy_of": 1003,
+   "relation": "adapted"
+  },
+  "704": {
+   "copy_of": 1004,
+   "relation": "adapted"
+  },
+  "705": {
+   "copy_of": 1005,
+   "relation": "adapted"
+  },
+  "711": {
+   "copy_of": 1101,
+   "relation": "adapted"
+  },
+  "712": {
+   "copy_of": 1102,
+   "relation": "adapted"
+  },
+  "713": {
+   "copy_of": 1103,
+   "relation": "adapted"
+  },
+  "714": {
+   "copy_of": 1104,
+   "relation": "adapted"
+  },
+  "715": {
+   "copy_of": 1105,
+   "relation": "adapted"
+  },
+  "721": {
+   "copy_of": 1201,
+   "relation": "adapted"
+  },
+  "722": {
+   "copy_of": 1202,
+   "relation": "adapted"
+  },
+  "723": {
+   "copy_of": 1203,
+   "relation": "adapted"
+  },
+  "724": {
+   "copy_of": 1204,
+   "relation": "adapted"
+  },
+  "725": {
+   "copy_of": 1205,
+   "relation": "adapted"
+  },
+  "731": {
+   "copy_of": 1301,
+   "relation": "adapted"
+  },
+  "732": {
+   "copy_of": 1302,
+   "relation": "adapted"
+  },
+  "733": {
+   "copy_of": 1303,
+   "relation": "adapted"
+  },
+  "734": {
+   "copy_of": 1304,
+   "relation": "adapted"
+  },
+  "735": {
+   "copy_of": 1305,
+   "relation": "adapted"
+  },
+  "801": {
+   "copy_of": 1401,
+   "relation": "adapted"
+  },
+  "802": {
+   "copy_of": 1402,
+   "relation": "adapted"
+  },
+  "803": {
+   "copy_of": 1403,
+   "relation": "adapted"
+  },
+  "804": {
+   "copy_of": 1404,
+   "relation": "adapted"
+  },
+  "805": {
+   "copy_of": 1405,
+   "relation": "adapted"
+  },
+  "807": {
+   "copy_of": 1499,
+   "relation": "adapted"
+  },
+  "811": {
+   "copy_of": 1501,
+   "relation": "adapted"
+  },
+  "812": {
+   "copy_of": 1502,
+   "relation": "adapted"
+  },
+  "813": {
+   "copy_of": 1503,
+   "relation": "adapted"
+  },
+  "814": {
+   "copy_of": 1504,
+   "relation": "adapted"
+  },
+  "815": {
+   "copy_of": 1506,
+   "relation": "adapted"
+  },
+  "816": {
+   "copy_of": 1505,
+   "relation": "adapted"
+  },
+  "817": {
+   "copy_of": 1601,
+   "relation": "adapted"
+  },
+  "818": {
+   "copy_of": 1602,
+   "relation": "adapted"
+  },
+  "819": {
+   "copy_of": 1603,
+   "relation": "adapted"
+  },
+  "820": {
+   "copy_of": 1604,
+   "relation": "adapted"
+  },
+  "821": {
+   "copy_of": 1606,
+   "relation": "adapted"
+  },
+  "822": {
+   "copy_of": 1605,
+   "relation": "adapted"
+  },
+  "851": {
+   "copy_of": 1701,
+   "relation": "adapted"
+  },
+  "852": {
+   "copy_of": 1702,
+   "relation": "adapted"
+  },
+  "853": {
+   "copy_of": 1703,
+   "relation": "adapted"
+  },
+  "854": {
+   "copy_of": 1704,
+   "relation": "adapted"
+  },
+  "855": {
+   "copy_of": 1705,
+   "relation": "adapted"
+  },
+  "10901": {
+   "copy_of": 1901,
+   "relation": "adapted"
+  },
+  "10903": {
+   "copy_of": 1903,
+   "relation": "adapted"
+  },
+  "10904": {
+   "copy_of": 1904,
+   "relation": "adapted"
+  },
+  "10905": {
+   "copy_of": 1905,
+   "relation": "adapted"
+  },
+  "10906": {
+   "copy_of": 1906,
+   "relation": "adapted"
+  },
+  "13031": {
+   "copy_of": 11032,
+   "relation": "adapted"
+  },
+  "13041": {
+   "copy_of": 11042,
+   "relation": "adapted"
+  },
+  "13091": {
+   "copy_of": 11091,
+   "relation": "adapted"
+  },
+  "13092": {
+   "copy_of": 11092,
+   "relation": "adapted"
+  },
+  "13093": {
+   "copy_of": 11093,
+   "relation": "adapted"
+  },
+  "13101": {
+   "copy_of": 11131,
+   "relation": "adapted"
+  },
+  "13131": {
+   "copy_of": 11261,
+   "relation": "adapted"
+  },
+  "13132": {
+   "copy_of": 11262,
+   "relation": "adapted"
+  },
+  "13212": {
+   "copy_of": 11172,
+   "relation": "adapted"
+  },
+  "13231": {
+   "copy_of": 11251,
+   "relation": "adapted"
+  },
+  "13232": {
+   "copy_of": 11252,
+   "relation": "adapted"
+  },
+  "10181": {
+   "copy_of": 10611,
+   "relation": "exact"
+  },
+  "10182": {
+   "copy_of": 10612,
+   "relation": "exact"
+  },
+  "10193": {
+   "copy_of": 12013,
+   "relation": "exact"
+  },
+  "12012": {
+   "copy_of": 12063,
+   "relation": "adapted"
+  },
+  "12032": {
+   "copy_of": 12082,
+   "relation": "adapted"
+  },
+  "12072": {
+   "copy_of": 12011,
+   "relation": "adapted"
+  },
+  "12074": {
+   "copy_of": 12014,
+   "relation": "adapted"
+  },
+  "12082": {
+   "copy_of": 12092,
+   "relation": "adapted"
+  },
+  "12182": {
+   "copy_of": 12122,
+   "relation": "adapted"
+  },
+  "12183": {
+   "copy_of": 12123,
+   "relation": "adapted"
+  },
+  "12042": {
+   "copy_of": 12102,
+   "relation": "exact"
+  },
+  "12102": {
+   "copy_of": 12111,
+   "relation": "adapted"
+  },
+  "12013": {
+   "copy_of": 12062,
+   "relation": "adapted"
+  },
+  "12014": {
+   "copy_of": 12064,
+   "relation": "adapted"
+  },
+  "12033": {
+   "copy_of": 12083,
+   "relation": "adapted"
+  },
+  "12081": {
+   "copy_of": 12091,
+   "relation": "adapted"
+  },
+  "12184": {
+   "copy_of": 12124,
+   "relation": "adapted"
+  },
+  "12083": {
+   "copy_of": 12093,
+   "relation": "adapted"
+  },
+  "12043": {
+   "copy_of": 12103,
+   "relation": "adapted"
+  },
+  "12031": {
+   "copy_of": 12081,
+   "relation": "adapted"
+  },
+  "12023": {
+   "copy_of": 12033,
+   "relation": "adapted"
+  },
+  "12061": {
+   "copy_of": 12071,
+   "relation": "adapted"
+  },
+  "12171": {
+   "copy_of": 12182,
+   "relation": "adapted"
+  },
+  "12053": {
+   "copy_of": 1003,
+   "relation": "adapted"
+  },
+  "13012": {
+   "copy_of": 1501,
+   "relation": "adapted"
+  },
+  "13032": {
+   "copy_of": 1503,
+   "relation": "adapted"
+  },
+  "13052": {
+   "copy_of": 1504,
+   "relation": "adapted"
+  },
+  "10011": {
+   "copy_of": 10571,
+   "relation": "exact"
+  },
+  "10012": {
+   "copy_of": 10572,
+   "relation": "exact"
+  },
+  "10013": {
+   "copy_of": 10573,
+   "relation": "exact"
+  },
+  "10021": {
+   "copy_of": 10581,
+   "relation": "exact"
+  },
+  "10022": {
+   "copy_of": 10582,
+   "relation": "exact"
+  },
+  "10023": {
+   "copy_of": 10583,
+   "relation": "exact"
+  },
+  "10031": {
+   "copy_of": 10621,
+   "relation": "exact"
+  },
+  "10041": {
+   "copy_of": 10601,
+   "relation": "exact"
+  },
+  "10042": {
+   "copy_of": 10602,
+   "relation": "exact"
+  },
+  "10043": {
+   "copy_of": 10603,
+   "relation": "exact"
+  },
+  "10052": {
+   "copy_of": 10612,
+   "relation": "exact"
+  },
+  "10053": {
+   "copy_of": 10613,
+   "relation": "exact"
+  },
+  "10061": {
+   "copy_of": 10591,
+   "relation": "exact"
+  },
+  "10062": {
+   "copy_of": 10592,
+   "relation": "exact"
+  },
+  "10063": {
+   "copy_of": 10593,
+   "relation": "exact"
+  },
+  "10081": {
+   "copy_of": 10721,
+   "relation": "adapted"
+  },
+  "10082": {
+   "copy_of": 10722,
+   "relation": "exact"
+  },
+  "10083": {
+   "copy_of": 10723,
+   "relation": "exact"
+  },
+  "10191": {
+   "copy_of": 10641,
+   "relation": "adapted"
+  },
+  "10192": {
+   "copy_of": 10642,
+   "relation": "adapted"
+  },
+  "10211": {
+   "copy_of": 10521,
+   "relation": "adapted"
+  },
+  "10212": {
+   "copy_of": 12012,
+   "relation": "adapted"
+  },
+  "10213": {
+   "copy_of": 12013,
+   "relation": "adapted"
+  },
+  "10311": {
+   "copy_of": 10531,
+   "relation": "adapted"
+  },
+  "10312": {
+   "copy_of": 10532,
+   "relation": "adapted"
+  },
+  "10313": {
+   "copy_of": 10533,
+   "relation": "adapted"
+  },
+  "10321": {
+   "copy_of": 10691,
+   "relation": "adapted"
+  },
+  "10322": {
+   "copy_of": 10542,
+   "relation": "adapted"
+  },
+  "10323": {
+   "copy_of": 10693,
+   "relation": "adapted"
+  },
+  "10341": {
+   "copy_of": 10511,
+   "relation": "adapted"
+  },
+  "10342": {
+   "copy_of": 10512,
+   "relation": "adapted"
+  },
+  "10343": {
+   "copy_of": 10513,
+   "relation": "adapted"
+  },
+  "10351": {
+   "copy_of": 10711,
+   "relation": "adapted"
+  },
+  "10352": {
+   "copy_of": 10712,
+   "relation": "adapted"
+  },
+  "10353": {
+   "copy_of": 10713,
+   "relation": "adapted"
+  },
+  "10361": {
+   "copy_of": 10671,
+   "relation": "adapted"
+  },
+  "10362": {
+   "copy_of": 10672,
+   "relation": "adapted"
+  },
+  "10363": {
+   "copy_of": 10673,
+   "relation": "adapted"
+  },
+  "10491": {
+   "copy_of": 10661,
+   "relation": "adapted"
+  },
+  "10492": {
+   "copy_of": 10662,
+   "relation": "adapted"
+  },
+  "10493": {
+   "copy_of": 10663,
+   "relation": "adapted"
+  },
+  "12041": {
+   "copy_of": 12101,
+   "relation": "adapted"
+  },
+  "12044": {
+   "copy_of": 12104,
+   "relation": "adapted"
+  },
+  "12124": {
+   "copy_of": 10514,
+   "relation": "adapted"
+  },
+  "12201": {
+   "copy_of": 12121,
+   "relation": "adapted"
+  },
+  "12202": {
+   "copy_of": 12122,
+   "relation": "adapted"
+  },
+  "12203": {
+   "copy_of": 12123,
+   "relation": "adapted"
+  },
+  "12204": {
+   "copy_of": 12124,
+   "relation": "adapted"
+  }
+ },
+ "characters": {
+  "10": {
+   "mod": "D4_Unique_10",
+   "identity": 10310,
+   "skills": [
+    {
+     "id": 10011,
+     "level": 1,
+     "name": {
+      "@text": "2ef1ea2c5b5d6991918c9462712e07943d26b5d0559a5f1677c4ee3b8fd30141"
+     },
+     "desc": {
+      "@text": "60dd9cb4bea342fd0227e25b1ee3b9cdc6de2a65e67637d5d42ad9f118b3d288"
+     }
+    },
+    {
+     "id": 10012,
+     "level": 32,
+     "name": {
+      "@text": "56a118e50ffa57b584c4f3f0de3bea5a7ae8b35dd9ee999ea7875e216631332d"
+     },
+     "desc": {
+      "@text": "b2cc1877dc71645ee222bf3939334039833875f97413bcdad65226fef3c108a0"
+     }
+    },
+    {
+     "id": 10013,
+     "level": 80,
+     "name": {
+      "@text": "900e0b05e3e286db3f363f73ff9cd3ca3e5da27076dbeb9c62a6505b8afa9b85"
+     },
+     "desc": {
+      "@text": "92825de53d7241412aa1856d235843ef849cd07aab32004269b7c87e1cc86e75"
+     }
+    }
+   ]
+  },
+  "20": {
+   "mod": "D4_Unique_20",
+   "identity": 10320,
+   "skills": [
+    {
+     "id": 10021,
+     "level": 8,
+     "name": {
+      "@text": "ba935808705e6a885805874b7817f4d5f391f082ab544ee6feb7198de87c674b"
+     },
+     "desc": {
+      "@text": "78154976e50fe5db043b458f6442dfce344fc43771c3752fef4d6a0462c80b44"
+     }
+    },
+    {
+     "id": 10022,
+     "level": 32,
+     "name": {
+      "@text": "f3e02a5ddaecf29b2908a931d77f1adf26a2a40fd2f0a01ec4a11c2aa11270a3"
+     },
+     "desc": {
+      "@text": "9d8732c625549c7fc5dacc97d2d943ada9a978ad535fe20ca5a546edbc2d596b"
+     }
+    },
+    {
+     "id": 10023,
+     "level": 80,
+     "name": {
+      "@text": "d3b5a45098829728eb66ba2fa57c9a8128de8b223af9eedb5a09101b074a403c"
+     },
+     "desc": {
+      "@text": "7c1019b468ea2396230e10b847728c4ad133e96cfbdc3d63d63499d8bfc2b941"
+     }
+    }
+   ]
+  },
+  "30": {
+   "mod": "D4_Unique_30",
+   "identity": 10330,
+   "skills": [
+    {
+     "id": 10031,
+     "level": 8,
+     "name": {
+      "@text": "38f3745a7708ef883364b727b0385b3d01da03fd609fdea08374c46558a3e17b"
+     },
+     "desc": {
+      "@skeleton": "7026d0af8b1608510d8a7e71a510996cf47217f2a1d171031571dfdee0f7c237",
+      "marks": [
+       [
+        45,
+        "Д"
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  "40": {
+   "mod": "D4_Unique_40",
+   "identity": 10340,
+   "skills": [
+    {
+     "id": 10041,
+     "level": 8,
+     "name": {
+      "@text": "2d7a3f89a9a4bdf9f8bed0ea6567b51942666e38a3152466714b57489f01f1e6"
+     },
+     "desc": {
+      "@text": "a3e1027d78205499ff3e86219224b0d6728b065dad9e70a8e1bb2fc78ef4ef7c"
+     }
+    },
+    {
+     "id": 10042,
+     "level": 32,
+     "name": {
+      "@text": "b8ecf3dbc236ee74cf05f776722f2dfc17a24f736f248565e1fc052c4c162ec4"
+     },
+     "desc": {
+      "@text": "943ace12ce9dcd699cb276c9aa05999d2a6e0aee640cc658658f49f84b328ee3"
+     }
+    },
+    {
+     "id": 10043,
+     "level": 1,
+     "name": {
+      "@text": "007f1dcd3440a9ef14c50555ca88f76c83e2f2bc3b164a47e5ef80f02eca0765"
+     },
+     "desc": {
+      "@text": "9b5336ad9ad339b00f9f5b94ad8fb5905c182b215abc571d69f9725497e0b7a8"
+     }
+    }
+   ]
+  },
+  "50": {
+   "mod": "D4_Unique_50",
+   "identity": 10350,
+   "skills": [
+    {
+     "id": 10052,
+     "level": 42,
+     "name": {
+      "@text": "b0a0a58fad9e155bf16f2121f18a54747be2ee6acbeb3dc65720ec147ae65475"
+     },
+     "desc": {
+      "@text": "3cc410dc1f79c9cd6aeaeb345b6eeaf8a9aea0abbe1747eb935d003e7da9c470"
+     }
+    },
+    {
+     "id": 10053,
+     "level": 100,
+     "name": {
+      "@text": "a35e3cb51f7d8c74b7cd10c96ef9d830d844b860725936f252f3ec8d2fbd1979"
+     },
+     "desc": {
+      "@text": "0046a164b9f987d87a5e48f3d10d3051b00175c1df9542af478a1cdfc3da104a"
+     }
+    },
+    {
+     "id": 20051,
+     "level": 30,
+     "name": {
+      "@text": "6d22206a021f392d53a303e8ddb2957bda61967dd091eb764471492298a20563"
+     },
+     "desc": {
+      "@skeleton": "0ae3cd0baeead253612dcea19dd87323ddecedfa4504e2382e8b0848efa79b1d",
+      "marks": [
+       [
+        33,
+        "￥"
+       ]
+      ]
+     }
+    },
+    {
+     "id": 20052,
+     "level": 70,
+     "name": {
+      "@text": "f5d038945d16913b0867dd919f7ee6007bb899f15eb4cb3ea2823293d3c72d45"
+     },
+     "desc": {
+      "@text": "1b708983e6c930717b32b99cfbb184305794575dcdce2bab1f367dca3611ec16"
+     }
+    }
+   ]
+  },
+  "60": {
+   "mod": "D4_Unique_60",
+   "identity": 10220,
+   "skills": [
+    {
+     "id": 10061,
+     "level": 8,
+     "name": {
+      "@text": "72a07d9068cb4afe0b2f02b06ddee106c20e577dbd22af0ec5704dbdb640772a"
+     },
+     "desc": {
+      "@text": "7586045575f7442b6aa1c5f42399eafbcd597b42744a4cc099967f8e16e7aee7"
+     }
+    },
+    {
+     "id": 10062,
+     "level": 32,
+     "name": {
+      "@text": "5754dcd24b76ea4ad03ee9a4885eae715878e48fd431568ac8c9fc3bcefbd557"
+     },
+     "desc": {
+      "@text": "1fd2a92da2644888a67eff148174269dfe1981d0e6b117d69b81f7c2afd6c6c9"
+     }
+    },
+    {
+     "id": 10063,
+     "level": 80,
+     "name": {
+      "@text": "4deeca033dfdcd90eaac9f0cb39f60e599a62a2202b4a8dd9a1b9d35c7a9ab42"
+     },
+     "desc": {
+      "@text": "6dc0ba7229bc048c18a4c0ec919e96f1e9b0546c6745406f59ed9bda32df8ebb"
+     }
+    }
+   ]
+  },
+  "80": {
+   "mod": "D4_Unique_80",
+   "identity": 10360,
+   "skills": [
+    {
+     "id": 10081,
+     "level": 8,
+     "name": {
+      "@text": "76b82bdbdd52dc2b632a78b7dc1fdb4ae2f2acc0aef7ab8cd88262949649b14b"
+     },
+     "desc": {
+      "@text": "e08e77d3385179c039bc996bff55ab4aeec44040d2aa556f7ebca07416f2719e"
+     }
+    },
+    {
+     "id": 10082,
+     "level": 42,
+     "name": {
+      "@text": "afce091d0feb543386f61b16d1e0f164f3a49c053f1468affb0621b96abf2eda"
+     },
+     "desc": {
+      "@text": "bb8fd50ef7a6f36d758f7a20b9483e4f324234ad110b5fe882dd16a4fbf7157a"
+     }
+    },
+    {
+     "id": 10083,
+     "level": 100,
+     "name": {
+      "@text": "ca8f854a2070a1a62101ef59f3a4ada4b629a1c150c92c765c0837892d41581b"
+     },
+     "desc": {
+      "@text": "09b38967da82362d79b8c0d620f924d46903f86aaaa774a37d7dc743c69a6c5a"
+     }
+    }
+   ]
+  },
+  "170": {
+   "mod": "D4_Unique_170",
+   "identity": 10270,
+   "skills": [
+    {
+     "id": 12124,
+     "level": 1,
+     "name": {
+      "@text": "6ee9a1aef9338b0455aa3af20239b59f0f645e92b17f395a3db266c01c7ac263"
+     },
+     "desc": {
+      "@skeleton": "1dec5185c0984a069d92cd074ec4c54578c42d470b58282f96c7e7dd7289d6b4",
+      "marks": [
+       [
+        46,
+        "ж"
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  "180": {
+   "mod": "D4_Unique_180",
+   "identity": 10250,
+   "skills": [
+    {
+     "id": 10181,
+     "level": 8,
+     "name": {
+      "@text": "4c8ae9b0cdb254d2cd8b2d67cece536ea2636c79e49207f3629bb8244c1d6dc0"
+     },
+     "desc": {
+      "@text": "e10c6e8087fb0f4d3ea6a825e52dd14635627ff0281ea86d43c80f8ac1504189"
+     }
+    },
+    {
+     "id": 10182,
+     "level": 42,
+     "name": {
+      "@text": "b0a0a58fad9e155bf16f2121f18a54747be2ee6acbeb3dc65720ec147ae65475"
+     },
+     "desc": {
+      "@text": "aca119983f39f46a4dbea07075db1010a92d6b385a3eb092ed8e46511f67996c"
+     }
+    }
+   ]
+  },
+  "190": {
+   "mod": "D4_Unique_190",
+   "identity": 10230,
+   "skills": [
+    {
+     "id": 10191,
+     "level": 8,
+     "name": {
+      "@text": "5dea50f482b13930df940d98ae43ad5e06d63823d67df3be8a4553da5e171eed"
+     },
+     "desc": {
+      "@text": "804e542e191547a1ea788fa24b3a44199e33e0b5638baac1ede8da650ef48a0d"
+     }
+    },
+    {
+     "id": 10192,
+     "level": 42,
+     "name": {
+      "@text": "e5feab02d1476a67ebec6e55bc1b1cd04497d3808e65ee7aa948cba05ac36430"
+     },
+     "desc": {
+      "@text": "fbdc8e685e8caf15695ffdd6088305df14827a42ac127e54cfb8aea9927f33ab"
+     }
+    },
+    {
+     "id": 10193,
+     "level": 100,
+     "name": {
+      "@text": "38b4972da4d4aaf53899f1c8f576a160604b2153d75b03b993f6d4410ec9fded"
+     },
+     "desc": {
+      "@text": "2a978b70e322c6fc57e5cb4295a54ad952a513f3e8e3cf28c8dd0504c3edf385"
+     }
+    },
+    {
+     "id": 20191,
+     "level": 30,
+     "name": {
+      "@text": "dbcd59aed8ec89bea43ea4938e6d7fc28dc331e4e272be729d53bd99b3a9e1e1"
+     },
+     "desc": {
+      "@text": "4353d5a945c2651372fc0f1226c6e2f89793bbe19365bd314e2098d6e61e23c6"
+     }
+    },
+    {
+     "id": 20192,
+     "level": 70,
+     "name": {
+      "@text": "e1a3bb4db831f995fb8cd1d0bab483f9676bad5f3a5d03b93de87f4d235e26d5"
+     },
+     "desc": {
+      "@text": "c28e5c6325df3e6c62ae11eb43b959a25deac011f8345472ea679dd6f5e45aa8"
+     }
+    }
+   ]
+  },
+  "210": {
+   "mod": "D4_Unique_210",
+   "identity": 10260,
+   "skills": [
+    {
+     "id": 10211,
+     "level": 6,
+     "name": {
+      "@text": "aac33abf394c5fcee4e2fb3d919a8ef917abf128f3d6741dbf4d8b9a5c0de7c7"
+     },
+     "desc": {
+      "@text": "dca38c971fd127e56be38802dd801b37a58d3dcff05ac37a89a21d26161c250c"
+     }
+    },
+    {
+     "id": 10212,
+     "level": 24,
+     "name": {
+      "@text": "4f99f3db5ff7c7178af2d474e8370c9fb1dc44508e7cf142ad744f06ad6879af"
+     },
+     "desc": {
+      "@text": "920f07987db284eac4056d1054edea29cb237c9bed0a694eec74e40aa894c513"
+     }
+    },
+    {
+     "id": 10213,
+     "level": 48,
+     "name": {
+      "@text": "68235aface2a6aa4e1c3199a9e8fc0177ca888841d4d066826bf4e9cf59ea138"
+     },
+     "desc": {
+      "@text": "500fe955c082f542a59c1e4831c9b7ee9fab5a01d6703e917dd5b41cf1f7f7bd"
+     }
+    }
+   ]
+  },
+  "230": {
+   "mod": "D4_Unique_230",
+   "identity": 10280,
+   "skills": [
+    {
+     "id": 12041,
+     "level": 8,
+     "name": {
+      "@text": "80bc115d22c6a06b23d40ff93e974608f5966c5c624627080f4f689e748dfcc1"
+     },
+     "desc": {
+      "@skeleton": "6114595ed25505ec0f16faaa0916cf2392f42edc908365ef6aa302396c0ae220",
+      "marks": [
+       [
+        48,
+        "ξ"
+       ]
+      ]
+     }
+    },
+    {
+     "id": 12042,
+     "level": 28,
+     "name": {
+      "@text": "02a015c522405df301264adccee2cd9deb854d373e395669fafcd8bf9b9d1de9"
+     },
+     "desc": {
+      "@text": "3923d77836019ae7853b002c782163aa8d13e2cb826a111016661630d35a41ab"
+     }
+    },
+    {
+     "id": 12043,
+     "level": 56,
+     "name": {
+      "@text": "dba4789fdf9c0e6f0cd7cfad1f5c11361ee7c9634eb9fb9eb8c8488bdbbb6d7b"
+     },
+     "desc": {
+      "@skeleton": "539b0cf3352b12f9287c8d625d473eff5eb5f562891ef1463316163a66d8331f",
+      "marks": [
+       [
+        48,
+        "Д"
+       ]
+      ]
+     }
+    },
+    {
+     "id": 12044,
+     "level": 112,
+     "name": {
+      "@text": "38a1346d63c36f7a5848e6558d68d13d7f0216cbdb39c0d566c1bb661946c870"
+     },
+     "desc": {
+      "@skeleton": "a51d74e992f1a0e85dc420c9c20c4801ca6bff4714cd4ffb7b04e78e65be9cb8",
+      "marks": [
+       [
+        51,
+        "ω"
+       ],
+       [
+        59,
+        "〃"
+       ]
+      ]
+     }
+    },
+    {
+     "id": 22041,
+     "level": 10,
+     "name": {
+      "@text": "e24ab258932d16a894e9ba75766340e6565babe1df011bd3b94228b6987286c9"
+     },
+     "desc": {
+      "@skeleton": "1402703aa2fc5fb864e8a281949985e71fab111952267c7202729521c6a35354",
+      "marks": [
+       [
+        60,
+        "ж"
+       ]
+      ]
+     }
+    },
+    {
+     "id": 22042,
+     "level": 50,
+     "name": {
+      "@text": "74d833ed1479e54dc6c4a39fc2b27612c4b9859274ab8c11f3f20185fcd86282"
+     },
+     "desc": {
+      "@text": "6bd0419d67bf1e72ddbf8d15abb8182862f9dc158a3012ff252f6963cfe0cda0"
+     }
+    }
+   ]
+  },
+  "240": {
+   "mod": "D4_Unique_240",
+   "identity": 10290,
+   "skills": []
+  },
+  "250": {
+   "mod": "D4_Unique_250",
+   "identity": 10300,
+   "skills": []
+  },
+  "300": {
+   "mod": "D4_Unique_300",
+   "identity": 10380,
+   "skills": [
+    {
+     "id": 12201,
+     "level": 15,
+     "name": {
+      "@text": "4cf6f889cdb3c3754bb673d9b5207114bbbcddabff17c1f15eab48033fa75437"
+     },
+     "desc": {
+      "@text": "e77bbe438704b907ea9679d637e9f6fc000ef7c3f1fbd1ba077bfc9e7c7025e8"
+     }
+    },
+    {
+     "id": 12202,
+     "level": 45,
+     "name": {
+      "@text": "94b4208060f826f7a7ca519e25c284f05d150849497764709dfe522de4cd7f07"
+     },
+     "desc": {
+      "@text": "22bceb72bd5837d4c9095433b7c078384ba20f4ea1266f050cd290e5ee3fabfb"
+     }
+    },
+    {
+     "id": 12203,
+     "level": 90,
+     "name": {
+      "@text": "a9f12924773f519ff90a6b3c270f0e729dd27d5fed3303d37a22b6895277ecf8"
+     },
+     "desc": {
+      "@text": "e45cd4c43268793e657aa413a8059a7c40bd04ae95632007a2e7e1caae1ee752"
+     }
+    },
+    {
+     "id": 12204,
+     "level": 180,
+     "name": {
+      "@text": "16c78bd4ce870c5cb2fd6bd791d4dec0b94b432e333c5fb2a3353ca8e7c8920c"
+     },
+     "desc": {
+      "@text": "59db27d0ecf3b707c715b05ba8661fa6bc1aaca9f30d09132fda33d741aff953"
+     }
+    },
+    {
+     "id": 22201,
+     "level": 15,
+     "name": {
+      "@text": "d976cf58d1197bcea040b90cd9e7bf2f3d9aebaf7f4538cbd4efd8f99ba1809d"
+     },
+     "desc": {
+      "@text": "eb95398f187f14339742fa34bf99a644a3217ab9f861e4debd29223efa77d4e7"
+     }
+    },
+    {
+     "id": 22202,
+     "level": 75,
+     "name": {
+      "@text": "936d17f8095120e316f8da15134bd9c56e7adb99b728941bdc35883bc7fcadff"
+     },
+     "desc": {
+      "@text": "aaeb12c86f364acb51ac5416f741170f38a3a7a68105d2e3382f82194801fdf6"
+     }
+    }
+   ]
+  },
+  "310": {
+   "mod": "D4_Unique_310",
+   "identity": 10390,
+   "skills": [
+    {
+     "id": 10311,
+     "level": 8,
+     "name": {
+      "@text": "8727688cbd79530ebd4c1343e809802684f099e42294431851542c78f9fdb7ef"
+     },
+     "desc": {
+      "@skeleton": "11b59cd64e1a4785a2d2e8d5027699ed230bcf524a861ff539b40a7fc6418134",
+      "marks": [
+       [
+        7,
+        "Ξ"
+       ],
+       [
+        29,
+        "￥"
+       ]
+      ]
+     }
+    },
+    {
+     "id": 10312,
+     "level": 42,
+     "name": {
+      "@text": "5879ba7920d06146c0eb62ac4a821f6aed5daeaf8b7f3092c8c508c45d8ec394"
+     },
+     "desc": {
+      "@text": "fb875678668ad1a632096023c297771404886b4ae4619a9058a6ffe5f2acd4cb"
+     }
+    },
+    {
+     "id": 10313,
+     "level": 100,
+     "name": {
+      "@skeleton": "2e43c8de2d61fe9b44bbea998ddf6e7ca7a5f294c561b89cbe72a5b911148bdb",
+      "marks": [
+       [
+        1,
+        "￥"
+       ]
+      ]
+     },
+     "desc": {
+      "@text": "81e4f43ccee10eb9339b17a03bed05c327d899fd17fb1aabd846f21a9dfbc0af"
+     }
+    }
+   ]
+  },
+  "320": {
+   "mod": "D4_Unique_320",
+   "identity": 10400,
+   "skills": [
+    {
+     "id": 10321,
+     "level": 8,
+     "name": {
+      "@text": "f0a15a07af6f91c57b6ce72547c66cb4fe1c9e5f9456622c269f46cd06d38155"
+     },
+     "desc": {
+      "@text": "884b3d5ee59b844cd6aeb74613c7e04be213e2846afcaffc423ed2fcacfe2e09"
+     }
+    },
+    {
+     "id": 10322,
+     "level": 42,
+     "name": {
+      "@text": "d8d88bda53ce5bac452cde791e5c7b2ddf529257caa056c10ab940b67cc6ea7f"
+     },
+     "desc": {
+      "@text": "4f8c9bc7e647714507e1a92607f19571221cc5e71bd50d48cda0c0529f79d546"
+     }
+    },
+    {
+     "id": 10323,
+     "level": 100,
+     "name": {
+      "@text": "b0713faf64cc7bd5b443300f01c74e9a4934938fb04cf01ce20d68dbe6a02928"
+     },
+     "desc": {
+      "@text": "b6dc217e8a74fea90f2053e5040b92282a7a57afd231f1948859691fbb30584a"
+     }
+    }
+   ]
+  },
+  "340": {
+   "mod": "D4_Unique_340",
+   "identity": 10410,
+   "skills": [
+    {
+     "id": 10341,
+     "level": 15,
+     "name": {
+      "@text": "160a8e43713250eb6eb813ecdc4c3a3242a9234a9ce6ee4cad583708e3e71879"
+     },
+     "desc": {
+      "@text": "2f6e453fe0acf24df43d6de4ab16b58e91329819283b7ef8415ab235305e52d0"
+     }
+    },
+    {
+     "id": 10342,
+     "level": 45,
+     "name": {
+      "@text": "6540a3c4d6e59583a0ecce1d9ab3f037ce651f52a6d9180c67189bebc2f1777d"
+     },
+     "desc": {
+      "@text": "814041bc1ac8700f50485efa0dd386275a1c32c9f5cabd5dd54ee81b649943b3"
+     }
+    },
+    {
+     "id": 10343,
+     "level": 90,
+     "name": {
+      "@text": "eec233345a711dddd1c945860c6e2cb1f4a68eeee35810189fd376c9f39dd001"
+     },
+     "desc": {
+      "@text": "3e062d4cbad26246862e5c446f40f17d08841801ce13770761450ed0040f7faf"
+     }
+    },
+    {
+     "id": 20341,
+     "level": 15,
+     "name": {
+      "@text": "88fe4d1650358fef1c0691247713bcb65c3ac82981b6b8ec62e87f5469c70492"
+     },
+     "desc": {
+      "@text": "7b82b9c2e5e28fb4472606270c68a7ec3cc1ed371f929ee5d8105d7149e60381"
+     }
+    },
+    {
+     "id": 20342,
+     "level": 75,
+     "name": {
+      "@text": "504510aab2ecd5d1e0b610adf6391bc15db5a5a83ed301067a136d54e20da251"
+     },
+     "desc": {
+      "@text": "af5d76a94032643cb3179da861044a718fb09ca30660f155c40f5256d9b28706"
+     }
+    }
+   ]
+  },
+  "350": {
+   "mod": "D4_Unique_350",
+   "identity": 10420,
+   "skills": [
+    {
+     "id": 10351,
+     "level": 8,
+     "name": {
+      "@text": "7504c5ec7cc6add4e003823d44d3083561cc3777c0bae2f556a4e1f9f85a18f2"
+     },
+     "desc": {
+      "@text": "84007934018c6a379b93cd4e8cf31ab2e726cdb60fb7fb8f5ff6d9fad767ea03"
+     }
+    },
+    {
+     "id": 10352,
+     "level": 42,
+     "name": {
+      "@text": "fb41332324968fc3e2bd274b1d81afc43bde59fdd325f04f510ed71b34487989"
+     },
+     "desc": {
+      "@text": "e4e5d695453ca92e19788effb5be16a95f9a96bf66099812856386e9e5ff0cfe"
+     }
+    },
+    {
+     "id": 10353,
+     "level": 100,
+     "name": {
+      "@text": "386db80bbd8b8db6bc62df5955a728db233d1040056e34eba1b19492b4bc2945"
+     },
+     "desc": {
+      "@text": "3bf79c0d6900ac5768a00881ab9229e49ccf5667582594085ca52570d08f9602"
+     }
+    }
+   ]
+  },
+  "360": {
+   "mod": "D4_Unique_360",
+   "identity": 10430,
+   "skills": [
+    {
+     "id": 10361,
+     "level": 8,
+     "name": {
+      "@text": "d9d4030deb11890d347c13bf20a659dbf1e49a9a28458053564629accd17d953"
+     },
+     "desc": {
+      "@text": "114c9cbd04bd75ffa7cba7b4b23b4a1ef8e17a6b8f080530389d89c303bec495"
+     }
+    },
+    {
+     "id": 10362,
+     "level": 42,
+     "name": {
+      "@text": "07f13e97c61d85712df494a9b23a484e7fc20f1821e54284b613fad8c1f0f4d9"
+     },
+     "desc": {
+      "@text": "eef910cf3600199476076a639185f84ba34c5c20f542f245a044f0a66031d98f"
+     }
+    },
+    {
+     "id": 10363,
+     "level": 100,
+     "name": {
+      "@text": "0db49e7151c48cda3cde783e45c1431b6018bcec81d358d65c183c0b78932490"
+     },
+     "desc": {
+      "@text": "ddf0e1e9fc0ebb34953c34cc1926e4663c5410280898f44ed5b1617b844cb2e6"
+     }
+    }
+   ]
+  },
+  "490": {
+   "mod": "D4_Unique_490",
+   "identity": 10240,
+   "skills": [
+    {
+     "id": 10491,
+     "level": 8,
+     "name": {
+      "@text": "659adcd3c3825183a68fec7c7eb187fed4dbeac37473658c6d102d53f3afad0b"
+     },
+     "desc": {
+      "@text": "7bc5f5713986859df9dbfe0ebbce13287bad9ce5340570f75e2e1848b186e132"
+     }
+    },
+    {
+     "id": 10492,
+     "level": 42,
+     "name": {
+      "@text": "4fb921261f7b2bc5eb37f1d392428c2ca9ce5063887311b76bc1c9984706cd6c"
+     },
+     "desc": {
+      "@text": "dbfc7315bf41b9aa5d67d595634548b69fa5e65fef5e699c1a8afc1fa004e458"
+     }
+    },
+    {
+     "id": 10493,
+     "level": 100,
+     "name": {
+      "@text": "4380b7811c1fc3c928574566ec42559465bdcf4f653269eb0377851f3094a040"
+     },
+     "desc": {
+      "@text": "251ce849ea6ca5147df5f531d267c338e0611e3fbf8b57eed3a2b2bd89bd6669"
+     }
+    }
+   ]
+  },
+  "500": {
+   "mod": "D4_Unique_500",
+   "identity": 10370,
+   "skills": []
+  }
+ }
+}

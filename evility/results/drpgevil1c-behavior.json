@@ -1,0 +1,681 @@
+{
+ "mode": "behavior",
+ "rows": 2048,
+ "section_bytes": 366204,
+ "worst_instructions": 46094,
+ "passed": true,
+ "checks": [
+  {
+   "name": "nobody-provides-anything",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 21744
+  },
+  {
+   "name": "nobody-provides-anything",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 21744
+  },
+  {
+   "name": "nobody-provides-anything",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 21744
+  },
+  {
+   "name": "nobody-provides-anything",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 21744
+  },
+  {
+   "name": "first-aura-of-the-index",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "first-aura-of-the-index",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "first-aura-of-the-index",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "first-aura-of-the-index",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "middle-aura",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "middle-aura",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "middle-aura",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "middle-aura",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "last-aura-of-the-index",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "last-aura-of-the-index",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "last-aura-of-the-index",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "last-aura-of-the-index",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 24182
+  },
+  {
+   "name": "three-providers-add",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 29316
+  },
+  {
+   "name": "three-providers-add",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 29316
+  },
+  {
+   "name": "three-providers-add",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 29316
+  },
+  {
+   "name": "three-providers-add",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 29316
+  },
+  {
+   "name": "provider-on-the-map-but-an-enemy",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 24078
+  },
+  {
+   "name": "provider-on-the-map-but-an-enemy",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 24078
+  },
+  {
+   "name": "provider-on-the-map-but-an-enemy",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 24078
+  },
+  {
+   "name": "provider-on-the-map-but-an-enemy",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 24078
+  },
+  {
+   "name": "provider-out-of-radius",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 24145
+  },
+  {
+   "name": "provider-out-of-radius",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 24145
+  },
+  {
+   "name": "provider-out-of-radius",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 24145
+  },
+  {
+   "name": "provider-out-of-radius",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 24145
+  },
+  {
+   "name": "holder-does-not-get-its-own-aura",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 24257
+  },
+  {
+   "name": "holder-does-not-get-its-own-aura",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 24257
+  },
+  {
+   "name": "holder-does-not-get-its-own-aura",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 24257
+  },
+  {
+   "name": "holder-does-not-get-its-own-aura",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 24257
+  },
+  {
+   "name": "ordinary-rows-first-and-last-id-with-an-aura",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 25016
+  },
+  {
+   "name": "ordinary-rows-first-and-last-id-with-an-aura",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 25016
+  },
+  {
+   "name": "ordinary-rows-first-and-last-id-with-an-aura",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 25016
+  },
+  {
+   "name": "ordinary-rows-first-and-last-id-with-an-aura",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 25016
+  },
+  {
+   "name": "dealt-ordinary-two-ids",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 22930
+  },
+  {
+   "name": "dealt-aura-holder-has-the-spear",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 24352
+  },
+  {
+   "name": "dealt-aura-last-holder-has-the-spear",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 24352
+  },
+  {
+   "name": "dealt-aura-holder-has-a-sword",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 24185
+  },
+  {
+   "name": "taken-aura-on-the-defender",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true,
+   "instructions": 24347
+  },
+  {
+   "name": "crit-damage-aura-on-a-critical",
+   "family": "taken",
+   "site": "0x1401c0ebd",
+   "ok": true,
+   "instructions": 46094
+  },
+  {
+   "name": "subject-not-on-the-map",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 23518
+  },
+  {
+   "name": "subject-not-on-the-map",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 23518
+  },
+  {
+   "name": "subject-not-on-the-map",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 23518
+  },
+  {
+   "name": "subject-not-on-the-map",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 23518
+  },
+  {
+   "name": "party-human-holder-is-human",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 5809
+  },
+  {
+   "name": "party-human-holder-is-human",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 5809
+  },
+  {
+   "name": "party-human-holder-is-human",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 5809
+  },
+  {
+   "name": "party-human-holder-is-human",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 5809
+  },
+  {
+   "name": "party-human-holder-is-a-monster",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 5811
+  },
+  {
+   "name": "party-human-holder-is-a-monster",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 5811
+  },
+  {
+   "name": "party-human-holder-is-a-monster",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 5811
+  },
+  {
+   "name": "party-human-holder-is-a-monster",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 5811
+  },
+  {
+   "name": "party-monster-holder-is-a-monster",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 5799
+  },
+  {
+   "name": "party-monster-holder-is-a-monster",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 5799
+  },
+  {
+   "name": "party-monster-holder-is-a-monster",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 5799
+  },
+  {
+   "name": "party-monster-holder-is-a-monster",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 5799
+  },
+  {
+   "name": "party-male-counts-human-and-monster-males",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 5820
+  },
+  {
+   "name": "party-male-counts-human-and-monster-males",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 5820
+  },
+  {
+   "name": "party-male-counts-human-and-monster-males",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 5820
+  },
+  {
+   "name": "party-male-counts-human-and-monster-males",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 5820
+  },
+  {
+   "name": "party-female-holder-is-male",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 5829
+  },
+  {
+   "name": "party-female-holder-is-male",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 5829
+  },
+  {
+   "name": "party-female-holder-is-male",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 5829
+  },
+  {
+   "name": "party-female-holder-is-male",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 5829
+  },
+  {
+   "name": "party-alone-counts-only-the-holder",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 5689
+  },
+  {
+   "name": "party-alone-counts-only-the-holder",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 5689
+  },
+  {
+   "name": "party-alone-counts-only-the-holder",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 5689
+  },
+  {
+   "name": "party-alone-counts-only-the-holder",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 5689
+  },
+  {
+   "name": "party-not-on-the-map-counts-nothing",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 5110
+  },
+  {
+   "name": "party-not-on-the-map-counts-nothing",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 5110
+  },
+  {
+   "name": "party-not-on-the-map-counts-nothing",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 5110
+  },
+  {
+   "name": "party-not-on-the-map-counts-nothing",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 5110
+  },
+  {
+   "name": "party-weapon-holder-and-one-ally-have-guns",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 5795
+  },
+  {
+   "name": "party-weapon-holder-and-one-ally-have-guns",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 5795
+  },
+  {
+   "name": "party-weapon-holder-and-one-ally-have-guns",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 5795
+  },
+  {
+   "name": "party-weapon-holder-and-one-ally-have-guns",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 5795
+  },
+  {
+   "name": "party-min-three-females-with-the-holder",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 5897
+  },
+  {
+   "name": "party-min-two-females-is-not-enough",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 5868
+  },
+  {
+   "name": "party-min-weapon-two-axes",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 5861
+  },
+  {
+   "name": "party-min-weapon-one-axe",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 5830
+  },
+  {
+   "name": "turn-max-at-the-limit",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 3568
+  },
+  {
+   "name": "turn-max-at-the-limit",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 3568
+  },
+  {
+   "name": "turn-max-at-the-limit",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 3568
+  },
+  {
+   "name": "turn-max-at-the-limit",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 3568
+  },
+  {
+   "name": "turn-max-past-the-limit",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 3532
+  },
+  {
+   "name": "turn-max-past-the-limit",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 3532
+  },
+  {
+   "name": "turn-max-past-the-limit",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 3532
+  },
+  {
+   "name": "turn-max-past-the-limit",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 3532
+  },
+  {
+   "name": "turn-max-round-zero",
+   "family": "stats",
+   "site": "0x1401b9575",
+   "ok": true,
+   "instructions": 3568
+  },
+  {
+   "name": "turn-max-round-zero",
+   "family": "stats",
+   "site": "0x14021e19b",
+   "ok": true,
+   "instructions": 3568
+  },
+  {
+   "name": "turn-max-round-zero",
+   "family": "stats",
+   "site": "0x1402aa5e3",
+   "ok": true,
+   "instructions": 3568
+  },
+  {
+   "name": "turn-max-round-zero",
+   "family": "stats",
+   "site": "0x1402b0494",
+   "ok": true,
+   "instructions": 3568
+  },
+  {
+   "name": "aura-scaled-by-the-recipients-party",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 10352
+  },
+  {
+   "name": "aura-party-min-not-met",
+   "family": "dealt",
+   "site": "0x1401c169d",
+   "ok": true,
+   "instructions": 7970
+  }
+ ]
+}

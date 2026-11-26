@@ -3,6 +3,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 
 from PyQt6.QtCore import QObject, pyqtSignal
 
@@ -10,6 +11,7 @@ from d5lib import modsys, paths
 from d5lib.gamefs import GameFS
 
 KIT_DIR = modsys.KIT_DIR
+SIG_MAX_AGE = 10.0   # seconds a kept mods signature is trusted (edits deep inside a mod made outside the kit)
 
 
 def game_running(exe="disgaea5.exe"):
@@ -75,7 +77,8 @@ class Workspace(QObject):
                 self.save_settings()
         self.mods = modsys.ModManager(KIT_DIR, self.settings.get("profile"))
         self._open_game()
-        self.active_mod = self.mods.get(self.settings.get("active_mod") or "") if self.settings.get("active_mod") else None
+        self.active_mod = self._profile_active_mod()
+        self._sig_cache = None   # (key, time, signature) of the last full mods_signature scan
 
     # ------------------------------------------------------------------ setup
     def _open_game(self):
@@ -127,7 +130,17 @@ class Workspace(QObject):
         self.save_settings()
         self.mods.set_profile(pid)
         self.log(f"Profile: {self.mods.profile.name}")
+        mod = self._profile_active_mod()                # each profile has its own mod being edited
+        if (mod.id if mod else None) != (self.active_mod.id if self.active_mod else None):
+            self.set_active_mod(mod)
         self.mods_changed.emit()
+
+    def _profile_active_mod(self):
+        """the mod this profile was editing (a separate profile: one of its own)"""
+        per = self.settings.get("active_mods") or {}
+        pid = self.mods.profile.id
+        mid = per[pid] if pid in per else self.settings.get("active_mod")
+        return self.mods.get(mid) if mid and self.mods.visible(mid) else None
 
     def installed_profile(self):
         """the profile whose mods are in this game folder (None: the original game, or installed before profiles)"""
@@ -158,6 +171,7 @@ class Workspace(QObject):
     def set_active_mod(self, mod):
         self.active_mod = mod
         self.settings["active_mod"] = mod.id if mod else None
+        self.settings.setdefault("active_mods", {})[self.mods.profile.id] = mod.id if mod else None
         self.save_settings()
         self.active_mod_changed.emit(mod)
 
@@ -228,12 +242,28 @@ class Workspace(QObject):
         return True
 
     # ------------------------------------------------------------------ install state
-    def mods_signature(self):
+    def mods_signature(self, fresh=False):
         """Fingerprint of everything an install would read: load order, each enabled mod's files and patches
-        (paths, sizes, times) and the kit's own code.  Equal to the stored one = the game has these mods."""
+        (paths, sizes, times) and the kit's own code.  Equal to the stored one = the game has these mods.
+        The status bar asks every few seconds, so the last scan is kept while modsys.change_token (the kit's own
+        writes, files added / removed, mod.json, load orders) and the enabled mods stay the same, for at most
+        SIG_MAX_AGE seconds: a file edited in place deep inside a mod outside the kit changes no folder time, the
+        timed rescan still finds it.  fresh=True always scans (an install stores this, it must be exact)."""
+        mods = self.mods.enabled_mods()
+        key = (modsys.change_token(self.mods.mods_dir), tuple(m.id for m in mods))  # taken before the scan
+        c = self._sig_cache
+        if not fresh and c is not None and c[0] == key and time.monotonic() - c[1] < SIG_MAX_AGE:
+            return c[2]
+        now = time.monotonic()
+        sig = self._scan_signature(mods)
+        self._sig_cache = (key, now, sig)
+        return sig
+
+    @staticmethod
+    def _scan_signature(mods):
         import hashlib
         h = hashlib.sha1()
-        for mod in self.mods.enabled_mods():
+        for mod in mods:
             h.update(mod.id.encode())
             for root, _, files in os.walk(mod.folder):
                 for fn in sorted(files):
@@ -264,7 +294,7 @@ class Workspace(QObject):
 
     def mark_installed(self, installed=True):
         p = self.mods.profile
-        self.installer.set_installed({"signature": self.mods_signature(), "profile": p.id, "profile_name": p.name,
+        self.installer.set_installed({"signature": self.mods_signature(fresh=True), "profile": p.id, "profile_name": p.name,
                                       "mods": self.mods.load_order()} if installed else None)
 
     def revert(self, vpath, mod=None):
@@ -284,14 +314,23 @@ class Workspace(QObject):
         problems = gamecheck.errors(self.installer)
         if problems:
             raise RuntimeError("The mods were not installed:\n\n" + "\n\n".join(problems))
-        sig = self.mods_signature()              # taken first: edits made during the install count as new
+        sig = self.mods_signature(fresh=True)    # taken first: edits made during the install count as new
         prof = self.mods.profile
         mods = self.mods.enabled_mods()
+        info = self.installer.installed_info()
+        # same mods, same kit code (both in the signature) and an untouched game: the build would write the same
+        # files again, so it isn't run (it re-reads and re-assembles every mod: tens of seconds)
+        if (self.installer.modified_archives() and info.get("signature") == sig and info.get("profile") == prof.id
+                and info.get("game") == self.installer.game_stamp()):
+            self.log(f"Nothing changed since the last install: the game already has the {len(mods)} mod(s) of "
+                     f"the profile '{prof.name}'.")
+            self.sync_saves(prof)
+            return 0
         self.log(f"Installing {len(mods)} mod(s) of the profile '{prof.name}': " + ", ".join(m.name for m in mods))
         ctx = modsys.build(self.fs, mods, log=self.log)
         self.installer.install(self.fs, ctx)
         self.installer.set_installed({"signature": sig, "profile": prof.id, "profile_name": prof.name,
-                                      "mods": [m.id for m in mods]})
+                                      "mods": [m.id for m in mods], "game": self.installer.game_stamp()})
         self.sync_saves(prof)                    # a profile with its own saves: they go with its mods
         return len(ctx.outputs)
 

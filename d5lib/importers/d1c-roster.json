@@ -1,0 +1,2080 @@
+{
+ "schema": "d1c-roster/1",
+ "about": "Ids, rules and counts for the D1C importer; names/titles are SHA-256 references resolved at build time from the user's own game files (SOURCEPREP4-D1C).",
+ "census_rows": 297,
+ "classes": [
+  {
+   "registry": 11400,
+   "character_id": 1150,
+   "kind": "humanoid",
+   "physical": 1530,
+   "template": 1120,
+   "name_sha256": "b7c8ad33465655bf7652df1eb04729073fc6e1aecdbe68821e8bf6a378730df0",
+   "template_name_sha256": "0cbc0bc5729f801f03612eb227bcce972dea2f8ac9a991e234990435c7270b26"
+  },
+  {
+   "registry": 11390,
+   "character_id": 1140,
+   "kind": "humanoid",
+   "physical": 1540,
+   "template": 1110,
+   "name_sha256": "76ec1841b2bb8cd142d0f6ffd6f59879513d5e37efe6677dcd6fdf20942a033b",
+   "template_name_sha256": "71f2149b5982e467908f4dd974d3cf0c1533bb97717bd9e85f845848553de00d"
+  },
+  {
+   "registry": 11900,
+   "character_id": 2150,
+   "kind": "monster",
+   "physical": 2650,
+   "template": 2170,
+   "name_sha256": "628bf77a740094a920d6d45f3fe8333df71a77c7719ec23f999a7cb300babac6",
+   "template_name_sha256": "8c578ed3e9d5fec6f0f1f46402fdb52e4b6174ae74aef1487b1905d0b666c168"
+  },
+  {
+   "registry": 11760,
+   "character_id": 2010,
+   "kind": "monster",
+   "physical": 2660,
+   "template": 2050,
+   "name_sha256": "df1bc4984a055e10b2863eb03abf11701cb63a1e2371dc398889e8291812fb80",
+   "template_name_sha256": "f46be28784b8ddccadb028609a20c49b9e090adaff43091527d03d214aac6fe5"
+  },
+  {
+   "registry": 11770,
+   "character_id": 2020,
+   "kind": "monster",
+   "physical": 2670,
+   "template": 2170,
+   "name_sha256": "7801c2b35bd33a6d0bed2640bbde3bd64ff1939e0f4afcfe73fc907781ec963c",
+   "template_name_sha256": "8c578ed3e9d5fec6f0f1f46402fdb52e4b6174ae74aef1487b1905d0b666c168"
+  },
+  {
+   "registry": 11800,
+   "character_id": 2050,
+   "kind": "monster",
+   "physical": 2680,
+   "template": 2180,
+   "name_sha256": "61a51c9fe0700fd2e1a45d6a818fd8c60be80e1ac6696d7b6298bc889c90bc9e",
+   "template_name_sha256": "cd872f99f878b74f7af496715c486158b2e90fea8d96ba0867cde7798f3c1c1b"
+  },
+  {
+   "registry": 11810,
+   "character_id": 2060,
+   "kind": "monster",
+   "physical": 2690,
+   "template": 2100,
+   "name_sha256": "c6c5211a50793ccc36daff5d97003daf1a6c481267f83757a59ca657a5654bef",
+   "template_name_sha256": "c73b8dea0417a182f3b04469543be528bb87a60280990a4773281e5450611823"
+  },
+  {
+   "registry": 11820,
+   "character_id": 2070,
+   "kind": "monster",
+   "physical": 2700,
+   "template": 2140,
+   "name_sha256": "b44f2738b3701178509513d9c0f0c69eea6de0ee430ca9970ef612e06ee25f08",
+   "template_name_sha256": "14b4955bda3539b6b9cc574970f03383f0b01d24936d91c18299bb674a8b3caf"
+  },
+  {
+   "registry": 11830,
+   "character_id": 2080,
+   "kind": "monster",
+   "physical": 2710,
+   "template": 2210,
+   "name_sha256": "864e8d565eac5de10aced470ce96018502bebf4262bbb9eb7e3eca8c0e045d10",
+   "template_name_sha256": "fe0c55384313c0194d318c5eb17a864a19a56873d7427c4671976d70f7d4a2c5"
+  },
+  {
+   "registry": 11840,
+   "character_id": 2090,
+   "kind": "monster",
+   "physical": 2720,
+   "template": 2190,
+   "name_sha256": "bb01a030df624241707d6c61aaff0d7c9b70a42e592672e8d9d67dd6ad0321d0",
+   "template_name_sha256": "f887b49afefb75d572ba7487641b4424f11367348a1d817323c975df070da0ad"
+  },
+  {
+   "registry": 11850,
+   "character_id": 2100,
+   "kind": "monster",
+   "physical": 2730,
+   "template": 2200,
+   "name_sha256": "1839e58c86b502352ae66886fe843c479abe517725b1e7f2b22838367860f607",
+   "template_name_sha256": "c85619de8202003df905b2499904dabb241a3ec62f91b3dee39422181cbc75fd"
+  },
+  {
+   "registry": 11860,
+   "character_id": 2110,
+   "kind": "monster",
+   "physical": 2740,
+   "template": 2180,
+   "name_sha256": "bbe963c645f060d61857b416b39ec5dcf63f659a960bb2dc164b7faad2897783",
+   "template_name_sha256": "cd872f99f878b74f7af496715c486158b2e90fea8d96ba0867cde7798f3c1c1b"
+  },
+  {
+   "registry": 11930,
+   "character_id": 2180,
+   "kind": "monster",
+   "physical": 2750,
+   "template": 2140,
+   "name_sha256": "ef177717b2d61a6ac74a239f5c3eae9634b65091e35031cebf5d18f0c17b55b4",
+   "template_name_sha256": "14b4955bda3539b6b9cc574970f03383f0b01d24936d91c18299bb674a8b3caf"
+  }
+ ],
+ "skills": {
+  "11390": {
+   "kind": "humanoid",
+   "skills": [
+    [
+     101,
+     1
+    ],
+    [
+     106,
+     20
+    ],
+    [
+     201,
+     1
+    ],
+    [
+     403,
+     15
+    ],
+    [
+     402,
+     20
+    ],
+    [
+     501,
+     1
+    ],
+    [
+     506,
+     15
+    ],
+    [
+     601,
+     1
+    ],
+    [
+     1901,
+     1
+    ]
+   ]
+  },
+  "11400": {
+   "kind": "humanoid",
+   "skills": [
+    [
+     101,
+     1
+    ],
+    [
+     106,
+     20
+    ],
+    [
+     201,
+     1
+    ],
+    [
+     403,
+     15
+    ],
+    [
+     402,
+     20
+    ],
+    [
+     501,
+     1
+    ],
+    [
+     506,
+     15
+    ],
+    [
+     601,
+     1
+    ]
+   ]
+  },
+  "11760": {
+   "kind": "monster",
+   "skills": [
+    [
+     22052,
+     5
+    ],
+    [
+     22192,
+     15
+    ],
+    [
+     22051,
+     30
+    ],
+    [
+     22131,
+     50
+    ]
+   ]
+  },
+  "11770": {
+   "kind": "monster",
+   "skills": [
+    [
+     12011,
+     5
+    ],
+    [
+     12012,
+     15
+    ],
+    [
+     22053,
+     30
+    ],
+    [
+     12174,
+     50
+    ]
+   ]
+  },
+  "11800": {
+   "kind": "monster",
+   "skills": [
+    [
+     12011,
+     5
+    ],
+    [
+     22042,
+     15
+    ],
+    [
+     12013,
+     30
+    ],
+    [
+     12014,
+     50
+    ]
+   ]
+  },
+  "11810": {
+   "kind": "monster",
+   "skills": [
+    [
+     12011,
+     5
+    ],
+    [
+     12102,
+     15
+    ],
+    [
+     12103,
+     30
+    ],
+    [
+     12104,
+     50
+    ]
+   ]
+  },
+  "11820": {
+   "kind": "monster",
+   "skills": [
+    [
+     12101,
+     5
+    ],
+    [
+     22052,
+     15
+    ],
+    [
+     12013,
+     30
+    ]
+   ]
+  },
+  "11830": {
+   "kind": "monster",
+   "skills": [
+    [
+     22052,
+     5
+    ],
+    [
+     22131,
+     15
+    ],
+    [
+     22191,
+     30
+    ]
+   ]
+  },
+  "11840": {
+   "kind": "monster",
+   "skills": [
+    [
+     12011,
+     5
+    ],
+    [
+     12192,
+     15
+    ],
+    [
+     12143,
+     30
+    ],
+    [
+     12014,
+     50
+    ]
+   ]
+  },
+  "11850": {
+   "kind": "monster",
+   "skills": [
+    [
+     12191,
+     5
+    ],
+    [
+     22042,
+     15
+    ],
+    [
+     12203,
+     30
+    ],
+    [
+     12044,
+     50
+    ]
+   ]
+  },
+  "11860": {
+   "kind": "monster",
+   "skills": [
+    [
+     12011,
+     5
+    ],
+    [
+     12132,
+     15
+    ],
+    [
+     12182,
+     15
+    ],
+    [
+     22113,
+     30
+    ],
+    [
+     12183,
+     30
+    ],
+    [
+     12114,
+     50
+    ],
+    [
+     12134,
+     50
+    ],
+    [
+     12184,
+     50
+    ]
+   ]
+  },
+  "11900": {
+   "kind": "monster",
+   "skills": [
+    [
+     12141,
+     5
+    ],
+    [
+     12042,
+     15
+    ],
+    [
+     12043,
+     30
+    ],
+    [
+     22052,
+     50
+    ]
+   ]
+  },
+  "11930": {
+   "kind": "monster",
+   "skills": [
+    [
+     22052,
+     5
+    ],
+    [
+     12042,
+     21
+    ],
+    [
+     12013,
+     30
+    ],
+    [
+     22191,
+     50
+    ]
+   ]
+  }
+ },
+ "uniques": [
+  {
+   "id": 1,
+   "body": 10,
+   "shape": "humanoid",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 10,
+   "palettes": 6,
+   "name_sha256": "c81b908686124770595b26664df1d4cc8186333725320740e4fabd54e58c6695",
+   "title_sha256": "5f5f570595c645d4a2bcabcc94185b4ba82a28e9969b54397d8b73f08205fc95"
+  },
+  {
+   "id": 2,
+   "body": 20,
+   "shape": "humanoid",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 4,
+   "palettes": 5,
+   "name_sha256": "40ede8445092e43118daf16eacc7be7daa689990772d7bf8f71ba4a05b4348e5",
+   "title_sha256": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+  },
+  {
+   "id": 3,
+   "body": 30,
+   "shape": "humanoid",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 5,
+   "palettes": 4,
+   "name_sha256": "26c6cdb6e2dfeb14cbd9fc599f7791824cc2916347e3608620395c09abeb6955",
+   "title_sha256": "9395c7cf1cf3f5171560d13e39449630fb42925b74df3816bd6aa03a01ba064e"
+  },
+  {
+   "id": 4,
+   "body": 40,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique humanoid body: needs its own face/cut-in and a low unique id lease.",
+   "anims": 4,
+   "palettes": 1,
+   "name_sha256": "456a845d1b0b1a1bd1929911e44cfacabc4943cb63dfd4179e6f125ecbe4a1aa",
+   "title_sha256": "157ddc59b5e4e7ca9a05ffa09e4fa7cdefe073d8a3ebdf56b70a8446b64ae83f"
+  },
+  {
+   "id": 5,
+   "body": 50,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique humanoid body: needs its own face/cut-in and a low unique id lease.",
+   "anims": 3,
+   "palettes": 2,
+   "name_sha256": "bda0a01c76aae97ef15d6b792f3dc3cbb6609d611e9c563a54a1393fe685e31b",
+   "title_sha256": "284133ec593bd7b979ab071f24f50f5881a9bae23853dbc147025c5ecb100e32"
+  },
+  {
+   "id": 2140,
+   "body": 2140,
+   "shape": "monster",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 42,
+   "palettes": 4,
+   "name_sha256": "27e82809296ee29010a90301a8547af08f31aa6cebdd6cab20b9921e512c2e5e",
+   "title_sha256": "0e267bec6e5241cb8f7da5d0e919c575518f84eb2564abca4b8366467384d8b6"
+  },
+  {
+   "id": 2200,
+   "body": 2200,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 46,
+   "palettes": 1,
+   "name_sha256": "fc2662062ffdef9610020183ea2b087c21d71150d78a7c7463be8a9050bd3ac9",
+   "title_sha256": "fa32af60ec8507db011cd8b6db216df03425efaa17f00cc142a3805858bf6e40"
+  },
+  {
+   "id": 2216,
+   "body": 2220,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 49,
+   "palettes": 4,
+   "name_sha256": "1fa3392a716c1334f7e71e7639da08a11206ec4506dbb65771e6c45e1da87084",
+   "title_sha256": "b1a3afafd798e5836fb5cbbcfa07e5f7efe563516e1da66e889987937b2c8a08"
+  },
+  {
+   "id": 2300,
+   "body": 10,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique humanoid body: needs its own face/cut-in and a low unique id lease.",
+   "anims": 10,
+   "palettes": 6,
+   "name_sha256": "ca2db3292857754f776e0437b07e83dfa2b5a65d915ee437119265ebaa13454c",
+   "title_sha256": "ca2db3292857754f776e0437b07e83dfa2b5a65d915ee437119265ebaa13454c"
+  },
+  {
+   "id": 2301,
+   "body": 10,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique humanoid body: needs its own face/cut-in and a low unique id lease.",
+   "anims": 10,
+   "palettes": 6,
+   "name_sha256": "e68fcc91c7061554b22001446ddc1b6a9c1434bda576524299ab89a9586bc64a",
+   "title_sha256": "53cca3d0a1b73d27d43d7e6f49e293eea005aa865a5737561276a62bec2b4522"
+  },
+  {
+   "id": 2302,
+   "body": 10,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique humanoid body: needs its own face/cut-in and a low unique id lease.",
+   "anims": 10,
+   "palettes": 6,
+   "name_sha256": "cdee1f5965f76562041a75b994b299d84ff709957223cff3b5a308a2e007931c",
+   "title_sha256": "a5f9573121452cf12aea62087711871d87c1566342b31553fc7b2a7a6beb13fe"
+  },
+  {
+   "id": 2400,
+   "body": 2130,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "ROSTERGAP1: built from D1C; the DD2 character of the same name is not in the roster or the kit",
+   "anims": 39,
+   "palettes": 10,
+   "name_sha256": "163a3d552d645271186a11e65ea53b3584579606e21e5c1daceb724083de5b64",
+   "title_sha256": "e5cb5b70161a464048081729ce960560f530451ab98a2767fe5d862e7c29d090"
+  },
+  {
+   "id": 2410,
+   "body": 1080,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 8,
+   "palettes": 6,
+   "name_sha256": "afe426d361fa6743b61381c0d1927db0f0f3fca508dd89b172c82ebe4bff21b8",
+   "title_sha256": "9b0b619ddf6aa023e69832b9ddd5dcd1e9f42f98a75c9cd3cc4a8c33c1159453"
+  },
+  {
+   "id": 2420,
+   "body": 2190,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 44,
+   "palettes": 10,
+   "name_sha256": "3b46e8607f547d93da660019736de5d4d133c422ba626bb1de4d38d1b691c034",
+   "title_sha256": "3b46e8607f547d93da660019736de5d4d133c422ba626bb1de4d38d1b691c034"
+  },
+  {
+   "id": 2430,
+   "body": 2210,
+   "shape": "monster",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 47,
+   "palettes": 6,
+   "name_sha256": "27e82809296ee29010a90301a8547af08f31aa6cebdd6cab20b9921e512c2e5e",
+   "title_sha256": "33d6db0a09b0615316ca5076953c4ef8bb26977973edb6694e5982b3cc16cef4"
+  },
+  {
+   "id": 2500,
+   "body": 2500,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 45,
+   "palettes": 3,
+   "name_sha256": "63707b0e4f777ae3a78697cb54e5b88e5a825fc8c7051f1adebeceef5952b031",
+   "title_sha256": "63707b0e4f777ae3a78697cb54e5b88e5a825fc8c7051f1adebeceef5952b031"
+  },
+  {
+   "id": 2540,
+   "body": 2500,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 45,
+   "palettes": 3,
+   "name_sha256": "62b4104b37b405a244ba28870e2f82891ae954f4dd337de3aef019cf1f35a8e3",
+   "title_sha256": "f9fc1ae5e7566c9234d1d618bcc04e07a85126bd6c99a9bb5892a4a8b14a306e"
+  },
+  {
+   "id": 2550,
+   "body": 2180,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 50,
+   "palettes": 6,
+   "name_sha256": "b0286ac030926b931791b6c568ae2be09cbb7bed7103e0d1ca4011fbdc7e1fc2",
+   "title_sha256": "cc12a63f344632ca4e35e076ec0343888735fdbc850cbafe85ee904686afe5dc"
+  },
+  {
+   "id": 2570,
+   "body": 2570,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 43,
+   "palettes": 5,
+   "name_sha256": "a137fc0fbfa1f6b0fb97db04940efb7df9072d8602fccf5b7cae356ed8304c9c",
+   "title_sha256": "203e744107d0f143ca1ca3babfd2cf76e12c5c0fbf3877f47652d49697b0bcf5"
+  },
+  {
+   "id": 2580,
+   "body": 2580,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "ROSTERGAP1: built from D1C; the DD2 character of the same name is not in the roster or the kit; body 2580 uses the monster action ids (stand 1/7, walk 11/17, wait 1001) and has no humanoid 6001 wait, so it is built as a monster body (listing said humanoid)",
+   "anims": 54,
+   "palettes": 3,
+   "name_sha256": "77d7a1123b0bce4b33cefd306768f72aca4aa3458a941116a057715ed5f27ec5",
+   "title_sha256": "30c3dfe9bc80386890a4fbecb2a3b21c805018bc668d0c31f5a2b148d67bded9"
+  },
+  {
+   "id": 2590,
+   "body": 2590,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 50,
+   "palettes": 1,
+   "name_sha256": "1fa3392a716c1334f7e71e7639da08a11206ec4506dbb65771e6c45e1da87084",
+   "title_sha256": "b1a3afafd798e5836fb5cbbcfa07e5f7efe563516e1da66e889987937b2c8a08"
+  },
+  {
+   "id": 2600,
+   "body": 2600,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 42,
+   "palettes": 3,
+   "name_sha256": "54d139eaf531d58efbaa681344dd07465d3077643684ae3f1f3404a86009bf8b",
+   "title_sha256": "296326c94a8ac6ab6f535a83c48c89736b737c2458f334822f9224ac1987fa15"
+  },
+  {
+   "id": 2610,
+   "body": 2610,
+   "shape": "monster",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 42,
+   "palettes": 8,
+   "name_sha256": "f70a28a094e4be20b64911c10ad88354ec3aa83628238aa62c58a8fe2d177698",
+   "title_sha256": "e2875da4c7c4631e459a5d2fe4533d7a8dce41a20d5f112666dd8900aa1a2281"
+  },
+  {
+   "id": 2611,
+   "body": 2610,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 42,
+   "palettes": 8,
+   "name_sha256": "f3983d1f2482488e703246a53b8dc61aa6bd1a31618317a6ff4e3cdba478fa87",
+   "title_sha256": "e2875da4c7c4631e459a5d2fe4533d7a8dce41a20d5f112666dd8900aa1a2281"
+  },
+  {
+   "id": 2612,
+   "body": 2610,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 42,
+   "palettes": 8,
+   "name_sha256": "2a0df6a51713590800dab184222f8bbd8f22cac00ee0627c7257dcb818268fac",
+   "title_sha256": "e2875da4c7c4631e459a5d2fe4533d7a8dce41a20d5f112666dd8900aa1a2281"
+  },
+  {
+   "id": 2613,
+   "body": 2610,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 42,
+   "palettes": 8,
+   "name_sha256": "1d8098ce9f05d35e4d110d02becac3f6518343366e72a942eb60473a30e10520",
+   "title_sha256": "c910d474dcd724bff83ddedeb06bf1eceaf9fb3af7c76bb282be057f36e6dffa"
+  },
+  {
+   "id": 2614,
+   "body": 2610,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 42,
+   "palettes": 8,
+   "name_sha256": "1ecb3207238c01121c05168d0666ff856c6c1c65770707915764caaed2f44a1c",
+   "title_sha256": "d4ed565260ab648ce04f852ec3b81d2f37e3440a0fd3e50f709222c515ef8a3c"
+  },
+  {
+   "id": 2615,
+   "body": 2610,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 42,
+   "palettes": 8,
+   "name_sha256": "0fd516b599c8bbb5e79896571df82a79aa8d9a1c292dfceb1942ce34a4c3174a",
+   "title_sha256": "d4ed565260ab648ce04f852ec3b81d2f37e3440a0fd3e50f709222c515ef8a3c"
+  },
+  {
+   "id": 2700,
+   "body": 1050,
+   "shape": "humanoid",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 3,
+   "palettes": 7,
+   "name_sha256": "075840cf54ab63cce040c8c7a65d6de61d4433385aee0789a675506e6242fde3",
+   "title_sha256": "075840cf54ab63cce040c8c7a65d6de61d4433385aee0789a675506e6242fde3"
+  },
+  {
+   "id": 2800,
+   "body": 2800,
+   "shape": "monster",
+   "disposition": "duplicate-of-d2-pack",
+   "feasibility": "no build",
+   "note": "already covered by the D2 source pack; a D1 rebuild would duplicate one identity.",
+   "anims": 53,
+   "palettes": 8,
+   "name_sha256": "7dce94ce3b66afc51a02647a5bc6c2042343ff11a0411a82aad1257d428614ce",
+   "title_sha256": "7dce94ce3b66afc51a02647a5bc6c2042343ff11a0411a82aad1257d428614ce"
+  },
+  {
+   "id": 2901,
+   "body": 2010,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 46,
+   "palettes": 10,
+   "name_sha256": "4c6d141cf5d17ba05e3f3c82e6165f0b43eedfddcf0b23727bb0778d00f42a74",
+   "title_sha256": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+  },
+  {
+   "id": 2902,
+   "body": 2070,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 41,
+   "palettes": 6,
+   "name_sha256": "f68139c2d08cfacb4f0469d741ea7e6a7e9db61bf657a0c3d25680a398cfe703",
+   "title_sha256": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+  },
+  {
+   "id": 2903,
+   "body": 2150,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 42,
+   "palettes": 10,
+   "name_sha256": "7ba7568e8ee4ffc46394bc4efe4f754b25d33b3ad01b7a8142f1147cae88ced7",
+   "title_sha256": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+  },
+  {
+   "id": 2904,
+   "body": 2020,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 41,
+   "palettes": 6,
+   "name_sha256": "060417372ee6fe35054c86db7690a5d334dd45f74666b99449b1f8246853f1f3",
+   "title_sha256": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+  },
+  {
+   "id": 2905,
+   "body": 2110,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 44,
+   "palettes": 6,
+   "name_sha256": "831547d9a96b40ebdaf0eccb905ac3ae0ed4d3662225ab4205e30f2ec3ebe02c",
+   "title_sha256": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+  },
+  {
+   "id": 2906,
+   "body": 2120,
+   "shape": "monster",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 42,
+   "palettes": 10,
+   "name_sha256": "8a314931d6164418b1cef103ab0e3e03c9fff5e27852b8f3a65164e7ff1a9657",
+   "title_sha256": "e37d9575d5528796476ec62aadbd15eb9763c9601c926a382a3b63542e7d0005"
+  },
+  {
+   "id": 2907,
+   "body": 1130,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 6,
+   "palettes": 6,
+   "name_sha256": "b4053fbdf55448e8ac66387f14362bb3cb05a7d54177df37475b0eb8727c0003",
+   "title_sha256": "b4053fbdf55448e8ac66387f14362bb3cb05a7d54177df37475b0eb8727c0003"
+  },
+  {
+   "id": 2909,
+   "body": 1110,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 8,
+   "palettes": 6,
+   "name_sha256": "544bc4a38894b9ef63353d05a158d4b53ded817601d917dffbb85e35058039ee",
+   "title_sha256": "750db8444cd74ad2d575eba6df720f8e46b872e5b42858a78f51adacc1c27e01"
+  },
+  {
+   "id": 2910,
+   "body": 1030,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 7,
+   "palettes": 6,
+   "name_sha256": "1e66ab373880ff92fe5b604fe9d40805e0c0d368f18c30c4c6e578ebb8ec1342",
+   "title_sha256": "750db8444cd74ad2d575eba6df720f8e46b872e5b42858a78f51adacc1c27e01"
+  },
+  {
+   "id": 2911,
+   "body": 1090,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 8,
+   "palettes": 6,
+   "name_sha256": "c84c7c52910260127029babbbde8856ab17004a93e175d3aed0f4a589702eea6",
+   "title_sha256": "750db8444cd74ad2d575eba6df720f8e46b872e5b42858a78f51adacc1c27e01"
+  },
+  {
+   "id": 2912,
+   "body": 1070,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 7,
+   "palettes": 6,
+   "name_sha256": "97e9623661f2970acb41495153876df0836f6894398e2c45bb5a29d109ba9a46",
+   "title_sha256": "ab63c0d0657040400f5a49dadd7c211d9d502e8f71de3ace7736b5ac29d1e816"
+  },
+  {
+   "id": 3500,
+   "body": 3500,
+   "shape": "humanoid",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 3,
+   "palettes": 5,
+   "name_sha256": "a4a2899ef6f76ef71ac0dceefc25029c493642ac306959a8cacc8f9cadb67801",
+   "title_sha256": "612a2d03fcae41b8930fd414ac806fa75e2765dcdd9f09539d3f0f87302f29b9"
+  },
+  {
+   "id": 2914,
+   "body": 1120,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 6,
+   "palettes": 6,
+   "name_sha256": "654906467272c1c6dc49670ee028defd22718228afca7af12402f463f6e90aa0",
+   "title_sha256": "654906467272c1c6dc49670ee028defd22718228afca7af12402f463f6e90aa0"
+  },
+  {
+   "id": 2915,
+   "body": 1100,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 6,
+   "palettes": 6,
+   "name_sha256": "0c7e120ba41e9e85bcc015e40799dc16c3ef0715fd6444fe7110f947b092ec45",
+   "title_sha256": "0c7e120ba41e9e85bcc015e40799dc16c3ef0715fd6444fe7110f947b092ec45"
+  },
+  {
+   "id": 2916,
+   "body": 3600,
+   "shape": "object",
+   "disposition": "buildable-unique",
+   "feasibility": "hard",
+   "note": "body is an object/prop set (no humanoid or monster action rows), so the class builder cannot address it; needs an object recipe that does not exist yet.",
+   "anims": 6,
+   "palettes": 10,
+   "name_sha256": "759f5b05767f474e91a604de35e5b9313b8502cc9d3f885a1abbd89c3bcac65d",
+   "title_sha256": "759f5b05767f474e91a604de35e5b9313b8502cc9d3f885a1abbd89c3bcac65d"
+  },
+  {
+   "id": 3000,
+   "body": 3000,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 54,
+   "palettes": 6,
+   "name_sha256": "68095a464c5811446ed4128ab8bf4a2fa0e53ba9da9883f72912119662c958bc",
+   "title_sha256": "1e56767c5f9119ca9fa477c46a8f2eb427c0a4432eb39905e5a67078a8dfcfe7"
+  },
+  {
+   "id": 3010,
+   "body": 3010,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 53,
+   "palettes": 1,
+   "name_sha256": "7bc2de40f1c6633d26630637c37449eaf5b488aca39bc52890a1cbd7e7e45856",
+   "title_sha256": "f28854498a03ea2c2454eac5c7765b970f8cda71eb7c89a99673a0705492c674"
+  },
+  {
+   "id": 3020,
+   "body": 3020,
+   "shape": "monster",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 76,
+   "palettes": 2,
+   "name_sha256": "21d9243a90ba66ed48bb3d70c9fa6ddfedd2ab8b50ec85cf06aff5fa776eb025",
+   "title_sha256": "64a2b303c77efa29e9954389bbd21479bcc543a43c68c5eed091221eb2d987ba"
+  },
+  {
+   "id": 3030,
+   "body": 3030,
+   "shape": "monster",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 57,
+   "palettes": 4,
+   "name_sha256": "6f270754cc0509310b73eb867c043e293d95b087496cf9f141836760dc9c7dff",
+   "title_sha256": "d0b5bdaf83bc2cff421f80b73dd3b5750f7410304a72ad8d52c10847375cf7ec"
+  },
+  {
+   "id": 3040,
+   "body": 3040,
+   "shape": "monster",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 47,
+   "palettes": 1,
+   "name_sha256": "8a9ef71b678584c2ee6411663b58cc557487ac7f812552890aa795a2c4f1cea1",
+   "title_sha256": "84f7b8dcf78855b969b45422cb59de033d7efdc55b1c04ac1d05f73351b36e84"
+  },
+  {
+   "id": 3050,
+   "body": 2160,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 45,
+   "palettes": 10,
+   "name_sha256": "99ce6cff092c7a5ef45fa77528d7156f3622b695d024808d28bb81543f9cf96c",
+   "title_sha256": "fa4a97a602fb0841da81aca3f3b89bb3358cedbfcae1abb6e426e471f8ac3218"
+  },
+  {
+   "id": 3060,
+   "body": 30,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique humanoid body: needs its own face/cut-in and a low unique id lease.",
+   "anims": 5,
+   "palettes": 4,
+   "name_sha256": "99dd5ae7478fb55e39cc5ad82ca7b688826b7f2a46ec279ff3a5349e907ab955",
+   "title_sha256": "9395c7cf1cf3f5171560d13e39449630fb42925b74df3816bd6aa03a01ba064e"
+  },
+  {
+   "id": 3130,
+   "body": 2090,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 41,
+   "palettes": 6,
+   "name_sha256": "0dd62ce90c6e3973b3f8d52c1fb4387b4e5e06f49cad6593f36b6b8324eb8448",
+   "title_sha256": "d162c541d095bed7bdd131255ce4018771fbaf0cc2ddb8615fa318f45ae0ab7e"
+  },
+  {
+   "id": 3140,
+   "body": 2190,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 44,
+   "palettes": 10,
+   "name_sha256": "4d38d03cf821c9033c07e543df89121a2b5fa729bc2a0a6bfae8c607eb81748d",
+   "title_sha256": "1e56767c5f9119ca9fa477c46a8f2eb427c0a4432eb39905e5a67078a8dfcfe7"
+  },
+  {
+   "id": 3150,
+   "body": 1130,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 6,
+   "palettes": 6,
+   "name_sha256": "4298b765727c9f343d639e9d75e81646902bcbefa4e55d4ff3d64ed2dba861e1",
+   "title_sha256": "12f245fa0765e6ce09e2becf79155856fab5196712d832929eec5e8b67f9a68b"
+  },
+  {
+   "id": 3160,
+   "body": 1160,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "humanoid on a generic D1 body: the Strider/EDF Builder path applies, plus an authored face/cut-in and a low unique id lease.",
+   "anims": 3,
+   "palettes": 6,
+   "name_sha256": "7ef5b2bf10953bc5916a78d987383c8edad559d3539149068bffa81fd6a796db",
+   "title_sha256": "4ee4c93056bfc5bffcf2108c90cc605f4e3d0867827a47a58e637d5b8a850229"
+  },
+  {
+   "id": 3170,
+   "body": 2210,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "ready",
+   "note": "monster on a generic D1 body: the monster batch recipe applies, including the one-donor-body-track rule and the effect-animation gap.",
+   "anims": 47,
+   "palettes": 6,
+   "name_sha256": "b995e2a2a66cdda5350e7c8e6969ce6b1c6dfb947c804cb130320eacf284503f",
+   "title_sha256": "34cc93aaa1fd43d9ed3a96317e46979b3455489a6022987dba7af3db0fdb59eb"
+  },
+  {
+   "id": 3180,
+   "body": 30,
+   "shape": "humanoid",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 5,
+   "palettes": 4,
+   "name_sha256": "26c6cdb6e2dfeb14cbd9fc599f7791824cc2916347e3608620395c09abeb6955",
+   "title_sha256": "b39ac857eb6f78318e2d55275aecb20d6548a4e83ec2eee7357b8653893f8ab2"
+  },
+  {
+   "id": 3190,
+   "body": 3610,
+   "shape": "monster",
+   "disposition": "already-in-d5",
+   "feasibility": "no build",
+   "note": "D5 (or the installed D5ModKit packs) already provides this character; the pack leaves it alone.",
+   "anims": 44,
+   "palettes": 5,
+   "name_sha256": "dc86d290d14390a8b29e00ab3e5eaed12009d4d3ed1f01e6a97a52227d50ef29",
+   "title_sha256": "1a09ae01555b1da986f3df8badb5792adbbd3cfe4fcf706193cf07524b61c286"
+  },
+  {
+   "id": 5390,
+   "body": 5390,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 12,
+   "palettes": 1,
+   "name_sha256": "1b24eaa48ce1a49136b45f84da175c14afb658d92c256e78ec7eed6ec124c531",
+   "title_sha256": "1d66331ed5744fbd4ba1281435ab62829dd35c3e5ce4bc361968f2501b67a869"
+  },
+  {
+   "id": 5590,
+   "body": 50,
+   "shape": "humanoid",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique humanoid body: needs its own face/cut-in and a low unique id lease.",
+   "anims": 3,
+   "palettes": 2,
+   "name_sha256": "70d200583af284f6ab9c9bf7dbe508336a1080903a821887f532b1ae577e8cf4",
+   "title_sha256": "6b131a64140d91f82d2bc45cdcb81bc384cd0ccad5810d283bb8b5de4bba55fc"
+  },
+  {
+   "id": 6601,
+   "body": 2560,
+   "shape": "monster",
+   "disposition": "buildable-unique",
+   "feasibility": "medium",
+   "note": "dedicated unique monster body: art is complete, but it needs its own donor template choice and a low unique id; the generic-rank assumptions do not apply.",
+   "anims": 8,
+   "palettes": 8,
+   "name_sha256": "25eb92ae54cc5089e9b995f4176795d3c67d927069a3009a655c76cf0e447536",
+   "title_sha256": "41dfb81909ff4100813b4e80b812c4774ab825589e4abf09ca7b33bd0685ff15"
+  },
+  {
+   "id": 6701,
+   "body": 3510,
+   "shape": "object",
+   "disposition": "buildable-unique",
+   "feasibility": "hard",
+   "note": "body is an object/prop set (no humanoid or monster action rows), so the class builder cannot address it; needs an object recipe that does not exist yet.",
+   "anims": 6,
+   "palettes": 1,
+   "name_sha256": "77c292bec89daa05b6adf2ed87092c9f83f39cad64e295f6ba111f3610f9bf3f",
+   "title_sha256": "5c752e03b99b1e4f148612340023afab615fb3203f6037e1dfcdb018a5e83514"
+  },
+  {
+   "id": 2918,
+   "body": 3600,
+   "shape": "object",
+   "disposition": "buildable-unique",
+   "feasibility": "hard",
+   "note": "body is an object/prop set (no humanoid or monster action rows), so the class builder cannot address it; needs an object recipe that does not exist yet.",
+   "anims": 6,
+   "palettes": 10,
+   "name_sha256": "ab63c0d0657040400f5a49dadd7c211d9d502e8f71de3ace7736b5ac29d1e816",
+   "title_sha256": "ab63c0d0657040400f5a49dadd7c211d9d502e8f71de3ace7736b5ac29d1e816"
+  }
+ ],
+ "leases": {
+  "4": {
+   "identity": 10620,
+   "physical": 516,
+   "shape": "registry",
+   "listing": 4,
+   "donor": 1140,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22865,
+   "quest_id": 396,
+   "quest_slot": 543
+  },
+  "5": {
+   "identity": 10630,
+   "physical": 523,
+   "shape": "registry",
+   "listing": 5,
+   "donor": 1080,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22866,
+   "quest_id": 397,
+   "quest_slot": 558
+  },
+  "2200": {
+   "identity": 10000,
+   "physical": 853,
+   "shape": "registry",
+   "listing": 2200,
+   "donor": 2060,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22793,
+   "quest_id": 347,
+   "quest_slot": 589
+  },
+  "2216": {
+   "identity": 10640,
+   "physical": 526,
+   "shape": "registry",
+   "listing": 2216,
+   "donor": 2010,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22867,
+   "quest_id": 398,
+   "quest_slot": 559
+  },
+  "2300": {
+   "identity": 10650,
+   "physical": 533,
+   "shape": "registry",
+   "listing": 2300,
+   "donor": 1040,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22868,
+   "quest_id": 399,
+   "quest_slot": 560
+  },
+  "2301": {
+   "identity": 10660,
+   "physical": 536,
+   "shape": "registry",
+   "listing": 2301,
+   "donor": 1040,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22869,
+   "quest_id": 400,
+   "quest_slot": 561
+  },
+  "2302": {
+   "identity": 10670,
+   "physical": 543,
+   "shape": "registry",
+   "listing": 2302,
+   "donor": 1040,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22870,
+   "quest_id": 401,
+   "quest_slot": 562
+  },
+  "2400": {
+   "identity": 10590,
+   "physical": 686,
+   "shape": "registry",
+   "listing": 2400,
+   "kind": "monster",
+   "help_id": 22893,
+   "quest_id": 421,
+   "quest_slot": 633
+  },
+  "2410": {
+   "identity": 10010,
+   "physical": 856,
+   "shape": "registry",
+   "listing": 2410,
+   "donor": 1110,
+   "kind": "humanoid",
+   "skills": 4,
+   "help_id": 22794,
+   "quest_id": 325,
+   "quest_slot": 568
+  },
+  "2420": {
+   "identity": 10020,
+   "physical": 859,
+   "shape": "registry",
+   "listing": 2420,
+   "donor": 2180,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22795,
+   "quest_id": 326,
+   "quest_slot": 569
+  },
+  "2500": {
+   "identity": 18200,
+   "physical": 786,
+   "shape": "registry",
+   "listing": 2500,
+   "donor": 2120,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22895,
+   "quest_id": 423,
+   "quest_slot": 709
+  },
+  "2540": {
+   "identity": 10440,
+   "physical": 297,
+   "shape": "registry",
+   "listing": 2540,
+   "donor": 2120,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22816,
+   "quest_id": 346,
+   "quest_slot": 547
+  },
+  "2550": {
+   "identity": 10030,
+   "physical": 862,
+   "shape": "registry",
+   "listing": 2550,
+   "donor": 2140,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22796,
+   "quest_id": 327,
+   "quest_slot": 570
+  },
+  "2570": {
+   "identity": 10680,
+   "physical": 546,
+   "shape": "registry",
+   "listing": 2570,
+   "donor": 2100,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22873,
+   "quest_id": 404,
+   "quest_slot": 606
+  },
+  "2580": {
+   "identity": 10600,
+   "physical": 693,
+   "shape": "registry",
+   "listing": 2580,
+   "kind": "monster",
+   "help_id": 22894,
+   "quest_id": 422,
+   "quest_slot": 634
+  },
+  "2590": {
+   "identity": 10690,
+   "physical": 553,
+   "shape": "registry",
+   "listing": 2590,
+   "donor": 2130,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22874,
+   "quest_id": 405,
+   "quest_slot": 618
+  },
+  "2600": {
+   "identity": 10700,
+   "physical": 556,
+   "shape": "registry",
+   "listing": 2600,
+   "donor": 2130,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22875,
+   "quest_id": 406,
+   "quest_slot": 619
+  },
+  "2611": {
+   "identity": 10710,
+   "physical": 563,
+   "shape": "registry",
+   "listing": 2611,
+   "donor": 2100,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22876,
+   "quest_id": 407,
+   "quest_slot": 620
+  },
+  "2612": {
+   "identity": 10720,
+   "physical": 566,
+   "shape": "registry",
+   "listing": 2612,
+   "donor": 2100,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22877,
+   "quest_id": 408,
+   "quest_slot": 621
+  },
+  "2613": {
+   "identity": 10730,
+   "physical": 573,
+   "shape": "registry",
+   "listing": 2613,
+   "donor": 2100,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22878,
+   "quest_id": 409,
+   "quest_slot": 622
+  },
+  "2614": {
+   "identity": 10740,
+   "physical": 576,
+   "shape": "registry",
+   "listing": 2614,
+   "donor": 2100,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22879,
+   "quest_id": 410,
+   "quest_slot": 623
+  },
+  "2615": {
+   "identity": 10750,
+   "physical": 583,
+   "shape": "registry",
+   "listing": 2615,
+   "donor": 2100,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22880,
+   "quest_id": 411,
+   "quest_slot": 624
+  },
+  "2901": {
+   "identity": 10040,
+   "physical": 865,
+   "shape": "registry",
+   "listing": 2901,
+   "donor": 2050,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22797,
+   "quest_id": 328,
+   "quest_slot": 571
+  },
+  "2902": {
+   "identity": 10050,
+   "physical": 868,
+   "shape": "registry",
+   "listing": 2902,
+   "donor": 2140,
+   "kind": "monster",
+   "skills": 3,
+   "help_id": 22798,
+   "quest_id": 329,
+   "quest_slot": 572
+  },
+  "2903": {
+   "identity": 10060,
+   "physical": 871,
+   "shape": "registry",
+   "listing": 2903,
+   "donor": 2170,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22799,
+   "quest_id": 330,
+   "quest_slot": 573
+  },
+  "2904": {
+   "identity": 10070,
+   "physical": 874,
+   "shape": "registry",
+   "listing": 2904,
+   "donor": 2170,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22800,
+   "quest_id": 331,
+   "quest_slot": 574
+  },
+  "2905": {
+   "identity": 10080,
+   "physical": 877,
+   "shape": "registry",
+   "listing": 2905,
+   "donor": 2180,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22801,
+   "quest_id": 332,
+   "quest_slot": 575
+  },
+  "2907": {
+   "identity": 10090,
+   "physical": 880,
+   "shape": "registry",
+   "listing": 2907,
+   "donor": 1090,
+   "kind": "humanoid",
+   "skills": 5,
+   "help_id": 22802,
+   "quest_id": 333,
+   "quest_slot": 576
+  },
+  "2909": {
+   "identity": 10100,
+   "physical": 883,
+   "shape": "registry",
+   "listing": 2909,
+   "donor": 1060,
+   "kind": "humanoid",
+   "skills": 8,
+   "help_id": 22803,
+   "quest_id": 334,
+   "quest_slot": 577
+  },
+  "2910": {
+   "identity": 10110,
+   "physical": 886,
+   "shape": "registry",
+   "listing": 2910,
+   "donor": 1040,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22804,
+   "quest_id": 335,
+   "quest_slot": 578
+  },
+  "2911": {
+   "identity": 10120,
+   "physical": 889,
+   "shape": "registry",
+   "listing": 2911,
+   "donor": 1110,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22805,
+   "quest_id": 336,
+   "quest_slot": 579
+  },
+  "2912": {
+   "identity": 10130,
+   "physical": 892,
+   "shape": "registry",
+   "listing": 2912,
+   "donor": 1040,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22806,
+   "quest_id": 337,
+   "quest_slot": 580
+  },
+  "2914": {
+   "identity": 10140,
+   "physical": 895,
+   "shape": "registry",
+   "listing": 2914,
+   "donor": 1090,
+   "kind": "humanoid",
+   "skills": 7,
+   "help_id": 22807,
+   "quest_id": 338,
+   "quest_slot": 581
+  },
+  "2915": {
+   "identity": 10150,
+   "physical": 898,
+   "shape": "registry",
+   "listing": 2915,
+   "donor": 1070,
+   "kind": "humanoid",
+   "skills": 7,
+   "help_id": 22808,
+   "quest_id": 339,
+   "quest_slot": 582
+  },
+  "3000": {
+   "identity": 10760,
+   "physical": 586,
+   "shape": "registry",
+   "listing": 3000,
+   "donor": 2130,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22881,
+   "quest_id": 412,
+   "quest_slot": 625
+  },
+  "3010": {
+   "identity": 10770,
+   "physical": 593,
+   "shape": "registry",
+   "listing": 3010,
+   "donor": 2130,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22882,
+   "quest_id": 413,
+   "quest_slot": 626
+  },
+  "3050": {
+   "identity": 10160,
+   "physical": 901,
+   "shape": "registry",
+   "listing": 3050,
+   "donor": 2040,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22809,
+   "quest_id": 340,
+   "quest_slot": 583
+  },
+  "3060": {
+   "identity": 10780,
+   "physical": 596,
+   "shape": "registry",
+   "listing": 3060,
+   "donor": 1060,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22883,
+   "quest_id": 414,
+   "quest_slot": 627
+  },
+  "3130": {
+   "identity": 931,
+   "physical": 931,
+   "shape": "low",
+   "listing": 3130,
+   "donor": 2190,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22810,
+   "quest_id": 341,
+   "quest_slot": 584
+  },
+  "3140": {
+   "identity": 10180,
+   "physical": 907,
+   "shape": "registry",
+   "listing": 3140,
+   "donor": 2180,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22811,
+   "quest_id": 342,
+   "quest_slot": 585
+  },
+  "3150": {
+   "identity": 10190,
+   "physical": 910,
+   "shape": "registry",
+   "listing": 3150,
+   "donor": 1090,
+   "kind": "humanoid",
+   "skills": 6,
+   "help_id": 22812,
+   "quest_id": 343,
+   "quest_slot": 586
+  },
+  "3160": {
+   "identity": 10200,
+   "physical": 913,
+   "shape": "registry",
+   "listing": 3160,
+   "donor": 1090,
+   "kind": "humanoid",
+   "skills": 5,
+   "help_id": 22813,
+   "quest_id": 344,
+   "quest_slot": 587
+  },
+  "3170": {
+   "identity": 10210,
+   "physical": 916,
+   "shape": "registry",
+   "listing": 3170,
+   "donor": 2070,
+   "kind": "monster",
+   "skills": 4,
+   "help_id": 22814,
+   "quest_id": 345,
+   "quest_slot": 588
+  },
+  "5390": {
+   "identity": 10810,
+   "physical": 793,
+   "shape": "registry",
+   "listing": 5390,
+   "donor": 2050,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22896,
+   "quest_id": 424,
+   "quest_slot": 710
+  },
+  "5590": {
+   "identity": 10790,
+   "physical": 603,
+   "shape": "registry",
+   "listing": 5590,
+   "donor": 1080,
+   "kind": "humanoid",
+   "skills": 0,
+   "help_id": 22885,
+   "quest_id": 416,
+   "quest_slot": 629
+  },
+  "6601": {
+   "identity": 10830,
+   "physical": 796,
+   "shape": "registry",
+   "listing": 6601,
+   "donor": 2120,
+   "kind": "monster",
+   "skills": 0,
+   "help_id": 22897,
+   "quest_id": 425,
+   "quest_slot": 711
+  }
+ },
+ "donor_heights": {
+  "1000": 0,
+  "1010": 144,
+  "1020": 148,
+  "1030": 144,
+  "1040": 156,
+  "1050": 137,
+  "1060": 165,
+  "1070": 153,
+  "1080": 149,
+  "1090": 150,
+  "1100": 156,
+  "1110": 152,
+  "1120": 152,
+  "1130": 171,
+  "1140": 155,
+  "1150": 152,
+  "1160": 152,
+  "1170": 156,
+  "1180": 156,
+  "1190": 149,
+  "2010": 116,
+  "2020": 171,
+  "2030": 167,
+  "2040": 179,
+  "2050": 166,
+  "2060": 139,
+  "2070": 119,
+  "2080": 197,
+  "2090": 190,
+  "2100": 147,
+  "2110": 177,
+  "2120": 151,
+  "2130": 162,
+  "2140": 179,
+  "2150": 239,
+  "2160": 192,
+  "2170": 194,
+  "2180": 226,
+  "2190": 197,
+  "2200": 221,
+  "2210": 241,
+  "2220": 116,
+  "2230": 116,
+  "2240": 116,
+  "2250": 0,
+  "2260": 0,
+  "2270": 0,
+  "2280": 0,
+  "2290": 0
+ },
+ "donors": [
+  {
+   "id": 2200,
+   "body": 2200,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "9ed48959f226df697a446bd25af95a34d4ff22ec8040722c29b2739337785eed",
+   "source_stand_height": 130,
+   "donor": 2060,
+   "donor_stand_height": 139,
+   "height_ratio": 0.935,
+   "donor_name_sha256": "800ec96fd99ebe877f3191de6319ed8e89a18598413a9864b42d82115031963a"
+  },
+  {
+   "id": 2410,
+   "body": 1080,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "672315b9c9173204cc1d57ff6bef1ddfcab85044b74fc9ee5ae7cb7d9beddfc3",
+   "source_stand_height": 152,
+   "donor": 1110,
+   "donor_stand_height": 152,
+   "height_ratio": 1.0,
+   "donor_name_sha256": "71f2149b5982e467908f4dd974d3cf0c1533bb97717bd9e85f845848553de00d"
+  },
+  {
+   "id": 2420,
+   "body": 2190,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "470fc0b365a21237cb64bb4cbf83cc0d5b3e1395558f0e96ae70e916449c0058",
+   "source_stand_height": 226,
+   "donor": 2180,
+   "donor_stand_height": 226,
+   "height_ratio": 1.0,
+   "donor_name_sha256": "cd872f99f878b74f7af496715c486158b2e90fea8d96ba0867cde7798f3c1c1b"
+  },
+  {
+   "id": 2550,
+   "body": 2180,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "a1e74c43f325607a2d671e29ae238485e53d66f47fb721fe356d878bb8518af2",
+   "source_stand_height": 188,
+   "donor": 2140,
+   "donor_stand_height": 179,
+   "height_ratio": 1.05,
+   "donor_name_sha256": "14b4955bda3539b6b9cc574970f03383f0b01d24936d91c18299bb674a8b3caf"
+  },
+  {
+   "id": 2901,
+   "body": 2010,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "f976335973b86527b5d68c35ad6d039c189dd0d8f4c71a636b4aac49b1caa03f",
+   "source_stand_height": 153,
+   "donor": 2050,
+   "donor_stand_height": 166,
+   "height_ratio": 0.922,
+   "donor_name_sha256": "f46be28784b8ddccadb028609a20c49b9e090adaff43091527d03d214aac6fe5"
+  },
+  {
+   "id": 2902,
+   "body": 2070,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "37a375af6b43eb1f8ab50a31db73d1e892a594ea15c722b30e5b265e764e3fe8",
+   "source_stand_height": 209,
+   "donor": 2140,
+   "donor_stand_height": 179,
+   "height_ratio": 1.168,
+   "donor_name_sha256": "14b4955bda3539b6b9cc574970f03383f0b01d24936d91c18299bb674a8b3caf"
+  },
+  {
+   "id": 2903,
+   "body": 2150,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "99f9c1d9b298fd17d106d0156a19e8cc3710f61589d6e67d53f9bb7d722d2fa7",
+   "source_stand_height": 212,
+   "donor": 2170,
+   "donor_stand_height": 194,
+   "height_ratio": 1.093,
+   "donor_name_sha256": "8c578ed3e9d5fec6f0f1f46402fdb52e4b6174ae74aef1487b1905d0b666c168"
+  },
+  {
+   "id": 2904,
+   "body": 2020,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "82b5d925a70cc5d7f8aa13d7270a0fc0319dfd04a74363d72e9d83742188a6c5",
+   "source_stand_height": 180,
+   "donor": 2170,
+   "donor_stand_height": 194,
+   "height_ratio": 0.928,
+   "donor_name_sha256": "8c578ed3e9d5fec6f0f1f46402fdb52e4b6174ae74aef1487b1905d0b666c168"
+  },
+  {
+   "id": 2905,
+   "body": 2110,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "cd49edb06bbaa142862cb0b36b526328b23f39b7b6cdd2e7a1a16ce1f3c7ddaf",
+   "source_stand_height": 204,
+   "donor": 2180,
+   "donor_stand_height": 226,
+   "height_ratio": 0.903,
+   "donor_name_sha256": "cd872f99f878b74f7af496715c486158b2e90fea8d96ba0867cde7798f3c1c1b"
+  },
+  {
+   "id": 2907,
+   "body": 1130,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "5964ffd0aca9e44a2c7d2dccfce80b4b979960df318bd6943ba677b56221e4b2",
+   "source_stand_height": 150,
+   "donor": 1090,
+   "donor_stand_height": 150,
+   "height_ratio": 1.0,
+   "donor_name_sha256": "2fd478c88ca0e81b2d75642c55fc2ac47eef23f24ee2f6d89d1c1af8c5ca4c43"
+  },
+  {
+   "id": 2909,
+   "body": 1110,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "1391f096fed097701b13fcac38de6e0af4214c2849e32e08e00a1a269d8fcf0f",
+   "source_stand_height": 162,
+   "donor": 1060,
+   "donor_stand_height": 165,
+   "height_ratio": 0.982,
+   "donor_name_sha256": "9b2f495122ff20d821e8b4a3bc429fc2c5e034d9d4f5f9fc33e01be1b20e16db"
+  },
+  {
+   "id": 2910,
+   "body": 1030,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "09d12f469e8e3a64ddef1256551bf98a504f52e2e8c6132381cbea3163d2baea",
+   "source_stand_height": 158,
+   "donor": 1040,
+   "donor_stand_height": 156,
+   "height_ratio": 1.013,
+   "donor_name_sha256": "f28854498a03ea2c2454eac5c7765b970f8cda71eb7c89a99673a0705492c674"
+  },
+  {
+   "id": 2911,
+   "body": 1090,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "8dd79628ff7a9fa740eb69588c582c5a12c1596047af0597cf59fc4d0b182015",
+   "source_stand_height": 151,
+   "donor": 1110,
+   "donor_stand_height": 152,
+   "height_ratio": 0.993,
+   "donor_name_sha256": "71f2149b5982e467908f4dd974d3cf0c1533bb97717bd9e85f845848553de00d"
+  },
+  {
+   "id": 2912,
+   "body": 1070,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "adf319312fd7ad19d271e5efac7112e9c4048788b603a2b3cf2a376769749120",
+   "source_stand_height": 157,
+   "donor": 1040,
+   "donor_stand_height": 156,
+   "height_ratio": 1.006,
+   "donor_name_sha256": "f28854498a03ea2c2454eac5c7765b970f8cda71eb7c89a99673a0705492c674"
+  },
+  {
+   "id": 2914,
+   "body": 1120,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "7ea4f8a55019b9e8bf354a40681a14e2b4b587e463cc80ae8dd6ae609f8de464",
+   "source_stand_height": 150,
+   "donor": 1090,
+   "donor_stand_height": 150,
+   "height_ratio": 1.0,
+   "donor_name_sha256": "2fd478c88ca0e81b2d75642c55fc2ac47eef23f24ee2f6d89d1c1af8c5ca4c43"
+  },
+  {
+   "id": 2915,
+   "body": 1100,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "c2e66573327c549131ad985dd360d08880bf40e339a160356b63b8af81c63c36",
+   "source_stand_height": 153,
+   "donor": 1070,
+   "donor_stand_height": 153,
+   "height_ratio": 1.0,
+   "donor_name_sha256": "97f7f9f898abedab2b2f5147e67bd2a4d8bdb38fd733b3599ead4b92e84ac1a9"
+  },
+  {
+   "id": 3050,
+   "body": 2160,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "8c070c1123de66872b03f8a393d39a73b046c860c581a98cfb751510a5d0a87a",
+   "source_stand_height": 179,
+   "donor": 2040,
+   "donor_stand_height": 179,
+   "height_ratio": 1.0,
+   "donor_name_sha256": "4ea93dfb214b46a920764f96b946e50813d3a3fdf7560e279f46e89a85351fd6"
+  },
+  {
+   "id": 3130,
+   "body": 2090,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "8ee721618ce34b8a06a23c1fcc28109b114d21ac11509f282dd162a6e8396653",
+   "source_stand_height": 218,
+   "donor": 2190,
+   "donor_stand_height": 197,
+   "height_ratio": 1.107,
+   "donor_name_sha256": "f887b49afefb75d572ba7487641b4424f11367348a1d817323c975df070da0ad"
+  },
+  {
+   "id": 3140,
+   "body": 2190,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "470fc0b365a21237cb64bb4cbf83cc0d5b3e1395558f0e96ae70e916449c0058",
+   "source_stand_height": 226,
+   "donor": 2180,
+   "donor_stand_height": 226,
+   "height_ratio": 1.0,
+   "donor_name_sha256": "cd872f99f878b74f7af496715c486158b2e90fea8d96ba0867cde7798f3c1c1b"
+  },
+  {
+   "id": 3150,
+   "body": 1130,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "5964ffd0aca9e44a2c7d2dccfce80b4b979960df318bd6943ba677b56221e4b2",
+   "source_stand_height": 150,
+   "donor": 1090,
+   "donor_stand_height": 150,
+   "height_ratio": 1.0,
+   "donor_name_sha256": "2fd478c88ca0e81b2d75642c55fc2ac47eef23f24ee2f6d89d1c1af8c5ca4c43"
+  },
+  {
+   "id": 3160,
+   "body": 1160,
+   "shape": "humanoid",
+   "kind": "humanoid",
+   "body_sha256": "46130bb2ef930ef98b23449ac7f3b62c941d0ea1174c0d755d7d3cfcd5914e55",
+   "source_stand_height": 150,
+   "donor": 1090,
+   "donor_stand_height": 150,
+   "height_ratio": 1.0,
+   "donor_name_sha256": "2fd478c88ca0e81b2d75642c55fc2ac47eef23f24ee2f6d89d1c1af8c5ca4c43"
+  },
+  {
+   "id": 3170,
+   "body": 2210,
+   "shape": "monster",
+   "kind": "monster",
+   "body_sha256": "eb0ee3d627e6820ce3550aa69384fa4a774d3220799a3e99828cce1c0e7106a0",
+   "source_stand_height": 118,
+   "donor": 2070,
+   "donor_stand_height": 119,
+   "height_ratio": 0.992,
+   "donor_name_sha256": "006a5c9911ca0aeca897ccdeda53b5166de5b2529225553a83d9049d6eccd845"
+  }
+ ]
+}

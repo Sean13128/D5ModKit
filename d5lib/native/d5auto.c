@@ -89,7 +89,15 @@ static int g_live;                 /* [skills] live_reload=1: d5live.inc.c */
 static int g_battle_speed;         /* [battle] speed: 0 the game's options, 1 normal (button still fast-forwards), 2-4 xN */
 static volatile LONG g_presents, g_present_sync;   /* frames presented, last vsync interval (harness 'state') */
 static int g_remote;               /* [debug] remote=1: test harness pipe (d5ctl.inc.c) */
+static volatile LONG g_msgbox_dismiss;   /* [debug] msgbox_dismiss=1: error boxes are answered, not shown (d5ctl.inc.c) */
+static int g_sound_want = -1;      /* [audio] silent: 1 on, 0 off, -1 auto (1 when remote=1); d5sound.inc.c */
+static int g_sound_applied = -1;   /* what the four volume masters were last set to (-1 = never) */
+static long g_sound_frame;         /* the frame of the last re-assert */
+static long g_sound_engaged = -1;  /* the frame the silence took effect (-1 = never): silent_status */
+static int g_sound_asserts;        /* how many times a drifted master had to be put back to 0 */
 static volatile LONG g_fake_focus; /* harness: the game believes it has focus, the real keyboard is ignored */
+static int g_input_guard;          /* remote=1: real keyboard, mouse and pads never reach the game (d5inputguard.h) */
+static int input_guarded(void) { return g_input_guard || g_fake_focus; }
 static volatile LONG g_frame;      /* d5_frame calls */
 
 static int key_code(const char *s) {
@@ -147,6 +155,13 @@ static void load_settings(void) {
     g_reach = GetPrivateProfileIntA("tactics", "reach", 10, ini);
     g_heal_below = GetPrivateProfileIntA("tactics", "heal_below", 50, ini);
     g_remote = GetPrivateProfileIntA("debug", "remote", 0, ini);
+    g_msgbox_dismiss = GetPrivateProfileIntA("debug", "msgbox_dismiss", 0, ini) != 0;
+    g_input_guard = g_remote && GetPrivateProfileIntA("debug", "input_guard", 1, ini);
+    /* [audio] silent: 1 = the game's own volumes 0 (memory only), 0 = leave them, auto = 1 when remote=1.
+       Agent launches are remote=1 and must be silent (Sean, 2026-10-27); a person playing is remote=0. */
+    GetPrivateProfileStringA("audio", "silent", "auto", v, sizeof v, ini);
+    g_sound_want = (!_stricmp(v, "1") || !_stricmp(v, "on") || !_stricmp(v, "yes")) ? 1
+                 : (!_stricmp(v, "0") || !_stricmp(v, "off") || !_stricmp(v, "no")) ? 0 : -1;
     g_live = GetPrivateProfileIntA("skills", "live_reload", 0, ini);
     g_battle_speed = GetPrivateProfileIntA("battle", "speed", 0, ini);
     g_feat_auto = D5_AUTO && GetPrivateProfileIntA("features", "autobattle", 1, ini);
@@ -156,6 +171,7 @@ static void load_settings(void) {
     GetPrivateProfileStringA("colors", "pad", "R3", v, sizeof v, ini);
     g_cc_pad = pad_bits(v);
     logf_("settings: key=0x%X pad=0x%04X test_anywhere=%d corner=%d", g_key, g_pad, g_test_anywhere, g_corner);
+    logf_("silent: %s (remote=%d)", g_sound_want < 0 ? "auto" : g_sound_want ? "on" : "off", g_remote);
 }
 
 /* --------------------------------------------------------------------------------------- state */
@@ -419,12 +435,29 @@ static void key_event(WORD vk, int up) {
 typedef BOOL(WINAPI *GetKeyboardState_t)(PBYTE);
 static GetKeyboardState_t oGetKeyboardState;
 static volatile BYTE g_vkeys[256];
+static volatile BYTE g_hold_dik[256]; /* remote hold command, DIK indexed */
+static volatile DWORD g_game_tid;
+#include "d5keyhold.h"
+#include "d5inputguard.h"
+#include "d5winhide.h"      /* WINHIDE1: win offscreen|hide|show|state (command in d5ctl.inc.c) */
+static void patch_slot(void **slot, void *fn, void **orig);
 static volatile LONG g_kbd_calls;
 
 static BOOL WINAPI hkGetKeyboardState(PBYTE ks) {
     BOOL r = oGetKeyboardState(ks);
     InterlockedIncrement(&g_kbd_calls);
+    if (r && input_guarded()) guard_drop(ks, 256, 0x80);
     if (r) {
+        if (g_remote && g_game_tid && GetCurrentThreadId() == g_game_tid) {
+            for (int i = 1; i < 256; i++) if (g_hold_dik[i]) {
+                UINT scan = (i & 0x7f) | ((i & 0x80) ? 0xe000 : 0);
+                UINT vk = MapVirtualKeyA(scan, MAPVK_VSC_TO_VK_EX);
+                if (vk && vk < 256) ks[vk] |= 0x80;
+                if (i == DIK_LSHIFT || i == DIK_RSHIFT) ks[VK_SHIFT] |= 0x80;
+                if (i == DIK_LCONTROL || i == DIK_RCONTROL) ks[VK_CONTROL] |= 0x80;
+                if (i == DIK_LALT || i == DIK_RALT) ks[VK_MENU] |= 0x80;
+            }
+        }
         for (int i = 1; i < 256; i++)
             if (g_vkeys[i]) ks[i] |= 0x80;
         if (g_research) {
@@ -445,14 +478,7 @@ static BOOL WINAPI hkGetKeyboardState(PBYTE ks) {
 }
 
 static void install_kbd_hook(void) {
-    void **slot = (void **)G(VA_IAT_GETKEYBOARDSTATE);
-    DWORD old;
-    if (VirtualProtect(slot, 8, PAGE_READWRITE, &old)) {
-        oGetKeyboardState = (GetKeyboardState_t)*slot;
-        *slot = (void *)hkGetKeyboardState;
-        VirtualProtect(slot, 8, old, &old);
-        logf_("kbd: GetKeyboardState hooked (orig %p)", (void *)oGetKeyboardState);
-    }
+    patch_slot((void **)G(VA_IAT_GETKEYBOARDSTATE), (void *)hkGetKeyboardState, (void **)&oGetKeyboardState);
 }
 
 
@@ -490,13 +516,22 @@ static void di_note_device(void *dev, DWORD cb, const char *api) {
 static HRESULT di_state(GetDeviceState_t orig, void *self, DWORD cb, LPVOID data) {
     HRESULT r = orig(self, cb, data);
     InterlockedIncrement(&g_di_state_calls);
-    if ((g_fake_focus || g_menu_open || g_cc_open) && cb == 256 && data) {   /* harness: only injected keys; editor: none */
-        memset(data, 0, 256);
+    int guard = input_guarded();
+    if ((guard || g_menu_open || g_cc_open) && cb == 256 && data) {   /* harness: only injected keys; editor: none */
+        BYTE *k = (BYTE *)data;   /* real input = a key down that the harness did not inject (A calls W in Wine) */
+        if (guard && SUCCEEDED(r))
+            for (int i = 0; i < 256; i++)
+                if ((k[i] & 0x80) && !g_dik[i] && !g_hold_dik[i]) { InterlockedIncrement(&g_guard_kb); break; }
+        memset(k, 0, 256);
         r = DI_OK;
     }
-    if (g_fake_focus && data && (cb == 16 || cb == 20)) {   /* harness: no mouse movement / buttons (DIMOUSESTATE[2]) */
-        memset(data, 0, cb);
+    if (guard && data && (cb == 16 || cb == 20)) {   /* harness: no mouse movement / buttons (DIMOUSESTATE[2]) */
+        guard_drop((BYTE *)data, cb, SUCCEEDED(r) ? 0xFF : 0);
         r = DI_OK;
+    }
+    if (guard && data && guard_joy_is_state(cb)) {   /* harness: a DirectInput pad's read fails (d5inputguard.h) */
+        if (SUCCEEDED(r)) guard_joy_count((const BYTE *)data);
+        return DIERR_NOTACQUIRED;
     }
     if (g_research) di_note_device(self, cb, "GetDeviceState");
     if (SUCCEEDED(r) && cb == 256) {            /* keyboard state: 256 DIK bytes */
@@ -508,6 +543,7 @@ static HRESULT di_state(GetDeviceState_t orig, void *self, DWORD cb, LPVOID data
                 was[i] = k[i] & 0x80;
             }
         }
+        d5_hold_di(k, g_hold_dik, g_remote && g_game_tid && GetCurrentThreadId() == g_game_tid);
         if (!g_menu_open && !g_cc_open)
             for (int i = 0; i < 256; i++)
                 if (g_dik[i]) k[i] |= 0x80;
@@ -537,7 +573,7 @@ static HRESULT di_data(GetDeviceData_t orig, void *self, DWORD cbo, LPDIDEVICEOB
     DWORD cap = inout ? *inout : 0;
     HRESULT r = orig(self, cbo, rg, inout, flags);
     InterlockedIncrement(&g_di_data_calls);
-    if ((g_fake_focus || g_menu_open || g_cc_open) && inout && rg && !(flags & DIGDD_PEEK) && di_is_keyboard(self)) {
+    if ((input_guarded() || g_menu_open || g_cc_open) && inout && rg && !(flags & DIGDD_PEEK) && di_is_keyboard(self)) {
         r = DI_OK;
         *inout = 0;
     }
@@ -552,7 +588,8 @@ static HRESULT di_data(GetDeviceData_t orig, void *self, DWORD cbo, LPDIDEVICEOB
         }
     /* synthetic press / release events for keys whose injected state changed */
     for (int k = 0; k < 256 && n < cap; k++) {
-        BYTE want = g_dik[k] && !g_cc_open ? 0x80 : 0;
+        BYTE want = ((g_dik[k] && !g_cc_open) ||
+                     (g_remote && g_game_tid && GetCurrentThreadId() == g_game_tid && g_hold_dik[k])) ? 0x80 : 0;
         if (want == g_dik_sent[k]) continue;
         DIDEVICEOBJECTDATA *e = (DIDEVICEOBJECTDATA *)((BYTE *)rg + n * cbo);
         memset(e, 0, cbo);
@@ -1192,8 +1229,12 @@ static void ai_experiment_tick(void) {
     key_was = key;
 }
 
+#include "d5sound.inc.c"
 #include "d5live.inc.c"
+#include "d5learn.inc.c"          /* EVCAP3: learned evilities beyond the 1,000-bit bitmap, save/load */
 #include "d5ctl.inc.c"
+#include "d5anmtrace.inc.c"     /* ANMTRACE1: anmtrace / actorprobe (commands in d5ctl.inc.c) */
+#include "d5wwatch.inc.c"       /* WRITEWATCH1: watch (software write-watch, command in d5ctl.inc.c) */
 #include "d5fx.inc.c"
 
 /* ------------------------------------------------------------------------------ 5x7 bitmap font */
@@ -1353,7 +1394,8 @@ typedef DWORD(WINAPI *XIGetState_t)(DWORD, void *);
 static XIGetState_t oXIGetState;
 static DWORD WINAPI hkXIGetState(DWORD user, void *st) {
     DWORD r = oXIGetState(user, st);
-    if ((g_menu_open || g_cc_open) && r == 0 && st) memset((unsigned char *)st + 4, 0, 12);   /* buttons, triggers, sticks */
+    if (input_guarded() && r == 0 && st) guard_xinput((unsigned char *)st);     /* harness: no real pad */
+    else if ((g_menu_open || g_cc_open) && r == 0 && st) memset((unsigned char *)st + 4, 0, 12);   /* buttons, triggers, sticks */
     return r;
 }
 static void install_pad_block(void) {
@@ -1541,6 +1583,7 @@ static int core_frame_body(void) {
         fx_install();
         install_present_hook();
         install_dinput_hook();
+        if (g_remote) install_kbd_hook();
         install_pad_block();
         load_skill_data();
         load_programs();
@@ -1551,6 +1594,7 @@ static int core_frame_body(void) {
     if (g_reload) return 1;
     sm_flip();
     ctl_tick();
+    sound_tick();
     live_tick();
     if (g_feat_auto) {
         poll_toggle();
@@ -1559,6 +1603,7 @@ static int core_frame_body(void) {
     }
     cc_tick();
     rows_tick();
+    learn_tick();                              /* learned-evility store: applies a load, publishes a save */
     if (g_research || g_remote) screen_log_tick();
     if (g_research) {
         trace_tick();
@@ -1597,6 +1642,9 @@ __declspec(dllexport) void core_shutdown(void) {
     fx_uninstall();
     auto_tick();                              /* restores AI profiles, SP, team patches (g_active is 0) */
     memset((void *)g_dik, 0, sizeof g_dik);
+    memset((void *)g_hold_dik, 0, sizeof g_hold_dik);
+    if (g_sound_applied == 1) sound_apply(0);   /* leaving: give the player their volumes back */
+    sound_reset();
     ctl_stop();
     trace_shutdown();
     menu_shutdown();
